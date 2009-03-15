@@ -1,0 +1,37 @@
+with "gnavi_common";
+with "gnatcom";
+with "aunit";
+project Gwindows is
+  for Source_Dirs use
+    ("../../framework",
+     "../../framework/coding",
+     "../../contrib",
+     "../../docs",
+     "../../samples",
+     "../../tools/gbmanager",
+     "../../tools/gnatreg",
+     "../../tutorials"
+    );
+
+   package Naming is
+     for Specification ("Gwindows") use "gwindows_unicode.ads";
+     for Body ("Gwindows.Gstrings") use "gwindows-gstrings_unicode.adb";
+     for Specification ("Gwindows.Gstrings.Unbounded") use "gwindows-gstrings-unbounded_unicode.ads";
+     for Specification ("Gwindows.Gstrings.Handling") use "gwindows-gstrings-handling_unicode.ads";
+--     for Specification ("Gwindows.Gstrings.Maps") use "gwindows-gstrings-map_unicode.ads";
+--     for Specification ("Gwindows.Gstrings.Maps_Constants") use "gwindows-gstrings-map_constants_unicode.ads";
+   end Naming;
+
+  package Compiler is
+     for Default_Switches ("Ada") use
+       Gnavi_common.Compiler.Debug_Switches &
+       Gnavi_common.Compiler.Style_Checks &
+       Gnavi_common.Compiler'Default_Switches ("Ada"); -- must be last for -gnatwJ with gpl-2005
+
+  end Compiler;
+
+  package Binder is
+     for Default_Switches ("Ada") use Gnavi_common.Binder'Default_Switches ("Ada");
+  end Binder;
+
+end Gwindows;

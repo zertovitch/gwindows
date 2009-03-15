@@ -1,0 +1,16 @@
+#define ID_APP_EXIT 100
+
+Main_Icon	ICON DISCARDABLE	"gnatreg.ico"
+
+Main_Menu	MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+	MENUITEM "E&xit\tCtrl+X",	ID_APP_EXIT
+    END
+END
+
+Main_Menu ACCELERATORS PRELOAD MOVEABLE PURE
+BEGIN
+	"X",            ID_APP_EXIT,            VIRTKEY,CONTROL
+END

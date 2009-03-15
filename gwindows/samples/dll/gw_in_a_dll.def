@@ -1,0 +1,3 @@
+LIBRARY gw_in_a_dll
+EXPORTS
+	pop_a_window

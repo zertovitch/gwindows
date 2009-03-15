@@ -1,0 +1,56 @@
+		      Announcing the release of
+
+			    GWindows 1.2
+				   
+		    The Ada 95 Win32 RAD Framework
+
+			   November 2, 2004
+
+GWindows, the Professional Open Source Ada 95 Win32 RAD Framework,
+introduces for the first time to Ada programming a comprehensive rapid
+application development framework spanning GUI, Database and Active X
+integration. It brings AdaPower ;-) to programming domains that up
+until now are dominated by VB and Delphi.
+
+GWindows includes extensive bindings to the Windows GUI including
+support for common controls and dialogs, printing, and owner drawn
+extensions to controls. In addition, GWindows adds a number of new
+controls, keyboard support, multiple models of event handling, Active
+X controls, support for creating dialogs and windows from resource
+files, dynamic garbage collected windows, Window docking, non-GUI
+bindings, database support, _database bound controls_, and much more!
+
+GWindows builds as either ANSI or UNICODE (a first for Ada!) for
+internationalization and performance boosts on Windows NT, 2000, and
+XP. GWindows is tightly integrated with GNATCOM, the Ada 95
+COM/DCOM/COM+ Development Framework and Tools opening every facet of
+the Windows platforms to Ada 95 development. Never again will the
+cries be heard, "but there are no bindings" on the Windows platform!
+
+GWindows is designed to take advantage of Ada's unique combination of
+features rich typing mechanisms. It is not a thin binding to an
+underlying C interface, but a complete framework that takes advantage
+of Ada at every level.
+
+GWindows is being used world wide for production products by governments
+and large companies to small personal projects.
+
+Verision 1.2 of GWindows adds additional stability and improved support
+for ActiveX controls, contributed packages, and more.
+
+GWindows is being made available under the GNAT modified GNU GPL used
+by GNAT's runtime library making it availble for use in both GPL and
+proprietary applications.
+
+For more information on GWindows, to view the on-line documentation,
+and to download the product, please visit
+http://www.gnavi.org/gwindows.
+
+Tutorials for GWindows are available at:
+http://www.gnavi.org/gwindows/user_guide.html
+
+Information on the GNATCOM can be found at http://www.gnavi.org/gnatcom
+
+David Botton
+Email: David@Botton.com
+Web: http://www.gnavi.org

@@ -1,0 +1,83 @@
+#include "..\resources\standard_ids.h"
+
+Main_Icon	ICON DISCARDABLE	"..\\resources\\gwindows.ico"
+Toolbar_Bmp     BITMAP DISCARDABLE	"toolbar.bmp"
+
+Main_Menu	MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+	MENUITEM "&New\tCtrl+N",        ID_FILE_NEW
+ 	MENUITEM "&Open...\tCtrl+O",    ID_FILE_OPEN
+	MENUITEM SEPARATOR
+	MENUITEM "E&xit",		ID_APP_EXIT
+    END
+    POPUP "&Window"
+    BEGIN
+	MENUITEM "&Cascade",	        ID_WINDOW_CASCADE
+	MENUITEM "Tile &Horizontal",	ID_WINDOW_TILE_HORZ
+	MENUITEM "&Tile Vertical",	ID_WINDOW_TILE_VERT
+	MENUITEM "Close &All",		ID_WINDOW_CLOSE_ALL
+    END
+    POPUP "&Help"
+    BEGIN
+	MENUITEM "&About ...",          ID_APP_ABOUT
+    END
+END
+
+Main_Menu ACCELERATORS PRELOAD MOVEABLE PURE
+BEGIN
+	"N",            ID_FILE_NEW,            VIRTKEY,CONTROL
+	"O",            ID_FILE_OPEN,           VIRTKEY,CONTROL
+	"S",            ID_FILE_SAVE,           VIRTKEY,CONTROL
+END
+
+Edit_Child_Menu	MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+	MENUITEM "&New\tCtrl+N",           ID_FILE_NEW
+ 	MENUITEM "&Open...\tCtrl+O",       ID_FILE_OPEN
+	MENUITEM "&Save\tCtrl+S",          ID_FILE_SAVE
+	MENUITEM "Save &As...", 	   ID_FILE_SAVE_AS
+	MENUITEM SEPARATOR
+	MENUITEM "E&xit",		   ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+	MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+	MENUITEM SEPARATOR
+	MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+	MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+	MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+    END
+    POPUP "&Window"
+    BEGIN
+	MENUITEM "&Cascade",	        ID_WINDOW_CASCADE
+	MENUITEM "Tile &Horizontal",	ID_WINDOW_TILE_HORZ
+	MENUITEM "&Tile Vertical",	ID_WINDOW_TILE_VERT
+	MENUITEM "Close &All",		ID_WINDOW_CLOSE_ALL
+    END
+    POPUP "&Help"
+    BEGIN
+	MENUITEM "&About ...",          ID_APP_ABOUT
+    END
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW		    "New File"
+    ID_FILE_OPEN            "Open File..."
+    ID_FILE_SAVE            "Save File"
+    ID_FILE_SAVE_AS         "Save File As..."
+    ID_APP_EXIT             "Exit Application"
+    ID_APP_ABOUT            "About Application"
+    ID_EDIT_UNDO            "Undo"
+    ID_EDIT_CUT             "Cut Selection"
+    ID_EDIT_COPY            "Copy Selection"
+    ID_EDIT_PASTE           "Paste Clip Board"
+    ID_WINDOW_CASCADE       "Cascade Child Windows"
+    ID_WINDOW_TILE_HORZ     "Tile Child Windows Horizontaly"
+    ID_WINDOW_TILE_VERT     "Tile Child Windows Verticaly"
+    ID_WINDOW_CLOSE_ALL     "Close All Child Windows"
+END

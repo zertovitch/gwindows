@@ -1,0 +1,95 @@
+Changes Since 1.2
+=================
+
+----------------
+General Changes:
+----------------
+
+The directory bindings has been renamed framework to reflect its expanded nature
+
+
+-------------
+New Features:
+-------------
+
+Added to GWindows.Base - Set_Standard_Font
+
+Added create method to GWindows.Panels.Panel_Type
+
+Added additional string handling packages under GWindows.GStrings
+
+Added to GWindows.Cursors Start_Wait_Cursor and End_Wait_Cursor
+
+Added to GWindows.Windows.Window_Type write only properties:
+      Default_Cursor
+      Default_System_Cursor
+
+Added procedure Activate to GWindows.Windows.MDI.MDI_Child_Window_Type to
+      allow for child window to activate itself with its parent
+
+You can now set the icons of windows from a GWindows.Drawing_Objects.Icon_Type
+
+Dock_Children is now called after On_Create is fired for all creation methods
+      of GWindows.Windows it is also called in an on_size regardless if an
+      on_size handler is set or not
+
+The MDI_Child_Window of an MDI_Top_Window now by default has the Dock property
+set to Fill and can now be changed to any other dock position
+
+Now GWindows.GControls exists as the base class for GWindows based controls
+      implemented completely in GWindows and not based in Win32 controls,
+      common controls, or custom controls.
+
+Added GWindows.GControls.Size_Bars that can be docked on to the sides of
+      windows and panels and will automaticly resize their parent control
+      when dragged with the mouse allowing for easy creation of splitters,
+      trays, etc.
+      See the new example samples\simple\splitters.adb
+
+Packing Boxes insets can now be set as individual properties
+
+Added Run_Mode to windows so that a window or control knows if it is in
+the various processes of development in GNAVI or in a normal running
+environment.
+
+Added Angle to Create_Font to allow for creating fonts at 10ths of a
+degree from base
+
+Added ability to retrieve font metrics of font selected in to canvas
+
+Added Background Color type to GWindows.Window_Type
+
+Added ability to add custom data to any window or control with the custom_data
+property
+
+Packing boxes can now auto resize to their contents. Additional hooks were
+added to automaticly pack child packing_boxes when packing_boxes are resized
+or when ever the parent windows Dock_Children is called.
+
+----------
+Bug Fixes:
+----------
+
+Fixed problem with Packing Boxes enumerating children of children and
+as such preventing the nesting of packing boxes.
+
+Listboxes scroll bars not showing when list expanded
+
+Fix to MDI child windows not setting menu until receiving an MDI_Activate
+event.
+
+Fixed panels - when set to raised was drawing a sunken border
+
+Fixed - Rich Edit Boxes require preloading the riched20.dll. This is done in
+the body of GWindows.Edit_Boxes.Rich, so a pragma has been added to insure
+the elaboration of the body will take place before attempts will be made to
+use the control
+
+Fixed - Register_Class did nothing, now properly registers a Win32 class
+
+Added CClass to MDI create procedures
+
+Various changes for compilation under GNAT 5
+
+Fixed - Doing a Get_Font on a window caused that window's internal font to
+      be deleted when the received font went out of scope.

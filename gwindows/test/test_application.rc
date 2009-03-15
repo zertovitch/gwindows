@@ -1,0 +1,4 @@
+STRINGTABLE DISCARDABLE 
+BEGIN
+    101                     "Test String"
+END

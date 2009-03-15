@@ -1,0 +1,622 @@
+GWindows Quick Reference
+========================
+
+Contents:
+
+1. GUI Object Tree
+2. GUI Objects
+
+---------------------
+-- GUI Object Tree --
+---------------------
+
+Base_Window_Type
+|
+|--- Window_Type
+|   |
+|   --- Panel_Type
+|   |
+|   --- Scroll_Panel_Type
+|   |
+|   --- Drawing_Panel_Type
+|   |
+|   --- Main_Window_Type
+|   |
+|   --- MDI_Main_Window_Type
+|   |
+|   --- MDI_Child_Window_Type
+|
+|--- Button_Type
+|   |
+|   --- Default_Button_Type
+|   |
+|   --- Cancel_Button_Type
+|   |
+|   --- Check_Button_Type
+|   |  |
+|   |  --- Two_State_Button_Type
+|   |  |
+|   |  --- Radio_Button_Type
+|   |
+|   --- Three_State_Box_Type
+|     |
+|     --- Three_State_Button_Type
+|
+|--- Group_Box_Type
+|
+|--- Combo_Box_Type
+|   |
+|   --- Drop_Down_Combo_Box_Type
+|   |
+|   --- Drop_Down_List_Box_Type
+|
+|--- Common_Control_Type
+|   |
+|   --- Status_Bar_Type
+|   |
+|   --- Animation_Control_Type
+|   |
+|   --- Date_Time_Picker_Type
+|   |
+|   --- IP_Address_Control_Type
+|   |
+|   --- Progress_Control_Type
+|   |
+|   --- Up_Down_Control_Type
+|   |
+|   --- Trackbar_Control_Type
+|   |
+|   --- List_View_Control_Type
+|   |
+|   --- Tree_View_Control_Type
+|   |
+|   --- Tab_Control_Type
+|   |  |
+|   |  --- Tab_Window_Control_Type
+|   |
+|   --- Toolbar_Control_Type
+|   |
+|   --- Tool_Tip_Type
+|
+|--- Edit_Box_Type
+|   |
+|   --- Multi_Line_Edit_Box_Type
+|      |
+|      --- Rich_Edit_Box_Type
+|
+|--- List_Box_Type
+|   |
+|   --- Multiple_Selection_List_Box_Type
+|
+|--- Scroll_Bars_Type
+|
+|--- Label_Type
+|   |
+|   --- Icon_Type
+|   |
+|   --- Bitmap_Type
+|   |
+|   --- Meta_File_Type
+|
+|--- ActiveX_Type
+
+------------------
+-- GUI Objects  --
+------------------
+
+Base_Window_Type:
+
+	Properties:
+		Accelerator_Table
+		Border
+		Dock
+		Focus
+		Set_Font/Get_Font
+		Group
+		Keyboard_Support
+		Order
+		Horizontal_Scroll_Bar
+		Vertical_Scroll_Bar
+		Tab_Stop
+		Text
+		Text_Length
+		Left
+		Top
+		Width
+		Height
+		Size
+		Client_Area_Size
+		Client_Area_Height
+		Client_Area_Width
+		Parent
+		Controlling_Parent
+		Child
+		Control
+		Modal_Result
+		ID
+
+	Methods:
+		Show
+		Hide
+		Close
+		Enable
+		Disable
+		Capture_Mouse
+		Release_Mouse
+		Freeze
+		Thaw
+		Center
+		Move
+		Next_Tab_Stop
+		Previous_Tab_Stop
+		Enumerate_Children
+		Point_To_Client
+		Point_To_Desktop
+		End_Dialog
+
+	Events:
+		On_Create
+		On_Pre_Create
+		On_Destroy
+		On_Context_Menu
+		On_Horizontal_Scroll
+		On_Vertical_Scroll
+
+Window_Type: (child of Base_Window_Type)
+
+	Creation Methods:
+		 Create
+		 Create_Child
+		 Create_As_Dialog
+		 Create_As_Tool_Window
+		 Create_As_Control
+		 Create_MDI_Top
+		 Create_MDI_Child
+		 Create_Dialog
+
+	Properties:
+		Zoom
+		Iconic
+		Large_Icon
+		Small_ICon
+		Accept_File_Drag_And_Drop
+		Menu
+		MDI_Menu
+		MDI_Active_Menu
+		Scroll_Range
+		Scroll_Maximum
+		Scroll_Minimum
+		Scroll_Position
+		Scroll_Page_Size
+		Scroll_Draw_Position
+
+	Methods:
+		Menu_Refresh
+		Display_Context_Menu
+		Get_Canvas
+		Get_Full_Window_Canvas
+		MDI_Tile_Horizontal
+		MDI_Tile_Vertical
+		MDI_Cascade
+		MDI_Arrange_Icons
+		MDI_Close_All
+		Dock_Children
+
+	Events:
+		On_Focus
+		On_Lost_Focus
+		On_Size
+		On_Move
+		On_Show
+		On_Hide
+		On_Mouse_Move
+		On_Left_Mouse_Button_Down
+		On_Left_Mouse_Button_Up
+		On_Left_Mouse_Button_Down
+		On_Right_Mouse_Button_Up
+		On_Right_Mouse_Button_Double_Click
+		On_Right_Mouse_Button_Down
+		On_Middle_Mouse_Button_Up
+		On_Middle_Mouse_Button_Double_Click
+		On_Middle_Mouse_Button_Double_Click
+		On_Character_Up
+		On_Character_Down
+		On_Menu_Hover
+		On_Menu_Select
+		On_Accelerator_Select
+		On_Paint
+		On_Erase_Background
+		On_Close
+		On_MDI_Activate
+		On_MDI_Deactivate
+		On_File_Drop
+		On_Change_Cursor
+
+Button_Type: (child of Base_Window_Type)
+
+	Creation Methods:
+		Create
+
+	Events:
+		Click
+		Focus
+		Lost_Focus
+		Pushed
+		Released
+
+Default_Button_Type: (child of Button_Type)
+
+Cancel_Button_Type: (child of Button_Type)
+
+Check_Button_Type: (child of Button_Type)
+	Properties:
+		State
+
+Two_State_Button_Type: (child of Check_Button_Type)
+
+Radio_Button_Type (child of Check_Box_Type)
+
+Three_State_Box_Type: (child of Button_Type)
+	Properties:
+		State
+
+Three_State_Button_Type: (child of Three_State_Box_Type)
+
+Group_Box_Type: (child of Base_Window_Type)
+
+Combo_Box_Type: (child of Base_Window_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Alternate_User_Interface
+		Text_Limit
+		Dropped
+		Set_Edit_Selection/Get_Edit_Selection
+		Current
+		Count
+		Value_Length
+		Value
+		Top_Item
+
+	Methods:
+		Add
+		Delete
+		Cut
+		Copy
+		Paste
+		Undo
+		Clear
+		Find
+		Find_Exact
+		
+	Events:
+		On_Double_Click
+		On_Selection_Change
+		On_Focus
+		On_Lost_Focus
+		On_Out_Of_Memory
+		On_Edit_Change
+		On_Edit_Update
+		On_Drop_Down
+		On_Close_Up
+		On_Select_End_Ok
+		On_Select_End_Cancel
+
+Drop_Down_Combo_Box_Type: (child of Combo_Box_Type)
+	Creation Methods:
+		 Create
+
+Drop_Down_List_Box_Type: (child of Combo_Box_Type)
+	Creation Methods:
+		 Create
+
+Common_Control_Type: (child of Base_Window_Type)
+	Events:
+		On_Click
+		On_Double_Click
+		On_Right_Click
+		On_Right_Double_Click
+		On_Return
+		On_Out_Of_Memory
+		On_Focus
+		On_Lost_Focus
+		On_Hover
+
+Status_Bar_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+Animation_Control_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+	Methods:
+		Open
+		Close
+		Play
+		Seek
+		Stop
+
+	Events:
+		On_Start
+		On_Stop
+
+Date_Time_Picker_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Date_Time_Format
+		Set_Range
+		Date_Time
+		None_Date_Time
+				       
+	Events:
+		On_Date_Time_Change
+
+IP_Address_Control_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+	Events:
+		On_Change
+
+Progress_Control_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Position
+		Progress_Range
+		Increment
+		Step_Size
+
+	Methods:
+		Step
+
+Up_Down_Control_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Position
+		Set_Range
+
+	Events:
+		On_Position_Changing
+
+Trackbar_Control_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Position
+		Minimum
+		Maximum
+
+List_View_Control_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Item_Count
+		Selected_Item_Count
+		Is_Selected
+
+	Methods:
+		Set_Item
+		Set_Sub_Item
+		Insert_Item
+		Set_Column
+		Insert_Column
+		Clear
+
+Tree_View_Control_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Selected_Item
+		Text
+
+	Methods:
+		Insert_Item
+		Delete_Item
+		
+Tab_Control_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Text
+		Tab_Count
+		Tab_Row_Count
+		Selected_Tab
+		Display_Area
+
+	Methods:
+		Insert_Tab
+		Delete_Tab
+		Delete_All_Tabs
+
+	Events:
+		On_Change
+		On_Changing
+
+Tab_Window_Control_Type (child of Tab_Control_Type)
+	Properties:
+		Tab_Window
+
+
+Toolbar_Control_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+	
+	Methods:
+		Set_Image_List
+		Add_Button
+
+	Events:
+		On_Button_Select
+
+Tool_Tip_Type: (child of Common_Control_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Maximum_Width
+
+	Methods:
+		Add_Tool_Tips
+
+Edit_Box_Type: (child of Base_Window_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Lower_Case_Only
+		Upper_Case_Only
+		Digits_Only
+		Read_Only
+		Password
+		Can_Undo
+		First_Visible
+		Text_Limit
+		Modified
+		Get_Selection/Set_Selection
+
+	Methods:
+		Replace_Selection
+		Cut
+		Copy
+		Paste
+		Clear
+		Undo
+		Clear_Undo
+
+	Events:
+		On_Focus
+		On_Lost_Focus
+		On_Change
+		On_Max_Text
+		On_Horizontal_Scroll
+		On_Vertical_Scroll
+		On_Update
+		On_Out_Of_Memory
+
+Multi_Line_Edit_Box_Type: (child of Edit_Box_Type)
+	Creation Methods:
+		 Create
+		 Create_Multi_Line
+
+Rich_Edit_Box_Type: (child of Multi_Line_Edit_Box_Type)
+	Creation Methods:
+		 Create
+		 Create_Multi_Line
+
+	Properties:
+		Line_Text
+		Get_ITextDocument
+
+List_Box_Type: (child of Base_Window_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Current
+		Count
+		Value_Length
+		Value
+		Selected
+		Top_Item
+		Text
+
+	Methods:
+		Add
+		Delete
+		Clear
+		Find
+		Find_Exact
+
+	Events:
+		On_Double_Click
+		On_Selection_Change
+		On_Selection_Cancel
+		On_Focus
+		On_Lost_Focus
+		On_Out_Of_Memory
+
+Multiple_Selection_List_Box_Type: (child of List_Box_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Selected
+		Select_Range
+		Select_Count
+
+Panel_Type: (child of Window_Type)
+	Properties:
+		Border_Type
+		Border_Thickness
+
+
+Scroll_Panel_Type: (child of Window_Type)
+	Properties:
+		Panel
+
+	Methods:
+		Panel_Size
+
+	Events:
+		On_Click
+		On_Double_Click
+		On_Enable
+		On_Disable
+
+Drawing_Panel_Type: (child of Window_Type)
+	Properties:
+		Auto_Resize
+
+	Methods:
+		Get_Canvas
+		Resize_Canvas
+
+Scroll_Bars_Type: (child of Base_Window_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Scroll_Range
+		Scroll_Minimum
+		Scroll_Maximum
+		Scroll_Position
+		Scroll_Page_Size
+		Scroll_Drag_Position
+
+	Events:
+		On_Scroll
+
+Label_Type: (child of Base_Window_Type)
+	Creation Methods:
+		 Create
+
+Icon_Type: (child of Label_Type)
+	Creation Methods:
+		 Create
+
+Bitmap_Type: (child of Label_Type)
+	Creation Methods:
+		 Create
+
+Meta_File_Type: (child of Label_Type)
+	Creation Methods:
+		 Create
+
+ActiveX_Type: (child of Base_Window_Type)
+	Creation Methods:
+		 Create
+
+	Properties:
+		Interface

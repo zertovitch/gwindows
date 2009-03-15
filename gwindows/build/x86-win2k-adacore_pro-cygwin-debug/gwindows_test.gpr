@@ -1,0 +1,21 @@
+with "GNAVI_Common";
+with "Gwindows";
+with "aunit";
+project Gwindows_Test is
+  for Source_Dirs use
+    ("../../samples/simple",
+     "../../test");
+
+  package Compiler is
+     for Default_Switches ("Ada") use
+       Gnavi_common.Compiler.Debug_Switches &
+       Gnavi_common.Compiler.Style_Checks &
+       Gnavi_common.Compiler'Default_Switches ("Ada");
+
+  end Compiler;
+
+  package Binder is
+     for Default_Switches ("Ada") use Gnavi_common.Binder'Default_Switches ("Ada");
+  end Binder;
+
+end Gwindows_Test;

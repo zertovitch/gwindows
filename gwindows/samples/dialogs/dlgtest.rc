@@ -1,0 +1,15 @@
+/* Wedit generated resource file */
+#include "DLGTEST.h"
+#include "Defines.h"
+
+DLG_TEST DIALOG 6, 18, 197, 108
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | DS_SETFONT
+CAPTION "Dialog Test"
+FONT 12, "Times New Roman"
+BEGIN
+    PUSHBUTTON      "Push", ID_BTN1, 16, 12, 40, 14
+    PUSHBUTTON      "Push", ID_BTN2, 61, 12, 40, 14
+    PUSHBUTTON      "O&K", IDOK, 107, 12, 40, 14
+    EDITTEXT        ID_EDIT1, 88, 52, 82, 12, ES_AUTOHSCROLL
+    LTEXT           "Text", 105, 60, 54, 20, 12
+END

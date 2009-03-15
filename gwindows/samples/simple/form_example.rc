@@ -1,0 +1,14 @@
+#include "..\resources\standard_ids.h"
+
+Main_Menu	MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+	MENUITEM "E&xit\tCtrl+X",	ID_APP_EXIT
+    END
+END
+
+Main_Menu ACCELERATORS PRELOAD MOVEABLE PURE
+BEGIN
+	"X",            ID_APP_EXIT,            VIRTKEY,CONTROL
+END

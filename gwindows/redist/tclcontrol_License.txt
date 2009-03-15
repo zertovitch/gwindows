@@ -1,0 +1,14 @@
+// TclControl.cpp : Implementation of CTclControl
+// Author : Farzad Pezeshkpour
+// URL : http://www.sys.uea.ac.uk/~fuzz/TclControl/default.html
+
+TclControl doesn't have a license associated with it
+currently (it's still a bit of test code really :-), but you can use
+this email as an official statement allowing you to use TclControl
+under the full definition of LGPL. Hope this helps.
+
+regards, 
+Farzad. 
+
+
+For information on using this control see GWindows\samples\tcl

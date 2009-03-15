@@ -1,0 +1,91 @@
+----------------------------------------------------------
+-- Extension Packages for GWindows
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+--  Contribued packages from Wiljan Derks
+--  wiljan.derks@philips.com
+----------------------------------------------------------
+
+1)
+GWindows.Colored_Control_Window
+
+Extension to allow for the setting of background colors for a number of
+controls.
+
+
+----------------------------------------------------------
+-- Falk Maier, Frank Piron,
+-- KonAd GmbH 2003/2004, ada@konad.de
+----------------------------------------------------------
+
+1)
+Gwindows.Buttons.Ex_Buttons
+
+This package contains the implementation of a button type
+which manages an internal id.
+You may set a bitmap on the button.
+Moreover you may supply two images and start and stop a
+"flash task" which toggles between the two images.
+
+2)
+Gwindows.Common_Controls.Ex_Lv
+Gwindows.Common_Controls.Ex_Lv_Generic
+
+These Packages provide an Extended List View Control
+which supports advanced Styles like Header-Drag-and-
+Drop, Grid Appearance and others.
+
+Moreover you may sort the list according to a columns
+content. You may set Colors at cell (subitem) level.
+
+You can associate an icon with every item (row).
+
+With the generic you can store arbitrary data (generic
+parameter) at cell (subitem) level.
+
+3)
+Gwindows.Common_Controls.Ex_Tb
+
+Implementation of an State-Of-The-Art Windows Toolbar
+with Tooltips, flat buttons with icons and check-style.
+
+4)
+Gwindows.Common_Controls.Ex_Tv
+Gwindows.Common_Controls.Ex_Tv_Generic
+
+Extended Tree View Control with icons and Colors.
+Additionally there is a new On_Change event which
+occurs when node selection changes.
+
+With the generic package you may - like in Ex_Lv -
+accociate arbitrary data with a tree node.
+
+5)
+Gwindows.Image_Lists.Ex_Image_Lists
+
+For these Image Lists you may supply a depth
+value up to 32 bit on creation.
+
+6)
+Gwindows.Windows.Ex_Windows
+
+Supports Tooltip Notification for the Extended Toolbar.
+(See the Example in .\examples
+
+7)
+Gwindows.Windows.Ex_Windows.Ex_Main
+
+This new main window closes the message loop when
+destroyed.
+
+8)
+Splitbar
+
+Implementation of a splitbar separating two
+windows.
+
+You may choose the split direction (horizontal,
+vertika), the color of the splitbar during
+drag and the redraw behavior.
