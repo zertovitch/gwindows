@@ -1,0 +1,7 @@
+<gnavi_project>
+    <application name="Hello_World">
+        <windows>
+            <window file="hello_window.xml" />
+        </windows>            
+    </application>
+</gnavi_project>

@@ -1,0 +1,43 @@
+<gnavi_window>    
+    <window name="Hello_Window" type="GWindows.Windows.Main.Main_Window_Type">
+        <init>
+            <Text value="&quot;My Hello World Application&quot;" />
+            <Visible value="True" />
+	    <Width value="400" />
+	    <Height value="300" />
+        </init>
+	<handlers>
+            <handler name="Do_Create" event="On_Create"
+	     type="GWindows.Base.Action_Event" />
+        </handlers>
+        <controls>
+	    <control name="Hello_Pack"
+	     type="GWindows.Packing_Boxes.Packing_Box_Type"
+	     Left="0"
+	     Top="0"
+	     Width="1"
+	     Height="1"
+	     Direction="GWindows.Packing_Boxes.Vertical_From_Center">
+	       <init>
+	          <Dock value="GWindows.Base.Fill" />
+		  <Fill_Width value="True" />
+	       </init>
+	       <controls>
+	          <control name="Hello_Label"
+	           type="GWindows.Static_Controls.Label_Type"
+		   Text="&quot;Hello World&quot;"
+		   Left="140"
+		   Top="115"
+		   Width="100"
+		   Height="25"
+		   Alignment="GWindows.Static_Controls.Center">
+		     <handlers>
+		        <handler name="Do_Click" event="On_Click"
+			 type="GWindows.Base.Action_Event" />
+	             </handlers>
+		  </control>
+	       </controls>
+            </control>
+        </controls>
+    </window>
+</gnavi_window>

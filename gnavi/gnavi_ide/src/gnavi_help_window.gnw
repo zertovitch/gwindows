@@ -1,0 +1,27 @@
+<gnavi_window>
+    <window name="GNAVI_Help_Window" type="GWindows.Windows.Window_Type">
+        <init>
+       <Width value="500"></Width>
+       <Height value="400"></Height>
+       <Set_Standard_Font value="GWindows.Drawing_Objects.Default_GUI"></Set_Standard_Font>
+	<Text value="&quot;GNAVI Help&quot;" />
+        </init>
+        <handlers>
+       <handler event="On_Create" name="Do_Create" type="GWindows.Base.Action_Event"></handler>
+       <handler event="On_Close" name="Do_Close" type="GWindows.Windows.Close_Event"></handler>
+	</handlers>
+	<controls>
+	   <control name="html_browser"
+	    type="GWindows.ActiveX.ActiveX_Type"
+	    ProgID="&quot;Shell.Explorer&quot;"
+	    Left="0"
+	    Top="0"
+            Width="1"
+	    Height="1">
+		<init>
+		   <Dock value="GWindows.Base.Fill" />
+		</init>
+	   </control>
+	</controls>
+   </window>
+</gnavi_window>

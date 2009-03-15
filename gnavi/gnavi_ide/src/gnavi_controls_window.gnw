@@ -1,0 +1,31 @@
+<gnavi_window>
+    <window name="GNAVI_Controls_Window" type="GWindows.Windows.Window_Type">
+        <init>
+&#9;    <Width value="200"></Width>
+&#9;    <Set_Standard_Font value="GWindows.Drawing_Objects.Default_GUI"></Set_Standard_Font>
+&#9;    <Dock value="GWindows.Base.At_Right"></Dock>
+        </init>
+        <handlers>
+&#9;    <handler event="On_Create" name="Do_Create" type="GWindows.Base.Action_Event"></handler>
+        </handlers>
+&#9;<controls>
+&#9;  <control Height="1" Left="0" Location="GWindows.Base.At_Left" Text="&quot;Controls&quot;" Top="0" Width="20" name="Left_Size_Bar" type="GWindows.GControls.GSize_Bars.GSize_Bar_Type">
+&#9;    <init>
+&#9;&#9;<Maximum_Size value="300"></Maximum_Size>
+&#9;    <Border value="False"></Border></init>
+&#9;  </control>
+           <control Height="1" Left="0" Top="0" Width="1" name="Controls_Panel" type="GWindows.Panels.Panel_Type">
+&#9;      <init>
+&#9;&#9;<Dock value="GWindows.Base.Fill"></Dock>
+&#9;      </init>
+              <controls>
+                 <control Height="10" Left="0" Sort="False" Top="0" Width="10" name="Controls_List" type="GWindows.List_Boxes.List_Box_Type">
+&#9;           <init>
+        &#9;      <Dock value="GWindows.Base.Fill"></Dock>
+               &#9;   </init>
+                 </control>
+&#9;      </controls>
+&#9;   </control>
+&#9;</controls>
+    </window>
+</gnavi_window>

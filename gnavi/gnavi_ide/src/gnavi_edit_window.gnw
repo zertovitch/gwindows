@@ -1,0 +1,210 @@
+<gnavi_window>
+    <window name="GNAVI_Edit_Window" type="GWindows.Windows.MDI.MDI_Child_Window_Type">
+        <init>
+       <Width value="500"></Width>
+       <Height value="400"></Height>
+       <Set_Standard_Font value="GWindows.Drawing_Objects.Default_GUI"></Set_Standard_Font>
+       <Visible value="True"></Visible>
+        <Text value="&quot;Edit Window&quot;"></Text></init>
+        <handlers>
+       <handler event="On_Create" name="Do_Create" type="GWindows.Base.Action_Event"></handler>
+            <handler event="On_Close" name="Do_Close" type="GWindows.Windows.Close_Event"></handler>
+            <handler event="On_Menu_Hover" name="Check_Menu" type="GWindows.Windows.Hover_Event"></handler>
+            <handler event="On_Menu_Select" name="Handle_Menu" type="GWindows.Windows.Select_Event"></handler>
+        </handlers>
+   <controls>
+      <control Direction="GWindows.Packing_Boxes.Horizontal" Height="25" Left="0" Top="0" Width="1" name="Button_Pack_Box" type="GWindows.Packing_Boxes.Packing_Box_Type">
+        <init>
+           <Padding value="5"></Padding>
+      <Fill_Width value="True"></Fill_Width>
+      <Insets value="(3, 3, 3, 3)"></Insets>
+      <Dock value="GWindows.Base.At_Top"></Dock>
+        </init>
+        <controls>
+           <control Height="20" Left="0" Text="&quot;Save&quot;" Top="0" Width="1" name="Save_Button" type="GWindows.Buttons.Button_Type">
+         <handlers>
+            <handler event="On_Click" name="Do_Save_Window" type="GWindows.Base.Action_Event"></handler>
+              </handlers>
+            </control>
+        </controls>
+      </control>
+      <control Direction="GWindows.Packing_Boxes.Horizontal" Height="25" Left="0" Top="0" Width="1" name="Tab_Pack_Box" type="GWindows.Packing_Boxes.Packing_Box_Type">
+        <init>
+           <Padding value="5"></Padding>
+      <Fill_Width value="True"></Fill_Width>
+      <Insets value="(3, 3, 3, 3)"></Insets>
+      <Dock value="GWindows.Base.At_Bottom"></Dock>
+        </init>
+        <controls>
+           <control Height="20" Left="0" Text="&quot;Spec&quot;" Top="0" Width="1" name="Spec_Button" type="GWindows.Buttons.Button_Type">
+         <handlers>
+            <handler event="On_Click" name="Do_Spec_Window" type="GWindows.Base.Action_Event"></handler>
+              </handlers>
+           </control>
+           <control Height="20" Left="0" Text="&quot;Body&quot;" Top="0" Width="1" name="Body_Button" type="GWindows.Buttons.Button_Type">
+         <handlers>
+            <handler event="On_Click" name="Do_Body_Window" type="GWindows.Base.Action_Event"></handler>
+              </handlers>
+           </control>
+           <control Height="20" Left="0" Text="&quot;XML&quot;" Top="0" Width="1" name="XML_Button" type="GWindows.Buttons.Button_Type">
+         <handlers>
+            <handler event="On_Click" name="Do_XML_Window" type="GWindows.Base.Action_Event"></handler>
+              </handlers>
+           </control>
+           <control Height="20" Left="0" Text="&quot;Outline&quot;" Top="0" Width="1" name="Outline_Button" type="GWindows.Buttons.Button_Type">
+         <handlers>
+            <handler event="On_Click" name="Do_Outline_Window" type="GWindows.Base.Action_Event"></handler>
+              </handlers>
+           </control>
+           <control Height="20" Left="0" Text="&quot;Layout&quot;" Top="0" Width="1" name="Layout_Button" type="GWindows.Buttons.Button_Type">
+         <handlers>
+            <handler event="On_Click" name="Do_Layout_Window" type="GWindows.Base.Action_Event"></handler>
+              </handlers>
+           </control>
+        </controls>
+      </control>
+      <control Height="1" Left="0" Top="0" Width="1" name="Body_Edit_Box" type="GWindows.Scintilla.Scintilla_Type">
+      </control>
+      <control Height="1" Left="0" Top="0" Width="1" name="Spec_Edit_Box" type="GWindows.Scintilla.Scintilla_Type">
+      </control>
+      <control Height="1" Left="0" Top="0" Width="1" name="XML_Edit_Box" type="GWindows.Scintilla.Scintilla_Type">
+      </control>
+      <control Direction="GWindows.Packing_Boxes.Horizontal" Height="1" Left="0" Top="0" Width="1" name="Outline_Box" type="GWindows.Packing_Boxes.Packing_Box_Type">
+        <init>
+           <Padding value="5"></Padding>
+      <Fill_Height value="True"></Fill_Height>
+      <Fill_Width value="True"></Fill_Width>
+      <Insets value="(3, 3, 3, 3)"></Insets>
+      <Dock value="GWindows.Base.Fill"></Dock>
+        </init>
+        <controls>
+           <control Height="1" Left="0" Top="0" Width="1" name="Outline_Panel" type="GWindows.Panels.Panel_Type">
+              <controls>
+                 <control Height="10" Left="0" Sort="False" Top="0" Width="10" name="Outline_View" type="GWindows.List_Boxes.List_Box_Type">
+              <init>
+                 <Dock value="GWindows.Base.Fill"></Dock>
+                     </init>
+                 <handlers>
+                   <handler event="On_Selection_Change" name="Do_Select_OV_Control" type="GWindows.Base.Action_Event"></handler>
+         <handler event="On_Double_Click" name="Do_Jump_To_Control" type="GWindows.Base.Action_Event"></handler>
+                 </handlers>
+                 </control>
+                 <control Direction="GWindows.Packing_Boxes.Horizontal" Height="25" Left="0" Top="0" Width="1" name="Outline_Control_Panel" type="GWindows.Packing_Boxes.Packing_Box_Type">
+                   <init>
+                      <Padding value="5"></Padding>
+                      <Fill_Width value="True"></Fill_Width>
+                      <Insets value="(3, 3, 3, 3)"></Insets>
+                      <Dock value="GWindows.Base.At_Bottom"></Dock>
+                   </init>
+                   <controls>
+                      <control Height="20" Left="0" Text="&quot;+&quot;" Top="0" Width="1" name="Add_Control_Button" type="GWindows.Buttons.Button_Type">
+                        <handlers>
+                           <handler event="On_Click" name="Do_Add_Control" type="GWindows.Base.Action_Event"></handler>
+                        </handlers>
+                      </control>
+                      <control Height="20" Left="0" Text="&quot;-&quot;" Top="0" Width="1" name="Delete_Control_Button" type="GWindows.Buttons.Button_Type">
+                        <handlers>
+                           <handler event="On_Click" name="Do_Delete_Control" type="GWindows.Base.Action_Event"></handler>
+                        </handlers>
+                      </control>
+                      <control Height="20" Left="0" Text="&quot;Up&quot;" Top="0" Width="1" name="Up_Control_Button" type="GWindows.Buttons.Button_Type">
+                        <handlers>
+                           <handler event="On_Click" name="Do_Control_Up" type="GWindows.Base.Action_Event"></handler>
+                        </handlers>
+                      </control>
+                      <control Height="20" Left="0" Text="&quot;Down&quot;" Top="0" Width="1" name="Down_Control_Button" type="GWindows.Buttons.Button_Type">
+                        <handlers>
+                           <handler event="On_Click" name="Do_Control_Down" type="GWindows.Base.Action_Event"></handler>
+                        </handlers>
+                      </control>
+                      <control Height="20" Left="0" Text="&quot;&gt;&quot;" Top="0" Width="1" name="Right_Control_Button" type="GWindows.Buttons.Button_Type">
+                        <handlers>
+                           <handler event="On_Click" name="Do_Control_Right" type="GWindows.Base.Action_Event"></handler>
+                        </handlers>
+                      </control>
+                   </controls>
+                 </control>
+               </controls>
+           </control>
+      <control Direction="GWindows.Packing_Boxes.Vertical" Height="1" Left="0" Top="0" Width="1" name="Properties_Section" type="GWindows.Packing_Boxes.Packing_Box_Type">
+        <init>
+           <Padding value="5"></Padding>
+           <Fill_Height value="True"></Fill_Height>
+           <Fill_Width value="True"></Fill_Width>
+           <Insets value="(3, 3, 3, 3)"></Insets>
+        </init>
+        <controls>
+          <control Height="1" Left="0" Top="0" Width="1" name="Properties_Box" type="GWindows.Panels.Panel_Type">
+         <controls>
+             <control Height="25" Left="0" Top="0" Width="1" name="Property_Edit_Panel" type="GWindows.Panels.Panel_Type">
+            <init>
+               <Dock value="GWindows.Base.At_Top"></Dock>
+            </init>
+             <controls>
+               <control Height="25" Left="0" Text="&quot;SET&quot;" Top="0" Width="25" name="Property_Set_Button" type="GWindows.Buttons.Button_Type">
+            <init>
+               <Dock value="GWindows.Base.At_Right"></Dock>
+            </init>
+                   <handlers>
+                     <handler event="On_Click" name="Do_Property_Value_Change" type="GWindows.Base.Action_Event"></handler>
+                 </handlers>
+               </control>
+               <control Height="25" Left="0" Text="&quot;&quot;" Top="0" Width="0" name="Property_Edit_Box" type="GWindows.Edit_Boxes.Edit_Box_Type">
+            <init>
+               <Dock value="GWindows.Base.Fill"></Dock>
+            </init>
+               </control>
+                   </controls>
+             </control>
+                  <control Height="1" Left="0" Sort="False" Top="0" Width="1" name="Properties_View" type="GWindows.List_Boxes.List_Box_Type">
+            <init>
+               <Dock value="GWindows.Base.Fill"></Dock>
+            </init>
+                   <handlers>
+                     <handler event="On_Selection_Change" name="Do_Property_Change" type="GWindows.Base.Action_Event"></handler>
+                </handlers>
+             </control>
+         </controls>
+          </control>
+
+          <control Height="1" Left="0" Top="0" Width="1" name="Handlers_Box" type="GWindows.Panels.Panel_Type">
+         <controls>
+             <control Height="25" Left="0" Top="0" Width="1" name="Handler_Edit_Panel" type="GWindows.Panels.Panel_Type">
+            <init>
+               <Dock value="GWindows.Base.At_Top"></Dock>
+            </init>
+             <controls>
+               <control Height="25" Left="0" Text="&quot;SET&quot;" Top="0" Width="25" name="Handler_Set_Button" type="GWindows.Buttons.Button_Type">
+            <init>
+               <Dock value="GWindows.Base.At_Right"></Dock>
+            </init>
+                   <handlers>
+                     <handler event="On_Click" name="Do_Handler_Value_Change" type="GWindows.Base.Action_Event"></handler>
+                 </handlers>
+               </control>
+               <control Height="25" Left="0" Text="&quot;&quot;" Top="0" Width="0" name="Handler_Edit_Box" type="GWindows.Edit_Boxes.Edit_Box_Type">
+            <init>
+               <Dock value="GWindows.Base.Fill"></Dock>
+            </init>
+               </control>
+                   </controls>
+             </control>
+                  <control Height="1" Left="0" Sort="False" Top="0" Width="1" name="Handlers_View" type="GWindows.List_Boxes.List_Box_Type">
+            <init>
+               <Dock value="GWindows.Base.Fill"></Dock>
+            </init>
+                   <handlers>
+                     <handler event="On_Selection_Change" name="Do_Handler_Change" type="GWindows.Base.Action_Event"></handler>
+                     <handler event="On_Double_Click" name="Do_Jump_To_Handler" type="GWindows.Base.Action_Event"></handler>
+                 </handlers>
+             </control>
+         </controls>
+          </control>
+
+        </controls>
+      </control>
+        </controls>
+      </control>
+   <control Height="100" Left="0" Top="0" Width="100" name="Layout_Box" type="GWindows.Scroll_Panels.Scroll_Panel_Type"><init><Visible value="False"></Visible><Dock value="GWindows.Base.None"></Dock></init></control></controls>
+    </window>
+</gnavi_window>

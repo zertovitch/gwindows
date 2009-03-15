@@ -1,0 +1,45 @@
+<gnavi_window>
+    <window name="GNAVI_Project_Window" type="GWindows.Windows.Window_Type">
+        <init>
+       <Visible value="False"></Visible>
+       <Width value="260"></Width>
+       <Set_Standard_Font value="GWindows.Drawing_Objects.Default_GUI"></Set_Standard_Font>
+        </init>
+        <handlers>
+       <handler event="On_Create" name="Do_Create" type="GWindows.Base.Action_Event"></handler>
+            <handler event="On_Close" name="Do_Close" type="GWindows.Windows.Close_Event"></handler>
+        </handlers>
+   <controls>
+     <control Height="1" Left="0" Location="GWindows.Base.At_Right" Text="&quot;Project&quot;" Top="0" Width="20" name="Right_Size_Bar" type="GWindows.GControls.GSize_Bars.GSize_Bar_Type">
+       <init>
+      <Maximum_Size value="300"></Maximum_Size>
+       <Border value="False"></Border></init>
+     </control>
+     <control Height="1" Left="0" Top="0" Width="1" name="Project_Panel" type="GWindows.Panels.Panel_Type">
+      <init>
+        <Dock value="GWindows.Base.Fill"></Dock>
+      </init>
+     <controls>
+       <control Height="1" Left="0" Top="0" Width="1" name="Project_Tools" type="GWindows.Common_Controls.Toolbar_Control_Type">
+      <init>
+         <Dock value="GWindows.Base.At_Top"></Dock>
+           </init>
+      <handlers>
+          <handler event="On_Button_Select" name="Do_Toolbar_Select" type="GWindows.Windows.Select_Event"></handler>
+      </handlers>
+      </control>
+          <control Height="1" Left="0" Sort="False" Top="0" Width="1" name="Window_Type_List" type="GWindows.List_Boxes.List_Box_Type">
+         <init>
+         <Dock value="GWindows.Base.Fill"></Dock>
+              </init>
+         <handlers>
+            <handler event="On_Double_Click" name="Do_Edit_Window" type="GWindows.Base.Action_Event"></handler>
+            <handler event="On_Selection_Change" name="Do_Window_Selection" type="GWindows.Base.Action_Event"></handler>
+            <handler event="On_Selection_Cancel" name="Do_Window_Selection" type="GWindows.Base.Action_Event"></handler>
+         </handlers>
+     </control>
+         <control Height="100" Left="0" Top="0" Width="100" name="File_Panel" type="GWindows.Panels.Panel_Type"><init><Dock value="GWindows.Base.At_Bottom"></Dock></init><controls><control Height="3" Left="0" Location="GWindows.Base.At_Top" Top="0" Width="100" name="File_Size_Bar" type="GWindows.GControls.GSize_Bars.GSize_Bar_Type"><init><Minimum_Size value="50"></Minimum_Size><Live_Resize value="True"></Live_Resize></init></control><control Height="30" ID="0" Left="0" Sort="True" Top="0" Width="60" name="File_List" type="GWindows.List_Boxes.List_Box_Type"><init><Dock value="GWindows.Base.Fill"></Dock></init><handlers><handler event="On_Double_Click" name="Do_File_Edit" type="GWindows.Base.Action_Event"></handler><handler event="On_Selection_Cancel" name="Do_File_Selection" type="GWindows.Base.Action_Event"></handler><handler event="On_Selection_Change" name="Do_File_Selection" type="GWindows.Base.Action_Event"></handler></handlers></control></controls></control></controls>
+        </control>
+   </controls>
+    </window>
+</gnavi_window>

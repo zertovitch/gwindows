@@ -1,0 +1,1667 @@
+<gnavi_controls>
+  <types>
+   <type name="GWindows.GControls.Duration.GDay_Duration_Type" type="Ada">
+   </type>
+   <type name="GWindows.Base.Dock_Type" type="enum">
+      <Value name="At_Top" />
+      <Value name="At_Left" />
+      <Value name="At_Right" />
+      <Value name="At_Bottom" />
+      <Value name="Fill" />
+      <Value name="None" />
+   </type>
+   <type name="GWindows.Buttons.Check_State_Type" type="enum">
+      <Value name="Checked" />
+      <Value name="Unchecked" />
+   </type>
+   <type name="GWindows.Buttons.Three_State_Type" type="enum">
+      <Value name="Checked" />
+      <Value name="Indeterminate" />
+      <Value name="Unchecked" />
+   </type>
+   <type name="GWindows.Panels.Panel_Type" type="enum">
+      <Value name="None" />
+      <Value name="Sunken" />
+      <Value name="Raised" />
+   </type>
+   <type name="GWindows.Packing_Boxes.Packing_Direction_Type" type="enum">
+      <Value name="Horizontal" />
+      <Value name="Vertical" />
+      <Value name="Horizontal_From_Center" />
+      <Value name="Vertical_From_Center" />
+      <Value name="Horizontal_From_Right" />
+      <Value name="Vertical_From_Bottom" />
+   </type>
+  </types>
+  <controls>
+   <control display_name="Label"
+    type="GWindows.Static_Controls.Label_Type"
+    category="Static Controls">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Alignment"
+	  type="GWindows.Static_Controls.Alignment_Type"
+	  default="GWindows.Static_Controls.Left" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Enable" type="GWindows.Base.Action_Event" />
+         <event name="On_Disable" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Icon"
+    type="GWindows.Static_Controls.Icon_Type"
+    category="Static Controls">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" display_name="Resource_Name"/>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Alignment"
+	  type="GWindows.Static_Controls.Alignment_Type"
+	  default="GWindows.Static_Controls.Left" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Enable" type="GWindows.Base.Action_Event" />
+         <event name="On_Disable" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Bitmap"
+    type="GWindows.Static_Controls.Bitmap_Type"
+    category="Static Controls">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" display_name="Resource_Name"/>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Alignment"
+	  type="GWindows.Static_Controls.Alignment_Type"
+	  default="GWindows.Static_Controls.Left" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Enable" type="GWindows.Base.Action_Event" />
+         <event name="On_Disable" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Meta File"
+    type="GWindows.Static_Controls.Meta_File_Type"
+    category="Static Controls">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" display_name="Resource_Name"/>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Alignment"
+	  type="GWindows.Static_Controls.Alignment_Type"
+	  default="GWindows.Static_Controls.Left" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Enable" type="GWindows.Base.Action_Event" />
+         <event name="On_Disable" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Button"
+    type="GWindows.Buttons.Button_Type"
+    category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Default Button"
+    type="GWindows.Buttons.Default_Button_Type"
+    category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Cancel Button"
+    type="GWindows.Buttons.Cancel_Button_Type"
+    category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Default Cancel Button"
+    type="GWindows.Buttons.Default_Cancel_Button_Type"
+    category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Check Box"
+    type="GWindows.Buttons.Check_Box_Type"
+    category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="State" type="GWindows.Buttons.Check_State_Type"
+	  default="GWindows.Buttons.Unchecked" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Two State Button"
+    type="GWindows.Buttons.Two_State_Button_Type"
+    category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="State" type="GWindows.Buttons.Check_State_Type"
+	  default="GWindows.Buttons.Unchecked" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Radio Button"
+    type="GWindows.Buttons.Radio_Button_Type"
+    category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="State" type="GWindows.Buttons.Check_State_Type"
+	  default="GWindows.Buttons.Unchecked" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Push Radio Button"
+    type="GWindows.Buttons.Push_Radio_Button_Type"
+    category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="State" type="GWindows.Buttons.Check_State_Type"
+	  default="GWindows.Buttons.Unchecked" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Three State Box"
+    type="GWindows.Buttons.Three_State_Box_Type"
+    category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="State" type="GWindows.Buttons.Three_State_Type"
+	  default="GWindows.Buttons.Unchecked" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Three State Button"
+    type="GWindows.Buttons.Three_State_Button_Type"
+    category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="State" type="GWindows.Buttons.Three_State_Type"
+	  default="GWindows.Buttons.Unchecked" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Edit Box"
+    type="GWindows.Edit_Boxes.Edit_Box_Type"
+    category="Text Entry">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Horizontal_Scroll" type="Boolean" default="True" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Lower_Case_Only" type="Boolean" default="False" />
+	 <property name="Upper_Case_Only" type="Boolean" default="False" />
+	 <property name="Digits_Only" type="Boolean" default="False" />
+	 <property name="Read_Only" type="Boolean" default="False" />
+	 <property name="Text_Limit" type="Natural" default="" />
+	 <property name="Modified" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Max_Text" type="GWindows.Base.Action_Event" />
+         <event name="On_Horizontal_Scroll"
+	  type="GWindows.Base.Action_Event" />
+         <event name="On_Vertical_Scroll"
+	  type="GWindows.Base.Action_Event" />
+         <event name="On_Update" type="GWindows.Base.Action_Event" />
+         <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Multi Line Edit Box"
+    type="GWindows.Edit_Boxes.Multi_Line_Edit_Box_Type"
+    category="Text Entry">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Horizontal_Scroll" type="Boolean" default="False" />
+	 <property name="Vertical_Scroll" type="Boolean" default="True" />
+	 <property name="Capture_Return" type="Boolean" default="True" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Lower_Case_Only" type="Boolean" default="False" />
+	 <property name="Upper_Case_Only" type="Boolean" default="False" />
+	 <property name="Digits_Only" type="Boolean" default="False" />
+	 <property name="Read_Only" type="Boolean" default="False" />
+	 <property name="Text_Limit" type="Natural" default="" />
+	 <property name="Modified" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Max_Text" type="GWindows.Base.Action_Event" />
+         <event name="On_Horizontal_Scroll"
+	  type="GWindows.Base.Action_Event" />
+         <event name="On_Vertical_Scroll"
+	  type="GWindows.Base.Action_Event" />
+         <event name="On_Update" type="GWindows.Base.Action_Event" />
+         <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Rich Edit Box"
+    type="GWindows.Edit_Boxes.Rich.Rich_Edit_Box_Type"
+    category="Text Entry">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Horizontal_Scroll" type="Boolean" default="False" />
+	 <property name="Vertical_Scroll" type="Boolean" default="True" />
+	 <property name="Capture_Return" type="Boolean" default="True" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Lower_Case_Only" type="Boolean" default="False" />
+	 <property name="Upper_Case_Only" type="Boolean" default="False" />
+	 <property name="Digits_Only" type="Boolean" default="False" />
+	 <property name="Read_Only" type="Boolean" default="False" />
+	 <property name="Text_Limit" type="Natural" default="" />
+	 <property name="Modified" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Max_Text" type="GWindows.Base.Action_Event" />
+         <event name="On_Horizontal_Scroll"
+	  type="GWindows.Base.Action_Event" />
+         <event name="On_Vertical_Scroll"
+	  type="GWindows.Base.Action_Event" />
+         <event name="On_Update" type="GWindows.Base.Action_Event" />
+         <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Scintilla Editor"
+    type="GWindows.Scintilla.Scintilla_Type"
+    category="Text Entry">
+      <create_properties>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Character_Added" type="GWindows.Base.Action_Event" />
+         <event name="On_Update_UI" type="GWindows.Base.Action_Event" />
+         <event name="On_Save_Point_Reached"
+	  type="GWindows.Base.Action_Event" />
+         <event name="On_Save_Point_Left" type="GWindows.Base.Action_Event" />
+         <event name="On_Attempt_To_Modify_Read_Only"
+	  type="GWindows.Base.Action_Event" />
+         <event name="On_Painted" type="GWindows.Base.Action_Event" />
+         <event name="On_Zoom" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="List Box"
+    type="GWindows.List_Boxes.List_Box_Type"
+    category="Selection Boxes">
+      <create_properties>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Sort" type="Boolean" default="True" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Visible" type="Boolean" default="True" />
+      </init_properties>
+      <events default="On_Selection_Change">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+	 <event name="On_Selection_Cancel" type="GWindows.Base.Action_Event" />
+	 <event name="On_Selection_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Multiple Selection List Box"
+    type="GWindows.List_Boxes.Multiple_Selection_List_Box_Type"
+    category="Selection Boxes">
+      <create_properties>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Sort" type="Boolean" default="True" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Visible" type="Boolean" default="True" />
+      </init_properties>
+      <events default="On_Selection_Change">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+	 <event name="On_Selection_Cancel" type="GWindows.Base.Action_Event" />
+	 <event name="On_Selection_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Combo Box"
+    type="GWindows.Combo_Boxes.Combo_Box_Type"
+    category="Selection Boxes">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Sort" type="Boolean" default="True" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Alternate_User_Interface" type="Boolean"
+	  default="False" />
+	 <property name="Dropped" type="Boolean" default="False" />	 
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+	 <event name="On_Selection_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
+         <event name="On_Edit_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Edit_Update" type="GWindows.Base.Action_Event" />
+         <event name="On_Drop_Down" type="GWindows.Base.Action_Event" />
+         <event name="On_Close_Up" type="GWindows.Base.Action_Event" />
+         <event name="On_Select_End_OK" type="GWindows.Base.Action_Event" />
+         <event name="On_Select_End_Cancel"
+	  type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Drop Down Combo Box"
+    type="GWindows.Combo_Boxes.Drop_Down_Combo_Box_Type"
+    category="Selection Boxes">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Sort" type="Boolean" default="True" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Alternate_User_Interface" type="Boolean"
+	  default="False" />
+	 <property name="Dropped" type="Boolean" default="False" />	 
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+	 <event name="On_Selection_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
+         <event name="On_Edit_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Edit_Update" type="GWindows.Base.Action_Event" />
+         <event name="On_Drop_Down" type="GWindows.Base.Action_Event" />
+         <event name="On_Close_Up" type="GWindows.Base.Action_Event" />
+         <event name="On_Select_End_OK" type="GWindows.Base.Action_Event" />
+         <event name="On_Select_End_Cancel"
+	  type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Drop Down List Box"
+    type="GWindows.Combo_Boxes.Drop_Down_List_Box_Type"
+    category="Selection Boxes">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="Sort" type="Boolean" default="True" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Alternate_User_Interface" type="Boolean"
+	  default="False" />
+	 <property name="Dropped" type="Boolean" default="False" />	 
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+	 <event name="On_Selection_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
+         <event name="On_Edit_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Edit_Update" type="GWindows.Base.Action_Event" />
+         <event name="On_Drop_Down" type="GWindows.Base.Action_Event" />
+         <event name="On_Close_Up" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Group Box"
+    type="GWindows.Buttons.Group_Box_Type"
+    category="Containers">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Panel"
+    type="GWindows.Panels.Panel_Type"
+    category="Containers">
+      <create_properties>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="100" />
+	 <property name="Height" type="Integer" default="100" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border_Type" type="GWindows.Panels.Panel_Border_Type"
+	  default="GWindows.Panels.None" />
+	 <property name="Border_Thickness" type="Positive" default="1" />
+	 <property name="Background_Color" type="GWindows.Colors.Color_Type"
+	  default="" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Menu_Hover" type="GWindows.Windows.Hover_Event" />
+	 <event name="On_Menu_Select" type="GWindows.Windows.Select_Event" />
+	 <event name="On_Accelerator_Select"
+	  type="GWindows.Windows.Select_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
+      </events>
+   </control>
+   <control display_name="Scroll Panel"
+    type="GWindows.Scroll_Panels.Scroll_Panel_Type"
+    category="Containers">
+      <create_properties>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="100" />
+	 <property name="Height" type="Integer" default="100" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Menu_Hover" type="GWindows.Windows.Hover_Event" />
+	 <event name="On_Menu_Select" type="GWindows.Windows.Select_Event" />
+	 <event name="On_Accelerator_Select"
+	  type="GWindows.Windows.Select_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
+      </events>
+   </control>
+   <control display_name="Packing Box"
+    type="GWindows.Packing_Boxes.Packing_Box_Type"
+    category="Containers">
+      <create_properties>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="100" />
+	 <property name="Height" type="Integer" default="100" />
+         <property name="Direction"
+	  type="GWindows.Packing_Boxes.Packing_Direction_Type"
+	  default="GWindows.Packing_Boxes.Horizontal" />
+      </create_properties>
+      <init_properties>
+	 <property name="Padding" type="Natural" default="0" />
+	 <property name="Inset_Left" type="Natural" default="0" />
+	 <property name="Inset_Top" type="Natural" default="0" />
+	 <property name="Inset_Right" type="Natural" default="0" />
+	 <property name="Inset_Bottom" type="Natural" default="0" />
+	 <property name="Fill_Width" type="Boolean" default="False" />
+	 <property name="Fill_Height" type="Boolean" default="False" />
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Auto_Size_To_Contents" type="Boolean"
+	  default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Menu_Hover" type="GWindows.Windows.Hover_Event" />
+	 <event name="On_Menu_Select" type="GWindows.Windows.Select_Event" />
+	 <event name="On_Accelerator_Select"
+	  type="GWindows.Windows.Select_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
+      </events>
+   </control>
+   <control display_name="GSize Bar"
+    type="GWindows.GControls.GSize_Bars.GSize_Bar_Type"
+    category="Containers">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+         <property name="Location" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.At_Top" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="100" />
+	 <property name="Height" type="Integer" default="100" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Minimum_Size" type="Natural" default="" />
+	 <property name="Maximum_Size" type="Natural" default="" />
+	 <property name="Live_Resize" type="Boolean" default="True" />
+	 <property name="Move_Bar_Size" type="Natural" default="3" />
+	 <property name="Move_Bar_Color" type="GWindows.Colors.Color_Type"
+	  default="0" />
+	 <property name="Background_Color" type="GWindows.Colors.Color_Type"
+	  default="" />
+      </init_properties>
+      <events default="On_Bar_Moved">
+         <event name="On_Bar_Moved" type="GWindows.Base.Action_Event" />
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+      </events>
+   </control>
+   <control display_name="GDuration"
+    type="GWindows.GControls.Duration.Duration_Type"
+    category="Containers">
+      <create_properties>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="0" />
+	 <property name="Height" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+         <property name="Duration"
+	  type="GWindows.GControls.Duration.GDay_Duration_Type"
+	  default="0.0" />
+	 <property name="Background_Color" type="GWindows.Colors.Color_Type"
+	  default="" />
+      </init_properties>
+      <events default="On_Focus">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+      </events>
+   </control>
+   <control display_name="GDuration Edit"
+    type="GWindows.GControls.Duration.Edit.Duration_Edit_Type"
+    category="Containers">
+      <create_properties>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="0" />
+	 <property name="Height" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+         <property name="Duration"
+	  type="GWindows.GControls.Duration.GDay_Duration_Type"
+	  default="0.0" />
+	 <property name="Background_Color" type="GWindows.Colors.Color_Type"
+	  default="" />
+      </init_properties>
+      <events default="On_Focus">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+      </events>
+   </control>
+   <control display_name="Drawing Panel"
+    type="GWindows.Drawing_Panels.Drawing_Panel_Type"
+    category="Drawing">
+      <create_properties>
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="100" />
+	 <property name="Height" type="Integer" default="100" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+ 	 <property name="Enabled" type="Boolean" default="True" />
+ 	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Auto_Resize" type="Boolean" default="True" />
+	 <property name="Background_Color" type="GWindows.Colors.Color_Type"
+	  default="" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Menu_Hover" type="GWindows.Windows.Hover_Event" />
+	 <event name="On_Menu_Select" type="GWindows.Windows.Select_Event" />
+	 <event name="On_Accelerator_Select"
+	  type="GWindows.Windows.Select_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
+      </events>
+   </control>
+   <control display_name="Scroll Bar"
+    type="GWindows.Scroll_Bars.Scroll_Bar_Type"
+    category="Misc">
+      <create_properties>
+	 <property name="Direction"
+	  type="GWindows.Scroll_Bars.Scroll_Direction_Type"
+	  default="GWindows.Scroll_Bars.Vertical" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="10" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Scroll_Maximum" type="Integer" default="" />
+	 <property name="Scroll_Minimum" type="Integer" default="" />
+	 <property name="Scroll_Page_Size" type="Natural" default="" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Scroll" type="GWindows.Base.Scroll_Event" />
+      </events>
+   </control>
+   <control display_name="Window"
+    type="GWindows.Windows.Window_Type"
+    category="Windows">
+      <init_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="" />
+	 <property name="Top" type="Integer" default="" />
+	 <property name="Width" type="Integer" default="" />
+	 <property name="Height" type="Integer" default="" />
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Zoom" type="Boolean" default="False" />
+	 <property name="Iconic" type="Boolean" default="False" />
+	 <property name="Accept_File_Drag_And_Drop"
+	  type="Boolean" default="False" />
+	 <property name="Set_Standard_Font"
+	  default="GWindows.Drawing_Objects.System"
+	  type="GWindows.Drawing_Objects.Stock_Font_Type" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Menu_Hover" type="GWindows.Windows.Hover_Event" />
+	 <event name="On_Menu_Select" type="GWindows.Windows.Select_Event" />
+	 <event name="On_Accelerator_Select"
+	  type="GWindows.Windows.Select_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
+      </events>
+   </control>
+   <control display_name="Main Window"
+    type="GWindows.Windows.Main.Main_Window_Type"
+    category="Windows">
+      <init_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="" />
+	 <property name="Top" type="Integer" default="" />
+	 <property name="Width" type="Integer" default="" />
+	 <property name="Height" type="Integer" default="" />
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Zoom" type="Boolean" default="False" />
+	 <property name="Iconic" type="Boolean" default="False" />
+	 <property name="Accept_File_Drag_And_Drop"
+	  type="Boolean" default="False" />
+	 <property name="Set_Standard_Font"
+	  default="GWindows.Drawing_Objects.System"
+	  type="GWindows.Drawing_Objects.Stock_Font_Type" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Menu_Hover" type="GWindows.Windows.Hover_Event" />
+	 <event name="On_Menu_Select" type="GWindows.Windows.Select_Event" />
+	 <event name="On_Accelerator_Select"
+	  type="GWindows.Windows.Select_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
+      </events>
+   </control>
+   <control display_name="MDI Main Window"
+    type="GWindows.Windows.MDI.MDI_Main_Window_Type"
+    category="Windows">
+      <init_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="" />
+	 <property name="Top" type="Integer" default="" />
+	 <property name="Width" type="Integer" default="" />
+	 <property name="Height" type="Integer" default="" />
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Zoom" type="Boolean" default="False" />
+	 <property name="Iconic" type="Boolean" default="False" />
+	 <property name="Accept_File_Drag_And_Drop"
+	  type="Boolean" default="False" />
+	 <property name="Set_Standard_Font"
+	  default="GWindows.Drawing_Objects.System"
+	  type="GWindows.Drawing_Objects.Stock_Font_Type" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Menu_Hover" type="GWindows.Windows.Hover_Event" />
+	 <event name="On_Menu_Select" type="GWindows.Windows.Select_Event" />
+	 <event name="On_Accelerator_Select"
+	  type="GWindows.Windows.Select_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
+      </events>
+   </control>
+   <control display_name="MDI Child Window"
+    type="GWindows.Windows.MDI.MDI_Child_Window_Type"
+    category="Windows">
+      <init_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="" />
+	 <property name="Top" type="Integer" default="" />
+	 <property name="Width" type="Integer" default="" />
+	 <property name="Height" type="Integer" default="" />
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="Zoom" type="Boolean" default="False" />
+	 <property name="Iconic" type="Boolean" default="False" />
+	 <property name="Accept_File_Drag_And_Drop"
+	  type="Boolean" default="False" />
+	 <property name="Set_Standard_Font"
+	  default="GWindows.Drawing_Objects.System"
+	  type="GWindows.Drawing_Objects.Stock_Font_Type" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+	 <event name="On_Size" type="GWindows.Windows.Size_Event" />
+	 <event name="On_Move" type="GWindows.Windows.Location_Event" />
+         <event name="On_Show" type="GWindows.Base.Action_Event" />
+         <event name="On_Hide" type="GWindows.Base.Action_Event" />
+         <event name="On_Mouse_Move" type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Down"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Left_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Right_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+         <event name="On_Middle_Mouse_Button_Up"
+	  type="GWindows.Windows.Mouse_Event" />
+	 <event name="On_Character_Up"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Character_Down"
+	  type="GWindows.Windows.Character_Event" />
+	 <event name="On_Menu_Hover" type="GWindows.Windows.Hover_Event" />
+	 <event name="On_Menu_Select" type="GWindows.Windows.Select_Event" />
+	 <event name="On_Accelerator_Select"
+	  type="GWindows.Windows.Select_Event" />
+	 <event name="On_Paint" type="GWindows.Windows.Paint_Event" />
+	 <event name="On_Erase_Background"
+	  type="GWindows.Windows.Paint_Event" />
+         <event name="On_Change_Cursor" type="GWindows.Base.Action_Event" />
+         <event name="On_Close" type="GWindows.Windows.Close_Event" />
+	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
+      </events>
+   </control>
+  </controls>
+</gnavi_controls>

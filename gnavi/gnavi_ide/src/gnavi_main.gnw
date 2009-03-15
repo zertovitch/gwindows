@@ -1,0 +1,41 @@
+<gnavi_window>
+    <window name="GNAVI_Main" type="GWindows.Windows.MDI.MDI_Main_Window_Type">
+        <handlers>
+            <handler name="Do_Create" event="On_Create"
+	     type="GWindows.Base.Action_Event" />
+            <handler name="Handle_Menu" event="On_Menu_Select"
+	     type="GWindows.Windows.Select_Event" />
+            <handler name="Check_Menu" event="On_Menu_Hover"
+	     type="GWindows.Windows.Hover_Event" />
+        </handlers>
+        <init>
+            <Text value="&quot;GNAVI - Open Source Visual RAD&quot;" />
+            <Visible value="True" />
+	    <Set_Standard_Font value="GWindows.Drawing_Objects.Default_GUI" />
+        </init>
+        <controls>
+	   <control name="Top_Tools"
+            type="GWindows.Common_Controls.Toolbar_Control_Type"
+	    Top="0"
+	    Left="0"
+	    Width="1"
+	    Height="1">
+		<init>
+		   <Dock value="GWindows.Base.At_Top" />
+	        </init>
+		<handlers>
+		    <handler name="Do_Toolbar_Select"
+		     event="On_Button_Select"
+		     type="GWindows.Windows.Select_Event" />
+		</handlers>
+	   </control>
+	   <control name="Bottom_Status"
+            type="GWindows.Common_Controls.Status_Bar_Type"
+	    Text="&quot;Ready&quot;">
+		<init>
+		   <Dock value="GWindows.Base.At_Bottom" />
+	        </init>
+	   </control>
+        </controls>
+    </window>
+</gnavi_window>

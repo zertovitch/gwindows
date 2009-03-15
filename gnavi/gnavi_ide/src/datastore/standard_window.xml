@@ -1,0 +1,8 @@
+<gnavi_window>    
+    <window name="@_Window_Name_@" type="@_Window_Type_@">
+        <init>
+            <Text value="&quot;@_Window_Name_@&quot;" />
+            <Visible value="True" />
+        </init>
+    </window>
+</gnavi_window>

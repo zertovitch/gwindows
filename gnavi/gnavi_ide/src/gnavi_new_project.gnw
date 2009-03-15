@@ -1,0 +1,64 @@
+<gnavi_window>
+    <window name="GNAVI_New_Project" type="GWindows.Windows.Window_Type">
+        <handlers>
+        <handler event="On_Create" name="Do_Create" type="GWindows.Base.Action_Event"></handler>
+            <handler event="On_Close" name="Do_Close" type="GWindows.Windows.Close_Event"></handler>
+        </handlers>
+        <init>
+        <Keyboard_Support value="True"></Keyboard_Support>
+        <Width value="300"></Width>
+        <Height value="425"></Height>
+            <Text value="&quot;New Project Wizard...&quot;"></Text>
+            <Visible value="False"></Visible>
+        <Set_Standard_Font value="GWindows.Drawing_Objects.Default_GUI"></Set_Standard_Font>
+        </init>
+    <controls>
+        <control Direction="GWindows.Packing_Boxes.Vertical" Height="1" Left="0" Top="0" Width="1" name="New_Project_Box" type="GWindows.Packing_Boxes.Packing_Box_Type">
+         <init>
+            <Border value="True"></Border>
+            <Padding value="5"></Padding>
+        <Fill_Width value="True"></Fill_Width>
+        <Dock value="GWindows.Base.Fill"></Dock>
+         <Inset_Left value="3"></Inset_Left><Inset_Top value="3"></Inset_Top><Inset_Right value="3"></Inset_Right><Inset_Bottom value="3"></Inset_Bottom></init>
+         <controls>
+            <control Alignment="GWindows.Static_Controls.Left" Height="20" Left="0" Text="&quot;Enter new project's name:&quot;" Top="0" Width="1" name="Project_Label" type="GWindows.Static_Controls.Label_Type">
+        </control>
+            <control Height="20" Left="0" Text="&quot;&quot;" Top="0" Width="1" name="Project_Name_Box" type="GWindows.Edit_Boxes.Edit_Box_Type">
+        </control>
+            <control Alignment="GWindows.Static_Controls.Left" Height="20" Left="0" Text="&quot;Enter new project's root directory:&quot;" Top="0" Width="1" name="Project_Dir_Label" type="GWindows.Static_Controls.Label_Type">
+        </control>
+            <control Height="20" Left="0" Text="&quot;&quot;" Top="0" Width="1" name="Project_Dir_Box" type="GWindows.Edit_Boxes.Edit_Box_Type">
+        </control>
+            <control Alignment="GWindows.Static_Controls.Left" Height="20" Left="0" Text="&quot;Choose new project's type:&quot;" Top="0" Width="1" name="Project_Type_Label" type="GWindows.Static_Controls.Label_Type">
+        </control>
+            <control Height="120" Left="0" Sort="False" Top="0" Width="1" name="Project_Type_List" type="GWindows.List_Boxes.List_Box_Type">
+         <handlers>
+           <handler event="On_Selection_Change" name="Do_Select" type="GWindows.Base.Action_Event"></handler>
+         </handlers>
+         </control>
+         <control Height="120" Left="0" Top="0" Width="1" name="Description_Box" text="&quot;&quot;" type="GWindows.Edit_Boxes.Multi_Line_Edit_Box_Type">
+          <init>
+             <Tab_Stop value="False"></Tab_Stop>
+             <Read_Only value="True"></Read_Only>
+          </init>
+         </control>
+         <control Direction="GWindows.Packing_Boxes.Horizontal_From_Center" Height="50" Left="0" Top="0" Width="1" name="Button_Pack_Box" type="GWindows.Packing_Boxes.Packing_Box_Type">
+          <init>
+           <Padding value="5"></Padding>
+           <Fill_Width value="True"></Fill_Width>
+          <Inset_Left value="3"></Inset_Left><Inset_Top value="3"></Inset_Top><Inset_Right value="3"></Inset_Right><Inset_Bottom value="3"></Inset_Bottom></init>
+          <controls>
+           <control Height="35" Left="0" Text="&quot;&amp;OK&quot;" Top="0" Width="60" name="OK_Button" type="GWindows.Buttons.Default_Button_Type">
+             <handlers>
+               <handler event="On_Click" name="Do_OK" type="GWindows.Base.Action_Event"></handler>
+             </handlers>
+            </control>
+           <control Height="35" Left="0" Text="&quot;&amp;Cancel&quot;" Top="0" Width="60" name="Cancel_Button" type="GWindows.Buttons.Cancel_Button_Type">
+            </control>
+          </controls>  
+         </control>
+          </controls>
+         </control>
+        </controls>
+    </window>
+</gnavi_window>

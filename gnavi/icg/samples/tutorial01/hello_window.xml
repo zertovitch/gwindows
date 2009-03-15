@@ -1,0 +1,21 @@
+<gnavi_window>    
+    <window name="Hello_Window" type="GWindows.Windows.Main.Main_Window_Type">
+        <init>
+            <Text value="&quot;My Hello World Application&quot;" />
+            <Visible value="True" />
+	    <Width value="400" />
+	    <Height value="300" />
+        </init>
+        <controls>
+            <control name="Hello_Label"
+	     type="GWindows.Static_Controls.Label_Type"
+                Text="&quot;Hello World&quot;"
+                Left="140"
+                Top="115"
+                Width="100"
+                Height="25"
+		Alignment="GWindows.Static_Controls.Center">
+            </control>
+        </controls>
+    </window>
+</gnavi_window>

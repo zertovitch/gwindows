@@ -1,0 +1,17 @@
+<gnavi_project>
+    <application name="GNAVI_IDE">
+<windows>
+<window file="gnavi_main.gnw"></window>
+<window file="gnavi_new_window.gnw"></window>
+<window file="gnavi_new_project.gnw"></window>
+<window file="gnavi_project_window.gnw"></window>
+<window file="gnavi_edit_window.gnw"></window>
+<window file="gnavi_controls_window.gnw"></window>
+<window file="gnavi_help_window.gnw"></window>
+<window file="gnavi_file_edit_window.gnw"></window></windows>
+<project_files>
+<project_file file="gnavi_ide.adb" type="main"></project_file>
+<project_file file="gnavi_ide.rc" type="rc"></project_file>
+</project_files>
+    </application>
+</gnavi_project>

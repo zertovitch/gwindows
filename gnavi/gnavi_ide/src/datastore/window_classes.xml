@@ -1,0 +1,18 @@
+<gnavi_window_classes>
+   <window_class display_name="Window"
+    description="Standard window"
+    template="standard_window.xml"
+    type="GWindows.Windows.Window_Type" />
+   <window_class display_name="Main Window"
+    description="Standard window that terminates application on closing"
+    template="standard_window.xml"
+    type="GWindows.Windows.Main.Main_Window_Type" />
+   <window_class display_name="MDI Child Window"
+    description="MDI Child window"
+    template="standard_window.xml"
+    type="GWindows.Windows.MDI.MDI_Child_Window_Type" />
+   <window_class display_name="Main MDI Window"
+    description="Main MDI Window"
+    template="standard_window.xml"
+    type="GWindows.Windows.MDI.MDI_Main_Window_Type" />
+</gnavi_window_classes>

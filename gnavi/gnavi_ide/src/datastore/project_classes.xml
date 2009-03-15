@@ -1,0 +1,5 @@
+<gnavi_project_classes>
+   <project_class display_name="Standard Project"
+    description="Standard project"
+    template="standard_project.xml" />
+</gnavi_project_classes>

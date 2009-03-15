@@ -1,0 +1,8 @@
+<gnavi_window>
+    <window name="GNAVI_File_Edit_Window" type="GWindows.Windows.MDI.MDI_Child_Window_Type">
+        <init>
+            <Text value="&quot;GNAVI_File_Edit_Window&quot;"></Text>
+            <Visible value="True"></Visible>
+        <Width value="500"></Width><Height value="400"></Height></init>
+    <controls><control Height="30" ID="0" Left="0" Top="0" Width="60" name="Edit_Box" type="GWindows.Scintilla.Scintilla_Type"><init><Dock value="GWindows.Base.Fill"></Dock></init><handlers></handlers></control></controls><handlers><handler event="On_Menu_Hover" name="Check_Menu" type="GWindows.Windows.Hover_Event"></handler><handler event="On_Menu_Select" name="Handle_Menu" type="GWindows.Windows.Select_Event"></handler><handler event="On_Create" name="Do_Create" type="GWindows.Base.Action_Event"></handler></handlers></window>
+</gnavi_window>
