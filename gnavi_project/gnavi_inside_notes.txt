@@ -1,0 +1,140 @@
+GNAVI - The GNU Ada Visual Interface 
+	The Total Open Source Answer to Delphi and the Visual Basic
+
+
+The GNAVI project contains:
+
+GNAT - the GNU Ada compiler
+
+GWindows  - Native GUI framework for Win32 (OS X and Gtk in the
+            works, possible other targets A# Windows.Forms for .NET)
+	    Bindings to databases via Active Data Objects (ADO which
+	    gives access to ADO, OLEDB, JetDirect and ODBC) and MySQL
+
+GNATCOM   - Active X controls on Win32, Plug-Ins on OS X (OS X plug-ins
+            actually use MS's COM specs)
+
+GNAVI IDE - The RAD IDE Environment for GNAVI
+
+
+The word "GNAVI" is intentionally overloaded (as is Delphi) to mean:
+
+The programming Environment as a whole and all its parts including the
+frameworks The GUI Builder / IDE Even the "programming language".
+
+No body talks about programming in Object Pascal in the Delphi
+IDE. They program in Delphi. This is an important factor for the
+success of such a project. To the wise it means "Ada" inside to others
+it means cool up and coming open source VB / Delphi, runs on Windows,
+OS X and Unix and is something that I can get a job with, ie. "it's
+just like Delphi and VB but cooler, open source and has ultra cool
+built in features like tasking, distributed computing and is built for
+'serious' projects not just IT department toys". The "Programming in
+GNAVI" marketing campaign is being put together now. It will target
+Delphi and VB users to switch to Open Source. When the GTK port is
+done it will include general push on the Linux community as a whole to
+rally behind THE Open Source Delphi/Kylix/VB replacement.
+
+The GNAVI RAD IDE environment is a combination of three "ideas":
+
+1. The "GUI Builder"
+2. The Editor / IDE.
+3. The "Interactive Code Generator" (ICG)
+
+A working ICG is available and snap shots of the GUI Builder and IDE
+are being made regularly available. GPS / Emacs can be used until the
+IDE is complete for text editting.
+
+The GUI Builder development has already started with work on a series
+of "Wizards" to generate windows with controls bound to datbases,
+dialogs, etc.  The interactive layout of controls will be coming soon
+as well there is already an early prototype designed a year ago that
+can do some basic lay outs. The specs for "GNAVI Plug Ins" is being
+developed now also.
+
+The thee parts ideally should be tightly integrated, but for now it
+will be possible to use external tools such as GPS or Emacs or other
+editors with a little bit of discipline on the users part. In the
+future an editor will be integrated and tighter support with GPS is
+planned.
+
+The magic of GNAVI is in the relationship between the three parts the
+GUI Builder, the ICG and the Editor / the User. Everything is always live
+with the ability to make changes on the GUI Builder and have those changes
+reflected instantly in the editor and changes made in the code realized in
+the app and where appropriate the GUI Builder.
+
+The design as a whole is geared for ease of use, programming and
+learning. The applications created with GNAVI are easily extended and
+changed offer true native look and feel, and have available a good
+selection of database, XML and Web controls already.
+
+Internal relationships:
+
+The GUI Builder emits XML that is parsed by the ICG when asked by the
+GUI Builder (this message includes "renames" of windows, controls and
+handlers). See XML sample: http://www.gnavi.org/gnavi/gnavi_xml.txt
+
+The XML format from the GUI builder is a simple lay out of controls,
+properties and names of handlers.
+
+The GUI Builder will use a "database" of XML that describes available
+windows and controls, their properties and the their handler
+types.
+
+The ICG as it is implemented now uses a set of code templates and is
+designed in a way that allows it to handle even user derivied windows
+and controls.
+
+
+
+Interactive Code Generation:
+
+(See actual generated code at http://www.gnavi.org/gwindows/gnavi-code.zip)
+
+1. When a user choose to create a new application in the GUI builder, it
+will generate the following:
+
+A. The application main procedure that "with"s each window in the
+   project and starts the Mesage_Loop (in the example this is
+   my_application.adb)
+
+B. The window spec and package. The new window type is extended from
+   whatever window type is in the XML (in the example this is
+   my_window_package.ad?)
+
+C. A separate procedure (in our example
+   my_window_package-on_create.adb) for doing the GUI layout that is
+   regenerated every time.
+
+D. A project file that references the other windows.
+
+2. The lay out of the controls and assigning of handlers to the window
+   and its controls is all in a separate (unit) procedure On_Create
+   that is part of the OO extension of the Window_Type that is
+   regenerated on the fly and not touched by the user (in the example
+   this is my_window_package-On_Create.adb).
+
+3. The extended Window_Type (or what ever Type they choose to extend
+   from in the GUI builder) contains the control instance variables
+   and additional data that can be entered in the code under the --
+   GNAVI: comment by hand or perhaps also from the GUI.
+
+4. If a handler is assigned in the GUI builder to a control or window
+   and it does not exist in the code yet it is generated. If it
+   already exists, it is left alone.
+
+5. If a control is renamed, the window, the handler renamed in GUI
+   builder (and in the future the code as well) renamed in code (or
+   XML, ie. for the GUI builder in the future).
+
+
+Notes about the generated code:
+
+As you can see, GWindows and as such GNAVI was designed to allow for
+coding in a fashion that is "simple" both in look and in use, but can
+be extend easily in the midst of a GNAVI / Delphi like environment. It
+minimizes as much as possible the aspect of Ada, but not completely as
+to loose the advantages of or prevent the future use of it, being an
+"engineering" tool. It opens up Ads as the bridge between coding and
+developing.

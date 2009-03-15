@@ -1,0 +1,15 @@
+		  GNAVI Project Copyright Disclaimer
+
+  I, __________________, hereby disclaims all copyright interest and
+  ownership in the changes and enhancements made by my to the software
+  programming frameworks GWindows and GNATCOM (Frameworks) and the
+  GNAVI IDE (Program).
+
+  I, ____________________, affirm that I have no other intellectual
+  property interest that would undermine release, or the use of, the
+  Frameworks and Program, and will do nothing to undermine it in the
+  future.
+
+
+  _____________________, __________
+  Name                   Date

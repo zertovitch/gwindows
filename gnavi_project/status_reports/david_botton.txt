@@ -1,0 +1,197 @@
+Monthly Reports - David Botton
+
+--------------------
+--  December 2004 --
+--------------------
+
+GNAV IDE
+
+December has been a very productive month. The GNAVI IDE now has
+(although in a fairly difficult to use sense) all the features of a
+basic Delphi / VB like environment placing of controls, setting
+properties, setting and modifying handlers and graphical layout of of
+control positions and sizes. Clearly the next stage will be to bring
+together the outline and layout views in to something that is easier
+to use, work out bugs and enhance the IDE as a whole, but we are very
+close to a the base of a 1.0 (for the 1.0 itself there still needs to
+be flesh out of the remaining controls and working in Database control
+support).
+
+I've already been using the IDE to develop some small applications now
+and its potential is HUGE!
+
+
+GWindows
+
+December has been seen GWindows get some real input from other
+developers. A number of packages came in by e-mail (once the (c)
+issues are worked out they will be worked in) and of course Stephen
+Leake's additions (testing, packing_boxes, etc. see he report). More
+bug fixes and a little re-org. by adding GControls
+
+
+GNATCOM
+
+Nothing to add
+
+
+Cross platform GWindows
+
+I've been doing some experiments with the use of Tk as a potential
+port and so far so good. It has the advantage of using native widgets
+on OS X, Windows and of course works well on Linux/Unix.
+
+
+The GNAVI Project
+
+I am adding a new directory where people at their option can record
+their monthly progress in one place in addition to posting here. In
+December we reached a decision about (c) assignment documents and
+continue work and further spec. of the coding standards.
+
+
+-------------------
+-- November 2004 --
+-------------------
+
+GNAVI IDE
+
+As can be seen, the majority of my time on the GNAVI project this
+month has focused on the new GNAVI IDE. I am very pleased with the
+direction and progress. I only wish I had more time and it looks like
+I will starting in January. I am looking forward to great things
+happening :-)
+
+So up to now, I've got a fully working RAD environment that uses an
+Outline view for doing the GUI building. This is not the ideal
+situation for reaching the Delphi/VB crowed, but it is an excellent
+way of working with Panels and Packing boxes a better way of creating
+GUI screens in many but not all situations. Of course there is still a
+huge amount more to go (but I always see the final product in my eye
+as being so close which is good advice to give to any one interested
+in hacking out products, enjoy the road and envision how cool the end
+is going to be, but never dwell on the length of the path), but the
+fact that there is something written in GNAVI itself that can be
+worked on with the product itself makes this all very exciting.
+
+I always like to dream so I am already thinking about how to integrate
+a system of associating use cases with development stages and CVS with
+Requirement Traceability Matrix generation and stuff like that on the
+long term. The idea would be to have sort of very fluid system that
+allowed for automatic documenting hacking just as much as keeping to
+specs. I look forward to some active brainstorming on this in the
+months ahead.
+
+GWindows
+
+There has already been some work on additions, fixes and
+improvements. As I continue to develop the IDE expect more to come. I
+am very tempted to do some reorganizing of certain parts of GWindows
+and will send out another e-mail to get a read on how people feel
+about this, but up to now I should not have broken anyones code.
+
+GNATCOM
+
+No changes yet, but not forgotten. Does any one know if the
+"interfaces" part of Ada 2005 have made there way in to the more
+recent GCC GNAT's yet? I'd be interested in seeing if the
+implementation is going to follow through using the traditional GCC
+C++ virtual table model or the MS style of vtables used by COM specs.
+
+GWindows OS X / GWindows GTK
+
+I have not spent too much time on any developments in this space over
+the last week, but I will get back to it. Although I did add the MySQL
+bindings that will make there way in time also on the Win32 version. I
+have though started a bit on the GTK version by at least getting the
+base files in order. I am strongly considering doing the GTK version
+as a an A# version using the GTK for .NET / Mono instead of going
+through GtkAda. This has may strong advantages.
+
+CVS
+
+CVS has been a pleasure so far. I must admit I should have been using
+this earlier.
+
+The GNAVI Project
+
+I've added some testimonials and am still working on a future push. I
+am going to wait until I've got the working layout view and at least
+the basic kinks out of the system before starting to leak out the Open
+Source Alternative to Delphi and VB to the world.
+
+
+------------------
+-- October 2004 --
+------------------
+
+GNAVI IDE
+
+I've had some time to collect my thoughts and most of them I've
+already posted and made available on the list, in cvs and on the web
+as well. I'd like to know if Jerry and others that started looking to
+the GUI builder side of things have come up with any direction they
+imagine for that end of the project.
+
+The ICG as I call it, the Interactive Code Generator (see
+http://www.gnavi.org/source/gnavi_project/gnavi_inside_notes.txt), is
+in my head now and I hope to start this week on putting it in to the
+computer (unless I hear from others their thoughts that sway things in
+another direction).
+
+
+GWindows Release
+
+I received an update to gwindows_extended from Frank Piron, so I am
+going to add that in to the contrib and then release.
+
+
+GWindows OSX / GTK
+
+This and the GTK port / re-implementations are not really in the scope
+of the GNAVI project per se at this point, but are ideas that I hope
+to slowly cultivate. As mentioned the goal is not for GWindows to stop
+being a Win32 "binding" but rather, just like MFC was put out for Mac
+Classic, it would be nice to have the same on OS X and GTK in the long
+run.
+
+A while back I had parts of GWindows running on Linux using Wine
+libs. That would also make for a cool project if some one out there is
+interested.
+
+
+GNATCOM
+
+Since ACT no longer carries GNATCOM as a product, I've released the
+head (ie. the developer release) as the current release of GNATCOM
+
+
+CVS
+
+I've more or less got most things in CVS as this point. I hope to
+stick in to gnavi_project tid bits that seem important to us as a
+whole.
+
+
+GNAVI Project
+
+Sent out a bunch of e-mails hoping that it inspires us towards
+creative individual but team oriented exploration and implementation
+
+
+Marketing
+
+While premature, I've been dreaming about how to SPAM the Delphi and
+VB people some day with "Now you are a VB guy, tomorrow you can be a
+GNAVI Engineer :-)"
+
+
+Project Tools
+
+There are a number of tools/web forms I've thought about for the
+project as a whole for org purposes. I hope to pursue them in the
+future. Those people interested in being involved in GNAVI don't just
+have to be coding parts of GNAVI, there is more to a project than the
+product!
+
+

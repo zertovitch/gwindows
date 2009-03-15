@@ -1,0 +1,121 @@
+Contribution Notes:
+
+In order to insure that your contributions are added quicker and to insure
+uniformity, please keep to the following guide lines. We will of course accept
+any thing you wish to contribute, but these guidlines make it easier for
+inclusion avoiding a need for us to spend time on making your code conform.
+
+All code contributed must contain a header spec. stating that the code is under
+the GMGPL. Please see the FAQ regarding copyright issues before submitting.
+
+Perhaps this may all sound a bit much, but code should work well and look good
+    and so be understandable and inspirational!
+
+Compiler Options -
+    Your package must compile with the -gnaty -gnatwae option which forces most of
+	the rules below
+
+Casing -
+    GWindows, GStrings, etc. Insure that your packages use the same casing as
+        GWindows does.
+    
+    Be consistent with in your code.
+    
+
+Comments -
+    All comments (accept (c) block should be two spaces after the --)
+
+    Every procedure / function in the package body should have a comment
+        block before it like this:
+
+        -------------------
+        -- My_Subprogram --
+        -------------------
+
+    When creating a handler extension, the On_X, Fire_On_X, and On_X_Handler 
+        may be under one comment block
+        
+        ----------
+        -- On_X --
+        ----------
+        
+    Comments should start capitalized 
+
+    Subprogram comments in specs go below the subprogram
+
+    Sections of code should be blocked with comments like this:
+    
+   -------------------------------------------------------------------------
+   --  Local Specs
+   -------------------------------------------------------------------------
+
+Style -
+    No lines over 79 chars (79 fits on terminals, in e-mails and in docs)
+    Space before ('s
+    No With's when not used in package
+    Avoid use of "use" when possible and reasonable
+    Unless function/procedure and parameters and return and is fits on one line
+        return and is should appear on line by itself.
+        
+        function a (abc : abc_type) return Boolean is
+
+        function a (abc : abc_type;
+                    bcd : bcd_type)
+                    return ABC;
+        is
+        
+        procedure a (abc : abc_type) is
+
+        procedure a (abc : abc_type;
+                     bcd : bcd_type)
+        is
+
+    Other then operation on type defined in current unit and those in
+	 GWindows.ads, all types should use full path,
+	 e.g. GWindows.Types.Point_Type
+
+Case -
+
+    "when" should be indented on each line beyond case.
+
+    case x is
+       when this_or_that =>
+          null;
+       when others =>
+          null;
+    end case;
+        
+Identifiers -
+    Should be in cap case and use underscores as spaces to make complete words:
+    
+        function My_Indetifier (Object : in My_Special_Type);
+        
+    This may be relaxes in body for OS bindings:
+        CreateWindow, etc.
+        
+    OS Constants if they need appear in the specs should be in the OS casing
+    style.
+    
+        WM_QUIT
+
+Coding -
+     Objects in GWindows have "Properties" and "Methods" properties set and
+        get values methods cause the object to perform some action. Setting
+        of a property may also cause an action	to occur
+
+    When creating a property be sure to create both set and get of property
+
+    When possible every property should set and get a single type,
+       ie. only one parameter for	getting the object and two for setting
+           the object and Value : XXXX.
+
+	When working with windowing functions use X,Y, Width, Height as parameters.
+
+	In drawing code and drawing related code, use Point_Type, Size_Type and
+		Rectangle and if there is a need add an overloaded method using X,Y etc.
+
+File/Package names - 
+
+    AUnit -
+        Package 'Foo.AUnit' contains AUnit testing utilities for types in package
+           'Foo'.

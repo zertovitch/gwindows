@@ -1,0 +1,56 @@
+This is a working document where plans for inclusion in future releases are
+documented. There may be far more in the eventual release (or far less :-)
+
+------------------
+-- GWindows 1.3 --
+------------------
+
+Current plans to include -
+	Integration of gwindows_extended in to main framework (Botton)
+	Inclusion of extended printer support (Gressett)
+	Update of userguide (McNeill)
+	AUnit Testing (Stephen Leake)
+
+Date: Not available yet
+
+---------------------
+-- GNAVI 1.0 Alpha --
+---------------------
+
+Current plans to include -
+	ICG - Interactive Code Generator (Botton)
+		XML Library of GWindows standard controls, etc.
+	Basic GUI Building (Botton)
+
+Date: Not available yet
+
+----------------------------
+-- GWindows OSX 1.0 Alpha --
+----------------------------
+
+Current plans to include -
+	Binding to basic set of controls (Botton)
+	Support for binding to InterfaceBuilder NIBs (Botton)
+	Basic support for drawing and printing (Botton)
+
+Date: Not available yet
+
+----------------------------
+-- GWindows GTK 1.0 Alpha --
+----------------------------
+
+Current plans to include -
+	Binding to basic set of controls (Botton)
+	Basic support for drawing and printing (Botton)
+
+Date: Not available yet
+
+-----------------
+-- GNATCOM 1.5 --
+-----------------
+
+Current plans to include -
+
+Date: Not available yet
+
+

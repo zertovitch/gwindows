@@ -1,0 +1,16 @@
+Please see the Contributing to GNAVI FAQs (http://www.gnavi.org/faq)
+for details on if and when you need to submit a copyright assignment
+document.
+
+Please note that if you are to be given access to CVS you must use
+the GNAVI Copyright Assignment.
+
+Procedure:
+
+1. Print out your choice of one of two forms at YOUR choice. The
+   Copyright Disclaimer or the GNAVI Copyright Assignment.
+
+2. Contact David@Botton.com for the Fax number or address to send the
+   signed document to.
+
+3. Sign and/or fax

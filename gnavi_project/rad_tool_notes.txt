@@ -1,0 +1,114 @@
+RAD Discussion
+==============
+
+
+-- Steve Doiel
+
+In my opinion a Rapid Application Development (RAD) tool presents an
+integrated development environment that enables developers to
+interactively lay out the visual elements of windowing applications
+and the code associated with those elements.
+
+The tool should permit modifying the graphical user interface and
+associated code over the life of the software.
+
+The tool should be able to invoke a compiler and run the application
+from within the development environment.
+
+In my experience RAD tools generate applications that are modeled
+around the concept of a "form".  The form serves as a container for
+"components".  Components have "properties" and "events".  Properites
+are configuration values for a component.  Events associate code that
+is invoked based on user interaction with the graphical user interface
+or other activity in the system.
+
+Examples of RAD tools include: Delphi, C++ Builder, J Builder and
+Visual Basic.
+
+With a good RAD tool a programmer should, with minimal effort, be able
+to interactively build an run a graphical application that displays
+visual elements.  That is creating a "hello world" program should
+be trivial and obvious.
+
+To date I have not seen a decent RAD tool for Ada.  GWindows is
+the best underlying framework I have seen for developing such a tool.
+
+
+Continuing with the discussion...
+
+I have looked at the implementation of varous RAD tools.
+
+Each tool (apparently) maintains an internal structure describing the
+relationship between visual components.
+
+The visual application consists of one or more "forms".
+
+Each form is populated with one or more "components".
+
+Components are either visual or non-visual.
+
+Components have associated "properties" and "events".
+
+Properties are instance values used to initialize components when they are
+created.  Events map windows messages to user defined procedures or
+functions.
+
+For the GUI builder, a natural way of representing this structure is as a
+forest of trees.  Each tree represents a form.  Each form contains a list of
+components, and each compoent contains a list of components, properties and
+events.
+
+Each node in each of the trees is likely implemented as an object.
+Components (and probably forms) derive from a common object.  Each of the
+components provide property editors for thir properties and events.
+
+In Borland's Delphi the window and component structure is saved in a file
+with a special extension (*.dfm).  Design time information is magically
+included in the executable when the system is built under the Delphi IDE.
+
+In Microsoft Visual C#, forms are set up by an initialization routine called
+"InitiaizeComponents".  The InitializeComponents method is generated
+automatically when a form is designed.
+
+With Microsoft DevStudio and MFC, Wizards are used to generate code and
+special markers are used, which are contained in comments, to help the tool
+know where to insert automatically generated code.
+
+I believe Glade sets up an XML template file and then generates code in one
+of several choices of languages based on the template.
+
+I tend to like the idea of generating code, mainly because it takes the
+mystery out of what the GUI builder is doing for you.
+
+
+--  Andrew Carroll
+
+I think a RAD tool would be most helpful especially since the GLADE2
+tool I used never really worked that well for me.  GLADE2 drove me to
+use Visual Basic 6.0.
+
+That brings up a point and another reason to participate.  If the RAD
+tool for GWindows isn't simple to use when we are done then in my
+opinion we just wasted a whole bunch of time.  If you have ever used
+Visual Basic you would most likely agree that it is extremely simple to
+use.  Well, with a few "hello worlds" and some curiosity you can figure
+the darn thing out pretty quickly.  I'd like a RAD tool for Ada that is
+as simple to use as Visual Basic.
+
+There are a couple of things in VB I don't like.  Namely the way the
+windows behave if you are going back and forth from the form or object
+browser windows to the code windows.  I'm not sure there is a better way
+to do it but I have some ideas.  I think there was a discussion here
+about this recently so let me know if it has already been worked out.
+
+I have two ideas.  The first idea is to have a small preview area where
+the form can be seen.  By small I mean maybe 200 pixels square.  When
+you change the code the preview changes.  When you click the preview the
+form opens.  The other idea I had is to have a semi-transparent form in
+front of the code; let's call it a ghost for now.  The ghost is
+transparent enough that you can see through it to see what you are
+typing yet opaque enough to recognize what has changed when you change
+the code.
+
+
+

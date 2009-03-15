@@ -1,0 +1,80 @@
+	     GNAVI Project Copyright Assignment Agreement
+
+You agree, understand, and state that:
+
+ 1. The term "Assigned Contributions" means the materials you identify
+    below, which, in the case of computer code, automatically include
+    the code in both binary and source forms, and any documentation
+    and other files that accompany the code.
+
+ 2. You have received good and valuable consideration, and you agree
+    to assign and do assign to David Botton, your ownership of
+    copyright in the Assigned Contributions, for the full duration
+    thereof, and for any renewals or extensions thereof.  To any
+    extent that this assignment is ineffective, you grant to David
+    Botton a nonexclusive, royalty-free, and perpetual right to use,
+    modify, and distribute the Assigned Contributions as he
+    wishes.
+
+ 3. You will execute any documents and perform any acts David Botton
+    requests to implement the letter and spirit of this agreement,
+    except that you are not required to do anything that would impose
+    an unreasonable time or cost burden on you.
+
+ 4. David Botton grants back to you a non-exclusive, royalty-free, and
+    perpetual right to use, modify, and distribute Assigned
+    Contributions made by you as you wish.
+
+ 5. David Botton will make the Assigned Contributions available under
+    an agreement approved by the OSI (Open Source Initiative), and may
+    also make the Assigned Contributions available under other license
+    terms.
+
+ 6. You will not assert any patent that is necessarily infringed by
+    exercising copyright rights in the Assigned Contributions against
+    anyone who receives the Assigned Contributions under an agreement
+    approved by the OSI.
+
+ 7. As far as you know, you have the legal right to make this
+    copyright assignment.
+
+ 8. If your employer(s) or others ("Third Parties") generally have
+    rights to some intellectual property that you create, you have
+    permission to make this copyright assignment on behalf of such
+    Third Parties, the Third Parties have waived such rights, or the
+    Third Parties have no such rights with respect to the Assigned
+    Contributions.
+
+ 9. Except for the statements you have made in this agreement, you
+    provide the Assigned Contributions on an "AS-IS" basis, with all
+    faults, defects, and errors, and without express or implied
+    warranties of any kind, including any implied warranties of
+    merchantability, fitness for a particular purpose, and
+    non-infringement.
+
+10. In addition to the assigned contributions listed below. You agree
+    that if granted access to the project source core repository as
+    designated by the project web site at http://www.gnavi.org that
+    the act of commiting code to the gwindows, gnatcom and gnavi
+    modules under the gnavi cvs root (currently at cvs.sourceforge.net
+    : /cvsroot/gnavi) is an acceptance to extend this agreement to
+    assign copyright to the comitted code.
+
+
+Description of Assigned Contributions to the GNAVI Project:
+
+	    
+
+
+
+Signature of contributor: ___________________________________
+
+Name:
+
+Address:
+
+Phone:
+
+Fax:
+
+E-mail:

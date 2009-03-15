@@ -1,0 +1,64 @@
+------------------------------------
+-- Getting Notices of CVS Updates --
+------------------------------------
+
+To receive notice of changes to CVS sign up for the gnavi-cvs list.
+http://lists.sourceforge.net/lists/listinfo/gnavi-cvs
+
+--------------------------------------
+-- How to checkout with TortoiseCVS --
+--------------------------------------
+--  Jerry van Dijk
+
+1. Get and install TortoiseCVS (http://www.tortoisecvs.org/)
+
+2. Open Window Explorer and select a main project directory
+
+3. Currently there are 6 modules (= subdirectories) in CVS:
+
+   a. gnavi_project   -  Project information, procedures, etc.
+   b. gnatcom
+   c. gwindows
+   d. gwindows_osx
+   e. gnavi           -  GNAVI IDE, ICG and other Tools
+   f. third_party     -  Versions of libraries used by GNAVI
+
+   (David Botton: You can now click on Fetch List... next to the
+   module text box and TortoiseCVS will load in the module list
+   directly from CVS)
+   
+   To find out which subdirs there are goto the sourceforge homepage
+   (http://sourceforge.net/projects/gnavi/) and click on CVS in the project
+   menubar. On the CVS page click right on 'Browse CVS Repository'. Under
+   CVSROOT it wil list the currently available modules or subdirectories.
+
+4. To checkout a module do the following:
+
+   a. With the work directory selected in Window Explorer, click right in
+      the right exlorere pane. The popup that appears has 'CVS Checkout'
+      as the top option. Left click it.
+
+   b. In the checkout module that now appears fill in the following fields:
+
+      Protocol:           Password server [:pserver:]
+      Server:             cvs.sourceforge.net
+      Repository folder:  /cvsroot/gnavi
+      User name:          anonymous
+
+      Note that these datafields are combined in the CVSROOT field
+
+   c. Now fill in the module name, for example' gnatcom' and press ok.
+
+   d. TortoiseCVS will now connect to sourceforge and retrieve the module.
+      You can ignore the message that the password is empty, this is ok
+      for an anonymous checkout.
+
+5. Repeat step 4 for all modules you want to checkout.
+
+6. CVS remembers all information about the checkout, the above data do not
+   have to be given again.
+
+7. For more info see the TortoiseCVS manual.
+
+(David Botton: If you would like to submit fixes and changes, I prefer to
+receive your entire modified file instead of a diff. Thanks!)

@@ -1,0 +1,52 @@
+Contents:
+
+	Monthly Reports
+	Release Procedures
+	Copyright Assignment Procedure
+
+
+---------------------
+-- Monthly Reports --
+---------------------
+
+In order to help coordinate, inspire and move forward every one should
+towards the end of each month post a message to the gnavi-discuss list
+with a small summary of current work on the GNAVI project. This
+includes when possible even students and end users that are working
+on code that uses GNAVI. Excitement breads excitement!
+
+------------------------
+-- Release Procedures --
+------------------------
+
+0) pick a release coordinator
+
+1) announce to developers that there will be a release
+    1a) set a freeze date, a couple weeks ahead
+    1b) request that developers check in all code that is ready for
+        release
+    1c) request that developers _not_ check in any other code
+
+2) On the freeze date, create a branch for the release
+    2a) after the branch is created, developers can check in anything
+        on the main branch (subject to the normal approval process)
+
+3) Run all automated tests on the code in the release branch.
+
+4) package up the release branch in the normal releases, with the
+   added notation "pre-release"
+
+5) have all interested developers and alpha users test the release for
+   problems.
+
+6) fix any problems on the release branch, package up again, announce
+   official release.
+
+7) merge fixes on release branch back into main branch.
+
+
+------------------------------------
+-- Copyright Assignment Procedure --
+------------------------------------
+
+See copyright_assignment_procedure.txt
