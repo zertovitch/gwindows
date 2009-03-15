@@ -1,0 +1,60 @@
+import "unknwn.idl";
+import "oaidl.idl";
+
+[
+        object,
+        dual,
+        uuid(45F9F482-787C-11d3-821C-52544C1913DE),
+        helpstring("Message dual interface"),
+        oleautomation
+]
+interface IGNATMessage : IDispatch
+{
+        [
+         id(1),
+         helpstring("Audio Alert")
+        ]
+        HRESULT Beep();
+        [
+         id(2),
+         helpstring("Display Message Box")
+        ]
+        HRESULT MessageBox([in] BSTR Message);
+}
+
+[
+        object,
+        uuid(45F9F483-787C-11d3-821C-52544C1913DE),
+        helpstring("Statistics on object interface"),
+        oleautomation
+]
+interface IGNATStat : IUnknown
+{
+        [
+                helpstring("Return number of times methods of the IGNATMessage inertface were called")
+        ]
+        HRESULT Calls([out, retval] int *NumberOfTimes);
+}
+
+[
+        uuid(45F9F480-787C-11d3-821C-52544C1913DE),
+        helpstring("GNAT Example Type Library"),
+        version(1.0)
+]
+library GNATCOMLibrary
+{
+        importlib("stdole32.tlb");
+
+        interface IGNATMessage;
+        interface IGNATStat;
+
+        [
+                uuid (45F9F481-787C-11d3-821C-52544C1913DE),
+                helpstring("GNAT Example Class")
+        ]
+        coclass GNATCOMClass
+        {
+                [default] interface IGNATMessage;
+                interface IGNATStat;
+        }
+};

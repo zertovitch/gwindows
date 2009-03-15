@@ -1,0 +1,9 @@
+cd COMObject
+make %1
+cd ..
+cd client
+make %1
+cd ..
+cd tutorial
+make %1
+cd ..

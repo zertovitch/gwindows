@@ -1,0 +1,65 @@
+-- Start BSTR_Test
+
+Test   : Create a zero length BSTR From String
+++ PASS
+
+Test   : Free a zero length BSTR
+++ PASS
+
+Test   : Create a zero length BSTR From Wide_String
+++ PASS
+
+Test   : Is_Empty of a zero length BSTR
+Expect : Is_Empty = True
+++ PASS
+
+Test   : Is_Empty of Blank BSTR
+Expect : Is_Empty = True
+++ PASS
+
+Test   : Create a BSTR From a String
+++ PASS
+
+Test   : Test Length function
+++ PASS
+
+Test   : Create an Ada String from a BSTR
+++ PASS
+
+Test   : Create a BSTR From a Wide_String
+++ PASS
+
+Test   : Create an Ada Wide_String from a BSTR
+++ PASS
+
+++ PASS
+
+Test   : Create a BSTR From a char_array
+++ PASS
+
+Test   : Create a char_array from a BSTR
+++ PASS
+
+Test   : Create a BSTR From a wchar_array
+++ PASS
+
+Test   : Create a wchar_array from a BSTR
+++ PASS
+
+Test   : Create an Ada String from a Zero Length BSTR
+++ PASS
+
+Test   : Create an Ada Wide String from a Zero Length BSTR
+++ PASS
+
+Test   : Create an Ada String from a null BSTR
+++ PASS
+
+Test   : Create an Ada Wide String from a Zero Length BSTR
+++ PASS
+
+Test   : Free a null BSTR
+++ PASS
+
+-- Completed BSTR_Test
+

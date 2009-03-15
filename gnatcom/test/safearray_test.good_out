@@ -1,0 +1,41 @@
+-- Start SafeArray_Test
+
+Test   : Create single dimensioned SAFEARRAY of BSTRs
+++ PASS
+
+Test   : Put BSTRs in Array
+++ PASS
+
+Test   : Put Array in VARIANT
+++ PASS
+
+Test   : Get Array out of VARIANT
+++ PASS
+
+Test   : Get BSTRs in Array
+++ PASS
+
+Test   : Free Array
+++ PASS
+
+Test   : SAFEARRAY of VARIANTs
+++ PASS
+
+Test   : SAFEARRAY of Ints
+++ PASS
+
+Test   : Multi Dimensional SAFEARRAY of Ints
+++ PASS
+
+Test   : Get Dimensions
+++ PASS
+
+Test   : Get Upper Bound
+++ PASS
+
+Test   : Custom Create
+++ PASS
+
+
+-- Completed SafeArray_Test
+

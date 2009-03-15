@@ -1,0 +1,29 @@
+with "gnavi_common";
+project gnatcom is
+  for Source_Dirs use
+    ("../../framework",
+     "../../docs",
+     "../../samples",
+     "../../tools"
+    );
+
+  package Compiler is
+     for Default_Switches ("Ada") use
+       Gnavi_common.Compiler.Debug_Switches &
+       Gnavi_common.Compiler.Style_Checks &
+       Gnavi_common.Compiler'Default_Switches ("Ada");
+
+     --  WORKAROUND: GNAT 3.15p and GNAT 5.02a1 have different
+     --  semantics for 'pragma Unreferenced'. So we don't use 'pragma
+     --  Unreferenced', and suppress the warning in 5.02a1.
+
+     for Switches ("gnatcom-variant.adb") use Compiler'Default_Switches ("Ada") & ("-gnatwM");
+     for Switches ("gnatcom-interface.adb") use Compiler'Default_Switches ("Ada") & ("-gnatwM");
+
+  end Compiler;
+
+  package Binder is
+     for Default_Switches ("Ada") use Gnavi_common.Binder'Default_Switches ("Ada");
+  end Binder;
+
+end gnatcom;

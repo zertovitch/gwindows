@@ -1,0 +1,11 @@
+del *.ali
+del *.o
+del *~
+del *.exe
+del b~*.*
+cd cpp\ada
+call clean.bat
+cd ..\..
+cd ada
+call clean.bat
+cd ..

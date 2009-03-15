@@ -1,0 +1,92 @@
+-- Standard settings for all of GNAVI.
+project gnavi_common is
+  for Source_Dirs use ();
+
+  type GNAT_Version_Type is ("5.04w", "gpl-2005", "5.03a", "3.15p");
+
+  GNAT_Version : GNAT_Version_Type := External ("GNAT_VERSION");
+
+  type OS_Version_Type is ("Windows_XP", "Windows_2000", "Windows_98");
+
+  OS_Version : OS_Version_Type := External ("OS_VERSION");
+
+  package Compiler is
+     Style_Checks := "-gnaty";
+
+     --  For GNAT 3.15, don't warn about elaboration order (gnatwL,
+     --  off by default in 3.16).
+     --
+     --  -gnatVa causes some inline procedures to be non-inlineable;
+     --  suppress that warning with -gnatwP.
+     Base_Debug_Switches :=
+       --  Switches we always use
+       ("-g",
+        "-O0",
+        "-gnatf",
+        "-gnato",
+        "-gnatwa",
+        "-gnatVa",
+        "-gnatwL", -- elaborate warnings included in -gnatwa in 3.15p
+        "-gnatwP", -- can't inline some things with -gnata
+        "-fstack-check");
+     Debug_Switches      := Base_Debug_Switches &
+       --  Switches we need to suppress sometimes
+       ("-gnata",
+        "-gnatwe");
+
+     Release_Switches := ("-g", "-O3", "-gnatn", "-gnatf", "-gnatwa", "-gnatwL");
+
+     case GNAT_Version is
+        --  We are calling Windows DLLs from Ada, with Ada callbacks.
+        --  So we must use the 'set jump/long jump' exception
+        --  propagation method, not the zero cost method.
+        when "5.04w" =>
+           for Default_Switches ("Ada") use ("--RTS=sjlj");
+
+        when "gpl-2005" =>
+           --  Uses Ada 2005 mode by default; we want Ada 95. It still
+           --  warns about things that are declared obsolescent in Ada
+           --  2005, so suppress that (-gnatwJ).
+           --
+           --  "--RTS=sjlj" causes link errors, and serves as a
+           --  reminder that GPL-2005 doesn't really work with Windows
+           --  DLLs, because it uses zero cost exceptions.
+           for Default_Switches ("Ada") use ("-gnat95", "-gnatwJ", "--RTS=sjlj");
+
+        when "5.03a"  =>
+           --  This causes link errors, and serves as a reminder that
+           --  5.03a doesn't really work with Windows DLLs, because it
+           --  uses zero cost exceptions.
+           for Default_Switches ("Ada") use ("-gnatL");
+
+        when "3.15p" =>
+           --  Uses set jump/long jump exceptions by default.
+
+     end case;
+
+  end Compiler;
+
+  --  In project files, normally use this:
+  --  package Compiler is
+  --  for Default_Switches ("Ada") use
+  --     GNAVI_Common.Compiler.Base_Release_Switches &
+  --     GNAVI_Common.Compiler.Style_Checks &
+  --     GNAVI_Common.Compiler'Default_Switches ("Ada");
+  --  end Compiler;
+
+  package Binder is
+     case OS_Version is
+     when "Windows_98" =>
+
+     when "Windows_2000" | "Windows_XP" =>
+        for Default_Switches ("Ada") use ("-E");
+     end case;
+
+  end Binder;
+
+  --  In project files, normally use this:
+  --  package Binder is
+  --     for Default_Switches ("Ada") use GNAVI_Common.Binder'Default_Switches ("Ada");
+  --  end Binder;
+
+end gnavi_common;

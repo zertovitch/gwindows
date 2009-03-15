@@ -1,0 +1,11 @@
+project Gnatcom is
+
+   package Ide is
+      for Vcs_Kind use "Subversion";
+   end Ide;
+
+   for Source_Dirs use ("framework");
+   for Object_Dir use "framework";
+
+end Gnatcom;
+

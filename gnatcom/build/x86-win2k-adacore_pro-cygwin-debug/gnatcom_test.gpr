@@ -1,0 +1,4 @@
+with "Gnatcom";
+project Gnatcom_Test is
+  for Source_Dirs use ("../../test");
+end Gnatcom_Test;

@@ -1,0 +1,65 @@
+import "unknwn.idl";
+import "oaidl.idl";
+
+[
+	object,
+	uuid(0FE0EE22-8AA2-11d2-81AA-444553540001),
+	helpstring("Beep Interface"),
+	oleautomation,
+	dual
+]
+interface IBeep : IDispatch
+{
+	[
+		id(1),
+		helpstring("Make a beep")
+	]
+	HRESULT Beep();
+	[
+		id(2),
+		helpstring("Display text")
+	]
+	HRESULT Display([in] BSTR text);
+	[
+	    id(3),
+		helpstring("Get text")
+	]
+	HRESULT GetText([out, retval] BSTR *text);
+	[
+	    id(4),
+		helpstring("Set and Get Text")
+	]
+	HRESULT SetGetText([in] BSTR inText, [out, retval] BSTR *outText);
+	[
+	    id(5),
+		helpstring("In and Double Out")
+	]
+	HRESULT InDoubleOut([in] BSTR inText, [out] BSTR *out1Text, [out, retval] BSTR *out2Text);
+	[
+	    id(6),
+		helpstring("In and Double Out VARIANT")
+	]
+	HRESULT InDoubleOutVar([in] VARIANT inVar, [out] VARIANT *out1Var, [out, retval] VARIANT *out2Var);
+}
+
+[
+	uuid(0FE0EE20-8AA2-11d2-81AA-444553540001),
+	helpstring("Beep Type Library"),
+	version(1.0)
+]
+library BeepLibrary
+{
+	importlib("stdole32.tlb");
+
+	interface IBeep;
+
+	[
+		uuid (0FE0EE21-8AA2-11d2-81AA-444553540001),
+		helpstring("Beep Class")
+	]
+	coclass BeepClass
+	{
+		[default] interface IBeep;
+		dispinterface IBeep;
+	}
+};

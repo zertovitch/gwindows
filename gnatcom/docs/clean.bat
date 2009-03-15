@@ -1,0 +1,15 @@
+del *.info
+del *.rtf
+del *~
+del *.hpj
+del *.hlp
+del *.html
+cd client
+make clean
+cd ..
+cd COMObject
+make clean
+cd ..
+cd tutorial
+make clean
+cd ..

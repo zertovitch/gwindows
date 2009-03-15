@@ -1,0 +1,26 @@
+-- Start Initialize Test
+
+Test   : Start COM environment Single Threaded
+++ PASS
+
+Test   : Attempt to do Multi-Threaded init after
+         Single-Threaded Initialized
+Expect : Raise of CHANGED_MODE_ERROR
+++ PASS
+
+Test   : Close COM environment Single Threaded
+++ PASS
+
+Test   : Start COM environment Multi Threaded
+++ PASS
+
+Test   : Attempt to do Single-Threaded init after
+         Multi-Threaded Initialized
+Expect : Raise of CHANGED_MODE_ERRORx
+++ PASS
+
+Test   : Close COM environment Multi Threaded
+++ PASS
+
+-- Completed Initialize Test
+

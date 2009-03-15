@@ -1,0 +1,80 @@
+-- Start VARIANT_Test
+
+Test    : Initialize VARIANT
+Expect  : Test_Var.vt = VT_EMPTY
+++ PASS
+
+Test    : Create variant from Integer
+++ PASS
+
+Test    : Create string from VARIANT containing an Integer
+++ PASS
+
+Test    : Create Float from VARIANT created by an Integer
+++ PASS
+
+Test    : Create variant from Float
+++ PASS
+
+Test    : Create string from VARIANT containing a Float
+++ PASS
+
+Test    : Create Integer from VARIANT created by a Float
+Expect  : Rounding of float to integer
+++ PASS
+
+Test    : Create copy of VARIANT
+++ PASS
+
+Test    : Create variant from Boolean
+++ PASS
+
+Test    : Test  VARIANT as Boolean created from Boolean
+++ PASS
+
+Test    : Create string from VARIANT containing a Boolean
+++ PASS
+
+Test    : Create variant from String
+++ PASS
+
+Test    : Test VARIANT created from String as Boolean
+++ PASS
+
+Test    : Clear Variant
+Expect  : Test_Var.vt = VT_EMPTY
+++ PASS
+
+Test    : Create VARIANT from Ada.Calendar.Time
+++ PASS
+
+Test    : Create Ada.Calendar.Time from VARIANT
+Expect  : Value of Current_Time used to create VARIANT
+++ PASS
+
+Test    : Create VARIANT from Ada.Calendar.Time
+++ PASS
+
+Test    : Create variant from empty String
+++ PASS
+
+Test    : Test empty string from VARIANT with empty string
+++ PASS
+
+Test    : Test empty C string from VARIANT with empty string
+++ PASS
+
+Test    : Create variant wtih null BSTR
+++ PASS
+
+Test    : Test empty string from VARIANT with null BSTR
+++ PASS
+
+Test    : Test empty C string from VARIANT with null BSTR
+++ PASS
+
+Test    : Test empty string from VARIANT_NULL
+++ PASS
+
+-- Completed VARIANT_Test
+

@@ -1,0 +1,14 @@
+-- Start GUID_Test
+
+Test   : Create a GUID
+++ PASS
+
+Test   : Convert GUID to String
+++ PASS
+
+Test   : GUID -> String -> GUID again
+Expect : Conversion of Test String to GUID = Orig. GUID
+++ PASS
+
+-- Completed GUID_Test
+

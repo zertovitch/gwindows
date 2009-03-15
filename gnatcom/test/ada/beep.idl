@@ -1,0 +1,40 @@
+import "unknwn.idl";
+import "oaidl.idl";
+
+[
+	object,
+	dual,
+	uuid(0FE0EE22-8AA2-11d2-81AA-444553540001),
+	helpstring("Beep Interface"),
+	oleautomation
+]
+interface IBeep : IDispatch
+{
+	[
+	 id(1),
+	 helpstring("Make a beep")
+	]
+	HRESULT Beep();
+}
+
+[
+	uuid(0FE0EE20-8AA2-11d2-81AA-444553540001),
+	helpstring("Beep Type Library"),
+	version(1.0)
+]
+library BeepLibrary
+{
+	importlib("stdole32.tlb");
+
+	interface IBeep;
+
+	[
+		uuid (0FE0EE21-8AA2-11d2-81AA-444553540001),
+		helpstring("Beep Class")
+	]
+	coclass BeepClass
+	{
+		[default] interface IBeep;
+	}
+};
+

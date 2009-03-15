@@ -1,0 +1,37 @@
+import "unknwn.idl";
+import "oaidl.idl";
+
+[
+	object,
+	uuid(3B5A3CE2-E893-11D3-938D-0080C88637DE),
+	helpstring("IVBtoAda Interface"),
+	oleautomation
+]
+interface IVBtoAda : IUnknown
+{
+	[
+	 helpstring("Display Message")
+	]
+	HRESULT Display([in] BSTR Message);
+}
+
+[
+	uuid(3B5A3CE0-E893-11D3-938D-0080C88637DE),
+	helpstring("VBtoAda Library"),
+	version(1.0)
+]
+library VBtoAdaLibrary
+{
+	importlib("stdole32.tlb");
+
+	interface IVBtoAda;
+
+	[
+		uuid (3B5A3CE1-E893-11D3-938D-0080C88637DE),
+		helpstring("VBtoAda Class")
+	]
+	coclass VBtoAdaClass
+	{
+		[default] interface IVBtoAda;
+	}
+};

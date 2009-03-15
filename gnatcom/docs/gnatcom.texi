@@ -1,0 +1,862 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename gnatcom.info
+@settitle GNATCOM Overview
+@setchapternewpage odd
+@syncodeindex fn cp
+@c %**end of header
+
+@titlepage
+@title GNATCOM Overview
+@subtitle Ada 95 COM/DCOM/COM+ Development Framework and Tools
+@subtitle October, 2004
+@author David Botton
+
+@page
+@vskip 0pt plus 1filll
+@copyright{} Copyright 1999-2004 David Botton
+@sp 2
+This document is distributed under the terms of the GNU General Public
+License. You can redistribute it and/or modify it under terms of the GNU
+General Public License as published by the Free Software Foundation;
+either version 2, or (at your option) any later version. It is
+distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+for more details.
+@sp 2
+.
+@end titlepage
+
+@ifinfo
+@node Top, Introduction, (dir), (dir)
+@top
+@end ifinfo
+
+@menu
+* Introduction::                Introduction to GNATCOM
+* Framework::                   GNATCOM Framework Overview
+* Tools::                       GNATCOM Tools Overview
+* Samples::                     Sample GNATCOM applications
+* Tutorial::                    GNATCOM Tutorial
+* Support::                     Support for GNATCOM
+@c * Index::                       Index of Overview
+@end menu
+
+@node Introduction, Framework, Top, Top
+@chapter Introduction to GNATCOM
+@cindex Introduction
+
+@noindent
+GNATCOM comprises a framework covering binding and creation of all COM
+(Component Object Model) technology based objects and four powerful
+tools, MakeGUID, COMScope, BindCOM, and CreateCOM.
+
+@noindent
+Thanks to GNATCOM the incredible wealth of technologies on the Windows
+9X, NT, 2000, XP platforms become immediately available to Ada 95
+applications. To name just a few, XML parsers, full control over
+Internet Explorer including integration and binding to its DHTML model,
+Microsoft Message Queuing, integration with Visual Basic Forms, OLEDB
+and ADO (Active Data Objects), MAPI, and more. GNATCOM also makes it
+easily possible for the many applications on these platforms to take
+advantage of the advanced stability and features offered by components
+written with GNAT.
+
+@noindent
+Ada's unique combination of object-oriented, high-level real-time
+control and concurrency features, coupled with the fundamental
+distinction between interface and implementation allows building the
+feature-rich and highly reliable objects required by component based
+development.
+
+@noindent
+The GNATCOM home page is located at @url{http://www.gnavi.org/gnatcom}
+
+@node Framework, Tools, Introduction, Top
+@chapter GNATCOM Framework Overview
+@cindex Framework
+
+@noindent
+The GNATCOM framework allows for the creation of fully compliant COM
+objects providing full VTBL (virtual function table) support for custom
+interfaces in addition to the more limited automation (dynamic dispatch
+support through the COM interface IDispatch) used in most ActiveX
+controls. Additionally, BindCOM generates bindings to both custom
+interfaces (VTBL based) and interfaces offering the same performance
+boost of C++ over other languages in using COM objects but with Ada's
+careful type safety features.
+
+@noindent
+The GNATCOM framework provides a thick bindings to COM/DCOM/COM+ for
+using pre-existing components, creating new components, COM event
+handling, automation types, Error handling, GUID creation and
+conversion, and reading type libraries.
+
+@cindex Packages
+@strong{Key GNATCOM Packages}
+@itemize @bullet
+@item
+@strong{GNATCOM}
+@cindex GNATCOM
+
+Base package for the GNATCOM framework containing commonly used COM
+constants and automatic uninitializing of COM for the main thread.
+
+@item
+@strong{GNATCOM.Initialize}
+@cindex GNATCOM.Initialize
+
+COM initialization and uninitialization
+
+@item
+@strong{GNATCOM.GUID}
+@cindex GNATCOM.GUID
+@cindex GUID
+
+GUID creation and conversions
+
+@item
+@strong{GNATCOM.Interface}
+@cindex GNATCOM.Interface
+@cindex Interface
+@cindex Binding
+@cindex Moniker
+@cindex IUnknown
+
+Thick binding to COM's IUnknown interface. Provides access to COM
+objects on local and remote systems, creation from Moniker strings
+(external representations of COM objects), automatic reference counting,
+and transparent querying for interfaces.
+
+@item
+@strong{GNATCOM.Dispinterface}
+@cindex GNATCOM.Dispinterface
+@cindex Automation
+@cindex IDispatch
+@cindex Dual Interface
+
+Thick binding to Automation objects. Provides a thick binding to
+dispinterfaces and interfaces derived from IDispatch (dual interfaces)
+including subprograms to call by name and call by id.
+
+@item
+@strong{GNATCOM.BSTR, GNATCOM.VARIANT, GNATCOM.SafeArray}
+@cindex GNATCOM.BSTR
+@cindex GNATCOM.VARIANT
+@cindex GNATCOM.SafeArray
+@cindex BSTR
+@cindex VARIANT
+@cindex SafeArray
+@cindex Automation Types
+@cindex COM Types
+
+Thick bindings to COM/Automation types. Provides conversion to and from
+Ada types.
+
+@item
+@strong{GNATCOM.Errors}
+@cindex GNATCOM.Errors
+@cindex HRESULT
+@cindex Errors
+
+Provides HRESULT to exception mapping and mapping of HRESULTs to human
+readable strings.
+
+@item
+@strong{GNATCOM.Events.Event_Object}
+@cindex GNATCOM.Events
+@cindex GNATCOM.Events.Event_Object
+@cindex Events
+@cindex Creating COM objects
+ 
+Dynamically creates a COM object supporting IDispatch that can be used with
+GNATCOM.Events subprograms to handle COM events.
+
+@item
+@strong{GNATCOM.Create}
+@cindex GNATCOM.Create
+
+Base package of the GNATCOM COM/DCOM/COM+ creation support.
+
+@item
+@strong{GNATCOM.Create.COM_Interface}
+@cindex GNATCOM.IUnknown
+@cindex GNATCOM.Create.COM_Interface
+@cindex Creating COM objects
+
+Provides an implementation of IUnknown for COM objects and provides the
+C++ style virtual function tables that comprise the COM binary standard
+for interfaces.
+@end itemize
+
+@node Tools, Samples, Framework, Top
+@chapter GNATCOM Tools Overview
+
+@itemize @bullet
+@item
+@strong{MakeGUID}
+@cindex MakeGUID
+@cindex GUID
+
+Generates GUIDs (Global Unique IDs).
+
+@smallexample
+@cartouche
+Usage: MakeGUID Number_of_GUIDs
+@end cartouche
+@end smallexample
+
+@example
+C:\>MakeGUID
+@{C41E5A70-F473-11D3-939E-0080C88637DE@}
+C:\>MAKEGUID 3
+@{C41E5A70-F473-11D3-939E-0080C88637DE@}
+@{C41E5A71-F473-11D3-939E-0080C88637DE@}
+@{C41E5A72-F473-11D3-939E-0080C88637DE@}
+@end example
+
+@item
+@strong{COMScope}
+@cindex COMScope
+
+Generates documentation from type libraries (binary headers
+embedded in most COM objects).
+
+@smallexample
+@cartouche
+Usage: COMScope typelib
+
+typelib can be a type library file (.tlb) or any file with an embedded type
+library such as a COM object (.dll, .ocx, .exe)
+@end cartouche
+@end smallexample
+
+@example
+C:\>COMScope C:\winnt\system32\mshtml.tlb >IE5.txt
+C:\>COMScope C:\winnt\system32\msxml.dll >XML.txt
+@end example
+
+Would produce a file IE5.txt describing all the types, objects, and
+methods in the mshtml.tlb type library or msxml COM object.
+
+@item
+@strong{BindCOM}
+@cindex BindCOM
+
+Generates bindings from type libraries embedded in
+COM objects or that describe DLLs (frequently developers package type
+libraries with regular DLLs.)
+
+@smallexample
+@cartouche
+Usage: BindCOM typelib base_package_name
+
+typelib can be a type library file (.tlb) or any file with an embedded
+type library such as a COM object (.dll, .ocx, .exe)
+
+or
+
+Usage: BindCOM typelib_GUID Major_Version Minor_Version
+
+typelib_GUID is the GUID for a type library, a LIBID. Major_Version is
+the major version of the the type library and minor version is the
+minimum minor version of the type library that should be used to
+generate a binding.
+@end cartouche
+@end smallexample
+
+@example
+C:\>BindCOM C:\winnt\system32\msxml.dll MSXML
+C:\>BindCOM @{D63E0CE2-A0A2-11D0-9C02-00C04FC99C8E@} 2 0
+@end example
+
+Would both produce a file called MSXML.ads containing a thin binding to
+the MSXML COM object and MSXML-*_interface.ad?, MSXML-*_object.ad?,
+MSXML-*_event.ad? files with thick bindings to interfaces,
+dispinterfaces, and event interfaces respectively.
+
+@item
+@strong{CreateCOM}
+@cindex CreateCOM
+
+Generates a complete COM object from type libraries requiring
+only function bodies to be filled in.
+
+@smallexample
+@cartouche
+Usage: CreateCOM typelib base_package_name
+
+typelib can be a type library file (.tlb) or any file with an embedded
+type library such as a COM object (.dll, .ocx, .exe)
+@end cartouche
+@end smallexample
+
+@example
+C:\>BindCOM MyProj.tlb MyProj.tlb
+@end example
+
+Would produce the following files:
+@format
+@enumerate
+@item
+myproj-dll.ad?    - The InProc (Dll) implementation files
+@item
+myproj-exe.adb    - The LocalServer (Exe) implementation files
+@item
+myproj-remote.adb - An application that can register the COM object on remote machines.
+@item
+myproj.ads        - Thin bindings and GUIDs
+@item
+myprojrc.rc       - Windows resource file embedding the type library
+@item
+make.bat          - Batch file that will compile the files
+@end enumerate
+@end format
+
+There will be an additional spec and body for every COM object (CoClass)
+defined in the the type library in the format of
+myproj-*.ad?. Implementations of the COM objects are filled in to the
+function bodies in the myproj-*.adb files.
+@end itemize
+
+@node Samples, Tutorial, Tools, Top
+@chapter Sample GNATCOM Applications
+@cindex Samples
+@cindex Examples
+
+@noindent
+GNATCOM comes with a number of sample applications that demonstrate how
+to use the GNATCOM framework and bindings created by the GNATCOM
+tools. Many of these applications require bindings be generated for COM
+components first. The batch file make.bat in the bindings directory will
+create the needed bindings.
+
+@noindent
+The res directory contains any needed files to create the Win32 resource
+files for the samples.
+
+@itemize @bullet
+@item
+@strong{NT_GNATFIND}
+@cindex NT_GNATFIND
+@cindex Internet Explorer
+@cindex Events
+
+@noindent
+Demonstrates creating a GUI front end to a command line application
+using the Internet Explorer Web Browser Control and handling COM events.
+
+@noindent
+There are a number of different versions of this sample application
+(nt_gnatfind.adb) located in different directories.
+
+@enumerate
+@item Samples/
+Sample application using VTBL bindings
+
+@item Samples/Dispatch/
+Sample application using dispinterface (IDispatch) bindings
+
+@item Samples/Dynamic/
+Sample application using the GNATCOM frameworks binding to dispinterface
+with out any generated bindings.
+@end enumerate
+
+@item
+@strong{Spin}
+@cindex Spin
+@cindex Internet Explorer
+@cindex ActiveX
+@cindex Tasks
+@cindex Threads
+@cindex Global Interface Table
+@cindex Events
+
+@noindent
+Demonstrates use of ActiveX GUI Controls using the Internet Explorer Web
+Browser Control as the ActiveX control container, COM events, and using
+COM from Ada tasks.
+
+@noindent
+There are a number of different versions of this sample application
+(spin.adb) located in different directories.
+
+@enumerate
+@item Samples/
+Sample application using VTBL bindings
+
+@item Samples/Dispatch/
+Sample application using dispinterface (IDispatch) bindings
+
+@item Samples/Dynamic/
+Sample application using the GNATCOM frameworks binding to dispinterface
+with out any generated bindings.
+
+@item Samples/GIT
+Sample application using an alternate method of using multiple tasks in
+with GNATCOM that demonstrates use of the Global Interface Table to pass
+interfaces across COM apartment boundaries.
+@end enumerate
+
+@item
+@strong{ADO}
+@cindex ADO
+@cindex ActiveX Data Objects
+
+@noindent
+Demonstrates use of GNATCOM with ADO (Microsoft ActiveX Data Objects) to
+access an ODBC database.
+
+@noindent
+The example (ado2.adb) is in the Samples/ directory. It requires that
+an ODBC DSN be created with the name ADOTEST pointing to the Access
+database in the Samples/res directory adotest.mdb.
+
+@noindent
+The example (ado1.adb) is in the Samples/ directory. It uses the Access
+OLEDB provider to connect to an Access database instead of ODBC and does
+not require any ODBC or other configuration.
+
+@noindent
+The example (ado3.adb) is in the Samples/ directory. It uses a UDL file
+found in the Samples/res directory to configure the connection via OLEDB
+to the access datatbase. UDL files are created by creating a blank file
+with the extension .udl. Once the file is created double clicking on it
+brings up the configuration application. It may be necessary to modify
+the configuration in the udl file in order for the example to work.
+
+@item
+@strong{JavaCall}
+@cindex JavaCall
+@cindex Java
+@cindex J++
+@cindex JVM
+
+@noindent
+Demonstrates calling Java code by using the COM Java moniker.
+
+@noindent
+The example (javacall.adb) is located in the Samples/ directory.
+
+@item
+@strong{MSMQ}
+@cindex MSMQ
+@cindex Microsoft Message Queueing
+@cindex Events
+
+@noindent
+Demonstrates use of GNATCOM with Microsoft Message Queueing (MSMQ) one of the
+COM+ services available on Windows 2000 and with the Microsoft Option Pack 4.
+
+@noindent
+The server (msmq_server.adb) and client (msmq_client.adb) applications are in
+the Samples/ directory.
+
+@item
+@strong{VB Examples}
+@cindex Visual Basic
+
+@noindent
+Demonstrates methods of interfacing Ada code to Visual Basic.
+
+@noindent
+Two projects AdaToVB and VBtoAda are located under the Samples/VB/ directory.
+
+@end itemize
+
+@node Tutorial, Support, Samples, Top
+@chapter GNATCOM Tutorial
+@cindex Samples
+@cindex Examples
+
+@noindent
+This tutorial assumes basic knowledge of COM/DCOM/COM+, an understanding
+of Ada 95 and GNAT. It would be helpful to have read the COM/DCOM/COM+
+with GNAT documentation first.
+
+@menu
+* Creating a COM Object::
+* Using a COM Object::        
+@end menu
+
+@node Creating a COM Object
+@section Creating a COM Object
+
+@enumerate
+@item @strong{Create IDL}
+
+@noindent
+The first step is to create an IDL file that conforms to OLE Automation
+specifications. See COM/DCOM/COM+ with GNAT documentation for more
+information on creating compatible IDL files for use with GNAT.
+
+@noindent
+This tutorial uses the @code{gnatexample.idl} found in the Docs/Tutorial
+directory containing one COM object, @code{GNATCOMClass}, that has two
+interfaces, @code{IGNATMessage} (a dual interface) and @code{IGNATStat}
+(a custom COM interface).
+
+@item @strong{Compile IDL to a TypeLibrary}
+
+@noindent
+Compile @code{gnatexample.idl} using @code{MIDL} included with Visual
+Studio and the Microsoft SDK tools. This will produce the typelibrary
+@code{gnatexample.tlb} and a number of @code{.h} and @code{.c} files
+that can be erased.
+
+@item @strong{Generate code for COM object}
+
+@noindent
+Execute the following command:
+
+@example
+CreateCOM gnatexample.tlb GNATExample
+@end example
+
+@noindent
+This will create all the code needed to implement the COM object.
+
+@item @strong{@code{With} support for dual interface}
+
+@noindent
+Edit the file @code{gnatexample-gnatcomclass.ads} and add a @code{with} of
+the package @code{GNATCOM.Create.IDispatch}.
+
+@example
+@strong{with} GNATCOM.Create.IDispatch;
+@end example
+
+@noindent
+This will include support to implement the automation (IDispatch)
+portion of the interface @code{IGNATMessage} for the object.
+
+@item @strong{Add dual interface support to object}
+
+@noindent
+Add an IDispatch_Type object to the class record GNATCOMClass_Type.
+
+@example
+   type GNATCOMClass_Type is
+     new GNATCOM.Create.COM_Interface.CoClass_Type (GUID_Map'Access) with
+      record
+@strong{
+         Data : aliased GNATCOM.Create.IDispatch.IDispatch_Type
+           (IID_IGNATMessage'Access,
+            LIBID_GNATCOMLibrary'Access, 1, 0);
+}
+      end record;
+@end example
+
+@noindent
+The options for the IDispatch_Type are the dual interface IID, the type
+library and the major and minor version (see the specs for the IDispatch
+support for more information). The IIDs and the LIBID can be found in
+the root package @code{GNATExample.ads}.
+
+@item @strong{Fill in dual interface support methods}
+
+@noindent
+In function @code{IGNATMessage_GetTypeInfoCount} replace the
+@code{return GNATCOM.E_NOTIMPL;} with:
+
+@example
+      return GNATCOM.Create.IDispatch.GetTypeInfoCount (pctinfo);
+@end example
+
+@noindent
+In function @code{IGNATMessage_GetTypeInfo} replace the @code{return
+GNATCOM.E_NOTIMPL;} with:
+
+@example
+      return GNATCOM.Create.IDispatch.GetTypeInfo (Object.Data'Access,
+                                                   itinfo,
+                                                   pptinfo);
+@end example
+
+@noindent
+In function @code{IGNATMessage_GetIDsOfNames} replace the @code{return
+GNATCOM.E_NOTIMPL;} with:
+
+@example
+      return GNATCOM.Create.IDispatch.GetIDsOfNames (Object.Data'Access,
+                                                     rgszNames,
+                                                     cNames,
+                                                     rgdispid);
+@end example
+
+@noindent
+In function @code{IGNATMessage_Invoke} replace the @code{return
+GNATCOM.E_NOTIMPL;} with:
+
+@example
+      return GNATCOM.Create.IDispatch.Invoke (This,
+                                              Object.Data'Access,
+                                              dispidMember,
+                                              wFlags,
+                                              pdispparams,
+                                              pvarResult,
+                                              pexcepinfo,
+                                              puArgErr);
+@end example
+
+@item @strong{Add data members to object}
+
+@noindent
+Add members to the class record to store object instance data. In this case
+an integer variable is added to the record to keep count of the number of
+times members have been called of the IGNATMessage interface.
+
+@example
+   type GNATCOMClass_Type is
+     new GNATCOM.Create.COM_Interface.CoClass_Type (GUID_Map'Access) with
+      record
+         Data  : aliased GNATCOM.Create.IDispatch.IDispatch_Type
+           (IID_IGNATMessage'Access,
+            LIBID_GNATCOMLibrary'Access, 1, 0);
+@strong{
+         Count : Integer := 0;
+}
+      end record;
+@end example
+
+@item @strong{Implement remaining COM object methods}
+
+@noindent
+Add @code{with Win32.User;} to the package and then fill in the lines in
+bold in to the @code{IGNATMessage_Beep} function removing the old
+@code{return GNATCOM.E_NOTIMPL;} line.
+
+@example
+   function IGNATMessage_Beep
+     (This : access
+        GNATCOM.Create.COM_Interface.COM_Interface_Type)
+     return GNATCOM.Types.HRESULT
+   is
+      Object   : Pointer_To_GNATCOMClass_Type :=
+        Pointer_To_GNATCOMClass_Type (This.CoClass);
+@strong{
+      RetValue : Win32.BOOL;
+}
+   begin
+@strong{
+      RetValue := Win32.WinUser.MessageBeep (Win32.WinUser.MB_ICONEXCLAMATION);
+      Object.Count := Object.Count + 1;
+      return GNATCOM.S_OK;
+}
+   end IGNATMessage_Beep;
+@end example
+
+@noindent
+Add @code{with GNATCOM.Utility;} and @code{with GNATCOM.BSTR} to the
+package and fill in the lines in bold in to the
+@code{IGNATMessage_MessageBox} function removing the old @code{return
+GNATCOM.E_NOTIMPL;} line. (Note that Ada exceptions should never be
+allowed to propagate beyond the COM object.)
+
+@example
+   function IGNATMessage_MessageBox
+     (This    : access
+        GNATCOM.Create.COM_Interface.COM_Interface_Type;
+      Message : GNATCOM.Types.BSTR)
+     return GNATCOM.Types.HRESULT
+   is
+      Object : Pointer_To_GNATCOMClass_Type :=
+        Pointer_To_GNATCOMClass_Type (This.CoClass);
+   begin
+@strong{
+      GNATCOM.Utility.Message_Box ("GNATCOM",
+                                   GNATCOM.BSTR.To_Ada (Message, False));
+      Object.Count := Object.Count + 1;
+      return GNATCOM.S_OK;
+   exception
+      when others =>
+         return GNATCOM.E_FAIL;
+}
+   end IGNATMessage_MessageBox;
+@end example
+
+@noindent
+Fill in the lines in bold in to the
+@code{IGNATStat_Calls} function removing the old @code{return
+GNATCOM.E_NOTIMPL;} line.
+
+@example
+   function IGNATStat_Calls
+     (This          : access
+        GNATCOM.Create.COM_Interface.COM_Interface_Type;
+      NumberOfTimes : GNATCOM.Types.Pointer_To_int)
+     return GNATCOM.Types.HRESULT
+   is
+      Object : Pointer_To_GNATCOMClass_Type :=
+        Pointer_To_GNATCOMClass_Type (This.CoClass);
+   begin
+@strong{
+      NumberOfTimes.all := Interfaces.C.Int (Object.Count);
+      return GNATCOM.S_OK;
+}
+   end IGNATStat_Calls;
+@end example
+
+@item @strong{Compile and Register Object}
+
+@noindent
+Compile the COM object by running the generated @code{make.bat} file. Then
+register either the Dll version, by typing @code{regsvr32 gnatexample-dll.dll}
+or the Exe version, by typing @code{gnatexample-exe /RegServer}.
+
+@strong{The COM object is now ready for use.}
+@end enumerate
+
+@node Using a COM Object
+@section Using a COM Object
+
+@enumerate
+@item @strong{Create the binding}
+
+@noindent
+Run @code{BindCOM gnatexample.tlb GNATClient} to create a binding to the COM
+object in the previous tutorial.
+
+@item @strong{Create main procedure}
+
+@noindent
+Set up the basic client main procedure and add error handling to catch
+COM errors as shown in bold:
+
+@example
+with Ada.Exceptions;
+with GNAT.IO; use GNAT.IO;
+
+procedure Client is
+begin
+@strong{
+exception
+   when E : others =>
+      Put_Line (Ada.Exceptions.Exception_Name (E));
+      Put_Line (Ada.Exceptions.Exception_Message (E));
+}
+end Client;
+@end example
+
+@item @strong{Initialize COM}
+
+@noindent
+Before using GNATCOM, the COM environment must be initialized. This is done
+by calling the procedure @code{GNATCOM.Initialize.Initialize_COM} at the start
+of the @code{Client} procedure.
+
+@example
+procedure Client is
+begin
+@strong{
+   GNATCOM.Initialize.Initialize_COM;
+}
+@end example
+
+@item @strong{Declare an Interface Type}
+
+@noindent
+Add code to with in the bindings for the interfaces that will be used and
+declare objects of those types.
+
+@example
+@strong{
+with GNATClient.IGNATMessage_Interface; use GNATClient.IGNATMessage_Interface;
+with GNATClient.IGNATStat_Interface; use GNATClient.IGNATStat_Interface;
+}
+procedure Client is
+@strong{
+   Messages : IGNATMessage_Type;
+   Stats    : IGNATStat_Type;
+}
+@end example
+
+@item @strong{Create Object}
+
+@noindent
+Create the COM object by calling Create on one of the interfaces
+supported by the object.
+
+@example
+   Create (Messages, GNATClient.CLSID_GNATCOMClass);
+@end example
+
+@item @strong{Use object}
+
+@noindent
+Once the object has been created methods can be called on the interface used
+to create the object, or a @code{Query} can be performed to access other
+interfaces of the object.
+
+@example
+   Beep (Messages);
+
+   MessageBox (Messages, GNATCOM.BSTR.To_BSTR ("Hello World!"));
+
+   Query (Stats, Messages);
+
+   Put_Line ("IGNATMessage methods called" &
+             Integer (Calls (Stats))'Img & " times.");
+@end example
+
+@item @strong{Compile and run}
+
+@noindent
+Compile the client code using @code{gnatmake client} and then run it.
+To use the object on a remote machine, first run the beep-remote.exe on the
+remote machine with the objects host machine name and the run the client on
+that machine. You may have to configure permissions on the host machine
+using the utility @code{dcomcnfg.exe}.
+
+@code{client.adb} :
+
+@example
+with Ada.Exceptions;
+with GNAT.IO; use GNAT.IO;
+
+with GNATCOM.Initialize; use GNATCOM.Initialize;
+with GNATCOM.BSTR;
+
+with GNATClient.IGNATMessage_Interface; use GNATClient.IGNATMessage_Interface;
+with GNATClient.IGNATStat_Interface; use GNATClient.IGNATStat_Interface;
+
+procedure Client is
+   Messages : IGNATMessage_Type;
+   Stats    : IGNATStat_Type;
+begin
+   GNATCOM.Initialize.Initialize_COM;
+
+   Create (Messages, GNATClient.CLSID_GNATCOMClass);
+
+   Beep (Messages);
+
+   MessageBox (Messages, GNATCOM.BSTR.To_BSTR ("Hello World!"));
+
+   Query (Stats, Messages);
+
+   Put_Line ("IGNATMessage methods called" &
+             Integer (Calls (Stats))'Img & " times.");
+exception
+   when E : others =>
+      Put_Line (Ada.Exceptions.Exception_Name (E));
+      Put_Line (Ada.Exceptions.Exception_Message (E));
+end Client;
+@end example
+@end enumerate
+
+@node Support, , Tutorial, Top
+@chapter Support for GNATCOM
+@cindex Support
+
+@noindent
+See http://www.gnavi.org for support information
+
+@node Index
+@unnumbered Index
+
+@printindex cp
+
+@contents
+
+@bye

@@ -1,0 +1,18 @@
+The naming convention for build directories is:
+
+<cpu>-<runtime>-<compiler>-<shell>-<options>
+
+Choices for each field:
+
+cpu: x86
+
+runtime: win2k, winxp, cygwin
+
+compiler: adacore_pro, adacore_pub, fsf, objectada
+
+shell: cygwin, msys, dos
+
+options: debug, release, ansi, unicode
+
+
+(end of file)

@@ -1,0 +1,1599 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename com_with_gnat.info
+@settitle COM/DCOM/COM+ with GNAT
+@setchapternewpage odd
+@syncodeindex fn cp
+@c %**end of header
+
+@titlepage
+@title COM/DCOM/COM+ with GNAT
+@subtitle Interfacing to the Component Object Model with GNAT
+@subtitle October, 2004
+@author David Botton
+
+@page
+@vskip 0pt plus 1filll
+@copyright{} Copyright 1999-2004, David Botton
+@sp 2
+This document is distributed under the terms of the
+GNU  General  Public  License. You can  redistribute it  and/or modify it
+under terms of the  GNU General Public License as published  by the
+Free Software  Foundation;  either version 2,  or (at your option) any later
+version. It is distributed in the hope that it will be useful,  but WITHOUT
+ANY WARRANTY;  without  even the  implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.    See the GNU General  Public License
+for  more details.
+@sp 2
+.
+@end titlepage
+
+@ifinfo
+@node Top, Brief Inroduction, (dir), (dir)
+@top
+@end ifinfo
+
+@menu
+* Brief Introduction::
+* What are COM Objects and Interfaces?::
+* Using COM objects with GNAT::
+* Creating Type Libraries for COM objects::
+* Creating COM objects with GNAT::
+* Using GNAT COM objects as Distributed COM objects::
+* Debugging COM objects with gdb::
+* Index::
+@end menu
+
+@node Brief Introduction, What are COM Objects and Interfaces?, Top, Top
+@chapter Brief Introduction to COM, Distributed COM, ActiveX, and COM+
+@cindex COM
+@cindex DCOM
+@cindex COM+
+
+@noindent
+In addition to creating distributed applications with Annex E, GNAT is
+capable of creating and using components that conform to Microsoft's
+Component Object Model (COM) and Distributed COM (DCOM) on Windows NT.
+
+@cindex OLE2
+@noindent
+Microsoft introduced COM as the underlying model for the Object Linking
+and Embedding 2 (OLE2) services. COM provided OLE2 with the
+extensibility to meet the growing demand for interoperability of
+applications that users required and implementation flexibility
+developers required. It did this by providing a binary level, rather
+than a source level, object oriented specification for standard
+interfaces to executable objects allowing them to be used in a class
+wide fashion and implemented in the language best meeting the object's
+requirements. It also specified inter and remote process communication,
+to be provided by the operating system and optionally customized by the
+developer, and dynamic loading of the executable objects.
+
+@cindex ADO
+@cindex DirectX
+@cindex OCX
+@cindex MAPI
+@noindent
+Microsoft has since advanced many new technologies built on top of COM
+including ADO, DirectX, Extended MAPI, and ActiveX (OCX) Controls. COM
+has remained stable and has only been slightly extended to include newer
+threading models, better security and more advance distribution. The
+fundamental principles have remained unchanged and it has proven itself
+as a powerful model for component based development.
+
+@cindex OLE Automation
+@cindex Type Library
+@noindent
+The first use of COM to extend non-Microsoft technologies was a
+specification for OLE Automation Objects. Using this specification,
+developers could create custom components by creating COM objects that
+use a predefined set of interfaces and APIs. Developers could also
+create custom interfaces of their own and provide the interface
+specifications in a language neutral format called a Type Library.
+Client code could then be created in any language to make dynamic use of
+these binary components.
+
+@noindent
+Microsoft then added a number of other specifications for creating
+custom components building on the OLE Automation Object specification
+such as the OLE Control (OCX) specification that creates a uniform way
+of implementing GUI components. 
+
+@cindex ActiveX
+@noindent
+Technologies based on OLE Automation were later renamed for marketing
+purposes to ActiveX or ActiveX Controls. The ActiveX name was later
+expanded to include any COM object including those that do not conform
+to the OLE Automation specifications.
+
+@cindex DCOM
+@noindent
+Distributed COM (DCOM) is the technology that allows COM objects to be
+transparently distributed across a network. Using settings in the
+registry of the client and server, when creating a COM object the
+operating system can create or use supplied proxies and stubs to access
+the COM object on a remote machine.
+
+@cindex MSMQ
+@cindex MTS
+@noindent
+COM+ is Microsoft's latest extension to COM technology. The base
+services of COM+ are COM and DCOM and are identical with only the
+addition of another threading model. COM+ also designates the
+integration of Microsoft Transaction Server (MTS) and Microsoft Message
+Queueing (MSMQ).
+
+@noindent
+In order to use COM or DCOM on Windows NT 4.0, service pack three or
+later must be installed. The additional services of COM+ (MTS and MSMQ)
+become available by adding the Microsoft Option Packs or upgrading to
+Windows 2000.
+
+@node What are COM Objects and Interfaces?, Using COM objects with GNAT, Brief Introduction, Top
+@chapter What are COM Objects and Interfaces?
+@cindex Objects
+@cindex Interfaces
+
+@noindent
+COM objects are collections of public interfaces and private data. The
+internal representation of the COM object is irrelevant as clients of
+COM objects can only access interfaces. Win32 provides APIs for creating
+an instance of a COM object and requesting the first interface to the
+object. Clients are not required to specify the location of the COM
+objects as the operating system will resolve their location and take the
+needed steps to create the object, but the location or hints to the
+location may be specified if needed.
+
+@cindex IUnknown
+@cindex IDispatch
+@noindent
+Every COM object must support at least one interface called
+@code{IUnknown}. Depending on the particular interfaces supported in addition
+to @code{IUnknown}, the object is referred to by different names in Microsoft
+documentation. For example if the object supports the interface
+@code{IDispatch} it is called an OLE Automation object, if it supports the
+various GUI related interfaces and persistence interfaces, it may be
+called an OLE, OCX, or ActiveX control. 
+
+@cindex CoCreateGuid
+@cindex GUID
+@cindex ProgID
+@cindex CLSID
+@cindex IID
+@noindent
+All interfaces and COM objects are identified using a @code{GUID}, a globally
+unique identifier. These IDs are created by the Win32 API function
+@code{CoCreateGuid}, or assigned by Microsoft. The @code{GUIDs} referring to
+interfaces are called @code{IIDs}, interface identifiers, those referring to
+the COM object as @code{CLSIDs}, class IDs. If and object has registered a
+textual name, called a @code{ProgID}, for itself in the Windows registry, it is
+possible to retrieve the @code{CLSID} using the @code{ProgID} with the
+API function @code{CLSIDFromProgID}.
+
+@noindent
+An interface is a record containing an access to a collection of
+function accesses. The collection is usually implemented as a record
+with access to subprogram objects, and private data. The first parameter
+of the function is always an access to the interface it belongs to and
+usually returns an @code{HRESULT}, an unsigned integer that returns success or
+failure information. An interface is said to derive from another
+interface if it contains a superset of another interface's collection of
+function accesses in the same order.
+
+@cindex IUnknwon
+@cindex QueryInterface
+@cindex AddRef
+@cindex Release
+@cindex Reference Count
+@noindent
+The most important interface is called @code{IUnknown} and all other
+interfaces derive from it. It contains three functions
+@code{QueryInterface}, @code{AddRef}, and @code{Release}. These three
+functions provide polymorphism and reference counting. The
+@code{QueryInterface} method is called on any interface to request the
+COM object to return an access to another supported
+interface. @code{AddRef} and @code{Release} provide reference counting
+for the interface. An implicit @code{AddRef} exists when an interface is
+returned from a function such as @code{QueryInterface} or through API
+calls. @code{Release} is called by the client when the interface is no
+longer in use reducing the interface's internal reference count. When
+the reference count reaches zero for all interfaces to the COM object,
+the COM object is required to deallocate itself from memory.
+
+@node Using COM objects with GNAT, Creating Type Libraries for COM objects, What are COM Objects and Interfaces?, Top
+@chapter Using COM objects with GNAT
+@cindex Using COM objects
+
+@menu
+* The Static Method::
+* The Dynamic Method::
+@end menu
+
+
+@noindent
+COM objects can be used via two methods, the Static method, by calling
+methods of its interfaces, or the dynamic method if it supports
+IDispatch, as most do, by calling the Invoke method of the IDispatch
+interface using property and method IDs. The second method is the only
+one available to scripting languages (such as VBScript and JavaScript)
+and invocation speed is generally four to ten times slower then the
+first method. GNAT can access COM objects using both methods.
+
+@noindent
+Complete examples of both methods are available with the GNAT
+examples. @file{COM_Static.adb} demonstrates the static method and
+@file{COM_Dynamic.adb} demonstrates the dynamic method.
+
+@node The Static Method
+@section The Static Method
+@cindex Using COM objects, The Static Method
+
+@strong{Step 1 - Create Binding}
+
+@cindex Type Library
+@noindent
+The first step in using COM objects from GNAT is to create an Ada
+binding to the interfaces supported by the COM Object and to the needed
+GUIDs for the object and the interfaces. The author of the object
+provides this information in source format, or as a Type Library. There
+are a number of tools that can read Type Libraries and provide the
+needed information including COMScope (see @url{http://www.gnavi.org})
+and Microsoft's OLE/COM object viewer distributed with the Win32
+platform development kit.
+
+@cindex CLSID
+@cindex GUID
+@cindex IID
+@noindent
+An aliased CLSID should be created for the GUID of the object to be
+created and IIDs for each interface.
+
+@noindent
+For example:
+
+@smallexample
+@cartouche
+--  @i{CLSID of COM object to create}
+--  @i{@{45F9F481-787C-11D3-821C-52544C1913DE@}}
+
+CLSID_GNATCOMClass : @strong{aliased} CLSID :=
+  (16#45F9F481#, 16#787C#, 16#11D3#,
+    (char'Val (16#82#), char'Val (16#1C#),
+     char'Val (16#52#), char'Val (16#54#),
+     char'Val (16#4C#), char'Val (16#19#),
+     char'Val (16#13#), char'Val (16#DE#)));
+
+--  @i{IID of the IGNATMessage interface}
+--  @i{@{45F9F482-787C-11D3-821C-52544C1913DE@}}
+
+IID_IGNATMessage : @strong{aliased} IID :=
+  (16#45F9F482#, 16#787C#, 16#11D3#,
+    (char'Val (16#82#), char'Val (16#1C#),
+     char'Val (16#52#), char'Val (16#54#),
+     char'Val (16#4C#), char'Val (16#19#),
+     char'Val (16#13#), char'Val (16#DE#)));
+@end cartouche
+@end smallexample
+
+@noindent
+Then create access methods for the members of the interface you are
+planning to create and any inherited methods. Note that the first
+parameter of every function should be a pointer back to the interface
+itself. This provides the C++ style this pointer to the COM methods
+being called.
+
+@noindent
+For example:
+
+@smallexample
+@cartouche
+--  @i{Inherited methods from IUnknown}
+@strong{type} af_IGNATStat_QueryInterface @strong{is access}
+  @strong{function} (This   : @strong{access} IGNATStat;
+            riid   : @strong{in}     REFIID;
+            ppvObj : @strong{access} Win32.PVOID)
+  @strong{return} Win32.Winerror.HRESULT;
+@strong{pragma} Convention (StdCall, af_IGNATStat_QueryInterface);
+
+@strong{type} af_IGNATStat_AddRef @strong{is access}
+  @strong{function} (This : @strong{access} IGNATStat)
+  @strong{return} Win32.ULONG;
+@strong{pragma} Convention (StdCall, af_IGNATStat_AddRef);
+
+@strong{type} af_IGNATStat_Release @strong{is access}
+  @strong{function} (This : @strong{access} IGNATStat)
+  @strong{return} Win32.ULONG;
+@strong{pragma} Convention (StdCall, af_IGNATStat_Release);
+
+--  @i{Methods of IGNATMessage}
+
+@strong{type} af_IGNATStat_Calls @strong{is access}
+  @strong{function} (This          : @strong{access} IGNATStat;
+            NumberOfTimes : @strong{access} Interfaces.C.int)
+  @strong{return} Win32.Winerror.HRESULT;
+@strong{pragma} Convention (StdCall, af_IGNATStat_Calls);
+--  @i{Return number of times methods of the IGNATMessage interface}
+--  @i{were called}
+@end cartouche
+@end smallexample
+
+@cindex COM, Virtual table
+@cindex COM, Vtbl
+@noindent
+Then construct the interface and the table of functions used to access
+the methods.
+
+@noindent
+For example:
+
+@smallexample
+@cartouche
+@strong{type} IGNATStat @strong{is record}
+      lpVtbl : Pointer_To_IGNATStatVtbl;
+@strong{end record};
+@strong{pragma} Convention (C_Pass_By_Copy, IGNATStat);
+
+@strong{type} IGNATStatVtbl @strong{is record}
+      QueryInterface : af_IGNATStat_QueryInterface;
+      AddRef         : af_IGNATStat_AddRef;
+      Release        : af_IGNATStat_Release;
+      Calls          : af_IGNATStat_Calls;
+@strong{end record};
+@strong{pragma} Convention (C_Pass_By_Copy, IGNATStatVtbl);
+@end cartouche
+@end smallexample
+
+@strong{Step 2 - Initialize COM}
+
+@cindex CoInitialize
+@noindent
+Initialize the COM libraries with a call to @code{CoInitialize}:
+
+@smallexample
+@cartouche
+hr : Win32.Winerror.HRESULT;
+hr := CoInitialize (System.Null_Address);
+@end cartouche
+@end smallexample
+
+@strong{Step 3 - Create Object}
+
+@cindex CoCreateInstance
+@noindent
+Create the object using @code{CoCreateInstance} that will return and access to
+the requested interface in the COM object.
+
+@noindent
+For example:
+
+@smallexample
+@cartouche
+--  @i{The requested interfaces is IID_IGNATMessage}
+
+hr := CoCreateInstance (CLSID_GNATCOMClass'Unchecked_Access,
+                        null,
+                        Win32.DWORD (CLSCTX_ALL),
+                        IID_IGNATMessage'Unchecked_Access,
+                        RetPointer'Unchecked_Access);
+
+GnatMessage_Ref := To_Pointer_To_IGNATMessage (RetPointer);
+@end cartouche
+@end smallexample
+
+@strong{Step 4 - QueryInterface}
+
+@cindex QueryInterface
+@noindent
+Use methods in the returned interface or request alternate interfaces
+using @code{QueryInterface}.
+
+@noindent
+For example:
+
+@smallexample
+@cartouche
+--  @i{To call a method}
+hr := GnatMessage_Ref.lpvtbl.Beep (GnatMessage_Ref);
+
+--  @i{To access a different interfaces of the object}
+--  @i{in this case IID_IGNATStat}
+
+hr := GnatMessage_Ref.lpvtbl.QueryInterface
+       (GnatMessage_Ref,
+        IID_IGNATStat'Unchecked_Access,
+        RetPointer'Unchecked_Access);
+
+GnatStat_Ref := To_Pointer_To_IGNATStat (RetPointer);
+@end cartouche
+@end smallexample
+
+@strong{Step 5 - Release}
+
+@cindex Release
+@noindent
+When any interface is no longer needed a call to @code{Release} should be made.
+
+@noindent
+For example:
+
+@smallexample
+@cartouche
+refcount : Win32.ULONG;
+refcount := GnatStat_Ref.lpvtbl.Release (GnatStat_Ref);
+@end cartouche
+@end smallexample
+
+@noindent
+The reference count that is returned can be bogus and should not be
+relied upon for any purpose.
+
+@strong{Step 6 - Unitialize COM}
+
+@cindex CoUninitialize
+@noindent
+Shutdown the COM libraries with a call to @code{CoUninitialize}.
+
+@smallexample
+@cartouche
+CoUninitialize;
+@end cartouche
+@end smallexample
+
+@noindent
+The client code should be compiled with the linker option @code{-lole32} and
+@code{-loleaut32} to include the needed linker libraries. See the GNAT example
+@file{com_static.adb} for a complete example of using COM objects.
+
+@node The Dynamic Method
+@section The Dynamic Method
+@cindex Using COM objects, The Dynamic Method
+
+@strong{Step 1 - Initialize COM}
+
+@cindex CoInitialize
+@noindent
+Initialize the COM libraries with a call to @code{CoInitialize}:
+
+@smallexample
+@cartouche
+hr : Win32.Winerror.HRESULT;
+hr := CoInitialize (System.Null_Address);
+@end cartouche
+@end smallexample
+
+@strong{Step 2 - Get CLSID from PROGID}
+
+@cindex CLSIDFromProgID
+@cindex CLSID
+@noindent
+Retrieve the @code{CLSID} of the object using the Program ID (this may also be
+done for the static method) and the API call @code{CLSIDFromProgID}.
+
+@noindent
+For example:
+
+@smallexample
+@cartouche
+Class_ID : @strong{aliased} CLSID;
+Hr := CLSIDFromProgID
+  (To_LPCOLESTR (To_C
+   (Wide_String'("GNATCOMLibrary.GNATCOMClass"))'Address),
+   Class_ID'Unchecked_Access);
+@end cartouche
+@end smallexample
+
+@strong{Step 3 - Create Object}
+
+@cindex IDispatch
+@noindent
+Create the object and request the @code{IDispatch} interface.
+
+@noindent
+For Example:
+
+@smallexample
+@cartouche
+hr := CoCreateInstance (Class_ID'Unchecked_Access,
+                        null,
+                        Win32.DWORD (CLSCTX_ALL),
+                        IDispatch_ID'Unchecked_Access,
+                        RetPointer'Unchecked_Access);
+Dispatch_Ref := To_Pointer_To_Idispatch (RetPointer);
+@end cartouche
+@end smallexample
+
+@strong{Step 4 - Look up ID and Invoke}
+
+@cindex GetIDsOfNames
+@noindent
+Look up the dispatch IDs for methods and properties using the
+@code{GetIDsOfNames} method of @code{IDispatch} followed by calls to its invoke
+method.
+
+@noindent
+For example:
+
+@smallexample
+@cartouche
+@strong{declare}
+   Method_Name  : @strong{aliased} Win32.ObjBase.LPOLESTR :=
+     To_LPOLESTR (To_C (Wide_String'("Beep"))'Address);
+   ID           : @strong{aliased} Win32.OleAuto.DISPID;
+
+   No_Arguments : @strong{aliased} Win32.OleAuto.DISPPARAMS :=
+     (null, null, 0, 0);
+   Result       : @strong{aliased} Win32.OleAuto.Variant;
+   Excep_Info   : @strong{aliased} Win32.OleAuto.EXCEPINFO;
+   Arg_Err      : @strong{aliased} Win32.UINT;
+@strong{begin}
+   Put_Line ("Look up ID of method to call");
+
+   Hr := Dispatch_Ref.lpvtbl.GetIDsOfNames
+           (Dispatch_Ref,
+            To_LPIID(System.Null_Address),
+            Method_Name'Unchecked_Access,
+            1,
+            0,
+            ID'Unchecked_Access);
+
+   Hr := Dispatch_Ref.lpvtbl.Invoke (Dispatch_Ref,
+                                     ID,
+                                     To_LPIID (System.Null_Address),
+                                     0,
+                                     DISPATCH_METHOD,
+                                     No_Arguments'Unchecked_Access,
+                                     Result'Unchecked_Access,
+                                     Excep_Info'Unchecked_Access,
+                                     Arg_Err'Unchecked_Access);
+@strong{end};
+@end cartouche
+@end smallexample
+
+@strong{Step 5 - Release}
+
+@cindex Release
+@noindent
+When the interface is no longer needed a call to @code{Release} should be made.
+
+@noindent
+For example:
+
+@smallexample
+@cartouche
+refcount : Win32.ULONG;
+refcount := Dispatch_Ref.lpvtbl.Release (Dispatch_Ref);
+@end cartouche
+@end smallexample
+
+@noindent
+The reference count that is returned can be bogus and should not be
+relied upon for any purpose.
+
+@strong{Step 6 - Unitialize COM}
+
+@cindex CoUninitialize
+@noindent
+Shutdown the COM libraries with a call to @code{CoUninitialize}.
+
+@smallexample
+@cartouche
+CoUninitialize;
+@end cartouche
+@end smallexample
+
+@noindent
+The client code should be compiled with the linker option @code{-lole32} and
+@code{-loleaut32} to include the needed linker libraries. See the GNAT example
+@file{com_dynamic.adb} for a complete example of using COM objects dynamically.
+
+@node Creating Type Libraries for COM objects, Creating COM objects with GNAT, Using COM objects with GNAT, Top
+@chapter Creating Type Libraries for COM objects
+
+@cindex IDL
+@cindex Type Library
+@noindent
+The first step to building a COM object with GNAT is the construction of
+a type library. This can be done by compiling a specification created in
+Microsoft IDL (Interface Definition Language)  and  using Microsoft's
+MIDL compiler. The IDL specification must be constructed to contain a
+type library definition and it is highly recommended that it conform to
+the ole automation specifications. It is possible to create with GNAT
+COM objects that use any valid IDL that would work with other languages.
+
+@noindent
+This documentation details an ideal IDL for easy implementation in
+Ada. See the GNAT example @file{gnatexample.idl} for the complete example.
+
+@noindent
+Microsoft IDL is a superset of DCE RPC IDL which is very similar in
+syntax to C. IDL files for COM objects used with GNAT will generally
+take the form of interface definitions followed by a type library block
+that defines the composition of each COM object in the library.
+
+@noindent
+IDL files should begin with the following two lines that import needed
+specifications:
+
+@smallexample
+@cartouche
+@strong{import} "unknwn.idl";
+@strong{import} "oaidl.idl";
+@end cartouche
+@end smallexample
+
+@noindent
+IDL uses brackets to contain attributes and braces to define blocks. For
+example:
+
+@smallexample
+@cartouche
+[
+        object,
+        uuid(45F9F483-787C-11d3-821C-52544C1913DE),
+        helpstring("Statistics on object interface"),
+        oleautomation
+]
+@strong{interface} IGNATStat : IUnknown
+@{
+        [
+                helpstring("Return number of times methods were called")
+        ]
+        HRESULT Calls([out] int *NumberOfTimes);
+@}
+@end cartouche
+@end smallexample
+
+@cindex MIDL compiler
+@noindent
+Each interface block should have the attributes @strong{object}, @strong{uuid},
+@strong{helpstring}, and @strong{oleautomation}. If this interface is to also support
+dynamic use through @code{IDispatch} for script languages, it should also be
+marked with the attribute dual. The Object attribute designates that
+this is a COM interface and not an RPC interface. The uuid attribute
+provides the univeral unique ID that this interface will be known as and
+must be unique for each uuid attribute used. This number can be
+generated using tools such as @file{uuidgen} or @file{guidgen} from the
+Microsoft SDK, or by a call to the Win32 API function
+@code{CoCreateGuid}. The helpstring attribute allows type library
+browsers and binding generators to display the help string that is
+set. OleAutomation  tells the MIDL compiler to insure that the interface
+conforms to Ole Automation specifications insuring the type library
+marshaling can be used for the object (see the section on creating COM
+objects with GNAT).
+
+@cindex IDL, IUnknown
+@cindex IDL, IDispatch
+@noindent
+Every interface must derive from either @code{IUnknown},
+@code{IDispatch} or any other child of @code{IUnknown} in order to be
+used with COM objects. Objects that are derived from @code{IDispatch} should
+include the attribute dual to the interface. Interfaces are defined
+using the interface key word followed by the interface name then a colon
+and the parent interface. The methods of the interface are then defined
+in the interface block between brackets.
+
+@noindent
+Each method of the interface may contain a helpstring attribute in the
+same manner as the interface. If the interface is derived from
+@code{IDispatch}, you may optionally add the attribute ID to set its dispatch
+ID, an ID used for dynamic invocation of the interface. If no ID is
+given, MIDL will assign one automatically. For example:
+
+@smallexample
+@cartouche
+[
+ id(1),
+ helpstring("Audio Alert")
+]
+HRESULT Beep();
+@end cartouche
+@end smallexample
+
+@cindex IDL, SAFEARRAY
+@cindex IDL, SCODE
+@cindex IDL, BSTR
+@cindex IDL, CURRENCY
+@cindex IDL, enum
+@cindex IDL, base types
+@noindent
+Every method must return a type called an @code{HRESULT} that returns the
+success or failure of the method. Parameters if each method need to
+include an attribute of in or out. Out parameters must be pointer
+types. Allowable types  are @code{boolean}, @code{unsigned char},
+@code{double}, @code{float}, @code{int}, @code{long}, @code{short},
+@code{BSTR}, @code{CURRENCY}, @code{DATE}, @code{SCODE}, @code{enum},
+@code{IDispatch*}, @code{IUnknown*}, @code{SAFEARRAY} of any OLE
+automation type, and pointers to any of the above types. For example:
+
+@smallexample
+@cartouche
+[
+ id(2),
+ helpstring("Display Message Box")
+]
+HRESULT MessageBox([in] BSTR Message);
+@end cartouche
+@end smallexample
+
+@noindent
+Following all interfaces definitions, a library block should be created
+with the attributed uuid, helpstring, and version. With in the library
+block the first statement should be the following:
+
+@smallexample
+@cartouche
+@strong{importlib}("stdole32.tlb");
+@end cartouche
+@end smallexample
+
+@noindent
+This imports the standard system library of OLE automation
+types. Following a line is added for each interface to import it in to
+the library. For example:
+
+@smallexample
+@cartouche
+@strong{interface} IGNATMessage;
+@strong{interface} IGNATStat;
+@end cartouche
+@end smallexample
+
+@noindent
+Once the interfaces are now part of the library COM objects are defined
+that use the available interfaces using coclass blocks. Each block
+should have the attributes uuid and helpstring. With in the block each
+interface is listed and one interface should be chosen as the default
+interface. For example:
+
+@smallexample
+@cartouche
+[
+       uuid (45F9F481-787C-11d3-821C-52544C1913DE),
+       helpstring("GNAT Example Class")
+]
+@strong{coclass} GNATCOMClass
+@{
+       [default] interface IGNATMessage;
+       interface IGNATStat;
+@}
+@end cartouche
+@end smallexample
+
+@noindent
+After compiling the IDL file using MIDL, only the .tlb file will be used
+in creating the COM object with GNAT.
+
+@node Creating COM objects with GNAT, Using GNAT COM objects as Distributed COM objects, Creating Type Libraries for COM objects, Top
+@chapter Creating COM objects with GNAT
+@cindex COM, creating
+
+@menu
+* The COM object implementation::
+* InProc container implementation::
+* LocalServer container implementation::
+@end menu
+
+@cindex InProc Servers
+@cindex Local Servers
+@noindent
+COM objects are contained in DLLs, known as InProc Servers, or in EXEs,
+known as Local Servers. Containers may house more then one object and
+use clearly defined methods of exposing the objects to the operating
+system and publishing their existence in the system registry. The
+complete example is found in the @file{COMObject} directory.
+
+@noindent
+The implementation of the COM objects are identical regardless of the
+container type, but the methods for publishing their existence and
+exposing of the factory object that creates the COM objects are
+different.
+
+@node The COM object implementation
+@section The COM object implementation
+
+@menu
+* Step 1 - The Resource File::
+* Step 2 - Base package::
+* Step 3 - Object Implementation::
+* Step 4 - Class Factory Implementation::
+@end menu
+
+@node Step 1 - The Resource File
+@subsection Step 1 - The Resource File
+@cindex COM, resource file
+
+@cindex windres
+@cindex rc
+@cindex res2coff
+@noindent
+The type library must be embedded in to every COM object in order to let
+the operating system know how to handle proxying and marshaling of the
+object when needed. It also provides information to binding generators,
+visual tools, and scripting languages about the object. This is done by
+creating and compiling with the GNU @file{windres} or Microsoft's
+@file{rc} followed by @file{res2coff} a resource script that contains
+the line:
+
+@smallexample
+@cartouche
+1 TypeLib "gnatexample.tlb"
+@end cartouche
+@end smallexample
+
+@cindex regsvr32.exe
+@cindex OLESelfRegister
+@cindex StringFileInfo
+@noindent
+Where @file{gnatexample.tlb} would be the name of your type library file. It is
+also advisable to include a version info resource with a @code{StringFileInfo}
+block containing the value pair @code{OLESelfRegister} and a blank to indicate
+that the COM object container will handle registration of the COM object
+and type library when requested to do so from the command line for Local
+Servers or using the utility @file{regsvr32.exe} for InProc Servers. For
+example:
+
+@cindex COM, Resource File, example
+@smallexample
+@cartouche
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0x0L
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+       BLOCK "040904b0"
+       BEGIN
+          VALUE "CompanyName", "Your Company Here\0"
+          VALUE "FileDescription", "gnatexample\0"
+          VALUE "FileVersion", "1, 0, 0, 1\0"
+          VALUE "InternalName", "gnatexample\0"
+          VALUE "LegalCopyright", "Copyright©\0"
+          VALUE "OriginalFilename", "gnatexample\0"
+          VALUE "ProductName", "gnatexample\0"
+          VALUE "ProductVersion", "1, 0, 0, 1\0"
+          VALUE "OLESelfRegister", ""
+       END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+      VALUE "Translation", 0x409, 1200
+    END
+@end cartouche
+@end smallexample
+
+@node Step 2 - Base package
+@subsection Step 2 - Base package
+
+@cindex GUID
+@noindent
+The top level package for implementing the COM object will contain
+global reference counters, GUID definitions, and types.
+
+@noindent
+There are two main global reference counters needed for COM objects a
+component count and a server lock count. The component count is used to
+identify when to shutdown the server and the server lock provides a
+means to lock the server in memory to enhance performance when objects
+will be created and deleted frequently.
+
+@cindex IID
+@noindent
+There are three types of GUID definitions needed, library ID, class IDs,
+and interface IDs. These are the GUIDs defined in the IDL for the
+library, coclass'es, and interface's. For example:
+
+@smallexample
+@cartouche
+--  @i{LIBID of library GNATCOMLibrary}
+--  @i{@{45F9F480-787C-11D3-821C-52544C1913DE@}}
+
+LIBID_GNATCOMLibrary : @strong{aliased} Win32.Objbase.IID :=
+  (16#45F9F480#, 16#787C#, 16#11D3#,
+    (char'Val (16#82#), char'Val (16#1C#),
+     char'Val (16#52#), char'Val (16#54#),
+     char'Val (16#4C#), char'Val (16#19#),
+     char'Val (16#13#), char'Val (16#DE#)));
+@end cartouche
+@end smallexample
+
+@noindent
+The types needed for implementation are access functions for every
+method used by the interfaces of the COM object including those used in
+the interfaces' parents. Along with an interface type that will be the
+will be a an access parameter in the first position of every method. The
+interface type will contain the address of   the instance data for the
+object and a reference count for the interface. This reference count
+allows for instances of the interface to automatically be deallocated
+from memory when the interface count reaches zero. For example:
+
+@smallexample
+@cartouche
+--  @i{Access function types for IGNATStat}
+
+@strong{type} af_IGNATStat_Calls @strong{is access}
+  @strong{function} (This          : @strong{access} Interface;
+            NumberOfTimes : @strong{access} Interfaces.C.int)
+  @strong{return} HRESULT;
+@strong{pragma} Convention (StdCall, af_IGNATStat_Calls);
+
+@strong{type} Interface @strong{is record}
+   Vtbl      : System.Address;
+   Ref_Count : @strong{aliased} Win32.LONG := 1;
+   CoClass   : System.Address;
+@strong{end record};
+@strong{pragma} Convention (C, Interface);
+@end cartouche
+@end smallexample
+
+@noindent
+Additionally a boolean variable is added to the package indicating if
+the object is in an InProc Server or a Local Server, and a procedure
+called @code{Can_Close} that is called every time an object is released, so
+that in the event the object is contained in a Local Server, if all
+objects are released and there are no server locks, the server can close
+itself down. The implementation of @code{Can_Close} is:
+
+@smallexample
+@cartouche
+@strong{procedure} Can_Close @strong{is}
+   bResult : Win32.BOOL;
+@strong{begin}
+   @strong{if} Server_Lock_Count = 0
+     @strong{and then} Component_Count = 0
+     @strong{and then} InProcServer /= True
+   @strong{then}
+      bResult := Win32.Winuser.PostThreadMessage
+        (Win32.Winbase.GetCurrentThreadId,
+         Win32.Winuser.WM_QUIT,
+         0,
+         0);
+   @strong{end if};
+@strong{end} Can_Close;
+@end cartouche
+@end smallexample
+
+@node Step 3 - Object Implementation
+@subsection Step 3 - Object Implementation
+
+@cindex AddRef
+@noindent
+The process of creating the actual COM object begins with creating
+implementations of each method of every interface the object will be
+using. Even though a COM object may support multiple interfaces and it
+is not necessary, although certainly possible if needed, to repeat the
+implementations of methods shared by each interface. For example it is
+not necessary to define multiple instances of the @code{AddRef}
+method. Interfaces are views of the object, and not objects themselves.
+
+@noindent
+Each method must conform to the same signature as the access functions
+they will be assigned to as they have been defined in the main
+package. All objects will include implementations for @code{IUnknown}
+and those that are dual interfaces, will also support @code{IDispatch}.
+
+@noindent
+Records need to be created for each interface that will contain a table
+of addresses of each method implementation. For example:
+
+@smallexample
+@cartouche
+@strong{type} IGNATStat_Vtbl_Record @strong{is}
+   @strong{record}
+      --  @i{IUnknown}
+      QueryInterface   : Af_IUnknown_QueryInterface
+        := IUnknown_QueryInterface'Access;
+      AddRef           : Af_IUnknown_AddRef
+        := IUnknown_AddRef'Access;
+      Release          : Af_IUnknown_Release
+        := IUnknown_Release'Access;
+
+      --  @i{IGNATMessage}
+      Calls             : Af_IGNATStat_Calls
+        := IGNATStat_Calls'Access;
+   @strong{end record};
+@strong{pragma} Convention (C, IGNATStat_Vtbl_Record);
+@strong{type} IGNATStat_Vtbl_Pointer @strong{is access all} IGNATMessage_Vtbl_Record;
+@end cartouche
+@end smallexample
+
+@noindent
+An instance of each record must be present in memory so that the
+interface can be passed to clients of the COM object. This is done by
+creating an aliased object of the record type.
+
+@smallexample
+@cartouche
+IGNATStat_Vtbl : @strong{aliased} IGNATStat_Vtbl_Record;
+@end cartouche
+@end smallexample
+
+@noindent
+A record representing the instance data for the object is also created
+and a function to create a new COM object with that data is also
+needed. This record also contains a reference count for the COM
+object. Every time any interface reference is adjusted the object's
+reference count is also adjusted. When there are no interfaces in use
+the reference count will reach none and the instance data for the COM
+object can then be freed.
+
+@smallexample
+@cartouche
+--  @i{Internal data for the COM object. Notice that there is}
+--  @i{no Convention pragma on this type. This type is an Ada type.}
+
+@strong{type} GNATCOMClass_Object @strong{is record}
+   Ref_Count : @strong{aliased} Win32.LONG := 1;
+   Data      : Controlled_Information;
+   Count     : Integer := 0;
+@strong{end record};
+@strong{type} GNATCOMClass_Pointer @strong{is access all} GNATCOMClass_Object;
+
+@strong{function} New_Object @strong{return} Interface_Pointer;
+@end cartouche
+@end smallexample
+
+@noindent
+The function that creates the COM object returns an access to the
+objects @code{IUnknown} interface to be used bye the objects class
+factory. Typically the function will be like this one:
+
+@smallexample
+@cartouche
+@strong{function} New_Object @strong{return} Interface_Pointer @strong{is}
+   New_Interface : @strong{aliased} Interface_Pointer;
+   New_Object    : @strong{aliased} GNATCOMClass_Pointer;
+@strong{begin}
+   New_Interface := @strong{new} Interface;
+   New_Object    := @strong{new} GNATCOMClass_Object;
+   New_Interface.CoClass := New_Object.all'Address;
+   New_Interface.Vtbl := IGNATMessage_Vtbl'Address;
+   @strong{return} New_Interface;
+@strong{end} New_Object;
+@end cartouche
+@end smallexample
+
+@noindent
+COM objects that will support dual interfaces will most likely want to
+take advantage of the Win32 APIs that implement @code{IDispatch} using the
+objects type library. In order for these APIs to function, they need
+access to the type library. A sound way of implementing this is using a
+controlled object that loads the type library when the object is created
+and frees it when the object is destroyed. For example:
+
+@smallexample
+@cartouche
+--  @i{Controlled type for handling information that should be}
+--  @i{processed when the object is created or destroyed.}
+
+@strong{type} Controlled_Information @strong{is}
+  @strong{new} Ada.Finalization.Controlled @strong{with record}
+      Type_Information : @strong{aliased} Win32.OleAuto.LPTYPEINFO := null;
+  @strong{end record};
+
+@strong{procedure} Initialize (This : @strong{in out} Controlled_Information);
+@strong{procedure} Finalize (This : @strong{in out} Controlled_Information);
+@strong{procedure} Adjust (This : @strong{in out} Controlled_Information);
+@end cartouche
+@end smallexample
+
+@cindex LoadRegTypeLib
+@noindent
+The implementation of this example uses the Win32 API @code{LoadRegTypeLib} to
+load the type library interface and then uses Adjust and Finalize to
+handle the reference counting issues related to the
+interface. Implementation of the @code{IDispatch} methods then just call the
+appropriate Win32 APIs passing the type information interface contained
+in the controlled object.
+
+@cindex IUnknown, AddRef
+@cindex IUnknown, Release
+@noindent
+Every object will need to implement the @code{IUnknown} functions. The
+@code{Addref} and @code{Release} methods will be the same for each object.
+
+@smallexample
+@cartouche
+@i{---------------------}
+@i{-- IUnknown_AddRef --}
+@i{---------------------}
+
+@strong{function} IUnknown_AddRef (This : @strong{access} Interface)
+  @strong{return} Win32.ULONG
+@strong{is}
+   lResult : Win32.Long;
+   Object  : GNATCOMClass_Pointer := To_Object_Pointer (This.CoClass);
+@strong{begin}
+   --  @i{InterlockedIncrement is a thread protected Win32 API function}
+   --  @i{to increment a long}
+
+   --  @i{Interface reference increment}
+   lResult :=
+     Win32.Winbase.InterlockedIncrement (This.Ref_Count'Access);
+
+   --  @i{Object reference increment}
+   lResult :=
+     Win32.Winbase.InterlockedIncrement (Object.Ref_Count'Access);
+
+   @strong{return} Win32.ULONG (This.Ref_Count);
+
+@strong{end} IUnknown_AddRef;
+
+@i{----------------------}
+@i{-- IUnknown_Release --}
+@i{----------------------}
+
+@strong{function} IUnknown_Release (This : @strong{access} Interface)
+  @strong{return} Win32.ULONG
+@strong{is}
+   @strong{use type} Interfaces.C.Long;
+
+   lResult : Win32.Long;
+   Object  : GNATCOMClass_Pointer := To_Object_Pointer (This.CoClass);
+@strong{begin}
+   --  @i{InterlockedDecrement is a thread protected Win32 API function}
+   --  @i{to decrement a long}
+   lResult :=
+     Win32.Winbase.InterlockedDecrement (Object.Ref_Count'Access);
+
+   @strong{if} 
+     Win32.Winbase.InterlockedDecrement (This.Ref_Count'Access) /= 0
+   @strong{then}
+      @strong{return} Win32.ULONG (This.Ref_Count);
+
+   @strong{else}
+      --  @i{Last reference to Interface so free it}
+      Free (This.all'Address);
+      @strong{return} 0;
+   @strong{end if};
+
+@strong{end} IUnknown_Release;
+@end cartouche
+@end smallexample
+
+@noindent
+The free procedure deallocates the interface instance from memory since
+the reference counter has reached zero. With in the free procedure the
+reference count of the object is also decremented. If it reaches zero,
+the the instance data is also freed destroying the COM object as it is
+no longer in use.
+
+@noindent
+The implementation of QueryInterface is similar from one object to the
+next, but needs to be customized to support the interfaces exposed by
+the COM object. In the example below, an elsif for each supported
+interface needs to be added after the support for @code{IUnknown}. The same
+pattern is followed, but the assignment of the table of access to
+functions is changed to the appropriate one for the requested interface.
+
+@cindex IUnknown, QueryInterface
+@smallexample
+@cartouche
+@strong{function} IUnknown_QueryInterface
+  (This      : @strong{access} Interface;
+   riid      : @strong{in}     Win32.Objbase.REFIID;
+   ppvObject : @strong{access} Win32.PVOID)
+  @strong{return} HRESULT
+@strong{is}
+   @strong{use type} Win32.Rpcdce.Guid;
+
+   New_Interface : @strong{aliased} Interface_Pointer;
+   lResult       : Win32.LONG;
+   Result        : Win32.ULONG;
+   Object        : GNATCOMClass_Pointer :=
+                        To_Object_Pointer (This.CoClass);
+@strong{begin}
+   @strong{if} riid.all = IID_IUnknown @strong{then}
+      -- @i{Since IUnknown is the parent of every interface, just}
+      -- @i{return back a pointer to this interface with an additional}
+      -- @i{reference count and the client will use it as if it was}
+      -- @i{IUnknown}
+      ppvObject.all := This.all'Address;
+      Result := IUnknown_AddRef (This);
+
+   @strong{elsif} Riid.all = IID_IDispatch @strong{then}
+      New_Interface := @strong{new} Interface;
+      New_Interface.CoClass := This.CoClass;
+      lResult := 
+         Win32.Winbase.InterlockedIncrement (Object.Ref_Count'Access);
+      New_Interface.Vtbl := IGNATMessage_Vtbl'Address;
+      ppvObject.all := New_Interface.all'Address;
+
+   @strong{elsif} Riid.all = IID_IGNATMessage @strong{then}
+      New_Interface := @strong{new} Interface;
+      New_Interface.CoClass := This.CoClass;
+      lResult := 
+         Win32.Winbase.InterlockedIncrement (Object.Ref_Count'Access);
+      New_Interface.Vtbl := IGNATMessage_Vtbl'Address;
+      ppvObject.all := New_Interface.all'Address;
+
+   @strong{elsif} Riid.all = IID_IGNATStat @strong{then}
+      New_Interface := @strong{new} Interface;
+      New_Interface.CoClass := This.CoClass;
+      lResult := 
+         Win32.Winbase.InterlockedIncrement (Object.Ref_Count'Access);
+      New_Interface.Vtbl := IGNATStat_Vtbl'Address;
+      ppvObject.all := New_Interface.all'Address;
+
+   @strong{else}
+      ppvObject.all := System.Null_Address;
+      return Win32.Winerror.E_NOINTERFACE;
+   @strong{end if};
+
+   @strong{return} Win32.Winerror.S_OK;
+@strong{end} Iunknown_QueryInterface;
+@end cartouche
+@end smallexample
+
+@cindex CoClass
+@noindent
+Once @code{IUnknown} methods have been implemented the only additional work is
+to implement each interface method. In order to have access to the
+object instance data, a conversion function is used on the @code{CoClass}
+member of the interface type like this one:
+
+@smallexample
+@cartouche
+@strong{function} To_Object_Pointer @strong{is}
+   @strong{new} Ada.Unchecked_Conversion (System.Address,
+                                 GNATCOMClass_Pointer);
+@end cartouche
+@end smallexample
+
+@noindent
+A simple method implementation may look something like this:
+
+@smallexample
+@cartouche
+@strong{function} IGNATStat_Calls
+  (This          : @strong{access} Interface;
+   NumberOfTimes : @strong{access} Interfaces.C.int)
+  @strong{return} HRESULT
+@strong{is}
+   Object : GNATCOMClass_Pointer := To_Object_Pointer (This.CoClass);
+@strong{begin}
+   Message_Box("Calls", Integer'Image (Object.Count));
+   NumberOfTimes.all := Interfaces.C.int (Object.Count);
+
+   @strong{return} Win32.Winerror.S_OK;
+@strong{end} IGNATStat_Calls;
+@end cartouche
+@end smallexample
+
+@node Step 4 - Class Factory Implementation
+@subsection Step 4 - Class Factory Implementation
+
+@noindent
+The implementation of the class factory for any COM object will be
+identical to the implementation found in the example files
+@file{gnatexample-factory.ad?}. The only difference will be in the function
+@code{IClassFactory_CreateInstance} where the function used to create the COM
+object will be the one created in Step 3.
+
+@node InProc container implementation
+@section InProc container implementation
+@cindex COM, InProc servers
+
+@strong{Step 1 - The export file}
+
+@noindent
+Every InProc container (DLL housing a COM object), needs to export four
+functions in its export (.def) file.
+
+@noindent
+The def file must start exactly like this, but may contain additional
+exports following these four:
+
+@cindex DllGetClassObject
+@cindex DllCanUnloadNow
+@cindex DllRegisterServer
+@cindex DllUnregisterServer
+@smallexample
+@cartouche
+EXPORTS
+   DllGetClassObject=DllGetClassObject@@12     @@2
+   DllCanUnloadNow=DllCanUnloadNow@@0          @@3
+   DllRegisterServer=DllRegisterServer@@0      @@4
+   DllUnregisterServer=DllUnregisterServer@@0  @@5
+@end cartouche
+@end smallexample
+
+@strong{Step 2 - The dll implementation}
+
+@cindex DllMain
+@noindent
+In addition to the four exports mentioned every DLL must contain an
+exported @code{DllMain} procedure. The implementation for the
+@code{DllMain} will be the same for all objects, unless additional
+functionality is needed on the containers startup or shutdown:
+
+@smallexample
+@cartouche
+@strong{function} DllMain (hinstDLL    : Win32.Windef.HINSTANCE;
+                  fdwReason   : Win32.DWORD;
+                  lpvReserved : Win32.LPVOID)
+  @strong{return} Win32.BOOL
+@strong{is}
+   @strong{procedure} Adainit;
+   @strong{pragma} Import (C, Adainit);
+
+   @strong{procedure} Adafinal;
+   @strong{pragma} Import (C, Adafinal);
+
+   DLL_PROCESS_DETACH : constant := 0;
+   DLL_PROCESS_ATTACH : constant := 1;
+@strong{begin}
+   @strong{case} fdwReason @strong{is}
+      @strong{when} DLL_PROCESS_ATTACH =>
+         AdaInit;
+         hInstance := hinstDll;
+         return 1;
+
+      @strong{when} DLL_PROCESS_DETACH =>
+         AdaFinal;
+         return 1;
+
+      @strong{when} others =>
+         return 1;
+   @strong{end case};
+@strong{end} DllMain;
+@end cartouche
+@end smallexample
+
+@noindent
+The Instance handle assigned to the Dll is save in a variable @code{hInstance}
+for use by the exported COM Dll functions.
+
+@noindent
+The @code{DllGetClassObject} is used by COM to request from the Dll a pointer
+to the factory object for a particular type of COM object. The
+implementation needs to check that it does in fact support creation of
+those objects and then needs to return a pointer to the class factory
+that will produces objects of the requested type. See the implementation
+in the @file{gnatexample-dll.adb} file for an example.
+
+@noindent
+The @code{DllCanUnloadNow} function is called periodically by the operating
+system to determine if the Dll can be unloaded or needs to remain in
+memory. The Dll needs to remain in memory and returns @code{S_FALSE} if there
+are any server locks or if there are any created objects still being
+used. For example:
+
+@smallexample
+@cartouche
+@strong{function} DllCanUnloadNow @strong{return} HRESULT @strong{is}
+   @strong{use type} Interfaces.C.Long;
+@strong{begin}
+   @strong{if} Server_Lock_Count = 0 and then Component_Count = 0 @strong{then}
+      @strong{return} Win32.Winerror.S_OK;
+   @strong{else}
+      @strong{return} Win32.Winerror.S_FALSE;
+   @strong{end if};
+@strong{end} DllCanUnloadNow;
+@end cartouche
+@end smallexample
+
+@cindex DllRegisterServer
+@cindex DllUnregisterServer
+@noindent
+The functions @code{DllRegisterServer} and @code{DllUnregisterServer}
+are called by the application @code{regsvr32.exe} (or an install
+program) to request that the Dll add or remove all the relevant COM
+entries of the registry for its supported objects and type libraries.
+
+@cindex LoadTypeLib
+@cindex HKEY_CLASSES_ROOT
+@cindex RegisterTypeLib
+@noindent
+The first step in @code{DllRegisterServer} is to register the type
+libraries. This is done by first obtaining the full path file name of
+the Dll. Using this path, the Win32 APIs @code{LoadTypeLib} and
+@code{RegisterTypeLib} are used to load and register the type
+library. Then the following entries are registered to the NT registry
+under @code{HKEY_CLASSES_ROOT} (using a simple helper procedure in the
+example file):
+
+@smallexample
+@cartouche
+Register ("CLSID\" & CLSID, "", Library_Description);
+--  @i{CLSID = CLASS ID of the COM Object (CoClass GUID)}
+--  @i{Library_Description = Description of object to appear in COM}
+--  @i{browsers}
+
+Register ("CLSID\" & CLSID, "AppID", CLSID);
+--  @i{This entry links together the COM information (under \CLSID)}
+--  @i{with the remoting information for DCOM (under \APPID)}
+
+Register ("CLSID\" & CLSID & "\InProcServer32",
+          "",
+          C.To_Ada (DllPath));
+--  @i{Path to InProcServer 32 bit implementation of the COM object}
+--  @i{(a DLL)}
+
+Register ("CLSID\" & CLSID & "\InProcServer32",
+          "ThreadingModel",
+          "Apartment");
+--  @i{Tells the operating system that this object is aware of}
+--  @i{threading issues, but the OS should synchronize access to}
+--  @i{the object.}
+--  @i{This does not affect the type of clients that can use this}
+--  @i{object,ie. a client usingCoInitializeEx(CLSCTX_MULTI_THREADED)}
+--  @i{can create this object and the OS will handle synchronization}
+--  @i{of calls made by each thread trying to access the object.}
+
+Register ("CLSID\" & CLSID & "\ProgID",
+          "",
+          Object_Name & "." & Library_Version);
+--  @i{Links the CLSID to the PROGID}
+--  @i{The ProgID is the human readable name of the COM object used}
+--  @i{by VB and other languages instead of the GUID.}
+--  @i{The PROGID also contains a dot followed by the version number.}
+
+Register ("CLSID\" & CLSID & "\VersionIndependentProgID",
+          "",
+          Object_Name);
+--  @i{Links the CLSID to the PROGID with out the version number}
+      
+Register (Object_Name, "", Library_Description);
+--  @i{Creates the version independant PROGID entry}
+      
+Register (Object_Name & "\CLSID", "", CLSID);
+--  @i{Links the PROGID to the CLSID of the object}
+      
+Register (Object_Name & "\CurVer",
+          "",
+          Object_Name & "." & Library_Version);
+--  @i{Links the version independant PROGID to the version}
+--  @i{dependant PROGID}
+      
+Register (Object_Name & "." & Library_Version,
+          "",
+          Object_Name);
+--  @i{Creates the PROGID entry}
+      
+Register (Object_Name & "." & Library_Version & "\CLSID",
+          "",
+          CLSID);
+--  @i{Links the PROGID to the CLSID}
+      
+Register ("AppID\" & CLSID, "", Library_Description);
+--  @i{Creates the AppID entry where remoting infromation about the}
+--  @i{COM object is stored.}
+      
+Register ("AppID\" & CLSID, "DllSurrogate", "");
+--  @i{Tells the opearting system that if a request is made to run}
+--  @i{the COM object as a DCOM object or as a separate process}
+--  @i{(LocalServer) to provide this for the dll using a built in NT}
+--  @i{application DLLHOST.EXE}
+@end cartouche
+@end smallexample
+
+@cindex DllUnregisterServer
+@cindex DllUnregisterTypeLib
+@noindent
+The @code{DllUnregisterServer} function first removes the registered type
+library using the Win32 API function @code{UnregisterTypeLib}, it then
+removes all the entries in the NT registery created by
+@code{DllRegisterServer}.
+
+@node LocalServer container implementation
+@section LocalServer container implementation
+@cindex COM, Local servers
+
+@cindex Local servers, /Embedding
+@cindex Local servers, /RegServer
+@cindex Local servers, /UnregServer
+@noindent
+LocalServers (Exe's containing COM objects) must handle three command
+line parameters, @code{/Embedding}, @code{/RegServer}, and @code{/UnregServer}.
+
+@cindex CoInitialize
+@cindex CoRegisterClassObject
+@cindex CoUnregisterClassObject
+@cindex CoUninitialize
+@noindent
+The LocalServer is called with @code{/Embedding} when the operating system
+needs to create COM objects that are contained in the server. It may
+also be used form the command line to pre-load the container in memory
+so that future requests of clients to create COM objects will be
+quicker. When embedding, the Win32 API @code{CoInitialize} is called to load
+the COM environment. Then a class factory for each COM object type that
+can be created is registered with the operating system using the
+@code{CoRegisterClassObject} API call. In order for the server to wait for the
+COM objects to be used and to later shutdown it starts up a Win32
+message loop. Upon receiving notice that the server is no longer needed
+(all the COM objects it created were destroyed and there are no server
+locks), the messag loop exits and the API function
+@code{CoUnregisterClassObject} is called for each factory that was
+registered. The application then completes after calling the
+@code{CoUnitialize} API function to shutdown the COM environment.
+
+@noindent
+When started with @code{/RegServer} or @code{/UnregServer} then same
+process used in the InProc implementation is used to register or
+unregister the type libraries and NT registry entries.
+
+@noindent
+See the @file{gnatexample-exe.adb} file for a complete example.
+
+@node Using GNAT COM objects as Distributed COM objects,  Debugging COM objects with gdb, Creating COM objects with GNAT, Top
+@section Using GNAT COM objects as Distributed COM objects
+
+@cindex DCOM
+@noindent
+Using COM objects in a distributed fashion is more of a configuration
+issue then a programming issue. For both the client code and the server
+code there are no changes that need to be done. Remote machines need to
+have their registry updated to include the various COM entries and the
+type library must be registered. A simple application that does this is
+in @file{remote.adb}.
+
+@cindex CoCreateInstanceEx
+@noindent
+It registers the type library and inserts the same registry entries as
+the COM containers, but does not insert a server type and uses the
+key/value pair RemoteServerName/ServerName to specify the IP address or
+name of the remote server. It is possible to override the specified
+server name by using @code{CoCreateInstanceEx} instead of
+@code{CoCreateInstance} in the client code.
+
+@noindent
+When using DCOM, you must also configure permissions to remote machines
+to access the COM objects. This is done using the Windows NT utility
+dcomcnfg.exe.
+
+@node Debugging COM objects with gdb, ,Using GNAT COM objects as Distributed COM objects, Top
+@chapter Debugging COM objects with gdb
+@cindex Debugging
+@cindex gdb
+
+@noindent
+Depending on the type of COM object and the client type there are different
+techniques used to debug a COM object.
+
+@noindent
+The easiest form of COM object to debug is the Local Server (EXE) type.
+The COM object is compiled with the -g option to gnatmake and run in gdb
+as any other application. Break points can then be set and when the client
+compiled with gdb compatible debugging information or not is run the break
+points will be hit in the local server. It is also possible to use the gdb
+command @code{attach} to connect to an already running local server.
+The program ID that is used with the @code{attach} command can be located
+using the task manager.
+
+@noindent
+Since Inproc Server COM objects are DLLs, they run in the same address
+space as the executable using them. If the client of the COM object is
+compiled with gdb debug information it is possible to debug normally and
+step through the client directly in to the COM object. Break points though
+can not be set in the COM object until after the object is created in the
+client code.
+
+@noindent
+If the client does not contain gdb debug information (such as when the
+client is a Microsoft Visual C++ or Visual Basic client), an alternate
+techniques must used. The executable of the client can either be run
+with in gdb or attached to using the gdb attach command. Since it is not
+possible to set a break point in the client code it may not be possible
+to easily determine when the COM object has been created in order to
+stop execution of the client application and to set break points. One
+technique to assist in determining this point is to place a MessageBox
+or similar blocking function in the objects creation code. Once the
+message box displays a ctrl-c sequence can be sent to gdb to pause
+execution of the application and break points can then be set in to COM
+object. A @code{continue} statement can then be sent to gdb and the
+dialog box's OK button can be pushed to continue program execution and
+debugging.
+
+@node Index, , , Top
+@unnumbered Index
+
+@printindex cp
+
+@contents
+
+@bye
