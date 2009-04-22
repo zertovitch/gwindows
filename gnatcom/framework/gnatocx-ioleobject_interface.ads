@@ -114,4 +114,3 @@ package GNATOCX.IOleObject_Interface is
       pLogpal : Pointer_To_LOGPALETTE);
 
 end GNATOCX.IOleObject_Interface;
-

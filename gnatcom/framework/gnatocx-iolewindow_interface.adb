@@ -47,4 +47,3 @@ package body GNATOCX.IOleWindow_Interface is
    end ContextSensitiveHelp;
 
 end GNATOCX.IOleWindow_Interface;
-

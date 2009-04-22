@@ -31,4 +31,3 @@ package GNATOCX.IEnumUnknown_Interface is
       ppenum : Pointer_To_Pointer_To_IEnumUnknown);
 
 end GNATOCX.IEnumUnknown_Interface;
-

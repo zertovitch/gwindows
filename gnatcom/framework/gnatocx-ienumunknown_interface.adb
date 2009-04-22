@@ -73,4 +73,3 @@ package body GNATOCX.IEnumUnknown_Interface is
    end Clone;
 
 end GNATOCX.IEnumUnknown_Interface;
-

@@ -31,4 +31,3 @@ package GNATOCX.IEnumMoniker_Interface is
       ppenum : Pointer_To_Pointer_To_IEnumMoniker);
 
 end GNATOCX.IEnumMoniker_Interface;
-

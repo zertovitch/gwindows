@@ -73,4 +73,3 @@ package body GNATOCX.IEnumFORMATETC_Interface is
    end Clone;
 
 end GNATOCX.IEnumFORMATETC_Interface;
-

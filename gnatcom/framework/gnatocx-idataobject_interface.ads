@@ -59,4 +59,3 @@ package GNATOCX.IDataObject_Interface is
       ppenumAdvise : Pointer_To_Pointer_To_IEnumSTATDATA);
 
 end GNATOCX.IDataObject_Interface;
-

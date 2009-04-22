@@ -118,8 +118,8 @@ package body GNATCOM.Errors is
       Message   : Interfaces.C.char_array (0 .. MAX_ERROR);
    begin
          FormatMessage (hr       => Result,
-                        lpbuffer => Message (Message'First)'Access,
-                        nsize    => MAX_ERROR);
+                        lpBuffer => Message (Message'First)'Access,
+                        nSize    => MAX_ERROR);
          return Interfaces.C.To_Ada (Message);
    end To_String;
 

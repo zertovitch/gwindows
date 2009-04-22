@@ -61,7 +61,6 @@ package body GNATCOM.ICreateTypeLib_Interface is
       Attach (This, pTLib);
    end Create_Type_Library;
 
-
    procedure Initialize (This : in out ICreateTypeLib_Type) is
    begin
       Set_IID (This, GNATCOM.Types.IID_ICreateTypeLib);

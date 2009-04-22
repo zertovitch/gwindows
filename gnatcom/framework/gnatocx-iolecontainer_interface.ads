@@ -30,4 +30,3 @@ package GNATOCX.IOleContainer_Interface is
       fLock : Interfaces.C.long);
 
 end GNATOCX.IOleContainer_Interface;
-

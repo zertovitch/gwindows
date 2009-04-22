@@ -36,4 +36,3 @@ package GNATOCX.IOleInPlaceObject_Interface is
      (This : IOleInPlaceObject_Type);
 
 end GNATOCX.IOleInPlaceObject_Interface;
-

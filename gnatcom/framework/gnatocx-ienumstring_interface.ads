@@ -31,4 +31,3 @@ package GNATOCX.IEnumString_Interface is
       ppenum : Pointer_To_Pointer_To_IEnumString);
 
 end GNATOCX.IEnumString_Interface;
-

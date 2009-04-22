@@ -21,4 +21,3 @@ package GNATOCX.IParseDisplayName_Interface is
       ppmkOut        : Pointer_To_Pointer_To_IMoniker);
 
 end GNATOCX.IParseDisplayName_Interface;
-

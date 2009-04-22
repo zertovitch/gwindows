@@ -31,4 +31,3 @@ package GNATOCX.IEnumSTATDATA_Interface is
       ppenum : Pointer_To_Pointer_To_IEnumSTATDATA);
 
 end GNATOCX.IEnumSTATDATA_Interface;
-

@@ -26,4 +26,3 @@ package GNATOCX.ISequentialStream_Interface is
       pcbWritten : GNATCOM.Types.Pointer_To_unsigned_long);
 
 end GNATOCX.ISequentialStream_Interface;
-

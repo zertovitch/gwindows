@@ -71,4 +71,3 @@ package GNATOCX.IStream_Interface is
       ppstm : Pointer_To_Pointer_To_IStream);
 
 end GNATOCX.IStream_Interface;
-

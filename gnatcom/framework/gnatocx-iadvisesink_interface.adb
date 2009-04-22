@@ -83,4 +83,3 @@ package body GNATOCX.IAdviseSink_Interface is
    end RemoteOnClose;
 
 end GNATOCX.IAdviseSink_Interface;
-

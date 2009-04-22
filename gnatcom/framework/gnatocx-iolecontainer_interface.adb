@@ -67,4 +67,3 @@ package body GNATOCX.IOleContainer_Interface is
    end LockContainer;
 
 end GNATOCX.IOleContainer_Interface;
-

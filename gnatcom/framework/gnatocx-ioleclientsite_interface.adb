@@ -93,4 +93,3 @@ package body GNATOCX.IOleClientSite_Interface is
    end RequestNewObjectLayout;
 
 end GNATOCX.IOleClientSite_Interface;
-

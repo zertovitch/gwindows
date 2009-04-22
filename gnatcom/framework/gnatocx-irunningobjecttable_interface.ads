@@ -48,4 +48,3 @@ package GNATOCX.IRunningObjectTable_Interface is
       ppenumMoniker : Pointer_To_Pointer_To_IEnumMoniker);
 
 end GNATOCX.IRunningObjectTable_Interface;
-

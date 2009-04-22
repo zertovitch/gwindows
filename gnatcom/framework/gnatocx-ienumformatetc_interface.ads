@@ -31,4 +31,3 @@ package GNATOCX.IEnumFORMATETC_Interface is
       ppenum : Pointer_To_Pointer_To_IEnumFORMATETC);
 
 end GNATOCX.IEnumFORMATETC_Interface;
-

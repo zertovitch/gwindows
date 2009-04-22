@@ -37,4 +37,3 @@ package GNATOCX.IOleClientSite_Interface is
      (This : IOleClientSite_Type);
 
 end GNATOCX.IOleClientSite_Interface;
-

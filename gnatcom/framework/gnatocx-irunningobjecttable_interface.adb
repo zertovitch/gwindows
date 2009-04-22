@@ -119,4 +119,3 @@ package body GNATOCX.IRunningObjectTable_Interface is
    end EnumRunning;
 
 end GNATOCX.IRunningObjectTable_Interface;
-

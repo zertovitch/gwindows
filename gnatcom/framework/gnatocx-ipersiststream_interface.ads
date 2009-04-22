@@ -34,4 +34,3 @@ package GNATOCX.IPersistStream_Interface is
       pcbSize : Pointer_To_uULARGE_INTEGER);
 
 end GNATOCX.IPersistStream_Interface;
-

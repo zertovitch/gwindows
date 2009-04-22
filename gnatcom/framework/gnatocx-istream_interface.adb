@@ -181,4 +181,3 @@ package body GNATOCX.IStream_Interface is
    end Clone;
 
 end GNATOCX.IStream_Interface;
-

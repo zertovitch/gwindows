@@ -118,4 +118,3 @@ package GNATOCX.IMoniker_Interface is
       pdwMksys : GNATCOM.Types.Pointer_To_unsigned_long);
 
 end GNATOCX.IMoniker_Interface;
-

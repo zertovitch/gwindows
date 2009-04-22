@@ -73,4 +73,3 @@ package body GNATOCX.IEnumString_Interface is
    end Clone;
 
 end GNATOCX.IEnumString_Interface;
-

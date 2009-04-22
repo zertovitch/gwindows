@@ -311,4 +311,3 @@ package body GNATOCX.IMoniker_Interface is
    end IsSystemMoniker;
 
 end GNATOCX.IMoniker_Interface;
-

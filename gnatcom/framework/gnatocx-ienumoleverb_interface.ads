@@ -31,4 +31,3 @@ package GNATOCX.IEnumOLEVERB_Interface is
       ppenum : Pointer_To_Pointer_To_IEnumOLEVERB);
 
 end GNATOCX.IEnumOLEVERB_Interface;
-

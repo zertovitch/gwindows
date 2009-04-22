@@ -18,4 +18,3 @@ package GNATOCX.IPersist_Interface is
       pClassID : GNATCOM.Types.Pointer_To_GUID);
 
 end GNATOCX.IPersist_Interface;
-

@@ -145,4 +145,3 @@ package body GNATOCX.IBindCtx_Interface is
    end RevokeObjectParam;
 
 end GNATOCX.IBindCtx_Interface;
-

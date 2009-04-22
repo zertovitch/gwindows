@@ -83,4 +83,3 @@ package body GNATOCX.IPersistStream_Interface is
    end GetSizeMax;
 
 end GNATOCX.IPersistStream_Interface;
-

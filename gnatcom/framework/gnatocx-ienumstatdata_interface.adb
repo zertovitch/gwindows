@@ -73,4 +73,3 @@ package body GNATOCX.IEnumSTATDATA_Interface is
    end Clone;
 
 end GNATOCX.IEnumSTATDATA_Interface;
-

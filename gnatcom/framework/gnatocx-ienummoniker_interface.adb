@@ -73,4 +73,3 @@ package body GNATOCX.IEnumMoniker_Interface is
    end Clone;
 
 end GNATOCX.IEnumMoniker_Interface;
-

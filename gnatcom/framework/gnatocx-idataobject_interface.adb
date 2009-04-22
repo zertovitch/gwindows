@@ -149,4 +149,3 @@ package body GNATOCX.IDataObject_Interface is
    end EnumDAdvise;
 
 end GNATOCX.IDataObject_Interface;
-

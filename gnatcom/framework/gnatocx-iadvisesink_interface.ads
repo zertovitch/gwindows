@@ -34,4 +34,3 @@ package GNATOCX.IAdviseSink_Interface is
      (This : IAdviseSink_Type);
 
 end GNATOCX.IAdviseSink_Interface;
-

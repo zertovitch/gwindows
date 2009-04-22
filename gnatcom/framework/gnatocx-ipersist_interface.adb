@@ -35,4 +35,3 @@ package body GNATOCX.IPersist_Interface is
    end GetClassID;
 
 end GNATOCX.IPersist_Interface;
-

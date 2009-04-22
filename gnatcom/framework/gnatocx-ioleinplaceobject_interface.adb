@@ -91,4 +91,3 @@ package body GNATOCX.IOleInPlaceObject_Interface is
    end ReactivateAndUndo;
 
 end GNATOCX.IOleInPlaceObject_Interface;
-

@@ -41,4 +41,3 @@ package body GNATOCX.IParseDisplayName_Interface is
    end ParseDisplayName;
 
 end GNATOCX.IParseDisplayName_Interface;
-

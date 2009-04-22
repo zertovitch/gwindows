@@ -55,4 +55,3 @@ package GNATOCX.IBindCtx_Interface is
       pszKey : GNATCOM.Types.LPWSTR);
 
 end GNATOCX.IBindCtx_Interface;
-

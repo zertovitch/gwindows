@@ -73,4 +73,3 @@ package body GNATOCX.IEnumOLEVERB_Interface is
    end Clone;
 
 end GNATOCX.IEnumOLEVERB_Interface;
-

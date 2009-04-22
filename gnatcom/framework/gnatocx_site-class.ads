@@ -31,7 +31,6 @@
 -- be located on the web at http://www.gnavi.org/gnatcom                    --
 --                                                                          --
 ------------------------------------------------------------------------------
-    
 
 with GNATOCX.IOleObject_Interface;
 
@@ -673,7 +672,6 @@ package GNATOCX_Site.Class is
          6 => (IID_IOleWindow, IOleWindow_Vtbl'Address),
          7 => (IID_IOleInPlaceUIWindow, IOleInPlaceUIWindow_Vtbl'Address));
 
-
    type GNATOCXClass_Type is
      new GNATCOM.Create.COM_Interface.CoClass_Type (GUID_Map'Access) with
       record
@@ -688,4 +686,3 @@ package GNATOCX_Site.Class is
      return GNATCOM.Create.COM_Interface.Pointer_To_COM_Interface_Type;
 
 end GNATOCX_Site.Class;
-

@@ -310,4 +310,3 @@ package body GNATOCX.IOleObject_Interface is
    end SetColorScheme;
 
 end GNATOCX.IOleObject_Interface;
-

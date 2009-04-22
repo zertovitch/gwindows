@@ -22,4 +22,3 @@ package GNATOCX.IOleWindow_Interface is
       fEnterMode : Interfaces.C.long);
 
 end GNATOCX.IOleWindow_Interface;
-

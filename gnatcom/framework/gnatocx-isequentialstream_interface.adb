@@ -55,4 +55,3 @@ package body GNATOCX.ISequentialStream_Interface is
    end RemoteWrite;
 
 end GNATOCX.ISequentialStream_Interface;
-
