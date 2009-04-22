@@ -373,7 +373,6 @@ package body Bind_COM is
 
    procedure Output_Header
    is
-      use GNATCOM.ITypeLib_Interface;
       use type Interfaces.C.int;
 
       Name       : aliased GNATCOM.Types.BSTR;
@@ -3425,7 +3424,6 @@ package body Bind_COM is
    -- Element_Kind --
 
    function Element_Kind (Kind : GNATCOM.Types.TYPEKIND) return String is
-      use GNATCOM.Types;
    begin
       case Kind is
          when TKIND_ENUM =>
