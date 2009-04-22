@@ -39,7 +39,6 @@ with Ada.Unchecked_Conversion;
 with GNAT.IO; use GNAT.IO;
 
 with GNATCOM.Initialize;
-with GNATCOM.Create.Factory;
 with GNATCOM.Register;
 with GNATCOM.Errors;
 with GNATCOM.Utility;

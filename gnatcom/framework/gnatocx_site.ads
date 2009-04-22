@@ -112,7 +112,6 @@ package GNATOCX_Site is
    subtype IGNATOCX is
      GNATCOM.Create.COM_Interface.COM_Interface_Type;
 
-
    type Pointer_To_IStorage is access all IStorage;
    type Pointer_To_IStream is access all IStream;
    type Pointer_To_unsigned_char is access all Interfaces.C.unsigned_char;
@@ -134,6 +133,7 @@ package GNATOCX_Site is
    type Pointer_To_IOleInPlaceActiveObject is
      access all IOleInPlaceActiveObject;
    type Pointer_To_IOleInPlaceFrame is access all IOleInPlaceFrame;
+   pragma No_Strict_Aliasing (Pointer_To_IOleInPlaceFrame);
    type Pointer_To_OleMenuGroupWidths is access all OleMenuGroupWidths;
    type Pointer_To_uFLAGGED_BYTE_BLOB is access all uFLAGGED_BYTE_BLOB;
    type Pointer_To_uuserHGLOBAL is access all uuserHGLOBAL;
@@ -173,34 +173,25 @@ package GNATOCX_Site is
    type Pointer_To_OIFI is access all OIFI;
    type Pointer_To_IGNATOCX is access all IGNATOCX;
 
-
-
    type SNB is
      new Interfaces.C.long;
-
 
    type HMENU is
      new Pointer_To_uRemotableHandle;
 
-
    type HGLOBAL is
      new Pointer_To_uuserHGLOBAL;
-
 
    type UINT_PTR is
      new Interfaces.C.unsigned_long;
 
-
    type LONG_PTR is
      new Interfaces.C.long;
-
 
    LIBID_GNATOCXLib : aliased GNATCOM.Types.GUID :=
      GNATCOM.GUID.To_GUID ("{352CDDDB-DADB-45DC-AEA8-3F726CC666A1}");
 
-
    Size_Of_uLARGE_INTEGER : constant := 64;
-
 
    --  Element Name          : _LARGE_INTEGER
    --  Element Type          : Record
@@ -216,10 +207,7 @@ package GNATOCX_Site is
       end record;
    for uLARGE_INTEGER'Size use Size_Of_uLARGE_INTEGER;
 
-
-
    Size_Of_uULARGE_INTEGER : constant := 64;
-
 
    --  Element Name          : _ULARGE_INTEGER
    --  Element Type          : Record
@@ -235,10 +223,7 @@ package GNATOCX_Site is
       end record;
    for uULARGE_INTEGER'Size use Size_Of_uULARGE_INTEGER;
 
-
-
    Size_Of_uFILETIME : constant := 64;
-
 
    --  Element Name          : _FILETIME
    --  Element Type          : Record
@@ -259,10 +244,7 @@ package GNATOCX_Site is
    for uFILETIME'Size use Size_Of_uFILETIME;
    for uFILETIME'Alignment use 4;
 
-
-
    Size_Of_STATSTG : constant := 576;
-
 
    --  Element Name          : STATSTG
    --  Element Type          : Record
@@ -305,8 +287,6 @@ package GNATOCX_Site is
            Interfaces.C.unsigned_long'Size - 1;
       end record;
    for STATSTG'Size use Size_Of_STATSTG;
-
-
 
    --  Element Name          : IStream
    --  Element Type          : Interface
@@ -424,11 +404,7 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_Clone);
 
-
-
-
    Size_Of_RemSNB : constant := 96;
-
 
    --  Element Name          : RemSNB
    --  Element Type          : Record
@@ -449,9 +425,6 @@ package GNATOCX_Site is
       end record;
    for RemSNB'Size use Size_Of_RemSNB;
    for RemSNB'Alignment use 4;
-
-
-
 
    --  Element Name          : IEnumSTATSTG
    --  Element Type          : Interface
@@ -507,9 +480,6 @@ package GNATOCX_Site is
                ppenum : Pointer_To_Pointer_To_IEnumSTATSTG)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumSTATSTG_Clone);
-
-
-
 
    --  Element Name          : IStorage
    --  Element Type          : Interface
@@ -675,8 +645,6 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStorage_Stat);
 
-
-
    --  Element Name          : ISequentialStream
    --  Element Type          : Interface
 
@@ -721,10 +689,7 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ISequentialStream_RemoteWrite);
 
-
-
    Size_Of_u_MIDL_IWinTypes_0009 : constant := 32;
-
 
    --  Element Name          : __MIDL_IWinTypes_0009
    --  Element Type          : Union
@@ -743,10 +708,7 @@ package GNATOCX_Site is
    pragma Unchecked_Union (u_MIDL_IWinTypes_0009);
    for u_MIDL_IWinTypes_0009'Size use Size_Of_u_MIDL_IWinTypes_0009;
 
-
-
    Size_Of_uRemotableHandle : constant := 64;
-
 
    --  Element Name          : _RemotableHandle
    --  Element Type          : Record
@@ -764,9 +726,6 @@ package GNATOCX_Site is
       end record;
    for uRemotableHandle'Size use Size_Of_uRemotableHandle;
    for uRemotableHandle'Alignment use 4;
-
-
-
 
    --  Element Name          : IOleWindow
    --  Element Type          : Interface
@@ -808,10 +767,7 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleWindow_ContextSensitiveHelp);
 
-
-
    Size_Of_RECT : constant := 128;
-
 
    --  Element Name          : RECT
    --  Element Type          : Record
@@ -833,8 +789,6 @@ package GNATOCX_Site is
       end record;
    for RECT'Size use Size_Of_RECT;
    for RECT'Alignment use 4;
-
-
 
    --  Element Name          : IOleInPlaceActiveObject
    --  Element Type          : Interface
@@ -918,9 +872,6 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleInPlaceActiveObject_EnableModeless);
 
-
-
-
    --  Element Name          : IOleInPlaceUIWindow
    --  Element Type          : Interface
 
@@ -990,15 +941,12 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleInPlaceUIWindow_SetActiveObject);
 
-
-
    type long_OleMenuGroupWidths_width_Array is
      array (Integer range 0 .. 5) of Interfaces.C.long;
    Size_Of_long_OleMenuGroupWidths_width_Array : constant :=
      Interfaces.C.long'Size * 6;
 
    Size_Of_OleMenuGroupWidths : constant := 192;
-
 
    --  Element Name          : OleMenuGroupWidths
    --  Element Type          : Record
@@ -1016,10 +964,7 @@ package GNATOCX_Site is
    for OleMenuGroupWidths'Size use Size_Of_OleMenuGroupWidths;
    for OleMenuGroupWidths'Alignment use 4;
 
-
-
    Size_Of_uFLAGGED_BYTE_BLOB : constant := 96;
-
 
    --  Element Name          : _FLAGGED_BYTE_BLOB
    --  Element Type          : Record
@@ -1040,10 +985,7 @@ package GNATOCX_Site is
    for uFLAGGED_BYTE_BLOB'Size use Size_Of_uFLAGGED_BYTE_BLOB;
    for uFLAGGED_BYTE_BLOB'Alignment use 4;
 
-
-
    Size_Of_u_MIDL_IWinTypes_0003 : constant := 64;
-
 
    --  Element Name          : __MIDL_IWinTypes_0003
    --  Element Type          : Union
@@ -1064,10 +1006,7 @@ package GNATOCX_Site is
    pragma Unchecked_Union (u_MIDL_IWinTypes_0003);
    for u_MIDL_IWinTypes_0003'Size use Size_Of_u_MIDL_IWinTypes_0003;
 
-
-
    Size_Of_uuserHGLOBAL : constant := 128;
-
 
    --  Element Name          : _userHGLOBAL
    --  Element Type          : Record
@@ -1085,13 +1024,7 @@ package GNATOCX_Site is
       end record;
    for uuserHGLOBAL'Size use Size_Of_uuserHGLOBAL;
 
-
-
-
-
-
    Size_Of_POINT : constant := 64;
-
 
    --  Element Name          : POINT
    --  Element Type          : Record
@@ -1110,10 +1043,7 @@ package GNATOCX_Site is
    for POINT'Size use Size_Of_POINT;
    for POINT'Alignment use 4;
 
-
-
    Size_Of_MSG : constant := 224;
-
 
    --  Element Name          : MSG
    --  Element Type          : Record
@@ -1140,8 +1070,6 @@ package GNATOCX_Site is
       end record;
    for MSG'Size use Size_Of_MSG;
    for MSG'Alignment use 4;
-
-
 
    --  Element Name          : IOleInPlaceFrame
    --  Element Type          : Interface
@@ -1258,10 +1186,7 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleInPlaceFrame_TranslateAccelerator);
 
-
-
    Size_Of_uCOAUTHIDENTITY : constant := 224;
-
 
    --  Element Name          : _COAUTHIDENTITY
    --  Element Type          : Record
@@ -1297,10 +1222,7 @@ package GNATOCX_Site is
    for uCOAUTHIDENTITY'Size use Size_Of_uCOAUTHIDENTITY;
    for uCOAUTHIDENTITY'Alignment use 4;
 
-
-
    Size_Of_uCOAUTHINFO : constant := 224;
-
 
    --  Element Name          : _COAUTHINFO
    --  Element Type          : Record
@@ -1336,10 +1258,7 @@ package GNATOCX_Site is
    for uCOAUTHINFO'Size use Size_Of_uCOAUTHINFO;
    for uCOAUTHINFO'Alignment use 4;
 
-
-
    Size_Of_uCOSERVERINFO : constant := 128;
-
 
    --  Element Name          : _COSERVERINFO
    --  Element Type          : Record
@@ -1366,10 +1285,7 @@ package GNATOCX_Site is
    for uCOSERVERINFO'Size use Size_Of_uCOSERVERINFO;
    for uCOSERVERINFO'Alignment use 4;
 
-
-
    Size_Of_BIND_OPTS2 : constant := 256;
-
 
    --  Element Name          : BIND_OPTS2
    --  Element Type          : Record
@@ -1407,8 +1323,6 @@ package GNATOCX_Site is
       end record;
    for BIND_OPTS2'Size use Size_Of_BIND_OPTS2;
    for BIND_OPTS2'Alignment use 4;
-
-
 
    --  Element Name          : IEnumMoniker
    --  Element Type          : Interface
@@ -1464,9 +1378,6 @@ package GNATOCX_Site is
                ppenum : Pointer_To_Pointer_To_IEnumMoniker)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumMoniker_Clone);
-
-
-
 
    --  Element Name          : IRunningObjectTable
    --  Element Type          : Interface
@@ -1549,9 +1460,6 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_EnumRunning);
 
-
-
-
    --  Element Name          : IEnumString
    --  Element Type          : Interface
 
@@ -1606,9 +1514,6 @@ package GNATOCX_Site is
                ppenum : Pointer_To_Pointer_To_IEnumString)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumString_Clone);
-
-
-
 
    --  Element Name          : IBindCtx
    --  Element Type          : Interface
@@ -1706,9 +1611,6 @@ package GNATOCX_Site is
                pszKey : GNATCOM.Types.LPWSTR)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_RevokeObjectParam);
-
-
-
 
    --  Element Name          : IMoniker
    --  Element Type          : Interface
@@ -1900,9 +1802,6 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_IsSystemMoniker);
 
-
-
-
    --  Element Name          : IEnumUnknown
    --  Element Type          : Interface
 
@@ -1958,9 +1857,6 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumUnknown_Clone);
 
-
-
-
    --  Element Name          : IOleContainer
    --  Element Type          : Interface
 
@@ -2011,9 +1907,6 @@ package GNATOCX_Site is
                fLock : Interfaces.C.long)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleContainer_LockContainer);
-
-
-
 
    --  Element Name          : IOleClientSite
    --  Element Type          : Interface
@@ -2082,8 +1975,6 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleClientSite_RequestNewObjectLayout);
 
-
-
    --  Element Name          : IPersistStream
    --  Element Type          : Interface
 
@@ -2145,8 +2036,6 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IPersistStream_GetSizeMax);
 
-
-
    --  Element Name          : IPersist
    --  Element Type          : Interface
 
@@ -2179,8 +2068,6 @@ package GNATOCX_Site is
                pClassID : GNATCOM.Types.Pointer_To_GUID)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IPersist_GetClassID);
-
-
 
    --  Element Name          : IParseDisplayName
    --  Element Type          : Interface
@@ -2218,11 +2105,7 @@ package GNATOCX_Site is
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IParseDisplayName_ParseDisplayName);
 
-
-
-
    Size_Of_OIFI : constant := 160;
-
 
    --  Element Name          : OIFI
    --  Element Type          : Record
@@ -2250,10 +2133,7 @@ package GNATOCX_Site is
    for OIFI'Size use Size_Of_OIFI;
    for OIFI'Alignment use 4;
 
-
-
    Size_Of_SIZE : constant := 64;
-
 
    --  Element Name          : SIZE
    --  Element Type          : Record
@@ -2271,8 +2151,6 @@ package GNATOCX_Site is
       end record;
    for SIZE'Size use Size_Of_SIZE;
    for SIZE'Alignment use 4;
-
-
 
    --  Element Name          : IOleInPlaceSite
    --  Element Type          : Interface

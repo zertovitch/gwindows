@@ -61,6 +61,7 @@ package GNATCOM.Types is
    subtype LPSTR is Pointer_To_char;
    type Pointer_To_LPSTR is access all LPSTR;
    subtype LPWSTR is Pointer_To_wchar_t;
+   pragma No_Strict_Aliasing (LPWSTR);
    type Pointer_To_LPWSTR is access all LPWSTR;
    --  C style strings
 
@@ -236,29 +237,37 @@ package GNATCOM.Types is
    type Pointer_To_unsigned_long is access all Interfaces.C.unsigned_long;
    type Pointer_To_unsigned_short is access all Interfaces.C.unsigned_short;
    type Pointer_To_IUnknown is access all IUnknown;
+   pragma No_Strict_Aliasing (Pointer_To_IUnknown);
    type Pointer_To_IDispatch is access all IDispatch;
+   pragma No_Strict_Aliasing (Pointer_To_IDispatch);
    type Pointer_To_Pointer_To_IUnknown is access all Pointer_To_IUnknown;
    type Pointer_To_Pointer_To_IDispatch is access all Pointer_To_IDispatch;
    type Pointer_To_VARIANT is access all VARIANT;
    type Pointer_To_ITypeLib is access all ITypeLib;
    type Pointer_To_Pointer_To_ITypeLib is access all Pointer_To_ITypeLib;
    type Pointer_To_ITypeInfo is access all ITypeInfo;
+   pragma No_Strict_Aliasing (Pointer_To_ITypeInfo);
    type Pointer_To_Pointer_To_ITypeInfo is access all Pointer_To_ITypeInfo;
    type Pointer_To_ITypeComp is access all ITypeComp;
    type Pointer_To_Pointer_To_ITypeComp is access all Pointer_To_ITypeComp;
    type Pointer_To_ICreateTypeLib is access all ICreateTypeLib;
+   pragma No_Strict_Aliasing (Pointer_To_ICreateTypeLib);
    type Pointer_To_Pointer_To_ICreateTypeLib is
      access all Pointer_To_ICreateTypeLib;
    type Pointer_To_ICreateTypeInfo is access all ICreateTypeInfo;
+   pragma No_Strict_Aliasing (Pointer_To_ICreateTypeInfo);
    type Pointer_To_Pointer_To_ICreateTypeInfo is
      access all Pointer_To_ICreateTypeInfo;
    type Pointer_To_IClassFactory is access all IClassFactory;
    type Pointer_To_IClassFactory2 is access all IClassFactory2;
+   pragma No_Strict_Aliasing (Pointer_To_IClassFactory2);
    type Pointer_To_IConnectionPointContainer is
      access all IConnectionPointContainer;
    type Pointer_To_Pointer_To_IConnectionPointContainer is
-     access all Pointer_To_IConnectionPointContainer;
+      access all Pointer_To_IConnectionPointContainer;
+   pragma No_Strict_Aliasing (Pointer_To_IConnectionPointContainer);
    type Pointer_To_IConnectionPoint is access all IConnectionPoint;
+   pragma No_Strict_Aliasing (Pointer_To_IConnectionPoint);
    type Pointer_To_Pointer_To_IConnectionPoint is
      access all Pointer_To_IConnectionPoint;
    type Pointer_To_IEnumConnectionPoints is access all IEnumConnectionPoints;
@@ -268,8 +277,10 @@ package GNATCOM.Types is
    type Pointer_To_Pointer_To_IEnumConnections is
      access all Pointer_To_IEnumConnections;
    type Pointer_To_IEnumVARIANT is access all IEnumVARIANT;
+   pragma No_Strict_Aliasing (Pointer_To_IEnumVARIANT);
    type Pointer_To_Pointer_To_IEnumVARIANT is access all IEnumVARIANT;
    type Pointer_To_IGlobalInterfaceTable is access all IGlobalInterfaceTable;
+   pragma No_Strict_Aliasing (Pointer_To_IGlobalInterfaceTable);
    --  Pointer types used by COM
 
    VT_EMPTY           : constant := 0;
@@ -438,23 +449,22 @@ package GNATCOM.Types is
    --  Variants should be manipulated using the Variant APIs or with
    --  GNATCOM.Variant
 
-   type Pointer_To_VARIANT_Constant is access constant VARIANT;
-
    VARIANT_MISSING : aliased constant VARIANT :=
      (VT_ERROR, 0, 0, 0, u => (Which => 8, scode => DISP_E_PARAMNOTFOUND));
-   PVARIANT_MISSING : Pointer_To_VARIANT_Constant := VARIANT_MISSING'Access;
+   PVARIANT_MISSING : Pointer_To_VARIANT :=
+      VARIANT_MISSING'Unrestricted_Access;
 
    VARIANT_TRUE : aliased constant VARIANT :=
      (VT_BOOL, 0, 0, 0, u => (Which => 6, boolVal => VARIANT_BOOL_TRUE));
-   PVARIANT_TRUE : Pointer_To_VARIANT_Constant := VARIANT_TRUE'Access;
+   PVARIANT_TRUE : Pointer_To_VARIANT := VARIANT_TRUE'Unrestricted_Access;
 
    VARIANT_FALSE : aliased constant VARIANT :=
      (VT_BOOL, 0, 0, 0, u => (Which => 6, boolVal => VARIANT_BOOL_FALSE));
-   PVARIANT_FALSE : Pointer_To_VARIANT_Constant := VARIANT_FALSE'Access;
+   PVARIANT_FALSE : Pointer_To_VARIANT := VARIANT_FALSE'Unrestricted_Access;
 
    VARIANT_NULL : aliased constant VARIANT :=
      (VT_NULL, 0, 0, 0, u => (Which => 1, lVal => 0));
-   PVARIANT_NULL : Pointer_To_VARIANT_Constant := VARIANT_NULL'Access;
+   PVARIANT_NULL : Pointer_To_VARIANT := VARIANT_NULL'Unrestricted_Access;
 
    MAX_PARAMS : constant := 255;
 
@@ -469,12 +479,14 @@ package GNATCOM.Types is
      aliased GNATCOM.Types.VARIANT;
    pragma Convention (C, VARIANT_PARAM_ARRAY);
    type Pointer_To_VARIANT_PARAM_ARRAY is access all VARIANT_PARAM_ARRAY;
+   pragma No_Strict_Aliasing (Pointer_To_VARIANT_PARAM_ARRAY);
 
    type DISPID_PARAM_ARRAY is array
      (Interfaces.C.unsigned range 0 .. MAX_PARAMS) of
      aliased Interfaces.C.long;
    pragma Convention (C, DISPID_PARAM_ARRAY);
    type Pointer_To_DISPID_PARAM_ARRAY is access all DISPID_PARAM_ARRAY;
+   pragma No_Strict_Aliasing (Pointer_To_DISPID_PARAM_ARRAY);
 
    --  Parameter helper arrays
 
@@ -1003,6 +1015,7 @@ package GNATCOM.Types is
 
    type ITypeLibVtbl;
    type Pointer_To_ITypeLibVtbl is access all ITypeLibVtbl;
+   pragma No_Strict_Aliasing (Pointer_To_ITypeLib);
 
    type ITypeLib is
       record

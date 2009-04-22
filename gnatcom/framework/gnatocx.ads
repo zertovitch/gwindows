@@ -113,7 +113,6 @@ package GNATOCX is
    type IOleWindow;
    type IOleInPlaceObject;
 
-
    type Pointer_To_wireHWND is access all wireHWND;
    type Pointer_To_IOleObject is access all IOleObject;
    type Pointer_To_IOleClientSite is access all IOleClientSite;
@@ -192,26 +191,19 @@ package GNATOCX is
    type Pointer_To_IOleWindow is access all IOleWindow;
    type Pointer_To_IOleInPlaceObject is access all IOleInPlaceObject;
 
-
-
    type wireCLIPFORMAT is
      new Pointer_To_uuserCLIPFORMAT;
-
 
    type wireSTGMEDIUM is
      new Pointer_To_uuserSTGMEDIUM;
 
-
    type wireFLAG_STGMEDIUM is
      new Pointer_To_uuserFLAG_STGMEDIUM;
-
 
    type wireASYNC_STGMEDIUM is
      new Pointer_To_uuserSTGMEDIUM;
 
-
    Size_Of_uLARGE_INTEGER : constant := 64;
-
 
    --  Element Name          : _LARGE_INTEGER
    --  Element Type          : Record
@@ -227,9 +219,7 @@ package GNATOCX is
       end record;
    for uLARGE_INTEGER'Size use Size_Of_uLARGE_INTEGER;
 
-
    Size_Of_uULARGE_INTEGER : constant := 64;
-
 
    --  Element Name          : _ULARGE_INTEGER
    --  Element Type          : Record
@@ -245,9 +235,7 @@ package GNATOCX is
       end record;
    for uULARGE_INTEGER'Size use Size_Of_uULARGE_INTEGER;
 
-
    Size_Of_uFILETIME : constant := 64;
-
 
    --  Element Name          : _FILETIME
    --  Element Type          : Record
@@ -267,9 +255,7 @@ package GNATOCX is
    for uFILETIME'Size use Size_Of_uFILETIME;
    for uFILETIME'Alignment use 4;
 
-
    Size_Of_STATSTG : constant := 576;
-
 
    --  Element Name          : STATSTG
    --  Element Type          : Record
@@ -311,7 +297,6 @@ package GNATOCX is
            Interfaces.C.unsigned_long'Size - 1;
       end record;
    for STATSTG'Size use Size_Of_STATSTG;
-
 
    --  Element Name          : IStream
    --  Element Type          : Interface
@@ -447,10 +432,7 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IStream);
 
-
-
    Size_Of_uCOAUTHIDENTITY : constant := 224;
-
 
    --  Element Name          : _COAUTHIDENTITY
    --  Element Type          : Record
@@ -485,9 +467,7 @@ package GNATOCX is
    for uCOAUTHIDENTITY'Size use Size_Of_uCOAUTHIDENTITY;
    for uCOAUTHIDENTITY'Alignment use 4;
 
-
    Size_Of_uCOAUTHINFO : constant := 224;
-
 
    --  Element Name          : _COAUTHINFO
    --  Element Type          : Record
@@ -523,9 +503,7 @@ package GNATOCX is
    for uCOAUTHINFO'Size use Size_Of_uCOAUTHINFO;
    for uCOAUTHINFO'Alignment use 4;
 
-
    Size_Of_uCOSERVERINFO : constant := 128;
-
 
    --  Element Name          : _COSERVERINFO
    --  Element Type          : Record
@@ -548,9 +526,7 @@ package GNATOCX is
    for uCOSERVERINFO'Size use Size_Of_uCOSERVERINFO;
    for uCOSERVERINFO'Alignment use 4;
 
-
    Size_Of_BIND_OPTS2 : constant := 256;
-
 
    --  Element Name          : BIND_OPTS2
    --  Element Type          : Record
@@ -588,7 +564,6 @@ package GNATOCX is
       end record;
    for BIND_OPTS2'Size use Size_Of_BIND_OPTS2;
    for BIND_OPTS2'Alignment use 4;
-
 
    --  Element Name          : IEnumMoniker
    --  Element Type          : Interface
@@ -662,8 +637,6 @@ package GNATOCX is
    function To_Pointer_To_IEnumMoniker is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IEnumMoniker);
-
-
 
    --  Element Name          : IRunningObjectTable
    --  Element Type          : Interface
@@ -765,8 +738,6 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IRunningObjectTable);
 
-
-
    --  Element Name          : IEnumString
    --  Element Type          : Interface
 
@@ -839,8 +810,6 @@ package GNATOCX is
    function To_Pointer_To_IEnumString is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IEnumString);
-
-
 
    --  Element Name          : IBindCtx
    --  Element Type          : Interface
@@ -956,8 +925,6 @@ package GNATOCX is
    function To_Pointer_To_IBindCtx is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IBindCtx);
-
-
 
    --  Element Name          : IMoniker
    --  Element Type          : Interface
@@ -1167,8 +1134,6 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IMoniker);
 
-
-
    --  Element Name          : IEnumUnknown
    --  Element Type          : Interface
 
@@ -1242,8 +1207,6 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IEnumUnknown);
 
-
-
    --  Element Name          : IOleContainer
    --  Element Type          : Interface
 
@@ -1312,8 +1275,6 @@ package GNATOCX is
    function To_Pointer_To_IOleContainer is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IOleContainer);
-
-
 
    --  Element Name          : IOleClientSite
    --  Element Type          : Interface
@@ -1400,10 +1361,7 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IOleClientSite);
 
-
-
    Size_Of_u_MIDL_IWinTypes_0001 : constant := 32;
-
 
    --  Element Name          : __MIDL_IWinTypes_0001
    --  Element Type          : Union
@@ -1422,9 +1380,7 @@ package GNATOCX is
    pragma Unchecked_Union (u_MIDL_IWinTypes_0001);
    for u_MIDL_IWinTypes_0001'Size use Size_Of_u_MIDL_IWinTypes_0001;
 
-
    Size_Of_uuserCLIPFORMAT : constant := 64;
-
 
    --  Element Name          : _userCLIPFORMAT
    --  Element Type          : Record
@@ -1443,9 +1399,7 @@ package GNATOCX is
    for uuserCLIPFORMAT'Size use Size_Of_uuserCLIPFORMAT;
    for uuserCLIPFORMAT'Alignment use 4;
 
-
    Size_Of_DVTARGETDEVICE : constant := 128;
-
 
    --  Element Name          : DVTARGETDEVICE
    --  Element Type          : Record
@@ -1478,9 +1432,7 @@ package GNATOCX is
    for DVTARGETDEVICE'Size use Size_Of_DVTARGETDEVICE;
    for DVTARGETDEVICE'Alignment use 4;
 
-
    Size_Of_FORMATETC : constant := 160;
-
 
    --  Element Name          : FORMATETC
    --  Element Type          : Record
@@ -1505,9 +1457,7 @@ package GNATOCX is
    for FORMATETC'Size use Size_Of_FORMATETC;
    for FORMATETC'Alignment use 4;
 
-
    Size_Of_uBYTE_BLOB : constant := 64;
-
 
    --  Element Name          : _BYTE_BLOB
    --  Element Type          : Record
@@ -1526,9 +1476,7 @@ package GNATOCX is
    for uBYTE_BLOB'Size use Size_Of_uBYTE_BLOB;
    for uBYTE_BLOB'Alignment use 4;
 
-
    Size_Of_u_MIDL_IWinTypes_0004 : constant := 64;
-
 
    --  Element Name          : __MIDL_IWinTypes_0004
    --  Element Type          : Union
@@ -1549,9 +1497,7 @@ package GNATOCX is
    pragma Unchecked_Union (u_MIDL_IWinTypes_0004);
    for u_MIDL_IWinTypes_0004'Size use Size_Of_u_MIDL_IWinTypes_0004;
 
-
    Size_Of_uuserHMETAFILE : constant := 128;
-
 
    --  Element Name          : _userHMETAFILE
    --  Element Type          : Record
@@ -1569,9 +1515,7 @@ package GNATOCX is
       end record;
    for uuserHMETAFILE'Size use Size_Of_uuserHMETAFILE;
 
-
    Size_Of_uremoteMETAFILEPICT : constant := 128;
-
 
    --  Element Name          : _remoteMETAFILEPICT
    --  Element Type          : Record
@@ -1594,9 +1538,7 @@ package GNATOCX is
    for uremoteMETAFILEPICT'Size use Size_Of_uremoteMETAFILEPICT;
    for uremoteMETAFILEPICT'Alignment use 4;
 
-
    Size_Of_u_MIDL_IWinTypes_0005 : constant := 64;
-
 
    --  Element Name          : __MIDL_IWinTypes_0005
    --  Element Type          : Union
@@ -1617,9 +1559,7 @@ package GNATOCX is
    pragma Unchecked_Union (u_MIDL_IWinTypes_0005);
    for u_MIDL_IWinTypes_0005'Size use Size_Of_u_MIDL_IWinTypes_0005;
 
-
    Size_Of_uuserHMETAFILEPICT : constant := 128;
-
 
    --  Element Name          : _userHMETAFILEPICT
    --  Element Type          : Record
@@ -1637,9 +1577,7 @@ package GNATOCX is
       end record;
    for uuserHMETAFILEPICT'Size use Size_Of_uuserHMETAFILEPICT;
 
-
    Size_Of_u_MIDL_IWinTypes_0006 : constant := 64;
-
 
    --  Element Name          : __MIDL_IWinTypes_0006
    --  Element Type          : Union
@@ -1660,9 +1598,7 @@ package GNATOCX is
    pragma Unchecked_Union (u_MIDL_IWinTypes_0006);
    for u_MIDL_IWinTypes_0006'Size use Size_Of_u_MIDL_IWinTypes_0006;
 
-
    Size_Of_uuserHENHMETAFILE : constant := 128;
-
 
    --  Element Name          : _userHENHMETAFILE
    --  Element Type          : Record
@@ -1680,9 +1616,7 @@ package GNATOCX is
       end record;
    for uuserHENHMETAFILE'Size use Size_Of_uuserHENHMETAFILE;
 
-
    Size_Of_uuserBITMAP : constant := 224;
-
 
    --  Element Name          : _userBITMAP
    --  Element Type          : Record
@@ -1717,9 +1651,7 @@ package GNATOCX is
    for uuserBITMAP'Size use Size_Of_uuserBITMAP;
    for uuserBITMAP'Alignment use 4;
 
-
    Size_Of_u_MIDL_IWinTypes_0007 : constant := 64;
-
 
    --  Element Name          : __MIDL_IWinTypes_0007
    --  Element Type          : Union
@@ -1740,9 +1672,7 @@ package GNATOCX is
    pragma Unchecked_Union (u_MIDL_IWinTypes_0007);
    for u_MIDL_IWinTypes_0007'Size use Size_Of_u_MIDL_IWinTypes_0007;
 
-
    Size_Of_uuserHBITMAP : constant := 128;
-
 
    --  Element Name          : _userHBITMAP
    --  Element Type          : Record
@@ -1760,9 +1690,7 @@ package GNATOCX is
       end record;
    for uuserHBITMAP'Size use Size_Of_uuserHBITMAP;
 
-
    Size_Of_PALETTEENTRY : constant := 32;
-
 
    --  Element Name          : PALETTEENTRY
    --  Element Type          : Record
@@ -1785,9 +1713,7 @@ package GNATOCX is
    for PALETTEENTRY'Size use Size_Of_PALETTEENTRY;
    for PALETTEENTRY'Alignment use 1;
 
-
    Size_Of_LOGPALETTE : constant := 64;
-
 
    --  Element Name          : LOGPALETTE
    --  Element Type          : Record
@@ -1811,9 +1737,7 @@ package GNATOCX is
    for LOGPALETTE'Size use Size_Of_LOGPALETTE;
    for LOGPALETTE'Alignment use 2;
 
-
    Size_Of_u_MIDL_IWinTypes_0008 : constant := 64;
-
 
    --  Element Name          : __MIDL_IWinTypes_0008
    --  Element Type          : Union
@@ -1834,9 +1758,7 @@ package GNATOCX is
    pragma Unchecked_Union (u_MIDL_IWinTypes_0008);
    for u_MIDL_IWinTypes_0008'Size use Size_Of_u_MIDL_IWinTypes_0008;
 
-
    Size_Of_uuserHPALETTE : constant := 128;
-
 
    --  Element Name          : _userHPALETTE
    --  Element Type          : Record
@@ -1854,9 +1776,7 @@ package GNATOCX is
       end record;
    for uuserHPALETTE'Size use Size_Of_uuserHPALETTE;
 
-
    Size_Of_uFLAGGED_BYTE_BLOB : constant := 96;
-
 
    --  Element Name          : _FLAGGED_BYTE_BLOB
    --  Element Type          : Record
@@ -1877,9 +1797,7 @@ package GNATOCX is
    for uFLAGGED_BYTE_BLOB'Size use Size_Of_uFLAGGED_BYTE_BLOB;
    for uFLAGGED_BYTE_BLOB'Alignment use 4;
 
-
    Size_Of_u_MIDL_IWinTypes_0003 : constant := 64;
-
 
    --  Element Name          : __MIDL_IWinTypes_0003
    --  Element Type          : Union
@@ -1900,9 +1818,7 @@ package GNATOCX is
    pragma Unchecked_Union (u_MIDL_IWinTypes_0003);
    for u_MIDL_IWinTypes_0003'Size use Size_Of_u_MIDL_IWinTypes_0003;
 
-
    Size_Of_uuserHGLOBAL : constant := 128;
-
 
    --  Element Name          : _userHGLOBAL
    --  Element Type          : Record
@@ -1920,9 +1836,7 @@ package GNATOCX is
       end record;
    for uuserHGLOBAL'Size use Size_Of_uuserHGLOBAL;
 
-
    Size_Of_u_MIDL_IAdviseSink_0002 : constant := 32;
-
 
    --  Element Name          : __MIDL_IAdviseSink_0002
    --  Element Type          : Union
@@ -1943,9 +1857,7 @@ package GNATOCX is
    pragma Unchecked_Union (u_MIDL_IAdviseSink_0002);
    for u_MIDL_IAdviseSink_0002'Size use Size_Of_u_MIDL_IAdviseSink_0002;
 
-
    Size_Of_uGDI_OBJECT : constant := 64;
-
 
    --  Element Name          : _GDI_OBJECT
    --  Element Type          : Record
@@ -1964,9 +1876,7 @@ package GNATOCX is
    for uGDI_OBJECT'Size use Size_Of_uGDI_OBJECT;
    for uGDI_OBJECT'Alignment use 4;
 
-
    Size_Of_u_MIDL_IAdviseSink_0003 : constant := 32;
-
 
    --  Element Name          : __MIDL_IAdviseSink_0003
    --  Element Type          : Union
@@ -1995,9 +1905,7 @@ package GNATOCX is
    pragma Unchecked_Union (u_MIDL_IAdviseSink_0003);
    for u_MIDL_IAdviseSink_0003'Size use Size_Of_u_MIDL_IAdviseSink_0003;
 
-
    Size_Of_uSTGMEDIUM_UNION : constant := 64;
-
 
    --  Element Name          : _STGMEDIUM_UNION
    --  Element Type          : Record
@@ -2016,9 +1924,7 @@ package GNATOCX is
    for uSTGMEDIUM_UNION'Size use Size_Of_uSTGMEDIUM_UNION;
    for uSTGMEDIUM_UNION'Alignment use 4;
 
-
    Size_Of_uuserSTGMEDIUM : constant := 96;
-
 
    --  Element Name          : _userSTGMEDIUM
    --  Element Type          : Record
@@ -2038,9 +1944,7 @@ package GNATOCX is
    for uuserSTGMEDIUM'Size use Size_Of_uuserSTGMEDIUM;
    for uuserSTGMEDIUM'Alignment use 4;
 
-
    Size_Of_uuserFLAG_STGMEDIUM : constant := 160;
-
 
    --  Element Name          : _userFLAG_STGMEDIUM
    --  Element Type          : Record
@@ -2060,7 +1964,6 @@ package GNATOCX is
       end record;
    for uuserFLAG_STGMEDIUM'Size use Size_Of_uuserFLAG_STGMEDIUM;
    for uuserFLAG_STGMEDIUM'Alignment use 4;
-
 
    --  Element Name          : IEnumFORMATETC
    --  Element Type          : Interface
@@ -2134,8 +2037,6 @@ package GNATOCX is
    function To_Pointer_To_IEnumFORMATETC is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IEnumFORMATETC);
-
-
 
    --  Element Name          : IAdviseSink
    --  Element Type          : Interface
@@ -2216,10 +2117,7 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IAdviseSink);
 
-
-
    Size_Of_STATDATA : constant := 256;
-
 
    --  Element Name          : STATDATA
    --  Element Type          : Record
@@ -2244,7 +2142,6 @@ package GNATOCX is
       end record;
    for STATDATA'Size use Size_Of_STATDATA;
    for STATDATA'Alignment use 4;
-
 
    --  Element Name          : IEnumSTATDATA
    --  Element Type          : Interface
@@ -2318,8 +2215,6 @@ package GNATOCX is
    function To_Pointer_To_IEnumSTATDATA is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IEnumSTATDATA);
-
-
 
    --  Element Name          : IDataObject
    --  Element Type          : Interface
@@ -2437,10 +2332,7 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IDataObject);
 
-
-
    Size_Of_u_MIDL_IWinTypes_0009 : constant := 32;
-
 
    --  Element Name          : __MIDL_IWinTypes_0009
    --  Element Type          : Union
@@ -2459,9 +2351,7 @@ package GNATOCX is
    pragma Unchecked_Union (u_MIDL_IWinTypes_0009);
    for u_MIDL_IWinTypes_0009'Size use Size_Of_u_MIDL_IWinTypes_0009;
 
-
    Size_Of_uRemotableHandle : constant := 64;
-
 
    --  Element Name          : _RemotableHandle
    --  Element Type          : Record
@@ -2480,9 +2370,7 @@ package GNATOCX is
    for uRemotableHandle'Size use Size_Of_uRemotableHandle;
    for uRemotableHandle'Alignment use 4;
 
-
    Size_Of_POINT : constant := 64;
-
 
    --  Element Name          : POINT
    --  Element Type          : Record
@@ -2501,9 +2389,7 @@ package GNATOCX is
    for POINT'Size use Size_Of_POINT;
    for POINT'Alignment use 4;
 
-
    Size_Of_MSG : constant := 224;
-
 
    --  Element Name          : MSG
    --  Element Type          : Record
@@ -2530,9 +2416,7 @@ package GNATOCX is
    for MSG'Size use Size_Of_MSG;
    for MSG'Alignment use 4;
 
-
    Size_Of_RECT : constant := 128;
-
 
    --  Element Name          : RECT
    --  Element Type          : Record
@@ -2555,9 +2439,7 @@ package GNATOCX is
    for RECT'Size use Size_Of_RECT;
    for RECT'Alignment use 4;
 
-
    Size_Of_OLEVERB : constant := 128;
-
 
    --  Element Name          : OLEVERB
    --  Element Type          : Record
@@ -2581,7 +2463,6 @@ package GNATOCX is
       end record;
    for OLEVERB'Size use Size_Of_OLEVERB;
    for OLEVERB'Alignment use 4;
-
 
    --  Element Name          : IEnumOLEVERB
    --  Element Type          : Interface
@@ -2656,10 +2537,7 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IEnumOLEVERB);
 
-
-
    Size_Of_SIZEL : constant := 64;
-
 
    --  Element Name          : SIZEL
    --  Element Type          : Record
@@ -2677,7 +2555,6 @@ package GNATOCX is
       end record;
    for SIZEL'Size use Size_Of_SIZEL;
    for SIZEL'Alignment use 4;
-
 
    --  Element Name          : IOleObject
    --  Element Type          : Interface
@@ -2885,8 +2762,6 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IOleObject);
 
-
-
    --  Element Name          : IPersistStream
    --  Element Type          : Interface
 
@@ -2966,8 +2841,6 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IPersistStream);
 
-
-
    --  Element Name          : IPersist
    --  Element Type          : Interface
 
@@ -3018,8 +2891,6 @@ package GNATOCX is
    function To_Pointer_To_IPersist is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IPersist);
-
-
 
    --  Element Name          : ISequentialStream
    --  Element Type          : Interface
@@ -3082,8 +2953,6 @@ package GNATOCX is
    function To_Pointer_To_ISequentialStream is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_ISequentialStream);
-
-
 
    --  Element Name          : IParseDisplayName
    --  Element Type          : Interface

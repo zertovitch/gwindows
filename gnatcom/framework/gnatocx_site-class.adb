@@ -31,7 +31,6 @@
 -- be located on the web at http://www.gnavi.org/gnatcom                    --
 --                                                                          --
 ------------------------------------------------------------------------------
-    
 
 with Ada.Unchecked_Conversion;
 
@@ -47,6 +46,8 @@ package body GNATOCX_Site.Class is
       ppstm     : Pointer_To_Pointer_To_IStream)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pwcsName, grfMode,
+                           reserved1, reserved2, ppstm);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_CreateStream;
@@ -62,6 +63,8 @@ package body GNATOCX_Site.Class is
       ppstm       : Pointer_To_Pointer_To_IStream)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pwcsName, cbReserved1, reserved1,
+                           grfMode, reserved2, ppstm);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_RemoteOpenStream;
@@ -76,6 +79,8 @@ package body GNATOCX_Site.Class is
       ppstg     : Pointer_To_Pointer_To_IStorage)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pwcsName, grfMode, reserved1,
+                           reserved2, ppstg);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_CreateStorage;
@@ -91,6 +96,8 @@ package body GNATOCX_Site.Class is
       ppstg        : Pointer_To_Pointer_To_IStorage)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pwcsName, pstgPriority, grfMode,
+                           snbExclude, reserved, ppstg);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_OpenStorage;
@@ -104,6 +111,8 @@ package body GNATOCX_Site.Class is
       pstgDest     : Pointer_To_IStorage)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, ciidExclude, rgiidExclude,
+                           snbExclude, pstgDest);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_CopyTo;
@@ -117,6 +126,7 @@ package body GNATOCX_Site.Class is
       grfFlags    : Interfaces.C.unsigned_long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pwcsName, pstgDest, pwcsNewName, grfFlags);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_MoveElementTo;
@@ -127,6 +137,7 @@ package body GNATOCX_Site.Class is
       grfCommitFlags : Interfaces.C.unsigned_long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, grfCommitFlags);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_Commit;
@@ -136,6 +147,7 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_Revert;
@@ -150,6 +162,8 @@ package body GNATOCX_Site.Class is
       ppenum      : Pointer_To_Pointer_To_IEnumSTATSTG)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, reserved1, cbReserved2,
+                           reserved2, reserved3, ppenum);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_RemoteEnumElements;
@@ -160,6 +174,7 @@ package body GNATOCX_Site.Class is
       pwcsName : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pwcsName);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_DestroyElement;
@@ -171,6 +186,7 @@ package body GNATOCX_Site.Class is
       pwcsNewName : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pwcsOldName, pwcsNewName);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_RenameElement;
@@ -184,6 +200,7 @@ package body GNATOCX_Site.Class is
       pmtime   : Pointer_To_uFILETIME)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pwcsName, pctime, patime, pmtime);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_SetElementTimes;
@@ -194,6 +211,7 @@ package body GNATOCX_Site.Class is
       clsid : GNATCOM.Types.Pointer_To_GUID)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, clsid);
    begin
       return GNATCOM.S_OK;
    end IStorage_SetClass;
@@ -205,6 +223,7 @@ package body GNATOCX_Site.Class is
       grfMask      : Interfaces.C.unsigned_long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, grfStateBits, grfMask);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_SetStateBits;
@@ -216,6 +235,7 @@ package body GNATOCX_Site.Class is
       grfStatFlag : Interfaces.C.unsigned_long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pstatstg, grfStatFlag);
    begin
       return GNATCOM.E_NOTIMPL;
    end IStorage_Stat;
@@ -226,6 +246,7 @@ package body GNATOCX_Site.Class is
       phwnd : Pointer_To_HWND)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, phwnd);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceFrame_GetWindow;
@@ -236,6 +257,7 @@ package body GNATOCX_Site.Class is
       fEnterMode : Interfaces.C.long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, fEnterMode);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceFrame_ContextSensitiveHelp;
@@ -246,6 +268,7 @@ package body GNATOCX_Site.Class is
       lprectBorder : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, lprectBorder);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceFrame_GetBorder;
@@ -256,6 +279,7 @@ package body GNATOCX_Site.Class is
       pborderwidths : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pborderwidths);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceFrame_RequestBorderSpace;
@@ -266,6 +290,7 @@ package body GNATOCX_Site.Class is
       pborderwidths : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pborderwidths);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceFrame_SetBorderSpace;
@@ -277,6 +302,7 @@ package body GNATOCX_Site.Class is
       pszObjName    : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pActiveObject, pszObjName);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceFrame_SetActiveObject;
@@ -288,6 +314,7 @@ package body GNATOCX_Site.Class is
       lpMenuWidths : Pointer_To_OleMenuGroupWidths)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, hmenuShared, lpMenuWidths);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceFrame_InsertMenus;
@@ -300,6 +327,7 @@ package body GNATOCX_Site.Class is
       hwndActiveObject : HWND)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, hmenuShared, holemenu, hwndActiveObject);
    begin
       return GNATCOM.S_OK;
    end IOleInPlaceFrame_SetMenu;
@@ -310,6 +338,7 @@ package body GNATOCX_Site.Class is
       hmenuShared : HMENU)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, hmenuShared);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceFrame_RemoveMenus;
@@ -320,6 +349,7 @@ package body GNATOCX_Site.Class is
       pszStatusText : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pszStatusText);
    begin
       return GNATCOM.S_OK;
    end IOleInPlaceFrame_SetStatusText;
@@ -330,6 +360,7 @@ package body GNATOCX_Site.Class is
       fEnable : Interfaces.C.long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, fEnable);
    begin
       return GNATCOM.S_OK;
    end IOleInPlaceFrame_EnableModeless;
@@ -341,6 +372,7 @@ package body GNATOCX_Site.Class is
       wID   : Interfaces.C.unsigned_short)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, lpmsg, wID);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceFrame_TranslateAccelerator;
@@ -350,6 +382,7 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleClientSite_SaveObject;
@@ -362,6 +395,7 @@ package body GNATOCX_Site.Class is
       ppmk           : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, dwAssign, dwWhichMoniker, ppmk);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleClientSite_GetMoniker;
@@ -372,6 +406,7 @@ package body GNATOCX_Site.Class is
       ppContainer : Pointer_To_Pointer_To_IOleContainer)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       ppContainer.all := null;
       return GNATCOM.E_NOINTERFACE;
@@ -382,6 +417,7 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       return GNATCOM.S_OK;
    end IOleClientSite_ShowObject;
@@ -392,6 +428,7 @@ package body GNATOCX_Site.Class is
       fShow : Interfaces.C.long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (fShow, This);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleClientSite_OnShowWindow;
@@ -401,6 +438,7 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleClientSite_RequestNewObjectLayout;
@@ -424,6 +462,7 @@ package body GNATOCX_Site.Class is
       fEnterMode : Interfaces.C.long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, fEnterMode);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceSite_ContextSensitiveHelp;
@@ -433,6 +472,7 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       return GNATCOM.S_OK;
    end IOleInPlaceSite_CanInPlaceActivate;
@@ -442,6 +482,7 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       return GNATCOM.S_OK;
    end IOleInPlaceSite_OnInPlaceActivate;
@@ -451,6 +492,7 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       return GNATCOM.S_OK;
    end IOleInPlaceSite_OnUIActivate;
@@ -507,6 +549,7 @@ package body GNATOCX_Site.Class is
       scrollExtant : SIZE)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, scrollExtant);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceSite_Scroll;
@@ -517,6 +560,7 @@ package body GNATOCX_Site.Class is
       fUndoable : Interfaces.C.long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, fUndoable);
    begin
       return GNATCOM.S_OK;
    end IOleInPlaceSite_OnUIDeactivate;
@@ -526,6 +570,7 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       return GNATCOM.S_OK;
    end IOleInPlaceSite_OnInPlaceDeactivate;
@@ -535,6 +580,7 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceSite_DiscardUndoState;
@@ -544,6 +590,7 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceSite_DeactivateAndUndo;
@@ -554,6 +601,7 @@ package body GNATOCX_Site.Class is
       lprcPosRect : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, lprcPosRect);
    begin
       return GNATCOM.S_OK;
    end IOleInPlaceSite_OnPosRectChange;
@@ -567,6 +615,7 @@ package body GNATOCX_Site.Class is
       ppmkOut        : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pbc, pszDisplayName, pchEaten, ppmkOut);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleContainer_ParseDisplayName;
@@ -578,6 +627,7 @@ package body GNATOCX_Site.Class is
       ppenum   : Pointer_To_Pointer_To_IEnumUnknown)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, grfFlags, ppenum);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleContainer_EnumObjects;
@@ -588,6 +638,7 @@ package body GNATOCX_Site.Class is
       fLock : Interfaces.C.long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, fLock);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleContainer_LockContainer;
@@ -611,6 +662,7 @@ package body GNATOCX_Site.Class is
       fEnterMode : Interfaces.C.long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, fEnterMode);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleWindow_ContextSensitiveHelp;
@@ -621,6 +673,7 @@ package body GNATOCX_Site.Class is
       phwnd : Pointer_To_HWND)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, phwnd);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceUIWindow_GetWindow;
@@ -631,6 +684,7 @@ package body GNATOCX_Site.Class is
       fEnterMode : Interfaces.C.long)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, fEnterMode);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceUIWindow_ContextSensitiveHelp;
@@ -641,6 +695,7 @@ package body GNATOCX_Site.Class is
       lprectBorder : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, lprectBorder);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceUIWindow_GetBorder;
@@ -651,6 +706,7 @@ package body GNATOCX_Site.Class is
       pborderwidths : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pborderwidths);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceUIWindow_RequestBorderSpace;
@@ -661,6 +717,7 @@ package body GNATOCX_Site.Class is
       pborderwidths : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pborderwidths);
    begin
       return GNATCOM.E_NOTIMPL;
    end IOleInPlaceUIWindow_SetBorderSpace;
@@ -672,6 +729,7 @@ package body GNATOCX_Site.Class is
       pszObjName    : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT
    is
+      pragma Unreferenced (This, pActiveObject, pszObjName);
    begin
       return GNATCOM.S_OK;
    end IOleInPlaceUIWindow_SetActiveObject;
@@ -685,4 +743,3 @@ package body GNATOCX_Site.Class is
    end Create;
 
 end GNATOCX_Site.Class;
-

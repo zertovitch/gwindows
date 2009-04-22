@@ -32,10 +32,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Unchecked_Conversion;
-
 with GNATCOM.Errors;
-with GNATCOM.Iinterface;
 
 package body GNATCOM.Events is
 

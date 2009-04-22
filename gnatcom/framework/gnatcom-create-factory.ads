@@ -39,6 +39,7 @@ package GNATCOM.Create.Factory is
 
    type IClassFactory;
    type Pointer_To_IClassFactory is access all IClassFactory;
+   pragma No_Strict_Aliasing (Pointer_To_IClassFactory);
 
    --  Access function types for Class Factory
 

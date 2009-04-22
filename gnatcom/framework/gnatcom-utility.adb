@@ -32,7 +32,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces.C;
 with System;
 
 package body GNATCOM.Utility is

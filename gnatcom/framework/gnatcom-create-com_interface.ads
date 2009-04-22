@@ -56,6 +56,7 @@ package GNATCOM.Create.COM_Interface is
 
    type COM_Interface_Type;
    type Pointer_To_COM_Interface_Type is access all COM_Interface_Type;
+   pragma No_Strict_Aliasing (Pointer_To_COM_Interface_Type);
 
    type CoClass_Type (IID_Map : Pointer_To_GUID_Record_Array) is tagged
       record
