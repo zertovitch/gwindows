@@ -1,0 +1,39 @@
+with "GWindows.gpr";
+
+project GWindows_Tutorials is
+
+   package Ide is
+      for Vcs_Kind use "Subversion";
+   end Ide;
+
+   for Source_Dirs use ("tutorials");
+   for Object_Dir use "tutorials";
+   package Compiler is
+      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
+   end Compiler;
+
+   for Main use ("tutorial1.adb",
+   	  "tutorial2.adb",
+   	  "tutorial3.adb",
+   	  "tutorial4.adb",
+   	  "tutorial5.adb",
+   	  "tutorial6.adb",
+   	  "tutorial7.adb",
+   	  "tutorial8.adb",
+   	  "tutorial9.adb",
+   	  "tutorial10.adb",
+   	  "tutorial11.adb",
+   	  "tutorial12.adb",
+   	  "tutorial13.adb",
+   	  "tutorial14.adb",
+   	  "tutorial15.adb",
+   	  "tutorial16.adb",
+   	  "tutorial17.adb",
+   	  "tutorial18.adb",
+   	  "tutorial19.adb",
+   	  "tutorial20.adb",
+   	  "tutorial21.adb",
+   	  "tutorial22.adb",
+   	  "tutorial23.adb");
+
+end GWindows_Tutorials;
