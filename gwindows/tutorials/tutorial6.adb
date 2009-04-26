@@ -22,6 +22,7 @@ begin
       procedure Do_Display
         (Window    : in out GWindows.Base.Base_Window_Type'Class)
       is
+         pragma Unreferenced (Window);
       begin
          GWindows.Message_Boxes.Message_Box
            ("Scroll Window", Text (User_Name));
@@ -64,6 +65,7 @@ begin
       procedure Do_Display
         (Window    : in out GWindows.Base.Base_Window_Type'Class)
       is
+         pragma Unreferenced (Window);
       begin
          GWindows.Message_Boxes.Message_Box
            ("Scroll Window", Text (User_Name));

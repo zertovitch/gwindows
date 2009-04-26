@@ -17,6 +17,8 @@ procedure Tutorial15 is
       Y      : in     Integer;
       Keys   : in     GWindows.Windows.Mouse_Key_States)
    is
+      pragma Unreferenced (Window);
+      pragma Unreferenced (Keys);
    begin
       Text (X_Label, GWindows.GStrings.Image (X));
       Text (Y_Label, GWindows.GStrings.Image (Y));
@@ -28,6 +30,10 @@ procedure Tutorial15 is
       Y      : in     Integer;
       Keys   : in     GWindows.Windows.Mouse_Key_States)
    is
+      pragma Unreferenced (Window);
+      pragma Unreferenced (X);
+      pragma Unreferenced (Y);
+      pragma Unreferenced (Keys);
    begin
       Capture_Mouse (Main_Window);
    end Do_Left_Mouse_Button_Down;
@@ -38,6 +44,10 @@ procedure Tutorial15 is
       Y      : in     Integer;
       Keys   : in     GWindows.Windows.Mouse_Key_States)
    is
+      pragma Unreferenced (Window);
+      pragma Unreferenced (X);
+      pragma Unreferenced (Y);
+      pragma Unreferenced (Keys);
    begin
       GWindows.Base.Release_Mouse;
    end Do_Left_Mouse_Button_Up;

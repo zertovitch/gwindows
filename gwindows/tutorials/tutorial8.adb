@@ -15,6 +15,8 @@ procedure Tutorial8 is
    is
      use GWindows.Drawing;
      use GWindows.Colors;
+     pragma Unreferenced (Window);
+     pragma Unreferenced (Area);
    begin
       for N in 1 .. 100 loop
          Fill_Rectangle (Canvas,
@@ -29,9 +31,9 @@ procedure Tutorial8 is
    Main_Window : GWindows.Windows.Main.Main_Window_Type;
 begin
    Create (Main_Window, "On_Paint Drawing Window",
-	   Width => 200, Height => 200);
+      Width => 200, Height => 200);
    Visible (Main_Window, True);
    On_Paint_Handler (Main_Window, Do_Paint'Unrestricted_Access);
-   
+
    GWindows.Application.Message_Loop;
 end Tutorial8;

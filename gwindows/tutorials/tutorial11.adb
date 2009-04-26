@@ -20,6 +20,7 @@ procedure Tutorial11 is
      (Window : in out GWindows.Base.Base_Window_Type'Class;
       Item   : in     Integer)
    is
+      pragma Unreferenced (Window);
    begin
       case Item is
          when ID_Exit =>

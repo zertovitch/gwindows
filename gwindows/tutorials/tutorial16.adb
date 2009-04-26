@@ -12,6 +12,7 @@ procedure Tutorial16 is
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
       use GWindows.Cursors;
+      pragma Unreferenced (Window);
    begin
       Set_Cursor (Load_System_Cursor (IDC_CROSS));
    end Do_Change_Cursor;

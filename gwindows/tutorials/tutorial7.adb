@@ -11,7 +11,6 @@ procedure Tutorial7 is
    pragma Linker_Options ("-mwindows");
 
    use GWindows.Drawing;
-   use GWindows.Drawing_Panels;
 
    procedure Draw_Something
      (Canvas : in out GWindows.Drawing.Canvas_Type'Class)

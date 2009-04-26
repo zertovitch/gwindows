@@ -24,7 +24,7 @@ begin
 
    Visible (Main_Window);
 
-   IE.IWebBrowser_Interface.Query (IE_COM, Interface (IE_Control));
+   IE.IWebBrowser_Interface.Query (IE_COM, Iinterface (IE_Control));
    IE.IWebBrowser_Interface.Navigate (IE_COM,
                                       GWindows.GStrings.To_BSTR_From_GString
                                         ("http://www.adapower.com"));

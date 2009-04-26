@@ -2,7 +2,6 @@ with GWindows.Drawing_Panels; use GWindows.Drawing_Panels;
 with GWindows.Drawing_Objects; use GWindows.Drawing_Objects;
 with GWindows.Colors; use GWindows.Colors;
 with GWindows.Events;
-with GWindows.Base;
 with GWindows.Application;
 
 procedure Tutorial9 is
