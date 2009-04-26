@@ -893,4 +893,3 @@ package body ADO.uRecordset_Object is
    end Resync;
 
 end ADO.uRecordset_Object;
-

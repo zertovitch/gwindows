@@ -7,34 +7,35 @@ package body ADO.ConnectionEvents_Events is
       Event_Object : in GNATCOM.Events.Event_Object.Event_Pointer)
    is
       use type Interfaces.C.long;
+      pragma Unreferenced (wFlags);
    begin
       case dispidMember is
-         when ConnectionEvents_InfoMessage=>
+         when ConnectionEvents_InfoMessage =>
             InfoMessage
               (ConnectionEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when ConnectionEvents_BeginTransComplete=>
+         when ConnectionEvents_BeginTransComplete =>
             BeginTransComplete
               (ConnectionEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (3),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when ConnectionEvents_CommitTransComplete=>
+         when ConnectionEvents_CommitTransComplete =>
             CommitTransComplete
               (ConnectionEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when ConnectionEvents_RollbackTransComplete=>
+         when ConnectionEvents_RollbackTransComplete =>
             RollbackTransComplete
               (ConnectionEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when ConnectionEvents_WillExecute=>
+         when ConnectionEvents_WillExecute =>
             WillExecute
               (ConnectionEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (7),
@@ -45,7 +46,7 @@ package body ADO.ConnectionEvents_Events is
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when ConnectionEvents_ExecuteComplete=>
+         when ConnectionEvents_ExecuteComplete =>
             ExecuteComplete
               (ConnectionEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (5),
@@ -54,7 +55,7 @@ package body ADO.ConnectionEvents_Events is
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when ConnectionEvents_WillConnect=>
+         when ConnectionEvents_WillConnect =>
             WillConnect
               (ConnectionEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (5),
@@ -63,13 +64,13 @@ package body ADO.ConnectionEvents_Events is
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when ConnectionEvents_ConnectComplete=>
+         when ConnectionEvents_ConnectComplete =>
             ConnectComplete
               (ConnectionEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when ConnectionEvents_Disconnect=>
+         when ConnectionEvents_Disconnect =>
             Disconnect
               (ConnectionEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (1),
@@ -91,7 +92,7 @@ package body ADO.ConnectionEvents_Events is
 
    procedure Set_Events
      (This            : in out GNATCOM.Events.IConnectionPoint_Type;
-      For_Object      : in     GNATCOM.IInterface.Interface_Type'Class;
+      For_Object      : in     GNATCOM.Iinterface.Interface_Type'Class;
       Event_Interface :
         access GNATCOM.Create.COM_Interface.COM_Interface_Type;
       Free            : Boolean := True)
@@ -207,4 +208,3 @@ package body ADO.ConnectionEvents_Events is
    end Disconnect;
 
 end ADO.ConnectionEvents_Events;
-

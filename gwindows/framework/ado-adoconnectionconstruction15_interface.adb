@@ -18,7 +18,7 @@ package body ADO.ADOConnectionConstruction15_Interface is
                      Pointer : in     Pointer_To_ADOConnectionConstruction15)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -65,4 +65,3 @@ package body ADO.ADOConnectionConstruction15_Interface is
    end WrapDSOandSession;
 
 end ADO.ADOConnectionConstruction15_Interface;
-

@@ -39,4 +39,3 @@ package ADO.Property_Interface is
       plAttributes : Interfaces.C.long);
 
 end ADO.Property_Interface;
-

@@ -717,4 +717,3 @@ package body ADO.uRecordset15_Object is
    end Find;
 
 end ADO.uRecordset15_Object;
-

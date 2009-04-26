@@ -42,4 +42,3 @@ package ADO.Error_Interface is
      return Interfaces.C.long;
 
 end ADO.Error_Interface;
-

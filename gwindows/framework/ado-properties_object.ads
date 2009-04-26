@@ -23,4 +23,3 @@ package ADO.Properties_Object is
      return GNATCOM.Types.VARIANT;
 
 end ADO.Properties_Object;
-

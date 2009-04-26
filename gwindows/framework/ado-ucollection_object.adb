@@ -24,4 +24,3 @@ package body ADO.uCollection_Object is
    end Refresh;
 
 end ADO.uCollection_Object;
-

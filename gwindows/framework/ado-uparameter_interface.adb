@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body ADO.uParameter_Interface is
                      Pointer : in     Pointer_To_uParameter)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -64,8 +64,8 @@ package body ADO.uParameter_Interface is
           pbstr));
 
       if Free then
-               GNATCOM.IInterface.Free (pbstr);
-      
+               GNATCOM.Iinterface.Free (pbstr);
+
       end if;
 
    end Put_Name;
@@ -96,8 +96,8 @@ package body ADO.uParameter_Interface is
           pvar));
 
       if Free then
-               GNATCOM.IInterface.Free (pvar);
-      
+               GNATCOM.Iinterface.Free (pvar);
+
       end if;
 
    end Put_Value;
@@ -244,8 +244,8 @@ package body ADO.uParameter_Interface is
           Val));
 
       if Free then
-               GNATCOM.IInterface.Free (Val);
-      
+               GNATCOM.Iinterface.Free (Val);
+
       end if;
 
    end AppendChunk;
@@ -277,4 +277,3 @@ package body ADO.uParameter_Interface is
    end Put_Attributes;
 
 end ADO.uParameter_Interface;
-

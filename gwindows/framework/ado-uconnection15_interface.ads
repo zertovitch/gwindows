@@ -143,4 +143,3 @@ package ADO.uConnection15_Interface is
      return Pointer_To_uRecordset;
 
 end ADO.uConnection15_Interface;
-

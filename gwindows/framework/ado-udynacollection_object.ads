@@ -27,4 +27,3 @@ package ADO.uDynaCollection_Object is
       Free  : Boolean := True);
 
 end ADO.uDynaCollection_Object;
-

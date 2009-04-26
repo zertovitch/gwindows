@@ -101,4 +101,3 @@ package ADO.Field_Interface is
       pl   : Interfaces.C.long);
 
 end ADO.Field_Interface;
-

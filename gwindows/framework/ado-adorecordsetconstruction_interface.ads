@@ -1,9 +1,9 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 package ADO.ADORecordsetConstruction_Interface is
 
    type ADORecordsetConstruction_Type is
-     new GNATCOM.IInterface.Interface_Type with null record;
+     new GNATCOM.Iinterface.Interface_Type with null record;
 
    procedure Initialize (This : in out ADORecordsetConstruction_Type);
 
@@ -38,4 +38,3 @@ package ADO.ADORecordsetConstruction_Interface is
       ppRowPos : GNATCOM.Types.Pointer_To_IUnknown);
 
 end ADO.ADORecordsetConstruction_Interface;
-

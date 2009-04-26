@@ -1,9 +1,9 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 package ADO.RecordsetEventsVt_Interface is
 
    type RecordsetEventsVt_Type is
-     new GNATCOM.IInterface.Interface_Type with null record;
+     new GNATCOM.Iinterface.Interface_Type with null record;
 
    procedure Initialize (This : in out RecordsetEventsVt_Type);
 
@@ -91,4 +91,3 @@ package ADO.RecordsetEventsVt_Interface is
       pRecordset : Pointer_To_uRecordset);
 
 end ADO.RecordsetEventsVt_Interface;
-

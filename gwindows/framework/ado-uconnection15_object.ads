@@ -148,4 +148,3 @@ package ADO.uConnection15_Object is
      return GNATCOM.Types.VARIANT;
 
 end ADO.uConnection15_Object;
-

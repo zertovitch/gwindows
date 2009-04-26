@@ -1,9 +1,9 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 package ADO.ADOCommandConstruction_Interface is
 
    type ADOCommandConstruction_Type is
-     new GNATCOM.IInterface.Interface_Type with null record;
+     new GNATCOM.Iinterface.Interface_Type with null record;
 
    procedure Initialize (This : in out ADOCommandConstruction_Type);
 

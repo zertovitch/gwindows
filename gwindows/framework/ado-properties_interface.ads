@@ -31,4 +31,3 @@ package ADO.Properties_Interface is
      return Pointer_To_Property;
 
 end ADO.Properties_Interface;
-

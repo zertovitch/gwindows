@@ -52,4 +52,3 @@ package body ADO.uDynaCollection_Object is
    end Delete;
 
 end ADO.uDynaCollection_Object;
-

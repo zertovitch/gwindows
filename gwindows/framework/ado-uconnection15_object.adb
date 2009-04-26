@@ -326,4 +326,3 @@ package body ADO.uConnection15_Object is
    end OpenSchema;
 
 end ADO.uConnection15_Object;
-

@@ -312,4 +312,3 @@ package ADO.uRecordset15_Object is
       Free            : Boolean := True);
 
 end ADO.uRecordset15_Object;
-

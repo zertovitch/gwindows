@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body ADO.uCollection_Interface is
                      Pointer : in     Pointer_To_uCollection)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -63,4 +63,3 @@ package body ADO.uCollection_Interface is
    end Refresh;
 
 end ADO.uCollection_Interface;
-

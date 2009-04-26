@@ -73,4 +73,3 @@ package ADO.Field15_Interface is
      return GNATCOM.Types.VARIANT;
 
 end ADO.Field15_Interface;
-

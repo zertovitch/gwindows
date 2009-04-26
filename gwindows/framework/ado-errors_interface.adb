@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body ADO.Errors_Interface is
                      Pointer : in     Pointer_To_Errors)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -77,8 +77,8 @@ package body ADO.Errors_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.IInterface.Free (Index);
-      
+               GNATCOM.Iinterface.Free (Index);
+
       end if;
 
       return RetVal;
@@ -95,4 +95,3 @@ package body ADO.Errors_Interface is
    end Clear;
 
 end ADO.Errors_Interface;
-

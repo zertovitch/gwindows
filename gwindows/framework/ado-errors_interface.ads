@@ -34,4 +34,3 @@ package ADO.Errors_Interface is
      (This : Errors_Type);
 
 end ADO.Errors_Interface;
-

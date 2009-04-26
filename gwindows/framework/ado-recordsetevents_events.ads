@@ -1,6 +1,6 @@
 with GNATCOM.Events.Event_Object;
 with GNATCOM.Create.COM_Interface;
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 package ADO.RecordsetEvents_Events is
 
@@ -12,7 +12,7 @@ package ADO.RecordsetEvents_Events is
 
    procedure Set_Events
      (This            : in out GNATCOM.Events.IConnectionPoint_Type;
-      For_Object      : in     GNATCOM.IInterface.Interface_Type'Class;
+      For_Object      : in     GNATCOM.Iinterface.Interface_Type'Class;
       Event_Interface :
         access GNATCOM.Create.COM_Interface.COM_Interface_Type;
       Free            : Boolean := True);
@@ -93,4 +93,3 @@ package ADO.RecordsetEvents_Events is
       pRecordset : GNATCOM.Types.VARIANT);
 
 end ADO.RecordsetEvents_Events;
-

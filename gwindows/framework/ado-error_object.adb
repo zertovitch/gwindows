@@ -57,4 +57,3 @@ package body ADO.Error_Object is
    end Get_NativeError;
 
 end ADO.Error_Object;
-

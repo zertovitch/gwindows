@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body ADO.Field15_Interface is
                      Pointer : in     Pointer_To_Field15)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -134,8 +134,8 @@ package body ADO.Field15_Interface is
           pvar));
 
       if Free then
-               GNATCOM.IInterface.Free (pvar);
-      
+               GNATCOM.Iinterface.Free (pvar);
+
       end if;
 
    end Put_Value;
@@ -180,8 +180,8 @@ package body ADO.Field15_Interface is
           Data));
 
       if Free then
-               GNATCOM.IInterface.Free (Data);
-      
+               GNATCOM.Iinterface.Free (Data);
+
       end if;
 
    end AppendChunk;
@@ -231,4 +231,3 @@ package body ADO.Field15_Interface is
    end Get_UnderlyingValue;
 
 end ADO.Field15_Interface;
-

@@ -105,4 +105,3 @@ package ADO.uCommand_Object is
      (This : uCommand_Type);
 
 end ADO.uCommand_Object;
-

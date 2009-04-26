@@ -9,4 +9,3 @@ package body ADO.uADO_Object is
    end Get_Properties;
 
 end ADO.uADO_Object;
-

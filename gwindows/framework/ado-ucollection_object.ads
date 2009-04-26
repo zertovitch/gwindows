@@ -17,4 +17,3 @@ package ADO.uCollection_Object is
      (This : uCollection_Type);
 
 end ADO.uCollection_Object;
-

@@ -40,4 +40,3 @@ package ADO.Parameters_Interface is
      return Pointer_To_uParameter;
 
 end ADO.Parameters_Interface;
-

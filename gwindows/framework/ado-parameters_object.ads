@@ -33,4 +33,3 @@ package ADO.Parameters_Object is
      return GNATCOM.Types.VARIANT;
 
 end ADO.Parameters_Object;
-

@@ -89,4 +89,3 @@ package ADO.uParameter_Interface is
       plParmAttribs : Interfaces.C.long);
 
 end ADO.uParameter_Interface;
-

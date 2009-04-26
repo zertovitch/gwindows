@@ -46,4 +46,3 @@ package body ADO.Errors_Object is
    end Clear;
 
 end ADO.Errors_Object;
-

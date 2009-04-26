@@ -103,4 +103,3 @@ package ADO.uCommand_Interface is
      (This : uCommand_Type);
 
 end ADO.uCommand_Interface;
-

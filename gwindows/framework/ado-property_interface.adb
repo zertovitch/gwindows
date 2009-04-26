@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body ADO.Property_Interface is
                      Pointer : in     Pointer_To_Property)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -50,8 +50,8 @@ package body ADO.Property_Interface is
           pval));
 
       if Free then
-               GNATCOM.IInterface.Free (pval);
-      
+               GNATCOM.Iinterface.Free (pval);
+
       end if;
 
    end Put_Value;
@@ -111,4 +111,3 @@ package body ADO.Property_Interface is
    end Put_Attributes;
 
 end ADO.Property_Interface;
-

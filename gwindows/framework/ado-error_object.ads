@@ -34,4 +34,3 @@ package ADO.Error_Object is
      return GNATCOM.Types.VARIANT;
 
 end ADO.Error_Object;
-

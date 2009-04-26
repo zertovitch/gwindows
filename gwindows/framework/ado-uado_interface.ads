@@ -18,4 +18,3 @@ package ADO.uADO_Interface is
      return Pointer_To_Properties;
 
 end ADO.uADO_Interface;
-

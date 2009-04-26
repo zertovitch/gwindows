@@ -1,9 +1,9 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 package ADO.ADOConnectionConstruction_Interface is
 
    type ADOConnectionConstruction_Type is
-     new GNATCOM.IInterface.Interface_Type with null record;
+     new GNATCOM.Iinterface.Interface_Type with null record;
 
    procedure Initialize (This : in out ADOConnectionConstruction_Type);
 
@@ -27,4 +27,3 @@ package ADO.ADOConnectionConstruction_Interface is
       pSession : GNATCOM.Types.Pointer_To_IUnknown);
 
 end ADO.ADOConnectionConstruction_Interface;
-

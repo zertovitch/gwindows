@@ -34,4 +34,3 @@ package ADO.uDynaCollection_Interface is
       Free  : Boolean := True);
 
 end ADO.uDynaCollection_Interface;
-

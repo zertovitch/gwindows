@@ -7,16 +7,17 @@ package body ADO.RecordsetEvents_Events is
       Event_Object : in GNATCOM.Events.Event_Object.Event_Pointer)
    is
       use type Interfaces.C.long;
+      pragma Unreferenced (wFlags);
    begin
       case dispidMember is
-         when RecordsetEvents_WillChangeField=>
+         when RecordsetEvents_WillChangeField =>
             WillChangeField
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (3),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when RecordsetEvents_FieldChangeComplete=>
+         when RecordsetEvents_FieldChangeComplete =>
             FieldChangeComplete
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (4),
@@ -24,14 +25,14 @@ package body ADO.RecordsetEvents_Events is
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when RecordsetEvents_WillChangeRecord=>
+         when RecordsetEvents_WillChangeRecord =>
             WillChangeRecord
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (3),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when RecordsetEvents_RecordChangeComplete=>
+         when RecordsetEvents_RecordChangeComplete =>
             RecordChangeComplete
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (4),
@@ -39,46 +40,46 @@ package body ADO.RecordsetEvents_Events is
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when RecordsetEvents_WillChangeRecordset=>
+         when RecordsetEvents_WillChangeRecordset =>
             WillChangeRecordset
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when RecordsetEvents_RecordsetChangeComplete=>
+         when RecordsetEvents_RecordsetChangeComplete =>
             RecordsetChangeComplete
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (3),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when RecordsetEvents_WillMove=>
+         when RecordsetEvents_WillMove =>
             WillMove
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when RecordsetEvents_MoveComplete=>
+         when RecordsetEvents_MoveComplete =>
             MoveComplete
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (3),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when RecordsetEvents_EndOfRecordset=>
+         when RecordsetEvents_EndOfRecordset =>
             EndOfRecordset
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when RecordsetEvents_FetchProgress=>
+         when RecordsetEvents_FetchProgress =>
             FetchProgress
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (3),
                pdispparams.rgvarg (2),
                pdispparams.rgvarg (1),
                pdispparams.rgvarg (0));
-         when RecordsetEvents_FetchComplete=>
+         when RecordsetEvents_FetchComplete =>
             FetchComplete
               (RecordsetEvents_Event'Class (Event_Object.all),
                pdispparams.rgvarg (2),
@@ -101,7 +102,7 @@ package body ADO.RecordsetEvents_Events is
 
    procedure Set_Events
      (This            : in out GNATCOM.Events.IConnectionPoint_Type;
-      For_Object      : in     GNATCOM.IInterface.Interface_Type'Class;
+      For_Object      : in     GNATCOM.Iinterface.Interface_Type'Class;
       Event_Interface :
         access GNATCOM.Create.COM_Interface.COM_Interface_Type;
       Free            : Boolean := True)
@@ -235,4 +236,3 @@ package body ADO.RecordsetEvents_Events is
    end FetchComplete;
 
 end ADO.RecordsetEvents_Events;
-

@@ -25,4 +25,3 @@ package ADO.uCollection_Interface is
      (This : uCollection_Type);
 
 end ADO.uCollection_Interface;
-

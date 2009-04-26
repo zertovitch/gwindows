@@ -151,4 +151,3 @@ package ADO.uConnection_Object is
      (This : uConnection_Type);
 
 end ADO.uConnection_Object;
-

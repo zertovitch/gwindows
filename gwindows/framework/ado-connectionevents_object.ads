@@ -89,4 +89,3 @@ package ADO.ConnectionEvents_Object is
      return GNATCOM.Types.VARIANT;
 
 end ADO.ConnectionEvents_Object;
-

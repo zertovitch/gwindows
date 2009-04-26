@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body ADO.Fields_Interface is
                      Pointer : in     Pointer_To_Fields)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -77,8 +77,8 @@ package body ADO.Fields_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.IInterface.Free (Index);
-      
+               GNATCOM.Iinterface.Free (Index);
+
       end if;
 
       return RetVal;
@@ -102,8 +102,8 @@ package body ADO.Fields_Interface is
           Attrib));
 
       if Free then
-               GNATCOM.IInterface.Free (Name);
-      
+               GNATCOM.Iinterface.Free (Name);
+
       end if;
 
    end Append;
@@ -120,11 +120,10 @@ package body ADO.Fields_Interface is
           Index));
 
       if Free then
-               GNATCOM.IInterface.Free (Index);
-      
+               GNATCOM.Iinterface.Free (Index);
+
       end if;
 
    end Delete;
 
 end ADO.Fields_Interface;
-

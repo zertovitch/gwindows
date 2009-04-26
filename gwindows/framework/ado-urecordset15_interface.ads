@@ -152,8 +152,10 @@ package ADO.uRecordset15_Interface is
 
    procedure Open
      (This             : uRecordset15_Type;
-      Source           : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
-      ActiveConnection : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
+      Source           : GNATCOM.Types.VARIANT :=
+         GNATCOM.Types.VARIANT_MISSING;
+      ActiveConnection : GNATCOM.Types.VARIANT :=
+         GNATCOM.Types.VARIANT_MISSING;
       CursorType       : CursorTypeEnum;
       LockType         : LockTypeEnum;
       Options          : Interfaces.C.long;
@@ -279,8 +281,7 @@ package ADO.uRecordset15_Interface is
       Criteria        : GNATCOM.Types.BSTR;
       SkipRecords     : Interfaces.C.long;
       SearchDirection : SearchDirectionEnum;
-      Start           : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
+      Start           : GNATCOM.Types.VARIANT := GNATCOM.Types.VARIANT_MISSING;
       Free            : Boolean := True);
 
 end ADO.uRecordset15_Interface;
-

@@ -10,4 +10,3 @@ package ADO.uADO_Object is
      return GNATCOM.Types.VARIANT;
 
 end ADO.uADO_Object;
-

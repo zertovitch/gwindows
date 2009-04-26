@@ -66,4 +66,3 @@ package ADO.Field15_Object is
      return GNATCOM.Types.VARIANT;
 
 end ADO.Field15_Object;
-

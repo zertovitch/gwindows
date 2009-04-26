@@ -18,7 +18,7 @@ package body ADO.RecordsetEventsVt_Interface is
                      Pointer : in     Pointer_To_RecordsetEventsVt)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -40,8 +40,8 @@ package body ADO.RecordsetEventsVt_Interface is
           pRecordset));
 
       if Free then
-               GNATCOM.IInterface.Free (Fields);
-      
+               GNATCOM.Iinterface.Free (Fields);
+
       end if;
 
    end WillChangeField;
@@ -66,8 +66,8 @@ package body ADO.RecordsetEventsVt_Interface is
           pRecordset));
 
       if Free then
-               GNATCOM.IInterface.Free (Fields);
-      
+               GNATCOM.Iinterface.Free (Fields);
+
       end if;
 
    end FieldChangeComplete;
@@ -229,4 +229,3 @@ package body ADO.RecordsetEventsVt_Interface is
    end FetchComplete;
 
 end ADO.RecordsetEventsVt_Interface;
-

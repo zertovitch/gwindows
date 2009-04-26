@@ -146,4 +146,3 @@ package ADO.uConnection_Interface is
      (This : uConnection_Type);
 
 end ADO.uConnection_Interface;
-

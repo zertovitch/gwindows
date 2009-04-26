@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body ADO.uCommand_Interface is
                      Pointer : in     Pointer_To_uCommand)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -76,8 +76,8 @@ package body ADO.uCommand_Interface is
           ppvObject));
 
       if Free then
-               GNATCOM.IInterface.Free (ppvObject);
-      
+               GNATCOM.Iinterface.Free (ppvObject);
+
       end if;
 
    end Put_ActiveConnection;
@@ -108,8 +108,8 @@ package body ADO.uCommand_Interface is
           pbstr));
 
       if Free then
-               GNATCOM.IInterface.Free (pbstr);
-      
+               GNATCOM.Iinterface.Free (pbstr);
+
       end if;
 
    end Put_CommandText;
@@ -211,9 +211,9 @@ package body ADO.uCommand_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.IInterface.Free (Name);
-               GNATCOM.IInterface.Free (Value);
-      
+               GNATCOM.Iinterface.Free (Name);
+               GNATCOM.Iinterface.Free (Value);
+
       end if;
 
       return RetVal;
@@ -285,8 +285,8 @@ package body ADO.uCommand_Interface is
           pbstrName));
 
       if Free then
-               GNATCOM.IInterface.Free (pbstrName);
-      
+               GNATCOM.Iinterface.Free (pbstrName);
+
       end if;
 
    end Put_Name;
@@ -316,4 +316,3 @@ package body ADO.uCommand_Interface is
    end Cancel;
 
 end ADO.uCommand_Interface;
-

@@ -228,4 +228,3 @@ package body ADO.RecordsetEvents_Object is
    end FetchComplete;
 
 end ADO.RecordsetEvents_Object;
-

@@ -18,7 +18,7 @@ package body ADO.ADOCommandConstruction_Interface is
                      Pointer : in     Pointer_To_ADOCommandConstruction)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 

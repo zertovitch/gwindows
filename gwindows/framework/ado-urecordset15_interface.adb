@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body ADO.uRecordset15_Interface is
                      Pointer : in     Pointer_To_uRecordset15)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -88,8 +88,8 @@ package body ADO.uRecordset15_Interface is
           pvar));
 
       if Free then
-               GNATCOM.IInterface.Free (pvar);
-      
+               GNATCOM.Iinterface.Free (pvar);
+
       end if;
 
    end Put_ActiveConnection;
@@ -148,8 +148,8 @@ package body ADO.uRecordset15_Interface is
           pvBookmark));
 
       if Free then
-               GNATCOM.IInterface.Free (pvBookmark);
-      
+               GNATCOM.Iinterface.Free (pvBookmark);
+
       end if;
 
    end Put_Bookmark;
@@ -324,8 +324,8 @@ package body ADO.uRecordset15_Interface is
           pvSource));
 
       if Free then
-               GNATCOM.IInterface.Free (pvSource);
-      
+               GNATCOM.Iinterface.Free (pvSource);
+
       end if;
 
    end Put_Source;
@@ -358,9 +358,9 @@ package body ADO.uRecordset15_Interface is
           Values));
 
       if Free then
-               GNATCOM.IInterface.Free (FieldList);
-               GNATCOM.IInterface.Free (Values);
-      
+               GNATCOM.Iinterface.Free (FieldList);
+               GNATCOM.Iinterface.Free (Values);
+
       end if;
 
    end AddNew;
@@ -416,9 +416,9 @@ package body ADO.uRecordset15_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.IInterface.Free (Start);
-               GNATCOM.IInterface.Free (Fields);
-      
+               GNATCOM.Iinterface.Free (Start);
+               GNATCOM.Iinterface.Free (Fields);
+
       end if;
 
       return RetVal;
@@ -438,8 +438,8 @@ package body ADO.uRecordset15_Interface is
           Start));
 
       if Free then
-               GNATCOM.IInterface.Free (Start);
-      
+               GNATCOM.Iinterface.Free (Start);
+
       end if;
 
    end Move;
@@ -486,8 +486,10 @@ package body ADO.uRecordset15_Interface is
 
    procedure Open
      (This             : uRecordset15_Type;
-      Source           : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
-      ActiveConnection : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
+      Source           : GNATCOM.Types.VARIANT :=
+         GNATCOM.Types.VARIANT_MISSING;
+      ActiveConnection : GNATCOM.Types.VARIANT :=
+         GNATCOM.Types.VARIANT_MISSING;
       CursorType       : CursorTypeEnum;
       LockType         : LockTypeEnum;
       Options          : Interfaces.C.long;
@@ -504,9 +506,9 @@ package body ADO.uRecordset15_Interface is
           Options));
 
       if Free then
-               GNATCOM.IInterface.Free (Source);
-               GNATCOM.IInterface.Free (ActiveConnection);
-      
+               GNATCOM.Iinterface.Free (Source);
+               GNATCOM.Iinterface.Free (ActiveConnection);
+
       end if;
 
    end Open;
@@ -549,9 +551,9 @@ package body ADO.uRecordset15_Interface is
           Values));
 
       if Free then
-               GNATCOM.IInterface.Free (Fields);
-               GNATCOM.IInterface.Free (Values);
-      
+               GNATCOM.Iinterface.Free (Fields);
+               GNATCOM.Iinterface.Free (Values);
+
       end if;
 
    end Update;
@@ -622,8 +624,8 @@ package body ADO.uRecordset15_Interface is
           Criteria));
 
       if Free then
-               GNATCOM.IInterface.Free (Criteria);
-      
+               GNATCOM.Iinterface.Free (Criteria);
+
       end if;
 
    end Put_Filter;
@@ -694,8 +696,8 @@ package body ADO.uRecordset15_Interface is
           Criteria));
 
       if Free then
-               GNATCOM.IInterface.Free (Criteria);
-      
+               GNATCOM.Iinterface.Free (Criteria);
+
       end if;
 
    end Put_Sort;
@@ -840,8 +842,8 @@ package body ADO.uRecordset15_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.IInterface.Free (Index);
-      
+               GNATCOM.Iinterface.Free (Index);
+
       end if;
 
       return RetVal;
@@ -861,9 +863,9 @@ package body ADO.uRecordset15_Interface is
           pvar));
 
       if Free then
-               GNATCOM.IInterface.Free (Index);
-               GNATCOM.IInterface.Free (pvar);
-      
+               GNATCOM.Iinterface.Free (Index);
+               GNATCOM.Iinterface.Free (pvar);
+
       end if;
 
    end Put_Collect;
@@ -899,7 +901,7 @@ package body ADO.uRecordset15_Interface is
       Criteria        : GNATCOM.Types.BSTR;
       SkipRecords     : Interfaces.C.long;
       SearchDirection : SearchDirectionEnum;
-      Start           : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
+      Start           : GNATCOM.Types.VARIANT := GNATCOM.Types.VARIANT_MISSING;
       Free            : Boolean := True)
    is
    begin
@@ -912,12 +914,11 @@ package body ADO.uRecordset15_Interface is
           Start));
 
       if Free then
-               GNATCOM.IInterface.Free (Criteria);
-               GNATCOM.IInterface.Free (Start);
-      
+               GNATCOM.Iinterface.Free (Criteria);
+               GNATCOM.Iinterface.Free (Start);
+
       end if;
 
    end Find;
 
 end ADO.uRecordset15_Interface;
-

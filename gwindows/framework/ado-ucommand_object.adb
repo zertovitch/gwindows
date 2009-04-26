@@ -226,4 +226,3 @@ package body ADO.uCommand_Object is
    end Cancel;
 
 end ADO.uCommand_Object;
-

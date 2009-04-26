@@ -1,9 +1,9 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 package ADO.ConnectionEventsVt_Interface is
 
    type ConnectionEventsVt_Type is
-     new GNATCOM.IInterface.Interface_Type with null record;
+     new GNATCOM.Iinterface.Interface_Type with null record;
 
    procedure Initialize (This : in out ConnectionEventsVt_Type);
 
@@ -79,4 +79,3 @@ package ADO.ConnectionEventsVt_Interface is
       pConnection : Pointer_To_uConnection);
 
 end ADO.ConnectionEventsVt_Interface;
-

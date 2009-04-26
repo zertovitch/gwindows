@@ -390,4 +390,3 @@ package ADO.uRecordset_Object is
       Free          : Boolean := True);
 
 end ADO.uRecordset_Object;
-

@@ -26,4 +26,3 @@ package ADO.Errors_Object is
      (This : Errors_Type);
 
 end ADO.Errors_Object;
-

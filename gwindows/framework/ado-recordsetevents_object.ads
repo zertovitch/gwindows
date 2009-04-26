@@ -103,4 +103,3 @@ package ADO.RecordsetEvents_Object is
      return GNATCOM.Types.VARIANT;
 
 end ADO.RecordsetEvents_Object;
-

@@ -39,4 +39,3 @@ package body ADO.Properties_Object is
    end Get_Item;
 
 end ADO.Properties_Object;
-
