@@ -280,4 +280,3 @@ package TOM.ITextRange_Interface is
      return GNATCOM.Types.Pointer_To_IUnknown;
 
 end TOM.ITextRange_Interface;
-

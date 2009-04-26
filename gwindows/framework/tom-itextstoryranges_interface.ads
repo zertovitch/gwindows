@@ -27,4 +27,3 @@ package TOM.ITextStoryRanges_Interface is
      return Interfaces.C.long;
 
 end TOM.ITextStoryRanges_Interface;
-

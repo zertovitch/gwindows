@@ -230,4 +230,3 @@ package TOM.ITextPara_Object is
       Free      : Boolean := True);
 
 end TOM.ITextPara_Object;
-

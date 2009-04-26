@@ -32,4 +32,3 @@ package body TOM.ITextStoryRanges_Object is
    end Get_Count;
 
 end TOM.ITextStoryRanges_Object;
-

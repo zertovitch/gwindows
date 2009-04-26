@@ -214,4 +214,3 @@ package TOM.ITextPara_Interface is
       ptbLeader : GNATCOM.Types.Pointer_To_long);
 
 end TOM.ITextPara_Interface;
-

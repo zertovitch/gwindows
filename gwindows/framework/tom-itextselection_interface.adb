@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body TOM.ITextSelection_Interface is
                      Pointer : in     Pointer_To_ITextSelection)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -50,8 +50,8 @@ package body TOM.ITextSelection_Interface is
           pbstr));
 
       if Free then
-               GNATCOM.IInterface.Free (pbstr);
-      
+               GNATCOM.Iinterface.Free (pbstr);
+
       end if;
 
    end Put_Text;
@@ -609,8 +609,8 @@ package body TOM.ITextSelection_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.IInterface.Free (bstr);
-      
+               GNATCOM.Iinterface.Free (bstr);
+
       end if;
 
       return RetVal;
@@ -635,8 +635,8 @@ package body TOM.ITextSelection_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.IInterface.Free (bstr);
-      
+               GNATCOM.Iinterface.Free (bstr);
+
       end if;
 
       return RetVal;
@@ -661,8 +661,8 @@ package body TOM.ITextSelection_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.IInterface.Free (bstr);
-      
+               GNATCOM.Iinterface.Free (bstr);
+
       end if;
 
       return RetVal;
@@ -1000,11 +1000,10 @@ package body TOM.ITextSelection_Interface is
           bstr));
 
       if Free then
-               GNATCOM.IInterface.Free (bstr);
-      
+               GNATCOM.Iinterface.Free (bstr);
+
       end if;
 
    end TypeText;
 
 end TOM.ITextSelection_Interface;
-

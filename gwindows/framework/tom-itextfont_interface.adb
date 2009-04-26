@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body TOM.ITextFont_Interface is
                      Pointer : in     Pointer_To_ITextFont)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -430,8 +430,8 @@ package body TOM.ITextFont_Interface is
           pbstr));
 
       if Free then
-               GNATCOM.IInterface.Free (pbstr);
-      
+               GNATCOM.Iinterface.Free (pbstr);
+
       end if;
 
    end Put_Name;
@@ -749,4 +749,3 @@ package body TOM.ITextFont_Interface is
    end Put_Weight;
 
 end TOM.ITextFont_Interface;
-

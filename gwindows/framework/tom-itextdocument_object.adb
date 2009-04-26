@@ -214,4 +214,3 @@ package body TOM.ITextDocument_Object is
    end RangeFromPoint;
 
 end TOM.ITextDocument_Object;
-

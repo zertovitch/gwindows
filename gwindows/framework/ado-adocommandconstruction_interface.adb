@@ -49,4 +49,3 @@ package body ADO.ADOCommandConstruction_Interface is
    end Put_OLEDBCommand;
 
 end ADO.ADOCommandConstruction_Interface;
-

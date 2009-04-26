@@ -97,4 +97,3 @@ package TOM.ITextDocument_Object is
      return GNATCOM.Types.VARIANT;
 
 end TOM.ITextDocument_Object;
-

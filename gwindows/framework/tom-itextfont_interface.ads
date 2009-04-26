@@ -236,4 +236,3 @@ package TOM.ITextFont_Interface is
       pValue : Interfaces.C.long);
 
 end TOM.ITextFont_Interface;
-

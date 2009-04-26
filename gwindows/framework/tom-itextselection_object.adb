@@ -867,4 +867,3 @@ package body TOM.ITextSelection_Object is
    end TypeText;
 
 end TOM.ITextSelection_Object;
-

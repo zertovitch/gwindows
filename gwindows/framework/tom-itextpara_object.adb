@@ -545,4 +545,3 @@ package body TOM.ITextPara_Object is
    end GetTab;
 
 end TOM.ITextPara_Object;
-

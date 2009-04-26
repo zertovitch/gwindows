@@ -1,4 +1,4 @@
-with GNATCOM.IInterface;
+with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
 
@@ -20,7 +20,7 @@ package body TOM.ITextDocument_Interface is
                      Pointer : in     Pointer_To_ITextDocument)
    is
    begin
-      Attach (This, GNATCOM.IInterface.To_Pointer_To_IUnknown
+      Attach (This, GNATCOM.Iinterface.To_Pointer_To_IUnknown
               (Pointer.all'Address));
    end Attach;
 
@@ -293,4 +293,3 @@ package body TOM.ITextDocument_Interface is
    end RangeFromPoint;
 
 end TOM.ITextDocument_Interface;
-

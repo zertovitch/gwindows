@@ -337,4 +337,3 @@ package TOM.ITextSelection_Interface is
       Free : Boolean := True);
 
 end TOM.ITextSelection_Interface;
-

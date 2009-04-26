@@ -360,4 +360,3 @@ package TOM.ITextSelection_Object is
       Free : Boolean := True);
 
 end TOM.ITextSelection_Object;
-

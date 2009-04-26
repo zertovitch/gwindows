@@ -20,4 +20,3 @@ package TOM.ITextStoryRanges_Object is
      return GNATCOM.Types.VARIANT;
 
 end TOM.ITextStoryRanges_Object;
-

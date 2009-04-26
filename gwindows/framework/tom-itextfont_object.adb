@@ -610,4 +610,3 @@ package body TOM.ITextFont_Object is
    end Put_Weight;
 
 end TOM.ITextFont_Object;
-

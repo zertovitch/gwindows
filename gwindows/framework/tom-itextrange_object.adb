@@ -713,4 +713,3 @@ package body TOM.ITextRange_Object is
    end GetEmbeddedObject;
 
 end TOM.ITextRange_Object;
-

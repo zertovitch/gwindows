@@ -99,4 +99,3 @@ package TOM.ITextDocument_Interface is
      return Pointer_To_ITextRange;
 
 end TOM.ITextDocument_Interface;
-

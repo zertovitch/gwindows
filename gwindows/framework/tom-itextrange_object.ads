@@ -296,4 +296,3 @@ package TOM.ITextRange_Object is
      return GNATCOM.Types.VARIANT;
 
 end TOM.ITextRange_Object;
-

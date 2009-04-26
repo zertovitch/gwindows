@@ -22,4 +22,3 @@ package ADO.ADOCommandConstruction_Interface is
       ppOLEDBCommand : GNATCOM.Types.Pointer_To_IUnknown);
 
 end ADO.ADOCommandConstruction_Interface;
-
