@@ -32,7 +32,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-
 with GWindows.Base;
 with GWindows.Types;
 package GWindows.Buttons is

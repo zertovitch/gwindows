@@ -70,6 +70,14 @@ package GWindows.List_Boxes is
    function Current (List : in List_Box_Type) return Natural;
    --  Returns currently selected / focused item
 
+   procedure Item_Data (List : in List_Box_Type;
+                       Item  : in Natural;
+                       Data  : in Integer);
+   function Item_Data (List : in List_Box_Type;
+                       Item  : in Natural)
+                      return Integer;
+   --  To use user data with list box items
+
    function Count (List : in List_Box_Type) return Natural;
    --  Returns number of items in list box
 
@@ -109,6 +117,9 @@ package GWindows.List_Boxes is
 
    procedure Add (List  : in out List_Box_Type;
                   Value : in     GString);
+   function Add (List  : in List_Box_Type;
+                 Value : in GString)
+                return Natural;
    procedure Add (List  : in out List_Box_Type;
                   After : in     Positive;
                   Value : in     GString);

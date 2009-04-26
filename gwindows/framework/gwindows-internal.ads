@@ -40,6 +40,8 @@ pragma Elaborate_All (GWindows.GStrings);
 
 private package GWindows.Internal is
 
+   pragma Elaborate_Body;
+
    Window_Class_Name : GString_C :=
      GWindows.GStrings.To_GString_C ("GWindows_Class");
    --  Class name used for all GWindows windows

@@ -32,8 +32,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-
 with GWindows.Base;
+
 with GWindows.Types;
 package GWindows.Edit_Boxes is
 
@@ -53,15 +53,14 @@ package GWindows.Edit_Boxes is
      (Edit              : in out Edit_Box_Type;
       Parent            : in out GWindows.Base.Base_Window_Type'Class;
       Text              : in     GString;
-      Left              : in     Integer                              := 0;
-      Top               : in     Integer                              := 0;
-      Width             : in     Integer                              := 0;
-      Height            : in     Integer                              := 0;
-      Horizontal_Scroll : in     Boolean                              := True;
-      ID                : in     Integer                              := 0;
-      Show              : in     Boolean                              := True;
-      Is_Dynamic        : in     Boolean
-      := False);
+      Left              : in     Integer                            := 0;
+      Top               : in     Integer                            := 0;
+      Width             : in     Integer                            := 0;
+      Height            : in     Integer                            := 0;
+      Horizontal_Scroll : in     Boolean                            := True;
+      ID                : in     Integer                            := 0;
+      Show              : in     Boolean                            := True;
+      Is_Dynamic        : in     Boolean                            := False);
    --  Create Edit Box
 
    -------------------------------------------------------------------------
@@ -252,49 +251,46 @@ package GWindows.Edit_Boxes is
      (Edit              : in out Multi_Line_Edit_Box_Type;
       Parent            : in out GWindows.Base.Base_Window_Type'Class;
       Text              : in     GString;
-      Left              : in     Integer                              := 0;
-      Top               : in     Integer                              := 0;
-      Width             : in     Integer                              := 0;
-      Height            : in     Integer                              := 0;
-      Horizontal_Scroll : in     Boolean                              := False;
-      ID                : in     Integer                              := 0;
-      Show              : in     Boolean                              := True;
-      Is_Dynamic        : in     Boolean
-      := False);
+      Left              : in     Integer                            := 0;
+      Top               : in     Integer                            := 0;
+      Width             : in     Integer                            := 0;
+      Height            : in     Integer                            := 0;
+      Horizontal_Scroll : in     Boolean                            := False;
+      ID                : in     Integer                            := 0;
+      Show              : in     Boolean                            := True;
+      Is_Dynamic        : in     Boolean                            := False);
    --  Create Multi Line Edit Box with vertical scroll bar and return capture
 
    procedure Create_Multi_Line
      (Edit              : in out Multi_Line_Edit_Box_Type;
       Parent            : in out GWindows.Base.Base_Window_Type'Class;
       Text              : in     GString;
-      Left              : in     Integer                              := 0;
-      Top               : in     Integer                              := 0;
-      Width             : in     Integer                              := 0;
-      Height            : in     Integer                              := 0;
-      Horizontal_Scroll : in     Boolean                              := False;
-      Vertical_Scroll   : in     Boolean                              := True;
-      Capture_Return    : in     Boolean                              := True;
-      ID                : in     Integer                              := 0;
-      Show              : in     Boolean                              := True;
-      Is_Dynamic        : in     Boolean
-      := False);
+      Left              : in     Integer                            := 0;
+      Top               : in     Integer                            := 0;
+      Width             : in     Integer                            := 0;
+      Height            : in     Integer                            := 0;
+      Horizontal_Scroll : in     Boolean                            := False;
+      Vertical_Scroll   : in     Boolean                            := True;
+      Capture_Return    : in     Boolean                            := True;
+      ID                : in     Integer                            := 0;
+      Show              : in     Boolean                            := True;
+      Is_Dynamic        : in     Boolean                            := False);
    --  Create Multi Line Edit Box
 
    procedure Create
      (Edit              : in out Multi_Line_Edit_Box_Type;
       Parent            : in out GWindows.Base.Base_Window_Type'Class;
       Text              : in     GString;
-      Left              : in     Integer                              := 0;
-      Top               : in     Integer                              := 0;
-      Width             : in     Integer                              := 0;
-      Height            : in     Integer                              := 0;
+      Left              : in     Integer                            := 0;
+      Top               : in     Integer                            := 0;
+      Width             : in     Integer                            := 0;
+      Height            : in     Integer                            := 0;
       Horizontal_Scroll : in     Boolean;
       Vertical_Scroll   : in     Boolean;
       Capture_Return    : in     Boolean;
       ID                : in     Integer;
-      Show              : in     Boolean                              := True;
-      Is_Dynamic        : in     Boolean
-      := False);
+      Show              : in     Boolean                            := True;
+      Is_Dynamic        : in     Boolean                            := False);
    --  Create Multi Line Edit Box
 
    -------------------------------------------------------------------------
@@ -377,7 +373,7 @@ private
    ES_AUTOHSCROLL             : constant := 128;
 --     ES_NOHIDESEL               : constant := 256;
 --     ES_OEMCONVERT              : constant := 1024;
---     ES_READONLY                : constant := 2048;
+   ES_READONLY                : constant := 2048;
    ES_WANTRETURN              : constant := 4096;
    ES_NUMBER                  : constant := 8192;
    WS_VSCROLL                 : constant := 2097152;

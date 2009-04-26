@@ -32,10 +32,10 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-
 with GWindows.Base;
 with GWindows.Drawing_Objects;
 with GWindows.Types;
+
 package GWindows.Static_Controls is
 
    -------------------------------------------------------------------------
@@ -72,16 +72,16 @@ package GWindows.Static_Controls is
    --  Create Label
 
    procedure Create_Label
-     (Parent    : in out GWindows.Base.Base_Window_Type'Class;
-      Text      : in     GString;
-      Left      : in     Integer                              := 0;
-      Top       : in     Integer                              := 0;
-      Width     : in     Integer                              := 0;
-      Height    : in     Integer                              := 0;
-      Alignment : in     Alignment_Type                       :=
+     (Parent     : in out GWindows.Base.Base_Window_Type'Class;
+      Text       : in     GString;
+      Left       : in     Integer                              := 0;
+      Top        : in     Integer                              := 0;
+      Width      : in     Integer                              := 0;
+      Height     : in     Integer                              := 0;
+      Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
-      ID        : in     Integer                              := 0;
-      Show      : in     Boolean                              := True);
+      ID         : in     Integer                              := 0;
+      Show       : in     Boolean                              := True);
    --  Create Label with no variable
 
    function Recommended_Size (Static : in Label_Type)

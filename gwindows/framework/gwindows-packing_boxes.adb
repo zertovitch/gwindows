@@ -32,8 +32,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with GWindows.Base;
-
 package body GWindows.Packing_Boxes is
 
    -----------------
@@ -205,7 +203,6 @@ package body GWindows.Packing_Boxes is
       if Window.Auto_Size_To_Contents then
          declare
             use GWindows.Types;
-            use GWindows.Base;
 
             New_Size : GWindows.Types.Size_Type          :=
               Content_Bounds (Window);

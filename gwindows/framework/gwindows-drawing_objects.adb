@@ -172,7 +172,6 @@ package body GWindows.Drawing_Objects is
       return Object.Protected_Object;
    end Protected_Object;
 
-
    ------------------------
    -- Create_Stock_Brush --
    ------------------------
@@ -440,6 +439,101 @@ package body GWindows.Drawing_Objects is
       Delete (Bitmap);
 
       Handle (Bitmap, LoadBitmap);
+   end Load_Stock_Bitmap;
+
+   -----------------------
+   -- Load_Stock_Bitmap --
+   -----------------------
+
+   procedure Load_Stock_Bitmap
+                (Bitmap       : in out Bitmap_Type;
+                 Bitmap_Const :        Integer;
+                 Conversion   : in     Bitmap_Conversion_Type;
+                 X, Y         : in     Integer)
+   is
+      IMAGE_BITMAP       : constant := 0;
+      LR_DEFAULTCOLOR    : constant := 16#0000#;
+      LR_MONOCHROME      : constant := 16#0001#;
+      LR_LOADTRANSPARENT : constant := 16#0020#;
+      LR_LOADMAP3DCOLORS : constant := 16#1000#;
+
+      function LoadImage
+        (hInst     : Interfaces.C.long := 0;
+         lpszName  : Integer           := Bitmap_Const;
+         uType     : Interfaces.C.int  := IMAGE_BITMAP;
+         cxDesired : Interfaces.C.int  := Interfaces.C.int (X);
+         cyDesired : Interfaces.C.int  := Interfaces.C.int (Y);
+         fuLoad    : Interfaces.C.unsigned)
+        return Interfaces.C.long;
+      pragma Import (StdCall, LoadImage,
+                       "LoadImage" & Character_Mode_Identifier);
+
+      Flags : Interfaces.C.unsigned;
+   begin
+      Delete (Bitmap);
+
+      case Conversion is
+         when None =>
+            Flags := LR_DEFAULTCOLOR;
+         when Monochrome =>
+            Flags := LR_MONOCHROME;
+         when Transparent_Window =>
+            Flags := LR_LOADTRANSPARENT;
+         when Transparent_Button =>
+            Flags := LR_LOADTRANSPARENT or LR_LOADMAP3DCOLORS;
+         when Button_Conversion =>
+            Flags := LR_LOADMAP3DCOLORS;
+      end case;
+
+      Handle (Bitmap, LoadImage (fuLoad => Flags));
+   end Load_Stock_Bitmap;
+
+   -----------------------
+   -- Load_Stock_Bitmap --
+   -----------------------
+
+   procedure Load_Stock_Bitmap
+                (Bitmap       : in out Bitmap_Type;
+                 Bitmap_Const :        Integer;
+                 Conversion   : in     Bitmap_Conversion_Type)
+   is
+      IMAGE_BITMAP       : constant := 0;
+      LR_DEFAULTCOLOR    : constant := 16#0000#;
+      LR_MONOCHROME      : constant := 16#0001#;
+      LR_LOADTRANSPARENT : constant := 16#0020#;
+      LR_DEFAULTSIZE     : constant := 16#0040#;
+      LR_LOADMAP3DCOLORS : constant := 16#1000#;
+
+      function LoadImage
+        (hInst     : Interfaces.C.long := 0;
+         lpszName  : Integer           := Bitmap_Const;
+         uType     : Interfaces.C.int  := IMAGE_BITMAP;
+         cxDesired : Interfaces.C.int  := 0;
+         cyDesired : Interfaces.C.int  := 0;
+         fuLoad    : Interfaces.C.unsigned)
+        return Interfaces.C.long;
+      pragma Import (StdCall, LoadImage,
+                       "LoadImage" & Character_Mode_Identifier);
+
+      Flags : Interfaces.C.unsigned;
+   begin
+      Delete (Bitmap);
+
+      case Conversion is
+         when None =>
+            Flags := LR_DEFAULTSIZE or LR_DEFAULTCOLOR;
+         when Monochrome =>
+            Flags := LR_DEFAULTSIZE or LR_MONOCHROME;
+         when Transparent_Window =>
+            Flags := LR_DEFAULTSIZE or LR_LOADTRANSPARENT;
+         when Transparent_Button =>
+            Flags := LR_DEFAULTSIZE or LR_LOADTRANSPARENT or
+                     LR_LOADMAP3DCOLORS;
+         when Button_Conversion =>
+            Flags := LR_DEFAULTSIZE or LR_LOADMAP3DCOLORS;
+      end case;
+
+      Handle (Bitmap, LoadImage (fuLoad => Flags));
    end Load_Stock_Bitmap;
 
    -----------------

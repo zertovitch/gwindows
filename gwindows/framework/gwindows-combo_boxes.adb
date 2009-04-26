@@ -32,7 +32,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-
 with GWindows.Drawing;
 with GWindows.Drawing_Objects;
 with GWindows.Errors;
@@ -183,14 +182,14 @@ package body GWindows.Combo_Boxes is
      (Combo      : in out Drop_Down_Combo_Box_Type;
       Parent     : in out GWindows.Base.Base_Window_Type'Class;
       Text       : in     GString;
-      Left       : in     Integer                              := 0;
-      Top        : in     Integer                              := 0;
-      Width      : in     Integer                              := 0;
-      Height     : in     Integer                              := 0;
-      Sort       : in     Boolean                              := True;
-      ID         : in     Integer                              := 0;
-      Show       : in     Boolean                              := True;
-      Is_Dynamic : in     Boolean                              := False)
+      Left       : in     Integer                            := 0;
+      Top        : in     Integer                            := 0;
+      Width      : in     Integer                            := 0;
+      Height     : in     Integer                            := 0;
+      Sort       : in     Boolean                            := True;
+      ID         : in     Integer                            := 0;
+      Show       : in     Boolean                            := True;
+      Is_Dynamic : in     Boolean                            := False)
    is
       Styles : Interfaces.C.unsigned :=
         WS_TABSTOP or CBS_HASSTRINGS or CBS_DROPDOWN or

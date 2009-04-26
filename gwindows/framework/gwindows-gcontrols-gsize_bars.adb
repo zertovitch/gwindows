@@ -34,7 +34,6 @@
 
 with GWindows.Cursors;
 with GWindows.Drawing_Objects;
-with GWindows.Types;
 
 package body GWindows.GControls.GSize_Bars is
 
@@ -170,12 +169,12 @@ package body GWindows.GControls.GSize_Bars is
       use GWindows.Base;
       use GWindows.Types;
 
-      P  : Base_Window_Type renames Controlling_Parent (Window).all;
+      P  : Pointer_To_Base_Window_Class := Controlling_Parent (Window);
       G  : constant Pointer_To_Base_Window_Class :=
         Parent (Parent (Window).all);
       W  : constant Point_Type := Point_To_Desktop (Window, (Left (Window),
                                                              Top (Window)));
-      O  : constant Point_Type := Point_To_Client (P, W);
+      O  : constant Point_Type := Point_To_Client (P.all, W);
    begin
       Window.In_Size := True;
 
@@ -201,7 +200,7 @@ package body GWindows.GControls.GSize_Bars is
            or
            Dock (Window) = GWindows.Base.At_Bottom
          then
-            Create (Window.Bar.all, P, "", O.X, O.Y,
+            Create (Window.Bar.all, P.all, "", O.X, O.Y,
                     Width (Window),
                     Window.Bar_Size,
                     All_Keys   => False,
@@ -209,7 +208,7 @@ package body GWindows.GControls.GSize_Bars is
                     Show       => False,
                     Is_Dynamic => True);
          else
-            Create (Window.Bar.all, P, "", O.X, O.Y,
+            Create (Window.Bar.all, P.all, "", O.X, O.Y,
                     Window.Bar_Size,
                     Height (Window),
                     All_Keys   => False,
@@ -276,9 +275,9 @@ package body GWindows.GControls.GSize_Bars is
             W   : constant Natural := Width (P);
             H   : constant Natural := Height (P);
             NS  : Integer;
-            PC  : Base_Window_Type renames Controlling_Parent (Window).all;
+            PC  : Pointer_To_Base_Window_Class := Controlling_Parent (Window);
             WC  : constant Point_Type := Point_To_Desktop (Window, (X, Y));
-            OC  : Point_Type := Point_To_Client (PC, WC);
+            OC  : Point_Type := Point_To_Client (PC.all, WC);
          begin
             if Dock (Window) = At_Right and X /= 0 then
                NS := W + X;
@@ -298,11 +297,11 @@ package body GWindows.GControls.GSize_Bars is
                   if NS < Window.Minimum then
                      OC := Point_To_Desktop (P, (Window.Minimum, 0));
                      OC.X := OC.X - Width (Window);
-                     OC := Point_To_Client (PC, OC);
+                     OC := Point_To_Client (PC.all, OC);
                   elsif NS > Window.Maximum then
                      OC := Point_To_Desktop (P, (Window.Maximum, 0));
                      OC.X := OC.X - Width (Window);
-                     OC := Point_To_Client (PC, OC);
+                     OC := Point_To_Client (PC.all, OC);
                   end if;
 
                   Left (Window.Bar.all, OC.X);
@@ -326,11 +325,11 @@ package body GWindows.GControls.GSize_Bars is
                   if NS < Window.Minimum then
                      OC := Point_To_Desktop (Window, (Left (Window), 0));
                      OC.X := OC.X + W - Window.Minimum;
-                     OC := Point_To_Client (PC, OC);
+                     OC := Point_To_Client (PC.all, OC);
                   elsif NS > Window.Maximum then
                      OC := Point_To_Desktop (Window, (Left (Window), 0));
                      OC.X := OC.X + W - Window.Maximum;
-                     OC := Point_To_Client (PC, OC);
+                     OC := Point_To_Client (PC.all, OC);
                   end if;
 
                   Left (Window.Bar.all, OC.X);
@@ -353,11 +352,11 @@ package body GWindows.GControls.GSize_Bars is
                   if NS < Window.Minimum then
                      OC := Point_To_Desktop (Window, (0, Window.Minimum));
                      OC.Y := OC.Y - H - Height (Window);
-                     OC := Point_To_Client (PC, OC);
+                     OC := Point_To_Client (PC.all, OC);
                   elsif NS > Window.Maximum then
                      OC := Point_To_Desktop (Window, (0, Window.Maximum));
                      OC.Y := OC.Y - H - Height (Window);
-                     OC := Point_To_Client (PC, OC);
+                     OC := Point_To_Client (PC.all, OC);
                   end if;
 
                   Top (Window.Bar.all, OC.Y);
@@ -381,11 +380,11 @@ package body GWindows.GControls.GSize_Bars is
                   if NS < Window.Minimum then
                      OC := Point_To_Desktop (Window, (0, 0));
                      OC.Y := OC.Y + H - Window.Minimum;
-                     OC := Point_To_Client (PC, OC);
+                     OC := Point_To_Client (PC.all, OC);
                   elsif NS > Window.Maximum then
                      OC := Point_To_Desktop (Window, (0, 0));
                      OC.Y := OC.Y + H - Window.Maximum;
-                     OC := Point_To_Client (PC, OC);
+                     OC := Point_To_Client (PC.all, OC);
                   end if;
 
                   Top (Window.Bar.all, OC.Y);

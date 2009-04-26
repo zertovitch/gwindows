@@ -50,7 +50,7 @@ package GWindows.Databases is
    type Database_Type is
      new Ada.Finalization.Limited_Controlled with private;
 
-   function Interface (This : Database_Type)
+   function Interfac (This : Database_Type)
                       return GNATCOM.Dispinterface.Dispinterface_Type;
 
    -------------------------------------------------------------------------
@@ -82,7 +82,7 @@ package GWindows.Databases is
    type Recordset_Type is
      new Ada.Finalization.Limited_Controlled with private;
 
-   function Interface (This : Recordset_Type)
+   function Interfac (This : Recordset_Type)
                       return GNATCOM.Dispinterface.Dispinterface_Type;
 
    -------------------------------------------------------------------------

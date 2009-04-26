@@ -62,7 +62,7 @@ package body GWindows.Edit_Boxes.Generic_Integer is
          Top        => Top,
          Width      => Width,
          Height     => Height,
-         Id         => ID,
+         ID         => ID,
          Styles     => WS_TABSTOP or ES_AUTOHSCROLL or ES_NUMBER,
          Is_Dynamic => Is_Dynamic);
 

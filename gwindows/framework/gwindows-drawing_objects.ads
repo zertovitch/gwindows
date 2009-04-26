@@ -139,6 +139,17 @@ package GWindows.Drawing_Objects is
       --  Light Grey [RGB(223,223,223)] color are converted
       --  to the system Light_3D color.
 
+   procedure Load_Stock_Bitmap
+                (Bitmap       : in out Bitmap_Type;
+                 Bitmap_Const :        Integer;
+                 Conversion   : in     Bitmap_Conversion_Type);
+
+   procedure Load_Stock_Bitmap
+                (Bitmap       : in out Bitmap_Type;
+                 Bitmap_Const :        Integer;
+                 Conversion   : in     Bitmap_Conversion_Type;
+                 X, Y         : in     Integer);
+
    procedure Load_Bitmap (Bitmap     : in out Bitmap_Type;
                           Name       : in     GString;
                           Conversion : in     Bitmap_Conversion_Type := None);
@@ -326,7 +337,7 @@ private
      new Ada.Finalization.Limited_Controlled with
       record
          HOBJECT          : GWindows.Types.Handle := 0;
-         Protected_Object : Boolean := True;
+         Protected_Object : Boolean := False;
       end record;
 
    type Brush_Type is new Drawing_Object_Type with null record;

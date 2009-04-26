@@ -53,9 +53,13 @@ package GWindows.Message_Boxes is
    type Message_Box_Type is (Abort_Retry_Ignore_Box,
                              OK_Box,
                              OK_Cancel_Box,
+                             OK_Cancel_Def_Box,
                              Retry_Cancel_Box,
                              Yes_No_Box,
-                             Yes_No_Cancel_Box);
+                             Yes_No_Def_Box,
+                             Yes_No_Cancel_Box,
+                             Yes_No_Def_Cancel_Box,
+                             Yes_No_Cancel_Def_Box);
 
    function Message_Box
      (Window      : in GWindows.Base.Base_Window_Type'Class;

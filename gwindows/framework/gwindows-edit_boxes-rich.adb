@@ -55,21 +55,21 @@ package body GWindows.Edit_Boxes.Rich is
    EM_GETOLEINTERFACE : constant := 1084;
 
    EM_SETEVENTMASK         : constant := 1093;
-   ENM_NONE                : constant := 0;
+--   ENM_NONE                : constant := 0;
    ENM_CHANGE              : constant := 1;
    ENM_UPDATE              : constant := 2;
    ENM_SCROLL              : constant := 4;
-   ENM_KEYEVENTS           : constant := 65536;
-   ENM_MOUSEEVENTS         : constant := 131072;
-   ENM_REQUESTRESIZE       : constant := 262144;
-   ENM_SELCHANGE           : constant := 524288;
-   ENM_DROPFILES           : constant := 1048576;
-   ENM_PROTECTED           : constant := 2097152;
-   ENM_CORRECTTEXT         : constant := 4194304;
-   ENM_IMECHANGE           : constant := 8388608;
-   ENM_LANGCHANGE          : constant := 16777216;
-   ENM_OBJECTPOSITIONS     : constant := 33554432;
-   ENM_LINK                : constant := 67108864;
+--   ENM_KEYEVENTS           : constant := 65536;
+--   ENM_MOUSEEVENTS         : constant := 131072;
+--   ENM_REQUESTRESIZE       : constant := 262144;
+--   ENM_SELCHANGE           : constant := 524288;
+--   ENM_DROPFILES           : constant := 1048576;
+--   ENM_PROTECTED           : constant := 2097152;
+--   ENM_CORRECTTEXT         : constant := 4194304;
+--   ENM_IMECHANGE           : constant := 8388608;
+--   ENM_LANGCHANGE          : constant := 16777216;
+--   ENM_OBJECTPOSITIONS     : constant := 33554432;
+--   ENM_LINK                : constant := 67108864;
 
    procedure LoadLibrary (LibName : GString_C);
    pragma Import (StdCall, LoadLibrary, "LoadLibrary"

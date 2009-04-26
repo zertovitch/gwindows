@@ -89,4 +89,3 @@ private
    type GControl_Type is new GWindows.Windows.Window_Type with null record;
 
 end GWindows.GControls;
-

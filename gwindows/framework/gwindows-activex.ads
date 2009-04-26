@@ -35,7 +35,7 @@
 with GWindows.Base;
 with GWindows.Windows;
 
-with GNATCOM.Interface;
+with GNATCOM.Iinterface;
 with GNATCOM.Types;
 
 package GWindows.ActiveX is
@@ -95,8 +95,8 @@ package GWindows.ActiveX is
    --  ActiveX_Type - Properties
    -------------------------------------------------------------------------
 
-   function Interface (Control : in ActiveX_Type)
-                      return GNATCOM.Interface.Interface_Type;
+   function Interfac (Control : in ActiveX_Type)
+                      return GNATCOM.Iinterface.Interface_Type;
 
    -------------------------------------------------------------------------
    --  ActiveX_Type - Event Framework Methods
@@ -119,7 +119,7 @@ private
 
    type ActiveX_Type is new GWindows.Windows.Window_Type with
       record
-         Cookie : GNATCOM.Interface.GIT_Cookie := 0;
+         Cookie : GNATCOM.Iinterface.GIT_Cookie := 0;
          CLSID  : GNATCOM.Types.GUID;
          Key    : GNATCOM.Types.BSTR := null;
       end record;

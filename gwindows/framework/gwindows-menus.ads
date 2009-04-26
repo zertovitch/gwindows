@@ -70,41 +70,47 @@ package GWindows.Menus is
    --  up. If Position is used, which menu or submenu is significant as
    --  that is the one affected.
 
-   procedure Append_Menu (Menu     : in out Menu_Type;
-                          Text     : in     GString;
-                          Add_Menu : in     Menu_Type);
+   type State_Type is (Enabled, Disabled, Grayed);
+
+   procedure Append_Menu (Menu     : in Menu_Type;
+                          Text     : in GString;
+                          Add_Menu : in Menu_Type);
+   procedure Append_Menu (Menu     : in Menu_Type;
+                          Text     : in GString;
+                          Add_Menu : in Menu_Type;
+                          State    : in State_Type);
    --  Append menu
 
-   procedure Append_Item (Menu    : in out Menu_Type;
-                          Text    : in     GString;
-                          Command : in     Positive);
+   procedure Append_Item (Menu    : in Menu_Type;
+                          Text    : in GString;
+                          Command : in Positive);
    --  Append item
 
-   procedure Append_Separator (Menu : in out Menu_Type);
+   procedure Append_Separator (Menu : in Menu_Type);
    --  Append a separator
 
-   procedure Insert_Menu (Menu      : in out Menu_Type;
-                          Locate_By : in     Location_Type;
-                          Locate_At : in     Positive;
-                          Text      : in     GString;
-                          Add_Menu  : in     Menu_Type);
+   procedure Insert_Menu (Menu      : in Menu_Type;
+                          Locate_By : in Location_Type;
+                          Locate_At : in Positive;
+                          Text      : in GString;
+                          Add_Menu  : in Menu_Type);
    --  Insert menu
 
-   procedure Insert_Item (Menu      : in out Menu_Type;
-                          Locate_By : in     Location_Type;
-                          Locate_At : in     Positive;
-                          Text      : in     GString;
-                          Command   : in     Positive);
+   procedure Insert_Item (Menu      : in Menu_Type;
+                          Locate_By : in Location_Type;
+                          Locate_At : in Positive;
+                          Text      : in GString;
+                          Command   : in Positive);
    --  Insert item
 
-   procedure Insert_Separator (Menu : in out Menu_Type;
-                               Locate_By : in     Location_Type;
-                               Locate_At : in     Positive);
+   procedure Insert_Separator (Menu : in Menu_Type;
+                               Locate_By : in Location_Type;
+                               Locate_At : in Positive);
    --  Insert a separator
 
-   procedure Delete_Item (Menu      : in out Menu_Type;
-                          Locate_By : in     Location_Type;
-                          Locate_At : in     Positive);
+   procedure Delete_Item (Menu      : in Menu_Type;
+                          Locate_By : in Location_Type;
+                          Locate_At : in Positive);
    --  Delete a menu item
 
    function Remove_Menu (Menu     : Menu_Type;
@@ -114,12 +120,10 @@ package GWindows.Menus is
    --  should be detroyed before progam exit if not attached later
    --  to another menu that is itself destroyed or attached to a window
 
-   type State_Type is (Enabled, Disabled, Grayed);
-
-   procedure State (Menu      : in out Menu_Type;
-                    Locate_By : in     Location_Type;
-                    Locate_At : in     Positive;
-                    State     : in     State_Type);
+   procedure State (Menu      : in Menu_Type;
+                    Locate_By : in Location_Type;
+                    Locate_At : in Positive;
+                    State     : in State_Type);
 
    function State (Menu      : in Menu_Type;
                    Locate_By : in Location_Type;
@@ -127,18 +131,18 @@ package GWindows.Menus is
                   return State_Type;
    --  Menu Item State
 
-   procedure Radio_Check  (Menu         : in out Menu_Type;
-                           Locate_By    : in     Location_Type;
-                           First_Item   : in     Positive;
-                           Last_Item    : in     Positive;
-                           Checked_Item : in     Positive);
+   procedure Radio_Check  (Menu         : in Menu_Type;
+                           Locate_By    : in Location_Type;
+                           First_Item   : in Positive;
+                           Last_Item    : in Positive;
+                           Checked_Item : in Positive);
    --  Check an item in range with a bullet and uncheck all items
    --  in the range.
 
-   procedure Check (Menu      : in out Menu_Type;
-                    Locate_By : in     Location_Type;
-                    Locate_At : in     Positive;
-                    State     : in     Boolean);
+   procedure Check (Menu      : in Menu_Type;
+                    Locate_By : in Location_Type;
+                    Locate_At : in Positive;
+                    State     : in Boolean);
 
    function Check (Menu      : in Menu_Type;
                    Locate_By : in Location_Type;
@@ -146,12 +150,11 @@ package GWindows.Menus is
                   return Boolean;
    --  Menu Item Check Mark
 
-   procedure Hilite (Menu      : in out Menu_Type;
-                     Window    : in
-                       GWindows.Base.Base_Window_Type'Class;
-                     Locate_By : in     Location_Type;
-                     Locate_At : in     Positive;
-                     State     : in     Boolean);
+   procedure Hilite (Menu      : in Menu_Type;
+                     Window    : in GWindows.Base.Base_Window_Type'Class;
+                     Locate_By : in Location_Type;
+                     Locate_At : in Positive;
+                     State     : in Boolean);
 
    function Hilite (Menu      : in Menu_Type;
                     Locate_By : in Location_Type;

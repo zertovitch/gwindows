@@ -49,7 +49,7 @@ package body GWindows.ActiveX is
    --     OLEIVERB_SHOW               : constant := -1;
    --     OLEIVERB_OPEN               : constant := -2;
    --     OLEIVERB_HIDE               : constant := -3;
-   --     OLEIVERB_UIACTIVATE         : constant := -4;
+   OLEIVERB_UIACTIVATE         : constant := -4;
    --     OLEIVERB_INPLACEACTIVATE    : constant := -5;
    --     OLEIVERB_DISCARDUNDOSTATE   : constant := -6;
 
@@ -104,14 +104,14 @@ package body GWindows.ActiveX is
    -- Interface --
    ---------------
 
-   function Interface (Control : in ActiveX_Type)
-                      return GNATCOM.Interface.Interface_Type
+   function Interfac (Control : in ActiveX_Type)
+                      return GNATCOM.Iinterface.Interface_Type
    is
-      IUnknown : GNATCOM.Interface.Interface_Type;
+      IUnknown : GNATCOM.Iinterface.Interface_Type;
    begin
-      GNATCOM.Interface.Attach_From_GIT (IUnknown, Control.Cookie);
+      GNATCOM.Iinterface.Attach_From_GIT (IUnknown, Control.Cookie);
       return IUnknown;
-   end Interface;
+   end Interfac;
 
    ----------------
    -- On_Destroy --
@@ -129,7 +129,7 @@ package body GWindows.ActiveX is
          Close (OleObject, OLECLOSE_NOSAVE);
       end;
 
-      GNATCOM.Interface.Remove_From_GIT (Window.Cookie);
+      GNATCOM.Iinterface.Remove_From_GIT (Window.Cookie);
 
       GWindows.Base.On_Destroy (GWindows.Base.Base_Window_Type (Window));
    end On_Destroy;
@@ -144,7 +144,7 @@ package body GWindows.ActiveX is
       use type GNATCOM.Types.BSTR;
 
       use GNATOCX.IOleObject_Interface;
-      IUnknown : GNATCOM.Interface.Interface_Type;
+      IUnknown : GNATCOM.Iinterface.Interface_Type;
 
       function To_Pointer_To_IOleClientSite is
          new Ada.Unchecked_Conversion
@@ -189,12 +189,16 @@ package body GWindows.ActiveX is
       SetClientSite (OleObject,
                      To_Pointer_To_IOleClientSite (Site_Interface));
 
+      DoVerb (OleObject, OLEIVERB_UIACTIVATE, null,
+              To_Pointer_To_IOleClientSite (Site_Interface),
+              -1, WHandle, WRect'Unchecked_Access);
+
       DoVerb (OleObject, OLEIVERB_PRIMARY, null,
               To_Pointer_To_IOleClientSite (Site_Interface),
               -1, WHandle, WRect'Unchecked_Access);
 
-      GNATCOM.Interface.Query (IUnknown, OleObject);
-      Window.Cookie := GNATCOM.Interface.Put_In_GIT (IUnknown);
+      GNATCOM.Iinterface.Query (IUnknown, OleObject);
+      Window.Cookie := GNATCOM.Iinterface.Put_In_GIT (IUnknown);
    end On_Create;
 
    -------------
@@ -205,6 +209,7 @@ package body GWindows.ActiveX is
                       Width  : in     Integer;
                       Height : in     Integer)
    is
+      pragma Warnings (Off, Window);
       use GNATOCX.IOleInPlaceObject_Interface;
 
       OleObject : GNATOCX.IOleInPlaceObject_Interface.IOleInPlaceObject_Type;

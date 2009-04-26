@@ -35,7 +35,6 @@
 --  Bindings to Scintilla Edit Control for Windows
 
 with Ada.Unchecked_Conversion;
-with System;
 
 with GWindows.GStrings;
 with GWindows.Types;
@@ -1653,15 +1652,15 @@ package body GWindows.Scintilla is
 
    function FindText
      (Control : Scintilla_Type;
-      flags : Integer;
-      ft : Find_Text_Type)
-      return Position
+      flags   : Integer;
+      ft      : Find_Text_Access)
+     return Position
    is
       function SendMessage
         (hwnd   : Interfaces.C.long := Handle (Control);
          uMsg   : Interfaces.C.int  := SCI_FINDTEXT;
          wParam : Integer           := flags;
-         lParam : Find_Text_Type    := ft)
+         lParam : Find_Text_Access  := ft)
         return Position;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);

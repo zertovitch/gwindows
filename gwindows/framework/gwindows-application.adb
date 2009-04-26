@@ -361,15 +361,16 @@ package body GWindows.Application is
       use GWindows.Base;
       Real_Parent : Pointer_To_Base_Window_Class :=
         Controlling_Parent (Parent);
-      Was_Enabled : Boolean;
    begin
       if Real_Parent = null then
          Real_Parent := Parent'Unchecked_Access;
       end if;
 
-      Was_Enabled := GWindows.Base.Enabled (Real_Parent.all);
-
-      Is_Modal (Window, True);
+      if GWindows.Base.Enabled (Real_Parent.all) then
+         Is_Modal (Window, True, Real_Parent);
+      else
+         Is_Modal (Window, True, null);
+      end if;
 
       Disable (Real_Parent.all);
 
@@ -377,13 +378,9 @@ package body GWindows.Application is
 
       Modal_Loop (Window);
 
-      if Was_Enabled then
-         Enable (Real_Parent.all);
-      end if;
-
       Focus (Parent);
 
-      Is_Modal (Window, False);
+      Is_Modal (Window, False, null);
    end Show_Modal;
 
    ----------------

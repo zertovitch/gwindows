@@ -32,19 +32,18 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-
 with Ada.Unchecked_Conversion;
 with GWindows.Drawing;
 with GWindows.Drawing_Objects;
 with GWindows.GStrings;
 with Interfaces.C;
+
 package body GWindows.Edit_Boxes is
    use type Interfaces.C.unsigned;
 
    -------------------------------------------------------------------------
    --  Operating System Imports
    -------------------------------------------------------------------------
-
 
    GWL_STYLE : constant := -16;
 
@@ -90,10 +89,10 @@ package body GWindows.Edit_Boxes is
       Top               : in     Integer                              := 0;
       Width             : in     Integer                              := 0;
       Height            : in     Integer                              := 0;
-      Horizontal_Scroll : in     Boolean                              := True;
-      ID                : in     Integer                              := 0;
-      Show              : in     Boolean                              := True;
-      Is_Dynamic        : in     Boolean                              := False)
+      Horizontal_Scroll : in     Boolean                            := True;
+      ID                : in     Integer                            := 0;
+      Show              : in     Boolean                            := True;
+      Is_Dynamic        : in     Boolean                            := False)
    is
       Styles : Interfaces.C.unsigned := WS_TABSTOP;
    begin
@@ -146,10 +145,10 @@ package body GWindows.Edit_Boxes is
       Top               : in     Integer                              := 0;
       Width             : in     Integer                              := 0;
       Height            : in     Integer                              := 0;
-      Horizontal_Scroll : in     Boolean                              := False;
-      ID                : in     Integer                              := 0;
-      Show              : in     Boolean                              := True;
-      Is_Dynamic        : in     Boolean                              := False)
+      Horizontal_Scroll : in     Boolean                            := False;
+      ID                : in     Integer                            := 0;
+      Show              : in     Boolean                            := True;
+      Is_Dynamic        : in     Boolean                            := False)
    is
    begin
       Create_Multi_Line
@@ -169,12 +168,12 @@ package body GWindows.Edit_Boxes is
       Top               : in     Integer                              := 0;
       Width             : in     Integer                              := 0;
       Height            : in     Integer                              := 0;
-      Horizontal_Scroll : in     Boolean                              := False;
-      Vertical_Scroll   : in     Boolean                              := True;
-      Capture_Return    : in     Boolean                              := True;
-      ID                : in     Integer                              := 0;
-      Show              : in     Boolean                              := True;
-      Is_Dynamic        : in     Boolean                              := False)
+      Horizontal_Scroll : in     Boolean                            := False;
+      Vertical_Scroll   : in     Boolean                            := True;
+      Capture_Return    : in     Boolean                            := True;
+      ID                : in     Integer                            := 0;
+      Show              : in     Boolean                            := True;
+      Is_Dynamic        : in     Boolean                            := False)
    is
       Styles : Interfaces.C.unsigned := ES_MULTILINE or WS_TABSTOP;
    begin
@@ -362,7 +361,7 @@ package body GWindows.Edit_Boxes is
 
    function Read_Only (Window : in Edit_Box_Type) return Boolean is
    begin
-      return (GetWindowLong (Handle (Window)) and ES_NUMBER) = ES_NUMBER;
+      return (GetWindowLong (Handle (Window)) and ES_READONLY) = ES_READONLY;
    end Read_Only;
 
    --------------
@@ -1172,8 +1171,8 @@ package body GWindows.Edit_Boxes is
       Vertical_Scroll   : in     Boolean;
       Capture_Return    : in     Boolean;
       ID                : in     Integer;
-      Show              : in     Boolean                              := True;
-      Is_Dynamic        : in     Boolean                              := False)
+      Show              : in     Boolean                            := True;
+      Is_Dynamic        : in     Boolean                            := False)
    is
    begin
       Create_Multi_Line (Edit, Parent, Text,

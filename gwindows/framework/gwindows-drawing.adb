@@ -32,7 +32,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces.C;
+with Ada.Numerics;
+with Ada.Numerics.Elementary_Functions;
 with GWindows.Drawing.Capabilities;
 with GWindows.GStrings;
 
@@ -1220,6 +1221,74 @@ package body GWindows.Drawing is
    begin
       return GetMapMode;
    end Map_Mode;
+
+   -------------------
+   -- Graphics_Mode --
+   -------------------
+   procedure Graphics_Mode (Canvas : in out Canvas_Type;
+                            Mode   : in     Integer)
+   is
+      procedure SetGraphicsMode (HDC   : GWindows.Types.Handle := Canvas.HDC;
+                                 iMode : Integer               := Mode);
+      pragma Import (StdCall, SetGraphicsMode, "SetGraphicsMode");
+   begin
+      SetGraphicsMode;
+   end Graphics_Mode;
+
+   function Graphics_Mode (Canvas : in Canvas_Type) return Integer
+   is
+      function GetGraphicsMode (HDC : GWindows.Types.Handle := Canvas.HDC)
+        return Integer;
+      pragma Import (StdCall, GetGraphicsMode, "GetGraphicsMode");
+   begin
+      return GetGraphicsMode;
+   end Graphics_Mode;
+
+   ---------------------
+   -- World Transform --
+   ---------------------
+
+   procedure World_Transform (Canvas  : in out Canvas_Type;
+                              X_form  : in     XFORM)
+   is
+      procedure SetWorldTransform (HDC   : GWindows.Types.Handle := Canvas.HDC;
+                                   Xfor  : XFORM                 := X_form);
+      pragma Import (StdCall, SetWorldTransform, "SetWorldTransform");
+   begin
+      SetWorldTransform;
+   end World_Transform;
+
+   function World_Transform (Canvas : in Canvas_Type) return XFORM
+   is
+      X_Form : XFORM;
+      procedure GetWorldTransform (HDC  : in     GWindows.Types.Handle;
+                                   Xfor : in out XFORM);
+      pragma Import (StdCall, GetWorldTransform, "GetWorldTransform");
+
+   begin
+      GetWorldTransform (Canvas.HDC, X_Form);
+      return X_Form;
+   end World_Transform;
+
+   ------------------
+   -- Rotate World --
+   ------------------
+
+   procedure Rotate_World (Canvas   : in out Canvas_Type;
+                           X_Origin : in     Integer;
+                           Y_Origin : in     Integer;
+                           Angle    : in     Float) is
+      X_form  : XFORM;
+      Radians : Float := Angle * 2.0 * Ada.Numerics.Pi / 360.0;
+   begin
+      X_form.eM11 := Ada.Numerics.Elementary_Functions.Cos (Radians);
+      X_form.eM12 := Ada.Numerics.Elementary_Functions.Sin (Radians);
+      X_form.eM21 := -X_form.eM12;
+      X_form.eM22 := X_form.eM11;
+      X_form.eDx  := Float (X_Origin);
+      X_form.eDy  := Float (Y_Origin);
+      World_Transform (Canvas, X_form);
+   end Rotate_World;
 
    ----------------------
    -- Viewport_Extents --

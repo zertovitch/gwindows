@@ -37,6 +37,7 @@ with Ada.Calendar;
 with Interfaces.C;
 
 with GWindows.Base;
+with GWindows.Colors;
 with GWindows.Types;
 with GWindows.Windows;
 with GWindows.Image_Lists;
@@ -52,6 +53,9 @@ package GWindows.Common_Controls is
      new GWindows.Base.Base_Window_Type with private;
    type Pointer_To_Common_Control_Class is
      access all Common_Control_Type'Class;
+
+   --  AnSp: moved from body, needed by TVITEM
+   type LPTSTR is access all GChar_C;
 
    -------------------------------------------------------------------------
    --  Common_Control_Type - Event Handlers
@@ -182,6 +186,10 @@ package GWindows.Common_Controls is
                    How  : in     Status_Kind_Type := Sunken);
    --  Set text in a specific part of the status bar
    --  0 is the first part
+
+   procedure Background_Color (Bar   : in out Status_Bar_Type;
+                               Color :        GWindows.Colors.Color_Type);
+   --  Set background color of status bar
 
    -------------------------------------------------------------------------
    --  Animation_Control_Type
@@ -799,6 +807,16 @@ package GWindows.Common_Controls is
    procedure On_Create (Control : in out List_View_Control_Type);
    --  Sets control as a tab stop and with a border
 
+   --------------
+   -- AnSp: Next List_View_Control_Type functions are added --
+   --------------
+
+   type List_View_Image_Type is (Normal, Small, State);
+   procedure Set_Image_List
+     (Control   : in out List_View_Control_Type;
+      ImageType : in     List_View_Image_Type;
+      List      : in     GWindows.Image_Lists.Image_List_Type);
+
    -------------------------------------------------------------------------
    --  Tree_View_Control_Type
    -------------------------------------------------------------------------
@@ -833,6 +851,21 @@ package GWindows.Common_Controls is
    type Tree_Item_Node is new Interfaces.C.unsigned;
 
    type Tree_View_List_Location_Type is (First, Last, Sort, As_A_Root);
+
+   --  AnSp: TVITEM was declared in body, need it for TVN_SELCHANGED
+   type TVITEM is
+      record
+         Mask           : Interfaces.C.unsigned := 0;
+         HItem          : Tree_Item_Node        := 0;
+         State          : Interfaces.C.unsigned := 0;
+         State_Mask     : Interfaces.C.unsigned := 0;
+         Text           : LPTSTR := null;
+         TextMax        : Integer := 0;
+         Image          : Integer := 0;
+         Selected_Image : Integer := 0;
+         Children       : Integer := 0;
+         LPARAM         : Interfaces.C.int := 0;
+      end record;
 
    function Selected_Item (Control : in Tree_View_Control_Type)
                           return GString;
@@ -901,6 +934,35 @@ package GWindows.Common_Controls is
 
    procedure On_Create (Control : in out Tree_View_Control_Type);
    --  Sets control as a tab stop and with a border
+
+   --------------
+   -- AnSp: Next Tree_View_Control_Type functions are added --
+   --------------
+
+   function Get_Count
+      (Control : in Tree_View_Control_Type)
+      return Integer;
+
+   procedure Set_Item
+     (Control       : in out Tree_View_Control_Type;
+      Where         : in     Tree_Item_Node;
+      Mask          : in     Integer;
+      Text          : in     GString;
+      Image         : in     Integer;
+      SelectedImage : in     Integer;
+      State         : in     Integer;
+      StateMask     : in     Integer;
+      Param         : in     Integer);
+
+   procedure Set_Image_List
+     (Control : in out Tree_View_Control_Type;
+      List    : in     GWindows.Image_Lists.Image_List_Type);
+
+   procedure Set_Image
+     (Control     : in out Tree_View_Control_Type;
+      Where       : in     Tree_Item_Node;
+      Image       : in     Integer;
+      ImageSelect : in     Integer);
 
    -------------------------------------------------------------------------
    --  Tab_Control_Type
@@ -1063,14 +1125,107 @@ package GWindows.Common_Controls is
    --  Toolbar_Control_Type - Methods
    -------------------------------------------------------------------------
 
+   --  IDs for standard image lists
+   IDB_STD_SMALL_COLOR  : constant := 0;
+   IDB_STD_LARGE_COLOR  : constant := 1;
+   IDB_VIEW_SMALL_COLOR : constant := 4;
+   IDB_VIEW_LARGE_COLOR : constant := 5;
+
+   --  Toolbar Standard Button Image Index Values
+   --  for IDB_STD_LARGE_COLOR and IDB_STD_SMALL_COLOR
+   STD_CUT        : constant := 0;
+   STD_COPY       : constant := 1;
+   STD_PASTE      : constant := 2;
+   STD_UNDO       : constant := 3;
+   STD_REDOW      : constant := 4;
+   STD_DELETE     : constant := 5;
+   STD_FILENEW    : constant := 6;
+   STD_FILEOPEN   : constant := 7;
+   STD_FILESAVE   : constant := 8;
+   STD_PRINTPRE   : constant := 9;
+   STD_PROPERTIES : constant := 10;
+   STD_HELP       : constant := 11;
+   STD_FIND       : constant := 12;
+   STD_REPLACE    : constant := 13;
+   STD_PRINT      : constant := 14;
+
+   --  Toolbar Standard Button Image Index Values
+   --  for IDB_VIEW_LARGE_COLOR and IDB_VIEW_SMALL_COLOR
+   VIEW_LARGEICONS    : constant := 0;
+   VIEW_SMALLICONS    : constant := 1;
+   VIEW_LIST          : constant := 2;
+   VIEW_DETAILS       : constant := 3;
+   VIEW_SORTNAME      : constant := 4;
+   VIEW_SORTSIZE      : constant := 5;
+   VIEW_SORTDATE      : constant := 6;
+   VIEW_SORTTYPE      : constant := 7;
+   VIEW_PARENTFOLDER  : constant := 8;
+   VIEW_NETCONNECT    : constant := 9;
+   VIEW_NETDISCONNECT : constant := 10;
+   VIEW_NEWFOLDER     : constant := 11;
+
+   procedure Load_Image_List
+     (Control   : in out Toolbar_Control_Type;
+      Bitmap_ID : in     Integer);
+
    procedure Set_Image_List
      (Control : in out Toolbar_Control_Type;
       List    : in     GWindows.Image_Lists.Image_List_Type);
+
+   procedure Add_Image_List
+     (Control   : in out Toolbar_Control_Type;
+      Bitmap_ID : in     Integer;
+      Index     :    out Integer);
+
+   --  AlKe: added
+   procedure Add_String
+     (Control     : in out Toolbar_Control_Type;
+      Text        : in     GString);
 
    procedure Add_Button
      (Control     : in out Toolbar_Control_Type;
       Image_Index : in     Natural;
       Command     : in     Integer);
+
+   --  AlKe: added
+   procedure Add_Button
+     (Control     : in out Toolbar_Control_Type;
+      Image_Index : in     Natural;
+      Command     : in     Integer;
+      IString     : in     Integer);
+
+   --  AlKe: added
+   procedure Set_Button_Image
+     (Control     : in out Toolbar_Control_Type;
+      Image_Index : in     Natural;
+      Command     : in     Integer);
+
+   --  AnSp: added
+   type Toolbar_Button_State is (Normal, Hidden, Disabled);
+
+   procedure Set_Button_State
+     (Control     : in out Toolbar_Control_Type;
+      Command     : in     Integer;
+      State       : in     Toolbar_Button_State);
+
+   procedure Visible (Control : in out Toolbar_Control_Type;
+                      Command : in     Integer;
+                      State   : in     Boolean := True);
+   function Visible (Control : in Toolbar_Control_Type;
+                     Command : in Integer) return Boolean;
+   --  Visible state of button
+
+   procedure Enabled (Control : in out Toolbar_Control_Type;
+                      Command : in     Integer;
+                      State   : in     Boolean := True);
+   function Enabled (Control : in Toolbar_Control_Type;
+                     Command : in Integer) return Boolean;
+   --  Enabled state of button
+
+   --  AlKe: added
+   procedure Button_Size (Control : in     Toolbar_Control_Type;
+                          Width   :    out Integer;
+                          Height  :    out Integer);
 
    procedure Add_Separator
      (Control : in out Toolbar_Control_Type;
@@ -1083,6 +1238,49 @@ package GWindows.Common_Controls is
    procedure Set_Style
      (Control    : in out Toolbar_Control_Type;
       Style      : in     Interfaces.C.unsigned);
+
+   --  * AnSp: Added constants and functions to get/set styles and states
+   --  *       of buttons on the toolbar. Think of check style and enable.
+   --  Toolbar button styles
+   TBSTYLE_BUTTON        : constant := 16#0000#;
+   TBSTYLE_SEP           : constant := 16#0001#;
+   TBSTYLE_CHECK         : constant := 16#0002#;
+   TBSTYLE_GROUP         : constant := 16#0004#;
+   TBSTYLE_CHECKGROUP    : constant := TBSTYLE_GROUP + TBSTYLE_CHECK;
+   TBSTYLE_DROPDOWN      : constant := 16#0008#;
+   TBSTYLE_AUTOSIZE      : constant := 16#0010#;
+   TBSTYLE_NOPREFIX      : constant := 16#0020#;
+
+   function Get_Button_Style
+     (Control    : in Toolbar_Control_Type;
+      Button     : in Integer)
+     return Integer;
+
+   procedure Set_Button_Style
+     (Control    : in out Toolbar_Control_Type;
+      Button     : in     Integer;
+      Style      : in     Integer);
+
+   --  Toolbar button states
+   TBSTATE_CHECKED       : constant := 16#01#;
+   TBSTATE_PRESSED       : constant := 16#02#;
+   TBSTATE_ENABLED       : constant := 16#04#;
+   TBSTATE_HIDDEN        : constant := 16#08#;
+   TBSTATE_INDETERMINATE : constant := 16#10#;
+   TBSTATE_WRAP          : constant := 16#20#;
+   TBSTATE_ELLIPSES      : constant := 16#40#;
+   TBSTATE_MARKED        : constant := 16#80#;
+
+   function Get_Button_State
+     (Control    : in Toolbar_Control_Type;
+      Button     : in Integer)
+     return Integer;
+
+   procedure Set_Button_State
+     (Control    : in out Toolbar_Control_Type;
+      Button     : in     Integer;
+      State      : in     Integer);
+   --  * AnSp: up to here
 
    -------------------------------------------------------------------------
    --  Toolbar_Control_Type - Event Handlres
@@ -1156,6 +1354,31 @@ package GWindows.Common_Controls is
       Tip     : in     GString);
    --  Add this tool tip to show when hover over Window
 
+   procedure Update_Tool_Tip
+     (Control : in out Tool_Tip_Type;
+      Window  : in     GWindows.Base.Base_Window_Type'Class;
+      Tip     : in     GString);
+   --  Update tool tip to show when hover over Window
+
+   procedure Delete_Tool_Tip
+     (Control : in out Tool_Tip_Type;
+      Window  : in     GWindows.Base.Base_Window_Type'Class);
+   --  Delete tool tip to show when hover over Window
+
+   procedure Get_Durations
+     (Control  : in out Tool_Tip_Type;
+      Initial  :    out Duration;
+      Reshow   :    out Duration;
+      Til_Hide :    out Duration);
+   --  Get tooltip timing
+
+   procedure Set_Durations
+     (Control  : in out Tool_Tip_Type;
+      Initial  : in     Duration;
+      Reshow   : in     Duration;
+      Til_Hide : in     Duration);
+   --  Set tooltip timing
+
 private
    type Common_Control_Type is new GWindows.Base.Base_Window_Type with
       record
@@ -1181,7 +1404,8 @@ private
    type Date_Time_Picker_Type is new Common_Control_Type with
       record
          On_Date_Time_Change_Event : GWindows.Base.Action_Event := null;
-         Format                    : GWindows.GString_Unbounded;
+
+         Format : GWindows.GString_Unbounded;
       end record;
 
    function Largest_Formatted_String (Item : in GWindows.GString)
@@ -1189,7 +1413,7 @@ private
 
    type IP_Address_Control_Type is new Common_Control_Type with
       record
-         On_Change_Event : GWindows.Base.Action_Event := null;
+         On_Change_Event            : GWindows.Base.Action_Event := null;
       end record;
 
    type Progress_Control_Type is new Common_Control_Type with null record;

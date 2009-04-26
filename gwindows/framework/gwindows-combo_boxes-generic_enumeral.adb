@@ -33,6 +33,7 @@
 ------------------------------------------------------------------------------
 
 with GWindows.GStrings;
+
 package body GWindows.Combo_Boxes.Generic_Enumeral is
 
    CB_GETITEMDATA : constant := 336;
@@ -100,7 +101,7 @@ package body GWindows.Combo_Boxes.Generic_Enumeral is
          Width      => Width,
          Height     => Height,
          Sort       => Sort,
-         Id         => ID,
+         ID         => ID,
          Show       => Show,
          Is_Dynamic => Is_Dynamic);
 
@@ -137,8 +138,9 @@ package body GWindows.Combo_Boxes.Generic_Enumeral is
      (Combo : in Combo_Box_Type;
       Item  : in Enumeral_Type)
    is
-      Index : constant Natural := Find
-        (Combo, Enumeral_Type'Wide_Image (Item));
+      Str   : GString :=
+         GWindows.GStrings.To_GString_From_String (Enumeral_Type'Image (Item));
+      Index : constant Natural := Find (Combo, Str);
    begin
       Current (Combo, Index);
    end Current;

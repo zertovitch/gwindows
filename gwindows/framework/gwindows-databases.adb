@@ -34,7 +34,7 @@
 
 with Interfaces.C;
 
-with GWindows.GStrings; use GWindows.GStrings;
+with GWindows.GStrings;                 use GWindows.GStrings;
 
 with ADO.uConnection_Interface;
 use ADO.uConnection_Interface;
@@ -47,7 +47,6 @@ use ADO.Field_Interface;
 
 with GNATCOM.Dispinterface;
 use GNATCOM.Dispinterface;
-with GNATCOM.Types;
 with GNATCOM.VARIANT;
 
 package body GWindows.Databases is
@@ -75,7 +74,7 @@ package body GWindows.Databases is
    is
       Result : Integer := Integer (Get_EditMode (Recordset.Recordset));
    begin
-      if Result = ADO.AdEditInProgress or Result = ADO.AdeditAdd then
+      if Result = ADO.adEditInProgress or Result = ADO.adEditAdd then
          return True;
       else
          return False;
@@ -147,8 +146,9 @@ package body GWindows.Databases is
       Result  : ADO.Pointer_To_uRecordset;
       Records : aliased GNATCOM.Types.VARIANT;
    begin
+      Records.vt := GNATCOM.Types.VT_I4;
       Result := Execute (Database.Connection,
-                         To_BSTR_From_GSTRING (Query),
+                         To_BSTR_From_GString (Query),
                          Records'Unchecked_Access, 0);
 
       return GNATCOM.VARIANT.To_Ada (Records);
@@ -165,8 +165,9 @@ package body GWindows.Databases is
       Result  : ADO.Pointer_To_uRecordset;
       Records : aliased GNATCOM.Types.VARIANT;
    begin
+      Records.vt := GNATCOM.Types.VT_I4;
       Result := Execute (Database.Connection,
-                         To_BSTR_From_GSTRING (Query),
+                         To_BSTR_From_GString (Query),
                          Records'Unchecked_Access, 0);
    end Execute;
 
@@ -431,7 +432,7 @@ package body GWindows.Databases is
    -- Interface --
    ---------------
 
-   function Interface
+   function Interfac
      (This : Database_Type)
       return GNATCOM.Dispinterface.Dispinterface_Type
    is
@@ -439,20 +440,20 @@ package body GWindows.Databases is
    begin
       Query (Result, This.Connection);
       return Result;
-   end Interface;
+   end Interfac;
 
    ---------------
    -- Interface --
    ---------------
 
-   function Interface (This : Recordset_Type)
+   function Interfac (This : Recordset_Type)
                       return GNATCOM.Dispinterface.Dispinterface_Type
    is
       Result : GNATCOM.Dispinterface.Dispinterface_Type;
    begin
       Query (Result, This.Recordset);
       return Result;
-   end Interface;
+   end Interfac;
 
    ----------
    -- Move --
@@ -554,7 +555,6 @@ package body GWindows.Databases is
    is
    begin
       Create (Database.Connection, ADO.CLSID_Connection);
-
       Open (Database.Connection,
             To_BSTR_From_GString (Connection_String),
             To_BSTR_From_GString (User_ID),
@@ -591,7 +591,7 @@ package body GWindows.Databases is
 
       Open (Recordset.Recordset,
             To_VARIANT_From_GString (Query),
-            To_VARIANT_From_Dispinterface (Interface (Database)),
+            To_VARIANT_From_Dispinterface (Interfac (Database)),
             Cursor_Values (Cursor),
             Lock_Values (Lock),
             0);
@@ -1042,7 +1042,7 @@ package body GWindows.Databases is
       return
         (Interfaces.C.unsigned (Get_Attributes (Field))
         and
-        ADO.AdFldUpdatable) = ADO.adFldUpdatable;
+        ADO.adFldUpdatable) = ADO.adFldUpdatable;
    end Field_Updatable;
 
    function Field_Updatable (Recordset : in Recordset_Type;
@@ -1061,7 +1061,7 @@ package body GWindows.Databases is
       return
         (Interfaces.C.unsigned (Get_Attributes (Field))
         and
-        ADO.AdFldUpdatable) = ADO.adFldUpdatable;
+        ADO.adFldUpdatable) = ADO.adFldUpdatable;
    end Field_Updatable;
 
 end GWindows.Databases;

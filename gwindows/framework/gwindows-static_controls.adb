@@ -32,9 +32,9 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-
 with GWindows.Drawing;
 with Interfaces.C;
+
 package body GWindows.Static_Controls is
    use type Interfaces.C.unsigned;
 
@@ -146,16 +146,16 @@ package body GWindows.Static_Controls is
    ------------------
 
    procedure Create_Label
-     (Parent    : in out GWindows.Base.Base_Window_Type'Class;
-      Text      : in     GString;
+     (Parent     : in out GWindows.Base.Base_Window_Type'Class;
+      Text       : in     GString;
       Left      : in     Integer                              := 0;
       Top       : in     Integer                              := 0;
       Width     : in     Integer                              := 0;
       Height    : in     Integer                              := 0;
-      Alignment : in     Alignment_Type                       :=
+      Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
-      ID        : in     Integer                              := 0;
-      Show      : in     Boolean                              := True)
+      ID         : in     Integer                              := 0;
+      Show       : in     Boolean                              := True)
    is
       Temp_Label : constant Label_Access := new Label_Type;
    begin

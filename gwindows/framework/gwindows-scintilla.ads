@@ -95,6 +95,7 @@ package GWindows.Scintilla is
          TMin : Integer;
          TMax : Integer;
       end record;
+   type Find_Text_Access is access all Find_Text_Type;
 
    procedure AddText
      (Control : in out Scintilla_Type;
@@ -849,15 +850,17 @@ package GWindows.Scintilla is
    SCE_AVE_IDENTIFIER : constant := 9;
    SCE_AVE_OPERATOR : constant := 10;
    --  Lexical states for SCLEX_ADA
-   SCE_ADA_DEFAULT : constant := 0;
-   SCE_ADA_COMMENT : constant := 1;
-   SCE_ADA_NUMBER : constant := 2;
-   SCE_ADA_WORD : constant := 3;
-   SCE_ADA_STRING : constant := 4;
-   SCE_ADA_CHARACTER : constant := 5;
-   SCE_ADA_OPERATOR : constant := 6;
-   SCE_ADA_IDENTIFIER : constant := 7;
-   SCE_ADA_STRINGEOL : constant := 8;
+   SCE_ADA_DEFAULT      : constant :=  0;
+   SCE_ADA_WORD         : constant :=  1;
+   SCE_ADA_IDENTIFIER   : constant :=  2;
+   SCE_ADA_NUMBER       : constant :=  3;
+   SCE_ADA_DELIMITER    : constant :=  4;
+   SCE_ADA_CHARACTER    : constant :=  5;
+   SCE_ADA_CHARACTEREOL : constant :=  6;
+   SCE_ADA_STRING       : constant :=  7;
+   SCE_ADA_STRINGEOL    : constant :=  8;
+   SCE_ADA_LABEL        : constant :=  9;
+   SCE_ADA_COMMENTLINE  : constant := 10;
    --  Lexical states for SCLEX_BAAN
    SCE_BAAN_DEFAULT : constant := 0;
    SCE_BAAN_COMMENT : constant := 1;
@@ -1147,7 +1150,7 @@ package GWindows.Scintilla is
    SCFIND_REGEXP                  : constant := 16#0020_0000#;
 
    function FindText
-     (Control : Scintilla_Type; flags : Integer; ft : Find_Text_Type)
+     (Control : Scintilla_Type; flags : Integer; ft : Find_Text_Access)
      return Position;
    --  Find some text in the document.
 

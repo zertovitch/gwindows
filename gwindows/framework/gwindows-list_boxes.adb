@@ -34,7 +34,6 @@
 
 with Interfaces.C;
 
-with GWindows.Base;
 with GWindows.GStrings;
 
 package body GWindows.List_Boxes is
@@ -79,8 +78,8 @@ package body GWindows.List_Boxes is
 --     LB_ADDFILE                 : constant := 406;
    LB_SETTOPINDEX             : constant := 407;
 --     LB_GETITEMRECT             : constant := 408;
---     LB_GETITEMDATA             : constant := 409;
---     LB_SETITEMDATA             : constant := 410;
+   LB_GETITEMDATA             : constant := 409;
+   LB_SETITEMDATA             : constant := 410;
 --     LB_SELITEMRANGE            : constant := 411;
 --     LB_SETANCHORINDEX          : constant := 412;
 --     LB_GETANCHORINDEX          : constant := 413;
@@ -229,6 +228,24 @@ package body GWindows.List_Boxes is
       SendMessage;
    end Add;
 
+   function Add (List  : in List_Box_Type;
+                 Value : in GString)
+                return Natural
+   is
+      C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
+
+      function SendMessage
+        (hwnd   : in     Interfaces.C.long := Handle (List);
+         uMsg   : in     Interfaces.C.int  := LB_ADDSTRING;
+         wParam : in     Interfaces.C.long := 0;
+         lParam : access GChar_C           := C_Value (C_Value'First)'Access)
+        return Natural;
+      pragma Import (StdCall, SendMessage, "SendMessage"
+                       & Character_Mode_Identifier);
+   begin
+      return SendMessage + 1;
+   end Add;
+
    procedure Add (List  : in out List_Box_Type;
                   After : in     Positive;
                   Value : in     GString)
@@ -357,6 +374,41 @@ package body GWindows.List_Boxes is
    begin
       return SendMessage + 1;
    end Current;
+
+   ---------------
+   -- Item_Data --
+   ---------------
+
+   procedure Item_Data (List : in List_Box_Type;
+                       Item  : in Natural;
+                       Data  : in Integer)
+   is
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long       := Handle (List);
+         uMsg   : Interfaces.C.int        := LB_SETITEMDATA;
+         wParam : Integer                 := Item - 1;
+         lParam : Integer                 := Data);
+      pragma Import (StdCall, SendMessage, "SendMessage"
+                       & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Item_Data;
+
+   function Item_Data (List : in List_Box_Type;
+                       Item  : in Natural)
+                      return Integer
+   is
+      function SendMessage
+        (hwnd   : Interfaces.C.long       := Handle (List);
+         uMsg   : Interfaces.C.int        := LB_GETITEMDATA;
+         wParam : Natural                 := Item - 1;
+         lParam : Natural                 := 0)
+        return Integer;
+      pragma Import (StdCall, SendMessage, "SendMessage"
+                       & Character_Mode_Identifier);
+   begin
+      return SendMessage;
+   end Item_Data;
 
    -----------
    -- Count --
@@ -604,7 +656,7 @@ package body GWindows.List_Boxes is
    is
       Selection : constant Natural := Current (Window);
    begin
-      if Selection > 0 then
+      if Count (Window) > 0 and Selection > 0 then
          return Value (Window, Selection);
       else
          return "";

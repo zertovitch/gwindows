@@ -299,7 +299,6 @@ package GWindows.Drawing is
    function Current_Font_Is_Device_Font (Canvas : in Canvas_Type)
                                         return Boolean;
 
-
    procedure Background_Color
      (Canvas : in out Canvas_Type;
       Color  : in     GWindows.Colors.Color_Type);
@@ -463,7 +462,41 @@ package GWindows.Drawing is
    procedure Map_Mode (Canvas : in out Canvas_Type;
                        Mode   : in     Integer);
    function Map_Mode (Canvas : in Canvas_Type) return Integer;
-   --  Logigcal pixel mapping mode of device
+   --  Logical pixel mapping mode of device
+
+   GM_COMPATIBLE                   : constant := 1;
+   GM_ADVANCED                     : constant := 2;
+
+   procedure Graphics_Mode (Canvas : in out Canvas_Type;
+                            Mode   : in     Integer);
+   function Graphics_Mode (Canvas : in Canvas_Type) return Integer;
+   --  Graphics mode of device
+   --         Compatible (default) => compatible with 16-bit Windows
+   --         Advanced-mode        => allows world transformations
+
+   type XFORM is
+      record
+         eM11 : Float;
+         eM12 : Float;
+         eM21 : Float;
+         eM22 : Float;
+         eDx  : Float;
+         eDy  : Float;
+      end record;
+
+   procedure World_Transform (Canvas  : in out Canvas_Type;
+                              X_form  : in     XFORM);
+   function World_Transform (Canvas  : in Canvas_Type) return XFORM;
+   --  sets a two-dimensional linear transformation between world space
+   --  and page space for device.
+   --  This transformation can be used to scale, rotate, shear,
+   --  or translate graphics output.
+
+   procedure Rotate_World (Canvas   : in out Canvas_Type;
+                           X_Origin : in     Integer;
+                           Y_Origin : in     Integer;
+                           Angle    : in     Float);
+   --  Using world transform to rotate device
 
    procedure Viewport_Extents
      (Canvas        : in out Canvas_Type;

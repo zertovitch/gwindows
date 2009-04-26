@@ -348,7 +348,7 @@ package body GWindows.Databases.Controls is
             end if;
 
             Rec := Rec.Next;
-           end loop;
+         end loop;
       end if;
 
       On_Change (Recordset_Type (Recordset));

@@ -35,12 +35,7 @@
 with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
 
-with System;
-
-with Interfaces.C;
-
 with GWindows.GStrings;
-with GWindows.Colors;
 with GWindows.Internal;
 with GWindows.Utilities;
 
@@ -258,13 +253,29 @@ package body GWindows.Base is
    --  Package Body
    -------------------------------------------------------------------------
 
+   Exception_Handler : Exception_Event;
+
+   --------------------------
+   -- On_Exception_Handler --
+   --------------------------
+
+   procedure On_Exception_Handler (Handler : Exception_Event) is
+   begin
+      Exception_Handler := Handler;
+   end On_Exception_Handler;
+
    --------------
    -- Finalize --
    --------------
 
    procedure Finalize (Object : in out Base_Window_Type) is
    begin
-      Close (Object);
+      --  * AnSp: When no procedures are attached, don't close it
+      --  *       Is usefull to update a control the GWindows way
+      --  *       without the need to maintain a variable
+      if not Object.Is_Linked then                                  --  * AnSp
+         Close (Object);
+      end if;                                                       --  * AnSp
    end Finalize;
 
    --------------------
@@ -285,7 +296,6 @@ package body GWindows.Base is
       Is_Dynamic : in     Boolean                := False)
    is
       use GWindows.Drawing_Objects;
-      use type Interfaces.C.unsigned;
 
       procedure Link (Window : in out Base_Window_Type'Class);
       --  Attach HWND to Window
@@ -345,14 +355,24 @@ package body GWindows.Base is
       On_Create (Base_Window_Type'Class (Window));
    end Create_Control;
 
+   procedure Use_Mouse_Wheel (Window : in out Base_Window_Type) is
+   begin
+      Window.Use_Mouse_Wheel := True;
+   end Use_Mouse_Wheel;
+
    ------------
    -- Attach --
    ------------
 
+   --  * AnSp: When linking to special dialogs,
+   --  *       like the added child dialog when extending the file open dialog,
+   --  *       the original Windows procedures should not be overriden!
+
    procedure Attach
      (Window     : in out Base_Window_Type;
       HWND       : in     GWindows.Types.Handle;
-      Is_Dynamic : in     Boolean               := False)
+      Is_Dynamic : in     Boolean               := False;
+      Procedures : in     Boolean               := True)             -- * AnSp
    is
       procedure Link (Window : in out Base_Window_Type'Class);
       --  Attach HWND to Window
@@ -368,8 +388,11 @@ package body GWindows.Base is
 
       GWindows.Internal.GWindows_Object_Property_Atom := GlobalAddAtom;
       Link (Window);
-      Window.ParentWindowProc := Get_Window_Procedure (Window.HWND);
-      Set_Window_Procedure (Window.HWND, New_Proc => WndProc'Access);
+      Window.Is_Linked := not Procedures;                            -- * AnSp
+      if Procedures then                                             -- * AnSp
+         Window.ParentWindowProc := Get_Window_Procedure (Window.HWND);
+         Set_Window_Procedure (Window.HWND, New_Proc => WndProc'Access);
+      end if;                                                        -- * AnSp
    end Attach;
 
    -------------------
@@ -379,11 +402,15 @@ package body GWindows.Base is
    procedure Attach_Dialog
      (Window     : in out Base_Window_Type;
       HWND       : in     GWindows.Types.Handle;
-      Is_Dynamic : in     Boolean               := False)
+      Is_Dynamic : in     Boolean               := False;
+      Procedures : in     Boolean               := True)             -- * AnSp
    is
    begin
-      Link (Window, HWND, Is_Dynamic, Window_Link);
-      Set_Window_Procedure (Window.HWND, New_Proc => WndProc'Access);
+      Link (Window, HWND, Is_Dynamic, Window_Link, Procedures);      -- * AnSp
+      Window.Is_Linked := not Procedures;                            -- * AnSp
+      if Procedures then                                             -- * AnSp
+         Set_Window_Procedure (Window.HWND, New_Proc => WndProc'Access);
+      end if;                                                        -- * AnSp
    end Attach_Dialog;
 
    --------------------
@@ -393,7 +420,8 @@ package body GWindows.Base is
    procedure Attach_Control
      (Window     : in out Base_Window_Type;
       HWND       : in     GWindows.Types.Handle;
-      Is_Dynamic : in     Boolean               := False)
+      Is_Dynamic : in     Boolean               := False;
+      Procedures : in     Boolean               := True)             -- * AnSp
    is
       procedure Link (Window : in out Base_Window_Type'Class);
       --  Attach HWND to Window
@@ -409,8 +437,11 @@ package body GWindows.Base is
       Window.Is_Dynamic := Is_Dynamic;
 
       Link (Window);
-      Window.ParentWindowProc := Get_Window_Procedure (Window.HWND);
-      Set_Window_Procedure (Window.HWND, New_Proc => WndProc_Control'Access);
+      if Procedures then                                             -- * AnSp
+         Window.ParentWindowProc := Get_Window_Procedure (Window.HWND);
+         Set_Window_Procedure
+            (Window.HWND, New_Proc => WndProc_Control'Access);
+      end if;                                                        -- * AnSp
       Window.Is_Control := True;
    end Attach_Control;
 
@@ -422,7 +453,8 @@ package body GWindows.Base is
      (Window     : in out Base_Window_Type;
       Parent     : in     Base_Window_Type'Class;
       ID         : in     Integer;
-      Is_Dynamic : in     Boolean               := False)
+      Is_Dynamic : in     Boolean               := False;
+      Procedures : in     Boolean               := True)             -- * AnSp
    is
       function GetDlgItem
         (HDLG : GWindows.Types.Handle := Handle (Parent);
@@ -430,7 +462,7 @@ package body GWindows.Base is
         return GWindows.Types.Handle;
       pragma Import (StdCall, GetDlgItem, "GetDlgItem");
    begin
-      Attach_Control (Window, GetDlgItem, Is_Dynamic);
+      Attach_Control (Window, GetDlgItem, Is_Dynamic, Procedures);  --  * AnSp
    end Attach_Dialog_Item;
 
    ----------
@@ -441,12 +473,14 @@ package body GWindows.Base is
      (Window     : in out Base_Window_Type'Class;
       HWND       : in     GWindows.Types.Handle;
       Is_Dynamic : in     Boolean;
-      Link_Type  : in     Link_Type_Type         := Window_Link)
+      Link_Type  : in     Link_Type_Type        := Window_Link;
+      Procedures : in     Boolean               := True)             -- * AnSp
    is
    begin
       Window.HWND := HWND;
       Window.Is_Dynamic := Is_Dynamic;
 
+      Window.Is_Linked := not Procedures;                            -- * AnSp
       case Link_Type is
          when Window_Link =>
             Window.ParentWindowProc := DefWindowProc'Access;
@@ -461,7 +495,9 @@ package body GWindows.Base is
 
       GWindows.Internal.GWindows_Object_Property_Atom := GlobalAddAtom;
       Set_GWindow_Object (Window.HWND, Window'Unchecked_Access);
-      GWindows.Internal.Add_Keyboard_Control (Window'Unchecked_Access);
+      if Procedures then                                             -- * AnSp
+         GWindows.Internal.Add_Keyboard_Control (Window'Unchecked_Access);
+      end if;                                                        -- * AnSp
    end Link;
 
    -----------------------
@@ -490,7 +526,6 @@ package body GWindows.Base is
 
    function Focus return Pointer_To_Base_Window_Class
    is
-      use type GWindows.Types.Handle;
 
       function GetFocus return GWindows.Types.Handle;
       pragma Import (StdCall, GetFocus, "GetFocus");
@@ -580,7 +615,6 @@ package body GWindows.Base is
 
    function Valid (Window : in Base_Window_Type) return Boolean
    is
-      use type Interfaces.C.long;
 
       function IsWindow (hwnd : Interfaces.C.long := Window.HWND)
                         return Interfaces.C.long;
@@ -596,7 +630,6 @@ package body GWindows.Base is
    procedure Border (Window : in out Base_Window_Type;
                      State  : in     Boolean          := True)
    is
-      use type Interfaces.C.unsigned;
    begin
       if State then
          SetWindowLong (Window.HWND,
@@ -620,7 +653,6 @@ package body GWindows.Base is
    ------------
 
    function Border (Window : in Base_Window_Type) return Boolean is
-      use type Interfaces.C.unsigned;
    begin
       return (GetWindowLong (Window.HWND) and WS_BORDER) = WS_BORDER;
    end Border;
@@ -632,7 +664,6 @@ package body GWindows.Base is
    procedure Group (Window : in out Base_Window_Type;
                     State  : in     Boolean     := True)
    is
-      use type Interfaces.C.unsigned;
    begin
       if State then
          SetWindowLong (Window.HWND,
@@ -652,7 +683,6 @@ package body GWindows.Base is
    -----------
 
    function Group (Window : in Base_Window_Type) return Boolean is
-      use type Interfaces.C.unsigned;
    begin
       return (GetWindowLong (Window.HWND) and WS_GROUP) = WS_GROUP;
    end Group;
@@ -689,10 +719,13 @@ package body GWindows.Base is
         (Top               => HWND_TOP,
          Bottom            => HWND_BOTTOM,
          Always_On_Top     => HWND_TOPMOST,
-         Not_Always_On_Top => HWND_NOTOPMOST);
+         Not_Always_On_Top => HWND_NOTOPMOST,
+         No_Change         => 0);
    begin
-      SetWindowPos (Handle (Window), Values (Position),
-                    FuFlags => SWP_NOMOVE or SWP_NOSIZE);
+      if Position /= No_Change then
+         SetWindowPos (Handle (Window), Values (Position),
+                       fuFlags => SWP_NOMOVE or SWP_NOSIZE);
+      end if;
    end Order;
 
    procedure Order (Window       : in out Base_Window_Type;
@@ -700,7 +733,7 @@ package body GWindows.Base is
    is
    begin
       SetWindowPos (Handle (Window), Handle (After_Window),
-                    FuFlags => SWP_NOMOVE or SWP_NOSIZE);
+                    fuFlags => SWP_NOMOVE or SWP_NOSIZE);
    end Order;
 
    ------------
@@ -746,9 +779,7 @@ package body GWindows.Base is
    --------------
 
    procedure Tab_Stop (Window : in out Base_Window_Type;
-                       State  : in     Boolean     := True)
-   is
-      use type Interfaces.C.unsigned;
+                       State  : in     Boolean     := True) is
    begin
       if State then
          SetWindowLong (Window.HWND,
@@ -769,9 +800,7 @@ package body GWindows.Base is
    -- Tab_Stop --
    --------------
 
-   function Tab_Stop (Window : in Base_Window_Type) return Boolean
-   is
-      use type Interfaces.C.unsigned;
+   function Tab_Stop (Window : in Base_Window_Type) return Boolean is
    begin
       return (GetWindowLong (Window.HWND) and WS_TABSTOP) = WS_TABSTOP;
    end Tab_Stop;
@@ -1009,19 +1038,36 @@ package body GWindows.Base is
       return GetWindowTextLength;
    end Text_Length;
 
-
    --------------
    -- Location --
    --------------
 
    procedure Location (Window : in out Base_Window_Type;
-                       Value  : in     GWindows.Types.Rectangle_Type)
+                       Value  : in     GWindows.Types.Rectangle_Type;
+                       Order  : in     Order_Position_Type := No_Change)
    is
+      Flag : Interfaces.C.unsigned := SWP_NOZORDER;
+      Values : constant array (Order_Position_Type) of Interfaces.C.long :=
+        (Top               => HWND_TOP,
+         Bottom            => HWND_BOTTOM,
+         Always_On_Top     => HWND_TOPMOST,
+         Not_Always_On_Top => HWND_NOTOPMOST,
+         No_Change         => 0);
    begin
-      Move (Window, Value.Left, Value.Top);
-      Size (Window,
-            Width  => abs (Value.Right - Value.Left),
-            Height => abs (Value.Bottom - Value.Top));
+--      Move (Window, Value.Left, Value.Top);
+--      Size (Window,
+--            Width  => abs (Value.Right - Value.Left),
+--            Height => abs (Value.Bottom - Value.Top));
+      if Order /= No_Change then
+         Flag := 0;  --  SWP_NOACTIVATE;
+      end if;
+      SetWindowPos (Window.HWND,
+         Values (Order),
+         x => Value.Left,
+         y => Value.Top,
+         cx => abs (Value.Right - Value.Left),
+         cy => abs (Value.Bottom - Value.Top),
+         fuFlags => Flag);
    end Location;
 
    function Location (Window : in Base_Window_Type) return Types.Rectangle_Type
@@ -1154,9 +1200,7 @@ package body GWindows.Base is
    ---------------------------
 
    procedure Horizontal_Scroll_Bar (Window : in out Base_Window_Type;
-                                    State  : in     Boolean := True)
-   is
-      use type Interfaces.C.unsigned;
+                                    State  : in     Boolean := True) is
    begin
       if State then
          SetWindowLong (Window.HWND,
@@ -1178,9 +1222,7 @@ package body GWindows.Base is
    ---------------------------
 
    function Horizontal_Scroll_Bar (Window : in Base_Window_Type)
-                                  return Boolean
-   is
-      use type Interfaces.C.unsigned;
+                                  return Boolean is
    begin
       return (GetWindowLong (Window.HWND) and WS_HSCROLL) = WS_HSCROLL;
    end Horizontal_Scroll_Bar;
@@ -1190,9 +1232,7 @@ package body GWindows.Base is
    -------------------------
 
    procedure Vertical_Scroll_Bar (Window : in out Base_Window_Type;
-                                  State  : in     Boolean := True)
-   is
-      use type Interfaces.C.unsigned;
+                                  State  : in     Boolean := True) is
    begin
       if State then
          SetWindowLong (Window.HWND,
@@ -1214,9 +1254,7 @@ package body GWindows.Base is
    -------------------------
 
    function Vertical_Scroll_Bar (Window : in Base_Window_Type)
-                                return Boolean
-   is
-      use type Interfaces.C.unsigned;
+                                return Boolean is
    begin
       return (GetWindowLong (Window.HWND) and WS_VSCROLL) = WS_VSCROLL;
    end Vertical_Scroll_Bar;
@@ -1430,11 +1468,13 @@ package body GWindows.Base is
    -- Is_Modal --
    --------------
 
-   procedure Is_Modal (Window : in out Base_Window_Type;
-                       Value  : in     Boolean)
+   procedure Is_Modal (Window          : in out Base_Window_Type;
+                       Value           : in     Boolean;
+                       Disabled_Parent : in     Pointer_To_Base_Window_Class)
    is
    begin
       Window.Is_Modal := Value;
+      Window.Disabled_Parent := Disabled_Parent;
    end Is_Modal;
 
    --------------
@@ -1973,6 +2013,54 @@ package body GWindows.Base is
       end if;
    end Fire_On_Context_Menu;
 
+   ----------------------------------
+   -- On_Input_Handler --
+   ----------------------------------
+
+   procedure On_Input_Handler
+     (Window  : in out Base_Window_Type;
+      Handler : in     Raw_Input_Event)
+   is
+   begin
+      Window.On_Input_Event := Handler;
+   end On_Input_Handler;
+
+   -------------------------------
+   -- Fire_Input_Scroll --
+   -------------------------------
+
+   procedure Fire_On_Input
+     (Window   : in out Base_Window_Type;
+      WParam   : in     Integer;
+      RawData  : in     GWindows.Types.Handle;
+      Continue :    out Integer)
+   is
+   begin
+      if Window.On_Input_Event /= null then
+         Window.On_Input_Event (Base_Window_Type'Class (Window),
+                                WParam, RawData, Continue);
+      end if;
+   end Fire_On_Input;
+
+   --------------------------
+   -- On_Input --
+   --------------------------
+
+   procedure On_Input
+     (Window   : in out Base_Window_Type;
+      WParam   : in     Integer;
+      RawData  : in     GWindows.Types.Handle;
+      Control  : in     Pointer_To_Base_Window_Class;
+      Continue :    out Integer)
+   is
+   begin
+      if Control /= null then
+         On_Input (Control.all, WParam, RawData, null, Continue);
+      else
+         Fire_On_Input (Window, WParam, RawData, Continue);
+      end if;
+   end On_Input;
+
    --------------------------
    -- On_Horizontal_Scroll --
    --------------------------
@@ -2299,6 +2387,95 @@ package body GWindows.Base is
       SetProp;
    end Set_GWindow_Object;
 
+   MK_DISPATCHED : constant := 16#4000#;
+
+   --  Send mouse wheel message to a window the mouse pointer is on and
+   --  that supports the mouse wheel
+   procedure Dispatch_Mouse_Wheel (Win_Ptr : Pointer_To_Base_Window_Class;
+                                   message : Interfaces.C.unsigned;
+                                   wParam  : Interfaces.C.int;
+                                   lParam  : Interfaces.C.int)
+   is
+      use Interfaces.C;
+
+      P     : Pointer_To_Base_Window_Class := Win_Ptr;
+      X     : Integer := GWindows.Utilities.Low_Word (lParam);
+      Y     : Integer := GWindows.Utilities.High_Word (lParam);
+      Found : Boolean := False;
+
+      --  Check if point (with desktop coordinates) is on a window
+      function On_Window (Window : Pointer_To_Base_Window_Class;
+                          X, Y   : Integer)
+         return Boolean is
+         Point : GWindows.Types.Point_Type;
+         X_Min : Integer;
+         X_Max : Integer;
+         Y_Min : Integer;
+         Y_Max : Integer;
+      begin
+         Point.X := X;
+         Point.Y := Y;
+         Point := Point_To_Client (Window.all, Point);
+         X_Min := Integer'Max (0, -Left (Window.all));
+         if Parent (Window.all) = null then
+            X_Max := Point.X;
+         else
+            X_Max := Integer'Min (Width (Window.all) + Left (Window.all),
+                                  Width (Parent (Window.all).all)) -
+                     Left (Window.all);
+         end if;
+         Y_Min := Integer'Max (0, -Top (Window.all));
+         if Parent (Window.all) = null then
+            Y_Max := Point.Y;
+         else
+            Y_Max := Integer'Min (Height (Window.all) + Top (Window.all),
+                                  Height (Parent (Window.all).all)) -
+                     Top (Window.all);
+         end if;
+         return Point.X in X_Min .. X_Max and
+                Point.Y in Y_Min .. Y_Max;
+      end On_Window;
+
+      procedure Dispatch_Mouse_Wheel
+                   (Window : Pointer_To_Base_Window_Class) is
+         procedure Handle_Child (Child : Pointer_To_Base_Window_Class) is
+            Return_Value : Interfaces.C.long := 0;
+            P            : Pointer_To_Base_Window_Class;
+         begin
+            Dispatch_Mouse_Wheel (Child);
+            P := Child;
+            while P /= null and not Found loop
+               if P.all in Base_Window_Type'Class then
+                  if On_Window (P, X, Y) and P.Use_Mouse_Wheel then
+                     On_Message (P.all, message, wParam + MK_DISPATCHED,
+                                 lParam, Return_Value);
+                     if Return_Value = 0 then
+                        Found := True;
+                     end if;
+                  end if;
+               end if;
+               P := Parent (P.all);
+            end loop;
+         end Handle_Child;
+      begin
+         Enumerate_Children (Window.all, Handle_Child'Unrestricted_Access);
+      end Dispatch_Mouse_Wheel;
+   begin
+      while Parent (P.all) /= null loop
+         P := Parent (P.all);
+      end loop;
+      Dispatch_Mouse_Wheel (P);
+   end Dispatch_Mouse_Wheel;
+
+   function Mouse_Wheel_Dispatched (wParam : Interfaces.C.int)
+                                    return Boolean is
+      use Interfaces.C;
+      Hlp : Interfaces.C.unsigned;
+      for Hlp'Address use wParam'Address;
+   begin
+      return (Hlp and MK_DISPATCHED) = MK_DISPATCHED;
+   end Mouse_Wheel_Dispatched;
+
    -------------
    -- WndProc --
    -------------
@@ -2310,8 +2487,6 @@ package body GWindows.Base is
       lParam  : Interfaces.C.int)
      return Interfaces.C.long
    is
-      use Interfaces.C;
-
       WM_DESTROY                 : constant := 2;
       WM_COMMAND                 : constant := 273;
       WM_CONTEXTMENU             : constant := 123;
@@ -2320,6 +2495,10 @@ package body GWindows.Base is
       WM_VSCROLL                 : constant := 277;
       WM_SETFOCUS                : constant := 7;
       WM_DRAWITEM                : constant := 43;
+      WM_CLOSE                   : constant := 16;
+      WM_QUIT                    : constant := 18;
+      WM_MOUSEWHEEL              : constant := 522;
+      WM_INPUT                   : constant := 255;
 
       SB_LINEUP                  : constant := 0;
       SB_LINELEFT                : constant := 0;
@@ -2339,7 +2518,6 @@ package body GWindows.Base is
       Win_Ptr : constant Pointer_To_Base_Window_Class :=
         Window_From_Handle (hwnd);
    begin
-
       if Win_Ptr = null then
          return DefWindowProc (hwnd,
                                message,
@@ -2428,6 +2606,20 @@ package body GWindows.Base is
                return Return_Value;
             end;
 
+         when WM_INPUT =>
+            declare
+               Control : constant Pointer_To_Base_Window_Class :=
+                 Window_From_Handle (GWindows.Types.Handle (lParam));
+               Temp : Interfaces.C.long;
+               GoOn : Integer;
+            begin
+               On_Input (Win_Ptr.all, Integer (wParam),
+                  GWindows.Types.Handle (lParam), Control, GoOn);
+               --  Let the system clean-up
+               Temp := DefWindowProc (hwnd, message, wParam, lParam);
+               return Interfaces.C.long (GoOn);
+            end;
+
          when WM_HSCROLL =>
             declare
                Request : Scroll_Request_Type;
@@ -2506,6 +2698,11 @@ package body GWindows.Base is
                end if;
             end;
 
+         when WM_CLOSE | WM_QUIT =>
+            if Win_Ptr.Disabled_Parent /= null then
+               Enable (Win_Ptr.Disabled_Parent.all);
+            end if;
+
          when WM_DESTROY =>
             On_Destroy (Win_Ptr.all);
 
@@ -2536,6 +2733,16 @@ package body GWindows.Base is
 
             return 0;
 
+         when WM_MOUSEWHEEL =>
+            case Mouse_Wheel_Target is
+               when Focus_Window =>
+                  null;
+               when Mouse_Window =>
+                  if not Mouse_Wheel_Dispatched (wParam) then
+                     Dispatch_Mouse_Wheel (Win_Ptr, message, wParam, lParam);
+                     return 0;
+                  end if;
+            end case;
          when others =>
             null;
       end case;
@@ -2548,9 +2755,13 @@ package body GWindows.Base is
                      wParam,
                      lParam,
                      Return_Value);
-
          return Return_Value;
       end;
+   exception when E : others =>
+      if Exception_Handler /= null then
+         Exception_Handler (Win_Ptr.all, E);
+      end if;
+      raise;
    end WndProc;
 
    ---------------------
@@ -2564,8 +2775,6 @@ package body GWindows.Base is
       lParam  : Interfaces.C.int)
      return Interfaces.C.long
    is
-      use Interfaces.C;
-
       GWL_WNDPROC : constant := -4;
 
       procedure Set_Window_Procedure
@@ -2577,6 +2786,9 @@ package body GWindows.Base is
 
       WM_DESTROY                 : constant := 2;
       WM_SETFOCUS                : constant := 7;
+      WM_CLOSE                   : constant := 16;
+      WM_QUIT                    : constant := 18;
+      WM_MOUSEWHEEL              : constant := 522;
 
       Win_Ptr : constant Pointer_To_Base_Window_Class :=
         Window_From_Handle (hwnd);
@@ -2605,6 +2817,11 @@ package body GWindows.Base is
       end;
 
       case message is
+         when WM_CLOSE | WM_QUIT =>
+            if Win_Ptr.Disabled_Parent /= null then
+               Enable (Win_Ptr.Disabled_Parent.all);
+            end if;
+
          when WM_DESTROY =>
             Set_Window_Procedure (hwnd, New_Proc => Win_Ptr.ParentWindowProc);
             On_Destroy (Win_Ptr.all);
@@ -2628,6 +2845,17 @@ package body GWindows.Base is
                end if;
             end;
 
+         when WM_MOUSEWHEEL =>
+            case Mouse_Wheel_Target is
+               when Focus_Window =>
+                  null;
+               when Mouse_Window =>
+                  if not Mouse_Wheel_Dispatched (wParam) then
+                     Dispatch_Mouse_Wheel (Win_Ptr, message, wParam, lParam);
+                     return 0;
+                  end if;
+            end case;
+
          when others =>
             null;
       end case;
@@ -2640,9 +2868,13 @@ package body GWindows.Base is
                      wParam,
                      lParam,
                      Return_Value);
-
          return Return_Value;
       end;
+   exception when E : others =>
+      if Exception_Handler /= null then
+         Exception_Handler (Win_Ptr.all, E);
+      end if;
+      raise;
    end WndProc_Control;
 
    procedure Destroy_Win

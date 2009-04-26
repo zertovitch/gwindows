@@ -38,6 +38,7 @@ with System;
 
 with GWindows.Drawing;
 with GWindows.Drawing_Objects;
+with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 with GWindows.Internal;
 with GWindows.Utilities;
@@ -140,6 +141,11 @@ package body GWindows.Common_Controls is
    LVM_INSERTCOLUMNW       : constant := LVM_FIRST + 97;
    LVM_GETITEMSTATE        : constant := LVM_FIRST + 44;
    LVM_GETSELECTEDCOUNT    : constant := LVM_FIRST + 50;
+   LVM_SETIMAGELIST        : constant := LVM_FIRST + 3;  --  AnSp
+
+   LVSIL_NORMAL            : constant := 0;  --  AnSp
+   LVSIL_SMALL             : constant := 1;  --  AnSp
+   LVSIL_STATE             : constant := 2;  --  AnSp
 
 --     LVIS_FOCUSED            : constant := 16#0001#;
    LVIS_SELECTED           : constant := 16#0002#;
@@ -174,8 +180,6 @@ package body GWindows.Common_Controls is
 --     LVIF_STATE              : constant := 16#0008#;
 --     LVIF_INDENT             : constant := 16#0010#;
 --     LVIF_NORECOMPUTE        : constant := 16#0800#;
-
-   type LPTSTR is access all GChar_C;
 
    type LVITEM is
       record
@@ -226,6 +230,10 @@ package body GWindows.Common_Controls is
    TVM_GETNEXTITEM         : constant := TV_FIRST + 10;
    TVM_GETITEMA            : constant := TV_FIRST + 12;
    TVM_GETITEMW            : constant := TV_FIRST + 62;
+   TVM_GETCOUNT            : constant := TV_FIRST + 5;  --  AnSp
+   TVM_SETITEMA            : constant := TV_FIRST + 13;  --  AnSp
+   TVM_SETITEMW            : constant := TV_FIRST + 63;  --  AnSp
+   TVM_SETIMAGELIST        : constant := TV_FIRST + 9;  --  AnSp
 
    TVGN_ROOT               : constant := 16#0000#;
    TVGN_NEXT               : constant := 16#0001#;
@@ -240,11 +248,11 @@ package body GWindows.Common_Controls is
 --     TVGN_LASTVISIBLE        : constant := 16#000A#;
 
    TVIF_TEXT               : constant := 16#0001#;
---     TVIF_IMAGE              : constant := 16#0002#;
+   TVIF_IMAGE              : constant := 16#0002#;  --  AnSp
 --     TVIF_PARAM              : constant := 16#0004#;
 --     TVIF_STATE              : constant := 16#0008#;
 --     TVIF_HANDLE             : constant := 16#0010#;
---     TVIF_SELECTEDIMAGE      : constant := 16#0020#;
+   TVIF_SELECTEDIMAGE      : constant := 16#0020#;  --  AnSp
 --     TVIF_CHILDREN           : constant := 16#0040#;
 --     TVIF_INTEGRAL           : constant := 16#0080#;
 --     TVIS_SELECTED           : constant := 16#0002#;
@@ -258,20 +266,6 @@ package body GWindows.Common_Controls is
 --     TVIS_STATEIMAGEMASK     : constant := 16#F000#;
 --     TVIS_USERMASK           : constant := 16#F000#;
 
-   type TVITEM is
-      record
-         Mask           : Interfaces.C.unsigned := 0;
-         HItem          : Tree_Item_Node        := 0;
-         State          : Interfaces.C.unsigned := 0;
-         State_Mask     : Interfaces.C.unsigned := 0;
-         Text           : LPTSTR := null;
-         TextMax        : Integer := 0;
-         Image          : Integer := 0;
-         Selected_Image : Integer := 0;
-         Children       : Integer := 0;
-         LPARAM         : Interfaces.C.int := 0;
-      end record;
-
    TCM_FIRST               : constant := 16#1300#;
    TCM_GETITEMCOUNT        : constant := (TCM_FIRST + 4);
    TCM_GETITEMA            : constant := (TCM_FIRST + 5);
@@ -284,6 +278,7 @@ package body GWindows.Common_Controls is
    TCM_DELETEALLITEMS      : constant := (TCM_FIRST + 9);
    TCM_GETCURSEL           : constant := (TCM_FIRST + 11);
    TCM_SETCURSEL           : constant := (TCM_FIRST + 12);
+   --  TCM_SETCURFOCUS         : constant := (TCM_FIRST + 48);
    TCM_ADJUSTRECT          : constant := (TCM_FIRST + 40);
    TCM_GETROWCOUNT         : constant := (TCM_FIRST + 44);
 
@@ -304,13 +299,31 @@ package body GWindows.Common_Controls is
          LPARAM         : GWindows.Base.Pointer_To_Base_Window_Class := null;
       end record;
 
+   --  WM_USER = 16#400#
    TB_ADDBUTTONS       : constant := (WM_USER + 20);
+   TB_LOADIMAGES       : constant := (WM_USER + 50);
    TB_SETIMAGELIST     : constant := (WM_USER + 48);
+   TB_ADDBITMAP        : constant := (WM_USER + 19);
    TB_BUTTONSTRUCTSIZE : constant := (WM_USER + 30);
+   TB_SETSTATE         : constant := (WM_USER + 17);
+   TB_GETSTATE         : constant := (WM_USER + 18);
    TB_SETSTYLE         : constant := 1080;
    TB_GETSTYLE         : constant := 1081;
-   TBSTATE_ENABLED     : constant := 16#4#;
-   TBSTYLE_SEP         : constant := 1;
+   --  * AnSp: Styles now defined in ads
+   --  * AnSp   TBSTATE_ENABLED     : constant := 16#4#;
+   --  * AnSp   TBSTATE_HIDDEN        : constant := 16#8#;
+   --  * AnSp   TBSTATE_INDETERMINATE : constant := 16#10#;
+   --  * AnSp   TBSTYLE_SEP         : constant := 1;
+   --  * AnSp: Next 6 constants needed by the new functions
+   TB_GETBUTTONINFOW   : constant := (WM_USER + 63);
+   TB_SETBUTTONINFOW   : constant := (WM_USER + 64);
+   TB_GETBUTTONINFOA   : constant := (WM_USER + 65);
+   TB_SETBUTTONINFOA   : constant := (WM_USER + 66);
+   TB_GETBUTTONSIZE    : constant := WM_USER + 58;
+
+   TBIF_STATE          : constant := 16#00000004#;
+   TBIF_STYLE          : constant := 16#00000008#;
+   --  * AnSp: up to here
 
    type TBBUTTON is
       record
@@ -318,16 +331,18 @@ package body GWindows.Common_Controls is
          Command        : Integer := 0;
          State          : Interfaces.C.unsigned_char := 0;
          Style          : Interfaces.C.unsigned_char := 0;
+         Reserved1      : Interfaces.C.unsigned_char := 0;
+         Reserved2      : Interfaces.C.unsigned_char := 0;
          Data           : Integer := 0;
-         IString        : Integer := 0;
+         IString        : Integer := -1;
       end record;
 
 --     TTM_ACTIVATE            : constant := (WM_USER + 1);
---     TTM_SETDELAYTIME        : constant := (WM_USER + 3);
+   TTM_SETDELAYTIME        : constant := (WM_USER + 3);
    TTM_ADDTOOLA            : constant := (WM_USER + 4);
    TTM_ADDTOOLW            : constant := (WM_USER + 50);
---     TTM_DELTOOLA            : constant := (WM_USER + 5);
---     TTM_DELTOOLW            : constant := (WM_USER + 51);
+   TTM_DELTOOLA            : constant := (WM_USER + 5);
+   TTM_DELTOOLW            : constant := (WM_USER + 51);
 --     TTM_NEWTOOLRECTA        : constant := (WM_USER + 6);
 --     TTM_NEWTOOLRECTW        : constant := (WM_USER + 52);
 --     TTM_RELAYEVENT          : constant := (WM_USER + 7);
@@ -351,7 +366,7 @@ package body GWindows.Common_Controls is
 --     TTM_TRACKPOSITION       : constant := (WM_USER + 18);
 --     TTM_SETTIPBKCOLOR       : constant := (WM_USER + 19);
 --     TTM_SETTIPTEXTCOLOR     : constant := (WM_USER + 20);
---     TTM_GETDELAYTIME        : constant := (WM_USER + 21);
+   TTM_GETDELAYTIME        : constant := (WM_USER + 21);
 --     TTM_GETTIPBKCOLOR       : constant := (WM_USER + 22);
 --     TTM_GETTIPTEXTCOLOR     : constant := (WM_USER + 23);
    TTM_SETMAXTIPWIDTH      : constant := (WM_USER + 24);
@@ -604,6 +619,23 @@ package body GWindows.Common_Controls is
          SendMessageW;
       end if;
    end Text;
+
+   ----------------------
+   -- Background_Color --
+   ----------------------
+
+   procedure Background_Color (Bar   : in out Status_Bar_Type;
+                               Color :        GWindows.Colors.Color_Type) is
+      SB_SETBKCOLOR : constant := 16#2001#;
+      procedure SendMessageA
+         (hwnd   : Interfaces.C.long := Handle (Bar);
+          uMsg   : Interfaces.C.int  := SB_SETBKCOLOR;
+          wParam : Integer := 0;
+          lParam : GWindows.Colors.Color_Type := Color);
+      pragma Import (StdCall, SendMessageA, "SendMessageA");
+   begin
+      SendMessageA;
+   end Background_Color;
 
    ----------------------
    -- On_Click_Handler --
@@ -1084,8 +1116,7 @@ package body GWindows.Common_Controls is
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
    is
-      use GWindows.GStrings;
-      use type Interfaces.C.unsigned;
+      use GWindows.GStrings.Unbounded;
 
       Styles : Interfaces.C.unsigned := 0;
 
@@ -1105,11 +1136,14 @@ package body GWindows.Common_Controls is
 
       case Format is
          when Long_Format =>
-            Control.Format := To_GString_Unbounded ("dddd, MMMM d, yyyy");
+            Control.Format :=
+               GWindows.GStrings.To_GString_Unbounded ("dddd, MMMM d, yyyy");
          when Short_Format =>
-            Control.Format := To_GString_Unbounded ("M/d/yy");
+            Control.Format :=
+               GWindows.GStrings.To_GString_Unbounded ("M/d/yy");
          when Time_Format =>
-            Control.Format := To_GString_Unbounded ("h:m:s tt");
+            Control.Format :=
+               GWindows.GStrings.To_GString_Unbounded ("h:m:s tt");
       end case;
 
       Create_Control
@@ -1332,12 +1366,9 @@ package body GWindows.Common_Controls is
    is
       use GWindows.Types;
 
-      --  It's not clear what the default font for a canvas is, so we
-      --  need to set it.
-
-      Canvas    : GWindows.Drawing.Canvas_Type;
-      Font      : GWindows.Drawing_Objects.Font_Type;
-      Extra     : Size_Type := (12, 6); --  white space around text, borders.
+      Canvas : GWindows.Drawing.Canvas_Type;
+      Font   : GWindows.Drawing_Objects.Font_Type;
+      Extra  : Size_Type := (12, 6); --  white space around text, borders.
       Text_Size : Size_Type;
    begin
       Get_Canvas (Control, Canvas);
@@ -1853,7 +1884,6 @@ package body GWindows.Common_Controls is
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
    is
-      use type Interfaces.C.unsigned;
 
       LVS_ICON                : constant := 16#0000#;
       LVS_REPORT              : constant := 16#0001#;
@@ -1893,7 +1923,7 @@ package body GWindows.Common_Controls is
             Styles := Styles or LVS_REPORT;
       end case;
 
-      if Sort /= Sort_Custom then
+      if Sort = No_Sorting then
          Styles := Styles or LVS_NOSORTHEADER;
       else
          if Sort = Sort_Ascending then
@@ -2425,6 +2455,33 @@ package body GWindows.Common_Controls is
       Tab_Stop (Control);
    end On_Create;
 
+   --------------
+   -- AnSp: Next List_View_Control_Type functions are added --
+   --------------
+
+   procedure Set_Image_List
+     (Control   : in out List_View_Control_Type;
+      ImageType : in     List_View_Image_Type;
+      List      : in     GWindows.Image_Lists.Image_List_Type)
+   is
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := LVM_SETIMAGELIST;
+         wParam : Integer;
+         lParam : GWindows.Types.Handle);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+      ImgType : Integer;
+   begin
+      case ImageType is
+         when Normal => ImgType := LVSIL_NORMAL;
+         when Small  => ImgType := LVSIL_SMALL;
+         when State  => ImgType := LVSIL_STATE;
+      end case;
+      SendMessage (wParam => ImgType,
+         lParam => GWindows.Image_Lists.Handle (List));
+   end Set_Image_List;
+
    ------------
    -- Create --
    ------------
@@ -2443,7 +2500,6 @@ package body GWindows.Common_Controls is
       Show          : in     Boolean                              := True;
       Is_Dynamic    : in     Boolean                              := False)
    is
-      use type Interfaces.C.unsigned;
 
       TVS_HASBUTTONS          : constant := 16#0001#;
       TVS_HASLINES            : constant := 16#0002#;
@@ -2814,6 +2870,100 @@ package body GWindows.Common_Controls is
       Tab_Stop (Control);
    end On_Create;
 
+   --------------
+   -- AnSp: Next Tree_View_Control_Type functions are added --
+   --------------
+
+   function Get_Count
+      (Control : in Tree_View_Control_Type)
+      return Integer
+   is
+      function SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TVM_GETCOUNT;
+         wParam : Integer           := 0;
+         lParam : Integer           := 0)
+        return Integer;
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      return SendMessage;
+   end Get_Count;
+
+   procedure Set_Item
+     (Control       : in out Tree_View_Control_Type;
+      Where         : in     Tree_Item_Node;
+      Mask          : in     Integer;
+      Text          : in     GString;
+      Image         : in     Integer;
+      SelectedImage : in     Integer;
+      State         : in     Integer;
+      StateMask     : in     Integer;
+      Param         : in     Integer)
+   is
+      C_Text : GString_C := GWindows.GStrings.To_GString_C (Text);
+      TV     : TVITEM;
+
+      procedure SendMessageA
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TVM_SETITEMA;
+         wParam : Integer           := 0;
+         lParam : TVITEM            := TV);
+      pragma Import (StdCall, SendMessageA,
+                       "SendMessage" & Character_Mode_Identifier);
+
+      procedure SendMessageW
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TVM_SETITEMW;
+         wParam : Integer           := 0;
+         lParam : TVITEM            := TV);
+      pragma Import (StdCall, SendMessageW,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      TV.Mask := Interfaces.C.unsigned (Mask);
+      TV.HItem := Where;
+      TV.Text := C_Text (0)'Unchecked_Access;
+      TV.Image := Image;
+      TV.Selected_Image := SelectedImage;
+      TV.State := Interfaces.C.unsigned (State);
+      TV.State_Mask := Interfaces.C.unsigned (StateMask);
+      TV.LPARAM := Interfaces.C.int (Param);
+
+      pragma Warnings (Off);
+      if Character_Mode = Unicode then
+         SendMessageW;
+      else
+         SendMessageA;
+      end if;
+      pragma Warnings (On);
+   end Set_Item;
+
+   procedure Set_Image_List
+     (Control : in out Tree_View_Control_Type;
+      List    : in     GWindows.Image_Lists.Image_List_Type)
+   is
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TVM_SETIMAGELIST;
+         wParam : Integer           := 0;
+         lParam : GWindows.Types.Handle);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage (lParam => GWindows.Image_Lists.Handle (List));
+   end Set_Image_List;
+
+   procedure Set_Image
+     (Control     : in out Tree_View_Control_Type;
+      Where       : in     Tree_Item_Node;
+      Image       : in     Integer;
+      ImageSelect : in     Integer)
+   is
+   begin
+      Set_Item (Control, Where, TVIF_IMAGE + TVIF_SELECTEDIMAGE, "", Image,
+         ImageSelect, 0, 0, 0);
+   end Set_Image;
+
    ------------
    -- Create --
    ------------
@@ -2832,7 +2982,6 @@ package body GWindows.Common_Controls is
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
    is
-      use type Interfaces.C.unsigned;
 
       TBS_AUTOTICKS           : constant := 16#0001#;
       TBS_VERT                : constant := 16#0002#;
@@ -3014,7 +3163,6 @@ package body GWindows.Common_Controls is
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
    is
-      use type Interfaces.C.unsigned;
 
       UDS_WRAP                : constant := 16#0001#;
       UDS_SETBUDDYINT         : constant := 16#0002#;
@@ -3233,7 +3381,6 @@ package body GWindows.Common_Controls is
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
    is
-      use type Interfaces.C.unsigned;
 
       --  TCS_SCROLLOPPOSITE      : constant := 16#0001#;
       --  TCS_BOTTOM              : constant := 16#0002#;
@@ -3718,6 +3865,7 @@ package body GWindows.Common_Controls is
       Current : constant Pointer_To_Base_Window_Class :=
         Tab_Window (Control, Selected_Tab (Control));
    begin
+      On_Changing (Tab_Control_Type (Control));                      --  *AnSp
       if Current /= null then
          Hide (Current.all);
       end if;
@@ -3743,6 +3891,7 @@ package body GWindows.Common_Controls is
          Height (Current.all, Area.Bottom - Area.Top);
          Show (Current.all);
       end if;
+      On_Change (Tab_Control_Type (Control));                        --  *AnSp
    end On_Change;
 
    ------------
@@ -3773,6 +3922,27 @@ package body GWindows.Common_Controls is
       end if;
    end Create;
 
+   ---------------------
+   -- Load_Image_List --
+   ---------------------
+
+   procedure Load_Image_List
+     (Control   : in out Toolbar_Control_Type;
+      Bitmap_ID : in     Integer)
+   is
+      HINST_COMMCTRL : constant := -1;
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TB_LOADIMAGES;
+         wParam : Integer           := Bitmap_ID;
+         lParam : Integer           := HINST_COMMCTRL);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+
+   begin
+      SendMessage;
+   end Load_Image_List;
+
    --------------------
    -- Set_Image_List --
    --------------------
@@ -3793,6 +3963,56 @@ package body GWindows.Common_Controls is
       SendMessage (lParam => GWindows.Image_Lists.Handle (List));
    end Set_Image_List;
 
+   --------------------
+   -- Add_Image_List --
+   --------------------
+
+   procedure Add_Image_List
+     (Control   : in out Toolbar_Control_Type;
+      Bitmap_ID : in     Integer;
+      Index     :    out Integer)
+   is
+      type TBADDBITMAP is
+         record
+            hInst     : Integer;
+            Bitmap_ID : Integer;
+         end record;
+      HINST_COMMCTRL : constant := -1;
+      Add_Bitmap     : TBADDBITMAP := (HINST_COMMCTRL, Bitmap_ID);
+      function SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TB_ADDBITMAP;
+         wParam : Integer           := 0;
+         lParam : System.Address    := Add_Bitmap'Address)
+        return Integer;
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      Index := SendMessage;
+   end Add_Image_List;
+
+   ----------------
+   -- Add_String --
+   ----------------
+
+   procedure Add_String
+     (Control     : in out Toolbar_Control_Type;
+      Text        : in     GString)
+   is
+      TB_ADDSTRINGW : constant := WM_USER + 77;
+      C_Text : GString := Text & GCharacter'Val (0) & GCharacter'Val (0);
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TB_ADDSTRINGW;
+         wParam : Integer           := 0;
+         lParam : System.Address    := C_Text'Address);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+      use Interfaces.C;
+   begin
+      SendMessage;
+   end Add_String;
+
    ----------------
    -- Add_Button --
    ----------------
@@ -3805,6 +4025,7 @@ package body GWindows.Common_Controls is
 
       type BUTTON_ARRAY is array (1 .. 1) of TBBUTTON;
       TB : BUTTON_ARRAY;
+      TBSTYLE_AUTOSIZE : constant := 16#10#;
 
       procedure SendMessage
         (hwnd   : Interfaces.C.long := Handle (Control);
@@ -3816,9 +4037,182 @@ package body GWindows.Common_Controls is
    begin
       TB (1).Image := Image_Index;
       TB (1).Command := Command;
+      TB (1).Style := TBSTYLE_AUTOSIZE;
       TB (1).State := TBSTATE_ENABLED;
       SendMessage;
    end Add_Button;
+
+   procedure Add_Button
+     (Control     : in out Toolbar_Control_Type;
+      Image_Index : in     Natural;
+      Command     : in     Integer;
+      IString     : in     Integer)
+   is
+
+      type BUTTON_ARRAY is array (1 .. 1) of TBBUTTON;
+      TB : BUTTON_ARRAY;
+      TBSTYLE_AUTOSIZE : constant := 16#10#;
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TB_ADDBUTTONS;
+         wParam : Integer           := 1;
+         lParam : BUTTON_ARRAY      := TB);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      TB (1).Image := Image_Index;
+      TB (1).Command := Command;
+      TB (1).Style := TBSTYLE_AUTOSIZE;
+      TB (1).State := TBSTATE_ENABLED;
+      TB (1).IString := IString;
+      SendMessage;
+   end Add_Button;
+
+   ----------------------
+   -- Set_Button_Image --
+   ----------------------
+
+   procedure Set_Button_Image
+     (Control     : in out Toolbar_Control_Type;
+      Image_Index : in     Natural;
+      Command     : in     Integer)
+   is
+      TB_CHANGEBITMAP : constant := WM_USER + 43;
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TB_CHANGEBITMAP;
+         wParam : Integer           := Command;
+         lParam : Integer           := Image_Index);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Set_Button_Image;
+
+   ----------------------
+   -- Set_Button_State --
+   ----------------------
+
+   procedure Set_Button_State
+     (Control     : in out Toolbar_Control_Type;
+      Command     : in     Integer;
+      State       : in     Toolbar_Button_State)
+   is
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TB_SETSTATE;
+         wParam : Integer           := Command;
+         lParam : Integer);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+      High : Interfaces.C.short;
+   begin
+      case State is
+         when Normal =>
+            High := TBSTATE_ENABLED;
+         when Hidden =>
+            High := TBSTATE_HIDDEN;
+         when Disabled =>
+            High := TBSTATE_INDETERMINATE;
+      end case;
+      SendMessage (lParam => GWindows.Utilities.Make_Long (High, 0));
+   end Set_Button_State;
+
+   -------------
+   -- Visible --
+   -------------
+
+   function Button_State (Control : in Toolbar_Control_Type;
+                          Command : in Integer) return Interfaces.C.unsigned is
+      function SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TB_GETSTATE;
+         wParam : Integer           := Command;
+         lParam : Integer           := 0) return Interfaces.C.unsigned;
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      return SendMessage;
+   end Button_State;
+
+   procedure Button_State (Control : in Toolbar_Control_Type;
+                           Command : in Integer;
+                           State   : in Interfaces.C.unsigned) is
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long     := Handle (Control);
+         uMsg   : Interfaces.C.int      := TB_SETSTATE;
+         wParam : Integer               := Command;
+         lParam : Interfaces.C.unsigned := State);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Button_State;
+
+   procedure Visible (Control : in out Toolbar_Control_Type;
+                      Command : in     Integer;
+                      State   : in     Boolean := True) is
+   begin
+      if State then
+         Button_State (Control, Command,
+                       Button_State (Control, Command) and not TBSTATE_HIDDEN);
+      else
+         Button_State (Control, Command,
+                       Button_State (Control, Command) or TBSTATE_HIDDEN);
+      end if;
+   end Visible;
+
+   function Visible (Control : in Toolbar_Control_Type;
+                     Command : in Integer) return Boolean is
+   begin
+      return (Button_State (Control, Command) and TBSTATE_HIDDEN) = 0;
+   end Visible;
+
+   -------------
+   -- Enabled --
+   -------------
+
+   procedure Enabled (Control : in out Toolbar_Control_Type;
+                      Command : in     Integer;
+                      State   : in     Boolean := True) is
+   begin
+      if State then
+         Button_State (Control, Command,
+                       Button_State (Control, Command) or TBSTATE_ENABLED);
+      else
+         Button_State
+            (Control, Command,
+             Button_State (Control, Command) and not TBSTATE_ENABLED);
+      end if;
+   end Enabled;
+
+   function Enabled (Control : in Toolbar_Control_Type;
+                     Command : in Integer) return Boolean is
+   begin
+      return (Button_State (Control, Command) and TBSTATE_ENABLED) =
+             TBSTATE_ENABLED;
+   end Enabled;
+
+   -----------------
+   -- Button_Size --
+   -----------------
+
+   procedure Button_Size (Control : in     Toolbar_Control_Type;
+                          Width   :    out Integer;
+                          Height  :    out Integer) is
+      function SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TB_GETBUTTONSIZE;
+         wParam : Integer           := 0;
+         lParam : Integer           := 0) return Integer;
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+      Result : Integer;
+   begin
+      Result := SendMessage;
+      Width := Result mod 65_536;
+      Height := Result / 65_536;
+   end Button_Size;
 
    -------------------
    -- Add_Separator --
@@ -3881,6 +4275,151 @@ package body GWindows.Common_Controls is
    begin
       SendMessage;
    end Set_Style;
+
+   --  * AnSp: Added a new record, 2 helper functions and 2 public functions
+   ----------------------
+   -- TBBUTTONONFO --
+   ----------------------
+   type TBBUTTONINFO is
+   record
+      Size    : Interfaces.C.int := 32;
+      Mask    : Interfaces.C.unsigned := 0;
+      Command : Interfaces.C.int := 0;
+      Image   : Interfaces.C.int := 0;
+      State   : Interfaces.C.unsigned_char := 0;
+      Style   : Interfaces.C.unsigned_char := 0;
+      Cx      : Interfaces.C.short := 0;
+      Param   : Interfaces.C.long := 0;
+      Text    : LPTSTR := null;
+      TxtLen  : Interfaces.C.int := 0;
+   end record;
+
+   procedure Get_Button_Info
+     (Control    : in     Toolbar_Control_Type;
+      Button     : in     Integer;
+      Info       : in out TBBUTTONINFO)
+   is
+      procedure SendMessageA
+        (hwnd   :        Interfaces.C.long := Handle (Control);
+         uMsg   :        Interfaces.C.int  := TB_GETBUTTONINFOA;
+         wParam :        Integer           := Button;
+         lParam : in out TBBUTTONINFO);
+      pragma Import (StdCall, SendMessageA,
+                       "SendMessage" & Character_Mode_Identifier);
+
+      procedure SendMessageW
+        (hwnd   :        Interfaces.C.long := Handle (Control);
+         uMsg   :        Interfaces.C.int  := TB_GETBUTTONINFOW;
+         wParam :        Integer           := Button;
+         lParam : in out TBBUTTONINFO);
+      pragma Import (StdCall, SendMessageW,
+                       "SendMessage" & Character_Mode_Identifier);
+
+   begin
+      pragma Warnings (Off);
+      if Character_Mode = Unicode then
+         SendMessageW (lParam => Info);
+      else
+         SendMessageA (lParam => Info);
+      end if;
+      pragma Warnings (On);
+   end Get_Button_Info;
+
+   procedure Set_Button_Info
+     (Control    : in out Toolbar_Control_Type;
+      Button     : in     Integer;
+      Info       : in     TBBUTTONINFO)
+   is
+      procedure SendMessageA
+        (hwnd   :        Interfaces.C.long := Handle (Control);
+         uMsg   :        Interfaces.C.int  := TB_SETBUTTONINFOA;
+         wParam :        Integer           := Button;
+         lParam : in     TBBUTTONINFO);
+      pragma Import (StdCall, SendMessageA,
+                       "SendMessage" & Character_Mode_Identifier);
+
+      procedure SendMessageW
+        (hwnd   :        Interfaces.C.long := Handle (Control);
+         uMsg   :        Interfaces.C.int  := TB_SETBUTTONINFOW;
+         wParam :        Integer           := Button;
+         lParam : in     TBBUTTONINFO);
+      pragma Import (StdCall, SendMessageW,
+                       "SendMessage" & Character_Mode_Identifier);
+
+   begin
+      pragma Warnings (Off);
+      if Character_Mode = Unicode then
+         SendMessageW (lParam => Info);
+      else
+         SendMessageA (lParam => Info);
+      end if;
+      pragma Warnings (On);
+   end Set_Button_Info;
+
+   ----------------------
+   -- Get_Button_Style --
+   ----------------------
+
+   function Get_Button_Style
+     (Control    : in Toolbar_Control_Type;
+      Button     : in Integer)
+     return Integer
+   is
+      Info : TBBUTTONINFO;
+   begin
+      Info.Mask := TBIF_STYLE;
+      Get_Button_Info (Control, Button, Info);
+      return Integer (Info.Style);
+   end Get_Button_Style;
+
+   ----------------------
+   -- Set_Button_Style --
+   ----------------------
+
+   procedure Set_Button_Style
+     (Control    : in out Toolbar_Control_Type;
+      Button     : in     Integer;
+      Style      : in     Integer)
+   is
+      Info : TBBUTTONINFO;
+   begin
+      Info.Mask := TBIF_STYLE;
+      Info.Style := Interfaces.C.unsigned_char (Style);
+      Set_Button_Info (Control, Button, Info);
+   end Set_Button_Style;
+
+   ----------------------
+   -- Get_Button_State --
+   ----------------------
+
+   function Get_Button_State
+     (Control    : in Toolbar_Control_Type;
+      Button     : in Integer)
+     return Integer
+   is
+      Info : TBBUTTONINFO;
+   begin
+      Info.Mask := TBIF_STATE;
+      Get_Button_Info (Control, Button, Info);
+      return Integer (Info.State);
+   end Get_Button_State;
+
+   ----------------------
+   -- Set_Button_State --
+   ----------------------
+
+   procedure Set_Button_State
+     (Control    : in out Toolbar_Control_Type;
+      Button     : in     Integer;
+      State      : in     Integer)
+   is
+      Info : TBBUTTONINFO;
+   begin
+      Info.Mask := TBIF_STATE;
+      Info.State := Interfaces.C.unsigned_char (State);
+      Set_Button_Info (Control, Button, Info);
+   end Set_Button_State;
+   --  * AnSp: Up to here
 
    ---------------
    -- On_Create --
@@ -4012,8 +4551,89 @@ package body GWindows.Common_Controls is
          when ANSI =>
             SendMessageA;
       end case;
-
    end Add_Tool_Tip;
+
+   ---------------------
+   -- Update_Tool_Tip --
+   ---------------------
+
+   procedure Update_Tool_Tip
+     (Control : in out Tool_Tip_Type;
+      Window  : in     GWindows.Base.Base_Window_Type'Class;
+      Tip     : in     GString)
+   is
+      C_Text : GString_C := GWindows.GStrings.To_GString_C (Tip);
+      Info   : TOOLINFO;
+
+      WM_USER            : constant := 16#400#;
+      TTM_UPDATETIPTEXTA : constant := WM_USER + 12;
+      TTM_UPDATETIPTEXTW : constant := WM_USER + 57;
+
+      procedure SendMessageA
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TTM_UPDATETIPTEXTA;
+         wParam : Interfaces.C.long := 0;
+         lParam : TOOLINFO          := Info);
+      pragma Import (StdCall, SendMessageA,
+                       "SendMessage" & Character_Mode_Identifier);
+
+      procedure SendMessageW
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TTM_UPDATETIPTEXTW;
+         wParam : Interfaces.C.long := 0;
+         lParam : TOOLINFO          := Info);
+      pragma Import (StdCall, SendMessageW,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      Info.Flags := TTF_IDISHWND or TTF_SUBCLASS;
+      Info.HWND := GWindows.Base.Handle (Parent (Control).all);
+      Info.UID := GWindows.Base.Handle (Window);
+      Info.Text := C_Text (0)'Unchecked_Access;
+      pragma Warnings (Off);
+      if Character_Mode = Unicode then
+         SendMessageW;
+      else
+         SendMessageA;
+      end if;
+      pragma Warnings (On);
+   end Update_Tool_Tip;
+
+   ---------------------
+   -- Delete_Tool_Tip --
+   ---------------------
+
+   procedure Delete_Tool_Tip
+     (Control : in out Tool_Tip_Type;
+      Window  : in     GWindows.Base.Base_Window_Type'Class) is
+
+      Info : TOOLINFO;
+
+      procedure SendMessageA
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TTM_DELTOOLA;
+         wParam : Interfaces.C.long := 0;
+         lParam : TOOLINFO          := Info);
+      pragma Import (StdCall, SendMessageA,
+                       "SendMessage" & Character_Mode_Identifier);
+
+      procedure SendMessageW
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TTM_DELTOOLW;
+         wParam : Interfaces.C.long := 0;
+         lParam : TOOLINFO          := Info);
+      pragma Import (StdCall, SendMessageW,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      Info.HWND := GWindows.Base.Handle (Parent (Control).all);
+      Info.UID := GWindows.Base.Handle (Window);
+      pragma Warnings (Off);
+      if Character_Mode = Unicode then
+         SendMessageW;
+      else
+         SendMessageA;
+      end if;
+      pragma Warnings (On);
+   end Delete_Tool_Tip;
 
    -------------------
    -- Maximum_Width --
@@ -4032,5 +4652,60 @@ package body GWindows.Common_Controls is
    begin
       SendMessage;
    end Maximum_Width;
+
+   -------------------
+   -- Get_Durations --
+   -------------------
+
+   procedure Get_Durations
+     (Control  : in out Tool_Tip_Type;
+      Initial  : out Duration;
+      Reshow   : out Duration;
+      Til_Hide : out Duration)
+   is
+      function SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TTM_GETDELAYTIME;
+         wParam : Interfaces.C.long := 0;
+         lParam : Integer := 0) return Integer;
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+      TTDT_RESHOW  : constant := 1;
+      TTDT_AUTOPOP : constant := 2;
+      TTDT_INITIAL : constant := 3;
+   begin
+      Initial  := Duration (SendMessage (wParam => TTDT_INITIAL)) / 1000.0;
+      Reshow   := Duration (SendMessage (wParam => TTDT_RESHOW)) / 1000.0;
+      Til_Hide := Duration (SendMessage (wParam => TTDT_AUTOPOP)) / 1000.0;
+   end Get_Durations;
+
+   -------------------
+   -- Set_Durations --
+   -------------------
+
+   procedure Set_Durations
+     (Control  : in out Tool_Tip_Type;
+      Initial  : in Duration;
+      Reshow   : in Duration;
+      Til_Hide : in Duration)
+   is
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TTM_SETDELAYTIME;
+         wParam : Interfaces.C.long;
+         lParam : Integer);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+      TTDT_RESHOW  : constant := 1;
+      TTDT_AUTOPOP : constant := 2;
+      TTDT_INITIAL : constant := 3;
+   begin
+      SendMessage (wParam => TTDT_INITIAL,
+                   lParam => Integer (Initial * 1000.0));
+      SendMessage (wParam => TTDT_RESHOW,
+                   lParam => Integer (Reshow * 1000.0));
+      SendMessage (wParam => TTDT_AUTOPOP,
+                   lParam => Integer (Til_Hide * 1000.0));
+   end Set_Durations;
 
 end GWindows.Common_Controls;

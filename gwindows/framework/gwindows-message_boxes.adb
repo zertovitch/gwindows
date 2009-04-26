@@ -32,7 +32,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with GWindows.Constants;
 with GWindows.GStrings;
 
 with GWindows.Windows;
@@ -56,6 +55,9 @@ package body GWindows.Message_Boxes is
    MB_ICONEXCLAMATION         : constant := 48;
    MB_ICONASTERISK            : constant := 64;
    MB_TOPMOST                 : constant := 2#10_0000_0000_0000_0000#;
+   MB_DEFBUTTON2              : constant := 16#100#;
+   MB_DEFBUTTON3              : constant := 16#200#;
+
 --     MB_USERICON                : constant := 128;
 --     MB_ICONWARNING             : constant := 48;
 --     MB_ICONERROR               : constant := 16;
@@ -102,12 +104,20 @@ package body GWindows.Message_Boxes is
             MStyle := MB_OK;
          when OK_Cancel_Box =>
             MStyle := MB_OKCANCEL;
+         when OK_Cancel_Def_Box =>
+            MStyle := MB_OKCANCEL + MB_DEFBUTTON2;
          when Retry_Cancel_Box =>
             MStyle := MB_RETRYCANCEL;
          when Yes_No_Box =>
             MStyle := MB_YESNO;
+         when Yes_No_Def_Box =>
+            MStyle := MB_YESNO + MB_DEFBUTTON2;
          when Yes_No_Cancel_Box =>
             MStyle := MB_YESNOCANCEL;
+         when Yes_No_Def_Cancel_Box =>
+            MStyle := MB_YESNOCANCEL + MB_DEFBUTTON2;
+         when Yes_No_Cancel_Def_Box =>
+            MStyle := MB_YESNOCANCEL + MB_DEFBUTTON3;
       end case;
 
       case Icon is

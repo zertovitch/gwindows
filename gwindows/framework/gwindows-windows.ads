@@ -172,7 +172,7 @@ package GWindows.Windows is
 
    procedure Create_MDI_Child
      (Window     : in out Window_Type;
-      Parent     : in out Window_Type'Class;
+      Parent     : in     Window_Type'Class;
       Title      : in     GString           := "";
       Left       : in     Integer           := GWindows.Constants.Use_Default;
       Top        : in     Integer           := GWindows.Constants.Use_Default;
@@ -208,8 +208,8 @@ package GWindows.Windows is
                              return GWindows.Colors.Color_Type;
    --  The default color is the system color: COLOR_BTNFACE
 
-   procedure Zoom (Window : in out Window_Type;
-                   State  : in     Boolean     := True);
+   procedure Zoom (Window : in Window_Type;
+                   State  : in Boolean     := True);
    function Zoom (Window : in Window_Type) return Boolean;
    --  Zoom (Maximized) state of window
 
@@ -218,30 +218,30 @@ package GWindows.Windows is
    function Iconic (Window : in Window_Type) return Boolean;
    --  Iconic (Minimized) state of window
 
-   procedure Large_Icon (Window  : in out Window_Type;
-                         Name    : in     GString);
-   procedure Large_Icon (Window  : in out Window_Type;
-                         Icon    : in     Drawing_Objects.Icon_Type);
-   procedure Small_Icon (Window  : in out Window_Type;
-                         Name    : in     GString);
-   procedure Small_Icon (Window  : in out Window_Type;
-                         Icon    : in     Drawing_Objects.Icon_Type);
+   procedure Large_Icon (Window  : in Window_Type;
+                         Name    : in GString);
+   procedure Large_Icon (Window  : in Window_Type;
+                         Icon    : in Drawing_Objects.Icon_Type);
+   procedure Small_Icon (Window  : in Window_Type;
+                         Name    : in GString);
+   procedure Small_Icon (Window  : in Window_Type;
+                         Icon    : in Drawing_Objects.Icon_Type);
    --  Window Icon
    --  To specify a numeric resource use #XXXX where XXXX is the resource ID
 
-   procedure Accept_File_Drag_And_Drop (Window : in out Window_Type;
-                                        State  :        Boolean     := True);
+   procedure Accept_File_Drag_And_Drop (Window : Window_Type;
+                                        State  : Boolean     := True);
    --  Turns on acceptance of files dragged on to this window
 
-   procedure Menu (Window      : in out Window_Type;
-                   Name        : in     GString;
-                   Destroy_Old : in     Boolean           := True);
+   procedure Menu (Window      : in Window_Type;
+                   Name        : in GString;
+                   Destroy_Old : in Boolean           := True);
    --  Set menu for window from resource Name
    --  To specify a numeric resource use #XXXX where XXXX is the resource ID
 
-   procedure Menu (Window      : in out Window_Type;
-                   Menu        : in     GWindows.Menus.Menu_Type;
-                   Destroy_Old : in     Boolean                  := True);
+   procedure Menu (Window      : in Window_Type;
+                   Menu        : in GWindows.Menus.Menu_Type;
+                   Destroy_Old : in Boolean                  := True);
 
    function Menu (Window : in Window_Type)
                  return GWindows.Menus.Menu_Type;
@@ -254,8 +254,8 @@ package GWindows.Windows is
    --  MDI window list
 
    procedure MDI_Active_Window
-     (Window : in out Window_Type;
-      Child  : in     GWindows.Base.Base_Window_Type'Class);
+     (Window : in Window_Type;
+      Child  : in GWindows.Base.Base_Window_Type'Class);
    function MDI_Active_Window
      (Window : in Window_Type)
      return GWindows.Base.Pointer_To_Base_Window_Class;
@@ -273,24 +273,24 @@ package GWindows.Windows is
    type Scroll_Bar_Type is (Horizontal, Vertical);
 
    procedure Scroll_Range
-     (Window  : in out Window_Type;
-      Bar     : in     Scroll_Bar_Type;
-      Minimum : in     Integer;
-      Maximum : in     Integer);
+     (Window  : in Window_Type;
+      Bar     : in Scroll_Bar_Type;
+      Minimum : in Integer;
+      Maximum : in Integer);
 
    procedure Scroll_Maximum
-     (Window  : in out Window_Type;
-      Bar     : in     Scroll_Bar_Type;
-      Maximum : in     Integer);
+     (Window  : in Window_Type;
+      Bar     : in Scroll_Bar_Type;
+      Maximum : in Integer);
 
    function Scroll_Maximum
      (Window : in Window_Type;
       Bar    : in Scroll_Bar_Type) return Integer;
 
    procedure Scroll_Minimum
-     (Window  : in out Window_Type;
-      Bar     : in     Scroll_Bar_Type;
-      Minimum : in     Integer);
+     (Window  : in Window_Type;
+      Bar     : in Scroll_Bar_Type;
+      Minimum : in Integer);
 
    function Scroll_Minimum
      (Window : in Window_Type;
@@ -298,9 +298,9 @@ package GWindows.Windows is
    --  Scroll Range Property
 
    procedure Scroll_Position
-     (Window   : in out Window_Type;
-      Bar      : in     Scroll_Bar_Type;
-      Position : in     Integer);
+     (Window   : in Window_Type;
+      Bar      : in Scroll_Bar_Type;
+      Position : in Integer);
 
    function Scroll_Position
      (Window : in Window_Type;
@@ -308,9 +308,9 @@ package GWindows.Windows is
    --  Scroll Position
 
    procedure Scroll_Page_Size
-     (Window   : in out Window_Type;
-      Bar      : in     Scroll_Bar_Type;
-      Size     : in     Natural);
+     (Window   : in Window_Type;
+      Bar      : in Scroll_Bar_Type;
+      Size     : in Natural);
 
    function Scroll_Page_Size
      (Window : in Window_Type;
@@ -326,21 +326,21 @@ package GWindows.Windows is
    --  Window_Type - Methods
    -------------------------------------------------------------------------
 
-   procedure Menu_Refresh (Window : in out Window_Type);
+   procedure Menu_Refresh (Window : in Window_Type);
    --  If a change is made to menus attached to a window, a Menu_Refresh
    --  should be called
 
-   procedure Display_Context_Menu (Window   : in out Window_Type;
-                                   Name     : in     GString;
-                                   Sub_Menu : in     Natural;
-                                   X        : in     Integer;
-                                   Y        : in     Integer);
+   procedure Display_Context_Menu (Window   : in Window_Type;
+                                   Name     : in GString;
+                                   Sub_Menu : in Natural;
+                                   X        : in Integer;
+                                   Y        : in Integer);
 
-   procedure Display_Context_Menu (Window   : in out Window_Type;
-                                   Menu     : in     GWindows.Menus.Menu_Type;
-                                   Sub_Menu : in     Natural;
-                                   X        : in     Integer;
-                                   Y        : in     Integer);
+   procedure Display_Context_Menu (Window   : in Window_Type;
+                                   Menu     : in GWindows.Menus.Menu_Type;
+                                   Sub_Menu : in Natural;
+                                   X        : in Integer;
+                                   Y        : in Integer);
 
    --  Display a context menu (aka a right click menu)
    --  Name is for a menu resource. Sub_Menu is the 1 based index of the
@@ -348,22 +348,22 @@ package GWindows.Windows is
    --  instead of a menu bar
    --  NOTE: Coordinates are relative to desktop
 
-   procedure MDI_Tile_Horizontal (Window : in out Window_Type);
+   procedure MDI_Tile_Horizontal (Window : in Window_Type);
    --  Tells MDI_Top window to tile its children horizontaly
 
-   procedure MDI_Tile_Vertical (Window : in out Window_Type);
+   procedure MDI_Tile_Vertical (Window : in Window_Type);
    --  Tells MDI_Top window to tile its children Verticaly
 
-   procedure MDI_Cascade (Window : in out Window_Type);
+   procedure MDI_Cascade (Window : in Window_Type);
    --  Tells MDI_Top window to tile its children
 
-   procedure MDI_Arrange_Icons (Window : in out Window_Type);
+   procedure MDI_Arrange_Icons (Window : in Window_Type);
    --  Tells MDI_Top window to arrange icons of its children
 
    procedure MDI_Close_All (Window : in out Window_Type);
    --  Closes all MDI child windows
 
-   procedure Dock_Children (Window : in out Window_Type);
+   procedure Dock_Children (Window : in Window_Type);
    --  Lays out child windows based on their Docking property
 
    -------------------------------------------------------------------------
@@ -417,6 +417,13 @@ package GWindows.Windows is
                 X      : in     Integer;
                 Y      : in     Integer;
                 Keys   : in     Mouse_Key_States);
+
+   type Wheel_Event is access
+     procedure (Window  : in out GWindows.Base.Base_Window_Type'Class;
+                X       : in     Integer;
+                Y       : in     Integer;
+                Keys    : in     Mouse_Key_States;
+                Z_Delta : in Integer);
 
    type Character_Event is access
      procedure (Window      : in out GWindows.Base.Base_Window_Type'Class;
@@ -487,6 +494,14 @@ package GWindows.Windows is
                                  X      : in     Integer;
                                  Y      : in     Integer;
                                  Keys   : in     Mouse_Key_States);
+
+   procedure On_Mouse_Wheel_Handler (Window  : in out Window_Type;
+                                     Handler : in     Wheel_Event);
+   procedure Fire_On_Mouse_Wheel (Window  : in out Window_Type;
+                                  X       : in     Integer;
+                                  Y       : in     Integer;
+                                  Keys    : in     Mouse_Key_States;
+                                  Z_Delta : in Integer);
 
    procedure On_Left_Mouse_Button_Down_Handler
      (Window  : in out Window_Type;
@@ -564,6 +579,87 @@ package GWindows.Windows is
      (Window  : in out Window_Type;
       Handler : in     Mouse_Event);
    procedure Fire_On_Middle_Mouse_Button_Double_Click
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+
+   procedure On_NC_Left_Mouse_Button_Down_Handler
+     (Window  : in out Window_Type;
+      Handler : in     Mouse_Event);
+   procedure Fire_On_NC_Left_Mouse_Button_Down
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+
+   procedure On_NC_Left_Mouse_Button_Up_Handler
+     (Window  : in out Window_Type;
+      Handler : in     Mouse_Event);
+   procedure Fire_On_NC_Left_Mouse_Button_Up
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+
+   procedure On_NC_Left_Mouse_Button_Double_Click_Handler
+     (Window  : in out Window_Type;
+      Handler : in     Mouse_Event);
+   procedure Fire_On_NC_Left_Mouse_Button_Double_Click
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+
+   procedure On_NC_Right_Mouse_Button_Down_Handler
+     (Window  : in out Window_Type;
+      Handler : in     Mouse_Event);
+   procedure Fire_On_NC_Right_Mouse_Button_Down
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+
+   procedure On_NC_Right_Mouse_Button_Up_Handler
+     (Window  : in out Window_Type;
+      Handler : in     Mouse_Event);
+   procedure Fire_On_NC_Right_Mouse_Button_Up
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+
+   procedure On_NC_Right_Mouse_Button_Double_Click_Handler
+     (Window  : in out Window_Type;
+      Handler : in     Mouse_Event);
+   procedure Fire_On_NC_Right_Mouse_Button_Double_Click
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+
+   procedure On_NC_Middle_Mouse_Button_Down_Handler
+     (Window  : in out Window_Type;
+      Handler : in     Mouse_Event);
+   procedure Fire_On_NC_Middle_Mouse_Button_Down
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+
+   procedure On_NC_Middle_Mouse_Button_Up_Handler
+     (Window  : in out Window_Type;
+      Handler : in     Mouse_Event);
+   procedure Fire_On_NC_Middle_Mouse_Button_Up
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+
+   procedure On_NC_Middle_Mouse_Button_Double_Click_Handler
+     (Window  : in out Window_Type;
+      Handler : in     Mouse_Event);
+   procedure Fire_On_NC_Middle_Mouse_Button_Double_Click
      (Window : in out Window_Type;
       X      : in     Integer;
       Y      : in     Integer;
@@ -665,6 +761,13 @@ package GWindows.Windows is
                             Keys   : in     Mouse_Key_States);
    --  Mouse has moved
 
+   procedure On_Mouse_Wheel (Window  : in out Window_Type;
+                             X       : in     Integer;
+                             Y       : in     Integer;
+                             Keys    : in     Mouse_Key_States;
+                             Z_Delta : in     Integer);
+   --  Mouse wheel has moved
+
    procedure On_Left_Mouse_Button_Down
      (Window : in out Window_Type;
       X      : in     Integer;
@@ -723,6 +826,70 @@ package GWindows.Windows is
    --  Right mouse button double clicked at (X,Y)
 
    procedure On_Middle_Mouse_Button_Double_Click
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+   --  Middle mouse button double clicked at (X,Y)
+
+   procedure On_NC_Left_Mouse_Button_Down
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+   --  Left mouse button pushed down at (X,Y)
+
+   procedure On_NC_Right_Mouse_Button_Down
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+   --  Right mouse button pushed down at (X,Y)
+
+   procedure On_NC_Middle_Mouse_Button_Down
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+
+   --  Middle mouse button pushed down at (X,Y)
+
+   procedure On_NC_Left_Mouse_Button_Up
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+   --  Left mouse button released at (X,Y)
+
+   procedure On_NC_Right_Mouse_Button_Up
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+   --  Right mouse button released at (X,Y)
+
+   procedure On_NC_Middle_Mouse_Button_Up
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+   --  Middle mouse button released at (X,Y)
+
+   procedure On_NC_Left_Mouse_Button_Double_Click
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+   --  Left mouse button double clicked at (X,Y)
+
+   procedure On_NC_Right_Mouse_Button_Double_Click
+     (Window : in out Window_Type;
+      X      : in     Integer;
+      Y      : in     Integer;
+      Keys   : in     Mouse_Key_States);
+   --  Right mouse button double clicked at (X,Y)
+
+   procedure On_NC_Middle_Mouse_Button_Double_Click
      (Window : in out Window_Type;
       X      : in     Integer;
       Y      : in     Integer;
@@ -840,16 +1007,26 @@ private
          On_MDI_Deactivate_Event : GWindows.Base.Action_Event   := null;
          On_File_Drop_Event      : File_Drop_Event              := null;
 
-         On_Mouse_Move_Event                       : Mouse_Event := null;
-         On_Left_Mouse_Button_Down_Event           : Mouse_Event := null;
-         On_Left_Mouse_Button_Up_Event             : Mouse_Event := null;
-         On_Left_Mouse_Button_Double_Click_Event   : Mouse_Event := null;
-         On_Right_Mouse_Button_Down_Event          : Mouse_Event := null;
-         On_Right_Mouse_Button_Up_Event            : Mouse_Event := null;
-         On_Right_Mouse_Button_Double_Click_Event  : Mouse_Event := null;
-         On_Middle_Mouse_Button_Down_Event         : Mouse_Event := null;
-         On_Middle_Mouse_Button_Up_Event           : Mouse_Event := null;
-         On_Middle_Mouse_Button_Double_Click_Event : Mouse_Event := null;
+         On_Mouse_Move_Event                          : Mouse_Event := null;
+         On_Mouse_Wheel_Event                         : Wheel_Event := null;
+         On_Left_Mouse_Button_Down_Event              : Mouse_Event := null;
+         On_Left_Mouse_Button_Up_Event                : Mouse_Event := null;
+         On_Left_Mouse_Button_Double_Click_Event      : Mouse_Event := null;
+         On_Right_Mouse_Button_Down_Event             : Mouse_Event := null;
+         On_Right_Mouse_Button_Up_Event               : Mouse_Event := null;
+         On_Right_Mouse_Button_Double_Click_Event     : Mouse_Event := null;
+         On_Middle_Mouse_Button_Down_Event            : Mouse_Event := null;
+         On_Middle_Mouse_Button_Up_Event              : Mouse_Event := null;
+         On_Middle_Mouse_Button_Double_Click_Event    : Mouse_Event := null;
+         On_NC_Left_Mouse_Button_Down_Event           : Mouse_Event := null;
+         On_NC_Left_Mouse_Button_Up_Event             : Mouse_Event := null;
+         On_NC_Left_Mouse_Button_Double_Click_Event   : Mouse_Event := null;
+         On_NC_Right_Mouse_Button_Down_Event          : Mouse_Event := null;
+         On_NC_Right_Mouse_Button_Up_Event            : Mouse_Event := null;
+         On_NC_Right_Mouse_Button_Double_Click_Event  : Mouse_Event := null;
+         On_NC_Middle_Mouse_Button_Down_Event         : Mouse_Event := null;
+         On_NC_Middle_Mouse_Button_Up_Event           : Mouse_Event := null;
+         On_NC_Middle_Mouse_Button_Double_Click_Event : Mouse_Event := null;
 
          On_Character_Up_Event   : Character_Event := null;
          On_Character_Down_Event : Character_Event := null;
