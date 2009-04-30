@@ -5,9 +5,8 @@
 --                          R E A D M E . T X T                             --
 --                             Documentation                                --
 --                                                                          --
---                            $Revision: 1.1.1.1 $
 --                                                                          --
---                 Copyright (C) 1999, 2000 David Botton                    --
+--                 Copyright (C) 1999-2009 David Botton                    --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -23,17 +22,6 @@
 -- More information about GNATCOM and the most current public version can   --
 -- be located on the web at http://www.adapower.com/gnatcom                 --
 --                                                                          --
--- Support for GNATCOM is available from Ada Core Technologies, Inc.        --
---                                                                          --
--- In the U.S., contact Ada Core Technologies at:                           --
--- Tel: +1 (212) 620 7300 ext 117                                           --
--- Fax: +1 (212) 807 0162                                                   --
--- Email: sales@gnat.com                                                    --
---                                                                          --
--- In Europe and elsewhere, contact ACT Europe at:                          --
--- Tel: +33 1 49 70 67 16                                                   --
--- Fax: +33 1 49 70 05 52                                                   --
--- Email: sales@act-europe.fr                                               --
 ------------------------------------------------------------------------------
 
 Documentation Road Map
@@ -46,7 +34,7 @@ based documents, and .html are HTML documents that can loaded in any
 browser.
 
 Additional tools needed to build the documentation are located on the
-GNATCOM home page at http://www.adapower.com/gnatcom
+GNATCOM home page at http://www.gnavi.org
 
 The root documentation directory contains the following:
 
