@@ -35,6 +35,8 @@ with Ada.Text_IO;
 
 package RC_Help is
 
+  Grammar_Version: constant String:= "30-Apr-2009";
+
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
   function U(Source: String) return Unbounded_String

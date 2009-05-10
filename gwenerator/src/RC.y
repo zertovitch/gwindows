@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script grammar file (AYACC)
 --
---  Copyright (c) Gautier de Montmollin 2008
+--  Copyright (c) Gautier de Montmollin 2008..2009
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,6 +30,7 @@
 --
 -- Change log:
 --
+-- 30-Apr-2009 GdM: Some additions for matching ResEdit 1.4.4.19 suppl. tags
 -- 27-Nov-2008 GdM: For push buttons, both closing and non-closing are created,
 --                    but only one is shown (it can be reversed any time)
 --  5-Sep-2008 GdM: Include file with symbols processed; minor changes
@@ -115,7 +116,8 @@
        SS_CENTERIMAGE_t, SS_BITMAP_t, SS_ICON_t, SS_SIMPLE_t,
        SS_LEFTNOWORDWRAP_t, SS_ENDELLIPSIS_t,
        SS_BLACKRECT_t, SS_GRAYRECT_t, SS_WHITERECT_t,
-       SS_REALSIZEIMAGE_t
+       SS_REALSIZEIMAGE_t,
+       SS_LEFT_t
 -- Edit styles
 %token ES_MULTILINE_t, ES_READONLY_t,
        ES_AUTOHSCROLL_t, ES_AUTOVSCROLL_t,
@@ -127,7 +129,8 @@
 %token BS_LEFTTEXT_t, BS_AUTORADIOBUTTON_t,  BS_3STATE_t
        BS_AUTOCHECKBOX_t, BS_BITMAP_t, BS_OWNERDRAW_t,
        BS_BOTTOM_t, BS_FLAT_t, BS_LEFT_t, BS_RIGHT_t, BS_CENTER_t, BS_VCENTER_t,
-       BS_PUSHLIKE_t, BS_TOP_t, BS_MULTILINE_t
+       BS_PUSHLIKE_t, BS_TOP_t, BS_MULTILINE_t,
+       BS_DEFPUSHBUTTON_t, BS_RADIOBUTTON_t
 -- Combo-box styles
 %token CBS_SIMPLE_t, CBS_DROPDOWN_t, CBS_DROPDOWNLIST_t,
        CBS_SORT_t, CBS_HASSTRINGS_t, CBS_AUTOHSCROLL_t,
@@ -695,6 +698,7 @@ ss_style  : SS_NOPREFIX_t
           | SS_REALSIZEIMAGE_t
           | SS_SIMPLE_t
           | SS_LEFTNOWORDWRAP_t
+          | SS_LEFT_t
           | SS_BLACKRECT_t
           | SS_GRAYRECT_t
           | SS_WHITERECT_t
@@ -906,6 +910,7 @@ lbs_style :       LBS_SORT_t
           |       LBS_MULTICOLUMN_t
           |       LBS_NOINTEGRALHEIGHT_t
           |       LBS_USETABSTOPS_t
+          |       LBS_NOTIFY_t
           | NOT_t LBS_NOTIFY_t
           |       LBS_EXTENDEDSEL_t
           |       LBS_DISABLENOSCROLL_t
@@ -984,6 +989,8 @@ bs_style_only :
           | BS_VCENTER_t
           | BS_MULTILINE_t
           | BS_PUSHLIKE_t
+          | BS_DEFPUSHBUTTON_t
+          | BS_RADIOBUTTON_t
           ;
 
 ------------------

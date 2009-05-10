@@ -8,7 +8,9 @@ with GWindows.Common_Controls;          use GWindows.Common_Controls;
 with GWindows.Static_Controls;          use GWindows.Static_Controls;
 with GWindows.Windows;                  use GWindows.Windows;
 with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
-with GWindows.Application;
+with GWindows.Application;              use GWindows.Application;
+
+with GWindows.Static_Controls.Web;      use GWindows.Static_Controls.Web;
 
 with GWenerator_Resource_GUI;           use GWenerator_Resource_GUI;
 
@@ -19,7 +21,7 @@ with Ada.Text_IO;                       use Ada.Text_IO;
 with Ada.Text_IO.Unbounded_IO;          use Ada.Text_IO.Unbounded_IO;
 with Ada.Calendar;
 
-with RC_IO, RC_Help, YYParse;
+with RC_IO, RC_Help, YYParse, Resource_Header;
 
 with GWens.IO;
 
@@ -37,7 +39,7 @@ package body GWen_Windows is
   function U(Source: String) return Unbounded_String
     renames Ada.Strings.Unbounded.To_Unbounded_String;
 
-  NL : constant GString:= GCharacter'Val (13) & GCharacter'Val (10);
+  NL: constant String:= ASCII.CR & ASCII.LF;
 
   -------------------------
   -- Internal procedures --
@@ -45,8 +47,9 @@ package body GWen_Windows is
 
   procedure Update_status_display (Window : in out GWen_Window_Type) is
     no_Ada_build_part: constant Boolean:= Window.proj.Ada_main = U("");
-    margin_x: constant:= 27;
-    margin_y: constant:= 62;
+    margin_x      : constant:= 27;
+    margin_x_frame: constant:= 18;
+    margin_y      : constant:= 62;
     title: Unbounded_String:= Window.short_name;
   begin
     --
@@ -101,7 +104,7 @@ package body GWen_Windows is
         Window.Newer_Ada.Hide;
       end if;
     end if;
-    Window.Details_frame.Width(Window.Width - margin_x);
+    Window.Details_frame.Width(Window.Width - margin_x_frame);
     --
   end Update_status_display;
 
@@ -161,7 +164,7 @@ package body GWen_Windows is
         "Choose Ada main unit file...",
          New_File_Name,
          ((U("Ada files (*.adb,*.ads)"), U("*.adb;*.ads" )),
-          (U("Programs (*.exe)"), U("*.exe" )),
+          (U("Programs (*.exe)"),        U("*.exe" )),
           (U("All files (*.*)"),         U("*.*"))
          ),
          ".adb",
@@ -292,10 +295,9 @@ package body GWen_Windows is
         Window,
         "Open...",
          New_File_Name,
-         ((U("GWenerator project file (*.gwen)"),
-           U("*.gwen" )),
-          (U("All files (*.*)"),
-           U("*.*"))),
+         ((U("GWenerator project file (*.gwen)"), U("*.gwen" )),
+          (U("All files (*.*)"),                  U("*.*"))
+         ),
          ".gwen",
          File_Title,
          Success
@@ -333,11 +335,10 @@ package body GWen_Windows is
       Window,
       "Save as...",
        New_File_Name,
-       ((U("GWenerator project file (*.gwen)"),
-         U("*.gwen" )),
-        (U("All files (*.*)"),
-         U("*.*"))),
-         ".gwen",
+       ((U("GWenerator project file (*.gwen)"), U("*.gwen" )),
+        (U("All files (*.*)"),                  U("*.*"))
+       ),
+       ".gwen",
        File_Title,
        Success
     );
@@ -365,10 +366,18 @@ package body GWen_Windows is
 
   procedure On_About (Window : in out GWen_Window_Type) is
     box: About_Box_Type;
+    url: URL_Type;
   begin
     box.Create_Full_Dialog(Window);
+    GWindows.Static_Controls.Web.Create_and_Swap(
+      To_Show => url,
+      To_Hide => box.URL,
+      Parent  => box,
+      URL     => box.URL.Text -- Here the text = the URL
+    );
+    box.RC_gr_ver.Text( box.RC_gr_ver.Text & RC_Help.Grammar_Version );
     box.Center;
-    if GWindows.Application.Show_Dialog (box, Window) = IDOK then
+    if Show_Dialog (box, Window) = IDOK then
       null;
     end if;
   end On_About;
@@ -418,8 +427,11 @@ package body GWen_Windows is
         begin
           YYParse;
         exception
-          when RC_Help.Syntax_Error =>
-            null;
+          when RC_Help.Syntax_Error |
+               Resource_Header.Unexpected_Syntax |
+               Resource_Header.No_Define         |
+               Resource_Header.Illegal_Number    =>
+            null; --!!
         end;
         RC_IO.Close_Input;
         Set_Error(Standard_Error);
@@ -460,9 +472,9 @@ package body GWen_Windows is
   is
     pragma Warnings (Off, Window);
     pragma Warnings (Off, dwExStyle);
-    WS_BORDER     : constant:= 16#00800000#;
-    WS_SYSMENU    : constant:= 16#00080000#; -- Get the [x] closing box
-    WS_MINIMIZEBOX: constant:= 16#00020000#;
+    WS_BORDER     : constant:= 16#0080_0000#;
+    WS_SYSMENU    : constant:= 16#0008_0000#; -- Get the [x] closing box
+    WS_MINIMIZEBOX: constant:= 16#0002_0000#;
     custom_style  : constant:= WS_BORDER + WS_SYSMENU + WS_MINIMIZEBOX;
     -- essentially, we want a window the user cannot resize
   begin

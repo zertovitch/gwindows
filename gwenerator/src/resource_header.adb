@@ -9,10 +9,6 @@ package body Resource_Header is
 
   procedure Convert_Header_File  (Name : String; Done : out Boolean) is
 
-    Unexpected_Syntax : exception;
-    No_Define         : exception;
-    Illegal_Number    : exception;
-
     H_File : File_Type;
 
     Input_Line_Nr : Integer := 0;

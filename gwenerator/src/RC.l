@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script lexer file (AFLEX)
 --
---  Copyright (c) Gautier de Montmollin 2008
+--  Copyright (c) Gautier de Montmollin 2008..2009
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,6 +30,8 @@
 --
 -- Change log:
 --
+-- 30-Apr-2009 GdM: Some additions for matching ResEdit 1.4.4.19 suppl. tags
+-- ...
 -- 28-Jul-2008 GdM: Created
 --
 
@@ -252,6 +254,7 @@ SS_REALSIZEIMAGE               { return SS_REALSIZEIMAGE_t; }
 SS_SIMPLE                      { return SS_SIMPLE_t; }
 SS_SUNKEN                      { return SS_SUNKEN_t; }
 SS_WHITERECT                   { return SS_WHITERECT_t; }
+SS_LEFT                        { return SS_LEFT_t; }
 
 -- Edit styles
 ES_AUTOHSCROLL                 { return ES_AUTOHSCROLL_t; }
@@ -282,6 +285,8 @@ BS_PUSHLIKE                    { return BS_PUSHLIKE_t; }
 BS_RIGHT                       { return BS_RIGHT_t; }
 BS_TOP                         { return BS_TOP_t; }
 BS_VCENTER                     { return BS_VCENTER_t; }
+BS_DEFPUSHBUTTON               { return BS_DEFPUSHBUTTON_t; }
+BS_RADIOBUTTON                 { return BS_RADIOBUTTON_t; }
 
 -- Combo-box styles
 CBS_AUTOHSCROLL                { return CBS_AUTOHSCROLL_t; }

@@ -351,6 +351,7 @@ package body RC_Help is
     Ada_Put_Line(to, "--");
     Ada_Put_Line(to, "-- This is automatically generated code. Do not edit this.");
     Ada_Put_Line(to, "-- Rework the resource instead, and re-run the translator.");
+    Ada_Put_Line(to, "-- RC Grammar version: " & Grammar_Version);
     Ada_Put_Line(to, "---------------------------------------------------------------------");
     Ada_New_Line(to);
   end Blurb;
@@ -360,24 +361,24 @@ package body RC_Help is
     Blurb(to_spec);
     Blurb(to_body);
     --
-    Ada_Put_Line(to_spec, "with GWindows.Base;               use GWindows.Base;");
-    Ada_Put_Line(to_spec, "with GWindows.Constants;          use GWindows.Constants;");
-    Ada_Put_Line(to_spec, "with GWindows.Windows;            use GWindows.Windows;");
-    Ada_Put_Line(to_spec, "with GWindows.Buttons;            use GWindows.Buttons;");
-    Ada_Put_Line(to_spec, "with GWindows.Edit_Boxes;         use GWindows.Edit_Boxes;");
-    Ada_Put_Line(to_spec, "with GWindows.List_Boxes;         use GWindows.List_Boxes;");
-    Ada_Put_Line(to_spec, "with GWindows.Combo_Boxes;        use GWindows.Combo_Boxes;");
-    Ada_Put_Line(to_spec, "with GWindows.Static_Controls;    use GWindows.Static_Controls;");
-    Ada_Put_Line(to_spec, "with GWindows.Scroll_Bars;        use GWindows.Scroll_Bars;");
-    Ada_Put_Line(to_spec, "with GWindows.Common_Controls;    use GWindows.Common_Controls;");
-    Ada_Put_Line(to_spec, "with GWindows.Menus;              use GWindows.Menus;");
+    Ada_Put_Line(to_spec, "with GWindows.Base;                     use GWindows.Base;");
+    Ada_Put_Line(to_spec, "with GWindows.Constants;                use GWindows.Constants;");
+    Ada_Put_Line(to_spec, "with GWindows.Windows;                  use GWindows.Windows;");
+    Ada_Put_Line(to_spec, "with GWindows.Buttons;                  use GWindows.Buttons;");
+    Ada_Put_Line(to_spec, "with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;");
+    Ada_Put_Line(to_spec, "with GWindows.List_Boxes;               use GWindows.List_Boxes;");
+    Ada_Put_Line(to_spec, "with GWindows.Combo_Boxes;              use GWindows.Combo_Boxes;");
+    Ada_Put_Line(to_spec, "with GWindows.Static_Controls;          use GWindows.Static_Controls;");
+    Ada_Put_Line(to_spec, "with GWindows.Scroll_Bars;              use GWindows.Scroll_Bars;");
+    Ada_Put_Line(to_spec, "with GWindows.Common_Controls;          use GWindows.Common_Controls;");
+    Ada_Put_Line(to_spec, "with GWindows.Menus;                    use GWindows.Menus;");
     Ada_Put_Line(to_spec, "use GWindows;");
     Ada_New_Line(to_spec);
     Ada_Put_Line(to_spec, "package " & pkg & eventual_child &" is");
     Ada_New_Line(to_spec);
     --
-    Ada_Put_Line(to_body, "with GWindows.Types;              use GWindows.Types;");
-    Ada_Put_Line(to_body, "with GWindows.Drawing;            use GWindows.Drawing;");
+    Ada_Put_Line(to_body, "with GWindows.Types;                    use GWindows.Types;");
+    Ada_Put_Line(to_body, "with GWindows.Drawing;                  use GWindows.Drawing;");
     Ada_Put_Line(to_body, "with GWindows.Drawing_Objects;");
     Ada_Put_Line(to_body, "with Interfaces.C;                      use Interfaces.C;");
     Ada_Put_Line(to_body, "with System;");
@@ -438,7 +439,7 @@ package body RC_Help is
     end if;
 
     Ada_Put_Line(to, "  -- Dialog at resource line" & Integer'Image(linenum));
-    Ada_Put_Line(to, "  --  a) Create_As_Dialog + create all contents -> ready-to-use dialog");
+    Ada_Put_Line(to, "  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog");
     Ada_New_Line(to);
     Ada_Put_Line(to, "  procedure Create_Full_Dialog");
     Ada_Put_Line(to, "     (Window      : in out " & type_name & ";");
@@ -484,16 +485,26 @@ package body RC_Help is
                    S(last_dialog_ident) & "_Type" );
     end case;
     Ada_New_Line(to);
-    Ada_Put_Line(to, "  --  b) Create all contents, not the window -> can be used in/as an kind of window");
+    Ada_Put_Line(to, "  --  b) Create all contents, not the window itself (must be");
+    Ada_Put_Line(to, "  --      already created) -> can be used in/as any kind of window.");
+    Ada_New_Line(to);
     Ada_Put_Line(to, "  procedure Create_Contents");
     Ada_Put_Line(to, "     ( Window      : in out " & type_name & ";");
-    Ada_Put_Line(to, "       for_dialog  : in     Boolean -- True: buttons do close the window");
+    Ada_Put_Line(to, "       for_dialog  : in     Boolean; -- True: buttons do close the window");
+    Ada_Put_Line(to, "       resize      : in     Boolean:= False -- optionnally resize Window as designed");
     Ada_Put(to,      "     )");
     if to = to_body then
       Ada_New_Line(to);
       Ada_Put_Line(to_body, "  is");
       Ada_Put_Line(to_body, "    x,y,w,h: Integer;");
       Ada_Put_Line(to_body, "  begin");
+      Ada_Put_Line(to_body, "    if resize then");
+      Ada_Coord_conv(last_dialog_rect);
+      Ada_Put_Line(to_body, "      Left(Window, x);");
+      Ada_Put_Line(to_body, "      Top(Window, y);");
+      Ada_Put_Line(to_body, "      Width(Window, w);");
+      Ada_Put_Line(to_body, "      Height(Window, h);");
+      Ada_Put_Line(to_body, "    end if;");
       if style_switch(shell_font) then
         Ada_Put_Line(to_body, "    Use_GUI_Font(Window);");
       end if;

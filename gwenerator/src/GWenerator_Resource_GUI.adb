@@ -1,16 +1,17 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2008/11/27   20:36:05
+-- Transcription time: 2009/05/10   20:14:17
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
+-- RC Grammar version: 30-Apr-2009
 ---------------------------------------------------------------------
 
-with GWindows.Types;              use GWindows.Types;
-with GWindows.Drawing;            use GWindows.Drawing;
+with GWindows.Types;                    use GWindows.Types;
+with GWindows.Drawing;                  use GWindows.Drawing;
 with GWindows.Drawing_Objects;
 with Interfaces.C;                      use Interfaces.C;
 with System;
@@ -20,107 +21,7 @@ package body GWenerator_Resource_GUI is
   -- ** Generated code begins here \/ \/ \/.
 
 
-  -- Dialog at resource line 18
-  --  a) Create_As_Dialog + create all contents -> ready-to-use dialog
-
-  procedure Create_Full_Dialog
-     (Window      : in out Main_dialog_Type;
-      Parent      : in out GWindows.Base.Base_Window_Type'Class;
-      Title       : in     GString := "GWenerator - Link 1.gwen";
-      Left        : in     Integer := Use_Default; -- Default = as designed
-      Top         : in     Integer := Use_Default; -- Default = as designed
-      Width       : in     Integer := Use_Default; -- Default = as designed
-      Height      : in     Integer := Use_Default; -- Default = as designed
-      Help_Button : in     Boolean := False;
-      Is_Dynamic  : in     Boolean := False)
-  is
-    x,y,w,h: Integer;
-  begin
-    Dlg_to_Scn(  0, 0, 403, 250, x,y,w,h);
-    if Left   /= Use_Default then x:= Left;   end if;
-    if Top    /= Use_Default then y:= Top;    end if;
-    if Width  /= Use_Default then w:= Width;  end if;
-    if Height /= Use_Default then h:= Height; end if;
-    Create_As_Dialog(
-      Window => Window_Type(Window),
-      Parent => Parent,
-      Title  => Title,
-      Left   => x,
-      Top    => y,
-      Width  => w,
-      Height => h,
-      Help_Button => Help_Button,
-      Is_Dynamic  => Is_Dynamic
-    );
-    Use_GUI_Font(Window);
-    Create_Contents(Window, True);
-  end Create_Full_Dialog; -- Main_dialog_Type
-
-  --  b) Create all contents, not the window -> can be used in/as an kind of window
-  procedure Create_Contents
-     ( Window      : in out Main_dialog_Type;
-       for_dialog  : in     Boolean -- True: buttons do close the window
-     )
-  is
-    x,y,w,h: Integer;
-  begin
-    Use_GUI_Font(Window);
-    Dlg_to_Scn(  5, 100, 390, 140, x,y,w,h);
-    Create( Window.Details_frame, Window, "Details", x,y,w,h);
-    Dlg_to_Scn(  12, 132, 185, 105, x,y,w,h);
-    Create( Window.RC_to_GWindows_messages, Window, x,y,w,h, TRUE, RC_to_GWindows_messages);
-    Dlg_to_Scn(  210, 132, 182, 105, x,y,w,h);
-    Create( Window.GNATMake_messages, Window, x,y,w,h, TRUE, GNATMake_messages);
-    Dlg_to_Scn(  10, 115, 88, 8, x,y,w,h);
-    Create_label( Window, "Resource to Ada messages", x,y,w,h, GWindows.Static_Controls.LEFT);
-    Dlg_to_Scn(  212, 117, 84, 8, x,y,w,h);
-    Create( Window.Ada_comp_label, Window, "Ada compilation messages", x,y,w,h, GWindows.Static_Controls.LEFT, Ada_comp_label);
-    Dlg_to_Scn(  67, 37, 100, 20, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
-    Create( Window.Button_Translate, Window, "Translate now", x,y,w,h, Button_Translate);
-    Create( Window.Button_Translate_permanent, Window, "Translate now", x,y,w,h, Button_Translate);
-    if for_dialog then -- hide the non-closing button
-      Window.Button_Translate_permanent.Hide;
-    else -- hide the closing button
-      Window.Button_Translate.Hide;
-    end if;
-    Dlg_to_Scn(  245, 37, 100, 20, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
-    Create( Window.Button_Build, Window, "Build now", x,y,w,h, Button_Build);
-    Create( Window.Button_Build_permanent, Window, "Build now", x,y,w,h, Button_Build);
-    if for_dialog then -- hide the non-closing button
-      Window.Button_Build_permanent.Hide;
-    else -- hide the closing button
-      Window.Button_Build.Hide;
-    end if;
-    Dlg_to_Scn(  67, 62, 100, 10, x,y,w,h);
-    Create( Window.Bar_RC, Window, x,y,w,h);
-    Dlg_to_Scn(  245, 62, 100, 10, x,y,w,h);
-    Create( Window.Bar_Ada, Window, x,y,w,h);
-    Dlg_to_Scn(  247, 12, 24, 22, x,y,w,h);
-    Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h);
-    Dlg_to_Scn(  67, 12, 24, 22, x,y,w,h);
-    Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h);
-    Dlg_to_Scn(  5, 80, 56, 10, x,y,w,h);
-    Create( Window.Show_Details, Window, "Show details", x,y,w,h, Show_Details);
-    Dlg_to_Scn(  97, 12, 60, 15, x,y,w,h);
-    Create( Window.Newer_RC, Window, "Resource file is newer!", x,y,w,h, GWindows.Static_Controls.LEFT, Newer_RC);
-    Dlg_to_Scn(  277, 12, 40, 20, x,y,w,h);
-    Create( Window.Newer_Ada, Window, "Ada files are newer!", x,y,w,h, GWindows.Static_Controls.LEFT, Newer_Ada);
-    Dlg_to_Scn(  17, 37, 21, 20, x,y,w,h);
-    Create( Window.Static_0002, Window, Num_resource(RC_file), x,y,w,h);
-    Dlg_to_Scn(  197, 37, 21, 20, x,y,w,h);
-    Create( Window.Ada_file_icon, Window, Num_resource(Ada_file), x,y,w,h);
-    Dlg_to_Scn(  367, 37, 21, 20, x,y,w,h);
-    Create( Window.Exe_file_icon, Window, Num_resource(Exe_file), x,y,w,h);
-  end Create_Contents; -- Main_dialog_Type
-
-
-  -- Menu at line 44
+  -- Menu at line 46
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type)
   is
@@ -144,8 +45,91 @@ package body GWenerator_Resource_GUI is
   end Create_Full_Menu; -- Main_Menu_Type
 
 
-  -- Dialog at resource line 74
-  --  a) Create_As_Dialog + create all contents -> ready-to-use dialog
+  -- Dialog at resource line 76
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+
+  procedure Create_Full_Dialog
+     (Window      : in out About_box_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Title       : in     GString := "About GWenerator";
+      Left        : in     Integer := Use_Default; -- Default = as designed
+      Top         : in     Integer := Use_Default; -- Default = as designed
+      Width       : in     Integer := Use_Default; -- Default = as designed
+      Height      : in     Integer := Use_Default; -- Default = as designed
+      Help_Button : in     Boolean := False;
+      Is_Dynamic  : in     Boolean := False)
+  is
+    x,y,w,h: Integer;
+  begin
+    Dlg_to_Scn(  0, 0, 246, 145, x,y,w,h);
+    if Left   /= Use_Default then x:= Left;   end if;
+    if Top    /= Use_Default then y:= Top;    end if;
+    if Width  /= Use_Default then w:= Width;  end if;
+    if Height /= Use_Default then h:= Height; end if;
+    Create_As_Dialog(
+      Window => Window_Type(Window),
+      Parent => Parent,
+      Title  => Title,
+      Left   => x,
+      Top    => y,
+      Width  => w,
+      Height => h,
+      Help_Button => Help_Button,
+      Is_Dynamic  => Is_Dynamic
+    );
+    Use_GUI_Font(Window);
+    Create_Contents(Window, True);
+  end Create_Full_Dialog; -- About_box_Type
+
+  --  b) Create all contents, not the window itself (must be
+  --      already created) -> can be used in/as any kind of window.
+
+  procedure Create_Contents
+     ( Window      : in out About_box_Type;
+       for_dialog  : in     Boolean; -- True: buttons do close the window
+       resize      : in     Boolean:= False -- optionnally resize Window as designed
+     )
+  is
+    x,y,w,h: Integer;
+  begin
+    if resize then
+    Dlg_to_Scn(  0, 0, 246, 145, x,y,w,h);
+      Left(Window, x);
+      Top(Window, y);
+      Width(Window, w);
+      Height(Window, h);
+    end if;
+    Use_GUI_Font(Window);
+    Dlg_to_Scn(  102, 107, 50, 14, x,y,w,h);
+    -- Both versions of the button are created.
+    -- The more meaningful one is made visible, but this choice
+    -- can be reversed, for instance on a "Browse" button.
+    Create( Window.IDOK, Window, "Close", x,y,w,h, IDOK);
+    Create( Window.IDOK_permanent, Window, "Close", x,y,w,h, IDOK);
+    if for_dialog then -- hide the non-closing button
+      Window.IDOK_permanent.Hide;
+    else -- hide the closing button
+      Window.IDOK.Hide;
+    end if;
+    Dlg_to_Scn(  5, 5, 21, 20, x,y,w,h);
+    Create( Window.Static_0001, Window, Num_resource(gwenerator_icon), x,y,w,h);
+    Dlg_to_Scn(  32, 12, 200, 15, x,y,w,h);
+    Create_label( Window, "GWenerator - a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Dlg_to_Scn(  32, 27, 200, 15, x,y,w,h);
+    Create_label( Window, "Copyright (c) Gautier de Montmollin 2008", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Dlg_to_Scn(  32, 42, 200, 15, x,y,w,h);
+    Create_label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Dlg_to_Scn(  32, 57, 40, 15, x,y,w,h);
+    Create_label( Window, "Internet :", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Dlg_to_Scn(  77, 57, 105, 15, x,y,w,h);
+    Create( Window.URL, Window, "http://sf.net/projects/gnavi", x,y,w,h, GWindows.Static_Controls.LEFT, URL);
+    Dlg_to_Scn(  32, 72, 170, 15, x,y,w,h);
+    Create( Window.RC_gr_ver, Window, "RC Grammar version: ", x,y,w,h, GWindows.Static_Controls.LEFT, RC_gr_ver);
+  end Create_Contents; -- About_box_Type
+
+
+  -- Dialog at resource line 93
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
      (Window      : in out GWen_properties_Type;
@@ -160,7 +144,7 @@ package body GWenerator_Resource_GUI is
   is
     x,y,w,h: Integer;
   begin
-    Dlg_to_Scn(  0, 0, 314, 245, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 314, 249, x,y,w,h);
     if Left   /= Use_Default then x:= Left;   end if;
     if Top    /= Use_Default then y:= Top;    end if;
     if Width  /= Use_Default then w:= Width;  end if;
@@ -180,14 +164,24 @@ package body GWenerator_Resource_GUI is
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- GWen_properties_Type
 
-  --  b) Create all contents, not the window -> can be used in/as an kind of window
+  --  b) Create all contents, not the window itself (must be
+  --      already created) -> can be used in/as any kind of window.
+
   procedure Create_Contents
      ( Window      : in out GWen_properties_Type;
-       for_dialog  : in     Boolean -- True: buttons do close the window
+       for_dialog  : in     Boolean; -- True: buttons do close the window
+       resize      : in     Boolean:= False -- optionnally resize Window as designed
      )
   is
     x,y,w,h: Integer;
   begin
+    if resize then
+    Dlg_to_Scn(  0, 0, 314, 249, x,y,w,h);
+      Left(Window, x);
+      Top(Window, y);
+      Width(Window, w);
+      Height(Window, h);
+    end if;
     Use_GUI_Font(Window);
     Dlg_to_Scn(  197, 212, 50, 14, x,y,w,h);
     -- Both versions of the button are created.
@@ -226,13 +220,13 @@ package body GWenerator_Resource_GUI is
     else -- hide the closing button
       Window.Button_Browse_RC.Hide;
     end if;
-    Dlg_to_Scn(  22, 44, 93, 10, x,y,w,h);
+    Dlg_to_Scn(  22, 42, 115, 10, x,y,w,h);
     Create( Window.Listen_RC, Window, "Listen for newer version", x,y,w,h, Listen_RC);
-    Dlg_to_Scn(  132, 44, 131, 10, x,y,w,h);
+    Dlg_to_Scn(  142, 42, 155, 10, x,y,w,h);
     Create( Window.Auto_translate, Window, "Automatically translate when newer", x,y,w,h, Auto_translate);
     Dlg_to_Scn(  12, 7, 290, 55, x,y,w,h);
     Create( Window.Static_0002, Window, "Resource file", x,y,w,h);
-    Dlg_to_Scn(  132, 155, 131, 10, x,y,w,h);
+    Dlg_to_Scn(  142, 152, 155, 10, x,y,w,h);
     Create( Window.Auto_build, Window, "Automatically build when GUI newer", x,y,w,h, Auto_build);
     Dlg_to_Scn(  85, 130, 168, 15, x,y,w,h);
     Create( Window.Edit_Main_Ada_File_Name, Window, "", x,y,w,h, TRUE, Edit_Main_Ada_File_Name);
@@ -247,21 +241,21 @@ package body GWenerator_Resource_GUI is
     else -- hide the closing button
       Window.Button_Browse_Ada.Hide;
     end if;
-    Dlg_to_Scn(  22, 155, 107, 10, x,y,w,h);
+    Dlg_to_Scn(  22, 152, 115, 10, x,y,w,h);
     Create( Window.Listen_Ada, Window, "Listen for newer GUI version", x,y,w,h, Listen_Ada);
     Dlg_to_Scn(  12, 118, 290, 55, x,y,w,h);
     Create( Window.Static_0003, Window, "Main application ( facultative )", x,y,w,h);
-    Dlg_to_Scn(  22, 82, 151, 10, x,y,w,h);
+    Dlg_to_Scn(  22, 82, 225, 10, x,y,w,h);
     Create( Window.Separate_items, Window, "Produce a separate package for each item", x,y,w,h, Separate_items);
-    Dlg_to_Scn(  65, 97, 20, 15, x,y,w,h);
+    Dlg_to_Scn(  70, 97, 20, 15, x,y,w,h);
     Create( Window.Basx, Window, "", x,y,w,h, TRUE, Basx);
-    Dlg_to_Scn(  25, 97, 39, 8, x,y,w,h);
+    Dlg_to_Scn(  20, 97, 50, 15, x,y,w,h);
     Create_label( Window, "Base unit x:", x,y,w,h, GWindows.Static_Controls.LEFT);
-    Dlg_to_Scn(  102, 97, 20, 15, x,y,w,h);
+    Dlg_to_Scn(  121, 97, 20, 15, x,y,w,h);
     Create( Window.Basy, Window, "", x,y,w,h, TRUE, Basy);
-    Dlg_to_Scn(  90, 97, 10, 8, x,y,w,h);
+    Dlg_to_Scn(  100, 97, 19, 15, x,y,w,h);
     Create_label( Window, " y:", x,y,w,h, GWindows.Static_Controls.LEFT);
-    Dlg_to_Scn(  130, 97, 55, 10, x,y,w,h);
+    Dlg_to_Scn(  149, 97, 75, 10, x,y,w,h);
     Create( Window.Use_base_defs, Window, "use defaults", x,y,w,h, Use_base_defs);
     Dlg_to_Scn(  12, 67, 294, 50, x,y,w,h);
     Create( Window.Static_0006, Window, "RC2GW - RC to GWindows transcription engine", x,y,w,h);
@@ -269,18 +263,18 @@ package body GWenerator_Resource_GUI is
     Create( Window.Static_0007, Window, "Ada builder command line ( facultative )", x,y,w,h);
     Dlg_to_Scn(  17, 187, 275, 14, x,y,w,h);
     Create( Window.Ada_cmd, Window, "", x,y,w,h, TRUE, Ada_cmd);
-    Dlg_to_Scn(  20, 135, 62, 8, x,y,w,h);
+    Dlg_to_Scn(  20, 135, 62, 10, x,y,w,h);
     Create_label( Window, "App. source or exe", x,y,w,h, GWindows.Static_Controls.RIGHT);
   end Create_Contents; -- GWen_properties_Type
 
 
-  -- Dialog at resource line 131
-  --  a) Create_As_Dialog + create all contents -> ready-to-use dialog
+  -- Dialog at resource line 125
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
-     (Window      : in out About_box_Type;
+     (Window      : in out Main_dialog_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
-      Title       : in     GString := "About GWenerator";
+      Title       : in     GString := "GWenerator - Link 1.gwen";
       Left        : in     Integer := Use_Default; -- Default = as designed
       Top         : in     Integer := Use_Default; -- Default = as designed
       Width       : in     Integer := Use_Default; -- Default = as designed
@@ -290,7 +284,7 @@ package body GWenerator_Resource_GUI is
   is
     x,y,w,h: Integer;
   begin
-    Dlg_to_Scn(  0, 0, 218, 94, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 403, 250, x,y,w,h);
     if Left   /= Use_Default then x:= Left;   end if;
     if Top    /= Use_Default then y:= Top;    end if;
     if Width  /= Use_Default then w:= Width;  end if;
@@ -308,37 +302,80 @@ package body GWenerator_Resource_GUI is
     );
     Use_GUI_Font(Window);
     Create_Contents(Window, True);
-  end Create_Full_Dialog; -- About_box_Type
+  end Create_Full_Dialog; -- Main_dialog_Type
 
-  --  b) Create all contents, not the window -> can be used in/as an kind of window
+  --  b) Create all contents, not the window itself (must be
+  --      already created) -> can be used in/as any kind of window.
+
   procedure Create_Contents
-     ( Window      : in out About_box_Type;
-       for_dialog  : in     Boolean -- True: buttons do close the window
+     ( Window      : in out Main_dialog_Type;
+       for_dialog  : in     Boolean; -- True: buttons do close the window
+       resize      : in     Boolean:= False -- optionnally resize Window as designed
      )
   is
     x,y,w,h: Integer;
   begin
+    if resize then
+    Dlg_to_Scn(  0, 0, 403, 250, x,y,w,h);
+      Left(Window, x);
+      Top(Window, y);
+      Width(Window, w);
+      Height(Window, h);
+    end if;
     Use_GUI_Font(Window);
-    Dlg_to_Scn(  145, 60, 50, 14, x,y,w,h);
+    Dlg_to_Scn(  5, 100, 390, 140, x,y,w,h);
+    Create( Window.Details_frame, Window, "Details", x,y,w,h);
+    Dlg_to_Scn(  12, 132, 185, 105, x,y,w,h);
+    Create( Window.RC_to_GWindows_messages, Window, x,y,w,h, TRUE, RC_to_GWindows_messages);
+    Dlg_to_Scn(  210, 132, 182, 105, x,y,w,h);
+    Create( Window.GNATMake_messages, Window, x,y,w,h, TRUE, GNATMake_messages);
+    Dlg_to_Scn(  10, 115, 88, 8, x,y,w,h);
+    Create_label( Window, "Resource to Ada messages", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Dlg_to_Scn(  212, 117, 84, 8, x,y,w,h);
+    Create( Window.Ada_comp_label, Window, "Ada compilation messages", x,y,w,h, GWindows.Static_Controls.LEFT, Ada_comp_label);
+    Dlg_to_Scn(  67, 37, 100, 20, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDOK, Window, "Close", x,y,w,h, IDOK);
-    Create( Window.IDOK_permanent, Window, "Close", x,y,w,h, IDOK);
+    Create( Window.Button_Translate, Window, "Translate now", x,y,w,h, Button_Translate);
+    Create( Window.Button_Translate_permanent, Window, "Translate now", x,y,w,h, Button_Translate);
     if for_dialog then -- hide the non-closing button
-      Window.IDOK_permanent.Hide;
+      Window.Button_Translate_permanent.Hide;
     else -- hide the closing button
-      Window.IDOK.Hide;
+      Window.Button_Translate.Hide;
     end if;
-    Dlg_to_Scn(  5, 5, 21, 20, x,y,w,h);
-    Create( Window.Static_0001, Window, Num_resource(gwenerator_icon), x,y,w,h);
-    Dlg_to_Scn(  35, 10, 165, 8, x,y,w,h);
-    Create_label( Window, "GWenerator - a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT);
-    Dlg_to_Scn(  35, 25, 150, 8, x,y,w,h);
-    Create_label( Window, "Copyright (c) Gautier de Montmollin 2008", x,y,w,h, GWindows.Static_Controls.LEFT);
-    Dlg_to_Scn(  35, 40, 100, 8, x,y,w,h);
-    Create_label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.LEFT);
-  end Create_Contents; -- About_box_Type
+    Dlg_to_Scn(  245, 37, 100, 20, x,y,w,h);
+    -- Both versions of the button are created.
+    -- The more meaningful one is made visible, but this choice
+    -- can be reversed, for instance on a "Browse" button.
+    Create( Window.Button_Build, Window, "Build now", x,y,w,h, Button_Build);
+    Create( Window.Button_Build_permanent, Window, "Build now", x,y,w,h, Button_Build);
+    if for_dialog then -- hide the non-closing button
+      Window.Button_Build_permanent.Hide;
+    else -- hide the closing button
+      Window.Button_Build.Hide;
+    end if;
+    Dlg_to_Scn(  67, 62, 100, 10, x,y,w,h);
+    Create( Window.Bar_RC, Window, x,y,w,h);
+    Dlg_to_Scn(  245, 62, 100, 10, x,y,w,h);
+    Create( Window.Bar_Ada, Window, x,y,w,h);
+    Dlg_to_Scn(  247, 12, 21, 20, x,y,w,h);
+    Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h);
+    Dlg_to_Scn(  67, 12, 21, 20, x,y,w,h);
+    Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h);
+    Dlg_to_Scn(  5, 80, 56, 10, x,y,w,h);
+    Create( Window.Show_Details, Window, "Show details", x,y,w,h, Show_Details);
+    Dlg_to_Scn(  97, 12, 60, 15, x,y,w,h);
+    Create( Window.Newer_RC, Window, "Resource file is newer!", x,y,w,h, GWindows.Static_Controls.LEFT, Newer_RC);
+    Dlg_to_Scn(  277, 12, 40, 20, x,y,w,h);
+    Create( Window.Newer_Ada, Window, "Ada files are newer!", x,y,w,h, GWindows.Static_Controls.LEFT, Newer_Ada);
+    Dlg_to_Scn(  17, 37, 21, 20, x,y,w,h);
+    Create( Window.Static_0002, Window, Num_resource(RC_file), x,y,w,h);
+    Dlg_to_Scn(  197, 37, 21, 20, x,y,w,h);
+    Create( Window.Ada_file_icon, Window, Num_resource(Ada_file), x,y,w,h);
+    Dlg_to_Scn(  367, 37, 21, 20, x,y,w,h);
+    Create( Window.Exe_file_icon, Window, Num_resource(Exe_file), x,y,w,h);
+  end Create_Contents; -- Main_dialog_Type
 
 
   -- ** Generated code ends here /\ /\ /\.
@@ -451,6 +488,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 147
+  -- Last line of resource script file: 151
 
 end GWenerator_Resource_GUI;

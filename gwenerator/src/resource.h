@@ -9,7 +9,9 @@
 #define Wheels_32x32                            120
 #define Ada_file_icon                           1000
 #define Listen_RC                               1000
+#define URL                                     1000
 #define Exe_file_icon                           1001
+#define RC_gr_ver                               1001
 #define Separate_items                          1001
 #define Details_frame                           1002
 #define Ada_cmd                                 1003
