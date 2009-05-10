@@ -1,0 +1,463 @@
+//
+// Found on the Web by Googling keywords.
+//
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CRED_DLG DIALOGEX 0, 0, 255, 163
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SecureW2 Berechtigungen"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,145,142,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,199,142,50,14
+    CONTROL         102,IDC_STATIC,"Static",SS_BITMAP,0,0,255,60
+    RTEXT           "Login:",IDC_CRED_USERNAME_LABEL,4,82,68,8
+    RTEXT           "Passwort:",IDC_CRED_PASSWORD_LABEL,3,98,68,8
+    RTEXT           "Dom?ne:",IDC_CRED_DOMAIN_LABEL,4,114,67,8
+    EDITTEXT        IDC_CRED_USERNAME,78,79,133,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CRED_PASSWORD,78,95,133,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_CRED_DOMAIN,78,113,133,14,ES_AUTOHSCROLL
+    CONTROL         "Speichere Berechtigungen",IDC_CRED_SAVECREDENTIALS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,130,130,116,10
+    LTEXT           "Bitte geben Sie Ihre Anmeldedaten ein:",IDC_CRED_DESCRIPTION,13,65,233,12,SS_NOPREFIX | SS_ENDELLIPSIS
+END
+
+IDD_SERVER_TRUST_DLG DIALOGEX 0, 0, 254, 194
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SecureW2 unbekannter Server"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Zertifikatsbaum",IDC_STATIC,7,63,240,106
+    DEFPUSHBUTTON   "OK",IDOK,145,173,50,14,WS_DISABLED
+    DEFPUSHBUTTON   "Abbrechen",IDCANCEL,197,173,50,14
+    CONTROL         102,IDC_STATIC,"Static",SS_BITMAP,0,0,255,60
+    CONTROL         "Tree1",IDC_CERT_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_NOTOOLTIPS | WS_BORDER | WS_TABSTOP,17,78,219,66
+    DEFPUSHBUTTON   "Zertifikat anzeigen",IDVIEWCERT,174,150,62,14
+    DEFPUSHBUTTON   "Zertifikat installieren",IDINSTALLCERT,105,150,67,14
+    DEFPUSHBUTTON   "Alle Zertifikate installieren",IDINSTALLCERTS,12,150,89,14
+END
+
+IDD_CONFIG_CON_DLG DIALOGEX 5, 80, 242, 113
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "",IDC_STATIC,22,6,198,66,WS_DISABLED
+    EDITTEXT        IDC_CONFIG_ALTERNATE_OUTER,47,46,165,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "Benutze andere ?u?ere Identit?t:",IDC_CONFIG_USE_ALTERNATE_OUTER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,28,6,121,10
+    CONTROL         "Schnelle Sitzungswiederaufnahme zulassen",IDC_CONFIG_ENABLE_SESSION_RESUMPTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,38,78,182,10,WS_EX_RIGHT
+    CONTROL         "Anonyme ?u?ere Identit?t verwenden",IDC_CONFIG_USE_ALTERNATE_ANONYMOUS,
+                    "Button",BS_AUTORADIOBUTTON | WS_DISABLED,36,21,139,10
+    CONTROL         "?u?ere Identit?t angeben:",IDC_CONFIG_USE_ALTERNATE_SPECIFY,
+                    "Button",BS_AUTORADIOBUTTON | WS_DISABLED,36,34,106,10
+END
+
+IDD_CONFIG_USER_DLG DIALOGEX 5, 80, 242, 113
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    RTEXT           "Login:",IDC_CONFIG_USER_USERNAME_LABEL,5,26,73,8,WS_DISABLED
+    RTEXT           "Passwort:",IDC_CONFIG_USER_PASSWORD_LABEL,7,43,72,8,WS_DISABLED
+    RTEXT           "Dom?ne:",IDC_CONFIG_USER_DOMAIN_LABEL,5,59,74,8,WS_DISABLED
+    CONTROL         "Benutzer nach Berechtigung fragen",IDC_CONFIG_PROMPT_USER,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,89,8,130,10,WS_EX_RIGHT
+    EDITTEXT        IDC_CONFIG_USER_USERNAME,86,23,133,14,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_CONFIG_USER_PASSWORD,86,40,133,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_CONFIG_USER_DOMAIN,86,57,133,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "Dieses Konto zur Benutzeranmeldung verwenden",IDC_CONFIG_USER_COMPUTER,
+                    "Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_DISABLED | WS_TABSTOP,50,78,167,10
+END
+
+IDD_CONFIG_AUTH_DLG DIALOGEX 5, 80, 242, 113
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Konfigurieren",IDC_CONFIG_INNER_EAP_CONFIG,176,51,50,14,WS_DISABLED
+    LTEXT           "EAP Typ:",IDC_CONFIG_INNER_EAP_LABEL,70,35,34,8,WS_DISABLED
+    COMBOBOX        IDC_CONFIG_INNER_EAP,110,33,116,30,CBS_DROPDOWN | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CONFIG_INNER_AUTH,110,15,116,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Authentifizierungsmethode:",IDC_INNER_AUTH_LABEL,12,17,98,8
+END
+
+IDD_CONFIG_ADVANCED_DLG DIALOGEX 0, 0, 255, 225
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SecureW2 Configuration Erweitert"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Benutzerkennung:",IDC_CONFIG_COMP_USERNAME_LABEL,21,80,61,8,WS_DISABLED
+    LTEXT           "Passwort:",IDC_CONFIG_COMP_PASSWORD_LABEL,46,97,34,8,WS_DISABLED
+    LTEXT           "Dom?ne:",IDC_CONFIG_COMP_DOMAIN_LABEL,49,113,27,8,WS_DISABLED
+    GROUPBOX        "",IDC_STATIC,12,62,231,70
+    CONTROL         "Anderes Konto zur Benutzeranmeldung verwenden",IDC_CONFIG_USE_COMPUTER_CRED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,62,176,10
+    EDITTEXT        IDC_CONFIG_COMP_USERNAME,86,77,133,14,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_CONFIG_COMP_PASSWORD,86,94,133,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_CONFIG_COMP_DOMAIN,86,112,133,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "Serverzertifikat mu? auf dem Computer installiert sein",IDC_CONFIG_SERVER_CERT_LOCAL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,139,199,10,WS_EX_RIGHT
+    CONTROL         "Auf Microsoft Key extension ?berpr?fen",IDC_CONFIG_VERIFY_MS_EXTENSION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,47,153,172,10,WS_EX_RIGHT
+    CONTROL         "IP Adresse nach Anmeldung erneuern",IDC_CONFIG_RENEW_IP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,192,199,10,WS_EX_RIGHT
+    DEFPUSHBUTTON   "OK",IDOK,141,207,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,195,207,50,14
+    CONTROL         102,IDC_STATIC,"Static",SS_BITMAP,0,0,255,60
+    CONTROL         "Benutzern erlauben, neue Verbindungen einzurichten",IDC_CONFIG_ALLOW_NEW_CONNECTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,166,199,10,WS_EX_RIGHT
+    CONTROL         "Leere ?u?ere Identit?t benutzen (RFC 4822)",IDC_CONFIG_USE_ALTERNATE_EMPTY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,179,199,10,WS_EX_RIGHT
+END
+
+IDD_CONFIG_PROFILE_DLG DIALOGEX 5, 80, 242, 113
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Profile:",IDC_CONFIG_PROFILES_LABEL,83,18,24,8
+    COMBOBOX        IDC_CONFIG_PROFILES,110,15,116,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Bearbeiten",IDC_CONFIG_PROFILE_CONFIGURE,123,31,50,14,WS_DISABLED
+    PUSHBUTTON      "L?schen",IDC_CONFIG_PROFILE_DELETE,175,31,50,14,WS_DISABLED
+    PUSHBUTTON      "Neu anlegen",IDC_CONFIG_PROFILE_NEW,70,31,50,14
+END
+
+IDD_PROFILE_DLG DIALOGEX 0, 0, 255, 228
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "SecureW2 Konfiguration"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         102,IDC_STATIC,"Static",SS_BITMAP,0,0,255,60
+    DEFPUSHBUTTON   "OK",IDOK,145,207,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,199,207,50,14
+    CONTROL         "",IDC_PROFILE_TAB,"SysTabControl32",0x0,4,67,246,128
+    PUSHBUTTON      "Erweitert",IDC_CONFIG_USER_ADVANCED,7,207,50,14
+END
+
+IDD_PROFILE_NEW_DLG DIALOGEX 0, 0, 255, 114
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SecureW2 neues Profil"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Profil ID:",IDC_PROFILE_ID_LABEL,40,77,33,8
+    EDITTEXT        IDC_PROFILE_ID,82,74,133,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,138,96,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,192,96,50,14
+    CONTROL         102,IDC_STATIC,"Static",SS_BITMAP,0,0,255,60
+END
+
+IDD_CONFIG_DLG DIALOGEX 0, 0, 255, 228
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "SecureW2 Profil"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         102,IDC_STATIC,"Static",SS_BITMAP,0,0,255,60
+    DEFPUSHBUTTON   "OK",IDOK,145,207,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,199,207,50,14
+    CONTROL         "",IDC_CONFIG_TAB,"SysTabControl32",0x0,4,67,246,128
+    RTEXT           "version 3.3.3",IDC_VERSION,209,61,44,8
+END
+
+IDD_CONFIG_CERT_DLG DIALOGEX 5, 80, 242, 113
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "",IDC_STATIC,6,3,228,105,WS_DISABLED
+    CONTROL         "Servernamen ?berpr?fen:",IDC_CONFIG_VERIFY_SERVER_NAME,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,13,93,95,10
+    EDITTEXT        IDC_CONFIG_SERVER_NAME,112,91,116,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "Serverzertifikat ?berpr?fen",IDC_CONFIG_VERIFY_SERVER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,3,103,10
+    LISTBOX         IDC_CONFIG_TRUSTEDROOTCA,12,27,216,46,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Vertrauensw?rdige CAs:",IDC_STATIC,12,16,81,8,WS_DISABLED
+    PUSHBUTTON      "Hinzuf?gen",IDC_CONFIG_CERT_ADD,93,75,61,14,WS_DISABLED
+    PUSHBUTTON      "Entfernen",IDC_CONFIG_CERT_REMOVE,156,75,71,14,WS_DISABLED
+END
+
+IDD_CONFIG_CA_DLG DIALOGEX 0, 0, 255, 215
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Stamm CA hinzu"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Verf?gbare Stammzertifizierungsstellen:",IDC_STATIC,12,63,127,8
+    PUSHBUTTON      "Hinzuf?gen",IDC_CONFIG_ADDCERT_ADD,140,194,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,195,194,50,14
+    CONTROL         102,IDC_STATIC,"Static",SS_BITMAP,0,0,255,60
+    LISTBOX         IDC_CONFIG_ROOTCA,12,74,233,115,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_CONFIG_GINA_DLG DIALOGEX 5, 80, 242, 113
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    RTEXT           "Standarddom?ne:",IDC_CONFIG_GINA_DOMAIN_LABEL,16,17,63,8,WS_DISABLED
+    CONTROL         "Nutze SecureW2 Gina",IDC_CONFIG_GINA_USE_SW2_GINA,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,132,2,87,10,WS_EX_RIGHT
+    EDITTEXT        IDC_CONFIG_GINA_DOMAIN,85,15,133,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "",IDC_CONFIG_GINA_VLAN_IP,"SysIPAddress32",WS_TABSTOP,103,66,100,15
+    CONTROL         "",IDC_CONFIG_GINA_VLAN_SUB,"SysIPAddress32",WS_TABSTOP,103,85,100,15
+    RTEXT           "IP Adresse:",IDC_CONFIG_GINA_VLAN_IP_LABEL,58,71,38,8,WS_DISABLED
+    GROUPBOX        "",IDC_STATIC,26,51,192,57
+    CONTROL         "Spezifiziere Gast VLAN",IDC_CONFIG_GINA_USE_VLAN,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,33,51,88,10
+    RTEXT           "Subnetzmaske:",IDC_CONFIG_GINA_VLAN_SUB_LABEL,43,86,52,8,WS_DISABLED
+    COMBOBOX        IDC_CONFIG_GINA_TYPE,85,34,101,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Gina Typ:",IDC_CONFIG_GINA_TYPE_LABEL,43,35,36,8,WS_DISABLED
+END
+
+IDD_INSTALL_DLG DIALOGEX 0, 0, 255, 185
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SecureW2 - Pre Konfiguration"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         102,IDC_STATIC,"Static",SS_BITMAP,0,0,255,60
+    RTEXT           "Benutzerkennung:",IDC_INSTALL_USERNAME_LABEL,6,98,74,8
+    RTEXT           "Passwort wiederholen:",IDC_INSTALL_PASSWORD_LABEL2,6,130,73,8
+    RTEXT           "Passwort:",IDC_INSTALL_PASSWORD_LABEL,6,114,73,8
+    RTEXT           "Dom?ne:",IDC_INSTALL_DOMAIN_LABEL,6,145,73,8
+    RTEXT           "Profil:",IDC_INSTALL_PROFILE_LABEL,6,81,73,8
+    EDITTEXT        IDC_INSTALL_PROFILE,86,79,133,14,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_INSTALL_USERNAME,86,95,133,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_INSTALL_PASSWORD,86,111,133,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_INSTALL_PASSWORD2,86,127,133,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_INSTALL_DOMAIN,86,143,133,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,145,164,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,199,164,50,14
+    LTEXT           "Bitte geben Sie Ihre Anmeldedaten ein:",IDC_PROFILE_DESCRIPTION,11,66,233,10,SS_NOPREFIX | SS_ENDELLIPSIS
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_CRED_DLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 156
+    END
+
+    IDD_SERVER_TRUST_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 247
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 187
+    END
+
+    IDD_CONFIG_CON_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 241
+    END
+
+    IDD_CONFIG_AUTH_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 241
+    END
+
+    IDD_CONFIG_ADVANCED_DLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 214
+    END
+
+    IDD_CONFIG_PROFILE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 241
+    END
+
+    IDD_PROFILE_DLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 221
+    END
+
+    IDD_CONFIG_DLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 221
+    END
+
+    IDD_CONFIG_CERT_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 241
+    END
+
+    IDD_CONFIG_CA_DLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 208
+    END
+
+    IDD_INSTALL_DLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 178
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_LOGO                BITMAP                  "logo.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_CERT_ICON_ERROR     ICON                    "ICON2.ICO"
+IDI_CERT_ICON           ICON                    "ICON1.ICO"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,2,3
+ PRODUCTVERSION 1,0,2,3
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x0L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "SecureW2 TTLS Method for Windows German Resource"
+            VALUE "FileVersion", "1, 0, 2, 3"
+            VALUE "InternalName", "SecureW2 TTLS Method for Windows German Resource"
+            VALUE "OriginalFilename", "sw2_ttls_res.dll"
+            VALUE "ProductName", "SecureW2 TTLS Method for Windows German Resource"
+            VALUE "ProductVersion", "1, 0, 2, 3"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_INVALID_LICENSE     "Falsche oder ung?ltige Lizens"
+    IDS_SW2_ERROR           "SecureW2 Fehler"
+    IDS_TAB_CONNECTION      "Verbindung"
+    IDS_TAB_CERTIFICATES    "Zertifikate"
+    IDS_TAB_AUTHENTICATION  "Authentifizierung"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_TAB_USERACCOUNT     "Benutzerkennung"
+    IDS_CERTIFICATES_SUCCESS "Zertifikate erfolgreich installiert"
+    IDS_CERTIFICATES_FAILED "Zertifikate konnten nicht installiert werden"
+    IDS_PROFILE_EXISTS      "Profil existiert bereits"
+    IDS_SW2_ALERT           "SecureW2 Fehlermeldung"
+    IDS_PROFILE_DELETE      "Wollen Sie das Profil wirklich l?schen?"
+    IDS_PROFILE_DELETEDEFAULT "Das Standardprofil kann nicht gel?scht werden."
+    IDS_SW2_CERTIFICATE     "SecureW2 Zertifikate"
+    IDS_CERTIFICATE_SUCCESS "Zertifikat erfolgreich installiert"
+    IDS_CERTIFICATE_FAILED  "Zertifikat konnte nicht installiert werden"
+    IDS_TAB_PROFILE         "Profile"
+    IDS_TAB_LICENSE         "Lizens"
+    IDS_TAB_GINA            "Gina"
+    IDS_PROFILE_312         "Altes Profil erkannt (3.1.2). Soll SecureW2 versuchen dieses Profil zu nutzen?"
+    IDS_ERROR_CRYPTO_INVALID_CERTIFICATE 
+                            "Fehlerhaftes Zertifikat empfangen. Bitte Zertifikatskonfiguration pr?fen."
+    IDS_ERROR_EAP_INVALID_PACKET 
+                            "Fehlerhaftes Paket bei der EAP Kommunikation erhalten."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_ERROR_TLS_COMMUNICATION "Fehler bei der TLS Kommunikation."
+    IDS_ERROR_DEFAULT       "Ein Fehler ist aufgetreten."
+    IDS_ERROR_INNER_AUTHENTICATION 
+                            "Ein Fehler ist bei der inneren Authentifizierung aufgetreten."
+    IDS_PROFILE_NOROOTCA    "Sie haben keine vertrauensw?rdige Stammzertifizierungsstelle konfiguriert. SecureW2 wird die aktuelle Zertifikatsvertrauensliste von Windows verwenden. Fortfahren?"
+END
+
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

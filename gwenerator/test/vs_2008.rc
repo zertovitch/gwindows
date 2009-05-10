@@ -1,0 +1,169 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource_vs.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Switzerland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DES)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_SWISS
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "New",                         ID_FILE_NEW40004
+        MENUITEM "Open",                        ID_FILE_OPEN40002
+        MENUITEM "Save",                        ID_FILE_SAVE40003
+        POPUP "Save as"
+        BEGIN
+            MENUITEM "as CSV",                      ID_SAVEAS_ASCSV
+            MENUITEM "as XML",                      ID_SAVEAS_ASXML
+        END
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x0L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080704b0"
+        BEGIN
+            VALUE "FileDescription", "vs_2008"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "vs_2008"
+            VALUE "LegalCopyright", "Copyright (C) 2008"
+            VALUE "OriginalFilename", "vs_2008.rc"
+            VALUE "ProductName", "vs_2008"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x807, 1200
+    END
+END
+
+#endif    // German (Switzerland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// French (Switzerland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRS)
+#ifdef _WIN32
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH_SWISS
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+MY_NICE_DIALOG DIALOGEX 85, 62, 306, 219
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "That's a title"
+FONT 10, "Microsoft Sans Serif", 400, 0, 0x0
+BEGIN
+    CTEXT           "Text",102,26,12,90,12,SS_NOPREFIX
+    EDITTEXT        Simple_text_box,22,42,135,39,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_HSCROLL
+    GROUPBOX        "Group me!",101,22,91,115,41
+    DEFPUSHBUTTON   "Push me plenty!",104,157,100,61,14
+    CONTROL         "Radio, auto",106,"Button",BS_AUTORADIOBUTTON | BS_LEFTTEXT | WS_TABSTOP,144,130,51,12
+    COMBOBOX        107,18,148,48,35,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         108,73,147,111,26,LBS_SORT | LBS_MULTIPLESEL | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
+    SCROLLBAR       109,217,172,48,8,WS_TABSTOP
+    SCROLLBAR       110,276,123,9,40,SBS_VERT | WS_GROUP
+    RTEXT           "Text, right",111,104,11,90,12,SS_NOPREFIX | SS_SUNKEN | WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "Text",112,204,12,90,12,SS_NOPREFIX
+    CHECKBOX        "Check me!",114,180,44,62,10
+    CONTROL         "Check me!",115,"Button",BS_3STATE | WS_TABSTOP,184,59,62,10
+    RADIOBUTTON     "Radio, NON auto",113,200,131,67,12,BS_LEFTTEXT | WS_TABSTOP
+    CONTROL         "",IDC_TREE1,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,9,168,58,45
+    LTEXT           "List box here:",IDC_STATIC,72,134,48,11
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,74,181,118,31
+    CONTROL         "",IDC_DATETIMEPICKER1,"SysDateTimePick32",DTS_RIGHTALIGN | WS_TABSTOP,226,75,70,13
+    LTEXT           "Edit multi-line:",IDC_STATIC,7,30,42,8
+END
+
+#endif    // French (Switzerland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,894 @@
+//
+// Found on the Web by Googling keywords.
+//
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "doserror.h"
+#include "dlgs.h"
+#include "printerr.h"
+#include "dviwindo.h"
+#include "winextra.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+DVIMETRICBOX DIALOGEX 49, 22, 158, 128
+STYLE DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+FONT 8, "Helv", 0, 0, 0x1
+BEGIN
+    RTEXT           "Pages",-1,10,2,68,8,SS_NOPREFIX
+    LTEXT           "",IDMB_PAGES,84,2,55,8
+    RTEXT           "Fonts",-1,10,12,68,8,SS_NOPREFIX
+    LTEXT           "",IDMB_FONTS,84,12,55,8
+    RTEXT           "Bytes",-1,10,22,68,8,SS_NOPREFIX
+    LTEXT           "",IDMB_BYTES,84,22,55,8
+    RTEXT           "Magnification",-1,10,32,68,8,SS_NOPREFIX
+    LTEXT           "",IDMB_MAG,84,32,55,8
+    RTEXT           "Max Height + Depth",-1,10,42,68,8,SS_NOPREFIX
+    LTEXT           "",IDMB_HPLUSD,84,42,55,8
+    RTEXT           "Max Width",-1,10,52,68,8,SS_NOPREFIX
+    LTEXT           "",IDMB_WIDTH,84,52,55,8
+    RTEXT           "Max Stack Depth",-1,10,62,68,8,SS_NOPREFIX
+    LTEXT           "",IDMB_STACK,84,62,55,8
+    RTEXT           "DVI Version",-1,10,72,68,8,SS_NOPREFIX
+    LTEXT           "",IDMB_VERSION,84,72,55,8
+    RTEXT           "Scale Numerator",-1,10,82,68,8,SS_NOPREFIX
+    LTEXT           "",IDMB_NUM,84,82,55,8
+    RTEXT           "Scale Denominator",-1,10,92,68,8,SS_NOPREFIX
+    LTEXT           "",IDMB_DEN,84,92,55,8
+    EDITTEXT        IDMB_FILE,2,102,153,12,ES_AUTOHSCROLL | ES_OEMCONVERT | 
+                    ES_READONLY | NOT WS_TABSTOP,WS_EX_TOOLWINDOW | 0x800L
+END
+
+FONTSUSED DIALOG DISCARDABLE  202, 41, 380, 199
+STYLE DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Fonts Used"
+FONT 8, "Helv"
+BEGIN
+    LISTBOX         IDC_USEDLIST,0,0,380,199,LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | WS_VSCROLL
+END
+
+PAGESELECT DIALOG DISCARDABLE  17, 32, 88, 49
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Page"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Page:",-1,6,8,22,10
+    EDITTEXT        IPC_EDIT,33,6,50,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,6,26,34,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,48,26,34,14
+END
+
+COMMANDLINE DIALOG DISCARDABLE  17, 32, 188, 80
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Command Line"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Old Flags:",-1,6,8,40,10
+    EDITTEXT        IPC_OLDTEXT,53,8,125,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "New Flags:",-1,6,31,40,10
+    EDITTEXT        IPC_EDIT,53,31,125,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,6,57,34,14
+    PUSHBUTTON      "&Revert",IDM_REVERT,56,57,34,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,106,57,34,14
+END
+
+ENVIRONMENT DIALOG DISCARDABLE  17, 32, 288, 86
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Environment"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Old Value:",-1,6,8,43,10
+    EDITTEXT        IPC_OLDTEXT,53,8,225,12,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_TABSTOP
+    LTEXT           "New Value:",-1,6,36,43,10
+    EDITTEXT        IPC_EDIT,53,33,225,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,6,62,34,14
+    PUSHBUTTON      "&Revert",IDM_REVERT,56,62,34,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,106,62,34,14
+END
+
+NEWVARIABLE DIALOG DISCARDABLE  17, 32, 288, 78
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New Environment Variable"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Variable:",-1,8,8,35,10
+    EDITTEXT        IPC_VARIABLE,53,8,87,12,ES_AUTOHSCROLL
+    LTEXT           "Value:",-1,8,31,41,10
+    EDITTEXT        IPC_VALUE,53,31,225,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,7,54,34,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,48,54,34,14
+END
+
+SELECTFONT DIALOG DISCARDABLE  82, 31, 206, 170
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Font"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Typeface:",-1,4,6,54,8
+    LISTBOX         ID_TYPEFACE,4,18,144,129,LBS_SORT | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Size:",ID_SPINTEXT,154,21,17,8,NOT WS_GROUP
+    LTEXT           "",ID_ENCONAME,167,114,64,8,NOT WS_GROUP
+    EDITTEXT        ID_SPINVALUE,173,19,18,12,ES_AUTOHSCROLL
+    CONTROL         "&Regular",ID_REGULAR,"Button",BS_AUTORADIOBUTTON,156,40,
+                    39,10
+    CONTROL         "&Italic",ID_ITALIC,"Button",BS_AUTORADIOBUTTON,156,52,
+                    39,10
+    CONTROL         "&Bold",ID_BOLD,"Button",BS_AUTORADIOBUTTON,156,64,39,10
+    CONTROL         "B&oldItalic",ID_BOLDITALIC,"Button",BS_AUTORADIOBUTTON,
+                    156,76,48,10
+    CONTROL         "&Encoded",ID_ENCODED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,156,100,58,12
+    CONTROL         "&Show Bounding Boxes",ID_SHOWBOXES,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,4,154,104,12
+    DEFPUSHBUTTON   "OK",IDOK,157,130,35,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,157,150,35,14
+END
+
+SEARCHTEXT DIALOG DISCARDABLE  22, 28, 134, 71
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Search String"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,95,29,34,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,95,50,33,14
+    LTEXT           "String:",-1,4,10,26,10,WS_TABSTOP
+    EDITTEXT        IPS_EDIT,30,7,98,12,ES_AUTOHSCROLL
+    CONTROL         "&Wrap Around",IPS_WRAP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,30,68,12
+    CONTROL         "Case &Sensitive",IPS_CASE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,52,68,12
+END
+
+ENCODINGSELECT DIALOG DISCARDABLE  22, 28, 134, 71
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Encoding Select"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,95,29,34,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,95,50,33,14
+    LTEXT           "Encoding:",-1,4,10,36,10,WS_TABSTOP
+    EDITTEXT        IPS_EDIT,50,7,78,12,ES_AUTOHSCROLL
+    LTEXT           "Type 1",IPS_COMMENT,4,50,36,10
+END
+
+FILESELECT DIALOG DISCARDABLE  22, 28, 205, 50
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Print to File (DVIWindo)"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,157,6,34,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,158,26,33,14
+    LTEXT           "&File Name:",IPS_FILE,8,13,127,10,WS_TABSTOP
+    EDITTEXT        IPS_EDIT,8,27,130,12,ES_AUTOHSCROLL
+END
+
+DVIPRINTDLG DIALOG DISCARDABLE  20, 20, 233, 75
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "DVIWindo Print"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,102,54,32,14,WS_GROUP
+    CTEXT           "text",IDC_SOURCE,3,6,227,8,SS_NOPREFIX
+    CTEXT           "text",IDC_FILENAME,3,17,227,8,SS_NOPREFIX
+    CTEXT           "text",IDC_DEVICE,2,28,227,8,SS_NOPREFIX
+    CTEXT           "text",IDC_DESTINATION,2,39,227,8,SS_NOPREFIX
+END
+
+OPEN DIALOG DISCARDABLE  17, 32, 150, 168
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Open"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Open File Name:",-1,4,4,65,10
+    EDITTEXT        IDC_EDIT,4,15,140,12,ES_AUTOHSCROLL | ES_OEMCONVERT
+    LTEXT           "Files in:",-1,5,30,30,10
+    LTEXT           "",IDC_PATH,35,30,110,10,SS_NOPREFIX
+    LISTBOX         IDC_LISTBOX,4,43,67,121,LBS_SORT | WS_VSCROLL | 
+                    WS_TABSTOP
+    LISTBOX         IDC_DIRECTORY,79,43,65,81,LBS_SORT | WS_VSCROLL | 
+                    WS_TABSTOP
+    DEFPUSHBUTTON   "&Open",IDOK,114,129,30,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,114,149,30,14
+END
+
+EDITITEM DIALOG DISCARDABLE  58, 51, 198, 133
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Edit Menu Item"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        IAI_KEY,8,22,86,12,ES_AUTOHSCROLL
+    EDITTEXT        IAI_VALUE,8,58,180,12,ES_AUTOHSCROLL
+    LTEXT           "Menu Item Name (key):",-1,9,10,107,8
+    LTEXT           "Application Call Pattern (value):",-1,7,45,131,10
+    PUSHBUTTON      "&Cancel",IDCANCEL,145,21,40,14
+    DEFPUSHBUTTON   "&Replace",IAI_REPLACE,9,82,40,14
+    PUSHBUTTON      "&Add",IAI_ADD,65,82,40,14
+    PUSHBUTTON      "&Delete",IAI_DELETE,148,82,40,14
+    PUSHBUTTON      "&Separator",IAI_SEPARATOR,8,107,40,14
+    PUSHBUTTON      "Delete &Next",IAI_NEXT,129,107,60,14
+END
+
+TFMMAKE DIALOG DISCARDABLE  49, 74, 156, 153
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Make TFMs for Text Fonts"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Select font format type(s) to be processed.",-1,3,9,149,
+                    12
+    DEFPUSHBUTTON   "OK",IDOK,112,31,40,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,112,59,40,14
+    GROUPBOX        "Font Format",1072,3,26,94,47,WS_GROUP
+    CONTROL         "Adobe Type 1 (ATM)",ID_TYPE1,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,7,40,82,10
+    CONTROL         "TrueType",ID_TRUETYPE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,7,54,84,10
+    CONTROL         "New Fonts Only",ID_NEWONLY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,3,138,147,10
+    GROUPBOX        "Font CharSet",1073,3,81,149,47,WS_GROUP
+    CONTROL         "Text Fonts",ID_TEXTFONT,"Button",BS_AUTORADIOBUTTON,7,
+                    96,140,10
+    CONTROL         "Symbol/Decorative/Math",ID_SYMBOL,"Button",
+                    BS_AUTORADIOBUTTON,7,109,140,10
+END
+
+TFMASK DIALOG DISCARDABLE  51, 45, 195, 181
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Make TFM File"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDYES,152,27,40,14
+    PUSHBUTTON      "&Skip",IDNO,152,46,40,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,152,66,40,14
+    LTEXT           "Face Name:",-1,5,13,45,8
+    LTEXT           "File Name:",-1,5,30,45,8
+    LTEXT           "Encoding:",-1,5,47,45,8
+    LTEXT           "Windows Face Name",ID_TYPEFACE,53,13,138,11
+    LTEXT           "TFM File Name",ID_FILENAME,53,30,92,11
+    LTEXT           "Encoding",ID_ENCODING,53,47,102,11
+    CONTROL         "Regular",ID_REGULAR,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,129,87,64,10
+    CONTROL         "Italic",ID_ITALIC,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,129,98,65,10
+    CONTROL         "Bold",ID_BOLD,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,
+                    129,109,62,10
+    CONTROL         "BoldItalic",ID_BOLDITALIC,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,129,120,66,10
+    GROUPBOX        "Font Format",1072,2,88,114,41
+    CONTROL         "Adobe Type 1 (ATM)",ID_TYPE1,"Button",
+                    BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP,7,101,100,10
+    CONTROL         "TrueType",ID_TRUETYPE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,7,114,100,10
+    GROUPBOX        "Font CharSet",1073,2,135,191,42
+    CONTROL         "Text Font",ID_TEXTFONT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,6,147,180,10
+    CONTROL         "Symbol/Decorative/Math",ID_SYMBOL,"Button",
+                    BS_AUTORADIOBUTTON | WS_DISABLED,6,161,180,10
+END
+
+1543 DIALOGEX 13, 54, 298, 199
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Font"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Font:",1088,7,6,40,9
+    COMBOBOX        1136,7,16,129,84,CBS_SIMPLE | CBS_OWNERDRAWFIXED | 
+                    CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | 
+                    CBS_DISABLENOSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Font St&yle:",1089,133,6,44,9
+    COMBOBOX        1137,143,16,62,84,CBS_SIMPLE | CBS_DISABLENOSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Size:",1090,203,5,30,9
+    COMBOBOX        1138,212,16,27,84,CBS_SIMPLE | CBS_OWNERDRAWFIXED | 
+                    CBS_SORT | CBS_HASSTRINGS | CBS_DISABLENOSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,246,16,45,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,246,34,45,14,WS_GROUP
+    PUSHBUTTON      "&Apply",1026,246,52,45,14,WS_GROUP
+    PUSHBUTTON      "&Help",1038,246,70,45,14,WS_GROUP
+    CONTROL         "Sh&ow Bounding Boxes",ID_SHOWBOXES,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,11,112,101,10
+    CONTROL         "&Encoded",ID_ENCODED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,127,41,10
+    EDITTEXT        ID_ENCONAME,56,127,45,12,ES_AUTOHSCROLL | ES_OEMCONVERT | 
+                    ES_READONLY | NOT WS_TABSTOP,WS_EX_TOOLWINDOW | 0x800L
+    GROUPBOX        "Sample",1073,134,105,157,54,WS_GROUP
+    CTEXT           "AaBbYyZz",1092,139,121,144,34,SS_NOPREFIX | NOT 
+                    WS_VISIBLE
+    GROUPBOX        "Effects",1072,7,97,121,97,WS_GROUP
+    CONTROL         "Stri&keout",1040,"Button",BS_AUTOCHECKBOX,13,110,49,10
+    CONTROL         "&Underline",1041,"Button",BS_AUTOCHECKBOX,140,174,51,10
+    LTEXT           "&Color:",1091,155,174,30,9
+    COMBOBOX        1139,204,170,82,100,CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_HASSTRINGS | 
+                    WS_BORDER | WS_VSCROLL
+    CTEXT           "",1093,141,179,147,20,SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Sc&ript:",1094,153,190,30,9
+    COMBOBOX        1140,203,171,84,20,CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | 
+                    CBS_AUTOHSCROLL | CBS_HASSTRINGS | WS_BORDER | 
+                    WS_VSCROLL
+	GROUPBOX        "Name for TFM",ID_NAMEGROUP,10,144,115,44
+    CONTROL         "FileName (default)",ID_USEFILENAME,"Button",BS_AUTORADIOBUTTON,
+                    15,157,105,10
+    CONTROL         "FontName",ID_USEFONTNAME,"Button",BS_AUTORADIOBUTTON,
+                    15,172,108,10
+END
+
+1536 DIALOG DISCARDABLE  36, 24, 268, 193
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CONTEXTHELP | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Open"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "File &Name:",1090,6,6,76,9
+    EDITTEXT        1152,6,16,90,12,ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         1120,6,32,90,128,LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Folders:",-1,110,6,92,9
+    LTEXT           "",1088,110,18,92,9,SS_NOPREFIX
+    LISTBOX         1121,110,32,92,128,LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "List Files of &Type:",1089,6,164,90,9
+    COMBOBOX        1136,6,175,90,52,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Dri&ves:",1091,110,164,92,9
+    COMBOBOX        1137,110,175,96,68,CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | 
+                    CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,208,6,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,208,24,50,14,WS_GROUP
+    PUSHBUTTON      "&Help",1038,208,46,50,14,WS_GROUP
+    CONTROL         "&Read Only",1040,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP,68,50,12,3
+    PUSHBUTTON      "Net&work...",1037,208,173,50,14,WS_GROUP
+END
+
+1540 DIALOG DISCARDABLE  30, 72, 204, 62
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Find"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Fi&nd What:",-1,4,8,42,8,NOT WS_GROUP
+    EDITTEXT        1152,47,7,77,12,ES_AUTOHSCROLL | WS_GROUP
+    CONTROL         "&Wrap Around",1040,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP,4,26,50,12
+    CONTROL         "Match &Case",1041,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    4,42,51,12
+    CONTROL         "&Close this dialog after search",ID_DISMISS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,84,41,104,12
+    DEFPUSHBUTTON   "&Find Next",IDOK,138,6,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,138,23,50,14,WS_GROUP
+    GROUPBOX        "Direction",1072,56,26,68,28
+    CONTROL         "&Up",1056,"Button",BS_AUTORADIOBUTTON | WS_GROUP,63,38,
+                    25,12
+    CONTROL         "&Down",1057,"Button",BS_AUTORADIOBUTTON,90,38,30,12
+    PUSHBUTTON      "&Help",1038,134,45,50,14,WS_GROUP | NOT WS_TABSTOP
+END
+
+1538 DIALOG DISCARDABLE  32, 32, 288, 212
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Print"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Printer",1075,8,4,272,84,WS_GROUP
+    LTEXT           "&Name:",1093,16,20,36,8
+    COMBOBOX        1139,52,18,152,152,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Properties",1025,212,17,60,14,WS_GROUP
+    LTEXT           "Status:",1095,16,36,36,10,SS_NOPREFIX
+    CONTROL         "",1099,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,52,36,224,10
+    LTEXT           "Type:",1094,16,48,36,10,SS_NOPREFIX
+    CONTROL         "",1098,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,52,48,152,10
+    LTEXT           "Where:",1097,16,60,36,10,SS_NOPREFIX
+    CONTROL         "",1101,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,52,60,224,10
+    LTEXT           "Comment:",1096,16,72,36,10,SS_NOPREFIX
+    CONTROL         "",1100,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,52,72,152,10
+    CONTROL         "Print to Fi&le",1040,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,212,48,64,12
+    CONTROL         "&Use DVIPSONE",IPR_USEPSONE,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,212,70,64,12
+    GROUPBOX        "Print range",1072,8,92,144,64,WS_GROUP
+    CONTROL         "&All",1056,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,16,106,64,12
+    CONTROL         "Pa&ges",1058,"Button",BS_AUTORADIOBUTTON,16,122,36,12
+    CONTROL         "&Selection",1057,"Button",BS_AUTORADIOBUTTON,16,138,64,
+                    12
+    RTEXT           "&from:",1089,52,124,20,8
+    EDITTEXT        1152,74,122,26,12,ES_NUMBER | WS_GROUP
+    RTEXT           "&to:",1090,100,124,16,8
+    EDITTEXT        1153,118,122,26,12,ES_NUMBER | WS_GROUP
+    GROUPBOX        "Copies",1073,160,92,120,64,WS_GROUP
+    LTEXT           "Number of &copies:",1092,168,108,68,8
+    EDITTEXT        1154,240,106,32,12,ES_NUMBER | WS_GROUP
+    ICON            "",1086,162,124,76,24,SS_CENTERIMAGE | WS_GROUP
+    CONTROL         "C&ollate",1041,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP,240,130,36,12
+    GROUPBOX        "Print order",1074,8,160,160,44,WS_GROUP
+    CONTROL         "&Reverse Order",IPR_REVERSE,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,16,170,60,12
+    CONTROL         "&Odd Pages Only",IPR_ODDONLY,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,80,170,74,12
+    CONTROL         "&Even Pages (Reverse)",IPR_EVENONLY,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,80,186,78,12
+    DEFPUSHBUTTON   "OK",IDOK,180,164,48,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,232,164,48,14
+END
+
+TEXINPUT DIALOG DISCARDABLE  22, 28, 330, 295
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU | 
+    WS_THICKFRAME
+CAPTION "TeX Query"
+FONT 8, "Helv"
+BEGIN
+    LISTBOX         IPS_QUESTION,7,7,317,137,NOT LBS_NOTIFY | 
+                    LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_VSCROLL | 
+                    WS_HSCROLL | WS_GROUP | WS_TABSTOP
+    LTEXT           "prompt",IPS_PROMPT,7,150,277,14,SS_SUNKEN | WS_BORDER
+    EDITTEXT        IPS_EDIT,7,170,277,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Cancel",IDCANCEL,290,150,33,14
+    DEFPUSHBUTTON   "OK",IDOK,290,170,33,14
+    LISTBOX         IPS_HELP,7,188,317,102,NOT LBS_NOTIFY | 
+                    LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_VSCROLL | 
+                    WS_HSCROLL | WS_GROUP | WS_TABSTOP
+END
+
+CONSOLETEXT DIALOG DISCARDABLE  220, 20, 248, 385
+STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU | WS_THICKFRAME
+CAPTION "Console Window"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,5,6,34,14
+    PUSHBUTTON      "Copy",ICN_COPY,45,6,34,14
+    PUSHBUTTON      "Clear",ICN_CLEAR,85,6,34,14
+    PUSHBUTTON      "Exit",IDCANCEL,125,6,34,14
+    LISTBOX         ICN_LISTBOX,2,24,244,357,NOT LBS_NOTIFY | 
+                    LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_VSCROLL | 
+                    WS_HSCROLL | WS_GROUP | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+DVIHAND                 CURSOR  DISCARDABLE     "dvihand.cur"
+MAGNIFIER               CURSOR  DISCARDABLE     "dvizoom.cur"
+SCISSORS                CURSOR  DISCARDABLE     "dvisciss.cur"
+BLANK                   CURSOR  DISCARDABLE     "dviblank.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+DVIICON                 ICON    DISCARDABLE     "dviwindo.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+DVIWINDOMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...\tShift Ins",         IDM_OPEN
+        MENUITEM "&Close\tDel",                 IDM_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\t^P",               IDM_PRINTALL, GRAYED
+        MENUITEM "Print C&urrent Page\tShift ^P", IDM_CURRENTPAGE, GRAYED
+        MENUITEM "Prin&t View\t^T",             IDM_PRINTVIEW, GRAYED
+        MENUITEM "Pr&inter Setup...\t^I",       IDM_PRINTSETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Store &New Page Scale\t^Q",   IDM_NEWPAGESCALE
+        MENUITEM "&Default Scale\t^D",          IDM_DEFAULT
+        MENUITEM "Factory Defaults",            IDM_FACTORY
+        MENUITEM SEPARATOR
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tEsc",                  IDM_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "Find...\t^R",                 IDM_SEARCH, GRAYED
+        MENUITEM "Find N&ext\t^S",              IDM_RESEARCH, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Se&lect Page...\tNum *",      IDM_SELECTPAGE, GRAYED
+        MENUITEM "Pa&ge Top\tHome",             IDM_TOP, GRAYED
+        MENUITEM "Page &Bottom\tEnd",           IDM_BOTTOM, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Zoom In...",                 IDM_ZOOM, GRAYED
+        MENUITEM "Restore &View\t^V",           IDM_OLDVIEW, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Copy to Clipboard\t^C",       IDM_CLIPBOARD, GRAYED
+    END
+    POPUP "&Preferences"
+    BEGIN
+        POPUP "P&age Size..."
+        BEGIN
+            MENUITEM "Letter",                      IDM_LETTER, CHECKED
+            MENUITEM "Legal",                       IDM_LEGAL
+            MENUITEM "Tabloid",                     IDM_TABLOID
+            MENUITEM "Ledger",                      IDM_LEDGER
+            MENUITEM "A3",                          IDM_ATHREE
+            MENUITEM "A4",                          IDM_AFOUR
+            MENUITEM "A5",                          IDM_AFIVE
+            MENUITEM "B4 ",                         IDM_BFOUR
+            MENUITEM "B5",                          IDM_BFIVE
+            MENUITEM "Statement",                   IDM_STATEMENT
+            MENUITEM "Executive",                   IDM_EXECUTIVE
+        END
+        POPUP "&Duplex..."
+        BEGIN
+            MENUITEM "&Simplex",                    IDM_SIMPLEX, CHECKED
+            MENUITEM "&Vertical",                   IDM_VERTICAL
+            MENUITEM "&Horizontal",                 IDM_HORIZONTAL
+        END
+        POPUP "&Ruler Units..."
+        BEGIN
+            MENUITEM "pt",                          IDM_POINT, CHECKED
+            MENUITEM "pc",                          IDM_PICA
+            MENUITEM "in",                          IDM_INCH
+            MENUITEM "cm",                          IDM_CENTIMETER
+            MENUITEM "mm",                          IDM_MILLIMETER
+            MENUITEM "bp",                          IDM_BIGPOINT
+            MENUITEM "cc",                          IDM_CICERO
+            MENUITEM "dd",                          IDM_DIDOT
+            MENUITEM "sp",                          IDM_SCALEDPOINT
+            MENUITEM "pc+pt",                       IDM_PICAPOINT
+        END
+        MENUITEM "Ruler Dimensions &True",      IDM_TRUEINCH
+        MENUITEM SEPARATOR
+        MENUITEM "Spr&ead\t^E",                 IDM_SPREAD
+        MENUITEM "&Use Count0\t^U",             IDM_COUNTZERO
+        MENUITEM "&Landscape\t^L",              IDM_LANDSCAPE
+        MENUITEM SEPARATOR
+        MENUITEM "Reset Scale Each &File",      IDM_RESETSCALE
+        MENUITEM "Reset Scale Each &Page",      IDM_RESETPAGE
+        MENUITEM SEPARATOR
+        MENUITEM "Draw Page &Border",           IDM_BORDER, CHECKED
+        MENUITEM "Draw Text &Outline",          IDM_SHOWHXW, CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "&Ignore All Specials",        IDM_IGNORESPECIAL
+        MENUITEM "Show Pre&views",              IDM_SHOWPREVIEW, CHECKED
+        MENUITEM "Pass Through EPS",            IDM_PASSTHROUGH, CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "Save Settings on E&xit",      IDM_SAVEPREFER, CHECKED
+        MENUITEM "Save Settings No&w",          IDM_SAVENOW
+        MENUITEM SEPARATOR
+        POPUP "Command Line..."
+        BEGIN
+            MENUITEM "AFMtoTFM",                    IDM_TFMFLAGS
+            MENUITEM "DVIPSONE",                    IDM_DVIFLAGS
+            MENUITEM "DVIPSONE/Distiller",          IDM_DVIDISFLAGS
+            MENUITEM "Y&&Y TeX",                    IDM_TEXFLAGS
+        END
+    END
+    MENUITEM "|<-",                         IDM_FIRSTPAGE, GRAYED
+    MENUITEM "&<-",                         IDM_PREVIOUS, GRAYED
+    MENUITEM "-&>",                         IDM_NEXT, GRAYED
+    MENUITEM "->|",                         IDM_LASTPAGE, GRAYED
+    MENUITEM "<<",                          IDM_BACK, GRAYED
+    MENUITEM "&Unmagnify!",                 IDM_UNMAGNIFY, GRAYED
+    MENUITEM "&Magnify!",                   IDM_MAGNIFY, GRAYED
+    POPUP "F&onts"
+    BEGIN
+        MENUITEM "D&VI File Fonts\t^K",         IDM_FONTSUSED, GRAYED
+        MENUITEM "DVI File Inf&o\t^O",          IDM_SHOWINFO, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Show &Font...\t^F",           IDM_SELECTFONT
+        MENUITEM "Show &Widths...",             IDM_CHARWIDTHS
+        MENUITEM "Write &AFM...",               IDM_WRITEAFM
+        MENUITEM "Write &TFM...\t^M",           IDM_WRITETFM
+        MENUITEM "Write All AFMs...",           IDM_WRITEAFMS
+        MENUITEM "Write All TFMs...",           IDM_WRITETFMS
+        MENUITEM SEPARATOR
+        MENUITEM "&Color Fonts\t^X",            IDM_COLORFONT
+        MENUITEM "&Grey Text\t^G",              IDM_GREYTEXT
+        MENUITEM "Text + Gre&y\t^Y",            IDM_GREYPLUS
+        MENUITEM SEPARATOR
+        POPUP "Encoding..."
+        BEGIN
+            MENUITEM "TeX 'n ANSI (LY1)\ttexnansi", IDM_TEXNANSI
+            MENUITEM "Cork (T1)\ttex256",           IDM_TEX256
+            MENUITEM "TeX Text (OT1)\ttextext",     IDM_TEXTEXT
+            MENUITEM "Windows ANSI\tansinew",       IDM_ANSINEW
+            MENUITEM "Standard\tstandard",          IDM_STANDARD
+        END
+    END
+    POPUP "&Special"
+    BEGIN
+        MENUITEM "Complain Missing Fonts",      IDM_COMPLAINMISSING, CHECKED
+        MENUITEM "Complain Bad Encoding",       IDM_COMPLAINENCODING
+        , CHECKED
+        MENUITEM "Complain Missing Files",      IDM_COMPLAINFILES, CHECKED
+        MENUITEM "Complain Bad Specials",       IDM_COMPLAINSPECIAL, CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "Working &Directory",          IDM_USEWORKDIR
+        MENUITEM "F&ill Rules",                 IDM_RULEFILL, CHECKED
+        MENUITEM "Favor &Position",             IDM_STRINGLIMIT, CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "Show &Buttons",               IDM_SHOWBUTTONS
+        MENUITEM "Show &Viewports",             IDM_SHOWVIEWPORTS
+        MENUITEM "Show TIFF",                   IDM_SHOWTIFF
+        MENUITEM "Show WMF",                    IDM_SHOWWMF
+        MENUITEM "Show &Hidden",                IDM_VIEWEXTRAS, CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "Show WinExe Calls",           IDM_SHOWCALLS
+        MENUITEM "Pause WinExe Calls",          IDM_PAUSECALLS
+        MENUITEM SEPARATOR
+        MENUITEM "Use DLLs",                    IDM_USEDLLS, CHECKED
+        MENUITEM "PassBack from DVIPSONE",      IDM_CALLBACKPASS, CHECKED
+        MENUITEM "Keep Console Open",           IDM_CONSOLEOPEN, CHECKED
+        MENUITEM "Don't ask File Name (for DVIPSONE)", IDM_DONTASKFILE
+        , CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "Magnification",               IDM_MAGNIFICATION
+        MENUITEM "Counter [0]-[9]",             IDM_SHOWCOUNTER
+        MENUITEM SEPARATOR
+        POPUP "&Debug..."
+        BEGIN
+            MENUITEM "Force PassBack (even for FILE:)", IDM_FORCEPASSBACK
+            MENUITEM "Force New POSTSCRIPT_PASSTHROUGH", IDM_NEWPASSTHROUGH
+            MENUITEM "Force Old PASSTHROUGH (even for Distiller)", 
+                                                    IDM_FORCEOLDPASSTHROUGH
+            MENUITEM "Use OPEN- / CLOSE PRINTER",   IDM_OPENCLOSEPRINTER
+            MENUITEM "Use OPEN- / CLOSE CHANNEL",   IDM_OPENCLOSECHANNEL
+            MENUITEM SEPARATOR
+            MENUITEM "Output Debug String",         IDM_DEBUGSTRING
+            MENUITEM "Show Stack Used",             IDM_STACKUSED
+            MENUITEM "Show Scaling",                IDM_SHOWSCALE
+            MENUITEM "Show File Specs",             IDM_FILESPECS
+            MENUITEM "Show Printer Specs",          IDM_PRINTSPECS
+            MENUITEM "Show Metrics",                IDM_SHOWMETRICS
+            MENUITEM "Show Tag Char",               IDM_TAGGEDCHAR
+            MENUITEM "Ignore ATM Select",           IDM_IGNORESELECT
+            MENUITEM "Test Flag",                   IDM_TESTFLAG
+            MENUITEM "Read Fixed Preferences",      IDM_READPREFER
+        END
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+DVIWINDOMENU ACCELERATORS MOVEABLE PURE 
+BEGIN
+    VK_F1,          IDM_HELP,               VIRTKEY 
+    VK_PRIOR,       IDM_PGUP,               VIRTKEY 
+    VK_PRIOR,       IDM_PGUP,               VIRTKEY, SHIFT
+    VK_PRIOR,       IDM_PGUP,               VIRTKEY, CONTROL
+    VK_NEXT,        IDM_PGDN,               VIRTKEY 
+    VK_NEXT,        IDM_PGDN,               VIRTKEY, SHIFT
+    VK_NEXT,        IDM_PGDN,               VIRTKEY, CONTROL
+    VK_ADD,         IDM_MAGNIFY,            VIRTKEY 
+    VK_ADD,         IDM_MAGNIFY,            VIRTKEY, SHIFT
+    VK_SUBTRACT,    IDM_UNMAGNIFY,          VIRTKEY 
+    VK_SUBTRACT,    IDM_UNMAGNIFY,          VIRTKEY, SHIFT
+    VK_DELETE,      IDM_DELETE,             VIRTKEY 
+    VK_INSERT,      IDM_INSERT,             VIRTKEY 
+    VK_INSERT,      IDM_INSERT,             VIRTKEY, SHIFT
+    VK_MULTIPLY,    IDM_SELECTPAGE,         VIRTKEY 
+    VK_ESCAPE,      IDM_ESCAPE,             VIRTKEY 
+    VK_ESCAPE,      IDM_ESCAPE,             VIRTKEY, SHIFT
+    VK_CANCEL,      IDM_EXIT,               VIRTKEY 
+    VK_HOME,        IDM_HOME,               VIRTKEY 
+    VK_HOME,        IDM_HOME,               VIRTKEY, CONTROL
+    VK_END,         IDM_END,                VIRTKEY 
+    VK_END,         IDM_END,                VIRTKEY, CONTROL
+    VK_LEFT,        IDM_SCROLLLEFT,         VIRTKEY 
+    VK_LEFT,        IDM_SCROLLLEFT,         VIRTKEY, SHIFT
+    VK_LEFT,        IDM_SCROLLLEFT,         VIRTKEY, CONTROL
+    VK_RIGHT,       IDM_SCROLLRIGHT,        VIRTKEY 
+    VK_RIGHT,       IDM_SCROLLRIGHT,        VIRTKEY, SHIFT
+    VK_RIGHT,       IDM_SCROLLRIGHT,        VIRTKEY, CONTROL
+    VK_UP,          IDM_SCROLLUP,           VIRTKEY 
+    VK_UP,          IDM_SCROLLUP,           VIRTKEY, SHIFT
+    VK_UP,          IDM_SCROLLUP,           VIRTKEY, CONTROL
+    VK_DOWN,        IDM_SCROLLDOWN,         VIRTKEY 
+    VK_DOWN,        IDM_SCROLLDOWN,         VIRTKEY, SHIFT
+    VK_DOWN,        IDM_SCROLLDOWN,         VIRTKEY, CONTROL
+    VK_BACK,        IDM_BACKSPACE,          VIRTKEY 
+    VK_BACK,        IDM_BACKSPACE,          VIRTKEY, CONTROL
+    VK_SPACE,       IDM_SPACE,              VIRTKEY 
+    VK_SPACE,       IDM_SPACE,              VIRTKEY, CONTROL
+    VK_INSERT,      IDM_JUMPBACK,           VIRTKEY, CONTROL
+    "A",            IDM_SPREAD,             VIRTKEY, CONTROL
+    "B",            IDM_BOTTOM,             VIRTKEY, CONTROL
+    "C",            IDM_CLIPBOARD,          VIRTKEY, CONTROL
+    "D",            IDM_DEFAULT,            VIRTKEY, CONTROL
+    "E",            IDM_SPREAD,             VIRTKEY, CONTROL
+    "F",            IDM_SELECTFONT,         VIRTKEY, CONTROL
+    "G",            IDM_GREYTEXT,           VIRTKEY, CONTROL
+    "H",            IDM_HELP,               VIRTKEY, CONTROL
+    "I",            IDM_PRINTSETUP,         VIRTKEY, CONTROL
+    "K",            IDM_FONTSUSED,          VIRTKEY, CONTROL
+    "L",            IDM_LANDSCAPE,          VIRTKEY, CONTROL
+    "M",            IDM_WRITETFM,           VIRTKEY, CONTROL
+    "N",            IDM_TOP,                VIRTKEY, CONTROL
+    "O",            IDM_SHOWINFO,           VIRTKEY, CONTROL
+    "P",            IDM_CTRLP,              VIRTKEY, CONTROL
+    "P",            IDM_CTRLP,              VIRTKEY, SHIFT, CONTROL
+    "Q",            IDM_NEWPAGESCALE,       VIRTKEY, CONTROL
+    "R",            IDM_SEARCH,             VIRTKEY, CONTROL
+    "S",            IDM_RESEARCH,           VIRTKEY, CONTROL
+    "T",            IDM_PRINTVIEW,          VIRTKEY, CONTROL
+    "U",            IDM_COUNTZERO,          VIRTKEY, CONTROL
+    "V",            IDM_OLDVIEW,            VIRTKEY, CONTROL
+    "X",            IDM_COLORFONT,          VIRTKEY, CONTROL
+    "Y",            IDM_GREYPLUS,           VIRTKEY, CONTROL
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""doserror.h""\r\n"
+    "#include ""dlgs.h""\r\n"
+    "#include ""printerr.h""\r\n"
+    "#include ""dviwindo.h""\r\n"
+    "#include ""winextra.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    "DVIMETRICBOX", DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 155
+        TOPMARGIN, 2
+        BOTTOMMARGIN, 127
+    END
+
+    "COMMANDLINE", DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        BOTTOMMARGIN, 71
+    END
+
+    "ENVIRONMENT", DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 278
+        TOPMARGIN, 8
+        BOTTOMMARGIN, 76
+    END
+
+    "NEWVARIABLE", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 278
+        TOPMARGIN, 8
+        BOTTOMMARGIN, 68
+    END
+
+    1543, DIALOG
+    BEGIN
+        RIGHTMARGIN, 297
+        BOTTOMMARGIN, 188
+    END
+
+    1540, DIALOG
+    BEGIN
+        RIGHTMARGIN, 188
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD FIXED PURE 
+BEGIN
+    EPS_POSTAMBLE           "end count dvicount sub {pop} repeat\ncountdictstack dvidictcount sub {end} repeat\ndvistack aload pop\ndvistate restore\n"
+    EPS_PREAMBLE1           "/dvistate save def\ncount array astore /dvistack exch def\ncountdictstack /dvidictcount exch def\ncount /dvicount exch def\nuserdict begin\n"
+    EPS_PREAMBLE2           "/showpage{}def/erasepage{}def/copypage{}def\n/initgraphics{}def/initmatrix{}def/setpagedevice{pop}def\n/letter{}def/legal{}def/a4{}def/b5{}def\n0 setgray 0 setlinecap 1 setlinewidth\n0 setlinejoin 10 setmiterlimit [] 0 setdash newpath\n"
+    EPS_MAGIC               "currentscreen pop\n{1 add 180 mul cos 1 0.08 add mul exch 2 add 180 mul cos 1 0.08 sub\nmul add 2 div} bind setscreen % (c) Y&Y 1989\n"
+END
+
+STRINGTABLE PRELOAD FIXED PURE 
+BEGIN
+    IDS_FILTERSTRING        "Plain TeX(*.tex)|*.tex|LaTeX(*.tex,*.ltx,*.sty,*dtx,*ins)|*.tex;*.ltx;*.sty;*.dtx;*.ins|Log files(*.log;*.aux)|*.log;*.aux|Text files(*.txt;*.doc)|*.txt;*.doc|All files(*.*)|*.*|"
+    IDS_DVIFILTERSTR        "DVI files(*.dvi)|*.dvi|DVIcopy files(*.dvc)|*.dvc|Possible Textures(*.tex)|*.tex|All files(*.*)|*.*|"
+    ENC_ERROR               "Font appears ANSI encoded (text), yet DVI file calls for non ANSI char.\nApparent mismatch TFM encoding and outline font encoding.\nOr perhaps need `\\input texnansi' or `\\input ansiacce'?"
+    T1INSTALL_ERR           "Name error in some TT font (Probably auto-converted T1 font).\nRun the SETUPTTF utility.\n(Or move FOT and TTF files to empty directory,\n`Remove' font; then `Add...' using `Fonts' in Control Panel)"
+    W95INSTALL_ERR          "Name error in some TT font (Probably in Windows 95).\nRun SETUPTTF utility to add [TTFonts] section to WIN.INI."
+    TTSETUP_ERR             "Name error in some TT font (Windows 3.1).\nRun the SETUPTTF utility.\n[Fonts] or [TTFonts] section of WIN.INI inconsistent."
+END
+
+STRINGTABLE PRELOAD FIXED PURE 
+BEGIN
+    BAD_STYLE               "Sure you want to write metrics for the above font?\nYou may overwrite metric file for another style,\nor create a TFM file under an incorrect name."
+    DVI_ERR                 "Not a valid DVI (or Textures) file.\nOpen only DVI files from DVIWindo's file menu, not TeX source files."
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,446 @@
+//
+// Found on the Web by Googling keywords.
+//
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// “ú–{Œê resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""res\\kou.rc2"" // Resource that was edited without a tool of Microsoft Visual C++\r\n"
+    "\r\n"
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "#include ""l.jpn\\afxres.rc""         // Normal component\r\n"
+    "#include ""l.jpn\\afxprint.rc""       // Print / Print preview resource\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\kou.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Create new(&N)\tCtrl+N",      ID_FILE_NEW, GRAYED
+        MENUITEM "Open(&O)...\tCtrl+O",         ID_FILE_OPEN, GRAYED
+        MENUITEM "Update save(&S)\tCtrl+S",     ID_FILE_SAVE, GRAYED
+        MENUITEM "Name and save(&A)...",        ID_FILE_SAVE_AS, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Print(&P)...\tCtrl+P",        ID_FILE_PRINT
+        MENUITEM "Print preview(&V)",           ID_FILE_PRINT_PREVIEW
+        MENUITEM "Printer setting(&R)...",      ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Latest file",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Exit application(&X)",        ID_APP_EXIT
+    END
+    POPUP "Constitution classification"
+    BEGIN
+        MENUITEM "base1",                       IDM_SIZE_BASE
+    END
+    POPUP "Classification A"
+    BEGIN
+        MENUITEM "base2",                       IDM_SIZE_BASE
+    END
+    POPUP "Classification B"
+    BEGIN
+        MENUITEM "base3",                       IDM_SIZE_BASE
+    END
+    POPUP "Help", HELP
+    BEGIN
+        MENUITEM "Version infomation(kou)(&A)...", ID_APP_ABOUT
+        MENUITEM "Operation explanation",       IDM_PENJELASAN
+    END
+END
+
+IDR_MENU1 MENU DISCARDABLE 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Close",                       ID_CLOSEDIALOG, HELP
+    END
+    MENUITEM "Help",                        IDM_HELP, HELP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_KOU_FORM DIALOG DISCARDABLE  0, 0, 260, 397
+STYLE WS_CHILD | WS_BORDER
+FONT 10, "System"
+BEGIN
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,0,155,260,1
+    LTEXT           "Constitution classification:",IDC_STATIC,7,27,40,8
+    LTEXT           "Classification A:",IDC_STATIC,7,44,42,8
+    LTEXT           "Classification B:",IDC_STATIC,7,61,42,8
+    LTEXT           "Appointed date of delivery",IDC_STATIC,19,130,36,8
+    LTEXT           "Sale company",IDC_STATIC,19,105,36,8
+    LTEXT           "Price",IDC_STATIC,19,85,36,8
+    EDITTEXT        IDC_EDIT1,50,25,205,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT2,50,42,205,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT3,50,59,205,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO2,61,83,126,79,CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | CBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO3,61,103,126,83,CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT4,61,128,20,12,ES_AUTOHSCROLL
+    LTEXT           "Year",IDC_STATIC,94,130,8,8
+    EDITTEXT        IDC_EDIT5,105,128,17,12,ES_AUTOHSCROLL
+    LTEXT           "Month ~",IDC_STATIC,136,130,17,8
+    EDITTEXT        IDC_EDIT6,155,128,20,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT7,200,128,17,12,ES_AUTOHSCROLL
+    LTEXT           "Year",IDC_STATIC,189,130,9,8
+    LTEXT           "Month",IDC_STATIC,231,130,9,9
+    SCROLLBAR       IDC_SCROLLBAR1,84,125,8,17,SBS_VERT
+    SCROLLBAR       IDC_SCROLLBAR2,125,125,8,17,SBS_VERT
+    SCROLLBAR       IDC_SCROLLBAR3,178,125,8,17,SBS_VERT
+    SCROLLBAR       IDC_SCROLLBAR4,220,125,8,17,SBS_VERT
+    CONTROL         "Key word select",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,
+                    7,165,69,8
+    CONTROL         "String search",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,
+                    78,165,47,8
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,130,156,1,91
+    LTEXT           "Item",IDC_STATIC,10,184,42,8
+    LTEXT           "Key word",IDC_STATIC,10,204,43,8
+    EDITTEXT        IDC_EDIT8,55,201,70,13,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO5,55,181,70,77,CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Setting",IDC_BUTTON2,10,225,50,15
+    PUSHBUTTON      "Key word list",IDC_BUTTON3,70,225,50,15
+    LTEXT           "Item  <Key word>",IDC_STATIC,136,165,118,8
+    LISTBOX         IDC_LIST1,136,176,119,41,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Delete one line",IDC_BUTTON4,140,225,50,15
+    PUSHBUTTON      "Delete all",IDC_BUTTON5,200,225,50,15
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,0,246,260,1
+    PUSHBUTTON      "Clear all",IDC_BUTTON6,27,257,55,15
+    PUSHBUTTON      "Search start",IDC_BUTTON7,103,257,55,15
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,0,281,260,1
+    LTEXT           "Search number:",IDC_STATIC,5,287,42,8
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,0,365,260,1
+    PUSHBUTTON      "Screen indication",IDC_BUTTON8,48,375,65,15
+    PUSHBUTTON      "Show string information",IDC_BUTTON9,148,375,65,15
+    EDITTEXT        IDC_EDIT9,47,285,54,13,ES_READONLY
+    PUSHBUTTON      "Search history",IDC_KEY_HIST,179,257,55,15
+    COMBOBOX        IDC_COMBO1,50,6,53,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Search mode",IDC_STATIC,7,8,40,8
+END
+
+IDD_DIALOG1 DIALOG DISCARDABLE  55, 200, 72, 93
+STYLE WS_POPUP | WS_VISIBLE | WS_BORDER
+FONT 10, "System"
+BEGIN
+    DEFPUSHBUTTON   "Close",IDOK,10,78,50,14
+    LISTBOX         IDC_LIST1,0,0,72,77,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_DIALOG2 DIALOG DISCARDABLE  0, 0, 199, 132
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Image"
+MENU IDR_MENU1
+FONT 9, "System"
+BEGIN
+END
+
+IDD_DIALOG3 DIALOG DISCARDABLE  0, 0, 336, 236
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Character information indication screen"
+MENU IDR_MENU1
+FONT 10, "System"
+BEGIN
+    EDITTEXT        IDC_EDIT1,0,0,336,236,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN | 
+                    WS_VSCROLL | WS_HSCROLL
+END
+
+IDD_DIALOG4 DIALOG DISCARDABLE  0, 0, 209, 159
+STYLE WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Image"
+MENU IDR_MENU1
+FONT 10, "System"
+BEGIN
+END
+
+IDD_DIALOG5 DIALOG DISCARDABLE  0, 0, 150, 167
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Selection screen"
+FONT 12, "System"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,19,147,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,83,147,50,14
+    CONTROL         "Image",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,9,5,35,10
+    CONTROL         "Solid",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,62,5,35,
+                    10
+    LISTBOX         IDC_LIST1,0,16,150,128,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
+                    WS_HSCROLL | WS_TABSTOP
+END
+
+IDD_DIALOG6 DIALOG DISCARDABLE  0, 0, 283, 201
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 12, "System"
+BEGIN
+    DEFPUSHBUTTON   "Close",IDOK,116,180,50,14
+    PUSHBUTTON      "Delete",IDC_KEY_DELETE,192,180,50,14
+    PUSHBUTTON      "Research",IDC_KEY_RESEARCH,40,180,50,14
+    LISTBOX         IDC_LIST1,4,21,273,149,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "Classification path name",IDC_STATIC,6,10,40,8
+    LTEXT           "Search mode",IDC_STATIC,191,10,31,8
+    LTEXT           "Number",IDC_STATIC,244,10,30,8
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104E4"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "KOU MFC Application\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "KOU\0"
+            VALUE "OriginalFilename", "KOU.EXE\0"
+            VALUE "ProductName", "KOU Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1252
+    END
+END
+
+#endif    // !_MAC
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "kou\n\nKou\n\n\nKou.Document\nKou Document"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "kou"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "Update"
+    ID_INDICATOR_REC        "Record"
+    ID_INDICATOR_KANA       "KANA"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Create new file\nNew file"
+    ID_FILE_OPEN            "Open existing file<\nOpen"
+    ID_FILE_CLOSE           "Close work file\nClose"
+    ID_FILE_SAVE            "Save work file\nSave"
+    ID_FILE_SAVE_AS         "Name and save work file\nName and save"
+    ID_FILE_PAGE_SETUP      "Change print setting\nPrint setting"
+    ID_FILE_PRINT_SETUP     "Change Printer/Print setting\nPrinter setting"
+    ID_FILE_PRINT           "Print work file\nPrint"
+    ID_FILE_PRINT_PREVIEW   "Show on full screen\nPrint preview"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Program information,Version and lisence \nVersion information"
+    ID_APP_EXIT             "Exit application,direct save file\nExit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open appointed file"
+    ID_FILE_MRU_FILE2       "Open appointed file"
+    ID_FILE_MRU_FILE3       "Open appointed file"
+    ID_FILE_MRU_FILE4       "Open appointed file"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Change to next window\nNext page"
+    ID_PREV_PANE            "Change to previous window\nPrevious page"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Divide work window\nDivide"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Delete selection range\nDelete"
+    ID_EDIT_CLEAR_ALL       "Delete all\nDelete all"
+    ID_EDIT_COPY            "Copy selection range and save to clipboard\nSave"
+    ID_EDIT_CUT             "Cut selection range and save to clipboard\nCut"
+    ID_EDIT_FIND            "Search appointed string\nSearch"
+    ID_EDIT_PASTE           "Paste from clipboard\nPaste"
+    ID_EDIT_REPEAT          "Repeat just before operation\nRepeat"
+    ID_EDIT_REPLACE         "Repalace appointed string to other string\nReplace"
+    ID_EDIT_SELECT_ALL      "Select all file\nSelect all"
+    ID_EDIT_UNDO            "Replace just before operation\nUndo"
+    ID_EDIT_REDO            "Repeat just before operation\nRedo"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change window size"
+    AFX_IDS_SCMOVE          "Change window position"
+    AFX_IDS_SCMINIMIZE      "Iconize window"
+    AFX_IDS_SCMAXIMIZE      "Maximum window"
+    AFX_IDS_SCNEXTWINDOW    "Change to next window"
+    AFX_IDS_SCPREVWINDOW    "Change to previous window"
+    AFX_IDS_SCCLOSE         "Close work window,direct the save of file changed"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Change window size to normal"
+    AFX_IDS_SCTASKLIST      "Change application"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel preview"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_MENUITEM32774        "3-1"
+END
+
+#endif    // “ú–{Œê resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "res\kou.rc2" // Resource that was edited without a tool of Microsoft Visual C++
+
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+#include "l.jpn\afxres.rc"         // Normal component
+#include "l.jpn\afxprint.rc"       // Print / Print preview resource
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

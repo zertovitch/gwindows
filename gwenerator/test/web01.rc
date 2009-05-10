@@ -1,0 +1,970 @@
+//
+// Found on the Web by Googling keywords.
+//
+
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Deutschland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\DataFinder.ico"
+IDR_DATAFITYPE          ICON    DISCARDABLE     "res\\DataFinderDoc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
+IDB_BITMAP2             BITMAP  MOVEABLE PURE   "res\\AZLogo.bmp"
+IDB_OPEN                BITMAP  DISCARDABLE     "res\\open.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR MOVEABLE PURE  16, 15
+BEGIN
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_FINDTEXT
+    BUTTON      ID_FINDHEX
+    BUTTON      ID_ADDFILES
+    SEPARATOR
+    BUTTON      ID_INSERTALLFILES
+    BUTTON      ID_DELETALLFILES
+    SEPARATOR
+    BUTTON      ID_COMPAREFILES
+    BUTTON      ID_COMPARETEXT
+    BUTTON      ID_TABCONVERT
+    BUTTON      ID_FINDSAME
+    BUTTON      ID_RENAMEFILES
+    BUTTON      ID_ASCIIANSI
+    BUTTON      ID_LFCRCONVERT
+    BUTTON      ID_CMPDIRECTORY
+    BUTTON      ID_ZIPFILES
+    BUTTON      ID_CPPBEATIFY
+    SEPARATOR
+    BUTTON      ID_RELOAD
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU DISCARDABLE 
+BEGIN
+    POPUP "&Datei"
+    BEGIN
+        MENUITEM "Letzte Datei",                ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Beenden",                    ID_APP_EXIT
+    END
+    POPUP "&Bearbeiten"
+    BEGIN
+        MENUITEM "&Ausschneiden\tStrg+X",       ID_EDIT_CUT
+        MENUITEM "&Kopieren\tStrg+C",           ID_EDIT_COPY
+        MENUITEM "E&infügen\tStrg+V",           ID_EDIT_PASTE
+        MENUITEM "Alle Dateien einfügen",       ID_INSERTALLFILES
+        MENUITEM SEPARATOR
+        MENUITEM "Dateien hinzufügen\tF3",      ID_ADDFILES
+        MENUITEM "&Text Suche\tF4",             ID_FINDTEXT
+        MENUITEM "&Binäre Suche\tF5",           ID_FINDHEX
+        MENUITEM "Ändern\tF6",                  ID_AENDERN
+        MENUITEM SEPARATOR
+        MENUITEM "Dateien &vergleichen",        ID_COMPAREFILES
+        MENUITEM "Text Vergleichen",            ID_COMPARETEXT
+        MENUITEM "Suche gleiche Dateien",       ID_FINDSAME
+        MENUITEM "Dateien umbenennen",          ID_RENAMEFILES
+        MENUITEM "ASCCI zu ANSI",               ID_ASCIIANSI
+        MENUITEM "Tabulatorabstände konvertieren", ID_TABCONVERT
+        MENUITEM "&Linux zu Windows",           ID_LFCRCONVERT
+        MENUITEM "Verzeichnisver&gleich",       ID_CMPDIRECTORY
+        MENUITEM "Dateine &zippen",             ID_ZIPFILES
+        MENUITEM "C Formatieren",               ID_CPPBEATIFY
+    END
+    POPUP "&Ansicht"
+    BEGIN
+        MENUITEM "&Flache Symbolleiste",        ID_STATUS_BAR_FLAT
+        MENUITEM "&Symbolleiste",               ID_VIEW_TOOLBAR
+        MENUITEM "S&tatusleiste",               ID_VIEW_STATUS_BAR
+    END
+    POPUP "&?"
+    BEGIN
+        MENUITEM "Inf&o über DataFinder...",    ID_APP_ABOUT
+        MENUITEM "&Kommandozeile Info",         ID_INFO
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS MOVEABLE PURE 
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_ESCAPE,      ID_APP_EXIT,            VIRTKEY, NOINVERT
+    VK_F3,          ID_ADDFILES,            VIRTKEY, NOINVERT
+    VK_F4,          ID_FINDTEXT,            VIRTKEY, NOINVERT
+    VK_F5,          ID_FINDHEX,             VIRTKEY, NOINVERT
+    VK_F6,          ID_AENDERN,             VIRTKEY, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FRAGE DIALOG DISCARDABLE  0, 0, 287, 111
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Warnung"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Ja",IDYES,10,90,50,15
+    PUSHBUTTON      "Immer",IDIMMER,120,90,50,15
+    PUSHBUTTON      "Nein",IDNO,65,90,50,15
+    PUSHBUTTON      "Niemals",IDNIE,175,90,50,15
+    LTEXT           "",IDC_FEHLER,10,10,270,8
+    LTEXT           "Datei",IDC_DATEI1,45,25,232,8
+    ICON            140,IDC_ICON1,15,25,20,20
+    ICON            "",IDC_ICON2,15,55,20,20
+    LTEXT           "",IDC_DATEI2,45,55,232,8
+    LTEXT           "",IDC_INFO1,45,36,232,8
+    LTEXT           "",IDC_INFO2,45,65,232,8
+    PUSHBUTTON      "Wiederholen",IDRETRY,175,75,49,14
+    PUSHBUTTON      "Ignorieren",IDIGNORE,120,75,49,14
+    PUSHBUTTON      "Abbrechen",IDABORT,230,90,49,14
+    PUSHBUTTON      "Ok",IDOK,230,75,49,14
+END
+
+IDD_COPY DIALOG DISCARDABLE  0, 0, 302, 61
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Kopieren"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Abbrechen",IDCANCEL,240,40,50,14
+    LTEXT           "Von:",IDC_STATIC1,15,10,27,8
+    LTEXT           "Nach:",IDC_STATIC2,15,25,30,8
+    LTEXT           "",IDC_VON,50,10,245,8
+    LTEXT           "",IDC_NACH,50,25,245,8
+    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,
+                    15,40,215,10
+END
+
+IDD_DATAFINDERDLG DIALOGEX 0, 0, 257, 186
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dateien hinzufügen"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_COMBO1,45,20,195,125,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP,WS_EX_ACCEPTFILES
+    COMBOBOX        IDC_COMBO2,45,40,195,110,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO3,45,60,195,110,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Egal",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,
+                    25,93,30,10
+    CONTROL         "Nur schreibgeschützte",IDC_RADIO2,"Button",
+                    BS_AUTORADIOBUTTON,25,103,87,10
+    CONTROL         "Nicht schreibgeschützte",IDC_RADIO3,"Button",
+                    BS_AUTORADIOBUTTON,25,113,92,10
+    CONTROL         "In Unterverzeichnissen suchen",IDC_CHECK1,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,135,113,10
+    CONTROL         "Egal",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON | WS_GROUP,
+                    145,90,30,10
+    CONTROL         "Erstellt vor",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,
+                    145,100,49,10
+    CONTROL         "Erstellt nach",IDC_RADIO6,"Button",BS_AUTORADIOBUTTON,
+                    145,110,55,10
+    CONTROL         "Geändert vor",IDC_RADIO7,"Button",BS_AUTORADIOBUTTON,
+                    145,120,57,10
+    CONTROL         "Geändert nach",IDC_RADIO8,"Button",BS_AUTORADIOBUTTON,
+                    145,130,63,10
+    EDITTEXT        IDC_EDIT1,145,145,85,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Abbrechen",IDCANCEL,75,155,50,14
+    DEFPUSHBUTTON   "OK",IDOK,15,155,50,14
+    LTEXT           "Pfad :",IDC_STATIC,15,22,20,8
+    LTEXT           "Plus :",IDC_STATIC,15,43,18,8
+    LTEXT           "Minus :",IDC_STATIC,15,63,25,8
+    GROUPBOX        "Schreibschutzoption",IDC_STATIC,15,80,110,50
+    GROUPBOX        "Zeiten",IDC_STATIC,135,80,105,90
+END
+
+IDD_TEXT_SUCHEN DIALOG DISCARDABLE  0, 0, 287, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Text suchen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_COMBO1,55,5,140,65,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "&Groß/Kleinschreibung ignorieren",IDC_CHECK1,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,28,130,10
+    CONTROL         "Ganze &Wörter suchen",IDC_CHECK3,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,38,130,10
+    CONTROL         "&Regulärer Ausdruck",IDC_CHECK4,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,48,83,10
+    CONTROL         "Muli-Line Suche",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,58,67,10
+    DEFPUSHBUTTON   "OK",IDOK,225,5,55,15
+    PUSHBUTTON      "Abbrechen",IDCANCEL,225,25,55,15
+    PUSHBUTTON      "+",IDC_BUTTON2,200,5,13,13
+    LTEXT           "Suche Nach :",IDC_STATIC,5,8,45,8
+    EDITTEXT        IDC_EDIT1,130,55,40,14,ES_RIGHT | ES_AUTOHSCROLL
+    LTEXT           "Zeilen :",IDC_STATIC,103,58,24,8
+END
+
+IDD_HEX_SUCHEN DIALOG DISCARDABLE  0, 0, 297, 221
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Wert suchen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_COMBO1,55,5,160,110,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "De&zimal",IDC_EING1,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,15,39,41,10
+    CONTROL         "&Hexadezimal",IDC_EING2,"Button",BS_AUTORADIOBUTTON,15,
+                    49,56,10
+    CONTROL         "B&inär",IDC_EING3,"Button",BS_AUTORADIOBUTTON,15,59,32,
+                    10
+    CONTROL         "Octal",IDC_EING4,"Button",BS_AUTORADIOBUTTON,15,69,33,
+                    10
+    CONTROL         "Als &Text",IDC_EING5,"Button",BS_AUTORADIOBUTTON,15,79,
+                    41,10
+    CONTROL         "Hex D&ump",IDC_EING6,"Button",BS_AUTORADIOBUTTON,15,89,
+                    49,10
+    CONTROL         "Bit-&Maske ?#",IDC_EING7,"Button",BS_AUTORADIOBUTTON,15,
+                    99,58,10
+    CONTROL         "B&yte",IDC_VAR1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,
+                    85,35,40,10
+    CONTROL         "&Word",IDC_VAR2,"Button",BS_AUTORADIOBUTTON,85,45,40,10
+    CONTROL         "&DWord",IDC_VAR3,"Button",BS_AUTORADIOBUTTON,85,55,40,
+                    10
+    CONTROL         "&Variabel",IDC_VAR4,"Button",BS_AUTORADIOBUTTON,85,65,
+                    45,10
+    CONTROL         "Au&fwärts",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED | WS_GROUP | WS_TABSTOP,85,92,40,8
+    CONTROL         "A&bwärts",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED | WS_TABSTOP,85,102,41,10
+    CONTROL         "Gru&ppen-Suche",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,140,25,66,10
+    CONTROL         "&Reihenfolge beachten",IDC_CHECK5,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,140,35,86,10
+    EDITTEXT        IDC_EDIT1,140,46,50,12,ES_NUMBER
+    CONTROL         "&Groß/Kleinschreibung ignorieren",IDC_CHECK1,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,140,59,120,10
+    CONTROL         "Unicode Text",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,140,69,59,10
+    CONTROL         "Gesamten &Speicher durchsuchen",IDC_CHECK2,"Button",
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,140,79,120,10
+    CONTROL         "Nur im &markierten Bereich suchen",IDC_CHECK3,"Button",
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,140,89,120,10
+    CONTROL         "Vom Anfang suchen",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,140,99,80,10
+    CONTROL         "Zahlen im Motorola Format suchen",IDC_CHECK8,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,140,109,125,10
+    LISTBOX         IDC_LIST1,10,125,275,70,LBS_MULTIPLESEL | 
+                    LBS_USETABSTOPS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
+                    WS_TABSTOP
+    PUSHBUTTON      "Hi&nzufügen",IDC_GRUPPE1,10,200,50,15
+    PUSHBUTTON      "&Löschen",IDC_GRUPPE2,65,200,50,15
+    PUSHBUTTON      "Alle  Löschen",IDC_GRUPPE3,120,200,55,15
+    PUSHBUTTON      "Nach &Oben",IDC_GRUPPE4,180,200,50,15
+    PUSHBUTTON      "Nach Un&ten",IDC_GRUPPE5,235,200,50,15
+    DEFPUSHBUTTON   "OK",IDOK,230,5,55,15
+    PUSHBUTTON      "Abbrechen",IDCANCEL,230,23,55,15
+    PUSHBUTTON      "Weiter&suchen",IDC_BUTTON1,230,41,55,15
+    LTEXT           "Suche Nach :",IDC_STATIC,5,8,45,8
+    GROUPBOX        "Richtung",IDC_STATIC,80,82,55,36,WS_GROUP
+    GROUPBOX        "Byte-Anzahl",IDC_STATIC,80,25,55,55
+    GROUPBOX        "Eingabe Art",IDC_STATIC,10,25,65,92
+    LTEXT           "Bereich",IDC_STATIC,193,48,25,8
+END
+
+IDD_PROGRESSDLG DIALOG DISCARDABLE  0, 0, 327, 71
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Abbrechen",IDCANCEL,135,45,50,14
+    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,
+                    35,30,280,9
+    LTEXT           "",IDC_TEXT,40,15,275,8,SS_NOPREFIX
+    ICON            IDR_MAINFRAME,IDC_STATIC,5,15,20,20
+END
+
+IDD_AENDERNDLG DIALOG DISCARDABLE  0, 0, 202, 186
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ändern"
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_COMBO1,15,15,170,110,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,135,160,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,75,160,50,14
+    CONTROL         "Spezialzeichen zulassen ( \\n \\t ... )",IDC_CHECK1,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,35,132,10
+    CONTROL         "Gefunden text durch neuen tauschen",IDC_RADIO1,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,25,65,134,10
+    CONTROL         "Text bis zu einem fixen Offset ändern",IDC_RADIO2,
+                    "Button",BS_AUTORADIOBUTTON,25,75,132,10
+    CONTROL         "Text ab einem fixen Offset ändern",IDC_RADIO3,"Button",
+                    BS_AUTORADIOBUTTON,25,85,122,10
+    CONTROL         "Text bis zu einem variablen Offset ändern",IDC_RADIO4,
+                    "Button",BS_AUTORADIOBUTTON,25,95,146,10
+    CONTROL         "Text ab einem variablen Offset ändern",IDC_RADIO5,
+                    "Button",BS_AUTORADIOBUTTON,25,105,136,10
+    COMBOBOX        IDC_COMBO2,25,130,130,130,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "+",IDC_BUTTON2,160,130,14,13
+    LTEXT           "Ändern in :",IDC_TITLE,15,5,170,8
+    GROUPBOX        "Static",IDC_STATIC,15,55,170,100
+    LTEXT           "Offset :",IDC_TEXT,25,120,24,8
+END
+
+IDD_CMPFILEDLG DIALOGEX 0, 0, 362, 250
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Datein vergleichen"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,295,160,50,14
+    PUSHBUTTON      "Alle",IDALL,295,180,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,295,220,50,14
+    PUSHBUTTON      "Kopieren",IDCOPY,295,115,50,14
+    LTEXT           "",IDC_FILE1,50,5,295,8
+    LTEXT           "",IDC_POS,35,90,105,15,SS_CENTERIMAGE,WS_EX_CLIENTEDGE
+    LTEXT           "",IDC_BYTE1,35,20,40,15,SS_CENTERIMAGE,WS_EX_CLIENTEDGE
+    LTEXT           "Datei 1 :",IDC_STATIC,15,5,28,8
+    LTEXT           "Pos :",IDC_STATIC,15,93,17,8
+    LTEXT           "Byte :",IDC_STATIC,15,23,19,8
+    LTEXT           "",IDC_HEX1,100,20,245,15,SS_CENTERIMAGE,
+                    WS_EX_CLIENTEDGE
+    LTEXT           "Hex :",IDC_STATIC,80,23,18,8
+    LTEXT           "",IDC_FILE2,50,45,295,8
+    LTEXT           "",IDC_BYTE2,35,60,40,15,SS_CENTERIMAGE,WS_EX_CLIENTEDGE
+    LTEXT           "Datei 2 :",IDC_STATIC,15,45,28,8
+    LTEXT           "Byte :",IDC_STATIC,15,65,19,8
+    LTEXT           "",IDC_HEX2,100,60,245,15,SS_CENTERIMAGE,
+                    WS_EX_CLIENTEDGE
+    LTEXT           "Hex :",IDC_STATIC,80,63,18,8
+    CTEXT           "",IDC_ANZ,270,90,75,15,SS_CENTERIMAGE,WS_EX_CLIENTEDGE
+    LTEXT           "Anzahl :",IDC_STATIC,238,93,26,8
+    LISTBOX         IDC_LIST1,35,115,240,125,NOT LBS_NOTIFY | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL
+END
+
+IDD_TABCONVERT DIALOG DISCARDABLE  0, 0, 167, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Tabs konvertieren"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT1,15,20,70,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT2,15,45,70,12,ES_AUTOHSCROLL
+    CONTROL         "Leerzeichen zu &Tabs",IDC_CHECK1,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,65,82,10
+    CONTROL         "Nur &Leerzeichen erzeugen",IDC_CHECK2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,75,99,10
+    DEFPUSHBUTTON   "OK",IDOK,105,15,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,105,35,50,14
+    LTEXT           "Alte Tabulator-Breite",IDC_STATIC,15,10,70,8
+    LTEXT           "Neue Tabulator-Breite",IDC_STATIC,15,35,70,8
+END
+
+IDD_FINDSAMEDLG DIALOG DISCARDABLE  0, 0, 317, 191
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Suche gleiche Dateien"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,110,165,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,165,165,50,14
+    ICON            "",IDC_ICON1,30,20,21,20
+    PUSHBUTTON      "Löschen",IDC_DELETE1,245,20,50,14
+    LTEXT           "",IDC_FILE1,30,45,270,8
+    LTEXT           "",IDC_INFO1,30,55,270,8
+    ICON            "",IDC_ICON2,30,70,21,20
+    PUSHBUTTON      "Löschen",IDC_DELETE2,245,70,50,14
+    LTEXT           "",IDC_FILE2,30,95,270,8
+    LTEXT           "",IDC_INFO2,30,105,270,8
+    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,
+                    30,140,270,9
+    LTEXT           "",IDC_TEXT,30,130,265,8
+END
+
+IDD_ANSCIIANSIDLG DIALOG DISCARDABLE  0, 0, 127, 81
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ASCII ANSI Konvertierung"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,10,60,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,65,60,50,14
+    GROUPBOX        "Modus",IDC_STATIC,10,10,105,45
+    CONTROL         "ASCII zu ANSI",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,20,25,62,10
+    CONTROL         "ANSI zu ASCII",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,
+                    20,39,62,10
+END
+
+IDD_MAINVIEW DIALOG DISCARDABLE  0, 0, 187, 158
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         139,IDC_STATIC,"Static",SS_BITMAP | WS_DISABLED,0,0,187,
+                    158
+END
+
+IDD_RENAMEDLG DIALOGEX 0, 0, 287, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Datein umbenennen"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,20,130,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,75,130,50,14
+    EDITTEXT        IDC_EDIT1,105,15,160,14,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_EDIT2,105,34,160,14,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_EDIT3,105,55,160,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "Alle",IDALL,160,130,50,14,WS_DISABLED
+    PUSHBUTTON      "Ignoriren",IDIGNORE,215,130,50,14,WS_DISABLED
+    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,
+                    20,105,245,10
+    LTEXT           "",IDC_PATHNAME,20,85,245,10,0,WS_EX_STATICEDGE
+    LTEXT           "Pfad :",IDC_STATIC,20,75,20,8
+    LTEXT           "Format ( mit * ? |x?*|yyy] ) :",IDC_STATIC,20,18,82,8
+    LTEXT           "Neuer Name:",IDC_STATIC,45,38,43,8
+    LTEXT           "Aktueller Name :",IDC_STATIC,45,58,53,8
+    ICON            "",IDC_ICONWND,20,40,20,20
+END
+
+IDD_INFOBOX DIALOGEX 0, 0, 134, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Komandozeilen Info"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "-p:Filer\tPlusfilter",-1,7,7,119,8,SS_NOPREFIX
+    LTEXT           "-s\tKeine Unterverzeichnisse",-1,7,36,119,8
+    DEFPUSHBUTTON   "OK",IDOK,49,74,50,14,WS_GROUP
+    LTEXT           "-m:Filter\tMinusfilter",-1,7,22,120,8
+END
+
+IDD_LFCRCONVERT DIALOG DISCARDABLE  0, 0, 137, 86
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Carriage-Return Konverter"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,10,60,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,75,60,50,14
+    CONTROL         "Mit Carriage-Return (Windows)",IDC_RADIO1,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,15,20,112,10
+    CONTROL         "Ohne Carriage-Return (Linux)",IDC_RADIO2,"Button",
+                    BS_AUTORADIOBUTTON,15,35,107,10
+    GROUPBOX        "Modus",IDC_STATIC,5,5,125,50
+END
+
+IDD_CMPPATHDLG DIALOGEX 0, 0, 192, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Verzeichnisse vergleichen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,60,185,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,125,185,50,14
+    COMBOBOX        IDC_COMBO1,15,20,145,125,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP,WS_EX_ACCEPTFILES
+    PUSHBUTTON      "+",IDC_PATH1,165,20,15,14,BS_BITMAP
+    COMBOBOX        IDC_COMBO4,15,50,145,125,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP,WS_EX_ACCEPTFILES
+    PUSHBUTTON      "+",IDC_PATH2,165,50,15,14,BS_BITMAP
+    CONTROL         "Suche veränderte Dateien",IDC_CHECK1,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,70,99,10
+    CONTROL         "Suche veränderte Dateiattribute",IDC_CHECK2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,80,117,10
+    CONTROL         "Suche gelöschte Dateien",IDC_CHECK3,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,90,96,10
+    CONTROL         "Suche hinzugefügte Dateien",IDC_CHECK4,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,100,106,10
+    COMBOBOX        IDC_COMBO2,15,125,160,110,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO3,15,150,160,110,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Pfad :",IDC_STATIC,15,10,20,8
+    LTEXT           "Plus :",IDC_STATIC,15,115,18,8
+    LTEXT           "Minus :",IDC_STATIC,15,140,25,8
+    LTEXT           "Vergleichspfad :",IDC_STATIC,15,40,52,8
+END
+
+IDD_ZIPDLG DIALOG DISCARDABLE  0, 0, 232, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ZIP Datei erstellen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_COMBO1,15,20,180,145,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "",IDC_BUTTON1,200,20,15,14,BS_BITMAP
+    COMBOBOX        IDC_COMBO2,15,50,200,30,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO3,15,80,200,30,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,105,135,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,165,135,50,14
+    LTEXT           "Name der ZIP-Datei :",IDC_STATIC,15,10,68,8
+    LTEXT           "Basispfad der zu zippenden Dateien :",IDC_STATIC,15,40,
+                    118,8
+    LTEXT           "Ausgangspfad in ZIP-Datei :",IDC_STATIC,15,70,90,8
+    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,
+                    15,115,200,9
+    LTEXT           "",IDC_TEXT,15,105,200,8
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 4,0,0,1
+ PRODUCTVERSION 4,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040704b0"
+        BEGIN
+            VALUE "Comments", "Diverse Tools zum Finden und Vergleichen von Daten\0"
+            VALUE "FileDescription", "DataFinder \0"
+            VALUE "FileVersion", "4, 0, 0, 1\0"
+            VALUE "InternalName", "DataFinder\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "DataFinder.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "Anwendung DataFinder\0"
+            VALUE "ProductVersion", "4, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x407, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO MOVEABLE PURE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 54
+    END
+
+    IDD_FRAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 280
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 104
+    END
+
+    IDD_COPY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 295
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 54
+    END
+
+    IDD_DATAFINDERDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 250
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 179
+    END
+
+    IDD_TEXT_SUCHEN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 280
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 69
+    END
+
+    IDD_HEX_SUCHEN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 290
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 214
+    END
+
+    IDD_PROGRESSDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 320
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 64
+    END
+
+    IDD_AENDERNDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 179
+    END
+
+    IDD_CMPFILEDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 355
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 243
+    END
+
+    IDD_TABCONVERT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 160
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_FINDSAMEDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 310
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 184
+    END
+
+    IDD_ANSCIIANSIDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 120
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 74
+    END
+
+    IDD_MAINVIEW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 151
+    END
+
+    IDD_RENAMEDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 280
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 154
+    END
+
+    IDD_INFOBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 127
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_LFCRCONVERT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 130
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 79
+    END
+
+    IDD_CMPPATHDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 185
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 203
+    END
+
+    IDD_ZIPDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 225
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 154
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "DataFinder\n\nDataFi\n\n\nDataFinder.Document\nDataFi Document"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "DataFinder"
+    AFX_IDS_IDLEMESSAGE     "Bereit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "ER"
+    ID_INDICATOR_CAPS       "UF"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "RF"
+    ID_INDICATOR_OVR        "ÜB"
+    ID_INDICATOR_REC        "MA"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Erstellt ein neues Dokument.\nNeu"
+    ID_FILE_OPEN            "Öffnet ein bestehendes Dokument.\nÖffnen"
+    ID_FILE_CLOSE           "Schließt das aktive Dokument.\nSchließen"
+    ID_FILE_SAVE            "Speichert das aktive Dokument.\nSpeichern"
+    ID_FILE_SAVE_AS         "Speichert das aktive Dokument unter neuem Namen.\nSpeichern unter"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Zeigt Programm-Informationen, Versionsnummer und Copyright an.\nInfo"
+    ID_APP_EXIT             "Verläßt die Anwendung; fragt, ob Dokumente gespeichert werden sollen.\nBeenden"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE2       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE3       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE4       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE5       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE6       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE7       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE8       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE9       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE10      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE11      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE12      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE13      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE14      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE15      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE16      "Öffnet dieses Dokument."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Wechselt zum nächsten Fensterausschnitt.\nNächster Ausschnitt"
+    ID_PREV_PANE            "Springt zum vorherigen Fensterausschnitt zurück.\nVorheriger Ausschnitt"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Teilt das aktive Fenster in Ausschnitte.\nTeilen"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Löscht die Markierung.\nLöschen"
+    ID_EDIT_CLEAR_ALL       "Löscht alles.\nAlles löschen"
+    ID_EDIT_COPY            "Kopiert die Markierung und überträgt sie in die Zwischenablage.\nKopieren"
+    ID_EDIT_CUT             "Entfernt die Markierung und überträgt sie in die Zwischenablage.\nAusschneiden"
+    ID_EDIT_FIND            "Sucht den angegebenen Text.\nSuchen"
+    ID_EDIT_PASTE           "Fügt den Inhalt der Zwischenablage ein.\nEinfügen"
+    ID_EDIT_REPEAT          "Wiederholt die letzte Aktion.\nWiederholen"
+    ID_EDIT_REPLACE         "Ersetzt einen bestimmten Text durch einen anderen.\nErsetzen"
+    ID_EDIT_SELECT_ALL      "Markiert das gesamte Dokument.\nAlles markieren"
+    ID_EDIT_UNDO            "Macht die letzte Aktion rückgängig.\nRückgängig"
+    ID_EDIT_REDO            "Wiederholt die vorher rückgängig gemachte Aktion.\nWiederherstellen"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Blendet die Symbolleiste ein oder aus.\nSymbolleiste ein-/ausschalten"
+    ID_VIEW_STATUS_BAR      "Blendet die Statusleiste ein oder aus.\nStatusleiste ein-/ausschalten"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Ändert die Fenstergröße."
+    AFX_IDS_SCMOVE          "Ändert die Position des Fensters."
+    AFX_IDS_SCMINIMIZE      "Verkleinert das Fenster zu einem Symbol."
+    AFX_IDS_SCMAXIMIZE      "Vergrößert das Fenster zu voller Größe."
+    AFX_IDS_SCNEXTWINDOW    "Wechselt zum nächsten Dokumentfenster."
+    AFX_IDS_SCPREVWINDOW    "Wechselt zum vorherigen Dokumentfenster."
+    AFX_IDS_SCCLOSE         "Schließt das aktive Fenster und fordert zur Dokumentspeicherung auf."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Stellt das Fenster in seiner normalen Größe wieder her."
+    AFX_IDS_SCTASKLIST      "Aktiviert die Task-Liste."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_ADDFILES             "Dateien mit Filter hinzufügen.\nDateien hinzufügen"
+    ID_FINDTEXT             "Sucht Texte in den Dateien\nText Suche"
+    ID_FINDHEX              "Sucht binäre Daten in den Dateien\nBinäre Suche "
+    ID_AENDERN              "Die gefunden Einträge verändern\nÄndern"
+    ID_INSERTALLFILES       "Alle Dateien aus dem Verzeichnis einfügen\nAlle Dateien"
+    ID_COMPAREFILES         "Vergleicht die ersten zwei Dateien in der Liste\nDateien Vergleichen"
+    ID_DELETALLFILES        "Löscht alle Dateien im Listenfenster\nAlle Dateien löschen"
+    ID_TABCONVERT           "Konvertiert die Tabulatorabstände der Dateien\nTabulatorabstände konvertieren"
+    ID_FINDSAME             "Sucht nach gleichen Dateien.\nSuche gleiche Dateien"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_RELOAD               "Aktuallisiert das Verzeichnis\nVerzeichnis aktuallisieren "
+    ID_ASCIIANSI            "Konvertiert Dateinen von ASCCI zu ANSI oder umgekehrt.\nASCCI zu ANSI"
+    ID_RENAMEFILES          "Alle Dateien im Dateifenster umbenennen.\nDateien umbenennen"
+    ID_LFCRCONVERT          "Konvertiert Textdateien vom Linux ins Windows-Format\nLinux/Windows"
+    ID_COMPARETEXT          "Vergleicht den Text der ersten zwei Dateien in der Liste\nText Vergleichen"
+    ID_CMPDIRECTORY         "Vergleicht die Dateien aus der Liste mit einem Verzeichnis\nVerzeichnisvergleich"
+    ID_ZIPFILES             "Die Dateien in der Dateiliste zippen\nDateien Zippen"
+    ID_STATUS_BAR_FLAT      "Schaltet zwischen dem hervorgehobenen und flachen Stil um.\nFlache Symbolleiste"
+    ID_CPPBEATIFY           "Formatiert die ausgewählten C-Sourcen neu\nC Formatieren "
+END
+
+#endif    // Deutsch (Deutschland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Österreich) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEA)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_AUSTRIAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 7, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\DataFinder.rc2""  // Nicht mit Microsoft Visual C++ bearbeitete Ressourcen\r\n"
+    "#include ""l.deu\\afxres.rc""          // Standardkomponenten\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Deutsch (Österreich) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE 7, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\DataFinder.rc2"  // Nicht mit Microsoft Visual C++ bearbeitete Ressourcen
+#include "l.deu\afxres.rc"          // Standardkomponenten
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
+

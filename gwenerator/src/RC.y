@@ -1,0 +1,1669 @@
+--------------------------------------------------------------------------
+--  RC.y
+--
+--  Resource Compiler script grammar file (AYACC)
+--
+--  Copyright (c) Gautier de Montmollin 2008
+--  SWITZERLAND
+--
+--  Permission is hereby granted, free of charge, to any person obtaining a copy
+--  of this software and associated documentation files (the "Software"), to deal
+--  in the Software without restriction, including without limitation the rights
+--  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+--  copies of the Software, and to permit persons to whom the Software is
+--  furnished to do so, subject to the following conditions:
+
+--  The above copyright notice and this permission notice shall be included in
+--  all copies or substantial portions of the Software.
+
+--  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+--  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+--  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+--  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+--  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+--  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+--  THE SOFTWARE.
+
+-- NB: this is the MIT License, as found 28-Jul-2008 on the site
+-- http://www.opensource.org/licenses/mit-license.php
+----------------------------------------------------------------------------
+--
+-- Change log:
+--
+-- 27-Nov-2008 GdM: For push buttons, both closing and non-closing are created,
+--                    but only one is shown (it can be reversed any time)
+--  5-Sep-2008 GdM: Include file with symbols processed; minor changes
+--  5-Aug-2008 GdM: Menus implemented
+--  1-Aug-2008 GdM: Accepts .rc files from Visual Studio 2008
+-- 30-Jul-2008 GdM: Dialogs: most standard controls and common controls implemented
+-- 29-Jul-2008 GdM: First working version (.rc -> working package)
+-- 28-Jul-2008 GdM: Created
+--
+
+%token NUMBER
+%token FLOAT_t, COMMA_t, BAR_t, LBRACE_t, RBRACE_t, NOT_t
+       C_INCLUDE_t
+
+-----------
+-- Items --
+-----------
+
+%token DIALOG_t, DIALOGEX_t, CONTROL_t, CAPTION_t,
+       BEGIN_t, END_t, LANGUAGE_t, STYLE_t, EXSTYLE_t,
+       FONT_t, CLASS_t
+%token PURE_t, DISCARDABLE_t, MOVEABLE_t, PRELOAD_t, FIXED_t
+%token DLGINCLUDE_t, TEXTINCLUDE_t,
+       GUIDELINES_t, DESIGNINFO_t,
+       RT_MANIFEST_t
+%token MENU_t, POPUP_t, MENUITEM_t, SEPARATOR_t,
+       GRAYED_t, INACTIVE_t, CHECKED_t,
+       HELP_t, MENUBARBREAK_t, MENUBREAK_t
+%token ACCELERATORS_t, CHARACTERISTICS_t, VERSION_t, ASCII_t, VIRTKEY_t,
+       NOINVERT_t, ALT_t, SHIFT_t
+%token ICON_t, BITMAP_t, CURSOR_t
+%token VERSIONINFO_t, FILEVERSION_t, PRODUCTVERSION_t, FILEFLAGSMASK_t,
+       FILEFLAGS_t, FILEOS_t, FILETYPE_t, FILESUBTYPE_t, BLOCK_t,
+       VALUE_t
+%token TOOLBAR_t, BUTTON_t, SEPARATOR_t
+
+--------------
+-- Controls --
+--------------
+%token EDITTEXT_t, LTEXT_t, CTEXT_t, RTEXT_t,
+       COMBOBOX_t, GROUPBOX_t, LISTBOX_t,
+       PUSHBUTTON_t, DEFPUSHBUTTON_t,
+       RADIOBUTTON_t, AUTORADIOBUTTON_t,
+       CHECKBOX_t, STATE3_t, AUTOCHECKBOX_t, AUTO3STATE_t
+       SCROLLBAR_t
+
+------------------
+-- Window Class --
+------------------
+%token ANIMATE_CLASS_t, DATETIMEPICK_CLASS_t, HOTKEY_CLASS_t, LINK_CLASS_t,
+       MONTHCAL_CLASS_t, NATIVEFNTCTL_CLASS_t, PROGRESS_CLASS_t, REBARCLASSNAME_t
+       STANDARD_CLASSES_t,
+       STATUSCLASSNAME_t,
+       TOOLBARCLASSNAME_t, TOOLTIPS_CLASS_t, TRACKBAR_CLASS_t, UPDOWN_CLASS_t,
+       WC_BUTTON_t, WC_COMBOBOX_t, WC_COMBOBOXEX_t, WC_EDIT_t,
+       WC_HEADER_t, WC_LISTBOX_t, WC_IPADDRESS_t, WC_LINK_t
+       WC_LISTVIEW_t, WC_NATIVEFONTCTL_t, WC_PAGESCROLLER_t
+       WC_SCROLLBAR_t, WC_STATIC_t, WC_TABCONTROL_t
+       WC_TREEVIEW_t
+
+------------
+-- Styles --
+------------
+
+-- Window style
+%token WS_BORDER_t, WS_CAPTION_t, WS_VISIBLE_t,
+       WS_DLGFRAME_t, WS_POPUP_t, WS_SYSMENU_t,
+       WS_HSCROLL_t, WS_VSCROLL_t, WS_TABSTOP_t,
+       WS_GROUP_t, WS_DISABLED_t,
+       WS_MINIMIZEBOX_t, WS_MAXIMIZEBOX_t,
+       WS_THICKFRAME_t,
+       WS_CHILD_t, WS_CLIPSIBLINGS_t
+       WS_SIZEBOX_t
+-- Dialog style
+%token DS_3DLOOK_t, DS_CENTER_t,
+       DS_MODALFRAME_t, DS_SYSMODAL_t,
+       DS_SHELLFONT_t, DS_SETFONT_t, DS_FIXEDSYS_t,
+       DS_NOIDLEMSG_t, DS_CENTERMOUSE_t,
+       DS_LOCALEDIT_t, DS_SETFOREGROUND_t, DS_CONTEXTHELP_t,
+       DS_CONTROL_t
+-- Static styles
+%token SS_NOPREFIX_t, SS_SUNKEN_t, SS_BLACKFRAME_t,
+       SS_CENTERIMAGE_t, SS_BITMAP_t, SS_ICON_t, SS_SIMPLE_t,
+       SS_LEFTNOWORDWRAP_t, SS_ENDELLIPSIS_t,
+       SS_BLACKRECT_t, SS_GRAYRECT_t, SS_WHITERECT_t,
+       SS_REALSIZEIMAGE_t
+-- Edit styles
+%token ES_MULTILINE_t, ES_READONLY_t,
+       ES_AUTOHSCROLL_t, ES_AUTOVSCROLL_t,
+       ES_WANTRETURN_t, ES_NUMBER_t,
+       ES_CENTER_t, ES_RIGHT_t,
+       ES_PASSWORD_t, ES_UPPERCASE_t,
+       ES_OEMCONVERT_t
+-- Box/button styles
+%token BS_LEFTTEXT_t, BS_AUTORADIOBUTTON_t,  BS_3STATE_t
+       BS_AUTOCHECKBOX_t, BS_BITMAP_t, BS_OWNERDRAW_t,
+       BS_BOTTOM_t, BS_FLAT_t, BS_LEFT_t, BS_RIGHT_t, BS_CENTER_t, BS_VCENTER_t,
+       BS_PUSHLIKE_t, BS_TOP_t, BS_MULTILINE_t
+-- Combo-box styles
+%token CBS_SIMPLE_t, CBS_DROPDOWN_t, CBS_DROPDOWNLIST_t,
+       CBS_SORT_t, CBS_HASSTRINGS_t, CBS_AUTOHSCROLL_t,
+       CBS_DISABLENOSCROLL_t, CBS_OWNERDRAWFIXED_t
+-- Listbox styles
+%token LBS_SORT_t, LBS_MULTIPLESEL_t, LBS_MULTICOLUMN_t,
+       LBS_NOINTEGRALHEIGHT_t, LBS_USETABSTOPS_t,
+       LBS_NOTIFY_t, LBS_EXTENDEDSEL_t,
+       LBS_DISABLENOSCROLL_t, LBS_NOSEL_t,
+       LBS_OWNERDRAWFIXED_t, LBS_HASSTRINGS_t
+-- Progress bar styles
+%token PBS_VERTICAL_t
+-- Scrollbar styles
+%token SBS_VERT_t
+-- Trackbar styles
+%token TBS_NOTICKS_t, TBS_AUTOTICKS_t, TBS_VERT_t, TBS_TOP_t,
+       TBS_BOTTOM_t, TBS_TOOLTIPS_t, TBS_BOTH_t
+-- Trackbar styles
+%token UDS_HORZ_t, UDS_ARROWKEYS_t, UDS_WRAP_t, UDS_NOTHOUSANDS_t
+-- Listview styles
+%token LVS_ALIGNLEFT_t, LVS_ICON_t, LVS_REPORT_t,
+       LVS_SHOWSELALWAYS_t, LVS_SORTASCENDING_t,
+       LVS_AUTOARRANGE_t, LVS_NOSORTHEADER_t
+-- Treeview styles
+%token TVS_INFOTIP_t, TVS_NOSCROLL_t, TVS_HASLINES_t,
+       TVS_SHOWSELALWAYS_t, TVS_HASBUTTONS_t, TVS_LINESATROOT_t,
+       TVS_NOTOOLTIPS_t
+-- Date time picker styles
+%token DTS_RIGHTALIGN_t
+-- Month calendar styles
+%token MCS_NOTODAY_t
+-- Tab Control Styles
+%token TCS_HOTTRACK_t
+-- Extended styles
+%token WS_EX_CLIENTEDGE_t, WS_EX_STATICEDGE_t, WS_EX_ACCEPTFILES_t,
+       WS_EX_APPWINDOW_t, WS_EX_TOOLWINDOW_t,
+       WS_EX_CONTROLPARENT_t, WS_EX_NOPARENTNOTIFY_t,
+       WS_EX_CONTEXTHELP_t, WS_EX_RIGHT_t, WS_EX_TRANSPARENT_t,
+       WS_EX_TOPMOST_t
+
+-- Misc --
+%token IDC_STATIC_t
+
+%token IDENT_t, STRINGTABLE_t
+%token RCString, INCString, CONSUME_EOL_t
+
+%start rc
+
+{
+
+  type const_type is (
+    intval,
+    floatval,
+    doubleval,
+    stringval,
+    any_type
+  );
+
+  type YYSType is record
+     text    : String(1..80);
+     length  : Natural := 0;
+     vartype : const_type;
+     intval  : Long_Long_Integer;
+     floatval: Long_Float;
+  end record;
+
+}
+
+%%
+
+rc      : RC_items {RC_Help.YY_ACCEPT;}
+        | error    {RC_Help.YY_ABORT;}
+        ;
+
+RC_items  : RC_item
+          | RC_item RC_items;
+
+RC_item   : dialog
+          | menu
+          | accelerator
+          | graphic
+          | version_info
+          | string_table
+          | toolbar
+          | language
+          | dlginclude
+          | textinclude
+          | include
+          | guidelines
+          | manifest
+          ;
+
+-------------------
+-- Window styles --
+-------------------
+
+ws_styles_optional :
+          -- nothing
+          | COMMA_t ws_style_list
+          ;
+
+ws_style_list:
+            ws_style
+          | ws_style BAR_t ws_style_list
+          ;
+
+ws_style  :
+                  WS_HSCROLL_t
+          |       WS_VSCROLL_t
+          |       WS_BORDER_t
+          | NOT_t WS_BORDER_t
+          |       WS_VISIBLE_t
+          | NOT_t WS_VISIBLE_t
+          |       WS_CAPTION_t
+          |       WS_DLGFRAME_t
+          |       WS_POPUP_t
+          |       WS_SYSMENU_t
+          |       WS_TABSTOP_t
+          | NOT_t WS_TABSTOP_t
+          |       WS_GROUP_t
+          | NOT_t WS_GROUP_t
+          |       WS_DISABLED_t
+          |       WS_MINIMIZEBOX_t
+          |       WS_MAXIMIZEBOX_t
+          |       WS_THICKFRAME_t
+          |       WS_CHILD_t
+          |       WS_CLIPSIBLINGS_t
+          |       WS_SIZEBOX_t
+          ;
+
+------------
+-- Dialog --
+------------
+-- http://msdn.microsoft.com/en-us/library/aa381002(VS.85).aspx
+
+dialog    :    RC_Ident
+               { if anonymous_item then
+                   anonymous_dialog_counter:=
+                     anonymous_dialog_counter+1;
+                   last_dialog_ident:= U("Dialog_" &
+                     Trim(Integer'Image(anonymous_dialog_counter),both));
+                 else
+                   last_dialog_ident:= last_ident;
+                 end if;
+               }
+               dialog_hint
+               {
+                 Open_if_separate(S(last_dialog_ident));
+                 Ada_Put_Line(to_spec,
+                   "  type " & S(last_dialog_ident) &
+                   "_Type is new Window_type with record"
+                 );
+                 Ada_New_Line(to_spec);
+                 Ada_New_Line(to_body);
+                 last_caption:= U("""""");
+                 style_switch:= (others => False); -- Reset all style switches
+                 static_counter:= 0;
+               }
+               properties
+               rect
+               {
+                 last_dialog_rect:= last_rect;
+               }
+               dlg_optional_statements
+               {
+                 last_dialog_caption:= last_caption;
+                 Ada_Proc_Dialog(
+                    to_body,
+                    S(last_dialog_ident) & "_Type",
+                    S(last_dialog_caption)
+                 );
+               }
+
+               BEGIN_block
+               { empty_dialog_record:= True; }
+               dlg_items
+               END_block
+               { Ada_Proc_Dialog(
+                    to_spec,
+                    S(last_dialog_ident) & "_Type",
+                    S(last_dialog_caption)
+                 );
+                 Ada_Put_Line(to_spec, ";");
+                 Ada_New_Line(to_spec);
+                 Ada_Put_Line(to_body,
+                   "  end Create_Contents; -- " &
+                   S(last_dialog_ident) & "_Type" );
+                 Ada_New_Line(to_body);
+                 Close_if_separate(S(last_dialog_ident));
+               }
+          ;
+
+dialog_hint:
+            DIALOG_t
+          | DIALOGEX_t
+          ;
+
+dlg_optional_statements
+          :
+          | dlg_optional_statement dlg_optional_statements
+          ;
+
+dlg_optional_statement
+          : caption
+          | font
+          | language
+          | dlg_styles
+          | dlg_ex_styles
+          | menu_for_dialog
+          | class_for_dialog
+          ;
+
+language :  LANGUAGE_t
+            RC_Ident -- lang
+            COMMA_t
+            RC_Ident -- sublang
+          ;
+
+font      : FONT_t
+            NUMBER -- size
+            COMMA_t
+            RCSTRING -- face
+            font_ext
+            ;
+
+font_ext  :
+          | COMMA_t NUMBER -- weight
+            COMMA_t NUMBER -- italic
+            COMMA_t NUMBER -- charset
+          ;
+
+properties:               -- !! right name for it ?
+          | property properties
+          ;
+
+property  : PURE_t
+          | DISCARDABLE_t
+          | MOVEABLE_t
+          | PRELOAD_t
+          | FIXED_t
+          ;
+
+dlg_styles: STYLE_t
+            dlg_style_list
+          ;
+
+dlg_style_list:
+            dlg_style
+          | dlg_style BAR_t dlg_style_list
+          ;
+
+dlg_style : DS_3DLOOK_t
+          | DS_CENTER_t
+          | DS_MODALFRAME_t
+          | DS_SYSMODAL_t
+          | DS_SETFONT_t     { style_switch(shell_font):= True; }
+          | DS_SHELLFONT_t   { style_switch(shell_font):= True; }
+          | DS_FIXEDSYS_t    { style_switch(shell_font):= True; }
+          | DS_NOIDLEMSG_t
+          | DS_CENTERMOUSE_t
+          | DS_LOCALEDIT_t
+          | DS_SETFOREGROUND_t
+          | DS_CONTEXTHELP_t
+          | DS_CONTROL_t
+          | ws_style
+          | NUMBER
+          ;
+
+dlg_ex_styles:
+            EXSTYLE_t
+            ex_style_list
+          ;
+
+menu_for_dialog :
+            MENU_t
+            RC_Ident
+            ;
+
+class_for_dialog :
+            CLASS_t
+            class
+            ;
+
+caption   : CAPTION_t
+            RCSTRING
+            { last_caption:= U(yytext); }
+          ;
+
+dlg_items : -- empty
+          | {
+              style_switch:= (others => False); -- Reset all style switches
+              last_text:= U("""""");
+            }
+            dlg_item
+            dlg_items
+          ;
+
+dlg_item  : control
+          | edittext    {empty_dialog_record:= False;}
+          | label
+          | combobox    {empty_dialog_record:= False;}
+          | groupbox    {empty_dialog_record:= False;}
+          | listbox     {empty_dialog_record:= False;}
+          | checkbox    {empty_dialog_record:= False;}
+          | pushbutton  {empty_dialog_record:= False;}
+          | radiobutton {empty_dialog_record:= False;}
+          | scrollbar   {empty_dialog_record:= False;}
+          | icon        {empty_dialog_record:= False;}
+          ;
+
+-------------
+-- Control --
+-------------
+-- http://msdn.microsoft.com/en-us/library/aa380911(VS.85).aspx
+-- CONTROL text, id, class, style, x, y, width, height [, extended-style]
+
+control   :    CONTROL_t
+               { control:= unknown; }
+               control_text
+               { last_control_text:= U(yytext); }
+               COMMA_t
+               RC_Ident -- id
+               { Insert_last_symbol;
+               }
+               COMMA_t
+               class
+               { last_class:= U(yytext); }
+               COMMA_t
+               ctrl_style_list
+               COMMA_t
+               rect
+               ex_styles_optional -- this adds 1 Shift/Reduce conflict
+               {  if control /= unknown then
+                    empty_dialog_record:= False;
+                  end if;
+                  case control is
+                    when unknown =>
+                      Ada_Comment(to_spec, "Unknown Class = " & S(last_class));
+                    when bitmap =>
+                      Ada_normal_control(
+                        "Bitmap_Type",
+                         ", Num_resource(" & S(last_control_text) & ')',
+                         -- ^ direct resource name, as string
+                         "",
+                        with_id => False
+                      );
+                    when track_bar =>
+                      Ada_normal_control(
+                        "Trackbar_Control_Type",
+                         "",
+                         ", " & Trackbar_Control_Ticks_Type'Image(Trackbar_Control_Ticks) &
+                         ", " & Control_Direction_Type'Image(Control_Direction) &
+                         ", Tips => " & Boolean'Image(style_switch(tips)),
+                         with_id => False
+                      );
+                    when up_down =>
+                      Ada_normal_control(
+                        "Up_Down_Control_Type",
+                         "",
+                         ", " & Boolean'Image(style_switch(keys)) &
+                         ", " & Control_Direction_Type'Image(Control_Direction) &
+                         ", " & Boolean'Image(style_switch(wrap)) &
+						 ", Auto_Buddy => False" &
+                         ", Thousands => " & Boolean'Image(not style_switch(no_1000)),
+                         with_id => False
+                      );
+                    when progress =>
+                      Ada_normal_control("Progress_Control_Type", with_id => False );
+                    when list_view =>
+                      Ada_normal_control("List_View_Control_Type", with_id => False );
+                    when tree_view =>
+                      Ada_normal_control("List_View_Control_Type", with_id => False );
+                    when tab_control =>
+                      Ada_normal_control("Tab_Window_Control_Type", with_id => False );
+                      -- Tab_Window_Control_Type allows to associate a window
+                      -- to a tab via the Tab_Window method
+                    when date_time =>
+                      Ada_normal_control(
+                        "Date_Time_Picker_Type",
+                         "",
+                         ", Method=> Up_Down",
+                        with_id => False
+                      );
+                    when calendar =>
+                      Ada_normal_control(
+                        "Date_Time_Picker_Type",
+                         "",
+                         ", Method => Calendar",
+                        with_id => False
+                      );
+                  end case;
+               }
+          ;
+
+control_text :
+          RCString -- correct syntax (MSDN)
+        | NUMBER   -- web1.rc, 465
+        | RC_Ident -- image reference for WC_Static
+                   -- this adds 1 Reduce/Reduce conflict
+        ;
+
+
+class : window_class
+      | RCSTRING
+      ;
+
+
+------------------
+-- Window Class --
+------------------
+-- http://msdn.microsoft.com/en-us/library/bb775491(VS.85).aspx
+
+window_class:
+        ANIMATE_CLASS_t
+        -- Creates animation controls (silently display an AVI clip).
+      | DATETIMEPICK_CLASS_t
+        -- Creates date and time picker controls.
+        { control:= date_time;
+		}
+      | HOTKEY_CLASS_t -- Creates hot key controls.
+      | LINK_CLASS_t
+      | MONTHCAL_CLASS_t
+        -- Creates month calendar controls.
+        { control:= calendar;
+		}
+      | NATIVEFNTCTL_CLASS_t -- Creates native font controls. These controls are used with native fonts.
+      | PROGRESS_CLASS_t
+	    -- Creates progress bars.
+        { control:= progress;
+          Control_Direction:= Horizontal;
+		}
+      | REBARCLASSNAME_t -- Creates rebar controls. These controls act as a container for child windows.
+      | STANDARD_CLASSES_t
+      | STATUSCLASSNAME_t -- Creates status windows.
+      | TOOLBARCLASSNAME_t
+      | TOOLTIPS_CLASS_t
+      | TRACKBAR_CLASS_t
+        -- Creates trackbars (select from a range of values by moving a slider).
+        { control:= track_bar;
+          Trackbar_Control_Ticks:= No_Ticks;
+          Control_Direction:= Horizontal;
+        }
+      | UPDOWN_CLASS_t
+        { control:= up_down;
+          Control_Direction:= Vertical;
+		}
+      | WC_BUTTON_t
+      | WC_COMBOBOX_t
+      | WC_COMBOBOXEX_t
+      | WC_EDIT_t
+      | WC_HEADER_t -- Creates header controls (headings at the top of columns).
+      | WC_LISTBOX_t
+      | WC_IPADDRESS_t -- Creates IP address controls.
+      | WC_LINK_t          -- Creates SysLink controls. These controls contain hypertext links.
+      | WC_LISTVIEW_t
+        -- Creates list-view controls.
+        { control:= list_view;
+		}
+      | WC_NATIVEFONTCTL_t -- Creates native font controls (invisible)
+      | WC_PAGESCROLLER_t  -- Creates pager controls (contain and scroll another window).
+      | WC_SCROLLBAR_t     -- Creates scrollbar controls (scroll the contents of a window).
+      | WC_STATIC_t
+        -- Creates static controls. These controls contain noneditable text.
+        -- ResEdit seems to use that for pictures
+      | WC_TABCONTROL_t
+        -- Creates tab controls
+        { control:= tab_control;
+		}
+      | WC_TREEVIEW_t
+        -- Creates tree-view controls.
+        { control:= tree_view;
+		}
+      ;
+
+ctrl_style_list:
+            ctrl_style
+          | ctrl_style BAR_t ctrl_style_list
+          ;
+
+ctrl_style: ws_style
+          | ss_style
+          | bs_style_only
+          | es_style_only
+          | PBS_VERTICAL_t
+            { Control_Direction:= Vertical; }
+          | TBS_VERT_t
+            { Control_Direction:= Vertical; }
+          | TBS_TOP_t
+            { Trackbar_Control_Ticks:= Top_Ticks; }
+          | TBS_BOTTOM_t
+            { Trackbar_Control_Ticks:= Bottom_Ticks; }
+          | TBS_NOTICKS_t
+            -- ignore (default); ResEdit combines with others...
+          | TBS_AUTOTICKS_t
+		  | TBS_TOOLTIPS_t
+            { style_switch(tips):= True; }
+          | TBS_BOTH_t
+          | UDS_HORZ_t
+            { Control_Direction:= Horizontal; }
+	      | UDS_ARROWKEYS_t
+            { style_switch(keys):= True; }
+          | UDS_WRAP_t
+            { style_switch(wrap):= True; }
+          | UDS_NOTHOUSANDS_t
+            { style_switch(no_1000):= True; }
+          | LVS_ALIGNLEFT_t
+          | LVS_ICON_t
+          | LVS_REPORT_t
+          | LVS_SHOWSELALWAYS_t
+          | LVS_SORTASCENDING_t
+          | LVS_AUTOARRANGE_t
+          | LVS_NOSORTHEADER_t
+          | TVS_INFOTIP_t
+            { style_switch(tips):= True; }
+          | TVS_NOSCROLL_t
+          | TVS_HASLINES_t
+          | TVS_SHOWSELALWAYS_t
+          | TVS_HASBUTTONS_t
+          | TVS_LINESATROOT_t
+          | TVS_NOTOOLTIPS_t
+          | DTS_RIGHTALIGN_t
+          | MCS_NOTODAY_t
+          | TCS_HOTTRACK_t
+          | NUMBER
+          ;
+
+-------------------
+-- Extend styles --
+-------------------
+
+ex_styles_optional :
+          -- nothing
+          | COMMA_t ex_style_list
+          ;
+
+ex_style_list:
+            ex_style
+          | ex_style BAR_t ex_style_list
+          ;
+
+ex_style  : WS_EX_CLIENTEDGE_t
+          | WS_EX_CONTROLPARENT_t
+          | WS_EX_STATICEDGE_t
+          | WS_EX_ACCEPTFILES_t
+          | WS_EX_APPWINDOW_t
+          | WS_EX_TOOLWINDOW_t
+          | WS_EX_NOPARENTNOTIFY_t
+          | WS_EX_CONTEXTHELP_t
+          | WS_EX_RIGHT_t
+          | WS_EX_TOPMOST_t
+          | WS_EX_TRANSPARENT_t
+          | NUMBER
+          ;
+
+-------------------
+-- Static styles --
+-------------------
+
+ss_style  : SS_NOPREFIX_t
+          | SS_SUNKEN_t
+          | SS_BLACKFRAME_t
+          | SS_CENTERIMAGE_t
+          | SS_BITMAP_t         { control:= bitmap; }
+          | SS_ICON_t
+          | SS_REALSIZEIMAGE_t
+          | SS_SIMPLE_t
+          | SS_LEFTNOWORDWRAP_t
+          | SS_BLACKRECT_t
+          | SS_GRAYRECT_t
+          | SS_WHITERECT_t
+          | SS_ENDELLIPSIS_t
+          ;
+
+
+----------------
+-- Edit boxes --
+----------------
+
+edittext  : EDITTEXT_t
+            edit_text
+            ctrl_properties_notext
+            es_styles_optional
+            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            {
+              if style_switch(multi_line) then
+                Ada_normal_control(
+                  "Multi_Line_Edit_Box_Type",
+                  ", " & S(last_text),
+                  ", " & Boolean'Image(style_switch(auto_h_scroll))
+                );
+              else
+                Ada_normal_control(
+                  "Edit_Box_Type",
+                  ", " & S(last_text),
+                  ", " & Boolean'Image(style_switch(auto_h_scroll))
+                );
+              end if;
+            }
+            ;
+
+-- Windres (.res -> .rc) outputs a text (seems wrong)
+edit_text :
+          | RCString COMMA_t
+          ;
+
+es_styles_optional :
+          -- nothing
+          | COMMA_t es_style_list
+          ;
+
+es_style_list:
+            es_style
+          | es_style BAR_t es_style_list
+          ;
+
+es_style  : es_style_only
+          | ss_style
+          | ws_style
+          | NUMBER
+          ;
+
+es_style_only :
+            ES_MULTILINE_t   { style_switch(multi_line):= True; }
+          | ES_READONLY_t
+          | ES_AUTOHSCROLL_t { style_switch(auto_h_scroll):= True; }
+          | ES_AUTOVSCROLL_t { style_switch(auto_v_scroll):= True; }
+          | ES_WANTRETURN_t
+          | ES_RIGHT_t
+          | ES_NUMBER_t
+          | ES_PASSWORD_t
+          | ES_UPPERCASE_t
+          | ES_CENTER_t
+          | ES_OEMCONVERT_t
+          ;
+
+
+label     : pos_hint
+            ctrl_properties
+            es_styles_optional
+            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            {
+              if anonymous_item then
+                Ada_Coord_conv(last_rect);
+                Ada_Put_Line(to_spec, "    -- Label: " & S(last_ident) );
+                Ada_Put_Line(to_body,
+                  "    Create_label( Window, " &
+                  S(last_text) &
+                  ", x,y,w,h, GWindows.Static_Controls." &
+                  GWindows.Static_Controls.Alignment_Type'Image(last_alignment)
+                  & ");"
+                );
+              else
+                empty_dialog_record:= False;
+                Ada_normal_control(
+                  "Label_Type",
+                  ", " & S(last_text),
+                  ", GWindows.Static_Controls." &
+                  GWindows.Static_Controls.Alignment_Type'Image(last_alignment)
+                );
+              end if;
+            }
+            ;
+
+pos_hint : LTEXT_t {last_alignment:= GWindows.Static_Controls.Left;   }
+         | CTEXT_t {last_alignment:= GWindows.Static_Controls.Center; }
+         | RTEXT_t {last_alignment:= GWindows.Static_Controls.Right;  }
+         ;
+
+-----------------
+-- Combo-boxes --
+-----------------
+
+combobox  : COMBOBOX_t
+            { combo:= no_drop; }
+            ctrl_properties_notext
+            cbs_styles_optional
+            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            {
+              Ada_normal_control(
+                Combo_type_name(combo),
+                 ", " & S(last_text),
+                 ", " & Boolean'Image(style_switch(sort))
+              );
+            }
+            ;
+
+cbs_styles_optional :
+          -- nothing
+          | COMMA_t cbs_style_list
+          ;
+
+cbs_style_list:
+            cbs_style
+          | cbs_style BAR_t cbs_style_list
+          ;
+
+cbs_style : CBS_SIMPLE_t          { combo:= no_drop; }
+          | CBS_DROPDOWN_t        { combo:= drop_down; }
+          | CBS_DROPDOWNLIST_t    { combo:= drop_down_list; }
+          | CBS_SORT_t            { style_switch(sort):= True; }
+          | CBS_HASSTRINGS_t
+          | CBS_AUTOHSCROLL_t
+          | CBS_DISABLENOSCROLL_t
+          | CBS_OWNERDRAWFIXED_t
+          | ws_style
+          | NUMBER
+          ;
+
+-----------------
+-- Group boxes --
+-----------------
+
+groupbox  : GROUPBOX_t
+            ctrl_properties
+            gbs_styles_optional
+            {
+              Ada_Put_Line(to_spec, "    " & S(last_Ada_ident) & ": Group_Box_Type;");
+              Ada_Coord_conv(last_rect);
+              Ada_Put_Line(to_body,
+                "    Create( Window." & S(last_Ada_ident) & ", Window, " &
+                S(last_text) & ", x,y,w,h);"
+              );
+            }
+            ;
+
+gbs_styles_optional :
+          -- nothing
+          | COMMA_t gbs_style_list
+          ;
+
+gbs_style_list:
+            gbs_style
+          | gbs_style BAR_t gbs_style_list
+          ;
+
+gbs_style : NUMBER
+          | ws_style
+          | bs_style_only
+          ;
+
+----------------
+-- List boxes --
+----------------
+
+listbox   : LISTBOX_t
+            lbs_text
+            ctrl_properties_notext
+            lbs_styles_optional
+            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            {
+              Ada_normal_control(
+                "List_Box_Type",
+                 "",
+                 ", " & Boolean'Image(style_switch(sort))
+              );
+            }
+            ;
+
+-- Windres (.res -> .rc) outputs a text (seems wrong)
+lbs_text  :
+          | RCString COMMA_t
+          ;
+
+lbs_styles_optional :
+          -- nothing
+          | COMMA_t lbs_style_list
+          ;
+
+lbs_style_list: lbs_style
+          | lbs_style BAR_t lbs_style_list
+          ;
+
+lbs_style :       LBS_SORT_t
+            { style_switch(sort):= True; }
+          |       LBS_MULTIPLESEL_t
+          |       LBS_MULTICOLUMN_t
+          |       LBS_NOINTEGRALHEIGHT_t
+          |       LBS_USETABSTOPS_t
+          | NOT_t LBS_NOTIFY_t
+          |       LBS_EXTENDEDSEL_t
+          |       LBS_DISABLENOSCROLL_t
+          |       LBS_NOSEL_t
+          |       LBS_OWNERDRAWFIXED_t
+          |       LBS_HASSTRINGS_t
+          | ws_style
+          | NUMBER
+          ;
+
+---------------------
+-- Check boxes [x] --
+---------------------
+
+checkbox  : checkbox_hint
+            ctrl_properties
+            bs_styles_optional
+            { if style_switch(state3) then
+                Ada_normal_control("Three_State_Box_Type", ", " & S(last_text));
+              else
+                Ada_normal_control("Check_Box_Type", ", " & S(last_text));
+              end if;
+            }
+            ;
+
+checkbox_hint : CHECKBOX_t
+               { style_switch(auto):= False;
+                 style_switch(state3):= False;
+               }
+            |   STATE3_t
+               { style_switch(auto):= False;
+                 style_switch(state3):= True;
+               }
+            |   AUTOCHECKBOX_t
+               { style_switch(auto):= True;
+                 style_switch(state3):= False;
+               }
+            |   AUTO3STATE_t
+               { style_switch(auto):= True;
+                 style_switch(state3):= True;
+               }
+            ;
+
+
+bs_styles_optional :
+          -- nothing
+          | COMMA_t bs_style_list
+          ;
+
+bs_style_list:
+            bs_style
+          | bs_style BAR_t bs_style_list
+          ;
+
+bs_style  : bs_style_only
+          | ws_style
+          | NUMBER
+          ;
+
+bs_style_only :
+            BS_LEFTTEXT_t
+          | BS_AUTORADIOBUTTON_t
+            { style_switch(auto):= True; }
+          | BS_3STATE_t
+            { style_switch(state3):= True; }
+          | BS_AUTOCHECKBOX_t
+            { style_switch(auto):= True; }
+          | BS_BITMAP_t
+          | BS_OWNERDRAW_t
+          | BS_TOP_t
+          | BS_BOTTOM_t
+          | BS_CENTER_t
+          | BS_LEFT_t
+          | BS_RIGHT_t
+          | BS_FLAT_t
+          | BS_VCENTER_t
+          | BS_MULTILINE_t
+          | BS_PUSHLIKE_t
+          ;
+
+------------------
+-- Push buttons --
+------------------
+
+pushbutton  :
+            pushbutton_hint
+            ctrl_properties
+            bs_styles_optional
+            {
+              Ada_Coord_conv(last_rect);
+              -- Here it is a bit tricky, since, as expected,
+              -- Dialog_Button's close the window and Button don't .
+              -- If we want a "real", permanent, window, then we want
+              -- the latter sort.
+              --
+              -- "Dialog" version of the button
+              --
+              Ada_Put(to_spec, "    " & S(last_Ada_ident) & ": ");
+              if style_switch(default) then
+                Ada_Put(to_spec, "Default_");
+              end if;
+              Ada_Put_Line(to_spec, "Dialog_Button_Type;    -- closes parent window after click" );
+              Ada_Put_Line(to_body, "    -- Both versions of the button are created.");
+              Ada_Put_Line(to_body, "    -- The more meaningful one is made visible, but this choice");
+              Ada_Put_Line(to_body, "    -- can be reversed, for instance on a ""Browse"" button.");
+              Ada_normal_control_create(", " & S(last_text));
+              --
+              -- "Window" version of the button
+              --
+              temp_ustr:= last_Ada_ident;
+              last_Ada_ident:= U(S(last_Ada_ident) & "_permanent");
+              Ada_Put(to_spec, "    " & S(last_Ada_ident) & ": ");
+              if style_switch(default) then
+                Ada_Put(to_spec, "Default_");
+              end if;
+              Ada_Put_Line(to_spec, "Button_Type; -- doesn't close parent window after click" );
+              Ada_normal_control_create(", " & S(last_text));
+              Ada_Put_Line(to_body, "    if for_dialog then -- hide the non-closing button");
+              Ada_Put_Line(to_body, "      Window." & S(last_Ada_ident) & ".Hide;");
+              Ada_Put_Line(to_body, "    else -- hide the closing button");
+              Ada_Put_Line(to_body, "      Window." & S(temp_ustr) & ".Hide;");
+              Ada_Put_Line(to_body, "    end if;");
+            }
+            ;
+
+pushbutton_hint :
+             PUSHBUTTON_t
+           | DEFPUSHBUTTON_t
+             { style_switch(default):= True; }
+           ;
+
+-----------------------
+-- Radio buttons (.) --
+-----------------------
+
+radiobutton :
+            radiobutton_hint
+            ctrl_properties
+            bs_styles_optional
+            {
+              Ada_normal_control(
+                "Radio_Button_Type",
+                ", " & S(last_text));
+            }
+            ;
+
+radiobutton_hint :
+             RADIOBUTTON_t
+           | AUTORADIOBUTTON_t
+           ;
+
+-----------------
+-- Scroll bars --
+-----------------
+
+scrollbar :
+         SCROLLBAR_t
+         ctrl_properties_notext
+         sbs_styles_optional
+            {
+              if style_switch(vertical) then
+                Ada_normal_control("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Vertical");
+              else
+                Ada_normal_control("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Horizontal");
+              end if;
+            }
+            ;
+
+sbs_styles_optional :
+          -- nothing
+          | COMMA_t sbs_style_list
+          ;
+
+sbs_style_list:
+            sbs_style
+          | sbs_style BAR_t sbs_style_list
+          ;
+
+sbs_style : SBS_VERT_t { style_switch(vertical):= True; }
+          | ws_style
+          | NUMBER
+          ;
+
+----------------------
+-- Icons in dialogs --
+----------------------
+
+icon      : ICON_t
+            icon_file  -- image file name
+            { last_control_text:= U(yytext); }
+            COMMA_t
+            ctrl_properties_notext
+            es_styles_optional
+            {
+              Ada_normal_control(
+                "GWindows.Static_Controls.Icon_Type",
+                ", Num_resource(" & S(last_control_text) & ')' ,
+                with_id => False);
+            }
+            ;
+
+icon_file : RC_Ident | RCString ;
+
+-----------------------------
+-- Common part to controls --
+-----------------------------
+
+ctrl_properties_notext :
+            RC_Ident -- control's identifier
+            { Insert_last_symbol; }
+            COMMA_t
+            rect
+            ;
+
+ctrl_properties :
+            RCSTRING -- default text
+            { last_text:= U(yytext); }
+            COMMA_t
+            ctrl_properties_notext
+            ;
+
+rect : NUMBER
+       { RC_Help.last_rect.x:= yylval.intval;
+       }
+       COMMA_t
+       NUMBER
+       { RC_Help.last_rect.y:= yylval.intval;
+       }
+       COMMA_t
+       NUMBER
+       { RC_Help.last_rect.w:= yylval.intval;
+       }
+       COMMA_t
+       NUMBER
+       { RC_Help.last_rect.h:= yylval.intval;
+       }
+       ;
+
+-----------
+-- Menus --
+-----------
+
+menu : RC_Ident
+       { if anonymous_item then
+           anonymous_menu_counter:=
+             anonymous_menu_counter+1;
+           last_dialog_ident:= U("Menu_" &
+             Trim(Integer'Image(anonymous_menu_counter),both));
+         else
+           last_dialog_ident:= last_ident;
+         end if;
+       }
+       MENU_t
+       properties
+       {
+         Open_if_separate(S(last_dialog_ident));
+         Ada_Put_Line(to_spec,
+           "  type " & S(last_dialog_ident) &
+           "_Type is tagged record"
+         );
+         menu_popup_counter:= 0;
+         popup_top:= 0;
+         Ada_Put_Line(to_spec,
+           "    Main: Menu_Type; -- Root of the whole menu tree"
+         );
+         Ada_New_Line(to_body);
+         Ada_Proc_Menu(
+            to_body,
+            S(last_dialog_ident) & "_Type"
+         );
+         Ada_New_Line(to_body);
+         Ada_Put_Line(to_body, "  is");
+         Ada_Put_Line(to_body, "  begin");
+         Ada_Put_Line(to_body, "    Menu.Main:= Create_Menu;");
+       }
+       BEGIN_block
+       { empty_dialog_record:= True;
+       }
+       menu_items_optional
+       END_block
+       { if empty_dialog_record then
+           Ada_Put_Line(to_spec, "    null; -- empty!");
+         end if;
+         Ada_Put_Line(to_spec,
+           "  end record; -- " & S(last_dialog_ident) & "_Type"
+         );
+         Ada_New_Line(to_spec);
+         Ada_Proc_Menu(
+            to_spec,
+            S(last_dialog_ident) & "_Type"
+         );
+         Ada_Put_Line(to_spec, ";");
+         Ada_New_Line(to_spec);
+         Ada_Put_Line(to_body,
+           "  end Create_Full_Menu; -- " &
+           S(last_dialog_ident) & "_Type" );
+         Ada_New_Line(to_body);
+         Close_if_separate(S(last_dialog_ident));
+       }
+     ;
+
+
+menu_items_optional :
+          -- nothing
+          | menu_item_list
+          ;
+
+menu_item_list:
+            menu_item
+          | menu_item menu_item_list
+          ;
+
+menu_item : menu_entry
+          | menu_separator
+          | popup
+            { empty_dialog_record:= False; }
+          ;
+
+popup :     POPUP_t
+            RCString
+            { last_popup_title:= U(yytext); }
+            menu_options
+            {
+              menu_popup_counter:= menu_popup_counter + 1;
+              Ada_Put_Line(to_spec,
+                "    " &
+                Popup_num_to_Ada_ident(menu_popup_counter) &
+                ": Menu_Type; "
+                & " -- level" & Integer'Image(popup_top+1) &
+                "; title: " &
+                S(last_popup_title)
+              );
+              Ada_Put_Line(to_body,
+                "    Menu." &
+                Popup_num_to_Ada_ident(menu_popup_counter) &
+                ":= Create_Popup;"
+              );
+              Ada_Put_Line(to_body,
+                "    Append_Menu(Menu." &
+                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+                ", " & S(last_popup_title) &
+                ", Menu." &
+                Popup_num_to_Ada_ident(menu_popup_counter) &
+                ");"
+              );
+              popup_top:= popup_top+1;
+              popup_stack(popup_top):= menu_popup_counter;
+            }
+            BEGIN_block
+            menu_items_optional
+            END_block
+            {
+              popup_top:= popup_top-1;
+            }
+          ;
+
+menu_entry :
+            MENUITEM_t
+            RCString
+            {
+              style_switch:= (others => False); -- Reset all style switches
+              Ada_Put(to_body,
+                "    Append_Item(Menu." &
+                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+                ", " & yytext
+              );
+            }
+            COMMA_t
+            RC_Ident
+            {
+              Insert_last_symbol;
+              Ada_Put_Line(to_body, ", " & S(last_Ada_constant) & ");");
+            }
+            menu_options
+            {
+              if style_switch(grayed) then
+                Ada_Put_Line(to_body, "    State(Menu." &
+                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+                ", Command, " & S(last_Ada_constant) &
+                ", Grayed);");
+              end if;
+              if style_switch(inactive) then
+                Ada_Put_Line(to_body, "    State(Menu." &
+                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+                ", Command, " & S(last_Ada_constant) &
+                ", Disabled);");
+              end if;
+              if style_switch(checked) then
+                Ada_Put_Line(to_body, "    Check(Menu." &
+                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+                ", Command, " & S(last_Ada_constant) &
+                ", True);");
+              end if;
+            }
+            ;
+
+menu_options :
+          -- nothing
+          | COMMA_t menu_option_list
+          | menu_option_list
+          ;
+
+menu_option_list:
+            menu_option
+          | menu_option COMMA_t menu_option_list
+          | menu_option menu_option_list
+          ;
+
+menu_option : GRAYED_t   { style_switch(grayed):= True; }
+            | INACTIVE_t { style_switch(inactive):= True; }
+            | CHECKED_t  { style_switch(checked):= True; }
+            | HELP_t
+            | MENUBARBREAK_t
+            | MENUBREAK_t
+            ;
+
+menu_separator :
+            MENUITEM_t
+            SEPARATOR_t
+            {
+              Ada_Put_Line(to_body,
+                "    Append_Separator(Menu." &
+                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+                ");"
+              );
+            }
+            ;
+
+------------------
+-- Accelerators --
+------------------
+
+accelerator :
+              RC_Ident
+              ACCELERATORS_t
+              properties
+              BEGIN_block
+              accels
+              END_block
+            ;
+
+accels :
+          -- nothing
+          | accel_list
+          ;
+
+accel_list:
+            accel
+          | accel accel_list
+          ;
+
+accel :
+        keystroke
+        COMMA_t
+        RC_Ident
+        accel_options
+      ;
+
+keystroke : RC_Ident | RCString ;
+
+accel_options :
+          -- nothing
+          | COMMA_t accel_option_list
+          ;
+
+accel_option_list:
+            accel_option
+          | accel_option COMMA_t accel_option_list
+          ;
+
+accel_option : ASCII_t
+             | VIRTKEY_t
+             | NOINVERT_t
+             | ALT_t
+             | SHIFT_t
+             | CONTROL_t
+             ;
+
+------------------
+-- Graphic item --
+------------------
+
+graphic :   RC_Ident
+            graphic_type
+            properties
+            file_name
+          ;
+
+graphic_type
+          :
+            BITMAP_t
+          | CURSOR_t
+          | ICON_t
+          ;
+
+file_name : RC_Ident | RCString ;
+
+--------------
+-- Versions --
+--------------
+
+version_info :
+               RC_Ident
+               VERSIONINFO_t
+               fixed_infos
+               version_block_contents
+             ;
+
+fixed_infos :
+          -- nothing
+          | fixed_info_list
+          ;
+
+fixed_info_list:
+            fixed_info
+          | fixed_info fixed_info_list
+          ;
+
+fixed_info : fixed_info_type
+           ;
+
+fixed_info_type :
+            FILEVERSION_t
+          | PRODUCTVERSION_t
+          | FILEFLAGSMASK_t
+          | FILEFLAGS_t
+          | FILEOS_t
+          | FILETYPE_t
+          | FILESUBTYPE_t
+          ;
+
+version_block_contents
+          : wrapped_block_contents
+          | block_content_list
+          ;
+
+wrapped_block_contents:
+        BEGIN_block
+        block_content_list
+        END_block
+       ;
+
+
+block_content_list:
+            block_content
+          | block_content block_content_list
+          ;
+
+block_content :
+             block
+           | VALUE_t
+             value_arg_list
+           ;
+
+block : BLOCK_t
+        RCString
+        wrapped_block_contents
+      ;
+
+value_arg_list:
+            value_arg
+          | value_arg COMMA_t value_arg_list
+          ;
+
+value_arg :  RCString
+           | NUMBER
+           ;
+
+--------------
+-- Toolbars --
+--------------
+
+toolbar : RC_Ident
+          TOOLBAR_t
+          properties
+          RC_Ident
+          Comma_t
+          RC_Ident
+          BEGIN_block
+          toolbar_items
+          END_block
+          ;
+
+toolbar_items :
+          -- nothing
+          | toolbar_item_list
+          ;
+
+toolbar_item_list:
+            toolbar_item
+          | toolbar_item toolbar_item_list
+          ;
+
+toolbar_item :
+            BUTTON_t RC_Ident
+          | SEPARATOR_t
+          ;
+
+-------------------
+-- String tables --
+-------------------
+
+string_table :
+               STRINGTABLE_t
+               properties
+               BEGIN_block
+               string_tbl_items
+               END_block
+             ;
+
+string_tbl_items :
+          -- nothing
+          | string_tbl_item_list
+          ;
+
+string_tbl_item_list:
+            string_tbl_item
+          | string_tbl_item string_tbl_item_list
+          ;
+
+string_tbl_item:   RC_Ident RCString;
+
+
+
+dlginclude : NUMBER DLGINCLUDE_t
+             RCSTRING
+             {Treat_include(yytext(2..yylength-1));}
+             -- 1 DLGINCLUDE "dlge.h"
+        ;
+
+textinclude: NUMBER TEXTINCLUDE_t
+             properties
+             BEGIN_block
+             t_i_items
+             END_block
+        ;
+
+t_i_items :
+          -- nothing
+          | t_i_item_list
+          ;
+
+t_i_item_list:
+            t_i_item
+          | t_i_item t_i_item_list
+          ;
+
+t_i_item: RCString;
+
+
+include : C_INCLUDE_t RCSTRING
+          {Treat_include(yytext(2..yylength-1));}
+          -- #include "resource.h"
+        | C_INCLUDE_t INCString
+          {Treat_include(yytext(2..yylength-1));}
+          -- #include <windows.h>
+        ;
+
+guidelines :
+             GUIDELINES_t DESIGNINFO_t
+             properties
+             BEGIN_block
+             guidelines_blocks
+             END_block
+           ;
+
+guidelines_blocks :
+          -- nothing
+          | guidelines_block_list
+          ;
+
+guidelines_block_list:
+            guidelines_block
+          | guidelines_block guidelines_block_list
+          ;
+
+guidelines_block :
+    guidelines_name COMMA_t DIALOG_t
+    BEGIN_block
+        guidelines_lines
+    END_block
+    ;
+
+guidelines_name : RC_Ident | RCString ;
+
+guidelines_lines :
+          -- nothing
+          | guidelines_line_list
+          ;
+
+guidelines_line_list:
+            guidelines_line
+          | guidelines_line guidelines_line_list
+          ;
+
+guidelines_line :
+        RC_Ident COMMA_t NUMBER  -- xxxMARGIN
+          ;
+
+manifest : RC_Ident RT_MANIFEST_t properties RCString ;
+
+--------------------
+-- Terminal items --
+--------------------
+
+RC_Ident : IDENT_t
+           { last_ident:= U(yytext);
+             last_Ada_constant:= Ada_ify(yytext);
+             last_Ada_ident:= last_Ada_constant;
+             -- normally no confusion here (record entry vs int. constant)
+             anonymous_item:= False;
+           }
+         | NUMBER
+           { last_ident:= U(yytext);
+             last_Ada_constant:= last_ident;
+             if yylval.intval < -1 then
+               last_Ada_ident:= U("RC_item_Minus_Invalid" & yytext);
+             elsif yylval.intval = -1 then
+               New_static_item;
+               last_Ada_constant:= U("IDC_STATIC");
+             else
+               last_Ada_ident:= U("RC_item_" & yytext);
+             end if;
+             anonymous_item:= True;
+           }
+         | IDC_STATIC_t
+           { last_ident:= U(yytext);
+             last_Ada_constant:= last_ident;
+             New_static_item;
+             anonymous_item:= True;
+           }
+         ;
+
+Style_Ident : IDENT_t | NUMBER ;
+
+BEGIN_block : BEGIN_t | LBRACE_t ;   -- RC has both C and Pascal syntaxes !
+END_block   : END_t   | RBRACE_t ;   -- RC has both C and Pascal syntaxes !
+
+%%
+
+-- This header comes from RC.y (bottom)
+
+with RC_Tokens, RC_Shift_Reduce, RC_Goto, RC_Help, RC_IO;
+use  RC_Tokens, RC_Shift_Reduce, RC_Goto, RC_Help, RC_IO;
+
+with RC_DFA, YYroutines, YYerror;
+use  RC_DFA, YYroutines;
+
+with Ada.Text_IO;                       use Ada.Text_IO;
+with Text_IO; -- for compat.
+
+with Ada.Characters.Handling;           use Ada.Characters.Handling;
+with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
+
+with Interfaces;                        use Interfaces;
+
+with GWindows.Static_Controls;
+
+-- Header end.
+
+##

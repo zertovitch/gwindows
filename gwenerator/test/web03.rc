@@ -1,0 +1,120 @@
+//
+// Found on the Web by Googling keywords.
+//
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef __BORLANDC__
+#include "winres.h"
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef __BORLANDC__\r\n"
+    "#include ""winres.h""\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAIN DIALOGEX 0, 0, 216, 166
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Controls One"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_VI,43,7,64,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ANGLE,144,7,65,14
+    LTEXT           "Angle:",IDC_STATIC,113,7,23,8
+    LISTBOX         IDC_TEXT,7,90,202,69,LBS_NOINTEGRALHEIGHT | 
+                    LBS_EXTENDEDSEL | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Go",IDC_ADD,45,70,62,14
+    PUSHBUTTON      "&Clear",IDC_CLEAR,113,70,62,14
+    LTEXT           "VYI:",IDC_STATIC,7,23,14,8
+    LTEXT           "VXI:",IDC_STATIC,113,23,14,8
+    EDITTEXT        IDC_TIME,144,35,65,14
+    EDITTEXT        IDC_VXI,144,21,65,14
+    EDITTEXT        IDC_LENGTH,144,49,65,14
+    EDITTEXT        IDC_VYI,43,20,64,14
+    EDITTEXT        IDC_FULLTIME,43,34,64,14
+    EDITTEXT        IDC_HEIGHT,43,48,64,14
+    LTEXT           "Full Time:",IDC_STATIC,7,36,31,8
+    LTEXT           "Height:",IDC_STATIC,7,52,24,8
+    LTEXT           "Time:",IDC_STATIC,113,39,18,8
+    LTEXT           "Length:",IDC_STATIC,113,52,25,8
+    LTEXT           "VI:",IDC_STATIC,7,7,10,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 209
+        VERTGUIDE, 107
+        VERTGUIDE, 113
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 159
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "icon1.ico"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////

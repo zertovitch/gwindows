@@ -1,0 +1,355 @@
+//
+// Found on the Web by Googling keywords.
+//
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// French (France) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
+#ifdef _WIN32
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_NEWPACKAGE DIALOG DISCARDABLE  0, 0, 122, 130
+STYLE DS_MODALFRAME | DS_NOIDLEMSG | DS_3DLOOK | DS_CENTER | DS_CENTERMOUSE | 
+    WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Create a package"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,109,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,65,109,50,14
+    LTEXT           "Package:",IDC_STATIC,7,63,33,8
+    LTEXT           "Version:",IDC_STATIC,7,80,29,8
+    LTEXT           "Root path:",IDC_STATIC,5,5,40,8
+    LISTBOX         IDNP_PATHLIST,5,15,109,40,LBS_SORT | LBS_USETABSTOPS | 
+                    LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_HSCROLL | WS_TABSTOP
+    EDITTEXT        IDNP_PACKAGE,45,60,70,14,ES_AUTOHSCROLL
+    EDITTEXT        IDNP_VERSION,45,75,70,14,ES_AUTOHSCROLL
+    LTEXT           "Prefix:",IDC_STATIC,7,94,21,8
+    EDITTEXT        IDNP_PREFIX,45,90,70,14,ES_AUTOHSCROLL
+END
+
+IDD_DIALOGBAR DIALOG DISCARDABLE  0, 0, 284, 319
+STYLE DS_MODALFRAME | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDM_PACKAGE,97,84,90,12,ES_AUTOHSCROLL
+    LTEXT           "Paths:",IDC_STATIC,10,5,22,8,SS_CENTERIMAGE
+    LTEXT           "Packages:",IDC_STATIC,102,5,38,8,SS_CENTERIMAGE
+    LTEXT           "Versions:",IDC_STATIC,194,5,30,8,SS_CENTERIMAGE
+    LISTBOX         IDM_PATHLIST,2,15,89,65,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+    LISTBOX         IDM_PACKAGELIST,97,15,89,65,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_HSCROLL | WS_GROUP | WS_TABSTOP
+    LISTBOX         IDM_VERSIONLIST,188,15,89,65,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_HSCROLL | WS_TABSTOP
+    LISTBOX         IDM_REQUIREMENTS,59,105,218,53,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_HSCROLL | WS_TABSTOP
+    LISTBOX         IDM_USES,2,181,275,108,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+    LISTBOX         IDM_CONSTITUENTS,2,180,275,109,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_HSCROLL | WS_TABSTOP
+    LISTBOX         IDM_MACROS,2,181,275,108,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+    LISTBOX         IDM_OUTPUT,2,180,275,109,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+    PUSHBUTTON      "edit...",IDM_EDITREQUIREMENTS,5,113,27,10,BS_CENTER | 
+                    BS_VCENTER
+    PUSHBUTTON      "edit...",IDM_EDITPATHS,34,3,25,11
+    PUSHBUTTON      "Save",IDM_SAVEREQUIREMENTS,3,127,27,10
+    PUSHBUTTON      "Tag",IDM_TAG,225,164,52,13
+    GROUPBOX        "Requirements",IDC_STATIC,2,99,275,63
+    CONTROL         "Uses",IDM_SETUSES,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,2,166,34,11
+    CONTROL         "Constituents",IDM_SETCONSTITUENTS,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,40,166,56,11
+    CONTROL         "Macros",IDM_SETMACROS,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,100,166,43,11
+    CONTROL         "Output",IDM_SETOUTPUT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,185,166,56,11
+    CONTROL         "Sets",IDM_SETSETS,"Button",BS_AUTORADIOBUTTON,147,166,
+                    34,11
+    LISTBOX         IDM_SETS,2,182,275,107,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+END
+
+IDD_LISTEDIT DIALOGEX 0, 0, 237, 116
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "List editor"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,95,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,64,95,50,14
+    LISTBOX         IDLE_LIST,7,7,223,85,LBS_NOINTEGRALHEIGHT | 
+                    LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP,WS_EX_ACCEPTFILES
+    PUSHBUTTON      "Add",IDLE_ADD,121,95,50,14
+    PUSHBUTTON      "Remove",IDLE_REMOVE,180,95,50,14
+END
+
+IDD_TEXTEDIT DIALOG DISCARDABLE  0, 0, 186, 47
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Text editor"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,26,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,26,50,14
+    EDITTEXT        IDTE_TEXT,7,7,172,12,ES_AUTOHSCROLL
+END
+
+IDD_CONSTITUENT DIALOG DISCARDABLE  0, 0, 186, 121
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Constituent editor"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,100,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,100,50,14
+    LTEXT           "Static",IDCE_TYPE,7,7,41,9
+    LTEXT           "Static",IDCE_NAME,54,7,125,12
+    LISTBOX         IDCE_MODULES,7,44,172,52,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Modules:",IDC_STATIC,7,31,37,9
+    PUSHBUTTON      "Edit...",IDCE_EDITMODULES,44,29,32,11
+END
+
+IDD_USES DIALOG DISCARDABLE  0, 0, 245, 52
+STYLE DS_MODALFRAME | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         IDM_USES,6,6,233,40,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+END
+
+IDD_CMT DIALOG DISCARDABLE  0, 0, 186, 159
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "cmt"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "OK",IDOK,71,138,50,14,NOT WS_TABSTOP
+    PUSHBUTTON      "Cancel",IDCANCEL,129,138,50,14,NOT WS_TABSTOP
+    LTEXT           "cmt",IDC_STATIC,7,7,12,14,SS_CENTERIMAGE
+    EDITTEXT        IDCMT_COMMAND,22,7,157,14,ES_AUTOHSCROLL | ES_WANTRETURN
+    LISTBOX         IDCMT_OUTPUT,7,24,172,110,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | LBS_NOSEL | 
+                    WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Execute",IDCMT_EXECUTE,7,138,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_NEWPACKAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 115
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 123
+    END
+
+    IDD_DIALOGBAR, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 277
+        BOTTOMMARGIN, 289
+    END
+
+    IDD_LISTEDIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 230
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_TEXTEDIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 40
+    END
+
+    IDD_CONSTITUENT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 114
+    END
+
+    IDD_USES, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 239
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 46
+    END
+
+    IDD_CMT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 152
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+CMTW                    ICON    DISCARDABLE     "CMTW.ICO"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+TEXTFXMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "New package",                 IDM_NEWPACKAGE
+        MENUITEM "E&xit",                       IDM_EXIT
+    END
+    POPUP "Actions"
+    BEGIN
+        MENUITEM "Configure",                   IDM_CONFIG
+        MENUITEM "Generate make",               IDM_GENMAKE
+        MENUITEM "Generate MSDEV",              IDM_GENMSDEV
+        MENUITEM "Build make setup",            IDM_BUILDSETUP
+        MENUITEM "Build constituents makefile", IDM_BUILDCONSTITUENTSMAKEFILE
+
+        MENUITEM "Build all constituent makefiles", 
+                                                IDM_BUILDCONSTITUENTMAKEFILE
+        MENUITEM "cmt ...",                     IDM_CMT
+    END
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040c04b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "FileDescription", "cmtw\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "cmtw\0"
+            VALUE "OriginalFilename", "cmtw.exe\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "LAL cmtw\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x40c, 1200
+    END
+END
+
+#endif    // !_MAC
+
+#endif    // French (France) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

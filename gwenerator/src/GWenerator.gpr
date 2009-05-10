@@ -1,0 +1,77 @@
+project Gwenerator is
+
+   for Main use ("GWenerator.adb", "RC2GW.adb");
+   type Build_Mode_Type is
+      ("Debug", "Small");
+   Build_Mode : Build_Mode_Type := external ("Build_Mode", "Small");
+
+   case Build_Mode is
+
+      when "Small" =>
+         for Source_Dirs use (".\/**", "..\windows_stuff");
+
+      when "Debug" =>
+         for Source_Dirs use (".\/**", "..\windows_stuff");
+   end case;
+
+   package Compiler is
+
+      case Build_Mode is
+
+         when "Small" =>
+            for Default_Switches ("ada") use ("-g", "-gnatf", "-O2", "-gnatp");
+
+         when "Debug" =>
+            for Default_Switches ("ada") use ("-fstack-check", "-g", "-gnatf", "-gnato", "-gnatVa", "-gnatecdebug.pra");
+      end case;
+   end Compiler;
+
+   package Builder is
+
+      case Build_Mode is
+
+         when "Small" =>
+            for Default_Switches ("ada") use ("-j2");
+
+         when "Debug" =>
+            for Default_Switches ("ada") use ("-j2");
+      end case;
+   end Builder;
+
+   package Linker is
+
+      case Build_Mode is
+
+         when "Small" =>
+            for Default_Switches ("ada") use ("GWenerator.rbj", "-s");
+
+         when "Debug" =>
+            for Default_Switches ("ada") use ("GWenerator.rbj");
+      end case;
+   end Linker;
+
+   package Pretty_Printer is
+
+      case Build_Mode is
+
+         when "Small" =>
+            for Default_Switches ("ada") use ("-i2");
+
+         when "Debug" =>
+            for Default_Switches ("ada") use ("-i2");
+      end case;
+   end Pretty_Printer;
+
+   package Binder is
+
+      case Build_Mode is
+
+         when "Small" =>
+
+         when "Debug" =>
+            for Default_Switches ("ada") use ("-E");
+      end case;
+   end Binder;
+
+end Gwenerator;
+

@@ -1,0 +1,255 @@
+//
+// Found on the Web by Googling keywords.
+//
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#include ""OggDS.rc2""\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_LOGO_OGG            BITMAP                  "ogg.bmp"
+IDB_LOGO_XFISH          BITMAP                  "xfish.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_TRAY                ICON                    "tray.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_PROPPAGE_ABOUT_TITLE "About Ogg Direct Show Implementation"
+    IDS_PROPPAGE_VORBIS_TITLE "Vorbis compressor properties"
+    IDS_PROPPAGE_MUXER_TITLE "Ogg Multiplexer properties"
+    IDS_PROPPAGE_SPLITTER_TITLE "Ogg Splitter properties"
+    IDS_PROPPAGE_VORBDEC_TITLE "Vorbis decoder properties"
+END
+
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PROPPAGE_VORBDEC DIALOGEX 0, 0, 236, 197
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Vorbis decoder setup",IDC_STATIC,2,0,230,34
+    LTEXT           "Samples/Sec:",IDC_STATIC,10,20,46,8
+    LTEXT           "",IDC_DEC_SAMPLESPERSEC,57,20,44,8
+    LTEXT           "Channels:",IDC_STATIC,10,10,32,8
+    LTEXT           "",IDC_DEC_CHANNELS,57,10,44,8
+    LTEXT           "Output format:",IDC_STATIC,113,10,46,8
+    LTEXT           "",IDC_DEC_OUTFORMAT,176,10,49,8
+    GROUPBOX        "Preferred output format",IDC_STATIC,2,35,230,35
+    CONTROL         "IEEE float (32-bit)",IDC_FLOAT_PREFERRED,"Button",
+                    BS_AUTORADIOBUTTON,10,44,71,10
+    CONTROL         "Integer (16-bit)",IDC_INT_PREFERRED,"Button",
+                    BS_AUTORADIOBUTTON,10,54,61,10
+    GROUPBOX        "Channel mapping",IDC_STATIC,2,71,230,121,WS_DISABLED
+    EDITTEXT        IDC_DEC_MAP_TAG,55,83,169,12,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL | WS_DISABLED | NOT WS_BORDER,
+                    WS_EX_STATICEDGE
+    LTEXT           "Mapping tag:",IDC_STATIC,11,83,42,8,WS_DISABLED
+    LTEXT           "FL\nFR\nFC\nLF\nBL\nBR\nFLC\nFRC\nBC",IDC_STATIC,20,109,
+                    17,76,WS_DISABLED
+    LTEXT           "Front Left\nFront Right\nFront Center\nLow Frequency\nBack Left\nBack Right\nFront Left of Center\nFront Right of Center\nBack Center",
+                    IDC_STATIC,41,109,74,79,WS_DISABLED
+    LTEXT           "SL\nSR\nTC\nTFL\nTFC\nTFR\nTBL\nTBC\nTBR",IDC_STATIC,
+                    129,109,18,76,WS_DISABLED
+    LTEXT           "Side Left\nSide Right\nTop Center\nTop Front Left\nTop Front Center\nTop Front Right\nTop Back Left\nTop Back Center\nTop Back Right",
+                    IDC_STATIC,152,109,59,78,WS_DISABLED
+    LTEXT           "Postgain factor:",IDC_STATIC,113,20,50,8
+    LTEXT           "",IDC_DEC_POSTGAIN,176,20,49,8
+END
+
+IDD_PROPPAGE_VORBIS DIALOG  0, 0, 241, 71
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Avg. bitrate:",IDC_STATIC,17,33,37,9
+    EDITTEXT        IDC_AVGBITRATE,60,30,39,12,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Vorbis compressor setup",IDC_STATIC,5,0,230,67
+    LTEXT           "Min. bitrate:",IDC_STATIC,15,17,38,11
+    EDITTEXT        IDC_MINBITRATE,60,15,39,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Max. bitrate:",IDC_STATIC,15,47,41,9
+    EDITTEXT        IDC_MAXBITRATE,60,45,39,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Quality factor",IDC_STATIC,130,32,41,9
+    EDITTEXT        IDC_QUALITY,175,30,20,12,ES_AUTOHSCROLL
+END
+
+IDD_PROPPAGE_MUXER DIALOGEX 0, 0, 242, 245
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Ogg Multiplexer stream setup",IDC_STATIC,5,1,230,240
+    COMBOBOX        IDC_LANGSELECT,52,106,178,150,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Language:",IDC_STATIC,15,108,35,8
+    LISTBOX         IDC_MUXER_CHANNELS,10,10,220,86,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "comments",IDC_STATIC,5,97,230,144
+    LISTBOX         IDC_TAGS,10,122,220,80,LBS_NOINTEGRALHEIGHT | NOT 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
+    PUSHBUTTON      "Delete",IDC_COMMDELETE,140,222,50,14,WS_DISABLED
+    EDITTEXT        IDC_COMMENT_TAG,10,206,60,12,ES_UPPERCASE | 
+                    ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_COMMENT_VALUE,86,206,144,12,ES_AUTOHSCROLL | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "=",IDC_STATIC,74,207,8,8,0,WS_EX_TRANSPARENT
+    PUSHBUTTON      "Set",IDC_COMMENT_SET,42,223,50,14,WS_DISABLED
+END
+
+IDD_PROPPAGE_SPLITTER DIALOGEX 0, 0, 241, 231
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Ogg Splitter setup",IDC_STATIC,5,0,230,225
+    PUSHBUTTON      "Enable all streams",IDC_ENABLE_ALL_STREAMS,16,116,104,
+                    15
+    CONTROL         "Always search to keyframe",IDC_SEARCH_KEYFRAME,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,49,110,15
+    LTEXT           "(This will make searching much\nfaster but less accurate)",
+                    IDC_STATIC,16,63,104,15
+    CONTROL         "Always enable all streams",IDC_ALWAYS_ENABLE_ALL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,18,101,96,10
+    GROUPBOX        "FOURCC mappings",IDC_STATIC,130,0,105,225
+    LISTBOX         IDC_FOURCC_MAPPINGS,150,14,65,171,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_VSCROLL | 
+                    WS_TABSTOP,WS_EX_STATICEDGE
+    PUSHBUTTON      "Delete",IDC_FOURCC_DEL,190,206,40,14,WS_DISABLED
+    EDITTEXT        IDC_SRC_FOURCC,150,189,24,10,ES_AUTOHSCROLL | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_DST_FOURCC,190,189,25,10,ES_AUTOHSCROLL | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "->",IDC_STATIC,181,189,8,8,0,WS_EX_TRANSPARENT
+    PUSHBUTTON      "Set",IDC_FOURCC_SET,140,206,40,14,WS_DISABLED
+    CONTROL         "Show Tray Icon",IDC_SHOWTRAYICON,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,18,110,15
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_PROPPAGE_VORBDEC, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 232
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 190
+    END
+
+    IDD_PROPPAGE_ABOUT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 235
+    END
+
+    IDD_PROPPAGE_VORBIS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 238
+    END
+
+    IDD_PROPPAGE_SPLITTER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 234
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 224
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "OggDS.rc2"
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

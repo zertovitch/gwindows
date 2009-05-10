@@ -1,0 +1,417 @@
+//
+// Found on the Web by Googling keywords.
+//
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\DiagramPrint.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "FileDescription", "DiagramPrint DLL\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "DiagramPrint\0"
+            VALUE "OriginalFilename", "DiagramPrint.DLL\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "DiagramPrint Dynamic Link Library\0"
+            VALUE "ProductVersion", "2, 1, 0, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+1538 DIALOG DISCARDABLE  32, 32, 331, 354
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Afdrukken"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Printer",1075,8,4,317,84,WS_GROUP
+    LTEXT           "&Naam:",1093,16,21,36,8
+    COMBOBOX        1139,63,18,152,152,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Eigenschappen...",1025,218,17,67,14,WS_GROUP
+    LTEXT           "Status:",1095,16,36,26,10,SS_NOPREFIX
+    CONTROL         "",1099,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,63,36,255,10
+    LTEXT           "Type:",1094,16,48,23,10,SS_NOPREFIX
+    CONTROL         "",1098,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,63,48,255,10
+    LTEXT           "Waar:",1097,16,60,26,8,SS_NOPREFIX
+    CONTROL         "",1101,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,63,60,255,10
+    LTEXT           "Commentaar:",1096,13,74,43,8,SS_NOPREFIX
+    CONTROL         "",1100,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,63,72,152,10
+    CONTROL         "Afdru&kken naar bestand",1040,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,223,72,89,12
+    GROUPBOX        "Afdrukbereik diagram",1072,7,93,317,106,WS_GROUP
+    CONTROL         "H&uidig diagram",IDC_CURRENT_DIAGRAM,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,16,107,60,12
+    CONTROL         "Alle &diagrammen van open modellen",IDC_ALL_DIAGRAMS,
+                    "Button",BS_AUTORADIOBUTTON,16,121,127,12
+    CONTROL         "Gese&lecteerde diagrammen:",IDC_SELECTED_DIAGRAMS,
+                    "Button",BS_AUTORADIOBUTTON,16,135,101,12
+    LISTBOX         IDC_DIAGRAMS,28,149,243,43,LBS_MULTIPLESEL | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "Schaal",IDC_STATIC,8,202,317,51
+    CONTROL         "Aan&passen aan % van normale grootte:",
+                    IDC_SCALE_PERCENT,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,16,218,137,12
+    CONTROL         "&Aanpassen aan:",IDC_SCALE_FIT,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,16,233,65,12
+    LTEXT           "Aanpassen aan &% van normale grootte:",1102,30,219,123,
+                    8,NOT WS_VISIBLE
+    EDITTEXT        IDC_PERCENT,157,217,32,12,ES_NUMBER
+    LTEXT           "&Breedte:",1105,90,235,27,8
+    EDITTEXT        IDC_PAGESM,122,233,32,12,ES_NUMBER
+    RTEXT           "&Hoogte:",IDC_STATIC,177,235,54,8
+    EDITTEXT        IDC_PAGESN,235,233,32,12,ES_NUMBER
+    LTEXT           "",IDC_STATIC,260,235,8,8,NOT WS_VISIBLE
+    GROUPBOX        "Bereik afdrukken",1074,8,257,157,64,WS_GROUP
+    CONTROL         "Alle&s",1056,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,16,272,38,12
+    CONTROL         "Pa&gina's",1058,"Button",BS_AUTORADIOBUTTON,16,286,55,
+                    12
+    RTEXT           "&van:",1089,35,302,14,8
+    EDITTEXT        1152,59,300,26,12,ES_NUMBER | WS_GROUP
+    RTEXT           "&tot:",1090,94,302,10,8
+    EDITTEXT        1153,111,300,27,12,ES_NUMBER | WS_GROUP
+    GROUPBOX        "Exemplaren",1073,171,257,153,64,WS_GROUP
+    LTEXT           "Aantal e&xemplaren:",1092,187,273,60,8
+    EDITTEXT        1154,259,271,32,12,ES_NUMBER | WS_GROUP
+    CONTROL         "S&orteren",1041,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP,271,301,40,12
+    DEFPUSHBUTTON   "OK",IDOK,211,330,48,14,WS_GROUP
+    PUSHBUTTON      "Annuleren",IDCANCEL,273,330,48,14
+    ICON            "",1086,182,290,70,25,WS_GROUP
+END
+
+1539 DIALOG DISCARDABLE  32, 32, 329, 178
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Print Setup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Printer",1075,8,4,314,84,WS_GROUP
+    LTEXT           "&Naam:",1093,16,20,36,8
+    COMBOBOX        1136,52,18,152,152,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Eigenschappen",1025,212,17,60,14,WS_GROUP
+    LTEXT           "Status:",1095,16,36,36,10,SS_NOPREFIX
+    CONTROL         "",1099,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,52,36,263,10
+    LTEXT           "Type:",1094,16,48,36,10,SS_NOPREFIX
+    CONTROL         "",1098,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,52,48,263,10
+    LTEXT           "Waar:",1097,16,60,36,8,SS_NOPREFIX
+    CONTROL         "",1101,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,52,60,263,10
+    LTEXT           "Commentaar:",1096,16,72,46,8,SS_NOPREFIX
+    CONTROL         "",1100,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,67,72,249,10
+    GROUPBOX        "Papier",1073,8,92,164,56,WS_GROUP
+    LTEXT           "&Grootte:",1089,16,108,36,8
+    COMBOBOX        1137,52,106,112,112,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    LTEXT           "&Bron:",1090,16,128,36,8
+    COMBOBOX        1138,52,126,112,112,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    GROUPBOX        "Afdrukstand",1072,180,92,100,56,WS_GROUP
+    ICON            "",1084,195,112,18,20,WS_GROUP
+    CONTROL         "&Staand",1056,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,224,106,52,12
+    CONTROL         "&Liggend",1057,"Button",BS_AUTORADIOBUTTON,224,126,52,
+                    12
+    DEFPUSHBUTTON   "OK",IDOK,180,156,48,14,WS_GROUP
+    PUSHBUTTON      "Annuleren",IDCANCEL,232,156,48,14
+END
+
+1546 DIALOG DISCARDABLE  32, 32, 240, 240
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Pagina-indeling"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "",1080,"Static",SS_WHITERECT | WS_GROUP,80,8,80,80
+    CONTROL         "",1081,"Static",SS_GRAYRECT | WS_GROUP,160,12,4,80
+    CONTROL         "",1082,"Static",SS_GRAYRECT | WS_GROUP,84,88,80,4
+    GROUPBOX        "Papier",1073,8,96,224,56,WS_GROUP
+    LTEXT           "&Grootte:",1089,16,112,36,8
+    COMBOBOX        1137,64,110,160,160,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    LTEXT           "B&ron:",1090,16,132,17,8
+    COMBOBOX        1138,64,130,160,160,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    GROUPBOX        "Afdrukstand",1072,8,156,64,56,WS_GROUP
+    CONTROL         "&Staand",1056,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,16,170,52,12
+    CONTROL         "Liggen&d",1057,"Button",BS_AUTORADIOBUTTON,16,190,39,12
+    GROUPBOX        "Marges",1075,80,156,152,56,WS_GROUP
+    LTEXT           "&Links:",1102,88,172,32,8
+    EDITTEXT        1155,120,170,28,12,WS_GROUP
+    LTEXT           "Re&chts:",1103,164,172,25,8
+    EDITTEXT        1157,196,170,28,12,WS_GROUP
+    LTEXT           "&Boven:",1104,88,192,23,8
+    EDITTEXT        1156,120,190,28,12,WS_GROUP
+    LTEXT           "&Onder:",1105,164,192,21,8
+    EDITTEXT        1158,196,190,28,12,WS_GROUP
+    DEFPUSHBUTTON   "OK",IDOK,80,220,48,14,WS_GROUP
+    PUSHBUTTON      "Annuleren",IDCANCEL,132,220,48,14
+    PUSHBUTTON      "&Printer...",1026,184,220,48,14
+END
+
+1234 DIALOG DISCARDABLE  32, 32, 331, 186
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Afdrukken"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Printer",1075,7,4,319,84,WS_GROUP
+    LTEXT           "&Naam:",1093,16,20,27,8
+    COMBOBOX        1139,65,18,152,152,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Eigenschappen",1025,239,17,60,14,WS_GROUP
+    LTEXT           "Status:",1095,16,36,36,10,SS_NOPREFIX
+    CONTROL         "",1099,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,66,36,251,10
+    LTEXT           "Type:",1094,16,48,36,10,SS_NOPREFIX
+    CONTROL         "",1098,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,67,48,251,10
+    LTEXT           "Waar:",1097,16,60,36,8,SS_NOPREFIX
+    CONTROL         "",1101,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,67,60,251,10
+    LTEXT           "Commentaar:",1096,16,72,44,8,SS_NOPREFIX
+    CONTROL         "",1100,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,67,72,152,10
+    CONTROL         "Afdrukken naar &bestand",1040,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,226,70,91,12
+    GROUPBOX        "Bereik afdrukken",1072,8,92,156,64,WS_GROUP
+    CONTROL         "&Alles",1056,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,16,106,64,12
+    CONTROL         "Pa&gina's",1058,"Button",BS_AUTORADIOBUTTON,16,122,45,
+                    12
+    CONTROL         "Sele&ctie",1057,"Button",BS_AUTORADIOBUTTON,16,138,39,
+                    12
+    RTEXT           "&van:",1089,61,124,20,8
+    EDITTEXT        1152,83,122,26,12,ES_NUMBER | WS_GROUP
+    RTEXT           "&tot:",1090,113,124,16,8
+    EDITTEXT        1153,133,122,26,12,ES_NUMBER | WS_GROUP
+    GROUPBOX        "Exemplaren",1073,171,92,155,64,WS_GROUP
+    LTEXT           "Aantal e&xemplaren:",1092,179,108,60,8
+    EDITTEXT        1154,269,105,32,12,ES_NUMBER | WS_GROUP
+    ICON            "",1086,175,124,76,24,SS_CENTERIMAGE | WS_GROUP
+    CONTROL         "&Sorteren",1041,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP,257,130,45,12
+    DEFPUSHBUTTON   "OK",IDOK,180,164,48,14,WS_GROUP
+    PUSHBUTTON      "Annuleren",IDCANCEL,232,164,48,14
+END
+
+1547 DIALOGEX 32, 32, 319, 354
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Afdrukken"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Printer",1075,8,4,306,84,WS_GROUP
+    LTEXT           "&Naam:",1093,16,21,36,8
+    COMBOBOX        1139,52,18,152,152,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Eigenschappen...",1025,212,17,71,14,WS_GROUP
+    LTEXT           "Status:",1095,16,36,36,10,SS_NOPREFIX
+    CONTROL         "",1099,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,52,36,224,10
+    LTEXT           "Type:",1094,16,48,36,10,SS_NOPREFIX
+    CONTROL         "",1098,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,52,48,224,10
+    LTEXT           "Waar:",1097,16,60,36,8,SS_NOPREFIX
+    CONTROL         "",1101,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,52,60,224,10
+    LTEXT           "Commentaar:",1096,16,72,47,8,SS_NOPREFIX
+    CONTROL         "",1100,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | 
+                    WS_GROUP,65,72,143,10
+    CONTROL         "Afdrukken naar &bestand",1040,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,215,70,95,12
+    GROUPBOX        "Afdrukbereik diagram",1072,8,93,306,106,WS_GROUP
+    CONTROL         "H&uidig diagram",IDC_CURRENT_DIAGRAM,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,16,107,60,12
+    CONTROL         "Alle diagra&mmen van open modellen",IDC_ALL_DIAGRAMS,
+                    "Button",BS_AUTORADIOBUTTON,16,123,127,14
+    CONTROL         "Gese&lecteerde diagrammen:",IDC_SELECTED_DIAGRAMS,
+                    "Button",BS_AUTORADIOBUTTON,16,135,101,12
+    LISTBOX         IDC_DIAGRAMS,28,149,243,43,LBS_MULTIPLESEL | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "Schaal",IDC_STATIC,8,202,307,51
+    CONTROL         "Aanpassen aan &% van normale grootte:",
+                    IDC_SCALE_PERCENT,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,16,218,137,12
+    CONTROL         "&Aanpassen aan:",IDC_SCALE_FIT,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,16,233,65,12
+    LTEXT           "Aanpassen aan % van normale &grootte:",1102,30,219,123,
+                    8,NOT WS_VISIBLE
+    EDITTEXT        IDC_PERCENT,169,215,32,12,ES_NUMBER
+    LTEXT           "Bree&dte:",1105,91,235,27,8
+    EDITTEXT        IDC_PAGESM,122,233,32,12,ES_NUMBER
+    RTEXT           "&Hoogte:",IDC_STATIC,177,235,54,8
+    EDITTEXT        IDC_PAGESN,235,233,32,12,ES_NUMBER
+    LTEXT           "",IDC_STATIC,260,235,7,8,NOT WS_VISIBLE
+    GROUPBOX        "Bereik afdrukken",1074,8,257,132,64,WS_GROUP
+    CONTROL         "Alle&s",1056,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,16,272,28,12
+    CONTROL         "&Pagina's",1058,"Button",BS_AUTORADIOBUTTON,16,286,40,
+                    12
+    RTEXT           "&van:",1089,24,302,14,8
+    EDITTEXT        1152,48,300,26,12,ES_NUMBER | WS_GROUP
+    RTEXT           "&tot:",1090,85,302,10,8
+    EDITTEXT        1153,100,300,27,12,ES_NUMBER | WS_GROUP
+    GROUPBOX        "Exemplaren",1073,149,257,166,64,WS_GROUP
+    LTEXT           "Aantal e&xemplaren:",1092,163,273,60,8
+    EDITTEXT        1154,235,271,32,12,ES_NUMBER | WS_GROUP
+    CONTROL         "S&orteren",1041,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP,235,295,44,12
+    DEFPUSHBUTTON   "OK",IDOK,180,328,48,14,WS_GROUP
+    PUSHBUTTON      "Annuleren",IDCANCEL,232,328,48,14
+    ICON            "",1086,156,290,70,25,WS_GROUP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    1538, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 342
+    END
+
+    1547, DIALOG
+    BEGIN
+        RIGHTMARGIN, 286
+        BOTTOMMARGIN, 342
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\DiagramPrint.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

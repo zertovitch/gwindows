@@ -1,0 +1,617 @@
+//
+// Found on the Web by Googling keywords.
+//
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Deutschland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 7, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\Backup.rc2""  // Nicht mit Microsoft Visual C++ bearbeitete Ressourcen\r\n"
+    "#include ""l.deu\\afxres.rc""          // Standardkomponenten\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\Backup.ico"
+IDR_BACKUPTYPE          ICON    DISCARDABLE     "res\\BackupDoc.ico"
+IDI_WARNUNG             ICON    DISCARDABLE     "res\\warnung.ico"
+IDI_ICON1               ICON    DISCARDABLE     "res\\icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
+IDB_DRAGDREI            BITMAP  DISCARDABLE     "res\\dragdrei.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_PATHUP
+    BUTTON      ID_EINFUEGEN
+    BUTTON      ID_NEWENTRY
+    BUTTON      ID_EDIT_CLEAR
+    SEPARATOR
+    BUTTON      ID_ITEMUP
+    BUTTON      ID_ITEMDOWN
+    SEPARATOR
+    BUTTON      ID_ZEITPLAN
+    BUTTON      ID_BACKUP
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_REGON
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE
+BEGIN
+    POPUP "&Datei"
+    BEGIN
+        MENUITEM "&Neu\tStrg+N",                ID_FILE_NEW
+        MENUITEM "Ö&ffnen...\tStrg+O",          ID_FILE_OPEN
+        MENUITEM "S&peichern\tStrg+S",          ID_FILE_SAVE
+        MENUITEM "Speichern &unter...",         ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "Letzte Datei",                ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Beenden",                    ID_APP_EXIT
+    END
+    POPUP "&Bearbeiten"
+    BEGIN
+        MENUITEM "E&infügen",                   ID_EINFUEGEN
+        MENUITEM "Löschen\tDel",                ID_EDIT_CLEAR
+        MENUITEM SEPARATOR
+        MENUITEM "Alles auswählen",             ID_SELECTALL
+        MENUITEM SEPARATOR
+        MENUITEM "Zeitplan",                    ID_ZEITPLAN
+        MENUITEM "Backup ausführen",            ID_BACKUP
+        MENUITEM SEPARATOR
+        MENUITEM "Konfigurieren",               ID_CONFIG
+        MENUITEM "C++ Filter einfügen",         ID_SETCPP
+    END
+    POPUP "&Ansicht"
+    BEGIN
+        MENUITEM "&Flache Symbolleiste",        ID_STATUS_BAR_FLAT
+        MENUITEM "&Symbolleiste",               ID_VIEW_TOOLBAR
+        MENUITEM "S&tatusleiste",               ID_VIEW_STATUS_BAR
+        MENUITEM "Registry",                    ID_REGON
+    END
+    POPUP "&?"
+    BEGIN
+        MENUITEM "Inf&o über Backup...",        ID_APP_ABOUT
+        MENUITEM "Programminfo",                ID_APP_INFO
+        MENUITEM "Syntaxinfo",                  ID_SYNTAXINFO
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE
+BEGIN
+    "A",            ID_SELECTALL,           VIRTKEY, CONTROL, NOINVERT
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "Q",            ID_APP_EXIT,            VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    VK_ESCAPE,      ID_APP_EXIT,            VIRTKEY, NOINVERT
+    VK_F1,          ID_APP_INFO,            VIRTKEY, NOINVERT
+    VK_F2,          ID_APP_ABOUT,           VIRTKEY, NOINVERT
+    VK_F4,          ID_ZEITPLAN,            VIRTKEY, NOINVERT
+    VK_F5,          ID_BACKUP,              VIRTKEY, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    VK_F8,          ID_VIEW_STATUS_BAR,     VIRTKEY, NOINVERT
+    VK_F9,          ID_VIEW_TOOLBAR,        VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_COPY DIALOG DISCARDABLE  0, 0, 302, 61
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Kopieren"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Abbrechen",IDCANCEL,240,40,50,14
+    LTEXT           "Von:",IDC_STATIC1,15,10,27,8
+    LTEXT           "Nach:",IDC_STATIC2,15,25,30,8
+    LTEXT           "",IDC_VON,49,10,245,8,SS_NOPREFIX
+    LTEXT           "",IDC_NACH,49,25,245,10,SS_NOPREFIX
+    CONTROL         "Progress1",IDC_PROZENT,"msctls_progress32",WS_BORDER,15,
+                    40,215,10
+END
+
+IDD_ZEITPLAN DIALOG DISCARDABLE  0, 0, 262, 101
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Zeitplan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,200,10,50,14
+    CONTROL         "Immer",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON |
+                    WS_GROUP,20,20,35,10
+    CONTROL         "Tage",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,20,30,33,
+                    10
+    CONTROL         "Wochen",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,20,40,43,
+                    10
+    CONTROL         "Monate",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,20,50,40,
+                    10
+    EDITTEXT        IDC_EDIT1,80,25,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Nur neuere Dateien kopieren",IDC_CHECK1,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,80,45,107,10
+    CONTROL         "Dateien nie überschreiben",IDC_CHECK2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,80,55,99,10
+    CONTROL         "Schreibgeschützte Dateien nicht überschreiben",
+                    IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,80,65,
+                    165,10
+    PUSHBUTTON      "Abbrechen",IDCANCEL,200,30,50,14
+    GROUPBOX        "Abstand",IDC_STATIC,10,10,60,55,WS_GROUP
+    LTEXT           "Backup ausfühern alle :",IDC_STATIC,80,15,76,8
+    LTEXT           "Letztes Backup:",IDC_STATIC,10,80,52,8
+    LTEXT           "noch nie",IDC_LETZTES,80,80,165,8
+END
+
+IDD_INFO DIALOG DISCARDABLE  0, 0, 242, 101
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Programminfo"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,180,15,50,14
+    LTEXT           "/S",IDC_STATIC,20,25,9,8
+    LTEXT           "/N",IDC_STATIC,20,75,10,8
+    LTEXT           "Backup gleich beim Start ausführen ",IDC_STATIC,40,25,
+                    115,8
+    LTEXT           "und Programm danach beenden.",IDC_STATIC,40,35,104,8
+    LTEXT           "Keine Fenster anzeigen.",IDC_STATIC,40,75,77,8
+    LTEXT           "/A",IDC_STATIC,20,50,9,8
+    LTEXT           "Backup immer ausführen egal",IDC_STATIC,40,50,94,8
+    LTEXT           "welche Zeitplan eingestellt ist.",IDC_STATIC,40,60,95,8
+    GROUPBOX        "Parameter für den Programmaufruf",IDC_STATIC,10,10,160,
+                    80
+    ICON            IDR_MAINFRAME,IDC_STATIC1,195,50,20,20
+END
+
+IDD_FRAGE DIALOG DISCARDABLE  0, 0, 287, 111
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Warnung"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Ja",IDYES,10,90,50,15
+    PUSHBUTTON      "Immer",IDIMMER,120,90,50,15
+    PUSHBUTTON      "Nein",IDNO,65,90,50,15
+    PUSHBUTTON      "Niemals",IDNIE,175,90,50,15
+    LTEXT           "",IDC_FEHLER,10,10,270,8
+    LTEXT           "Datei",IDC_DATEI1,45,25,232,8
+    ICON            IDI_WARNUNG,IDC_ICON1,15,25,20,20
+    ICON            "",IDC_ICON2,15,55,20,20
+    LTEXT           "",IDC_DATEI2,45,55,232,8
+    LTEXT           "",IDC_INFO1,45,36,232,8
+    LTEXT           "",IDC_INFO2,45,65,232,8
+    PUSHBUTTON      "Wiederholen",IDRETRY,175,75,49,14
+    PUSHBUTTON      "Ignorieren",IDIGNORE,120,75,49,14
+    PUSHBUTTON      "Abbrechen",IDABORT,230,90,49,14
+    PUSHBUTTON      "Ok",IDOK,230,75,49,14
+END
+
+IDD_PROGRESSDLG DIALOG DISCARDABLE  0, 0, 302, 71
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Kopieren"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Abbrechen",IDCANCEL,240,50,50,14
+    LTEXT           "Von:",IDC_STATIC1,15,10,25,8
+    LTEXT           "Nach:",IDC_STATIC2,15,20,25,8
+    CONTROL         "",IDC_TEXT1,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX |
+                    WS_GROUP,45,10,245,8
+    CONTROL         "",IDC_TEXT2,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX |
+                    WS_GROUP,45,20,245,10
+    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,
+                    15,50,215,10
+    LTEXT           "",IDC_TEXT3,45,35,250,8
+END
+
+IDD_SYNTAXDLG DIALOG DISCARDABLE  0, 0, 234, 361
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Syntax Info"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,90,340,50,14
+    LTEXT           "Modus: ZIP / ZIP_ADD",IDC_STATIC,10,10,76,8
+    LTEXT           "In Zip-Datei kopieren kann man wenn in Ziel eine Zip-Datei eingetragen ist. Der Parameter Zusatz gibt an weches Unterverzeichnis in der Zip-Datei benutzt wird.",
+                    IDC_STATIC,25,25,190,30
+    LTEXT           "Aus einer Zip-Datei kopieren kann man wenn in Quelle eine Zip-Datei eingetragen ist. ",
+                    IDC_STATIC,25,55,190,20
+    LTEXT           "Modus: FTP",IDC_STATIC,10,120,40,8
+    LTEXT           "Im Modus ZIP ADD werden beim Kopieren in der Zip-Datei die vorhanden Eintäge nicht gelöscht.\n\nPfade die im Zusatz stehen werden vom Kopieren ausgeschlossen. (*? sind erlaubt )",
+                    IDC_STATIC,25,75,190,42
+    LTEXT           "In diesem Modus werden Dateien von bzw. zu einem FTP-Server übertragen.\nFormat: ftp:// Server : User : Passwort\nIn Zustatz steht der Server Pfad.",
+                    IDC_STATIC,25,130,190,35
+    LTEXT           "Modus: DEL",IDC_STATIC,10,170,40,8
+    LTEXT           "Um Verzeichnisse zu löschen dürfen in Plus und Minus keine Einträge stehen. Ansonsten werden die Dateien in den Verzeichnisen gelöscht.",
+                    IDC_STATIC,25,180,190,25
+    LTEXT           "Modus: COPY",IDC_STATIC,10,240,46,8
+    LTEXT           "In den Zeilenangaben kann durch das Kürzel #d# das aktuelle Datum eingefügt werden. \nDas Kürzel #1# steht für eine einstellige Nummer (ab 1). Die Nummern vorhander Pfade werden dabei vorher erhöt.",
+                    IDC_STATIC,25,270,190,35
+    LTEXT           "Modus: SYNCH",IDC_STATIC,10,210,51,8
+    LTEXT           "Synchronisiert Dateien und Verzeichnisse in beide Richtungen.",
+                    IDC_STATIC,26,219,190,16
+    LTEXT           "Kopiert alle unter Quelle angegebenen Dateien und Verzeichnisse in das angegebene Zielverzeichniss.",
+                    IDC_STATIC,25,250,190,20
+    LTEXT           "Pfade die im Zusatz stehen werden vom Kopieren ausgeschlossen. ( *? sind erlaubt )",
+                    IDC_STATIC,25,310,195,20
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2,0,0,1
+ PRODUCTVERSION 2,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040704B0"
+        BEGIN
+            VALUE "FileDescription", "Backup MFC Application\0"
+            VALUE "FileVersion", "2, 0, 0, 1\0"
+            VALUE "InternalName", "Backup\0"
+            VALUE "OriginalFilename", "Backup.EXE\0"
+            VALUE "ProductName", "Backup Application\0"
+            VALUE "ProductVersion", "2, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x407, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_COPY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 294
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 54
+    END
+
+    IDD_ZEITPLAN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 255
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 94
+    END
+
+    IDD_INFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 235
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 94
+    END
+
+    IDD_FRAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 280
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 104
+    END
+
+    IDD_PROGRESSDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 294
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 64
+    END
+
+    IDD_SYNTAXDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 227
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 354
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_CURSORMOVE          CURSOR  DISCARDABLE     "res\\cursor1.cur"
+IDC_CURSORCOPY          CURSOR  DISCARDABLE     "res\\cur00001.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+    IDR_MAINFRAME           "Backup\n\nBackup\nBackup Document (*.bku)\n.bku\nBackup.Document\nBackup Document"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "Backup"
+    AFX_IDS_IDLEMESSAGE     "Bereit"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    ID_INDICATOR_EXT        "ER"
+    ID_INDICATOR_CAPS       "UF"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "RF"
+    ID_INDICATOR_OVR        "ÜB"
+    ID_INDICATOR_REC        "MA"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    ID_FILE_NEW             "Erstellt ein neues Dokument.\nNeu"
+    ID_FILE_OPEN            "Öffnet ein bestehendes Dokument.\nÖffnen"
+    ID_FILE_CLOSE           "Schließt das aktive Dokument.\nSchließen"
+    ID_FILE_SAVE            "Speichert das aktive Dokument.\nSpeichern"
+    ID_FILE_SAVE_AS         "Speichert das aktive Dokument unter neuem Namen.\nSpeichern unter"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    ID_APP_ABOUT            "Zeigt Programm-Informationen, Versionsnummer und Copyright an.\nInfo"
+    ID_APP_EXIT             "Verläßt die Anwendung; fragt, ob Dokumente gespeichert werden sollen.\nBeenden"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    ID_FILE_MRU_FILE1       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE2       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE3       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE4       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE5       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE6       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE7       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE8       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE9       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE10      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE11      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE12      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE13      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE14      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE15      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE16      "Öffnet dieses Dokument."
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    ID_NEXT_PANE            "Wechselt zum nächsten Fensterausschnitt.\nNächster Ausschnitt"
+    ID_PREV_PANE            "Springt zum vorherigen Fensterausschnitt zurück.\nVorheriger Ausschnitt"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    ID_WINDOW_SPLIT         "Teilt das aktive Fenster in Ausschnitte.\nTeilen"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    ID_EDIT_CLEAR           "Löscht die Markierung.\nLöschen"
+    ID_EDIT_CLEAR_ALL       "Löscht alles.\nAlles löschen"
+    ID_EDIT_COPY            "Kopiert die Markierung und überträgt sie in die Zwischenablage.\nKopieren"
+    ID_EDIT_CUT             "Entfernt die Markierung und überträgt sie in die Zwischenablage.\nAusschneiden"
+    ID_EDIT_FIND            "Sucht den angegebenen Text.\nSuchen"
+    ID_EDIT_PASTE           "Fügt einen neunen Eintrag ein.\nEinfügen"
+    ID_EDIT_REPEAT          "Wiederholt die letzte Aktion.\nWiederholen"
+    ID_EDIT_REPLACE         "Ersetzt einen bestimmten Text durch einen anderen.\nErsetzen"
+    ID_EDIT_SELECT_ALL      "Markiert das gesamte Dokument.\nAlles markieren"
+    ID_EDIT_UNDO            "Macht die letzte Aktion rückgängig.\nRückgängig"
+    ID_EDIT_REDO            "Wiederholt die vorher rückgängig gemachte Aktion.\nWiederherstellen"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    ID_VIEW_TOOLBAR         "Blendet die Symbolleiste ein oder aus.\nSymbolleiste ein-/ausschalten"
+    ID_VIEW_STATUS_BAR      "Blendet die Statusleiste ein oder aus.\nStatusleiste ein-/ausschalten"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    AFX_IDS_SCSIZE          "Ändert die Fenstergröße."
+    AFX_IDS_SCMOVE          "Ändert die Position des Fensters."
+    AFX_IDS_SCMINIMIZE      "Verkleinert das Fenster zu einem Symbol."
+    AFX_IDS_SCMAXIMIZE      "Vergrößert das Fenster zu voller Größe."
+    AFX_IDS_SCNEXTWINDOW    "Wechselt zum nächsten Dokumentfenster."
+    AFX_IDS_SCPREVWINDOW    "Wechselt zum vorherigen Dokumentfenster."
+    AFX_IDS_SCCLOSE         "Schließt das aktive Fenster und fordert zur Dokumentspeicherung auf."
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    AFX_IDS_SCRESTORE       "Stellt das Fenster in seiner normalen Größe wieder her."
+    AFX_IDS_SCTASKLIST      "Aktiviert die Task-Liste."
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    ID_SELECTALL            "Markiert alle Einträge\nAlles auswählen"
+    ID_EINFUEGEN            "Einzelne Dateien einfügen\nDateien einfügen"
+    ID_ZEITPLAN             "Den Zeitplan bearbeiten\nZeitplan"
+    ID_BACKUP               "Führ das aktuelle Backup aus\nBackup ausführen "
+    ID_APP_INFO             "Beschreibung der Flag für den Programmaufruf\nProgramminfo"
+    ID_PATHUP               "Im aktuellen Pfad nach oben springen\nÜbergeordneter Ordner"
+    ID_REGON                "Registry Fenster aus/einblenden.\nFenster umschalten"
+    ID_CONFIG               "Konfiguriert die Dateitypen\nKonfigurieren"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    ID_ITEMUP               "Den aktuellen Eintrag nach oben verschieben\nNach oben"
+    ID_ITEMDOWN             "Den aktuellen Eintrag nach unten verschieben\nNach unten"
+    ID_NEWENTRY             "Einen neuen Eintrag erzeugen\nNeuer Eintrag"
+    ID_SYNTAXINFO           "Syntaxinfos anzeigen\nSyntaxinfo"
+    ID_SETCPP               "Setzt in der aktuellen Zeile einen C++ Filter\nC++ Filter"
+    ID_STATUS_BAR_FLAT      "Schaltet zwischen dem hervorgehobenen und flachen Stil um.\nFlache Symbolleiste"
+END
+
+#endif    // Deutsch (Deutschland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Österreich) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEA)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_AUSTRIAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_DRAGEINS            BITMAP  DISCARDABLE     "res\\bitmap1.bmp"
+IDB_BILDREG             BITMAP  DISCARDABLE     "res\\bildreg.bmp"
+#endif    // Deutsch (Österreich) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE 7, 1
+#pragma code_page(1252)
+#endif
+#include "res\Backup.rc2"  // Nicht mit Microsoft Visual C++ bearbeitete Ressourcen
+#include "l.deu\afxres.rc"          // Standardkomponenten
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

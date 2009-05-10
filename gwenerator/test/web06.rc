@@ -1,0 +1,244 @@
+//
+// Found on the Web by Googling keywords.
+//
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Standard) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+DLG_MAIN DIALOGEX 50, 100, 750, 197
+STYLE DS_LOCALEDIT | DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "IQ  TRX  "
+MENU IDM_MAIN
+CLASS "ShowWaveClass"
+FONT 8, "Helv", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDS_WAVE_PANE,"GraphClass",0x0,8,6,679,181
+    CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_VERT | TBS_BOTH | 
+                    TBS_NOTICKS,723,6,17,102
+    CONTROL         "",IDC_SLIDER3,"msctls_trackbar32",TBS_VERT | TBS_BOTH | 
+                    TBS_NOTICKS,699,6,16,102
+    CONTROL         "TX",IDC_TX,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | 
+                    WS_TABSTOP,694,168,51,19
+    CONTROL         "USB",IDC_USB,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,
+                    723,149,22,15
+    CONTROL         "LSB",IDC_LSB,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,
+                    694,149,21,15
+    PUSHBUTTON      "Filter",IDC_FILT,694,129,51,14
+    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,694,111,51,15
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    DLG_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 8
+        RIGHTMARGIN, 745
+        VERTGUIDE, 687
+        VERTGUIDE, 694
+        BOTTOMMARGIN, 187
+        HORZGUIDE, 6
+        HORZGUIDE, 108
+        HORZGUIDE, 164
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SCOPE               ICON                    "wave.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDM_MAIN MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "E&xit",                       IDM_EXIT
+    END
+    POPUP "Settings"
+    BEGIN
+        POPUP "Display"
+        BEGIN
+            MENUITEM "Spectrum",                    ID_DISPLAY_FFT
+            MENUITEM "Wave",                        ID_DISPLAY_WAVE
+            MENUITEM "WF",                          ID_DISPLAY_WF
+            MENUITEM "Shifted WF",                  ID_DISPLAY_SHIFTEDFFT
+            MENUITEM "Downsampled WF",              ID_DISPLAY_DOWNSAMPLEDWF
+            MENUITEM "Audiofiltered WF",            ID_DISPLAY_AUDIOFILTEREDWF
+
+        END
+        MENUITEM "Soundcard",                   ID_SETTINGS_SOUNDCARD
+        POPUP "Com Port"
+        BEGIN
+            MENUITEM "none",                        ID_COMPORT_NONE
+            MENUITEM "Com 1",                       ID_COMPORT_COM1
+            MENUITEM "Com 2",                       ID_COMPORT_COM2
+            MENUITEM "Com 3",                       ID_COMPORT_COM3
+            MENUITEM "Com 4",                       ID_COMPORT_COM4
+        END
+        MENUITEM "Swap I-Q",                    ID_SETTINGS_SWAPI
+    END
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral (Standard) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Schweiz) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DES)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_SWISS
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+DLG_SOUNDCARDSEL DIALOGEX 0, 0, 324, 244
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Sound Card Selection"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,267,223,50,14
+    LISTBOX         IDC_LISTIN,20,41,134,40,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LISTOUT,19,158,134,40,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "IQ input",IDC_STATIC,20,26,64,8
+    LTEXT           "voice output",IDC_STATIC,19,142,63,8
+    CHECKBOX        "96 K",IDC_96KIN,217,91,30,10
+    LISTBOX         IDC_LISTOUTTX,173,41,134,40,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LISTINTX,172,158,132,40,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "IQ output",IDC_STATIC,175,26,32,8
+    LTEXT           "voice input",IDC_STATIC,175,142,36,8
+    CONTROL         "Mute",IDC_MUTEAUDIO,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,101,140,32,10
+    GROUPBOX        "Softrock Soundcard",IDC_STATIC,7,7,310,106
+    GROUPBOX        "Voice Soundcard",IDC_STATIC,7,124,310,90
+    CONTROL         "No Delay",IDC_NODELAY,"Button",BS_AUTORADIOBUTTON | 
+                    BS_PUSHLIKE,68,89,44,12
+    CONTROL         "Delay L",IDC_DELAYL,"Button",BS_AUTORADIOBUTTON | 
+                    BS_PUSHLIKE,118,89,40,12
+    CONTROL         "Delay R",IDC_DELAYR,"Button",BS_AUTORADIOBUTTON | 
+                    BS_PUSHLIKE,17,89,44,12
+    CHECKBOX        "192 K rx-only",IDC_192KIN,251,91,59,10
+    CHECKBOX        "48 K",IDC_48KIN,181,91,30,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    DLG_SOUNDCARDSEL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 317
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 237
+        HORZGUIDE, 34
+        HORZGUIDE, 41
+        HORZGUIDE, 101
+        HORZGUIDE, 144
+        HORZGUIDE, 152
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Deutsch (Schweiz) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

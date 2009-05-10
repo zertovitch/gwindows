@@ -1,0 +1,204 @@
+//
+// Found on the Web by Googling keywords.
+//
+ 
+#include "openvpn-gui-res.h"
+#include <windows.h>
+
+/* Application Icons */
+APP_ICON               ICON  DISCARDABLE  "openvpn-gui.ico"
+APP_ICON_CONNECTED     ICON  DISCARDABLE  "connected.ico"
+APP_ICON_CONNECTING    ICON  DISCARDABLE  "connecting.ico"
+APP_ICON_DISCONNECTED  ICON  DISCARDABLE  "disconnected.ico"
+
+/* Passphrase Dialog */
+IDD_PASSPHRASE DIALOGEX 6, 18, 120, 51
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | DS_CENTER | DS_SETFOREGROUND
+EXSTYLE WS_EX_TOPMOST
+CAPTION "OpenVPN"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Bitte Passwort eingeben:", 201, 6, 6, 100, 10
+    EDITTEXT        EDIT_PASSPHRASE, 6, 17, 107, 12, ES_PASSWORD | ES_AUTOHSCROLL
+    PUSHBUTTON      "OK", IDOK, 6, 33, 50, 14
+    PUSHBUTTON      "Abbrechen", IDCANCEL, 64, 33, 50, 14
+END
+
+/* Auth Username/Password Dialog */
+IDD_AUTH_PASSWORD DIALOG 6, 18, 160, 62
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | DS_CENTER | DS_SETFOREGROUND
+CAPTION "OpenVPN - Benutzer Authentisierung"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Benutzername:", 0, 6, 9, 50, 10
+    LTEXT           "Passwort:", 0, 6, 26, 50, 10
+    EDITTEXT        EDIT_AUTH_USERNAME, 60, 6, 94, 12, ES_AUTOHSCROLL
+    EDITTEXT        EDIT_AUTH_PASSWORD, 60, 23, 94, 12, ES_PASSWORD | ES_AUTOHSCROLL
+    PUSHBUTTON      "OK", IDOK, 20, 42, 50, 14
+    PUSHBUTTON      "Abbrechen", IDCANCEL, 90, 42, 52, 14
+END
+
+/* Status Dialog */
+IDD_STATUS DIALOG 6, 18, 380, 210
+STYLE WS_SIZEBOX | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | DS_CENTER
+CAPTION "OpenVPN"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Verbinden...", TEXT_STATUS, 20, 5, 200, 10
+    PUSHBUTTON      "Trennen", ID_DISCONNECT, 50, 190, 50, 14
+    PUSHBUTTON      "Neu Verbinden", ID_RESTART, 150, 190, 50, 14
+    PUSHBUTTON      "Verstecken", ID_HIDE, 100, 190, 50, 14
+    LTEXT           "", TEXT_CONFIG, 0, 0, 0, 0 
+END
+
+/* Change Passphrase Dialog */
+IDD_CHANGEPSW DIALOG 6, 18, 193, 82
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | DS_CENTER
+CAPTION "OpenVPN - ?ndern der Passphrase"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Altes Passwort:", 171, 6, 9, 85, 10
+    LTEXT           "Neues Passwort:", 172, 6, 26, 85, 10
+    LTEXT           "Best?tigen Sie neues Passwort:", 173, 6, 42, 85, 10
+    EDITTEXT        EDIT_PSW_CURRENT, 95, 6, 90, 12, ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        EDIT_PSW_NEW, 95, 23, 90, 12, ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        EDIT_PSW_NEW2, 95, 39, 90, 12, ES_PASSWORD | ES_AUTOHSCROLL
+    PUSHBUTTON      "OK", IDOK, 40, 59, 50, 14
+    PUSHBUTTON      "Abbrechen", IDCANCEL, 103, 59, 50, 14
+    LTEXT           "", TEXT_KEYFORMAT, 0, 0, 0, 0 
+    LTEXT           "", TEXT_KEYFILE, 0, 0, 0, 0 
+END
+
+/* Proxy Settings Dialog */
+IDD_PROXY DIALOG 6, 18, 269, 228
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | DS_CENTER
+CAPTION "OpenVPN - Proxy Einstellungen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "", 201, 13, 62, 243, 137
+    AUTORADIOBUTTON "Benutze OpenVPN Konfigurationsdatei Einstellungen", RB_PROXY_USE_OPENVPN, 
+                    20, 12, 200, 10, WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "Benutze Internet Explorer Einstellungen (Manuel konfiguriert)", 
+                    RB_PROXY_USE_IE, 20, 31, 220, 10
+    AUTORADIOBUTTON "Manuele Konfiguration", RB_PROXY_USE_MANUAL, 20, 50, 200, 10
+    AUTORADIOBUTTON "HTTP Proxy", RB_PROXY_HTTP, 20, 74, 59, 10, WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "SOCKS Proxy", RB_PROXY_SOCKS, 20, 147, 67, 10
+    GROUPBOX        "", 202, 20, 86, 225, 43
+    LTEXT           "Addresse:", TEXT_PROXY_HTTP_ADDRESS, 27, 98, 41, 10
+    LTEXT           "Port:", TEXT_PROXY_HTTP_PORT, 176, 98, 25, 10
+    EDITTEXT        EDIT_PROXY_HTTP_ADDRESS, 70, 96, 92, 12, ES_AUTOHSCROLL
+    EDITTEXT        EDIT_PROXY_HTTP_PORT, 206, 96, 30, 12, ES_AUTOHSCROLL
+    AUTOCHECKBOX    "Frage nach Benutzername/Passwort beim Verbinden.", CHECKB_PROXY_AUTH, 27, 112, 183, 10
+    GROUPBOX        "", 203, 20, 158, 225, 33
+    LTEXT           "Addresse:", TEXT_PROXY_SOCKS_ADDRESS, 27, 172, 41, 10
+    LTEXT           "Port:", TEXT_PROXY_SOCKS_PORT, 176, 172, 20, 10
+    EDITTEXT        EDIT_PROXY_SOCKS_ADDRESS, 70, 170, 98, 12, ES_AUTOHSCROLL
+    EDITTEXT        EDIT_PROXY_SOCKS_PORT, 206, 170, 30, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "OK", IDOK, 63, 206, 50, 14
+    PUSHBUTTON      "Abbrechen", IDCANCEL, 159, 206, 50, 14
+END
+
+/* Proxy Authentication Dialog */
+IDD_PROXY_AUTH DIALOG 29, 23, 154, 65
+STYLE DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | DS_CENTER
+CAPTION "OpenVPN - Proxy Authentisierung"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Benutzername:", 201, 9, 8, 48, 10
+    EDITTEXT        EDIT_PROXY_USERNAME, 61, 5, 84, 12, ES_AUTOHSCROLL
+    LTEXT           "Passwort:", 202, 9, 26, 48, 10
+    EDITTEXT        EDIT_PROXY_PASSWORD, 61, 23, 84, 12, ES_PASSWORD | ES_AUTOHSCROLL
+    PUSHBUTTON      "OK", IDOK, 58, 43, 40, 14
+END
+
+STRINGTABLE
+BEGIN
+   /* About Dialog */
+   TEXT_ABOUT_OPENVPNGUI    "OpenVPN GUI v%s - Eine grafische Oberfl?che f?r OpenVPN"
+
+   /* Tray - Resources */
+   MSG_TIP                      "OpenVPN GUI "
+   MSG_TIP_CONNECTED            "\nVerbunden mit: "
+   MSG_TIP_CONNECTING           "\nVerbinden mit: "
+   MSG_TIP_CONNECTED_SINCE      "\nVerbunden seit: "
+   MSG_TIP_ASSIGNED_IP          "\nAssigned IP: %s"
+   IDM_TEXT_SERVICE             "OpenVPN Service"
+   IDM_TEXT_PROXY               "Proxy Einstellungen"
+   IDM_TEXT_ABOUT               "?ber"
+   IDM_TEXT_CLOSE               "Exit"
+   IDM_TEXT_CONNECT             "Verbinden"
+   IDM_TEXT_DISCONNECT          "Trennen"
+   IDM_TEXT_STATUS              "Zeige Status"
+   IDM_TEXT_VIEWLOG             "Zeige Log"
+   IDM_TEXT_EDITCONFIG          "Editiere Konfiguration"
+   IDM_TEXT_PASSPHRASE          "?ndere Passwort"
+   IDM_TEXT_SERVICE_START       "Start"
+   IDM_TEXT_SERVICE_STOP        "Stop"
+   IDM_TEXT_SERVICE_RESTART     "Restart"
+   IDM_TEXT_SERVICEONLY_START   "Verbinden"
+   IDM_TEXT_SERVICEONLY_STOP    "Trennen"
+   IDM_TEXT_SERVICEONLY_RESTART "Erneut Verbinden"
+   IDM_TEXT_ASK_STOP_SERVICE    "M?chten Sie die Verbindung trennen (Stoppt den OpenVPN Service)?"
+
+   /* Logviewer - Resources */
+   ERR_START_LOG_VIEWER     "Fehler beim Starten des Log-Viewer: %s"
+   ERR_START_CONF_EDITOR    "Fehler beim Starten des Konfigurations-Editor: %s"   
+
+   /* OpenVPN */
+   ERR_TO_MANY_CONFIGS      "OpenVPN GUI unterst?tzt nicht mehr als %d Konfigurationen. Bitte kontakieren Sie den Author, wenn Sie mehr ben?tigen."
+   ERR_CANNOT_CONSTRUCT_LOG "Kann Logfile mit Namem: %s nicht erstellen"
+  ERR_ONLY_ONE_CONN_OLD_VERSION "Sie k?nnen nur eine Verbindung zur gleichen Zeit aufbauen, wenn Sie einen ?ltere Version als 2.0-beta6 von OpenVPN ben?tzen."
+  ERR_STOP_SERV_ON_OLD_VERSION "You cannot use OpenVPN GUI to start a connection while the OpenVPN Service is running (with OpenVPN 1.5/1.6). Stop OpenVPN Service first if you want to use OpenVPN GUI."
+  ERR_CREATE_EVENT          "CreateEvent fehlgeschlagen beim Beenden. Event: %s"
+  ERR_UNKNOWN_PRIORITY      "Unbekannter Priorit?tsnamen: %s"
+  ERR_LOG_APPEND_BOOL       "Log file append flag (given as '%s') must be '0' or '1'"
+  ERR_GET_IE_PROXY_SETTINGS "Konnte die IE Proxy Einstellungen nicht ?bernehmen, weil:\n%s"
+  ERR_INIT_SEC_DESC         "InitializeSecurityDescriptor fehlgeschlagen."
+  ERR_SET_SEC_DESC_ACL      "SetSecurityDescriptorDacl fehlgeschlagen."
+  ERR_CREATE_PIPE_OUTPUT    "CreatePipe an hOutputWrite fehlgeschlagen."
+  ERR_DUP_HANDLE_ERR_WRITE  "DuplicateHandle an hErrorWrite fehlgeschlagen."
+  ERR_CREATE_PIPE_INPUT     "CreatePipe an hInputRead fehlgeschlagen."
+  ERR_DUP_HANDLE_OUTPUT_READ "DuplicateHandle an hOutputRead fehlgeschlagen."
+  ERR_DUP_HANDLE_INPUT_WRITE "DuplicateHandle an hInputWrite fehlgeschlagen."
+  ERR_CLOSE_HANDLE_TMP      "CloseHandle an hOutputReadTmp/hInputWriteTmp fehlgeschlagen."
+  ERR_CREATE_PROCESS        "CreateProcess fehlgeschlagen, exe='%s' cmdline='%s' dir='%s'"
+  ERR_CLOSE_HANDLE          "CloseHandle fehlgeschlagen."
+  ERR_CREATE_THREAD_STATUS  "CreateThread, welcher das Statusfenster zeigt ist fehlgschlagen."
+  INFO_STATE_WAIT_TERM      "Aktueller Status: Wartet bis OpenVPN beendet ist..."
+  ERR_OPEN_LOG_WRITE        "Fehler beim Schreiben des Logfiles: %s. Sie haben vermutlich keine Administratorenrechte, welche n?tig sind um OpenVPN zu starten."
+  INFO_STATE_CONNECTED      "Aktueller Status: Verbunden"
+  INFO_NOW_CONNECTED        "%s ist nun verbunden."
+  INFO_ASSIG_IP             "Zugewiesene IP: %s"
+  ERR_CERT_EXPIRED          "Es konnte keine Verbindung erstellt werden, weil Ihr Zertifikat abgelaufen ist oder die Systemzeit nicht korrekt eingestellt ist."
+  ERR_CERT_NOT_YET_VALID    "Es konnte keine Verbindung erstellt werden, weil Ihr Zertifikat jetzt nicht g?ltig ist. Bitte ?berpr?fen Sie Ihre Systemzeit."
+  INFO_STATE_RECONNECTING   "Aktueller Status: Wiederverbinden"
+  INFO_STATE_DISCONNECTED   "Aktueller Status: Getrennt"
+  INFO_CONN_TERMINATED      "Verbindung zu %s wurde beendet."
+  INFO_STATE_FAILED         "Aktueller Status: Konnte Verbindung nicht erstellen"
+  INFO_CONN_FAILED          "Verbindung zu %s ist fehlgeschlagen."
+  INFO_STATE_FAILED_RECONN  "Aktueller Status: Konnte Verbindung nicht wiederherstellen."
+  INFO_RECONN_FAILED        "Erneut Verbinden mit %s ist fehlgeschlagen."
+  INFO_STATE_SUSPENDED      "Aktueller Status: Suspended"
+  ERR_READ_STDOUT_PIPE      "Error reading from OpenVPN StdOut Pipe."
+  ERR_CREATE_RICHED_LOGWINDOW "Erstellen des RichEdit LogWindow fehlgeschlagen!!"
+  ERR_SET_SIZE              "Setzten der Gr?sse fehlgeschlagen!"
+  ERR_AUTOSTART_CONF_NOT_FOUND "Kann gew?nschte Konfigurationdatei f?r Autostart nicht finden: %s"
+  ERR_VERSION_CREATE_EVENT  "CreateEvent() beim ?berpr?fen der OpenVPN version fehlgeschlagen."
+  ERR_CREATE_PIPE_INPUT_READ "CreatePipe an hInputRead fehlgeschlagen."
+  INFO_STATE_CONNECTING     "Aktueller Status: Verbinden"
+  INFO_CONNECTION_XXX       "OpenVPN Verbindung (%s)"
+  ERR_CREATE_THREAD_READ_STDOUT "CreateThread zum Lesen des OpenVPN Prozess stdout fehlgeschlagen."
+  INFO_STATE_CONN_SCRIPT    "Aktueller Status: Verbindungsscript l?uft"
+  INFO_STATE_DISCONN_SCRIPT "Aktueller Status: Verbindungstrennungsscript l?uft"
+  ERR_RUN_CONN_SCRIPT       "Fehler beim Ausf?hren des Verbindungsscript: %s"
+  ERR_GET_EXIT_CODE         "Fehler beim Erfassen des ExitCodes des Verbinungsscripts (%s)"
+  ERR_CONN_SCRIPT_FAILED    "Verbindungsscript fehlgeschlagen. (Exitcode=%ld)"
+  ERR_RUN_CONN_SCRIPT_TIMEOUT "Verbindungsscript fehlgeschlagen. Abgebrochen nach %d Sekunden."
+  ERR_CONFIG_ALREADY_EXIST  "Es exisiert bereits ein Konfigurationsdatei mit dem Namen '%s'. Sie k?nnnen nicht mehrere Konfigurationsdateinen mit dem gleichen Namen haben, ausser sie liegen in unterschiedlichen Verzeichnissen."
+  /* main - Resources */
+  ERR_OPEN_DEBUG_FILE       "Fehler beim ?ffnen des Debugfiles (%s)."
+  ERR_LOAD_RICHED20         "Kann RICHED20.DLL nicht laden."
+  ERR_SHELL_DLL_VERSION     "Die shell32.dll Versionsnummer ist zu niedrieg (0x%lx). Es m?ssen mindestens Version 5.0 installiert sein."
+  ERR_GUI_ALREADY_RUNNING   "OpenVPN GUI l?uft bereits."
+END
+

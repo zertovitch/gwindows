@@ -1,0 +1,101 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+//        ________          _   ____   ____  ___
+//           /    ____  \ _/   /      /   / /   \
+//          /    /___/  _\    /      /---/ /    /
+//         /    /___   /  \  /____  /   / /____/
+//
+//          TeXCAD for Windows, resource script
+//
+/////////////////////////////////////////////////////////////////////////////
+
+#include "standard_ids.h"
+
+#define VK_INSERT         0x2D
+#define VK_DELETE         0x2E
+#define VK_F12            0x7B
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icons
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+
+AAA_Main_Icon   ICON DISCARDABLE	"texcad.ico"
+Picture_Icon    ICON DISCARDABLE	"picture.ico"
+Grid_Icon       ICON DISCARDABLE	"grid.ico"
+Options_Icon    ICON DISCARDABLE	"options.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmaps
+//
+
+Toolbar_Bmp		BITMAP DISCARDABLE	"TC_Tools.bmp"
+Drawing_Toolbar_Bmp	BITMAP DISCARDABLE	"TC_Drawing_tools.bmp"
+Line_Toolbar_Bmp  	BITMAP DISCARDABLE	"TC_Line_settings.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursors
+//
+
+Select_cursor       CURSOR DISCARDABLE	"select.cur"
+Unselect_cursor     CURSOR DISCARDABLE	"unselect.cur"
+Pick_cursor         CURSOR DISCARDABLE	"pick.cur"
+Unpick_cursor       CURSOR DISCARDABLE	"unpick.cur"
+Picking_cursor      CURSOR DISCARDABLE	"picking.cur"
+Text_Change_cursor  CURSOR DISCARDABLE	"chg_text.cur"
+Set_origin_cursor   CURSOR DISCARDABLE	"set_origin.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerators
+//
+
+Main_Menu ACCELERATORS PRELOAD MOVEABLE PURE
+BEGIN
+	"A",            ID_EDIT_SELECT_ALL,     VIRTKEY,CONTROL
+	"U",            ID_EDIT_CLEAR_ALL,      VIRTKEY,CONTROL
+	"C",            ID_EDIT_COPY,           VIRTKEY,CONTROL
+	VK_INSERT,      ID_EDIT_COPY,           VIRTKEY,CONTROL
+	"X",            ID_EDIT_CUT,            VIRTKEY,CONTROL
+      VK_DELETE,      ID_EDIT_CUT,            VIRTKEY,SHIFT
+      VK_DELETE,      ID_EDIT_CLEAR,          VIRTKEY,CONTROL
+      VK_DELETE,      ID_EDIT_CLEAR,          VIRTKEY
+	"V",            ID_EDIT_PASTE,          VIRTKEY,CONTROL
+      VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY,SHIFT
+	"N",            ID_FILE_NEW,            VIRTKEY,CONTROL
+	"O",            ID_FILE_OPEN,           VIRTKEY,CONTROL
+	"S",            ID_FILE_SAVE,           VIRTKEY,CONTROL
+	VK_F12,         ID_FILE_SAVE_AS,        VIRTKEY
+	"W",            ID_FILE_CLOSE,          VIRTKEY,CONTROL
+END
+
+1 VERSIONINFO
+FILEVERSION  4,  2, 0, 98
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"// Lang=US English, CharSet=Windows Multilingual
+        BEGIN
+            VALUE "Comments",
+                    "TeXCAD is a program for drawing or retouching {picture}s in LaTeX."
+            VALUE "CompanyName", "Free Software Foundation, Inc."
+            VALUE "Authors", "Georg Horn, Jörn Winkelmann, Gautier de Montmollin"
+            VALUE "FileDescription", "TeXCAD, a LaTeX {picture} drawing program"
+            VALUE "FileVersion", "Ver. 4.2, Ref. 099"
+            VALUE "InternalName", "TeXCAD"
+            VALUE "LegalCopyright", "© 2003..2007 Free Software Foundation"
+            VALUE "OriginalFilename", "TeXCAD.exe"
+            VALUE "ProductName", "TeXCAD"
+            VALUE "ProductVersion", "4.2"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation",  1033,  1252
+    END
+END

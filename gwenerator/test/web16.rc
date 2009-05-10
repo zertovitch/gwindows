@@ -1,0 +1,679 @@
+//
+// Found on the Web by Googling keywords.
+//
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Deutschland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 7, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\HexEditor.rc2""  // Nicht mit Microsoft Visual C++ bearbeitete Ressourcen\r\n"
+    "#include ""l.deu\\afxres.rc""          // Standardkomponenten\r\n"
+    "#include ""l.deu\\afxprint.rc""        // Ressourcen für Drucken/Seitenansicht\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\HexEditor.ico"
+IDR_HEXTYPE             ICON    DISCARDABLE     "res\\HexDoc.ico"
+IDI_DFM_MODUL           ICON    DISCARDABLE     "res\\dfm_modu.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_FILE_PRINT_PREVIEW
+    SEPARATOR
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_EDIT_FIND
+    BUTTON      ID_EDIT_FIND_NEXT
+    SEPARATOR
+    BUTTON      ID_INPUTVALUE
+    SEPARATOR
+    BUTTON      ID_HEX_CONVERT
+    SEPARATOR
+    BUTTON      ID_DATAVIEW_ON
+    BUTTON      ID_UPDATEDATA
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&Datei"
+    BEGIN
+        MENUITEM "&Neu\tStrg+N",                ID_FILE_NEW
+        MENUITEM "Ö&ffnen...\tStrg+O",          ID_FILE_OPEN
+        MENUITEM "S&peichern\tStrg+S",          ID_FILE_SAVE
+        MENUITEM "Speichern &unter...",         ID_FILE_SAVE_AS
+        MENUITEM "Speichere &Markierung",       ID_SAVE_MARK
+        MENUITEM "Speichere als C-Datei",       ID_SAVE_TEXT
+        MENUITEM SEPARATOR
+        MENUITEM "&Drucken...\tStrg+P",         ID_FILE_PRINT
+        MENUITEM "Sei&tenansicht\tF12",         ID_FILE_PRINT_PREVIEW
+        MENUITEM "Seite einrichten\tF11",       ID_FILE_PAGE_SETUP
+        MENUITEM "Drucker&einrichtung...",      ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Letzte Datei\tF2",            ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Beenden",                    ID_APP_EXIT
+    END
+    POPUP "&Bearbeiten"
+    BEGIN
+        MENUITEM "&Kopieren\tStrg+C",           ID_EDIT_COPY
+        MENUITEM "Einfügen\tStrg+V",            ID_EDIT_PASTE
+        MENUITEM "&C++ Kopieren\tStrg+A",       ID_CPP_COPY
+        MENUITEM "Base64 einfügen",             ID_PASTE_BASE64
+        MENUITEM SEPARATOR
+        MENUITEM "&Weitersuchen\tF3",           ID_EDIT_FIND_NEXT
+        MENUITEM "&Suchen\tShift+F3",           ID_EDIT_FIND
+        MENUITEM "&Bereich suchen\tStrg+F3",    ID_EDIT_FIND_NEXT2
+        MENUITEM SEPARATOR
+        MENUITEM "Zahlen Rechner\tStrg+Y",      ID_HEX_CONVERT
+        MENUITEM "&Zahl eingeben\tF4",          ID_INPUTVALUE
+        MENUITEM "&Check -Summe\tF5",           ID_CHECKSUM
+        MENUITEM "Daten &erneuern\tF8",         ID_UPDATEDATA
+        MENUITEM "Springe zu Adresse\tF10",     ID_MOVETO
+        MENUITEM "Ausschnitt einblenden\tStrgkQ", ID_SETFRAME
+        MENUITEM "Float Konverter",             ID_HEX_FLOAT
+    END
+    POPUP "&Ansicht"
+    BEGIN
+        MENUITEM "&Farben einstellen\tStrg+B",  ID_VIEW_COLOR
+        MENUITEM "Sch&rift einstellen\tStrg+S", ID_VIEW_FONT
+        MENUITEM "Einstellungen",               ID_HEX_CONFIG
+        MENUITEM SEPARATOR
+        MENUITEM "Flache Symbolleiste",         ID_STATUS_BAR_FLAT
+        MENUITEM "&Symbolleiste",               ID_VIEW_TOOLBAR
+        MENUITEM "S&tatusleiste",               ID_VIEW_STATUS_BAR
+        MENUITEM "&Datenfenster\tF7",           ID_DATAVIEW_ON
+    END
+    POPUP "Module"
+    BEGIN
+        MENUITEM "&Modul laden",                ID_LOADMODUL
+        MENUITEM "Modulliste &laden",           ID_LOADLIST
+        MENUITEM "Module &löschen",             ID_DELETEMODUL
+        MENUITEM "&Datei in Modulliste",        ID_ADDTOLIST
+        MENUITEM SEPARATOR
+        MENUITEM "&Datenfenster\tF7",           ID_DATAVIEW_ON
+        MENUITEM "Datenfenster &aktuallisieren\tF8", ID_UPDATEDATA
+        MENUITEM "Datenfenster &Eigenschaften\tF9", ID_PROPERTYS
+    END
+    POPUP "&?"
+    BEGIN
+        MENUITEM "Inf&o über HexEditor...",     ID_APP_ABOUT
+    END
+END
+
+IDR_DRUCKEN MENU DISCARDABLE 
+BEGIN
+    POPUP " + ", CHECKED
+    BEGIN
+        MENUITEM "&Dateiname",                  IDD_DATEINNAME
+        MENUITEM "Dateiname und &Pfad",         IDD_DATEIPFAD
+        MENUITEM "&Benutzername",               IDD_USERNAME
+        MENUITEM SEPARATOR
+        MENUITEM "&Seitennummer",               IDD_SEITENNUMMER
+        MENUITEM "Seiten&anzahl",               IDD_SEITENANZ
+        MENUITEM "Da&tum",                      IDD_DATUM
+        MENUITEM "&Zeit",                       IDD_ZEIT
+        MENUITEM "&Neue Zeile",                 IDD_NEUEZEILE
+        MENUITEM SEPARATOR
+        MENUITEM "&Linksbündig",                IDD_LINKS
+        MENUITEM "&Rechtsbündig",               IDD_RECHTS
+        MENUITEM "Zent&riert",                  IDD_ZENTRIET
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "A",            ID_CPP_COPY,            VIRTKEY, CONTROL, NOINVERT
+    "B",            ID_VIEW_COLOR,          VIRTKEY, CONTROL, NOINVERT
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "F",            ID_EDIT_FIND,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "Q",            ID_SETFRAME,            VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "T",            ID_VIEW_FONT,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    VK_ESCAPE,      ID_APP_EXIT,            VIRTKEY, NOINVERT
+    VK_ESCAPE,      ID_SETFRAME,            VIRTKEY, NOINVERT
+    VK_F10,         ID_MOVETO,              VIRTKEY, NOINVERT
+    VK_F11,         ID_FILE_PAGE_SETUP,     VIRTKEY, NOINVERT
+    VK_F12,         ID_FILE_PRINT_PREVIEW,  VIRTKEY, NOINVERT
+    VK_F2,          ID_LOADLAST,            VIRTKEY, NOINVERT
+    VK_F3,          ID_EDIT_FIND_NEXT,      VIRTKEY, NOINVERT
+    VK_F3,          ID_EDIT_FIND_NEXT2,     VIRTKEY, CONTROL, NOINVERT
+    VK_F3,          ID_EDIT_FIND,           VIRTKEY, SHIFT, NOINVERT
+    VK_F4,          ID_INPUTVALUE,          VIRTKEY, NOINVERT
+    VK_F5,          ID_CHECKSUM,            VIRTKEY, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    VK_F7,          ID_DATAVIEW_ON,         VIRTKEY, NOINVERT
+    VK_F8,          ID_UPDATEDATA,          VIRTKEY, NOINVERT
+    VK_F9,          ID_PROPERTYS,           VIRTKEY, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "Y",            ID_HEX_CONVERT,         VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DRUCKEN DIALOG DISCARDABLE  0, 0, 262, 141
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Seite einrichten"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,195,9,55,15
+    PUSHBUTTON      "Abbrechen",IDCANCEL,195,29,55,15
+    EDITTEXT        IDC_EDIT1,45,10,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "+",IDC_BUTTON1,170,9,15,15
+    EDITTEXT        IDC_EDIT2,45,30,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "+",IDC_BUTTON2,170,29,15,15
+    EDITTEXT        IDC_EDIT3,45,50,50,12,ES_NUMBER
+    CONTROL         "Autom. Zeilenumbruch an Seitenrand",IDC_CHECK1,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,11,76,135,10
+    CONTROL         "Rahmen drucken",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,174,53,71,10
+    CONTROL         "Rahmen füllen ",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,174,64,63,10
+    CONTROL         "Gleiche Schriftart",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,174,75,70,10
+    EDITTEXT        IDC_EDIT_OBEN,46,101,35,12,ES_NUMBER
+    EDITTEXT        IDC_EDIT_UNTEN,46,116,35,12,ES_NUMBER
+    EDITTEXT        IDC_EDIT_LINKS,116,101,35,12,ES_NUMBER
+    EDITTEXT        IDC_EDIT_RECHTS,116,116,35,12,ES_NUMBER
+    CONTROL         "Schwarz Weis",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,
+                    181,101,60,10
+    CONTROL         "Graustufen",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,181,
+                    111,60,10
+    CONTROL         "Farbe",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,181,121,
+                    60,10
+    GROUPBOX        "Ränder (mm)",IDC_STATIC,11,91,149,45
+    LTEXT           "Oben",IDC_STATIC,21,103,18,8
+    LTEXT           "Unten",IDC_STATIC,21,117,20,8
+    LTEXT           "Links",IDC_STATIC,91,103,18,8
+    LTEXT           "Rechts",IDC_STATIC,91,117,24,8
+    GROUPBOX        "Druckfarbe",IDC_STATIC,171,91,80,45
+    LTEXT           "Kopfzeile",IDC_STATIC,10,13,30,8
+    LTEXT           "Zeilen",IDC_STATIC,10,53,20,8
+    LTEXT           "Fußzeile",IDC_STATIC,10,33,27,8
+END
+
+IDD_HEX_ZAHL DIALOG DISCARDABLE  0, 0, 147, 116
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Zahlen eingabe"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        1055,10,13,125,12,ES_AUTOHSCROLL
+    CONTROL         "B&yte",1093,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,
+                    40,40,10
+    CONTROL         "&Word",1094,"Button",BS_AUTORADIOBUTTON,15,50,40,10
+    CONTROL         "&DWord",1095,"Button",BS_AUTORADIOBUTTON,15,60,40,10
+    CONTROL         "C/C++",1029,"Button",BS_AUTORADIOBUTTON | WS_GROUP,80,
+                    41,37,10
+    CONTROL         "Assembler",1030,"Button",BS_AUTORADIOBUTTON,80,51,48,10
+    CONTROL         "Base 64",1031,"Button",BS_AUTORADIOBUTTON,80,61,42,10
+    CONTROL         "Big Endian Format",1122,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,10,80,73,10
+    PUSHBUTTON      "Abbrechen",IDCANCEL,85,95,50,14
+    DEFPUSHBUTTON   "OK",IDOK,10,95,50,14
+    GROUPBOX        "Byte-Anzahl",IDC_STATIC,10,30,55,45
+    LTEXT           "",1120,11,3,124,8
+    GROUPBOX        "Format",IDC_STATIC,75,30,60,45
+END
+
+IDD_HEX_DOCFRAME DIALOG DISCARDABLE  0, 0, 132, 116
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Abschnitt einblenden"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,10,90,50,14
+    PUSHBUTTON      "Abbrechen",IDCANCEL,70,90,50,14
+    EDITTEXT        IDC_EDIT1,60,10,55,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT2,60,30,55,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT3,60,50,55,14,ES_AUTOHSCROLL
+    LTEXT           "Adresse :",IDC_STATIC,15,13,30,8
+    LTEXT           "Länge :",IDC_STATIC,15,33,25,8
+    LTEXT           "Endadresse :",IDC_STATIC,15,53,42,8
+    CONTROL         "Endaddresse eingeben",IDC_CHECK1,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,75,100,8
+END
+
+IDD_HEX_CONVERT DIALOGEX 0, 0, 222, 106
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Zahlen umwandeln"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,160,10,50,14
+    EDITTEXT        IDC_EDIT2,55,12,80,12,ES_AUTOHSCROLL | ES_READONLY | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_EDIT3,55,27,80,12,ES_AUTOHSCROLL | ES_READONLY | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_EDIT4,55,42,80,12,ES_AUTOHSCROLL | ES_READONLY | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_EDIT5,55,57,80,12,ES_AUTOHSCROLL | ES_READONLY | NOT 
+                    WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "Eingabe:",IDC_STATIC,10,78,29,8
+    LTEXT           "( 0x... = hex  0b... = bin 0o... = oktal  'x' = Ansi )",
+                    IDC_STATIC,58,89,148,8
+    LTEXT           "Dezimal:",IDC_STATIC,10,14,40,8
+    LTEXT           "Hexadezimal:",IDC_STATIC,10,29,43,8
+    LTEXT           "Oktal:",IDC_STATIC,10,43,40,8
+    LTEXT           "Binär:",IDC_STATIC,10,59,40,8
+    COMBOBOX        IDC_COMBO1,55,75,155,120,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        1107,165,57,45,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "Ansi:",IDC_STATIC,145,59,20,8
+END
+
+IDD_HEX_CHECKSUM DIALOG DISCARDABLE  0, 0, 247, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Checksumme"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,180,70,50,14
+    LTEXT           "BYTE :",IDC_STATIC,15,15,24,8
+    LTEXT           "WORD :",IDC_STATIC,15,30,28,8
+    LTEXT           "DWORD :",IDC_STATIC,15,45,34,8
+    EDITTEXT        IDC_EDIT1,55,15,55,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT2,55,30,55,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT3,55,45,55,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT4,115,15,55,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT5,115,30,55,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT6,115,45,55,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT7,175,15,55,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT8,175,30,55,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT9,175,45,55,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Addiert",IDC_STATIC,55,5,23,8
+    LTEXT           "Subtrahiert",IDC_STATIC,115,5,35,8
+    LTEXT           "Xor",IDC_STATIC,175,5,12,8
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 3,0,0,1
+ PRODUCTVERSION 3,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040704b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "FileDescription", "HexEditor\0"
+            VALUE "FileVersion", "3, 0, 0, 1\0"
+            VALUE "InternalName", "HexEditor\0"
+            VALUE "OriginalFilename", "HexEditor.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "HexEditor Application\0"
+            VALUE "ProductVersion", "3, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x407, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 211
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_DRUCKEN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 255
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 134
+    END
+
+    IDD_HEX_ZAHL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 140
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_HEX_DOCFRAME, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 125
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_HEX_CONVERT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 99
+    END
+
+    IDD_HEX_CHECKSUM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 240
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "HexEditor\n\nHex\n\n\nHex.Document\nHex Document"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "HexEditor"
+    AFX_IDS_IDLEMESSAGE     "Bereit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "ER"
+    ID_INDICATOR_CAPS       "UF"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "RF"
+    ID_INDICATOR_OVR        "ÜB"
+    ID_INDICATOR_REC        "MA"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Erstellt ein neues Dokument.\nNeu"
+    ID_FILE_OPEN            "Öffnet ein bestehendes Dokument.\nÖffnen"
+    ID_FILE_CLOSE           "Schließt das aktive Dokument.\nSchließen"
+    ID_FILE_SAVE            "Speichert das aktive Dokument.\nSpeichern"
+    ID_FILE_SAVE_AS         "Speichert das aktive Dokument unter neuem Namen.\nSpeichern unter"
+    ID_FILE_PAGE_SETUP      "Ändert die Druckoptionen.\nSeite einrichten"
+    ID_FILE_PRINT_SETUP     "Ändert den Drucker und die Druckoptionen.\nDruckereinrichtung"
+    ID_FILE_PRINT           "Druckt das aktive Dokument.\nDrucken"
+    ID_FILE_PRINT_PREVIEW   "Zeigt ganze Seiten an.\nSeitenansicht"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Zeigt Programm-Informationen, Versionsnummer und Copyright an.\nInfo"
+    ID_APP_EXIT             "Verläßt die Anwendung; fragt, ob Dokumente gespeichert werden sollen.\nBeenden"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE2       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE3       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE4       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE5       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE6       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE7       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE8       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE9       "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE10      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE11      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE12      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE13      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE14      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE15      "Öffnet dieses Dokument."
+    ID_FILE_MRU_FILE16      "Öffnet dieses Dokument."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Wechselt zum nächsten Fensterausschnitt.\nNächster Ausschnitt"
+    ID_PREV_PANE            "Springt zum vorherigen Fensterausschnitt zurück.\nVorheriger Ausschnitt"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Teilt das aktive Fenster in Ausschnitte.\nTeilen"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Löscht die Markierung.\nLöschen"
+    ID_EDIT_CLEAR_ALL       "Löscht alles.\nAlles löschen"
+    ID_EDIT_COPY            "Kopiert die Markierung und überträgt sie in die Zwischenablage.\nKopieren"
+    ID_EDIT_CUT             "Entfernt die Markierung und überträgt sie in die Zwischenablage.\nAusschneiden"
+    ID_EDIT_FIND            "Sucht den angegebenen Text.\nSuchen"
+    ID_EDIT_PASTE           "Fügt den Inhalt der Zwischenablage ein.\nEinfügen"
+    ID_EDIT_REPEAT          "Wiederholt die letzte Aktion.\nWiederholen"
+    ID_EDIT_REPLACE         "Ersetzt einen bestimmten Text durch einen anderen.\nErsetzen"
+    ID_EDIT_SELECT_ALL      "Markiert das gesamte Dokument.\nAlles markieren"
+    ID_EDIT_UNDO            "Macht die letzte Aktion rückgängig.\nRückgängig"
+    ID_EDIT_REDO            "Wiederholt die vorher rückgängig gemachte Aktion.\nWiederherstellen"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Blendet die Symbolleiste ein oder aus.\nSymbolleiste ein-/ausschalten"
+    ID_VIEW_STATUS_BAR      "Blendet die Statusleiste ein oder aus.\nStatusleiste ein-/ausschalten"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Ändert die Fenstergröße."
+    AFX_IDS_SCMOVE          "Ändert die Position des Fensters."
+    AFX_IDS_SCMINIMIZE      "Verkleinert das Fenster zu einem Symbol."
+    AFX_IDS_SCMAXIMIZE      "Vergrößert das Fenster zu voller Größe."
+    AFX_IDS_SCNEXTWINDOW    "Wechselt zum nächsten Dokumentfenster."
+    AFX_IDS_SCPREVWINDOW    "Wechselt zum vorherigen Dokumentfenster."
+    AFX_IDS_SCCLOSE         "Schließt das aktive Fenster und fordert zur Dokumentspeicherung auf."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Stellt das Fenster in seiner normalen Größe wieder her."
+    AFX_IDS_SCTASKLIST      "Aktiviert die Task-Liste."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "Beendet die Seitenansicht.\nSeitenansicht beenden"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_FIND_NEXT       "Suche weiter nach dem vorherigen Ausdruck\nWeitersuchen"
+    ID_EDIT_FIND_NEXT2      "Sucht nach dem nächsten Auftreten vom aktuell markierten Bereich"
+    ID_VIEW_FONT            "Die Schriftart einstellen."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_COLOR           "Die Farben einstellen"
+    ID_EDIT_CONFIG          "Einstellen verschiedener Editor Optionen"
+    ID_HEX_CONFIG           "Die Fenster-Ansicht einstellen"
+    ID_STATUS_BAR_FLAT      "Schaltet zwischen dem hervorgehobenen und flachen Stil um.\nFlache Symbolleiste"
+    ID_CHECKSUM             "Die Checksumme berechen.\nChecksumme"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_DATAVIEW_ON          "Daten Fenster ein/aus schalten\nDaten Fenster"
+    ID_DATAVIEW_DOCK        "Daten Fenster an/abdocken."
+    ID_DATAVIEW_TYPE        "Eigenschaften für das Daten Fenster einstellen."
+    ID_UPDATEDATA           "Erneuert die Anzeige im Daten Fenster.\nDaten anzeigen"
+    ID_LOAD_MODUL           "Ein Modul für das Daten Fenster laden.\nModul laden"
+    ID_DELETE_MODUL         "Alle geladenen Module für das Daten Fenste löschen.\nModule löschen"
+    ID_ADDTOLIST            "Eine Datei zur Modulliste hinzufügen.\nDatei zu Modul Liste"
+    ID_LOADLIST             "Läd eine Liste von Modulen.\nModulliste laden"
+    ID_MOVETO               "Bewege den Cursor zu einer Adresse\nCursor verschieben "
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_UPDATE               "Zum Umwandeln von Zahlen und Rechnen\nZahlen Rechner"
+    ID_HEX_CONVERT          "Rechner zum umwandeln von Zahlen.\nZahlenrechner"
+    ID_PROPERTYS            "Zum Auswählen der Module für das Datenfenster"
+    ID_INPUTVALUE           "Eine Zahl an der aktuellen Position einfügen\nZahl eingeben"
+    ID_CPP_COPY             "Kopiert den markierten Bereich in die Zwischenablage im C++ Format\nC++ Kopieren"
+    ID_SETFRAME             "Einen Auschnit aus dem Speicher anzeigen.\tAusschnitt einblenden"
+    ID_SAVE_MARK            "Speicher den gerade Markierten Bereich\nSpeichere Markierung"
+    ID_SAVE_TEXT            "Speichert den markierten Bereich als C-Datei\nSpeichere als C-Datei"
+    ID_PASTE_BASE64         "Einen Base64 kodierten Text einfügen.\nBase64 einfügen"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_HEX_FLOAT            "Umwandel von Flieskommazahlen in Hex-Dumps\nFloat Konverter"
+END
+
+#endif    // Deutsch (Deutschland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE 7, 1
+#pragma code_page(1252)
+#endif
+#include "res\HexEditor.rc2"  // Nicht mit Microsoft Visual C++ bearbeitete Ressourcen
+#include "l.deu\afxres.rc"          // Standardkomponenten
+#include "l.deu\afxprint.rc"        // Ressourcen für Drucken/Seitenansicht
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

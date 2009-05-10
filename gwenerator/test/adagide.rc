@@ -1,0 +1,699 @@
+#define IDOK 1
+#define IDCANCEL 2
+#define WS_POPUP         0x80000000L
+#define WS_CAPTION       0x00C00000L
+#define WS_VISIBLE       0x10000000L
+#define WS_BORDER        (0x800000L)
+#define ES_AUTOHSCROLL   0x80L
+#define ES_AUTOVSCROLL   0x40L
+#define ES_MULTILINE     0x4L
+#define ES_WANTRETURN    (0x1000L)
+#define ES_READONLY      0x800L
+#define CBS_DROPDOWN     2
+#define CBS_DROPDOWNLIST 3
+#define CBS_SORT         0x100L
+#define LBS_SORT         0x2L
+#define WS_SYSMENU       0x80000L
+#define WS_GROUP         0x20000L
+#define WS_VSCROLL       0x00200000L
+#define WS_TABSTOP       0x10000L
+#define VK_F1             0x70
+#define VK_F2             0x71
+#define VK_F3             0x72
+#define VK_F4             0x73
+#define VK_F5             0x74
+#define VK_F6             0x75
+#define VK_F7             0x76
+#define VK_F8             0x77
+#define VK_F9             0x78
+#define VK_F10            0x79
+#define VK_F11            0x7A
+#define VK_F12            0x7B
+
+
+#define VK_UP               38
+#define VK_DOWN             40
+
+#include "adagide.h"
+
+
+ToolsIcon ICON adatool.ico
+LargeIcon ICON ada95.ico
+AAAIcon ICON ada95.ico
+AdaListingDocIcon ICON adadoc.ico
+logo1 ICON adagide1.ico
+logo2 ICON adagide2.ico
+logo3 ICON adagide3.ico
+logo4 ICON adagide4.ico
+logo5 ICON adagide5.ico
+logo6 ICON adagide6.ico
+NativeTarget ICON native.ico
+GnappletTarget ICON gnapplet.ico
+JgnatappTarget ICON jgnatapp.ico
+MsilTarget ICON dotnet.ico
+Win32Target  ICON  Win32.ico     // ### alf ins ###
+LegoTarget ICON lego.ico
+BuildyourownTarget ICON buildyourown.ico
+SmallIcon ICON ada95.ico
+
+NativeBMP BITMAP native.bmp
+GnappletBMP BITMAP gnapplet.bmp
+JgnatappBMP BITMAP jgnatapp.bmp
+DotnetBMP BITMAP dotnet.bmp
+Win32BMP  BITMAP Win32.bmp       // ### alf ins ###
+LegoBMP BITMAP lego.bmp
+BuildyourownBMP BITMAP buildyourown.bmp
+
+NewButton BITMAP new.bmp
+OpenButton BITMAP open.bmp
+SaveButton BITMAP save.bmp
+CutButton BITMAP cut.bmp
+CopyButton BITMAP copy.bmp
+PasteButton BITMAP paste.bmp
+FindButton BITMAP find.bmp
+CompileButton BITMAP compile.bmp
+BuildButton BITMAP build.bmp
+RunButton BITMAP run.bmp
+StopButton BITMAP stop.bmp
+IndentButton BITMAP indent.bmp
+UnindentButton BITMAP unindent.bmp
+CommentButton BITMAP comment.bmp
+UncommentButton BITMAP uncomment.bmp
+ReformatButton BITMAP reformat.bmp
+DebugButton BITMAP debug.bmp
+AshButton BITMAP owl.bmp
+TargetButton BITMAP target.bmp
+DebugModeButton   BITMAP debumode.bmp  // GdM ins
+ReleaseModeButton BITMAP relemode.bmp  // GdM ins
+
+RunOptionsDialog DIALOG 20,50,250,100
+STYLE WS_POPUP | WS_CAPTION | WS_VISIBLE
+CAPTION "Run Options"
+FONT 10,"Times New Roman"
+{
+  LTEXT "Input file", -1, 10,0,55,8
+  EDITTEXT 201, 10,10,180,13,ES_AUTOHSCROLL
+  PUSHBUTTON "Browse",202, 200,10,35,12
+  CHECKBOX "Redirect input",203,10,25,75,10
+  LTEXT "Output file", -1, 10,40,55,8
+  EDITTEXT 204, 10,50,180,13,ES_AUTOHSCROLL
+  PUSHBUTTON "Browse",205, 200,50,35,12
+  RADIOBUTTON "Output to screen",206,10,65,65,10
+  RADIOBUTTON "Output to file",207,80,65,55,10
+  RADIOBUTTON "Both",208,145,65,40,10
+  DEFPUSHBUTTON "OK",IDOK, 80,85,20,12
+  PUSHBUTTON "Cancel",IDCANCEL, 115,85,35,12
+}
+
+LegoRunDialog DIALOG 50,50,100,40
+STYLE WS_POPUP | WS_CAPTION | WS_VISIBLE
+CAPTION "Robot Run Options"
+FONT 10,"Times New Roman"
+{
+  CHECKBOX "Clear robot",201,10,10,75,10
+  DEFPUSHBUTTON "OK",IDOK,10,25,20,12
+  PUSHBUTTON "Cancel",IDCANCEL, 40,25,40,12
+}
+
+SpellCheckDialog DIALOG 20,50,250,130
+STYLE WS_POPUP | WS_CAPTION | WS_VISIBLE
+CAPTION "Spell Check"
+FONT 10,"Times New Roman"
+{
+  LTEXT "Line containing error", -1, 10,5,100,8
+  EDITTEXT 201, 10,15,180,39,ES_MULTILINE | ES_READONLY
+  LTEXT "Change To", -1, 10,60,55,8
+  COMBOBOX 202, 10, 70, 95, 55, CBS_DROPDOWN | CBS_SORT
+  PUSHBUTTON "&Ignore",203, 200,5,40,12
+  PUSHBUTTON "I&gnore all",204, 200,20,40,12
+  PUSHBUTTON "&Change",205, 200,35,40,12
+  PUSHBUTTON "Change a&ll",206, 200,50,40,12
+  PUSHBUTTON "&Add",207, 200,65,40,12
+  PUSHBUTTON "Cancel",IDCANCEL, 115,110,40,12
+}
+
+OptionsDialog DIALOG 20,50,280,215
+STYLE WS_POPUP | WS_CAPTION | WS_VISIBLE
+CAPTION "Options"
+FONT 10,"Times New Roman"
+{
+  GROUPBOX "Reformatter options", -1, 5, 5,164,53
+  LTEXT "Identifiers",    -1, 10, 15, 55, 8
+  COMBOBOX               201, 70, 15, 95, 55, CBS_DROPDOWNLIST
+  LTEXT "Reserved Words", -1, 10, 30, 55, 8
+  COMBOBOX               202, 70, 30, 95, 55, CBS_DROPDOWNLIST
+  CHECKBOX   "Advanced Reformat",222, 10,45,80,10
+  CHECKBOX   "Reformat Types",   223, 90,45,70,10
+
+  GROUPBOX "Editor options", -1,   5, 60,164,65
+  LTEXT "Indent",            -1,  10, 70, 30, 8
+  LTEXT "spaces/block.",     -1,  52, 70, 70, 8
+  EDITTEXT                  203,  35, 69, 15,11
+  CHECKBOX "Colorize on",   211, 107, 70, 55,10
+
+  LTEXT "Startup window width:",  -1,  10, 85, 70, 8
+  EDITTEXT                       214,  84, 84, 15,11
+  LTEXT "height:",                -1, 104, 85, 25, 8
+  EDITTEXT                       224, 130, 84, 15,11
+
+
+  CHECKBOX "Autosave",218, 10, 100,40,8
+  LTEXT "Interval:",   -1, 55, 100,32,10
+  EDITTEXT            219, 86,  99,15,11
+  LTEXT "Max Count:",  -1, 107,100,42,10
+  EDITTEXT            220, 147, 99,15,11
+
+  CHECKBOX "Reformat on enter keypress",232, 10, 112,120,8
+
+  GROUPBOX "Compile options",            -1, 175, 05, 100,120
+
+  GROUPBOX   "General",             -1, 180, 15,  90, 75
+  CHECKBOX    "Extensive (O2 level)",   225, 185, 25,  82, 10
+  CHECKBOX    "Cross-unit inlining",    226, 185, 35,  82, 10
+  CHECKBOX    "Loop unrolling",         227, 185, 45,  82, 10
+  CHECKBOX    "Suppress all checks",    228, 185, 55,  82, 10
+  CHECKBOX    "OO Extensions",          233, 185, 65,  82, 10
+  CHECKBOX    "Beep when done",         234, 185, 75,  82, 10
+
+  GROUPBOX   "Debugging",                -1, 180, 90,  90, 33
+  CHECKBOX    "Integer overflow check", 221, 185, 100,  82, 10
+  CHECKBOX    "Debug info (neutral)",   229, 185, 110,  82, 10
+
+  GROUPBOX "Run options",           -1,   6,128,120,34
+  CHECKBOX "Trace exceptions",     217,  10,138, 75,10
+  CHECKBOX "Ask for run arguments",216,  10,148, 95,10
+
+  GROUPBOX "Miscellaneous options", -1, 140,128,135,34
+  CHECKBOX "Flyover help on",      215, 144,138, 60,10
+  PUSHBUTTON "Custom colors",      231, 144,148, 60,10
+
+  GROUPBOX   "Debugger",                -1, 6,165,269,25
+  EDITTEXT 230,10,175,261,11
+
+  PUSHBUTTON    "Save",  207,       70,200,35,12
+  DEFPUSHBUTTON "OK",    IDOK,     120,200,20,12
+  PUSHBUTTON    "Cancel",IDCANCEL, 155,200,35,12
+
+}
+
+ColorsDialog DIALOG 40,-40,260,220
+STYLE WS_POPUP | WS_CAPTION | WS_VISIBLE
+CAPTION "Customize Colors"
+FONT  8,"MS Shell Dlg"
+// FONT 8, "Tahoma"
+{
+  GROUPBOX "Editor colors",         -1,   5,   5, 250,105
+  GROUPBOX "Message window colors", -1,   5, 115, 250,75
+
+  LTEXT "Scheme",               -1,       85, 200, 35,12
+  COMBOBOX                     202,      115, 200, 80, 55, CBS_DROPDOWNLIST
+  PUSHBUTTON "All from scheme",201,      200, 200, 55,12
+
+}
+
+AboutDialog DIALOG 50,50,230,169
+STYLE WS_POPUP | WS_CAPTION | WS_VISIBLE
+CAPTION "About AdaGIDE"
+FONT 10,"Times New Roman"
+{
+  ICON "logo1",-1,1,1,18,17
+  ICON "logo2",-1,19,1,18,17
+  ICON "logo3",-1,1,18,18,17
+  ICON "logo4",-1,19,18,18,17
+  ICON "logo5",-1,1,35,18,17
+  ICON "logo6",-1,19,35,18,17
+  LTEXT "AdaGIDE v. 7.42.0003",-1,65,8,90,10
+  LTEXT "By: Dr. Martin Carlisle",   -1,65,24,90,10
+  LTEXT "      Maj. Tim Chamillard",-1,65,32,90,10
+  LTEXT "      Doug Michel",   -1,65,40,90,10
+  LTEXT "US Air Force Academy",      -1,65,52,80,10
+  LTEXT "January 29, 2007",         -1,65,60,80,10
+  LTEXT "Contributors:  Gautier de Montmollin",   -1,65,73,150,10
+  LTEXT "                          Alfred Hilscher",   -1,65,81,150,10
+  CTEXT "http://www.usafa.af.mil/dfcs/bios/mcc_html/adagide.html",-1,10,99,210,10
+  LTEXT "For GNAT version info, hit build", -1, 65,114,210,10
+  LTEXT "Send bug reports to:",      -1,75,129,80,10
+  LTEXT "carlislem@acm.org",         -1,75,139,80,10
+  DEFPUSHBUTTON "OK",IDOK,95,154,20,12
+}
+
+SelectTarget DIALOG 50,50,152,170
+/* SelectTarget DIALOG 50,50,152,140 */
+STYLE WS_POPUP | WS_CAPTION | WS_VISIBLE
+CAPTION "Select Compilation Target"
+FONT  8,"MS Shell Dlg"
+// FONT 8, "Tahoma"
+{
+  ICON "NativeTarget", -1,10,10,16,16
+  ICON "Win32Target", -1,10,36,16,16                                // ### alf ins ###
+  ICON "LegoTarget", -1,10,62,16,16
+  ICON "GnappletTarget", -1,10,88,16,16
+  ICON "JgnatappTarget", -1,10,114,16,16
+  ICON "MsilTarget", -1,10,140,16,16
+/*  ICON "BuildyourownTarget", -1,10,114,16,16 */
+  AUTORADIOBUTTON "Windows",201,37,13,105,10
+  AUTORADIOBUTTON "Win32 GUI",TARGET_WIN32,37,39,105,10                // ### alf ins ###
+  AUTORADIOBUTTON "Lego Mindstorms",202,37,63,105,10
+  AUTORADIOBUTTON "Gnapplet (JGNAT)",203,37,91,105,10
+  AUTORADIOBUTTON "JGNAT Application",204,37,117,105,10
+  AUTORADIOBUTTON ".NET Application",205,37,143,105,10
+//  DEFPUSHBUTTON "OK",IDOK,44,163,20,12                              // ### alf mod ###
+/*   RADIOBUTTON "Build your own (coming)",205,37,117,105,10 */
+/*  DEFPUSHBUTTON "OK",IDOK,44,120,20,12 */
+}
+
+GotoDialog DIALOG 50,50,70,50
+  STYLE WS_POPUP | WS_CAPTION
+  CAPTION "Goto"
+  FONT 10,"Times New Roman"
+  {
+  CTEXT "Enter line to Goto:",-1,2,4,60,10
+  EDITTEXT 10,16,16,24,12
+  PUSHBUTTON "OK",IDOK,5,35,20,12
+  PUSHBUTTON "Cancel",IDCANCEL,30,35,35,12
+  }
+
+PrintDlgBox DIALOG 40,40,120,40
+  STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_VISIBLE
+  FONT 10,"Times New Roman"
+  {
+  CTEXT "Cancel Printing", -1,4,6,120,12
+  DEFPUSHBUTTON "Cancel", IDCANCEL, 44,22,32,14,WS_GROUP
+  }
+
+
+/* ### alf ins begin ### */
+RES_COMP_DIALOG DIALOG 50, 50, 120, 87
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Resource compiler"
+FONT  8,"MS Shell Dlg"
+// FONT 8, "Tahoma"
+BEGIN
+    GROUPBOX        "Resource compiler", -1, 65, 55, 170, 110
+    AUTORADIOBUTTON "windres", RES_COMP_WINDRES, 110, 90, 39, 10
+    AUTORADIOBUTTON "RC / CVTRES", RES_COMP_RC_CVTRES, 110, 120, 60, 10
+END
+
+
+EditorDialog DIALOG 0, 0, 260, 220
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Editor"
+FONT  8,"MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Indent", -1, 22, 42, 100, 40
+    LTEXT           "Spaces/block", -1, 34, 59, 50, 8
+    EDITTEXT        TARGET_GNAPPLET, 89, 57, 20, 12, ES_AUTOHSCROLL
+    GROUPBOX        "                           ", -1, 22, 98, 100, 70
+    AUTOCHECKBOX    "Autosave", Autosave_Checkbox, 32, 98, 50, 10
+    LTEXT           "Interval", -1, 34, 117, 50, 8
+    EDITTEXT        Autosave_Interval_Edit, 89, 116, 20, 12, ES_AUTOHSCROLL
+    LTEXT           "Max. Count", -1, 34, 147, 43, 8
+    EDITTEXT        Debug_Stack_Check, 89, 146, 20, 12, ES_AUTOHSCROLL
+    GROUPBOX        "Miscellaneous", -1, 135, 41, 140, 127
+    AUTOCHECKBOX    "Colorize on", ColorizeCheckBox, 145, 62, 54, 10
+    AUTOCHECKBOX    "Reformat on enter keypress", Reformat_On_Enter_Checkbox, 145, 82, 111, 10
+    AUTOCHECKBOX    "Continue search in next window", ContinueSearchInNextWindow, 145, 102, 125, 10
+    AUTOCHECKBOX    "Remove trailing spaces on save", RemoveTrailingSpaces, 145, 122, 125, 10
+    AUTOCHECKBOX    "Remove control characters on save", RemoveControlCharacters, 145, 142, 125, 10
+END
+
+ReformatterDialog DIALOG 0, 0, 260, 220
+STYLE WS_POPUP | WS_CAPTION | WS_VISIBLE
+CAPTION "Reformatter"
+FONT  8,"MS Shell Dlg"
+// FONT 12, "System"
+BEGIN
+    GROUPBOX        "Identifiers", -1, 80, 12, 130, 40
+    COMBOBOX        IdentifierList, 97, 28, 95, 70, CBS_DROPDOWNLIST
+
+    GROUPBOX        "Reserved Words", -1, 80, 83, 130, 40
+    COMBOBOX        ReservedList, 97, 101, 95, 70, CBS_DROPDOWNLIST
+
+    GROUPBOX        "Miscellaneous", -1, 80, 154, 130, 57
+    AUTOCHECKBOX    "Reformat Types", Reformat_Types_Checkbox, 90, 170, 100, 10
+    AUTOCHECKBOX    "Advanced Reformat", Advanced_Reformat_Checkbox, 90, 190,   111, 10
+END
+
+
+DebuggerDialog DIALOG 0, 0, 290, 220
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Debugger"
+FONT  8,"MS Shell Dlg"
+// FONT 12, "System"
+BEGIN
+  GROUPBOX        "Debugger: Program / Parameter", -1, 5, 65, 280, 42
+  EDITTEXT Debugger_Edit,10,82,270,12
+END
+
+RunDialog DIALOG 6, 18, 184, 125
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Run"
+FONT  8,"MS Shell Dlg"
+// FONT 12, "System"
+BEGIN
+  AUTOCHECKBOX "Trace back exceptions with AD", Trace_Exceptions, 40,80, 160,10
+  AUTOCHECKBOX "Ask for run arguments", Ask_For_Run_Arguments, 40,115, 120,10
+END
+
+MiscDialog DIALOG 6, 18, 184, 125
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Miscellaneous"
+FONT  8,"MS Shell Dlg"
+// FONT 12, "System"
+BEGIN
+  AUTOCHECKBOX "Allow OO-extensions", OO_Extensions, 60,45, 100,10
+  AUTOCHECKBOX "Beep when done", Beep_when_done, 60,80, 100,10
+  AUTOCHECKBOX "Flyover help on", FlyOverCheckbox, 60,115, 60,10
+  AUTOCHECKBOX "Check for source modifications outside AdaGIDE", ModifyCheck_Checkbox, 60,150, 180,10
+END
+
+
+GNATOptionsDialog DIALOG 26, 37, 292, 220
+STYLE WS_POPUP | WS_CAPTION | WS_VISIBLE
+CAPTION " "
+FONT  8,"MS Shell Dlg"
+// FONT 8, "Tahoma"
+// FONT 10,"Times New Roman"
+BEGIN
+    GROUPBOX        "Optimisation", -1, 4, 2, 88, 56
+    AUTOCHECKBOX    "Extensive (O2 level)", Optimize_O2_Level, 9, 12, 78, 10
+    AUTOCHECKBOX    "Cross-unit inlining", Optimize_Inlining, 9, 22, 75, 10
+    AUTOCHECKBOX    "Loop unrolling", Optimize_Loop_Unrolling, 9, 32, 72, 10
+    AUTOCHECKBOX    "Suppress all checks", Optimize_Suppress_All_Checks, 9, 42, 77, 10
+
+    GROUPBOX        "Debugging", -1, 95, 2, 100, 56
+    AUTOCHECKBOX    "Integer overflow check", Debug_Integer_Overflow_Check, 101, 22, 90, 10
+    AUTOCHECKBOX    "Stack check", Debug_Stack_Check, 101, 32, 82, 10
+    AUTOCHECKBOX    "Trace-back", Debug_Trace_Back, 101, 42, 78, 10
+    AUTOCHECKBOX    "Debug info (neutral)", Debug_Debug_Info, 101, 12, 88, 10
+
+    GROUPBOX        "Miscellaneous", -1, 198, 2, 88, 56
+    AUTOCHECKBOX    "Strip all symbols", Misc_Strip_all, 203, 12, 73, 10
+    AUTOCHECKBOX    "Profiling", Misc_Profiling, 203, 22, 57, 10
+
+    GROUPBOX        "", -1, 4, 56, 282, 110
+    LTEXT           "Compiler Options", -1, 10, 62, 55, 8
+    EDITTEXT        GNAT_OPT_Compiler_Options, 10, 72, 270, 13, ES_AUTOHSCROLL
+    LTEXT           "Gnatmake Options", -1, 10, 87, 55, 8
+    EDITTEXT        GNAT_OPT_Gnatmake_Options, 10, 97, 270, 13, ES_AUTOHSCROLL
+    LTEXT           "Target Directory", -1, 10, 112, 55, 8
+    EDITTEXT        GNAT_OPT_Target_Directory, 10, 122, 270, 13, ES_AUTOHSCROLL
+    LTEXT           "Main program name", -1, 10, 137, 55, 8
+    EDITTEXT        GNAT_OPT_Main_Program_Name, 10, 147, 270, 13, ES_AUTOHSCROLL
+
+    LTEXT           "These settings will be taken as a default when you create new projects.",
+                    GNATOptions_InfoText, 5, 205, 279, 16, NOT WS_VISIBLE
+END
+
+ReleaseOptionsDialog DIALOG 26, 37, 292, 220
+STYLE WS_POPUP | WS_CAPTION | WS_VISIBLE
+CAPTION " "
+FONT  8,"MS Shell Dlg"
+// FONT 8, "Tahoma"
+// FONT 10,"Times New Roman"
+BEGIN
+    GROUPBOX        "Optimisation", -1, 4, 2, 88, 56
+    AUTOCHECKBOX    "Extensive (O2 level)", Optimize_O2_Level, 9, 12, 78, 10
+    AUTOCHECKBOX    "Cross-unit inlining", Optimize_Inlining, 9, 22, 75, 10
+    AUTOCHECKBOX    "Loop unrolling", Optimize_Loop_Unrolling, 9, 32, 72, 10
+    AUTOCHECKBOX    "Suppress all checks", Optimize_Suppress_All_Checks, 9, 42, 77, 10
+
+    GROUPBOX        "Debugging", -1, 95, 2, 100, 56
+    AUTOCHECKBOX    "Integer overflow check", Debug_Integer_Overflow_Check, 101, 22, 90, 10
+    AUTOCHECKBOX    "Stack check", Debug_Stack_Check, 101, 32, 82, 10
+    AUTOCHECKBOX    "Trace-back", Debug_Trace_Back, 101, 42, 78, 10
+    AUTOCHECKBOX    "Debug info (neutral)", Debug_Debug_Info, 101, 12, 88, 10
+
+    GROUPBOX        "Miscellaneous", -1, 198, 2, 88, 56
+    AUTOCHECKBOX    "Strip all symbols", Misc_Strip_all, 203, 12, 73, 10
+    AUTOCHECKBOX    "Profiling", Misc_Profiling, 203, 22, 57, 10
+
+    GROUPBOX        "", -1, 4, 56, 282, 135
+    AUTOCHECKBOX    "Use same values as for debug", CopyCat_Checkbox, 10, 62, 150, 8
+    LTEXT           "Compiler Options", -1, 10, 87, 55, 8
+    EDITTEXT        GNAT_OPT_Compiler_Options, 10, 97, 270, 13, ES_AUTOHSCROLL
+    LTEXT           "Gnatmake Options", -1, 10, 112, 55, 8
+    EDITTEXT        GNAT_OPT_Gnatmake_Options, 10, 122, 270, 13, ES_AUTOHSCROLL
+    LTEXT           "Target Directory", -1, 10, 137, 55, 8
+    EDITTEXT        GNAT_OPT_Target_Directory, 10, 147, 270, 13, ES_AUTOHSCROLL
+    LTEXT           "Main program name", -1, 10, 162, 55, 8
+    EDITTEXT        GNAT_OPT_Main_Program_Name, 10, 172, 270, 13, ES_AUTOHSCROLL
+
+    LTEXT           "These settings will be taken as a default when you create new projects.",
+                    GNATOptions_InfoText, 5, 205, 279, 16, NOT WS_VISIBLE
+END
+
+RES_FILE_DIALOG DIALOG 11, 27, 292, 170
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Resource file"
+FONT  8,"MS Shell Dlg"
+// FONT 8, "Tahoma"
+BEGIN
+    GROUPBOX        "Resource header (.h)", -1, 3, 38, 283, 29
+    EDITTEXT        WIN32_RESOURCE_HEADER_NAME, 8, 49, 225, 13, ES_AUTOHSCROLL
+    PUSHBUTTON      "Find", WIN32_RESOURCE_HEADER_FIND, 241, 49, 35, 13
+    GROUPBOX        "Resource file (.RC)", -1, 3, 80, 283, 29
+    EDITTEXT        WIN32_RESOURCE_FILE_NAME, 8, 91, 225, 13, ES_AUTOHSCROLL
+    PUSHBUTTON      "Find", WIN32_RESOURCE_FILE_FIND, 241, 91, 35, 13
+END
+
+MORE_WINDOWS DIALOG DISCARDABLE  40, 20, 195, 133
+STYLE  WS_POPUP | WS_VISIBLE | WS_CAPTION
+FONT 10,"Times New Roman"
+CAPTION "Select another Window"
+BEGIN
+    LISTBOX         MW_LISTBOX, 1, 7, 191, 105, WS_VSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 49, 114, 45, 15
+    PUSHBUTTON      "Cancel", IDCANCEL, 101, 114, 45, 15
+END
+
+Tools_Dialog DIALOG 5, 14, 320, 208
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Tools"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "", -1, 3, 4, 197, 198
+    GROUPBOX        "Toolname", -1, 35, 11, 136, 25
+    EDITTEXT        Toolname, 38, 20, 128, 12, ES_AUTOHSCROLL
+    GROUPBOX        "Program", -1, 5, 40, 55, 24
+    EDITTEXT        Program, 9, 49, 47, 12, ES_AUTOHSCROLL
+    GROUPBOX        "Parameters", -1, 63, 40, 135, 24
+    EDITTEXT        Parameters, 66, 49, 84, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "Add", Par_Add, 154, 47, 40, 14
+    GROUPBOX        "Invocation", -1, 5, 65, 193, 84
+    AUTOCHECKBOX    "Manually", Inv_Manually, 11, 78, 55, 10
+    AUTOCHECKBOX    "Before save", Inv_Before_Save, 11, 92, 54, 10
+    AUTOCHECKBOX    "After save", Inv_After_Save, 11, 106, 53, 10
+    AUTOCHECKBOX    "Before open", Inv_Before_Load, 11, 120, 54, 10
+    AUTOCHECKBOX    "After open", Inv_After_Load, 11, 134, 52, 10
+    AUTOCHECKBOX    "Before compile", Inv_Before_Compile, 69, 78, 88, 10
+    AUTOCHECKBOX    "Before build", Inv_Before_Build, 69, 92, 88, 10
+    AUTOCHECKBOX    "After successful compile/build", Inv_After_Successful, 69, 106, 116, 10
+    AUTOCHECKBOX    "After unsuccessful compile/build", Inv_After_Nosuccess, 69, 120, 115, 10
+    AUTOCHECKBOX    "After AdaGide started", Inv_After_Startup, 69, 134, 109, 10
+    GROUPBOX        "Tool type", -1, 6, 151, 192, 24
+    AUTORADIOBUTTON "Executable", Tooltype_Executable, 11, 161, 50, 10
+    AUTORADIOBUTTON "Shell command", Tooltype_Shell_Command, 67, 161, 65, 10
+    AUTORADIOBUTTON "Command file", Tooltype_Commandfile, 138, 161, 57, 10
+    GROUPBOX        "Available tools", -1, 202, 4, 113, 198
+    LISTBOX         Tool_List, 205, 17, 103, 181, WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Up", Tool_Up, 208, 183, 40, 14, NOT WS_VISIBLE | not WS_TABSTOP
+    PUSHBUTTON      "Down", Tool_Down, 266, 183, 40, 14, NOT WS_VISIBLE | not WS_TABSTOP
+    PUSHBUTTON      "OK", IDOK, 41, 183, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 125, 183, 40, 14
+END
+
+Parameterselection DIALOG 5, 17, 176, 175
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Parameter selection"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Parameterlist", -1, 3, 0, 89, 146
+    PUSHBUTTON      "Take it", IDOK, 26, 154, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 110, 154, 40, 14
+    LISTBOX         Parameterlist, 7, 10, 80, 131, //LBS_SORT |
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        Parameterhelp, 96, 5, 71, 140, ES_MULTILINE |
+                  //  ES_AUTOHSCROLL |
+                    ES_READONLY | ES_WANTRETURN | NOT WS_BORDER
+END
+
+Tool_Query_Dlg DIALOG 10, 21, 92, 63
+STYLE
+WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Query"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Value", Tool_Data_Name, 2, 1, 87, 33
+    EDITTEXT        Tool_Input_Value, 6, 14, 78, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "OK", IDOK, 4, 42, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 47, 42, 40, 14
+END
+
+
+/* ### alf ins end ### */
+
+
+
+Window1_Menu      MENU
+BEGIN
+
+  POPUP "&File"
+  BEGIN
+    MENUITEM "&New\tCtrl+N", 1001
+    MENUITEM "&Open...\tCtrl+O", 1002
+    MENUITEM "&Close\tCtrl+F4", 1041
+    MENUITEM SEPARATOR
+    MENUITEM "&Save\tCtrl+S", 1003
+    MENUITEM "Save &As...\tF12", 1004
+    MENUITEM "Save all modified files", 1007
+    MENUITEM SEPARATOR
+    MENUITEM "Page Set&up...", 1027
+    MENUITEM "&Print...\tCtrl+P", 1005
+    MENUITEM SEPARATOR
+    /* 3-Jun-2002: Was for MRU entries 1--4: 1028--1031 */
+    MENUITEM "&1 ", 1071
+    MENUITEM "&2 ", 1072
+    MENUITEM "&3 ", 1073
+    MENUITEM "&4 ", 1074
+    MENUITEM "&5 ", 1075
+    MENUITEM "&6 ", 1076
+    MENUITEM "&7 ", 1077
+    MENUITEM "&8 ", 1078
+    MENUITEM "&9 ", 1079
+    MENUITEM SEPARATOR
+    MENUITEM "E&xit", 1006
+  END
+
+  POPUP "&Edit"
+  BEGIN
+    MENUITEM "&Undo\tCtrl+Z", 1008
+    MENUITEM "Cu&t\tCtrl+X", 1009
+    MENUITEM "&Copy\tCtrl+C", 1010
+    MENUITEM "&Paste\tCtrl+V", 1011
+    MENUITEM "Select &All\tCtrl+A",1043
+    MENUITEM SEPARATOR
+    MENUITEM "&Goto declaration\tCtrl+G",1045
+    MENUITEM SEPARATOR
+    MENUITEM "&Find...\tCtrl+F", 1012
+    MENUITEM "&Replace...\tCtrl+H", 1013
+    MENUITEM "Search in all windows", 1014
+    MENUITEM SEPARATOR
+    MENUITEM "Co&mment\tF7", 1025
+    MENUITEM "UnComment\tAlt+F7", 1026
+    MENUITEM "Indent\tF8", 1047
+    MENUITEM "UnIndent\tAlt+F8", 1048
+  END
+
+  POPUP "&Compile"
+  BEGIN
+    MENUITEM "&Compile file\tF2", 1016
+    MENUITEM "Compile to &Listing\tAlt+F2", 1032
+    MENUITEM "&Build\tF3", 1015
+    MENUITEM "Build - force recompilations", 1018
+    MENUITEM "&Stop compile/build", 1033
+    MENUITEM "Select &Target", 1049
+    MENUITEM SEPARATOR
+    MENUITEM "Debug mode", 1051
+    MENUITEM "Release mode", 1052
+    MENUITEM SEPARATOR    
+    MENUITEM "&First Error\tShift+Alt+Up", JUMP_FIRST_ERROR
+    MENUITEM "Next &Error\tAlt+Down", JUMP_NEXT_ERROR
+    MENUITEM "Next &Warning\tCtrl+Alt+Down", JUMP_NEXT_WARNING
+  END
+
+  POPUP "&Run"
+  BEGIN
+    MENUITEM "E&xecute\tF4", 1017
+/*    MENUITEM "&Run captured\tF5",1035 */
+    MENUITEM "Run &Options\tF5",1035
+    MENUITEM "Start &Debugger",1040
+  END
+
+  POPUP "&Tools"
+  BEGIN
+    MENUITEM "&Reformat\tCtrl+R", 1019
+    MENUITEM "&Generate Body", 1020
+/*    MENUITEM "&Ada Syntax Helper", 1044 */
+    MENUITEM "Spell &Checker", 1050
+    MENUITEM "&Statistics", 1046
+    MENUITEM "SPAR&K Examiner", 1053
+    MENUITEM "&Project settings in current directory...",1042
+    MENUITEM "Gl&obal settings...", 1021
+    MENUITEM SEPARATOR
+    MENUITEM "New tool", NewTool
+    MENUITEM "Modify tool", ModifyTool
+    MENUITEM "Delete tool", DeleteTool
+
+    POPUP "Tool definition files"
+    BEGIN
+      MENUITEM "&Open and use permanently...", 1054
+      MENUITEM "&Append to current one...", 1055
+      MENUITEM "&Save and use permanently as...", 1056
+    END
+
+
+
+
+/* ### alf ins begin ### */
+/* 2005: all in Local, resp. Global options
+  POPUP "Resource Options..."
+    BEGIN
+      MENUITEM "Resource &compiler", MNU_RES_COMP
+      MENUITEM "Resource &file", MNU_RES_FILE
+    END
+*/
+/* ### alf ins end ### */
+  END
+
+  POPUP "&Window"
+  BEGIN
+    MENUITEM "&Cascade",1036
+    MENUITEM "Tile &Horizontal",1037
+    MENUITEM "Tile &Vertical", 1038
+    MENUITEM "&Arrange Icons", 1039
+  END
+
+  POPUP "&Help"
+  BEGIN
+    MENUITEM "&Contents\tF1", 1023
+    MENUITEM "&Language RM", 1034
+    MENUITEM "&About", 1024
+  END
+
+END
+
+Window1_Accels ACCELERATORS
+BEGIN
+  "^N", 1001
+  "^O", 1002
+  "^S", 1003
+  "^F", 1012
+  "^P", 1005
+  "^A", 1043
+  "^G", 1045
+/*  "^H", 1013 be careful-- this is also backspace */
+  "^R", 1019
+  VK_F1,  1023, VIRTKEY
+  VK_F7,  1025, VIRTKEY
+  VK_F7,  1026, VIRTKEY, ALT
+  VK_F8,  1047, VIRTKEY
+  VK_F8,  1048, VIRTKEY, ALT
+  VK_F2,  1016, VIRTKEY
+  VK_F2,  1032, VIRTKEY, ALT
+  VK_F3,  1015, VIRTKEY
+  VK_F4,  1017, VIRTKEY
+  VK_F5,  1035, VIRTKEY
+  VK_F12, 1004, VIRTKEY /* Save As */
+
+  VK_DOWN, JUMP_NEXT_ERROR,  VIRTKEY, ALT
+  VK_UP,   JUMP_PREV_ERROR,  VIRTKEY, ALT
+  VK_DOWN, JUMP_LAST_ERROR,  VIRTKEY, ALT, SHIFT
+  VK_UP,   JUMP_FIRST_ERROR, VIRTKEY, ALT, SHIFT
+
+  VK_DOWN, JUMP_NEXT_WARNING,  VIRTKEY, ALT, CONTROL
+  VK_UP,   JUMP_PREV_WARNING,  VIRTKEY, ALT, CONTROL
+  VK_DOWN, JUMP_LAST_WARNING,  VIRTKEY, ALT, CONTROL, SHIFT
+  VK_UP,   JUMP_FIRST_WARNING, VIRTKEY, ALT, CONTROL, SHIFT
+END
+

@@ -1,0 +1,255 @@
+//
+// Found on the Web by Googling keywords.
+//
+#include <windows.h>
+#define IDC_STATIC -1
+
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+
+100 ICON    DISCARDABLE     "100.ico"
+101 ICON    DISCARDABLE     "101.ico"
+102 ICON    DISCARDABLE     "102.ico"
+103 ICON    DISCARDABLE     "103.ico"
+104 ICON    DISCARDABLE     "104.ico"
+105 ICON    DISCARDABLE     "105.ico"
+106 ICON    DISCARDABLE     "106.ico"
+107 ICON    DISCARDABLE     "107.ico"
+
+101 DIALOG DISCARDABLE  0, 0, 210, 154
+STYLE WS_CHILD|WS_DISABLED|WS_CAPTION|DS_CONTROL
+CAPTION "Hardware"
+FONT 8, "Helv"
+{
+ CONTROL         "Seriell (&Win32-API)",10,"Button",BS_AUTORADIOBUTTON|WS_GROUP,14,8,75,10
+ CONTROL         "Para&llel (Direktzugriff)",11,"Button",BS_AUTORADIOBUTTON,114,8,82,10
+ GROUPBOX        "",20,6,22,88,124,WS_GROUP
+ LTEXT           "&Schnittstelle:",IDC_STATIC,14,32,41,8
+ COMBOBOX        13,14,42,72,72,CBS_DROPDOWNLIST|WS_VSCROLL|WS_TABSTOP
+ LTEXT           "&Empfangsdaten an:",IDC_STATIC,14,60,62,8
+ COMBOBOX        14,14,72,72,72,CBS_DROPDOWNLIST|WS_VSCROLL|WS_TABSTOP
+ LTEXT           "S&tromversorgung an:",IDC_STATIC,14,90,66,8
+ COMBOBOX        15,14,100,72,72,CBS_DROPDOWNLIST|WS_VSCROLL|WS_TABSTOP
+ CTEXT           "In Klammern die Pin-Nummer des 9pol. SubD-Steckers",22,14,118,72,26
+ GROUPBOX        "",21,106,22,92,124,WS_GROUP
+ LTEXT           "&Portadresse:",IDC_STATIC,114,32,40,8
+ COMBOBOX        16,114,42,76,72,CBS_DROPDOWN|WS_VSCROLL|WS_TABSTOP
+ LTEXT           "Empfangs&daten an:",IDC_STATIC,114,60,62,8
+ COMBOBOX        17,114,72,76,88,CBS_DROPDOWNLIST|WS_VSCROLL|WS_TABSTOP
+ LTEXT           "Strom&versorgung an:",IDC_STATIC,114,90,66,8
+ COMBOBOX        18,114,100,76,86,CBS_DROPDOWNLIST|WS_VSCROLL|WS_TABSTOP
+ CTEXT           "In Klammern die Pin-Nummer der 25pol. SubD-Buchse (LPTx)",23,114,118,76,26
+}
+
+102 DIALOG DISCARDABLE  0, 0, 210, 154
+STYLE WS_CHILD|WS_DISABLED|WS_CAPTION|DS_CONTROL
+CAPTION "Stellen"
+FONT 8, "Helv"
+{
+ GROUPBOX        "Computer-Uhr stellen",IDC_STATIC,4,0,200,96
+ CONTROL         "beim &Programmstart",11,"Button",BS_AUTOCHECKBOX|WS_TABSTOP,10,12,77,10
+ CONTROL         "&alle",12,"Button",BS_AUTOCHECKBOX|WS_TABSTOP,10,28,27,10
+ EDITTEXT        18,40,26,32,12,ES_CENTER|ES_AUTOHSCROLL|ES_NUMBER|WS_VSCROLL
+ LTEXT           "Stunden",IDC_STATIC,78,28,28,8
+ RTEXT           "Das nächste Mal:",21,22,42,82,8
+ EDITTEXT        19,106,40,92,12,ES_CENTER|ES_AUTOHSCROLL|ES_READONLY
+ CONTROL         "Wenn anderes Programm Uhr &verstellt",13,"Button",BS_AUTOCHECKBOX|WS_TABSTOP,10,56,135,10
+ CONTROL         "&Datum stellen (sonst nur Uhrzeit)",14,"Button",BS_AUTOCHECKBOX|WS_TABSTOP,10,68,117,10
+ CONTROL         "&Info bei Zeitdifferenz über",15,"Button",BS_AUTOCHECKBOX|WS_TABSTOP,10,82,98,10
+ EDITTEXT        20,112,80,34,12,ES_CENTER|ES_AUTOHSCROLL|ES_NUMBER|WS_VSCROLL
+ LTEXT           "Sekunden",IDC_STATIC,150,82,34,8
+ CONTROL         "via UTC",16,"Button",BS_AUTOCHECKBOX|WS_TABSTOP,156,12,42,10
+ RTEXT           "Computer-Uhr zuletzt gestellt:",IDC_STATIC,10,102,94,8
+ EDITTEXT        22,106,102,92,12,ES_CENTER|ES_AUTOHSCROLL|ES_READONLY
+ GROUPBOX        "Letzter Fehler",IDC_STATIC,4,118,200,32
+ LTEXT           "keiner",17,8,128,188,18,SS_NOPREFIX
+}
+
+103 DIALOG DISCARDABLE  0, 0, 210, 154
+STYLE WS_CHILD|WS_DISABLED|WS_CAPTION|DS_CONTROL
+CAPTION "Tray-Icon"
+FONT 8, "Helv"
+{
+ GROUPBOX        "Symbol im »Systembereich der Startleiste«",IDC_STATIC,6,2,200,64,WS_GROUP
+ CONTROL         "&immer (auch, wenn inaktiv)",11,"Button",BS_AUTORADIOBUTTON|WS_GROUP,12,12,110,10
+ CONTROL         "nur bei &Empfang",12,"Button",BS_AUTORADIOBUTTON,12,24,110,10
+ CONTROL         "&nie (außer bei Fehler)",13,"Button",BS_AUTORADIOBUTTON,12,36,110,10
+ CONTROL         "Symbol bei Empfang &blinkend",14,"Button",BS_AUTOCHECKBOX|WS_GROUP|WS_TABSTOP,12,49,109,10
+ GROUPBOX        "Piep-&Lautstärke",IDC_STATIC,130,24,68,36,WS_GROUP
+ CONTROL         "Slider1",20,"msctls_trackbar32",TBS_AUTOTICKS|TBS_TOP|WS_TABSTOP,134,34,62,22
+ GROUPBOX        "Empfangsdauer",IDC_STATIC,6,72,200,78,WS_GROUP
+ CONTROL         "Em&pfang bis zwei aufeinanderfolgende Zeittelegramme OK (max. 15 Minuten), dann Empfänger abschalten",15,"Button",BS_AUTORADIOBUTTON|BS_MULTILINE|WS_GROUP,12,82,188,18
+ CONTROL         "Emp&fang bis zum Erfolg (nach max. 15 Minuten Symboldarstellung wie »ohne Empfang«, kein Piepsen)",16,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,12,100,188,18
+ CONTROL         "I&mmer empfangen",17,"Button",BS_AUTORADIOBUTTON|BS_MULTILINE,12,122,188,10
+ CONTROL         "Empf&ang (zurzeit)",18,"Button",BS_3STATE|WS_GROUP|WS_TABSTOP,12,136,70,10
+}
+
+104 DIALOG DISCARDABLE  0, 0, 210, 154
+STYLE WS_CHILD|WS_DISABLED|WS_CAPTION|DS_CONTROL
+CAPTION "Über"
+FONT 8, "Helv"
+{
+ ICON            100,IDC_STATIC,14,48,20,20,WS_GROUP
+ CTEXT           "h#s Funkuhr August 2008:\nGibt's denn wirklich niemand, der so etwas schon geschrieben hat?\n\nGeschrieben in Visual C++ 6\nmit Platform SDK XP SP2\nohne ++, Klassen, Objekte, und natürlich ohne Laufzeitbibliothek\n(Echsen, keine Krokofanten!)",IDC_STATIC,60,10,106,78,SS_NOPREFIX
+ PUSHBUTTON      "Besuche Freeware-Seite von haftmann#software im WWW",10,58,94,107,26,BS_MULTILINE|BS_FLAT|WS_GROUP
+ PUSHBUTTON      "Henrik.Haftmann@E-Technik.TU-Chemnitz.de",11,24,128,178,12,BS_FLAT
+}
+
+105 DIALOG DISCARDABLE  0, 0, 210, 154
+STYLE WS_CHILD|WS_DISABLED|WS_CAPTION|DS_CONTROL
+CAPTION "Empfang"
+FONT 8, "Helv"
+{
+ CONTROL         "",11,"Button",BS_OWNERDRAW|WS_TABSTOP,2,2,162,150
+ LTEXT           "Anzahl dargestellte &Minuten:",IDC_STATIC,170,4,38,26
+ EDITTEXT        13,168,33,36,14,ES_CENTER|ES_AUTOHSCROLL|ES_NUMBER|WS_VSCROLL
+ CONTROL         "",16,"Button",BS_OWNERDRAW|WS_TABSTOP,168,110,12,6
+ LTEXT           "kurz",IDC_STATIC,186,108,20,8,SS_NOPREFIX
+ GROUPBOX        "Pulslängen",IDC_STATIC,164,94,46,52
+ CONTROL         "",17,"Button",BS_OWNERDRAW|WS_TABSTOP,168,122,12,6
+ CONTROL         "",18,"Button",BS_OWNERDRAW|WS_TABSTOP,168,134,12,6
+ LTEXT           "lang",IDC_STATIC,186,120,20,8,SS_NOPREFIX
+ LTEXT           "Fehler",IDC_STATIC,186,132,20,8,SS_NOPREFIX
+}
+
+106 DIALOGEX 0, 0, 210, 154
+STYLE WS_CHILD|WS_DISABLED|WS_CAPTION|DS_CONTROL
+CAPTION "Bit-Anzeige"
+FONT 8, "Helv", 0, 0, 0x1
+{
+ RTEXT           "Dargestellte &Minute",IDC_STATIC,4,6,64,8
+ EDITTEXT        10,72,4,36,12,ES_CENTER|ES_AUTOHSCROLL|WS_VSCROLL
+ RTEXT           "Empf. Sekunde",IDC_STATIC,114,6,70,8
+ EDITTEXT        11,188,4,18,12,ES_CENTER|ES_AUTOHSCROLL|ES_READONLY
+ RTEXT           "Minutenstart",32,4,22,44,8
+ EDITTEXT        16,52,20,16,12,ES_AUTOHSCROLL|ES_READONLY
+ RTEXT           "Wetter",33,74,22,42,8
+ EDITTEXT        17,120,20,86,12,ES_AUTOHSCROLL|ES_READONLY
+ RTEXT           "Rufbit",34,4,35,44,8
+ EDITTEXT        18,52,33,16,12,ES_AUTOHSCROLL|ES_READONLY
+ LTEXT           "(früher Reserveantenne)",IDC_STATIC,72,35,132,8
+ RTEXT           "MEZ/MESZ",35,4,48,44,8
+ EDITTEXT        19,52,46,28,12,ES_AUTOHSCROLL|ES_READONLY
+ LTEXT           "",51,84,48,120,8
+ RTEXT           "Schaltsek.",36,4,61,44,8
+ EDITTEXT        20,52,59,16,12,ES_AUTOHSCROLL|ES_READONLY
+ RTEXT           "Startbit",37,74,61,42,8
+ EDITTEXT        21,120,59,16,12,ES_AUTOHSCROLL|ES_READONLY
+ RTEXT           "Minute",38,4,74,44,8
+ EDITTEXT        22,52,72,52,12,ES_AUTOHSCROLL|ES_READONLY
+ LTEXT           "",54,108,74,64,8
+ GROUPBOX        "Parität",IDC_STATIC,174,62,32,90
+ EDITTEXT        23,182,72,16,12,ES_AUTOHSCROLL|ES_READONLY
+ RTEXT           "Stunde",40,4,87,44,8
+ EDITTEXT        24,52,85,52,12,ES_AUTOHSCROLL|ES_READONLY
+ LTEXT           "",56,108,87,64,8
+ EDITTEXT        25,182,85,16,12,ES_AUTOHSCROLL|ES_READONLY
+ RTEXT           "Tag",42,4,100,44,8
+ EDITTEXT        26,52,98,52,12,ES_AUTOHSCROLL|ES_READONLY
+ LTEXT           "",58,108,100,64,8
+ RTEXT           "Wochentag",43,4,113,44,8
+ EDITTEXT        27,52,111,28,12,ES_AUTOHSCROLL|ES_READONLY
+ LTEXT           "",59,108,113,64,8
+ RTEXT           "Monat",44,4,126,44,8
+ EDITTEXT        28,52,124,52,12,ES_AUTOHSCROLL|ES_READONLY
+ LTEXT           "",60,108,126,64,8
+ RTEXT           "Jahr",45,4,139,44,8
+ EDITTEXT        29,52,137,52,12,ES_AUTOHSCROLL|ES_READONLY
+ LTEXT           "",61,108,139,64,8
+ EDITTEXT        30,182,98,16,51,ES_MULTILINE|ES_AUTOHSCROLL|ES_READONLY
+}
+
+107 DIALOG DISCARDABLE  0, 0, 210, 154
+STYLE WS_CHILD|WS_DISABLED|WS_CAPTION|DS_CONTROL
+CAPTION "Histogramm"
+FONT 8, "Helv"
+{
+ CONTROL         "",11,"Button",BS_OWNERDRAW|WS_TABSTOP,2,2,162,150
+ LTEXT           "&Trennung bei [ms]",IDC_STATIC,170,60,34,16
+ EDITTEXT        13,168,79,36,14,ES_CENTER|ES_AUTOHSCROLL|ES_NUMBER|WS_VSCROLL
+ LTEXT           "Zu &lang bei [ms]",IDC_STATIC,170,98,34,16
+ EDITTEXT        14,168,116,36,14,ES_CENTER|ES_AUTOHSCROLL|ES_NUMBER|WS_VSCROLL
+ PUSHBUTTON      "Daten l&öschen",16,168,2,38,20,BS_MULTILINE
+ CONTROL         "Signal- &Inversion",17,"Button",BS_AUTOCHECKBOX|BS_MULTILINE|WS_TABSTOP,166,132,44,20
+ LTEXT           "Zu &kurz bei [ms]",IDC_STATIC,170,24,34,16
+ EDITTEXT        12,168,42,36,14,ES_CENTER|ES_AUTOHSCROLL|ES_NUMBER|WS_VSCROLL
+}
+
+100 MENU DISCARDABLE 
+{
+ POPUP ""
+ {
+  MENUITEM "&Empfang",                    101
+  MENUITEM "E&igenschaften...",           102
+  MENUITEM SEPARATOR
+  MENUITEM "&Beenden",                    2
+ }
+}
+
+1 RT_MANIFEST MOVEABLE PURE "Funkuhr.manifest"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,1,8,2008
+ PRODUCTVERSION 1,1,8,2008
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+{
+ BLOCK "StringFileInfo"
+ {
+  BLOCK "040704b0"
+  {
+   VALUE "CompanyName", "haftmann#software\0"
+   VALUE "FileDescription", "Funkuhr-Empfänger für DCF77 und HBG\0"
+   VALUE "FileVersion", "1.0 (08/08)\0"
+   VALUE "InternalName", "Funkuhr\0"
+   VALUE "OriginalFilename", "Funkuhr.exe\0"
+   VALUE "ProductName", "www.tu-chemnitz.de/~heha\0"
+   VALUE "ProductVersion", "-\0"
+  }
+ }
+ BLOCK "VarFileInfo"
+ {
+  VALUE "Translation", 0x407, 1200
+ }
+}
+
+STRINGTABLE DISCARDABLE 
+{
+ 1 "Funkuhr"
+ 2 "Vorkommen vs. Pulslänge"
+ 3 "Umstellung!"
+ 4 "MESZ (Sommerzeit)"
+ 5 "MEZ (Normalzeit)"
+ 6 "Telegramm"
+ 7 "sofort (in Gang)"
+ 8 "noch nie"
+ 9 "vor"
+ 10 "in"
+ 16 "Seriell oder parallel muss ausgewählt sein!"
+ 17 "Das selektierte Eingabefenster muss einen Wert haben!"
+ 18 "Ungültige Angabe einer hexadezimalen Portadresse, muss größer 100h sein!"
+ 19 "\nEmpfangene Zeit: "
+ 20 " - "
+ 28 " (inaktiv)"
+ 29 " (»stille« Empfangsfortsetzung)"
+ 30 " (»stiller« Empfang)"
+ 31 " (auf Empfang)"
+ 32 "Kein Empfangssignal!"
+ 33 "Schließen Sie den Funkempfänger an und richten ihn geeignet aus! Prüfen Sie ggf. die Hardware-Einstellung."
+ 34 "Uhr gestellt"
+ 35 "Die Abweichung betrug  %c %u ms"
+ 36 "Die Computer-Uhr wurde um %s vorgestellt"
+ 37 "Die Computer-Uhr wurde um %s zurückgestellt"
+ 38 "Die Uhr lief erheblich falsch!\n\nAlte Zeit: %s\nNeue Zeit: %s"
+ 39 "Uhr konnte nicht gestellt werden!"
+ 40 "Das Programm muss mit Administrator-Konto oder einem Sonderkonto mit der Erlaubnis, die Zeit zu stellen, laufen."
+ 41 "Uhr gestellt, lief mehr als einen Tag falsch"
+}
+

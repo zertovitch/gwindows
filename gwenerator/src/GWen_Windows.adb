@@ -1,0 +1,616 @@
+with GWindows.Base;                     use GWindows.Base;
+with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;
+with GWindows.List_Boxes;               use GWindows.List_Boxes;
+with GWindows.Buttons;                  use GWindows.Buttons;
+with GWindows.Common_Dialogs;           use GWindows.Common_Dialogs;
+with GWindows.Constants;                use GWindows.Constants;
+with GWindows.Common_Controls;          use GWindows.Common_Controls;
+with GWindows.Static_Controls;          use GWindows.Static_Controls;
+with GWindows.Windows;                  use GWindows.Windows;
+with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
+with GWindows.Application;
+
+with GWenerator_Resource_GUI;           use GWenerator_Resource_GUI;
+
+with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
+with Ada.Directories;                   use Ada.Directories;
+with Ada.Command_Line;
+with Ada.Text_IO;                       use Ada.Text_IO;
+with Ada.Text_IO.Unbounded_IO;          use Ada.Text_IO.Unbounded_IO;
+with Ada.Calendar;
+
+with RC_IO, RC_Help, YYParse;
+
+with GWens.IO;
+
+with Time_Log;
+
+with Windows_Timers;
+
+package body GWen_Windows is
+
+  -- NB: for an eventual version independent of ANSI / UNICODE,
+  -- only GString should be used.
+
+  function S(Source: Unbounded_String) return String
+    renames Ada.Strings.Unbounded.To_String;
+  function U(Source: String) return Unbounded_String
+    renames Ada.Strings.Unbounded.To_Unbounded_String;
+
+  NL : constant GString:= GCharacter'Val (13) & GCharacter'Val (10);
+
+  -------------------------
+  -- Internal procedures --
+  -------------------------
+
+  procedure Update_status_display (Window : in out GWen_Window_Type) is
+    no_Ada_build_part: constant Boolean:= Window.proj.Ada_main = U("");
+    margin_x: constant:= 27;
+    margin_y: constant:= 62;
+    title: Unbounded_String:= Window.short_name;
+  begin
+    --
+    -- Title
+    --
+    if Window.proj.modified then
+      title:= title & " *";
+    end if;
+    Window.Text("GWenerator - " & S(title));
+    --
+    -- Check box and the detail part
+    --
+    if Window.proj.show_details then
+      Window.Show_Details.State(Checked);
+      Window.Height(Window.Details_frame.Top + Window.Details_frame.Height + margin_y);
+    else
+      Window.Show_Details.State(Unchecked);
+      Window.Height(Window.Show_Details.Top + Window.Show_Details.Height + margin_y);
+    end if;
+    --
+    -- RC main part
+    --
+    if Window.proj.RC_listen then
+      Window.Ear_RC.Set_Bitmap(Window.ear);
+    else
+      Window.Ear_RC.Set_Bitmap(Window.no_ear);
+    end if;
+    if Window.RC_new then
+      Window.Newer_RC.Show;
+    else
+      Window.Newer_RC.Hide;
+    end if;
+    --
+    -- Ada main part
+    --
+    if no_Ada_build_part then
+      Window.Width(Window.Ada_file_icon.Left + Window.Ada_file_icon.Width + margin_x);
+      Window.GNATMake_messages.Hide;
+      Window.Ada_comp_label.Hide;
+    else
+      Window.Width(Window.Exe_file_icon.Left + Window.Exe_file_icon.Width + margin_x);
+      Window.GNATMake_messages.Show;
+      Window.Ada_comp_label.Show;
+      if Window.proj.Ada_listen then
+        Window.Ear_Ada.Set_Bitmap(Window.ear);
+      else
+        Window.Ear_Ada.Set_Bitmap(Window.no_ear);
+      end if;
+      if Window.Ada_new then
+        Window.Newer_Ada.Show;
+      else
+        Window.Newer_Ada.Hide;
+      end if;
+    end if;
+    Window.Details_frame.Width(Window.Width - margin_x);
+    --
+  end Update_status_display;
+
+  procedure On_Details_Check_Box_Click (Window : in out GWindows.Base.Base_Window_Type'Class) is
+    gw: GWen_Window_Type renames GWen_Window_Type(Parent(Window).all);
+  begin
+    gw.proj.show_details:= gw.Show_Details.State = Checked;
+    Update_status_display(gw);
+  end On_Details_Check_Box_Click;
+
+  --------------------------------------
+  -- New methods for GWen_Window_Type --
+  --------------------------------------
+
+  procedure On_Options (Window : in out GWen_Window_Type) is
+    dlg    : GWen_properties_Type;
+    candidate: GWen:= Window.proj;
+
+    procedure Update_base_units ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
+      pragma Warnings(off, dummy);
+      use_defaults_checked: constant Boolean:= dlg.Use_Base_defs.State = Checked;
+    begin
+      Enabled(dlg.Basx, not use_defaults_checked);
+      Enabled(dlg.Basy, not use_defaults_checked);
+    end Update_base_units;
+
+    procedure Select_RC ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
+      pragma Warnings(off, dummy);
+      New_File_Name : GWindows.GString_Unbounded;
+      File_Title    : GWindows.GString_Unbounded;
+      Success: Boolean;
+    begin
+      Open_File (
+        Window,
+        "Choose Resource file...",
+         New_File_Name,
+         ((U("Resource compiler files (*.rc)"), U("*.rc" )),
+          (U("All files (*.*)"),                U("*.*"))
+         ),
+         ".rc",
+         File_Title,
+         Success
+      );
+      if Success then
+        dlg.Edit_RC_File_Name.Text(S(New_File_Name));
+      end if;
+    end Select_RC;
+
+    procedure Select_Ada ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
+      pragma Warnings(off, dummy);
+      New_File_Name : GWindows.GString_Unbounded;
+      File_Title    : GWindows.GString_Unbounded;
+      Success: Boolean;
+    begin
+      Open_File (
+        Window,
+        "Choose Ada main unit file...",
+         New_File_Name,
+         ((U("Ada files (*.adb,*.ads)"), U("*.adb;*.ads" )),
+          (U("Programs (*.exe)"), U("*.exe" )),
+          (U("All files (*.*)"),         U("*.*"))
+         ),
+         ".adb",
+         File_Title,
+         Success
+      );
+      if Success then
+        dlg.Edit_Main_Ada_File_Name.Text(S(New_File_Name));
+      end if;
+    end Select_Ada;
+
+    procedure Get_Data ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
+      pragma Warnings(off, dummy);
+    begin
+      candidate.RC_Name       := U(dlg.Edit_RC_File_Name.Text);
+      candidate.RC_listen     := dlg.Listen_RC.State = Checked;
+      candidate.RC_auto_trans := dlg.Auto_translate.State = Checked;
+      --
+      candidate.separate_items:= dlg.Separate_items.State = Checked;
+      candidate.base_x        := Integer'Value(dlg.Basx.Text);
+      candidate.base_y        := Integer'Value(dlg.Basy.Text);
+      candidate.base_defaults := dlg.Use_Base_defs.State = Checked;
+      --
+      candidate.Ada_Main      := U(dlg.Edit_Main_Ada_File_Name.Text);
+      candidate.Ada_listen    := dlg.Listen_Ada.State = Checked;
+      candidate.Ada_auto_build:= dlg.Auto_build.State = Checked;
+      --
+      candidate.Ada_command   := U(dlg.Ada_cmd.Text);
+    end Get_Data;
+
+    modified: Boolean;
+    Bool_to_Check: constant array(Boolean) of Check_State_Type:= (Unchecked, Checked);
+
+  begin
+    dlg.Create_Full_Dialog(Window);
+    --
+    -- Display the non-closing buttons
+    --
+    dlg.Button_Browse_RC.Hide;
+    dlg.Button_Browse_RC_permanent.Show;
+    dlg.Button_Browse_Ada.Hide;
+    dlg.Button_Browse_Ada_permanent.Show;
+    --
+    -- Fill dialog's contents
+    --
+    dlg.Edit_RC_File_Name.Text(S(candidate.RC_name));
+    dlg.Listen_RC.State(Bool_to_Check(candidate.RC_listen));
+    dlg.Auto_translate.State(Bool_to_Check(candidate.RC_auto_trans));
+    --
+    dlg.Separate_items.State(Bool_to_Check(candidate.separate_items));
+    dlg.Basx.Text(Integer'Image(candidate.base_x));
+    dlg.Basy.Text(Integer'Image(candidate.base_y));
+    dlg.Use_Base_defs.State(Bool_to_Check(candidate.base_defaults));
+    --
+    dlg.Edit_Main_Ada_File_Name.Text(S(candidate.Ada_main));
+    dlg.Listen_Ada.State(Bool_to_Check(candidate.Ada_listen));
+    dlg.Auto_build.State(Bool_to_Check(candidate.Ada_auto_build));
+    --
+    dlg.Ada_cmd.Text(S(candidate.Ada_command));
+    --
+    dlg.Center;
+    --
+    On_Destroy_Handler (dlg, Get_Data'Unrestricted_Access);
+    On_Click_Handler (dlg.Use_Base_defs, Update_base_units'Unrestricted_Access);
+    On_Click_Handler (dlg.Button_Browse_RC_permanent, Select_RC'Unrestricted_Access);
+    On_Click_Handler (dlg.Button_Browse_Ada_permanent, Select_Ada'Unrestricted_Access);
+    Update_base_units(Window);
+    --
+    case GWindows.Application.Show_Dialog (dlg, Window) is
+      when IDOK =>
+        --
+        modified:= Window.proj /= candidate;
+        -- ^ True if any option has changed, False if no change.
+        --
+        if modified then
+          Window.proj:= candidate;
+          Window.proj.modified:= True;
+          Update_status_display(Window);
+        end if;
+        -- Message_Box("Modified ?", Boolean'Image(modified));
+      when others =>
+        null; -- discard changes
+    end case;
+  end On_Options;
+
+  procedure Process_unsaved_changes (Window : in out GWen_Window_Type; Success: out Boolean) is
+  begin
+    Success:= False;
+    if Window.proj.modified then
+      case Message_Box(Window, "GWen is changed", "Save modified GWen ?", Yes_No_Cancel_Box) is
+        when Yes    =>
+          Window.last_save_success:= False;
+          Window.On_Save;
+          Success:= Window.last_save_success;
+          -- False e.g. if "Save as..." of a new file is cancelled
+        when No     =>
+          null;
+        when Cancel =>
+          return;
+        when others =>
+          null;
+      end case;
+    end if;
+    Success:= True;
+  end Process_unsaved_changes;
+
+  procedure On_New (Window : in out GWen_Window_Type) is
+    fresh_gwen: GWen; -- initialized with defaults
+    Success   : Boolean;
+  begin
+    Process_unsaved_changes(Window, Success);
+    if Success then
+      -- Create a new GWen now, with defaults...
+      Window.proj:= fresh_gwen;
+      Window.short_name:= Window.proj.name;
+      Update_status_display (Window);
+    end if;
+  end On_New;
+
+  procedure On_Open (Window : in out GWen_Window_Type) is
+    New_File_Name : GWindows.GString_Unbounded;
+    File_Title    : GWindows.GString_Unbounded;
+    Success       : Boolean;
+  begin
+    Process_unsaved_changes(Window, Success);
+    if Success then
+      Open_File (
+        Window,
+        "Open...",
+         New_File_Name,
+         ((U("GWenerator project file (*.gwen)"),
+           U("*.gwen" )),
+          (U("All files (*.*)"),
+           U("*.*"))),
+         ".gwen",
+         File_Title,
+         Success
+      );
+      if Success then
+        GWens.IO.Load(
+          file_name => S(New_File_Name),
+          proj      => Window.proj
+        );
+        Window.short_name:= File_Title;
+        Update_status_display (Window);
+      end if;
+    end if;
+  end On_Open;
+
+  procedure On_Save (Window : in out GWen_Window_Type) is
+  begin
+    if Window.proj.titled then
+      Window.last_save_success:= False;
+      GWens.IO.Save(proj => Window.proj);
+      Window.last_save_success:= True;
+      Update_status_display (Window);
+    else
+      Window.On_Save_As;
+    end if;
+  end On_Save;
+
+  procedure On_Save_As (Window : in out GWen_Window_Type) is
+    New_File_Name : GWindows.GString_Unbounded;
+    File_Title    : GWindows.GString_Unbounded;
+    Success       : Boolean;
+  begin
+    Window.last_save_success:= False;
+    Save_File (
+      Window,
+      "Save as...",
+       New_File_Name,
+       ((U("GWenerator project file (*.gwen)"),
+         U("*.gwen" )),
+        (U("All files (*.*)"),
+         U("*.*"))),
+         ".gwen",
+       File_Title,
+       Success
+    );
+    if Success then
+      if Ada.Directories.Exists(S(New_File_Name))
+      and then
+        Message_Box (Window,
+                      "Save as",
+                      S(New_File_Name) &
+                      " exists" & NL &
+                      "replace ?",
+                      Yes_No_Box,
+                      Exclamation_Icon) = No
+      then
+        return;
+      end if;
+      Window.Short_Name:= File_Title;
+      Window.proj.name := New_File_Name;
+      Window.proj.titled:= True;
+      GWens.IO.Save (Window.proj);
+      Window.last_save_success:= True;
+      Update_status_display (Window);
+    end if;
+  end On_Save_As;
+
+  procedure On_About (Window : in out GWen_Window_Type) is
+    box: About_Box_Type;
+  begin
+    box.Create_Full_Dialog(Window);
+    box.Center;
+    if GWindows.Application.Show_Dialog (box, Window) = IDOK then
+      null;
+    end if;
+  end On_About;
+
+  procedure Do_Translate (Window : in out GWindows.Base.Base_Window_Type'Class) is
+    gw: GWen_Window_Type renames GWen_Window_Type(Parent(Window).all);
+    sn: constant String:= S(gw.proj.RC_name);
+    fe: File_Type;
+  begin
+    gw.Ear_RC.Set_Bitmap(gw.wheels);
+    delay 0.01;
+    gw.Bar_RC.Progress_Range(0, 100);
+    delay 0.01;
+    gw.Bar_RC.Position(5);
+    delay 0.01;
+    if sn="" then
+      Message_Box(Window, "Ressource file", "Resource file name is empty!");
+      On_Options(gw);
+    elsif not Exists(sn) then
+      Message_Box(Window, "Ressource file missing", "Cannot find: [" & sn & ']');
+      On_Options(gw);
+    else
+      gw.Bar_RC.Position(10);
+      -- Copy the translation options to RC_Help's globals variables.
+      -- These variables are used by the code generated into yyparse.adb from RC.y.
+      RC_Help.Reset_globals;
+      RC_Help.separate_items:= gw.proj.separate_items;
+      if not gw.proj.base_defaults then
+        RC_Help.base_unit_x:= gw.proj.base_x;
+        RC_Help.base_unit_y:= gw.proj.base_y;
+      end if;
+      RC_Help.source_name:= gw.proj.RC_name;
+      gw.Bar_RC.Position(15);
+      --
+      RC_IO.Open_Input(S(gw.proj.RC_name));
+      Create(fe, Out_File, ""); -- temp file
+      declare
+        se: constant String:= Name(fe); -- get name of temp file
+        line: Unbounded_String;
+      begin
+        Set_Error(fe);
+        Put_Line(Current_error, "GWenerator - RC to GWindows" );
+        Put_Line(Current_error, "Transcripting '" & S(gw.proj.RC_name) & "'." );
+        Put_Line(Current_error, "Time now: " & Time_Log );
+        RC_Help.has_input:= True;
+        RC_Help.Ada_Begin;
+        begin
+          YYParse;
+        exception
+          when RC_Help.Syntax_Error =>
+            null;
+        end;
+        RC_IO.Close_Input;
+        Set_Error(Standard_Error);
+        Close(fe);
+        gw.Bar_RC.Position(90);
+        -- Output the error messages into the box
+        Open(fe, In_File, se);
+        Clear(gw.RC_to_GWindows_messages);
+        while not End_of_File(fe) loop
+          Get_Line(fe, line);
+          Add(gw.RC_to_GWindows_messages, S(line));
+        end loop;
+        Close(fe);
+      end;
+      delay 0.02;
+      gw.Bar_RC.Position(100);
+      delay 0.02;
+    end if;
+    gw.Bar_RC.Position(0);
+    -- Restore ear logos
+    -- NB: no call to main updating proc since this can be
+    -- called when window is in background
+    if gw.proj.RC_listen then
+      gw.Ear_RC.Set_Bitmap(gw.ear);
+    else
+      gw.Ear_RC.Set_Bitmap(gw.no_ear);
+    end if;
+
+  end Do_Translate;
+
+  --------------------------------------------
+  -- Overriden methods for GWen_Window_Type --
+  --------------------------------------------
+
+  procedure On_Pre_Create (Window    : in out GWen_Window_Type;
+                           dwStyle   : in out Interfaces.C.unsigned;
+                           dwExStyle : in out Interfaces.C.unsigned)
+  is
+    pragma Warnings (Off, Window);
+    pragma Warnings (Off, dwExStyle);
+    WS_BORDER     : constant:= 16#00800000#;
+    WS_SYSMENU    : constant:= 16#00080000#; -- Get the [x] closing box
+    WS_MINIMIZEBOX: constant:= 16#00020000#;
+    custom_style  : constant:= WS_BORDER + WS_SYSMENU + WS_MINIMIZEBOX;
+    -- essentially, we want a window the user cannot resize
+  begin
+    dwStyle:= custom_style;
+  end On_Pre_Create;
+
+  timer_id: constant:= 1;
+
+  procedure On_Create (Window : in out GWen_Window_Type) is
+  --  Handles setting up icons, menus, etc.
+    use Ada.Command_Line;
+  begin
+    Window.ear.Load_Bitmap(Num_resource(Listen_32x32));
+    Window.no_ear.Load_Bitmap(Num_resource(Not_Listen_32x32));
+    Window.wheels.Load_Bitmap(Num_resource(Wheels_32x32));
+    Small_Icon (Window, "AAA_Main_Icon");
+    Large_Icon (Window, "AAA_Main_Icon");
+    Window.Create_Contents(for_dialog => False);
+    Window.menus.Create_Full_menu;
+    Window.Menu(Window.menus.main);
+    if Argument_count=0 then
+      Window.On_New;
+    else
+      GWens.IO.Load(
+        file_name => Argument(1),
+        proj      => Window.proj
+      );
+      Window.short_name:= U(Simple_Name(Argument(1)));
+    end if;
+    Update_status_display(Window);
+    Window.Center;
+    On_Click_Handler( Window.Show_Details, On_Details_Check_Box_Click'Access );
+    On_Click_Handler( Window.Button_Translate_permanent, Do_Translate'Access );
+    Windows_Timers.Set_Timer(Window, timer_id, 1000);
+    --
+    -- Disable non-implemeted features !!
+    --
+    Window.Button_Build_permanent.Disable;
+    Window.Visible;
+  end On_Create;
+
+  procedure On_Destroy (Window : in out GWen_Window_Type) is
+  -- Method taken from GWindows.Windows.Main
+  begin
+    GWindows.Application.End_Loop;
+    Window_Type (Window).On_Destroy;
+  end On_Destroy;
+
+  function Is_RC_newer(proj: GWen) return Boolean is
+    use RC_Help, Ada.Calendar;
+    rn: constant String:= S(proj.RC_name);
+    an: constant String:= RC_to_Package_name(rn,True,True) & ".ads";
+  begin
+    return
+      proj.RC_listen and then
+      rn /= "" and then
+      Exists(rn) and then
+      ( (an="" or else not Exists(an)) or else
+        Modification_Time(rn) > Modification_Time(an)
+      );
+  end Is_RC_newer;
+
+  busy_listening: Boolean:= False;
+
+  procedure On_Message (Window       : in out GWen_Window_Type;
+                        message      : in     Interfaces.C.unsigned;
+                        wParam       : in     Interfaces.C.int;
+                        lParam       : in     Interfaces.C.int;
+                        Return_Value : in out Interfaces.C.long)
+  is
+    use Interfaces.C;
+
+    procedure Update_RC_newer_flag_and_message is
+    begin
+      Window.RC_new:= Is_RC_newer(Window.proj);
+      if Window.RC_new then
+        Window.Newer_RC.Show;
+      else
+        Window.Newer_RC.Hide;
+      end if;
+      delay 0.02;
+    end Update_RC_newer_flag_and_message;
+
+  begin
+    if message = Windows_Timers.WM_TIMER then
+      -- Window.RC_to_GWindows_messages.Add("tick!");
+      if not busy_listening then
+        -- Lock the listener in case the timer ticks again during what follows
+        -- Without such a lock I guess it could mess something...
+        busy_listening:= True;
+        -- Listen RC
+        Update_RC_newer_flag_and_message;
+        -- Translate if RC new and this automatism desired
+        if Window.RC_new and Window.proj.RC_auto_trans then
+          Do_Translate(Window.Button_Translate_permanent);
+          Update_RC_newer_flag_and_message;
+        end if;
+        -- Unlock
+        busy_listening:= False;
+      end if;
+    end if;
+    -- Call parent method
+    On_Message(
+      Window_type(Window),
+      message,
+      wPAram,
+      lPAram,
+      Return_Value
+    );
+  end On_Message;
+
+  procedure On_Menu_Select
+    (Window : in out GWen_Window_Type;
+     Item   : in     Integer)
+  is
+  begin
+    case Item is
+      when New_GWen =>
+        Window.On_New;
+      when Open_GWen =>
+        Window.On_Open;
+      when Save_GWen =>
+        Window.On_Save;
+      when Save_GWen_as =>
+        Window.On_Save_As;
+      when Quit =>
+        Window.Close;
+      when GWen_Options =>
+        Window.On_Options;
+      when GWenerator_Preferences =>
+        Message_Box(Window, "Main Preferences", "Not yet implemented..." );
+      when About =>
+        Window.On_About;
+      when others =>
+        Message_Box(Window, "Unknown menu item", Integer'Image(Item));
+    end case;
+  end On_Menu_Select;
+
+  procedure On_Close (Window : in out GWen_Window_Type;
+                      Can_Close :    out Boolean)
+  is
+    Success: Boolean;
+  begin
+    Process_unsaved_changes(Window, Success);
+    if Success then
+      Windows_Timers.Kill_Timer(Window, timer_id);
+    end if;
+    Can_Close:= Success;
+  end On_Close;
+
+end GWen_Windows;

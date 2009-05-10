@@ -1,0 +1,466 @@
+//
+// Found on the Web by Googling keywords.
+//
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONFIG DIALOG DISCARDABLE  0, 0, 390, 292
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | DS_CONTEXTHELP | 
+    WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "(window title will be assigned at runtime)"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,335,19,50,15
+    PUSHBUTTON      "Cancel",IDCANCEL,335,35,50,15
+    CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_HOTTRACK | 
+                    WS_TABSTOP,6,7,324,255
+    PUSHBUTTON      "Defaults",ID_DEFAULTS,335,51,50,15
+    PUSHBUTTON      "View Docs",ID_DOCS,335,67,50,15
+    PUSHBUTTON      "View Website",ID_WEB,335,83,50,15
+    CONTROL         "",IDC_RECT,"Static",SS_BLACKRECT | NOT WS_VISIBLE,8,20,
+                    320,240
+    CTEXT           "(...'about' text will be placed in this box automatically, at runtime)",
+                    IDC_SZ_ABOUT,198,268,187,19,SS_SUNKEN
+    CTEXT           "For help on any setting, click the '?' in the upper-right\rcorner, and then click the item you need help with.",
+                    IDC_STATIC,6,268,186,19,SS_SUNKEN
+END
+
+IDD_PROPPAGE_2 DIALOGEX 0, 0, 320, 240
+STYLE DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "Enable &Fog",IDC_CB_FOG,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,19,22,61,11
+    CTEXT           "Initial &Wave Type:",IDC_INITIAL_WAVEMODE_CAPTION,18,44,
+                    75,9
+    COMBOBOX        IDC_INITIAL_WAVEMODE,16,55,109,123,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    CTEXT           "&Animation Speed:",IDC_HS_ANIM_SPEED_CAPTION,22,77,66,
+                    10
+    CONTROL         "Slider1",IDC_HS_ANIM_SPEED,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,14,88,83,16
+    GROUPBOX        "[ More Settings: ]",IDC_FS_BOX,0,3,319,236
+    CTEXT           "(plugin authors would add their own settings elements here.  additional pages can be added as well.)",
+                    IDC_STATIC,77,142,132,27
+END
+
+IDD_PROPPAGE_1 DIALOGEX 0, 0, 320, 240
+STYLE DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_ADAPTER_DMS,126,9,185,191,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_DMS_MAXFPS,126,25,81,106,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_DMSMS,126,41,81,123,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    PUSHBUTTON      "More &Options",ID_DM_MORE,261,25,50,15
+    CONTROL         "Allow Page Tearing",IDC_CB_DMSPT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,214,43,80,10
+    COMBOBOX        IDC_ADAPTER_FS,126,63,185,208,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_DISP_MODE,126,78,185,208,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FS_MAXFPS,126,94,81,107,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FSMS,126,110,81,123,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    CONTROL         "Use Fa&ke fullscreen mode",IDC_CB_FAKE,"Button",
+                    BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,214,97,97,9
+    CONTROL         "Allow Page Tearing",IDC_CB_FSPT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,214,112,80,10
+    COMBOBOX        IDC_ADAPTER_W,126,132,185,208,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_W_MAXFPS,126,147,81,107,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_WMS,126,163,81,123,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    CONTROL         "Integrate with winamp",IDC_CB_SKIN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,214,150,102,10
+    CONTROL         "Allow Page Tearing",IDC_CB_WPT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,214,165,80,10
+    CONTROL         "Start &Fullscreen",IDC_CB_FS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,74,185,71,9
+    CONTROL         "Start in &Desktop Mode",IDC_CB_DMS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,74,195,95,9
+    CONTROL         "Sa&ve CPU by loosely enforcing Max Framerate",
+                    IDC_CB_SAVE_CPU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,74,
+                    205,170,9
+    CONTROL         "Show '&Press F1 for  Help' message at startup",
+                    IDC_CB_PRESS_F1_MSG,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    WS_TABSTOP,74,215,156,9
+    CONTROL         "&Minimize Winamp when going fullscreen",IDC_CB_MIN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,74,225,149,9
+    PUSHBUTTON      "Dual&Head",ID_DUALHEAD,262,200,50,15
+    PUSHBUTTON      "&Select Fonts",ID_FONTS,262,217,50,15
+    RTEXT           "Display Mode:",IDC_DISP_MODE_CAPTION,66,81,55,9
+    RTEXT           "Display Adapter:",IDC_FS_ADAPTER_CAPTION,68,66,53,9
+    RTEXT           "Max Framerate:",IDC_FS_MAXFPS_CAPTION,66,96,55,9
+    RTEXT           "Display Adapter:",IDC_W_ADAPTER_CAPTION,68,135,53,9
+    RTEXT           "Multisampling:",IDC_W_MULTISAMPLING_CAPTION,75,165,46,9
+    RTEXT           "Max Framerate:",IDC_W_MAXFPS_CAPTION,56,150,65,9
+    CTEXT           "FULLSCREEN settings",IDC_FS_LABEL,7,85,50,18
+    GROUPBOX        "",IDC_STATIC,0,0,319,239
+    CONTROL         "",IDC_STATIC,"Static",SS_GRAYRECT,0,58,318,1
+    CONTROL         "",IDC_STATIC,"Static",SS_GRAYRECT,0,127,318,1
+    CONTROL         "",IDC_STATIC,"Static",SS_GRAYRECT,0,180,318,1
+    CTEXT           "WINDOWED settings",IDC_W_LABEL,7,145,46,18
+    CTEXT           "General\rOptions",IDC_STATIC,9,201,46,18
+    RTEXT           "Display Adapter:",IDC_DMS_ADAPTER_CAPTION,68,12,53,9
+    RTEXT           "Max Framerate:",IDC_DMS_MAXFPS_CAPTION,63,28,58,9
+    CTEXT           "\rDESKTOP MODE\rsettings",IDC_DMS_LABEL,3,17,60,38
+    RTEXT           "Multisampling:",IDC_FS_MULTISAMPLING_CAPTION,74,112,47,
+                    9
+    RTEXT           "Multisampling:",IDC_DMS_MULTISAMPLING_CAPTION,75,43,46,
+                    9
+END
+
+IDD_PROPPAGE_3 DIALOGEX 0, 0, 320, 240
+STYLE DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+END
+
+IDD_PROPPAGE_4 DIALOGEX 0, 0, 320, 240
+STYLE DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+END
+
+IDD_PROPPAGE_5 DIALOGEX 0, 0, 320, 240
+STYLE DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+END
+
+IDD_PROPPAGE_6 DIALOGEX 0, 0, 320, 240
+STYLE DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+END
+
+IDD_PROPPAGE_7 DIALOGEX 0, 0, 320, 240
+STYLE DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+END
+
+IDD_PROPPAGE_8 DIALOGEX 0, 0, 320, 240
+STYLE DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+END
+
+IDD_FONTDIALOG DIALOGEX 0, 0, 366, 190
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_NOPARENTNOTIFY
+CAPTION "Select Fonts"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,257,168,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,309,168,50,14
+    COMBOBOX        IDC_FONT1,85,17,127,291,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FONTSIZE1,217,17,65,87,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_FONT2,85,33,127,291,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FONTSIZE2,217,33,65,87,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Typeset:",IDC_FONT_CAPTION,85,7,109,9
+    LTEXT           "Size:",IDC_FONTSIZE_CAPTION,217,7,50,10
+    LTEXT           "Bold",IDC_FONTOPTIONS_CAPTION,290,7,16,10
+    RTEXT           "Decorative font:",IDC_FONT_NAME_2,7,36,70,9
+    RTEXT           "Simple font:",IDC_FONT_NAME_1,7,20,70,9
+    COMBOBOX        IDC_FONT3,85,49,127,291,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FONTSIZE3,217,49,65,87,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    RTEXT           "Help screen:",IDC_FONT_NAME_3,7,52,70,9
+    COMBOBOX        IDC_FONT4,85,65,127,291,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FONTSIZE4,217,65,65,87,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    RTEXT           "Playlist:",IDC_FONT_NAME_4,7,69,70,9
+    COMBOBOX        IDC_FONT5,85,81,127,291,CBS_DROPDOWNLIST | CBS_SORT | 
+                    NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FONTSIZE5,217,81,65,87,CBS_DROPDOWNLIST | NOT 
+                    WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Font 5:",IDC_FONT_NAME_5,7,84,70,9,NOT WS_VISIBLE
+    COMBOBOX        IDC_FONT6,85,97,127,291,CBS_DROPDOWNLIST | CBS_SORT | 
+                    NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FONTSIZE6,217,97,65,87,CBS_DROPDOWNLIST | NOT 
+                    WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Font 6:",IDC_FONT_NAME_6,7,100,70,9,NOT WS_VISIBLE
+    COMBOBOX        IDC_FONT7,85,113,127,291,CBS_DROPDOWNLIST | CBS_SORT | 
+                    NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FONTSIZE7,217,113,65,87,CBS_DROPDOWNLIST | NOT 
+                    WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Font 7:",IDC_FONT_NAME_7,7,116,70,9,NOT WS_VISIBLE
+    COMBOBOX        IDC_FONT8,85,129,127,291,CBS_DROPDOWNLIST | CBS_SORT | 
+                    NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FONTSIZE8,217,129,65,87,CBS_DROPDOWNLIST | NOT 
+                    WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Font 8:",IDC_FONT_NAME_8,7,132,70,9,NOT WS_VISIBLE
+    COMBOBOX        IDC_FONT9,85,145,127,291,CBS_DROPDOWNLIST | CBS_SORT | 
+                    NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FONTSIZE9,217,145,65,87,CBS_DROPDOWNLIST | NOT 
+                    WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Font 9:",IDC_FONT_NAME_9,7,148,70,9,NOT WS_VISIBLE
+    LTEXT           "Italics",IDC_FONTOPTIONS_CAPTION2,311,7,20,10
+    LTEXT           "AA",IDC_FONTOPTIONS_CAPTION3,336,7,11,10
+    CONTROL         "",IDC_FONTBOLD1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    293,20,9,9
+    CONTROL         "",IDC_FONTITAL1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    315,20,9,9
+    CONTROL         "",IDC_FONTAA1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,337,
+                    20,9,9
+    CONTROL         "",IDC_FONTBOLD2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    293,36,9,9
+    CONTROL         "",IDC_FONTITAL2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    315,36,9,9
+    CONTROL         "",IDC_FONTAA2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,337,
+                    36,9,9
+    CONTROL         "",IDC_FONTBOLD3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    293,52,9,9
+    CONTROL         "",IDC_FONTITAL3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    315,52,9,9
+    CONTROL         "",IDC_FONTAA3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,337,
+                    52,9,9
+    CONTROL         "",IDC_FONTBOLD4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    293,68,9,9
+    CONTROL         "",IDC_FONTITAL4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    315,68,9,9
+    CONTROL         "",IDC_FONTAA4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,337,
+                    68,9,9
+    CONTROL         "",IDC_FONTBOLD5,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_TABSTOP,293,84,9,9
+    CONTROL         "",IDC_FONTITAL5,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_TABSTOP,315,84,9,9
+    CONTROL         "",IDC_FONTAA5,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | 
+                    WS_TABSTOP,337,84,9,9
+    CONTROL         "",IDC_FONTBOLD6,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_TABSTOP,293,100,9,9
+    CONTROL         "",IDC_FONTITAL6,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_TABSTOP,315,100,9,9
+    CONTROL         "",IDC_FONTAA6,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | 
+                    WS_TABSTOP,337,100,9,9
+    CONTROL         "",IDC_FONTBOLD7,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_TABSTOP,293,116,9,9
+    CONTROL         "",IDC_FONTITAL7,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_TABSTOP,315,116,9,9
+    CONTROL         "",IDC_FONTAA7,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | 
+                    WS_TABSTOP,337,116,9,9
+    CONTROL         "",IDC_FONTBOLD8,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_TABSTOP,293,132,9,9
+    CONTROL         "",IDC_FONTITAL8,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_TABSTOP,315,132,9,9
+    CONTROL         "",IDC_FONTAA8,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | 
+                    WS_TABSTOP,337,132,9,9
+    CONTROL         "",IDC_FONTBOLD9,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_TABSTOP,293,148,9,9
+    CONTROL         "",IDC_FONTITAL9,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_TABSTOP,315,148,9,9
+    CONTROL         "",IDC_FONTAA9,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | 
+                    WS_TABSTOP,337,148,9,9
+    LTEXT           "Note: 'AA' stands for anti-aliasing (smoothing); not always available.",
+                    IDC_FONT_TEXT,7,172,216,10
+END
+
+IDD_DESKTOPMODE DIALOGEX 0, 0, 211, 122
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_NOPARENTNOTIFY | WS_EX_CONTEXTHELP
+CAPTION "More Options for Desktop Mode"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,101,101,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,154,101,50,14
+    CONTROL         "Show icons",IDC_CB_SHOW_ICONS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,13,12,174,10
+    CONTROL         "Draw colored boxes around icon text labels",IDC_CB_BOX,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,24,174,10
+    CONTROL         "My desktop icons get occluded (covered) by the taskbar when I use Desktop Mode; fix it!",
+                    IDC_CB_MANUAL_SCOOT,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    BS_MULTILINE | WS_TABSTOP,13,36,191,19
+    COMBOBOX        IDC_DM_ALPHA_FIX,13,80,191,291,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "When Windows is in [5-6-5] 16-bit color and there is no\ralpha (transparency) channel, try drawing the icons using...",
+                    IDC_DM_ALPHA_FIX_CAPTION,13,61,191,17
+END
+
+IDD_DUALHEAD DIALOGEX 0, 0, 290, 182
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_NOPARENTNOTIFY
+CAPTION "Dualhead Options"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,181,160,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,233,160,50,14
+    LTEXT           "When a single virtual display spans two real screens Horizontally:",
+                    IDC_STATIC,25,88,113,18
+    COMBOBOX        IDC_H_PICK,25,108,104,91,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "When a single virtual display spans two real screens Vertically:",
+                    IDC_STATIC,25,130,112,18
+    COMBOBOX        IDC_V_PICK,25,150,104,67,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "For Desktop and *Fake* Fullscreen modes:",IDC_STATIC,7,
+                    71,145,103
+    LTEXT           "Typically, multimon (ie.. multiple monitor) setups feature two separate video cards and two separate monitors; each resulting display has its own resolution, and the desktop spans across them in some fashion.",
+                    IDC_STATIC,7,7,276,26
+    LTEXT           "DualHead video cards, though, feature a single card that feeds two monitors.  Some of these cards treat the two monitors separately, but some of them treat them as halves of a single double-width (~2048x768) or double-height (~1024x1536) 'virtual screen'.",
+                    IDC_STATIC,7,36,276,26
+    LTEXT           "As a result, graphics applications can't go 'fullscreen' on just one monitor, because it's really only half of the 'screen', from Windows' point of view.",
+                    IDC_STATIC,161,67,122,35
+    LTEXT           "This plug-in, however, will let you get away with it, when you're in Desktop Mode or *Fake* Fullscreen Mode; it just needs to know which half of the display (left/right or top/bottom) you want to use -- or both.",
+                    IDC_STATIC,161,106,122,49
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_CONFIG, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 385
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 287
+    END
+
+    IDD_FONTDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 359
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 183
+    END
+
+    IDD_DESKTOPMODE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 204
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 115
+    END
+
+    IDD_DUALHEAD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 283
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 175
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_WINDOWED_CONTEXT_MENU MENU DISCARDABLE 
+BEGIN
+    POPUP "Options:"
+    BEGIN
+        MENUITEM "Go &Fullscreen",              ID_GO_FS
+        MENUITEM "&Desktop Mode",               ID_DESKTOP_MODE
+        MENUITEM "&Quit",                       ID_QUIT
+        MENUITEM SEPARATOR
+        MENUITEM "Show &Help",                  ID_SHOWHELP
+        MENUITEM "Show Playlist",               ID_SHOWPLAYLIST
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_PLUGIN_ICON         ICON    DISCARDABLE     "plugin_icon.ico"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
