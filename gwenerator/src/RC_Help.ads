@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compier script parser
 --
---  Copyright (c) Gautier de Montmollin 2008
+--  Copyright (c) Gautier de Montmollin 2008..2009
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -35,7 +35,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "30-Apr-2009";
+  Grammar_Version: constant String:= "15-May-2009";
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -141,6 +141,8 @@ package RC_Help is
   last_text, last_class, last_control_text: Unbounded_String;
   last_dialog_ident: Unbounded_String;
   last_caption, last_dialog_caption: Unbounded_String;
+  version_info_value_counter: Natural;
+  version_info_value: Unbounded_String;
 
   static_counter: Natural;
   -- Counter for objects labelled as static (-1, ID_STATIC) but
@@ -168,8 +170,8 @@ package RC_Help is
   procedure YY_Abort;
   procedure YY_Terminate;
 
-  procedure Open_if_separate(item: String);
-  procedure Close_if_separate(item: String);
+  procedure Open_if_separate(item: String; with_body: Boolean:= True);
+  procedure Close_if_separate(item: String; with_body: Boolean:= True);
 
   procedure Ada_Put(to: Pkg_output; s: String);
   procedure Ada_Put_Line(to: Pkg_output; s: String);

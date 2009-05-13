@@ -375,7 +375,10 @@ package body GWen_Windows is
       Parent  => box,
       URL     => box.URL.Text -- Here the text = the URL
     );
-    box.RC_gr_ver.Text( box.RC_gr_ver.Text & RC_Help.Grammar_Version );
+    -- Complete the Grammar version info:
+    box.RC_gramm_ver.Text( box.RC_gramm_ver.Text & RC_Help.Grammar_Version );
+    -- Complete the GWenerator version info:
+    box.GWen_ver.Text( box.GWen_ver.Text & Version_info.FileVersion );
     box.Center;
     if Show_Dialog (box, Window) = IDOK then
       null;
@@ -385,7 +388,8 @@ package body GWen_Windows is
   procedure Do_Translate (Window : in out GWindows.Base.Base_Window_Type'Class) is
     gw: GWen_Window_Type renames GWen_Window_Type(Parent(Window).all);
     sn: constant String:= S(gw.proj.RC_name);
-    fe: File_Type;
+    fe, fo: File_Type;
+    -- We derout the standard output & error - anyway, there is no terminal!
   begin
     gw.Ear_RC.Set_Bitmap(gw.wheels);
     delay 0.01;
@@ -414,11 +418,14 @@ package body GWen_Windows is
       --
       RC_IO.Open_Input(S(gw.proj.RC_name));
       Create(fe, Out_File, ""); -- temp file
+      Create(fo, Out_File, ""); -- temp file
       declare
         se: constant String:= Name(fe); -- get name of temp file
+        so: constant String:= Name(fo); -- get name of temp file
         line: Unbounded_String;
       begin
         Set_Error(fe);
+        Set_Output(fo);
         Put_Line(Current_error, "GWenerator - RC to GWindows" );
         Put_Line(Current_error, "Transcripting '" & S(gw.proj.RC_name) & "'." );
         Put_Line(Current_error, "Time now: " & Time_Log );
@@ -435,7 +442,12 @@ package body GWen_Windows is
         end;
         RC_IO.Close_Input;
         Set_Error(Standard_Error);
+        Set_Error(Standard_Output);
         Close(fe);
+        Close(fo);
+        -- Message_Box("Std Output", so);
+        -- The file fo should be empty, but something
+        -- somewhere puts a new line...
         gw.Bar_RC.Position(90);
         -- Output the error messages into the box
         Open(fe, In_File, se);

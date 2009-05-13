@@ -400,22 +400,29 @@ package body RC_Help is
     Put_Line(Current_Error, "Writing: " & name);
   end Create;
 
-  procedure Open_if_separate(item: String) is
+  procedure Open_if_separate(item: String; with_body: Boolean:= True) is
   begin
     if separate_items then
       Create(to_spec, pkg(as_file_name => True) & '-' & item & ".ads");
-      Create(to_body, pkg(as_file_name => True) & '-' & item & ".adb");
-      Ada_package_headers(eventual_child => '.' & item);
+      if with_body then
+        Create(to_body, pkg(as_file_name => True) & '-' & item & ".adb");
+        Ada_package_headers(eventual_child => '.' & item);
+      else
+        Ada_Put_Line(to_spec, "package " & pkg & '.' & item & " is");
+        Ada_New_Line(to_spec);
+      end if;
     end if;
   end Open_if_separate;
 
-  procedure Close_if_separate(item: String) is
+  procedure Close_if_separate(item: String; with_body: Boolean:= True) is
   begin
     if separate_items then
       for to in pkg_output loop
-        Ada_New_Line(to);
-        Ada_Put_Line(to, "end " & pkg & '.' & item & ';');
-        Close(Ada_files(to));
+        if to = to_spec or with_body then
+          Ada_New_Line(to);
+          Ada_Put_Line(to, "end " & pkg & '.' & item & ';');
+          Close(Ada_files(to));
+        end if;
       end loop;
     end if;
   end Close_if_separate;
@@ -554,8 +561,10 @@ package body RC_Help is
       Ada_Put_Line(to_spec, "--   1 per dialog or menu item");
       Ada_Put_Line(to_spec, "--   " & pkg & ".Constants for resource constants (ID's)");
       Ada_Put_Line(to_spec, "--   " & pkg & ".Helpers for internal helper routines");
+      Ada_Put_Line(to_spec, "--   " & pkg & ".Version_info for constants stored in the VersionInfo part.");
       Ada_New_Line(to_spec);
       Ada_Put_Line(to_spec, "package " & pkg & " is");
+      Ada_Put_Line(to_spec, "  -- empty: everything is in child packages.");
       Ada_Put_Line(to_spec, "end " & pkg & ';');
       Close(Ada_files(to_spec));
     else

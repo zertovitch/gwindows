@@ -38,17 +38,9 @@ if "%1"=="-res" windres GWenerator.rc GWenerator.rbj
 if "%1"=="-res" shift
 if not exist GWenerator.rbj windres GWenerator.rc GWenerator.rbj
 
-rem
-set opt_comp294572=-g -gnato -gnatVa -gnatecdebug.pra
-set opt_comp294572=-O2 -gnatp
-rem
-
-gnatmake -i %1 %2 %opt_comp294572% -I../windows_stuff gwenerator -largs GWenerator.rbj
+gnatmake %1 %2 gwenerator -PGWenerator.gpr -XBuild_Mode=Small
+gnatmake %1 %2 rc2gw      -PGWenerator.gpr -XBuild_Mode=Small
 copy /b GWenerator.exe ..\GWenerator.exe
-
-echo.
-gnatmake -i %1 %2 %opt_comp294572% -I../windows_stuff rc2gw -largs GWenerator.rbj
 copy /b rc2gw.exe ..\RC2GW.exe
 
-set opt_comp294572=
 :fin

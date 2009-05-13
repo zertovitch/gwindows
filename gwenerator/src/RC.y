@@ -30,7 +30,8 @@
 --
 -- Change log:
 --
--- 30-Apr-2009 GdM: Some additions for matching ResEdit 1.4.4.19 suppl. tags
+-- 15-May-2009 GdM: - constants generated for VersionInfo items
+--                  - some additions for matching ResEdit 1.4.4.19 suppl. tags
 -- 27-Nov-2008 GdM: For push buttons, both closing and non-closing are created,
 --                    but only one is shown (it can be reversed any time)
 --  5-Sep-2008 GdM: Include file with symbols processed; minor changes
@@ -117,7 +118,7 @@
        SS_LEFTNOWORDWRAP_t, SS_ENDELLIPSIS_t,
        SS_BLACKRECT_t, SS_GRAYRECT_t, SS_WHITERECT_t,
        SS_REALSIZEIMAGE_t,
-       SS_LEFT_t
+       SS_LEFT_t, SS_RIGHT_t
 -- Edit styles
 %token ES_MULTILINE_t, ES_READONLY_t,
        ES_AUTOHSCROLL_t, ES_AUTOVSCROLL_t,
@@ -130,7 +131,7 @@
        BS_AUTOCHECKBOX_t, BS_BITMAP_t, BS_OWNERDRAW_t,
        BS_BOTTOM_t, BS_FLAT_t, BS_LEFT_t, BS_RIGHT_t, BS_CENTER_t, BS_VCENTER_t,
        BS_PUSHLIKE_t, BS_TOP_t, BS_MULTILINE_t,
-       BS_DEFPUSHBUTTON_t, BS_RADIOBUTTON_t
+       BS_DEFPUSHBUTTON_t, BS_PUSHBUTTON_t, BS_RADIOBUTTON_t
 -- Combo-box styles
 %token CBS_SIMPLE_t, CBS_DROPDOWN_t, CBS_DROPDOWNLIST_t,
        CBS_SORT_t, CBS_HASSTRINGS_t, CBS_AUTOHSCROLL_t,
@@ -699,6 +700,7 @@ ss_style  : SS_NOPREFIX_t
           | SS_SIMPLE_t
           | SS_LEFTNOWORDWRAP_t
           | SS_LEFT_t
+          | SS_RIGHT_t
           | SS_BLACKRECT_t
           | SS_GRAYRECT_t
           | SS_WHITERECT_t
@@ -989,6 +991,7 @@ bs_style_only :
           | BS_VCENTER_t
           | BS_MULTILINE_t
           | BS_PUSHLIKE_t
+          | BS_PUSHBUTTON_t
           | BS_DEFPUSHBUTTON_t
           | BS_RADIOBUTTON_t
           ;
@@ -1417,8 +1420,20 @@ file_name : RC_Ident | RCString ;
 version_info :
                RC_Ident
                VERSIONINFO_t
+               {
+                 Open_if_separate("Version_info", with_body => False);
+                 if not separate_items then
+                   Ada_Put_Line(to_spec, "  package Version_info is");
+                 end if;
+               }
                fixed_infos
                version_block_contents
+               { if not separate_items then
+                   Ada_Put_Line(to_spec, "  end Version_info;");
+                   Ada_New_Line(to_spec);
+                 end if;
+                 Close_if_separate("Version_info", with_body => False);
+               }
              ;
 
 fixed_infos :
@@ -1464,6 +1479,7 @@ block_content_list:
 block_content :
              block
            | VALUE_t
+             {RC_Help.version_info_value_counter:= 0;}
              value_arg_list
            ;
 
@@ -1478,7 +1494,31 @@ value_arg_list:
           ;
 
 value_arg :  RCString
+             {RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
+              case RC_Help.version_info_value_counter is
+                when 1 =>
+                  declare
+                    item: constant String:= yytext;
+                  begin
+                    Ada_Put(to_spec, "    " & item(item'First+1..item'Last-1));
+                  end;
+                when 2 =>
+                  Ada_Put_Line(to_spec, ": constant String:= " & yytext & ';');
+                when others =>
+                  null;
+              end case;
+             }
            | NUMBER
+             {RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
+              case RC_Help.version_info_value_counter is
+                when 1 =>
+                  null; -- should not happen...
+                when 2 =>
+                  Ada_Put_Line(to_spec, ": constant:=" & Long_Long_Integer'Image(yylval.intval) & ';');
+                when others =>
+                  null;
+              end case;
+             }
            ;
 
 --------------

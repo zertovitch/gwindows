@@ -248,13 +248,14 @@ SS_CENTERIMAGE                 { return SS_CENTERIMAGE_t; }
 SS_ENDELLIPSIS                 { return SS_ENDELLIPSIS_t; }
 SS_GRAYRECT                    { return SS_GRAYRECT_t; }
 SS_ICON                        { return SS_ICON_t; }
+SS_LEFT                        { return SS_LEFT_t; }
 SS_LEFTNOWORDWRAP              { return SS_LEFTNOWORDWRAP_t; }
 SS_NOPREFIX                    { return SS_NOPREFIX_t; }
 SS_REALSIZEIMAGE               { return SS_REALSIZEIMAGE_t; }
+SS_RIGHT                       { return SS_RIGHT_t; }
 SS_SIMPLE                      { return SS_SIMPLE_t; }
 SS_SUNKEN                      { return SS_SUNKEN_t; }
 SS_WHITERECT                   { return SS_WHITERECT_t; }
-SS_LEFT                        { return SS_LEFT_t; }
 
 -- Edit styles
 ES_AUTOHSCROLL                 { return ES_AUTOHSCROLL_t; }
@@ -276,17 +277,18 @@ BS_AUTORADIOBUTTON             { return BS_AUTORADIOBUTTON_t; }
 BS_BITMAP                      { return BS_BITMAP_t; }
 BS_BOTTOM                      { return BS_BOTTOM_t; }
 BS_CENTER                      { return BS_CENTER_t; }
+BS_DEFPUSHBUTTON               { return BS_DEFPUSHBUTTON_t; }
 BS_FLAT                        { return BS_FLAT_t; }
 BS_LEFT                        { return BS_LEFT_t; }
 BS_LEFTTEXT                    { return BS_LEFTTEXT_t; }
 BS_MULTILINE                   { return BS_MULTILINE_t; }
 BS_OWNERDRAW                   { return BS_OWNERDRAW_t; }
+BS_PUSHBUTTON                  { return BS_PUSHBUTTON_t; }
 BS_PUSHLIKE                    { return BS_PUSHLIKE_t; }
+BS_RADIOBUTTON                 { return BS_RADIOBUTTON_t; }
 BS_RIGHT                       { return BS_RIGHT_t; }
 BS_TOP                         { return BS_TOP_t; }
 BS_VCENTER                     { return BS_VCENTER_t; }
-BS_DEFPUSHBUTTON               { return BS_DEFPUSHBUTTON_t; }
-BS_RADIOBUTTON                 { return BS_RADIOBUTTON_t; }
 
 -- Combo-box styles
 CBS_AUTOHSCROLL                { return CBS_AUTOHSCROLL_t; }

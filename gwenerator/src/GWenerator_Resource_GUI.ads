@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/05/10   20:14:17
+-- Transcription time: 2009/05/13   20:02:01
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 30-Apr-2009
+-- RC Grammar version: 13-May-2009
 ---------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -32,7 +32,7 @@ package GWenerator_Resource_GUI is
     Popup_0003: Menu_Type;  -- level 1; title: "Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 65
+  -- Menu at line 74
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -46,10 +46,11 @@ package GWenerator_Resource_GUI is
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
     URL: Label_Type;
-    RC_gr_ver: Label_Type;
+    RC_gramm_ver: Label_Type;
+    GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 85
+  -- Dialog at resource line 96
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -103,7 +104,7 @@ package GWenerator_Resource_GUI is
     -- Label: IDC_STATIC
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 117
+  -- Dialog at resource line 129
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -149,7 +150,7 @@ package GWenerator_Resource_GUI is
     Exe_file_icon: GWindows.Static_Controls.Icon_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 143
+  -- Dialog at resource line 156
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -172,6 +173,15 @@ package GWenerator_Resource_GUI is
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
 
+  package Version_info is
+    Authors: constant String:= "Gautier de Montmollin";
+    FileDescription: constant String:= "Resource script (.rc) to GWindows code builder";
+    FileVersion: constant String:= "0.96";
+    LegalCopyright: constant String:= "© 2008..2009 G. de Montmollin (MIT license)";
+    ProductName: constant String:= "GWenerator";
+    Translation: constant:= 1033;
+  end Version_info;
+
 
   ------------------------------------------------
   -- Defined resource symbols --> Ada constants --
@@ -190,12 +200,13 @@ package GWenerator_Resource_GUI is
   Listen_RC              : constant:=   1000;
   URL                    : constant:=   1000;
   Exe_file_icon          : constant:=   1001;
-  RC_gr_ver              : constant:=   1001;
   Separate_items         : constant:=   1001;
   Details_frame          : constant:=   1002;
+  GWen_ver               : constant:=   1002;
   Ada_cmd                : constant:=   1003;
   Ada_comp_label         : constant:=   1003;
   Basx                   : constant:=   1004;
+  RC_gramm_ver           : constant:=   1004;
   Basy                   : constant:=   1005;
   Ear_RC                 : constant:=   1006;
   Ear_Ada                : constant:=   1007;
@@ -242,6 +253,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 151
+  -- Last line of resource script file: 190
 
 end GWenerator_Resource_GUI;

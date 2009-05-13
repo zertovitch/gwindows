@@ -80,7 +80,10 @@ package body GWens.IO is
     f: File_Type;
   begin
     Create(f, Out_File, S(proj.name));
-    Put_Line(f, "GWenerator project file (""GWen"")");
+    Put_Line(f,
+      "This is a GWenerator project file (a ""GWen"")." &
+      " Visit GWenerator on the Web: http://sf.net/projects/gnavi"
+    );
     for k in Key loop
       Put(f, k);
       Put(f, ' ');
