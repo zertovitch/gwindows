@@ -5,16 +5,16 @@
 WINDOWS_TARGET
 GWenerator.rc
 resource.h
+yy_hold_char
+yy_hold
+Windows_Timers
+gramm
 new_line
 is_open
 .put
  put
  new_line
  put_line
-_line(
-Ada_Begin
-helpers
-with_bod
 -- Begin compiler switches
 RELEASE <- active (current) build mode
 FALSE <- are gcc/gnatmake/main/target-dir of Release := these from Debug mode ?

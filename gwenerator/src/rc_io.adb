@@ -263,9 +263,8 @@ end yyunput;
 
   function Input return Character is
     c : Character;
-    yy_cp : Integer := yy_c_buf_p;
   begin
-    yy_ch_buf(yy_cp) := yy_hold_char;
+    yy_ch_buf(yy_c_buf_p) := yy_hold_char;
 
     if yy_ch_buf(yy_c_buf_p) = YY_END_OF_BUFFER_CHAR then
       -- need more input
@@ -297,7 +296,6 @@ end yyunput;
 
         when EOB_ACT_LAST_MATCH =>
           raise UNEXPECTED_LAST_MATCH;
-        when others => null;
       end case;
     end if;
 

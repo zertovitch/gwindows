@@ -1,0 +1,13 @@
+del *.bak
+del windows_stuff\b~*.*
+del src\b~*.*
+del src\*.bak
+del src\*.bk.*
+del src\*.0
+del src\*.1
+del src\*.2
+del src\*.3
+del test\b~*.*
+del test\*.bak
+del test\*.bk.*
+del test\*resource_GUI*

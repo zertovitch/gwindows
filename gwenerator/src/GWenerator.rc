@@ -93,7 +93,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     LTEXT           "Internet:", IDC_STATIC, 35, 55, 30, 8, SS_LEFT
     LTEXT           "http://sf.net/projects/gnavi", URL, 70, 55, 90, 8, SS_LEFT
     LTEXT           "RC Grammar version: ", RC_gramm_ver, 35, 70, 170, 8, SS_LEFT
-    LTEXT           "GWenerator version: ", GWen_ver, 35, 85, 70, 8, SS_LEFT
+    LTEXT           "GWenerator version: ", GWen_ver, 35, 85, 170, 8, SS_LEFT
 }
 
 

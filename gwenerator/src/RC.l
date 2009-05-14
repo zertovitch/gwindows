@@ -272,6 +272,7 @@ ES_WANTRETURN                  { return ES_WANTRETURN_t; }
 
 -- Box/Button styles
 BS_3STATE                      { return BS_3STATE_t; }
+BS_AUTO3STATE                  { return BS_AUTO3STATE_t; }
 BS_AUTOCHECKBOX                { return BS_AUTOCHECKBOX_t; }
 BS_AUTORADIOBUTTON             { return BS_AUTORADIOBUTTON_t; }
 BS_BITMAP                      { return BS_BITMAP_t; }
@@ -338,6 +339,7 @@ UDS_NOTHOUSANDS    { return UDS_NOTHOUSANDS_t; }
 LVS_AUTOARRANGE                { return LVS_AUTOARRANGE_t; }
 LVS_ALIGNLEFT                  { return LVS_ALIGNLEFT_t; }
 LVS_ICON                       { return LVS_ICON_t; }
+LVS_LIST                       { return LVS_LIST_t; }
 LVS_NOSORTHEADER               { return LVS_NOSORTHEADER_t; }
 LVS_REPORT                     { return LVS_REPORT_t; }
 LVS_SHOWSELALWAYS              { return LVS_SHOWSELALWAYS_t; }

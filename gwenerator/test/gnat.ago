@@ -1,4 +1,4 @@
--I../windows_stuff -I../src
+-I../windows_stuff -aO..\obj\gnatdebg
 
 
 

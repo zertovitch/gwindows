@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/05/13   20:02:01
+-- Transcription time: 2009/05/13   23:24:55
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 13-May-2009
+-- RC Grammar version: 15-May-2009
 ---------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -125,7 +125,7 @@ package body GWenerator_Resource_GUI is
     Create( Window.URL, Window, "http://sf.net/projects/gnavi", x,y,w,h, GWindows.Static_Controls.LEFT, URL);
     Dlg_to_Scn(  35, 70, 170, 8, x,y,w,h);
     Create( Window.RC_gramm_ver, Window, "RC Grammar version: ", x,y,w,h, GWindows.Static_Controls.LEFT, RC_gramm_ver);
-    Dlg_to_Scn(  35, 85, 70, 8, x,y,w,h);
+    Dlg_to_Scn(  35, 85, 170, 8, x,y,w,h);
     Create( Window.GWen_ver, Window, "GWenerator version: ", x,y,w,h, GWindows.Static_Controls.LEFT, GWen_ver);
   end Create_Contents; -- About_box_Type
 

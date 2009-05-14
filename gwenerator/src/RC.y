@@ -131,7 +131,7 @@
        BS_AUTOCHECKBOX_t, BS_BITMAP_t, BS_OWNERDRAW_t,
        BS_BOTTOM_t, BS_FLAT_t, BS_LEFT_t, BS_RIGHT_t, BS_CENTER_t, BS_VCENTER_t,
        BS_PUSHLIKE_t, BS_TOP_t, BS_MULTILINE_t,
-       BS_DEFPUSHBUTTON_t, BS_PUSHBUTTON_t, BS_RADIOBUTTON_t
+       BS_DEFPUSHBUTTON_t, BS_PUSHBUTTON_t, BS_RADIOBUTTON_t, BS_AUTO3STATE_t
 -- Combo-box styles
 %token CBS_SIMPLE_t, CBS_DROPDOWN_t, CBS_DROPDOWNLIST_t,
        CBS_SORT_t, CBS_HASSTRINGS_t, CBS_AUTOHSCROLL_t,
@@ -154,7 +154,7 @@
 -- Listview styles
 %token LVS_ALIGNLEFT_t, LVS_ICON_t, LVS_REPORT_t,
        LVS_SHOWSELALWAYS_t, LVS_SORTASCENDING_t,
-       LVS_AUTOARRANGE_t, LVS_NOSORTHEADER_t
+       LVS_AUTOARRANGE_t, LVS_NOSORTHEADER_t, LVS_LIST_t
 -- Treeview styles
 %token TVS_INFOTIP_t, TVS_NOSCROLL_t, TVS_HASLINES_t,
        TVS_SHOWSELALWAYS_t, TVS_HASBUTTONS_t, TVS_LINESATROOT_t,
@@ -644,6 +644,7 @@ ctrl_style: ws_style
           | LVS_SORTASCENDING_t
           | LVS_AUTOARRANGE_t
           | LVS_NOSORTHEADER_t
+          | LVS_LIST_t
           | TVS_INFOTIP_t
             { style_switch(tips):= True; }
           | TVS_NOSCROLL_t
@@ -978,6 +979,10 @@ bs_style_only :
             { style_switch(auto):= True; }
           | BS_3STATE_t
             { style_switch(state3):= True; }
+          | BS_AUTO3STATE_t
+            { style_switch(state3):= True;
+              style_switch(auto):= True; 
+            }
           | BS_AUTOCHECKBOX_t
             { style_switch(auto):= True; }
           | BS_BITMAP_t

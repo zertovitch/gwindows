@@ -28,7 +28,6 @@
 #define IDC_COMBO3                              1039
 #define Scroll_horiz                            1040
 #define Spinner                                 1041
-#define IDC_STATIC2                             1042
 #define IDC_PROGRESS1                           1043
 #define Dialog_without_picture_adv_controls     4108
 #define IDM_NEW1                                40000
