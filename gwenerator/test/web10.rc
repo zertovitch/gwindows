@@ -3,7 +3,7 @@
 //
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "web10.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -97,11 +97,11 @@ END
 //
 
 IDD_OPTIONDIALOG DIALOGEX 0, 0, 347, 193
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION " Opciones de Conexi?n..."
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION " Opciones de Conexion..."
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Formato y codificaci?n",IDC_STATIC,1,2,148,136
+    GROUPBOX        "Formato y codificacion",IDC_STATIC,1,2,148,136
     CONTROL         "ZRLE",IDC_ZRLERADIO,"Button",BS_AUTORADIOBUTTON,7,40,37,
                     10
     CONTROL         "Hextile",IDC_HEXTILERADIO,"Button",BS_AUTORADIOBUTTON,
@@ -118,23 +118,23 @@ BEGIN
                     32,10
     CONTROL         "ZlibHex",IDC_ZLIBHEXRADIO,"Button",BS_AUTORADIOBUTTON,7,
                     73,55,10
-    CONTROL         "Usar codificaci?n CopyRect",ID_SESSION_SET_CRECT,"Button",
+    CONTROL         "Usar codificacion CopyRect",ID_SESSION_SET_CRECT,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,88,136,10
-    GROUPBOX        "Miscel?neas",IDC_STATIC,1,140,149,48
+    GROUPBOX        "Miscelaneas",IDC_STATIC,1,140,149,48
     CONTROL         "Compartir el Servidor",IDC_SHARED,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,7,150,137,10
     CONTROL         "Deiconificar al sonar campana",IDC_BELLDEICONIFY,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,163,137,8
     CONTROL         "Inhabilitar transferencia de clipboard",IDC_DISABLECLIPBOARD,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,174,138,10
-    CONTROL         "Emular 3 Botones (click de 2 botones simult?neos)",
+    CONTROL         "Emular 3 Botones (click de 2 botones simultaneos)",
                     IDC_EMULATECHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
                     162,15,161,10
     CONTROL         "Intercambiar botones 2 y 3",ID_SESSION_SWAPMOUSE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,162,26,161,10
     CONTROL         "Usar color de 8 bits (256 colores)",IDC_8BITCHECK,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,26,137,10
-    CONTROL         "S?lo ver (ignorar entradas)",IDC_VIEWONLY,"Button",
+    CONTROL         "Solo ver (ignorar entradas)",IDC_VIEWONLY,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,162,112,151,10
     CONTROL         "Modo pantalla completa",IDC_FULLSCREEN,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,162,125,127,8
@@ -160,12 +160,12 @@ BEGIN
                     63,152,10
     CONTROL         "No mostrar el cursor remoto",IDC_CSHAPE_IGNORE_RADIO,
                     "Button",BS_AUTORADIOBUTTON,162,74,155,10
-    CONTROL         "Usar codificaci?n Cache",ID_SESSION_SET_CACHE,"Button",
+    CONTROL         "Usar codificacion Cache",ID_SESSION_SET_CACHE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,99,136,10
     EDITTEXT        IDC_SERVER_SCALE,297,151,14,12,ES_AUTOHSCROLL
     LTEXT           "1  /",IDC_STATIC,279,152,12,8
     LTEXT           "Escala de Pantalla del Server:",IDC_STATIC,162,153,113,8
-    CONTROL         "Compresi?n Zip/Tight:",IDC_ALLOW_COMPRESSLEVEL,"Button",
+    CONTROL         "Compresion Zip/Tight:",IDC_ALLOW_COMPRESSLEVEL,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,110,101,10
     CONTROL         "Calidad Jpeg (Tight)",IDC_ALLOW_JPEG,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,122,102,10
@@ -182,7 +182,7 @@ BEGIN
 END
 
 IDD_FILETRANSFER_DLG DIALOGEX 0, 0, 491, 247
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CAPTION
 CAPTION " Transferencia de Archivos - Ultr@VNC"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
@@ -236,8 +236,8 @@ BEGIN
 END
 
 IDD_SESSION_DLG DIALOG DISCARDABLE  0, 0, 245, 179
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION " Conexi?n VNC"
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION " Conexion VNC"
 FONT 8, "MS Sans Serif"
 BEGIN
     COMBOBOX        IDC_HOSTNAME_EDIT,76,4,120,66,CBS_DROPDOWN | 
@@ -247,7 +247,7 @@ BEGIN
     PUSHBUTTON      "Opciones...",IDC_OPTIONBUTTON,200,117,40,15
     CONTROL         108,IDC_STATIC,"Static",SS_BITMAP,3,2,24,24
     LTEXT           "( host:display o host::puerto )",IDC_STATIC,83,19,85,8
-    GROUPBOX        "Opciones r?pidas",IDC_STATIC,4,29,191,104
+    GROUPBOX        "Opciones rapidas",IDC_STATIC,4,29,191,104
     GROUPBOX        "",IDC_STATIC,4,134,237,42
     CONTROL         "Usar DSMPlugin",IDC_PLUGIN_CHECK,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,12,145,66,10
@@ -259,9 +259,9 @@ BEGIN
     CONTROL         "ULTRA        (>2Mbit/s) - Experimental",
                     IDC_ULTRA_LAN_RB,"Button",BS_AUTORADIOBUTTON,13,57,176,
                     10
-    CONTROL         "LAN              (> 1Mbit/s) - M?xima cantidad de Colores",IDC_LAN_RB,
+    CONTROL         "LAN              (> 1Mbit/s) - Maxima cantidad de Colores",IDC_LAN_RB,
                     "Button",BS_AUTORADIOBUTTON,13,69,176,10
-    CONTROL         "MEDIO        (> 256Kbit/s) - M?xima cantidad de Colores",IDC_MEDIUM_RB,
+    CONTROL         "MEDIO        (> 256Kbit/s) - Maxima cantidad de Colores",IDC_MEDIUM_RB,
                     "Button",BS_AUTORADIOBUTTON,13,80,176,10
     CONTROL         "MODEM      (19 - 256Kbit/s) - 256 Colores",IDC_MODEM_RB,
                     "Button",BS_AUTORADIOBUTTON,13,91,177,10
@@ -280,7 +280,7 @@ END
 
 IDD_SERVINFO_DLG DIALOG DISCARDABLE  0, 0, 224, 170
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Informaci?n del Servidor RFB"
+CAPTION "Informacion del Servidor RFB"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "Aceptar",IDOK,167,149,50,14
@@ -290,7 +290,7 @@ END
 
 IDD_AUTH_DIALOG DIALOG DISCARDABLE  101, 66, 214, 63
 STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION
-CAPTION " Autenticaci?n de usuario Ultr@VNC"
+CAPTION " Autenticacion de usuario Ultr@VNC"
 FONT 8, "MS Sans Serif"
 BEGIN
     EDITTEXT        IDD_USER_NAME,118,6,82,14,ES_AUTOHSCROLL
@@ -299,14 +299,14 @@ BEGIN
     DEFPUSHBUTTON   "Aceptar",IDOK,81,42,54,15
     PUSHBUTTON      "Cancelar",IDCANCEL,149,42,50,15
     RTEXT           "Usuario:",IDC_STATIC,58,10,57,8
-    RTEXT           "Contrase?a:",IDC_STATIC,58,26,57,8
+    RTEXT           "Contraseña:",IDC_STATIC,58,26,57,8
     CONTROL         156,IDC_STATIC,"Static",SS_BITMAP | SS_REALSIZEIMAGE | 
                     SS_SUNKEN,8,10,48,42
 END
 
 IDD_CUSTUM_KEY DIALOG DISCARDABLE  0, 0, 224, 53
 STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION " Env?o de Teclazo Personalizado (Experimental ...)"
+CAPTION " Envio de Teclazo Personalizado (Experimental ...)"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "Enviar",IDOK,167,7,50,14

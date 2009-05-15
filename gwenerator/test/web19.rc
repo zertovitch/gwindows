@@ -1,3 +1,7 @@
+//
+// Found on the Web by Googling keywords.
+//
+
 #define ISOLATION_AWARE_ENABLED
 #include <windows.h>
 #include "gui\win32res.h"

@@ -103,7 +103,7 @@
        WS_GROUP_t, WS_DISABLED_t,
        WS_MINIMIZEBOX_t, WS_MAXIMIZEBOX_t,
        WS_THICKFRAME_t,
-       WS_CHILD_t, WS_CLIPSIBLINGS_t
+       WS_CHILD_t, WS_CLIPSIBLINGS_t, WS_CLIPCHILDREN_t
        WS_SIZEBOX_t
 -- Dialog style
 %token DS_3DLOOK_t, DS_CENTER_t,
@@ -117,13 +117,13 @@
        SS_CENTERIMAGE_t, SS_BITMAP_t, SS_ICON_t, SS_SIMPLE_t,
        SS_LEFTNOWORDWRAP_t, SS_ENDELLIPSIS_t,
        SS_BLACKRECT_t, SS_GRAYRECT_t, SS_WHITERECT_t,
-       SS_REALSIZEIMAGE_t,
+       SS_REALSIZEIMAGE_t, SS_GRAYFRAME_t
        SS_LEFT_t, SS_RIGHT_t
 -- Edit styles
 %token ES_MULTILINE_t, ES_READONLY_t,
        ES_AUTOHSCROLL_t, ES_AUTOVSCROLL_t,
        ES_WANTRETURN_t, ES_NUMBER_t,
-       ES_CENTER_t, ES_RIGHT_t,
+       ES_LEFT_t, ES_CENTER_t, ES_RIGHT_t,
        ES_PASSWORD_t, ES_UPPERCASE_t,
        ES_OEMCONVERT_t
 -- Box/button styles
@@ -131,7 +131,8 @@
        BS_AUTOCHECKBOX_t, BS_BITMAP_t, BS_OWNERDRAW_t,
        BS_BOTTOM_t, BS_FLAT_t, BS_LEFT_t, BS_RIGHT_t, BS_CENTER_t, BS_VCENTER_t,
        BS_PUSHLIKE_t, BS_TOP_t, BS_MULTILINE_t,
-       BS_DEFPUSHBUTTON_t, BS_PUSHBUTTON_t, BS_RADIOBUTTON_t, BS_AUTO3STATE_t
+       BS_DEFPUSHBUTTON_t, BS_PUSHBUTTON_t, BS_RADIOBUTTON_t, BS_AUTO3STATE_t,
+       BS_TEXT_t
 -- Combo-box styles
 %token CBS_SIMPLE_t, CBS_DROPDOWN_t, CBS_DROPDOWNLIST_t,
        CBS_SORT_t, CBS_HASSTRINGS_t, CBS_AUTOHSCROLL_t,
@@ -154,17 +155,20 @@
 -- Listview styles
 %token LVS_ALIGNLEFT_t, LVS_ICON_t, LVS_REPORT_t,
        LVS_SHOWSELALWAYS_t, LVS_SORTASCENDING_t,
-       LVS_AUTOARRANGE_t, LVS_NOSORTHEADER_t, LVS_LIST_t
+       LVS_AUTOARRANGE_t, LVS_NOSORTHEADER_t, LVS_LIST_t,
+       LVS_SINGLESEL_t
 -- Treeview styles
 %token TVS_INFOTIP_t, TVS_NOSCROLL_t, TVS_HASLINES_t,
        TVS_SHOWSELALWAYS_t, TVS_HASBUTTONS_t, TVS_LINESATROOT_t,
-       TVS_NOTOOLTIPS_t
+       TVS_NOTOOLTIPS_t, TVS_EDITLABELS_t
 -- Date time picker styles
 %token DTS_RIGHTALIGN_t
 -- Month calendar styles
 %token MCS_NOTODAY_t
 -- Tab Control Styles
 %token TCS_HOTTRACK_t
+-- Grid Styles
+%token GS_COLUMNLABELS_t, GS_READONLY_t
 -- Extended styles
 %token WS_EX_CLIENTEDGE_t, WS_EX_STATICEDGE_t, WS_EX_ACCEPTFILES_t,
        WS_EX_APPWINDOW_t, WS_EX_TOOLWINDOW_t,
@@ -259,6 +263,7 @@ ws_style  :
           |       WS_THICKFRAME_t
           |       WS_CHILD_t
           |       WS_CLIPSIBLINGS_t
+          |       WS_CLIPCHILDREN_t
           |       WS_SIZEBOX_t
           ;
 
@@ -469,7 +474,7 @@ control   :    CONTROL_t
                   end if;
                   case control is
                     when unknown =>
-                      Ada_Comment(to_spec, "Unknown Class = " & S(last_class));
+                      Ada_Comment(to_spec, "Unknown CONTROL Class = " & S(last_class));
                     when bitmap =>
                       Ada_normal_control(
                         "Bitmap_Type",
@@ -645,6 +650,7 @@ ctrl_style: ws_style
           | LVS_AUTOARRANGE_t
           | LVS_NOSORTHEADER_t
           | LVS_LIST_t
+          | LVS_SINGLESEL_t
           | TVS_INFOTIP_t
             { style_switch(tips):= True; }
           | TVS_NOSCROLL_t
@@ -653,9 +659,12 @@ ctrl_style: ws_style
           | TVS_HASBUTTONS_t
           | TVS_LINESATROOT_t
           | TVS_NOTOOLTIPS_t
+          | TVS_EDITLABELS_t
           | DTS_RIGHTALIGN_t
           | MCS_NOTODAY_t
           | TCS_HOTTRACK_t
+          | GS_COLUMNLABELS_t
+          | GS_READONLY_t
           | NUMBER
           ;
 
@@ -673,7 +682,12 @@ ex_style_list:
           | ex_style BAR_t ex_style_list
           ;
 
-ex_style  : WS_EX_CLIENTEDGE_t
+ex_style  : ex_style_only
+          | NUMBER
+          ;
+
+ex_style_only
+          : WS_EX_CLIENTEDGE_t
           | WS_EX_CONTROLPARENT_t
           | WS_EX_STATICEDGE_t
           | WS_EX_ACCEPTFILES_t
@@ -684,7 +698,6 @@ ex_style  : WS_EX_CLIENTEDGE_t
           | WS_EX_RIGHT_t
           | WS_EX_TOPMOST_t
           | WS_EX_TRANSPARENT_t
-          | NUMBER
           ;
 
 -------------------
@@ -704,6 +717,7 @@ ss_style  : SS_NOPREFIX_t
           | SS_RIGHT_t
           | SS_BLACKRECT_t
           | SS_GRAYRECT_t
+          | SS_GRAYFRAME_t
           | SS_WHITERECT_t
           | SS_ENDELLIPSIS_t
           ;
@@ -762,11 +776,12 @@ es_style_only :
           | ES_AUTOHSCROLL_t { style_switch(auto_h_scroll):= True; }
           | ES_AUTOVSCROLL_t { style_switch(auto_v_scroll):= True; }
           | ES_WANTRETURN_t
-          | ES_RIGHT_t
           | ES_NUMBER_t
           | ES_PASSWORD_t
           | ES_UPPERCASE_t
+          | ES_LEFT_t
           | ES_CENTER_t
+          | ES_RIGHT_t
           | ES_OEMCONVERT_t
           ;
 
@@ -850,6 +865,7 @@ cbs_style : CBS_SIMPLE_t          { combo:= no_drop; }
 groupbox  : GROUPBOX_t
             ctrl_properties
             gbs_styles_optional
+            ex_styles_optional -- this adds 1 Shift/Reduce conflict
             {
               Ada_Put_Line(to_spec, "    " & S(last_Ada_ident) & ": Group_Box_Type;");
               Ada_Coord_conv(last_rect);
@@ -999,6 +1015,7 @@ bs_style_only :
           | BS_PUSHBUTTON_t
           | BS_DEFPUSHBUTTON_t
           | BS_RADIOBUTTON_t
+          | BS_TEXT_t
           ;
 
 ------------------

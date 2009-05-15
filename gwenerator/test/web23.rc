@@ -1,0 +1,151 @@
+//
+// Found on the Web by Googling keywords.
+//
+
+///////////////////////////////////////////////////
+//
+// Winteracter resource script. 
+//
+// Modified : 12/Oct/2000 15:53:31
+//
+///////////////////////////////////////////////////
+//
+// Include files
+//
+#include "winparam.h"
+ 
+///////////////////////////////////////////////////
+//
+// Parameter Definitions
+//
+#define IDR_MENU1                       30001
+#define ID_File                         40001
+#define ID_GRAPH                        40002
+#define ID_FILE_SAVE                    40003
+#define ID_FILE_EXIT                    40004
+#define IDD_GRAPH_DIALOG                  101
+#define IDF_INT_1_No                     1001
+#define IDF_INT_2_no                     1002
+#define IDF_INT_1_K                      1003
+#define IDF_INT_2_K                      1004
+#define IDF_REAL_1_r                     1005
+#define IDF_REAL_2_r                     1006
+#define IDF_LABEL1                       1007
+#define IDF_LABEL2                       1008
+#define IDF_LABEL3                       1009
+#define IDF_LABEL4                       1010
+#define IDF_LABEL5                       1011
+#define IDF_LABEL6                       1012
+#define IDF_LABEL7                       1013
+#define IDF_LABEL8                       1014
+#define IDF_TIME_STEPS                   1015
+#define IDF_LABEL9                       1016
+#define ID_Graph_Competition            40006
+#define ID_Graph_Ensemble               40007
+#define IDD_Ensemble                      102
+#define IDF_Ensemble_Time_Steps          1017
+#define IDF_Simulations                  1018
+#define IDF_Ensemble_No                  1019
+#define IDF_Ensemble_r                   1020
+#define IDF_Ensemble_K                   1021
+#define IDD_Ensemble_Stats                103
+#define IDD_TEMPLATE001                   104
+#define IDF_Ensemble_Stats_Grid          1022
+#define ISS1                             1023
+#define ISS2                             1024
+#define ISS3                             1025
+
+///////////////////////////////////////////////////
+//
+// Dialogs
+//
+IDD_GRAPH_DIALOG DIALOG 0, 0,  272,  132
+STYLE WS_POPUP | WS_BORDER | WS_DLGFRAME | DS_3DLOOK | DS_MODALFRAME
+FONT    8, "MS Sans Serif"
+CAPTION "Graphing Parameters"
+BEGIN
+    CONTROL "100",IDF_INT_1_No,"INTEGERSPIN",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_GROUP | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,   18,   40,   42,   14
+    CONTROL "500",IDF_INT_2_no,"INTEGERSPIN",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,   20,  108,   42,   14
+    CONTROL "1000",IDF_INT_1_K,"INTEGERSPIN",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,  138,   40,   42,   14
+    CONTROL "5000",IDF_INT_2_K,"INTEGERSPIN",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,  140,  108,   42,   14
+    CONTROL "0.2",IDF_REAL_1_r,"REALEDIT",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_GROUP | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,   80,   40,   40,   14
+    CONTROL "0.3",IDF_REAL_2_r,"REALEDIT",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,   80,  108,   40,   14
+    CONTROL "Species 1",IDF_LABEL1,"STATIC",WS_CHILD | WS_VISIBLE | WS_GROUP | SS_LEFT,   14,    4,   40,    8
+    CONTROL "No",IDF_LABEL2,"STATIC",WS_CHILD | WS_VISIBLE | SS_LEFT,   34,   32,   12,    8
+    CONTROL "r 1",IDF_LABEL3,"STATIC",WS_CHILD | WS_VISIBLE | SS_LEFT,   96,   32,   10,    8
+    CONTROL "K 1",IDF_LABEL4,"STATIC",WS_CHILD | WS_VISIBLE | SS_LEFT,  154,   32,   12,    8
+    CONTROL "No",IDF_LABEL5,"STATIC",WS_CHILD | WS_VISIBLE | SS_LEFT,   36,  100,   16,    8
+    CONTROL "r 2",IDF_LABEL6,"STATIC",WS_CHILD | WS_VISIBLE | SS_LEFT,   96,  100,   14,    8
+    CONTROL "K 2",IDF_LABEL7,"STATIC",WS_CHILD | WS_VISIBLE | SS_LEFT,  156,  100,   14,    8
+    CONTROL "Time Steps",IDF_LABEL8,"STATIC",WS_CHILD | WS_VISIBLE | SS_LEFT,  220,   40,   40,    8
+    CONTROL "100",IDF_TIME_STEPS,"INTEGERSPIN",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_GROUP | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,  220,   52,   44,   14
+    CONTROL "Species 2",IDF_LABEL9,"STATIC",WS_CHILD | WS_VISIBLE | WS_GROUP | SS_LEFT,   12,   72,   40,    8
+    CONTROL "OK",IDOK,"BUTTON",WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP | BS_DEFPUSHBUTTON | BS_TEXT,  208,   80,   40,   14
+    CONTROL "Cancel",IDCANCEL,"BUTTON",WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP | BS_PUSHBUTTON | BS_TEXT,  210,  104,   40,   14
+END
+
+IDD_Ensemble DIALOG 0, 0,  187,  175
+STYLE WS_POPUP | WS_BORDER | WS_DLGFRAME | WS_SYSMENU | DS_3DLOOK | DS_MODALFRAME
+FONT    8, "MS Sans Serif"
+CAPTION "Enter Time Steps"
+BEGIN
+    CONTROL "Enter the number of timesteps you would like to see",IDF_LABEL1,"STATIC",WS_CHILD | WS_VISIBLE | WS_GROUP | SS_LEFT,   10,   16,  168,    8
+    CONTROL "500",IDF_Ensemble_Time_Steps,"INTEGERSPIN",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_GROUP | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,   68,   28,   42,   14
+    CONTROL "Enter the number of simulations you would like to run",IDF_LABEL2,"STATIC",WS_CHILD | WS_VISIBLE | SS_LEFT,    8,   48,  166,    8
+    CONTROL "10",IDF_Simulations,"INTEGERSPIN",WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT | ES_RIGHT | ES_MULTILINE,   68,   60,   44,   14
+    CONTROL "Starting Population size",IDF_LABEL3,"STATIC",WS_CHILD | WS_VISIBLE | WS_GROUP | SS_LEFT,    6,   84,   78,    8
+    CONTROL "1000",IDF_Ensemble_No,"INTEGERSPIN",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_GROUP | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,   22,   96,   42,   14
+    CONTROL "Growth rate ' r '",IDF_LABEL4,"STATIC",WS_CHILD | WS_VISIBLE | WS_GROUP | SS_LEFT,  118,   84,   52,    8
+    CONTROL "0.4",IDF_Ensemble_r,"REALEDIT",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_GROUP | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,  124,   96,   40,   14
+    CONTROL "Carrying Capacity '  K '",IDF_LABEL5,"STATIC",WS_CHILD | WS_VISIBLE | WS_GROUP | SS_LEFT,   18,  120,   74,    8
+    CONTROL "5000",IDF_Ensemble_K,"INTEGERSPIN",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_GROUP | WS_TABSTOP | ES_LEFT | ES_RIGHT | ES_MULTILINE,   36,  132,   42,   14
+    CONTROL "OK",IDOK,"BUTTON",WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP | BS_DEFPUSHBUTTON | BS_TEXT,  134,  124,   40,   14
+    CONTROL "Cancel",IDCANCEL,"BUTTON",WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_PUSHBUTTON | BS_TEXT,  134,  144,   40,   14
+END
+
+IDD_Ensemble_Stats DIALOG 0, 0,  209,   77
+STYLE WS_POPUP | WS_BORDER | WS_DLGFRAME | WS_SYSMENU | DS_3DLOOK | DS_MODALFRAME
+FONT    8, "MS Sans Serif"
+CAPTION "Ensemble Statistics For Variable Environment model"
+BEGIN
+    CONTROL "",IDF_Ensemble_Stats_Grid,"ISSGRID",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_GROUP | GS_COLUMNLABELS | GS_READONLY,   36,   12,  122,   52
+END
+
+IDD_TEMPLATE001 DIALOG 0, 0, 1000,   16
+STYLE DS_3DLOOK
+FONT    8, "MS Sans Serif"
+BEGIN
+    CONTROL "Position",ISS1,"INTEGEREDIT",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | ES_LEFT | ES_CENTER | ES_MULTILINE | ES_READONLY,    0,    0,   40,   14
+    CONTROL "Mean",ISS2,"REALEDIT",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | ES_LEFT | ES_CENTER | ES_MULTILINE | ES_READONLY,    0,    0,   40,   14
+    CONTROL "Std. Dev.",ISS3,"REALEDIT",WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | ES_LEFT | ES_CENTER | ES_MULTILINE | ES_READONLY,    0,    0,   40,   14
+END
+
+///////////////////////////////////////////////////
+//
+// Menus
+//
+IDR_MENU1 MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Save",                                    ID_FILE_SAVE, GRAYED
+        MENUITEM "&Exit",                                    ID_FILE_EXIT
+    END
+    POPUP "&Graphs"
+    BEGIN
+        MENUITEM "&2 Species Competition",                   ID_GRAPH
+        MENUITEM "&Variable Environment",                    ID_Graph_Ensemble
+    END
+END
+
+///////////////////////////////////////////////////
+//
+// Winteracter Visual Tool Settings
+//
+//*WI* BASEMENU   30001
+//*WI* BASEITEM   40001
+//*WI* BASEDIALOG   101
+//*WI* BASEFIELD   1001
+//*WI* F90MODULE  1
+//*WI* FILENAME   RESOURCE.F90
+//*WI* FMODNAME   RESOURCE

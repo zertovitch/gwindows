@@ -210,6 +210,7 @@ WC_STATIC          { return WC_STATIC_t; }
 WS_BORDER                      { return WS_BORDER_t; }
 WS_CAPTION                     { return WS_CAPTION_t; }
 WS_CHILD                       { return WS_CHILD_t; }
+WS_CLIPCHILDREN                { return WS_CLIPCHILDREN_t; }
 WS_CLIPSIBLINGS                { return WS_CLIPSIBLINGS_t; }
 WS_DISABLED                    { return WS_DISABLED_t; }
 WS_DLGFRAME                    { return WS_DLGFRAME_t; }
@@ -246,6 +247,7 @@ SS_BLACKFRAME                  { return SS_BLACKFRAME_t; }
 SS_BLACKRECT                   { return SS_BLACKRECT_t; }
 SS_CENTERIMAGE                 { return SS_CENTERIMAGE_t; }
 SS_ENDELLIPSIS                 { return SS_ENDELLIPSIS_t; }
+SS_GRAYFRAME                   { return SS_GRAYFRAME_t; }
 SS_GRAYRECT                    { return SS_GRAYRECT_t; }
 SS_ICON                        { return SS_ICON_t; }
 SS_LEFT                        { return SS_LEFT_t; }
@@ -261,6 +263,7 @@ SS_WHITERECT                   { return SS_WHITERECT_t; }
 ES_AUTOHSCROLL                 { return ES_AUTOHSCROLL_t; }
 ES_AUTOVSCROLL                 { return ES_AUTOVSCROLL_t; }
 ES_CENTER                      { return ES_CENTER_t; }
+ES_LEFT                        { return ES_LEFT_t; }
 ES_MULTILINE                   { return ES_MULTILINE_t; }
 ES_NUMBER                      { return ES_NUMBER_t; }
 ES_OEMCONVERT                  { return ES_OEMCONVERT_t; }
@@ -288,6 +291,7 @@ BS_PUSHBUTTON                  { return BS_PUSHBUTTON_t; }
 BS_PUSHLIKE                    { return BS_PUSHLIKE_t; }
 BS_RADIOBUTTON                 { return BS_RADIOBUTTON_t; }
 BS_RIGHT                       { return BS_RIGHT_t; }
+BS_TEXT                        { return BS_TEXT_t; }
 BS_TOP                         { return BS_TOP_t; }
 BS_VCENTER                     { return BS_VCENTER_t; }
 
@@ -343,9 +347,11 @@ LVS_LIST                       { return LVS_LIST_t; }
 LVS_NOSORTHEADER               { return LVS_NOSORTHEADER_t; }
 LVS_REPORT                     { return LVS_REPORT_t; }
 LVS_SHOWSELALWAYS              { return LVS_SHOWSELALWAYS_t; }
+LVS_SINGLESEL                  { return LVS_SINGLESEL_t; }
 LVS_SORTASCENDING              { return LVS_SORTASCENDING_t; }
 
 -- Treeview styles
+TVS_EDITLABELS                 { return TVS_EDITLABELS_t; }
 TVS_INFOTIP                    { return TVS_INFOTIP_t; }
 TVS_HASBUTTONS                 { return TVS_HASBUTTONS_t; }
 TVS_HASLINES                   { return TVS_HASLINES_t; }
@@ -362,6 +368,11 @@ MCS_NOTODAY        { return MCS_NOTODAY_t; }
 
 -- Tab Control Styles
 TCS_HOTTRACK                   { return TCS_HOTTRACK_t; }
+
+-- Grid Styles
+GS_COLUMNLABELS                { return GS_COLUMNLABELS_t; }
+GS_READONLY                    { return GS_READONLY_t; }
+
 
 -- Extended styles
 WS_EX_ACCEPTFILES              { return WS_EX_ACCEPTFILES_t; }

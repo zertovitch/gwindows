@@ -11,3 +11,5 @@ del test\b~*.*
 del test\*.bak
 del test\*.bk.*
 del test\*resource_GUI*
+del test\*.o
+del test\*.ali

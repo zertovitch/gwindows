@@ -1,0 +1,754 @@
+//
+// Found on the Web by Googling keywords.
+//
+
+//Microsoft Developer Studio generated resource script. 
+// 
+#include "resource.h" 
+ 
+#define APSTUDIO_READONLY_SYMBOLS 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// Generated from the TEXTINCLUDE 2 resource. 
+// 
+#include "afxres.h" 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+#undef APSTUDIO_READONLY_SYMBOLS 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+// English (U.S.) resources 
+ 
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU) 
+#ifdef _WIN32 
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US 
+#pragma code_page(1252) 
+#endif //_WIN32 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// Dialog 
+// 
+ 
+IDD_DIALOG_RESOURCES DIALOG DISCARDABLE  0, 0, 363, 311 
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU 
+CAPTION "Calendar data resources" 
+FONT 8, "MS Sans Serif" 
+BEGIN 
+    DEFPUSHBUTTON   "OK",IDOK,130,290,50,14 
+    PUSHBUTTON      "Cancel",IDCANCEL,185,290,50,14 
+    GROUPBOX        "Data Providers",IDC_STATIC,5,5,355,90 
+    CONTROL         "List1",IDC_LISTCTRL_DATA_PROVIDERS,"SysListView32", 
+                    LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS |  
+                    WS_BORDER | WS_TABSTOP,10,15,285,75 
+    GROUPBOX        "Resources",IDC_STATIC,5,100,355,185 
+    PUSHBUTTON      "Add...",IDC_BTN_DATA_PROVIDER_ADD,305,35,50,14 
+    PUSHBUTTON      "Change...",IDC_BTN_DATA_PROVIDER_EDIT,305,15,50,14 
+    PUSHBUTTON      "Remove",IDC_BTN_DATA_PROVIDER_DELETE,305,55,50,14 
+    LISTBOX         IDC_LIST_RESOURCES,10,110,145,150,LBS_OWNERDRAWFIXED |  
+                    LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL |  
+                    WS_HSCROLL | WS_TABSTOP 
+    PUSHBUTTON      "Add...",IDC_BTN_RESOURCES_ADD,10,265,40,14 
+    PUSHBUTTON      "Remove",IDC_BTN_RESOURCES_DELETE,55,265,40,14 
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,165,110,1,170 
+    LTEXT           "Data Provider:",IDC_STATIC,170,145,46,13,SS_CENTERIMAGE 
+    COMBOBOX        IDC_CMB_RC_DATA_PROVIDER,220,145,134,30,CBS_DROPDOWNLIST |  
+                    WS_VSCROLL | WS_TABSTOP 
+    CONTROL         "",IDC_STATIC,"Static",SS_GRAYFRAME,170,140,185,1 
+    LTEXT           "Schedules:",IDC_STATIC,170,170,36,8 
+    CONTROL         "Show All",IDC_CHK_SCHEDULES_ALL,"Button", 
+                    BS_AUTOCHECKBOX | BS_RIGHT | WS_TABSTOP,315,185,40,10 
+    LISTBOX         IDC_LIST_SCHEDULES,170,185,140,75,LBS_OWNERDRAWFIXED |  
+                    LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL |  
+                    WS_HSCROLL | WS_TABSTOP 
+    PUSHBUTTON      "Add",IDC_BTN_SCHEDULES_ADD,285,265,25,14 
+    PUSHBUTTON      "Remove",IDC_BTN_SCHEDULES_DELEDE,315,245,40,14 
+    CONTROL         "",IDC_STATIC,"Static",SS_GRAYFRAME,170,165,185,1 
+    EDITTEXT        IDC_EDIT_RC_NAME,220,110,135,14,ES_AUTOHSCROLL 
+    LTEXT           "Name:",IDC_STATIC,170,110,45,13,SS_CENTERIMAGE 
+    CONTROL         "Auto",IDC_CHK_RC_NAME_AUTO,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,220,125,35,10 
+    EDITTEXT        IDC_EDIT_SCHEDULE_NEW_NAME,170,265,110,14,ES_AUTOHSCROLL 
+    PUSHBUTTON      "Change",IDC_BTN_SCHEDULES_CHANGE,315,265,40,14 
+    PUSHBUTTON      "/\\",IDC_BTN_RESOURCES_MOVE_UP,115,265,18,14 
+    PUSHBUTTON      "\\/",IDC_BTN_RESOURCES_MOVE_DOWN,137,265,18,14 
+END 
+ 
+IDD_DATA_PROVIDER_OPTIONS DIALOG DISCARDABLE  0, 0, 367, 236 
+STYLE DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE |  
+    WS_CAPTION 
+CAPTION "Select data provider and data file" 
+FONT 8, "MS Sans Serif" 
+BEGIN 
+    DEFPUSHBUTTON   "OK",IDOK,130,215,50,14 
+    PUSHBUTTON      "Cancel",IDCANCEL,186,215,50,14 
+    CONTROL         "Use Memory data provider",IDC_DPFOPT_USE_MEM_DP,"Button", 
+                    BS_AUTORADIOBUTTON,10,10,215,10 
+    CONTROL         "Use DataBase data provider",IDC_DPFOPT_USE_DB_DP,"Button", 
+                    BS_AUTORADIOBUTTON,5,90,220,10 
+    EDITTEXT        IDC_DPFOPT_USE_MEM_DP_FILE,25,40,330,14,ES_AUTOHSCROLL 
+    PUSHBUTTON      "...",IDC_DPFOPT_USE_MEM_DP_FILE_BROWSE,340,58,15,14 
+    LTEXT           "Binary data file:",IDC_DPFOPT_USE_MEM_DP_FILE_LABEL,25, 
+                    30,60,8 
+    LTEXT           "Load/Save events when app Start/Exit.", 
+                    IDC_DPFOPT_USE_MEM_DP_HELP,25,60,255,10 
+    GROUPBOX        "",IDC_DPFOPT_USE_MEM_DP_FRAME,20,20,340,55 
+    EDITTEXT        IDC_DPFOPT_USE_DB_DP_FILE,25,120,330,14,ES_AUTOHSCROLL 
+    PUSHBUTTON      "...",IDC_DPFOPT_USE_DB_DP_FILE_BROWSE,340,138,15,14 
+    LTEXT           "DataBase file (*.mdb):",IDC_DPFOPT_USE_DB_DP_FILE_LABEL, 
+                    25,110,80,8 
+    LTEXT           "Load/Save events on the fly (when we need show or change data)", 
+                    IDC_DPFOPT_USE_DB_DP_HELP,25,140,255,10 
+    GROUPBOX        "",IDC_DPFOPT_USE_DB_DP_FRAME,20,100,340,55 
+    CONTROL         "Use MAPI data provider",IDC_DPFOPT_USE_MAPI_DP,"Button", 
+                    BS_AUTORADIOBUTTON,10,170,220,10 
+    GROUPBOX        "",IDC_DPFOPT_USE_MAPI_DP_FRAME,20,180,340,25 
+    LTEXT           "User default connection settings are used.", 
+                    IDC_DPFOPT_USE_DB_MAPI_LABEL,25,190,330,8 
+END 
+ 
+IDD_CALENDAR_DEMO_VIEW DIALOG DISCARDABLE  0, 0, 526, 74 
+STYLE DS_FIXEDSYS | WS_CHILD 
+FONT 8, "MS Shell Dlg" 
+BEGIN 
+    CONTROL         "First Day of week:",IDC_FIRST_DAY_OF_WEEK_TEXT,"Static", 
+                    SS_LEFTNOWORDWRAP | WS_GROUP,11,36,64,10 
+    COMBOBOX        IDC_FIRST_DAY_OF_WEEK_CB,75,33,95,100,CBS_DROPDOWNLIST |  
+                    CBS_AUTOHSCROLL | WS_TABSTOP 
+    GROUPBOX        "Day view",IDC_DAY_VIEW_FRAME,195,4,105,40 
+    CONTROL         "Mo",IDC_WORK_WEEK_DAY_MO,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,38,18,23,10 
+    GROUPBOX        "Calendar work week ",IDC_WORK_WEEK_FRAME,5,4,185,64 
+    CONTROL         "Tu",IDC_WORK_WEEK_DAY_TU,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,62,18,23,10 
+    CONTROL         "We",IDC_WORK_WEEK_DAY_WE,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,88,18,23,10 
+    CONTROL         "Th",IDC_WORK_WEEK_DAY_TH,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,112,18,23,10 
+    CONTROL         "Fr",IDC_WORK_WEEK_DAY_FR,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,138,18,23,10 
+    CONTROL         "Sa",IDC_WORK_WEEK_DAY_SA,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,162,18,23,10 
+    CONTROL         "Su",IDC_WORK_WEEK_DAY_SU,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,13,18,22,10 
+    CONTROL         "Start time:",IDC_START_TIME_TEXT,"Static", 
+                    SS_LEFTNOWORDWRAP | WS_GROUP,11,53,40,10 
+    COMBOBOX        IDC_START_TIME_CB,51,49,45,100,CBS_DROPDOWNLIST |  
+                    WS_VSCROLL | WS_TABSTOP 
+    RTEXT           "Time scale:",IDC_TIME_SCALE_TEXT,197,15,39,10 
+    COMBOBOX        IDC_TIME_SCALE,238,12,57,100,CBS_DROPDOWNLIST |  
+                    WS_TABSTOP 
+    CONTROL         "Show time as clocks",IDD_WEEK_SHOW_TIME_AS_CLOCK,"Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,310,17,79,10 
+    GROUPBOX        "Week view",IDC_WEEK_VIEW_FRAME,305,4,105,40 
+    CONTROL         "Show end time",IDD_WEEK_SHOW_END_TIME,"Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,310,28,63,10 
+    CONTROL         "Show time as clocks",IDD_MONTH_SHOW_TIME_AS_CLOCKS, 
+                    "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,421,17, 
+                    79,10 
+    GROUPBOX        "Month view",IDC_MONTH_VIEW_FRAME,414,4,105,64 
+    CONTROL         "Show end time",IDD_MONTH_SHOW_END_TIME,"Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,421,28,63,10 
+    CONTROL         "Compress weekend days",IDD_MONTH_COMPRESS_WEEKEND_DAYS, 
+                    "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,421,40, 
+                    95,10 
+    CONTROL         "End time:",IDC_END_TIME_TEXT,"Static",SS_LEFTNOWORDWRAP |  
+                    WS_GROUP,105,53,33,10 
+    COMBOBOX        IDC_END_TIME_CB,139,51,45,100,CBS_DROPDOWNLIST |  
+                    WS_VSCROLL | WS_TABSTOP 
+    CONTROL         "Weeks count:",IDD_MONTH_WEEKS_COUNT_TEXT,"Static", 
+                    SS_LEFTNOWORDWRAP | WS_GROUP,421,53,49,10 
+    COMBOBOX        IDD_MONTH_WEEKS_COUNT,471,51,40,100,CBS_DROPDOWNLIST |  
+                    CBS_AUTOHSCROLL | WS_TABSTOP 
+    PUSHBUTTON      "Time zone ...",IDC_TIME_ZONE_BTN,238,28,57,13 
+    PUSHBUTTON      "Advanced...",IDC_ADVANCED_OPT_BTN,360,52,46,13 
+    GROUPBOX        "Other",IDC_ADVANCED_FRAME,195,45,215,23 
+    RTEXT           "ToolTips:",IDC_TOOLTIPS,197,54,39,10 
+    COMBOBOX        IDC_TOOLTIP_MODE,238,52,57,100,CBS_DROPDOWNLIST |  
+                    WS_TABSTOP 
+END 
+ 
+IDD_DATEPICKER DIALOGEX 0, 0, 136, 186 
+STYLE WS_CHILD | WS_CLIPCHILDREN | WS_BORDER 
+EXSTYLE WS_EX_TOOLWINDOW 
+FONT 8, "MS Sans Serif" 
+BEGIN 
+    CONTROL         "",IDC_DATEPICKER,"XTPDatePicker",0x0,0,13,135,172 
+END 
+ 
+IDD_INTERNAL_OPTIONS DIALOG DISCARDABLE  0, 0, 292, 95 
+STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU 
+CAPTION "Internal options" 
+FONT 8, "MS Shell Dlg" 
+BEGIN 
+    DEFPUSHBUTTON   "OK",IDOK,111,74,50,14 
+    PUSHBUTTON      "Cancel",IDCANCEL,167,74,50,14 
+    GROUPBOX        "DB Data Provider",IDC_DBDP_CACHE_MODE_FRAME,7,7,278,46 
+    LTEXT           "Cache mode:",IDC_DBDP_CACHE_MODE_LABEL,14,21,43,8 
+    COMBOBOX        IDC_DBDP_CACHE_MODE_CB,61,20,217,111,CBS_DROPDOWNLIST |  
+                    WS_VSCROLL | WS_TABSTOP 
+    LTEXT           "",IDC_DBDP_CACHE_MODE_COMMENT,14,36,264,8 
+END 
+ 
+IDD_ADVANCED_OPTIONS DIALOG DISCARDABLE  0, 0, 377, 180 
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU 
+CAPTION "Advanced Calendar Control options" 
+FONT 8, "MS Sans Serif" 
+BEGIN 
+    DEFPUSHBUTTON   "OK",IDOK,135,160,50,14 
+    PUSHBUTTON      "Cancel",IDCANCEL,191,160,50,14 
+    GROUPBOX        "Standard Event editing options",IDC_STATIC,5,5,225,95 
+    CONTROL         "Enable in-place edit event subject - by Mouse Click", 
+                    IDC_CHECK_EDIT_SUBJECT_BY_MOUSE_CLICK,"Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP,10,20,215,10 
+    CONTROL         "Enable in-place edit event subject - After Event Resize", 
+                    IDC_CHECK_EDIT_SUBJECT_AFTER_RESIZE,"Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP,10,33,215,10 
+    CONTROL         "Enable in-place edit event subject - by F2", 
+                    IDC_CHECK_EDIT_SUBJECT_BY_F2,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,10,50,215,10 
+    CONTROL         "Enable in-place edit event subject - by TAB", 
+                    IDC_CHECK_EDIT_SUBJECT_BY_TAB,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,10,63,215,10 
+    CONTROL         "Enable in-place Create Event",IDC_CHECK_CREATE_EVENT, 
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,85,215,10 
+    CONTROL         "Use ""MS Outlook"" font glyphs", 
+                    IDC_CHECK_OUTLOOKFONTGLYPHS,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,10,115,215,10 
+    CONTROL         "Enable Themes",IDC_CHECK_ENABLE_THEMES,"Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP,240,5,110,10 
+    CONTROL         "Office 2003 theme",IDC_RADIO_THEME_OFFICE_2003,"Button", 
+                    BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP | WS_TABSTOP, 
+                    245,40,74,10 
+    CONTROL         "Office 2007 theme",IDC_RADIO_THEME_OFFICE_2007,"Button", 
+                    BS_AUTORADIOBUTTON | WS_DISABLED | WS_TABSTOP,245,25,74, 
+                    10 
+    COMBOBOX        IDC_COMBO_THEME_DEFAULT_COLOR,291,96,74,165, 
+                    CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | CBS_SORT |  
+                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP 
+    CONTROL         "Enable Reminders manager",IDC_CHECK_REMINDERS,"Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP,245,130,110,10 
+    GROUPBOX        "",IDC_STATIC,5,105,225,45 
+    GROUPBOX        "",IDC_STATIC,240,120,130,30 
+    GROUPBOX        "",IDC_STATIC,240,15,130,100,WS_GROUP 
+    LTEXT           "Base color:",IDC_STATIC_THEME_DEFAULT_COLOR,245,96,43, 
+                    15,SS_CENTERIMAGE | WS_DISABLED 
+    CONTROL         "",IDC_STATIC,"Static",SS_GRAYFRAME,245,90,120,1 
+    CONTROL         "Show minutes on TimeScale (DayView)", 
+                    IDC_CHECK_SHOW_TSMINUTES,"Button",BS_AUTOCHECKBOX |  
+                    WS_TABSTOP,10,130,215,10 
+    CONTROL         "Enable Markup Support",IDC_CHECK_MARKUP,"Button", 
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,245,55,110,10 
+    CONTROL         "Enable dynamic text customization",IDC_CHECK_GETTEXT, 
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,245, 
+                    70,120,10 
+END 
+ 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// DESIGNINFO 
+// 
+ 
+#ifdef APSTUDIO_INVOKED 
+GUIDELINES DESIGNINFO MOVEABLE PURE  
+BEGIN 
+    IDD_DIALOG_RESOURCES, DIALOG 
+    BEGIN 
+        LEFTMARGIN, 5 
+        RIGHTMARGIN, 360 
+        TOPMARGIN, 5 
+        BOTTOMMARGIN, 305 
+    END 
+ 
+    IDD_ADVANCED_OPTIONS, DIALOG 
+    BEGIN 
+        LEFTMARGIN, 7 
+        RIGHTMARGIN, 230 
+        TOPMARGIN, 7 
+        BOTTOMMARGIN, 158 
+    END 
+END 
+#endif    // APSTUDIO_INVOKED 
+ 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// Dialog Info 
+// 
+ 
+#ifdef APSTUDIO_INVOKED 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// TEXTINCLUDE 
+// 
+ 
+1 TEXTINCLUDE MOVEABLE PURE  
+BEGIN 
+    "resource.h\0" 
+END 
+ 
+2 TEXTINCLUDE MOVEABLE PURE  
+BEGIN 
+    "#include ""afxres.h""\r\n" 
+    "\0" 
+END 
+ 
+3 TEXTINCLUDE MOVEABLE PURE  
+BEGIN 
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n" 
+    "#define _AFX_NO_OLE_RESOURCES\r\n" 
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n" 
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n" 
+    "\r\n" 
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n" 
+    "#ifdef _WIN32\r\n" 
+    "LANGUAGE 9, 1\r\n" 
+    "#pragma code_page(1252)\r\n" 
+    "#endif //_WIN32\r\n" 
+    "#include ""res\\CalendarDemo.rc2""  // non-Microsoft Visual C++ edited resources\r\n" 
+    "#include ""afxres.rc""         // Standard components\r\n" 
+    "#include ""afxprint.rc""       // printing/print preview resources\r\n" 
+    "#endif\r\n" 
+    "\0" 
+END 
+ 
+#endif    // APSTUDIO_INVOKED 
+ 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// Icon 
+// 
+ 
+// Icon with lowest ID value placed first to ensure application icon 
+// remains consistent on all systems. 
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\CjSample.ico" 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// Bitmap 
+// 
+ 
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp" 
+IDR_TOOLBAR_ALPHA       BITMAP  MOVEABLE PURE   "res\\Toolbar_a.bmp" 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// Toolbar 
+// 
+ 
+IDR_MAINFRAME TOOLBAR MOVEABLE PURE  16, 16 
+BEGIN 
+    BUTTON      ID_FILE_NEW 
+    BUTTON      ID_FILE_OPEN 
+    BUTTON      ID_FILE_SAVE 
+    SEPARATOR 
+    BUTTON      ID_FILE_PAGE_SETUP 
+    BUTTON      ID_FILE_PRINT_PREVIEW 
+    BUTTON      ID_FILE_PRINT 
+    SEPARATOR 
+    BUTTON      ID_EDIT_UNDO 
+    SEPARATOR 
+    BUTTON      ID_EDIT_CUT 
+    BUTTON      ID_EDIT_COPY 
+    BUTTON      ID_EDIT_PASTE 
+    SEPARATOR 
+    BUTTON      ID_CALENDAR_VIEW_DAY 
+    BUTTON      ID_CALENDAR_VIEW_WORKWEEK 
+    BUTTON      ID_CALENDAR_VIEW_WEEK 
+    BUTTON      ID_CALENDAR_VIEW_MONTH 
+    SEPARATOR 
+    BUTTON      ID_VIEW_DATEPICKER 
+    BUTTON      ID_VIEW_PROPERTIES 
+    SEPARATOR 
+    BUTTON      ID_VIEW_OFFICE_THEME 
+    SEPARATOR 
+    BUTTON      ID_APP_ABOUT 
+END 
+ 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// Menu 
+// 
+ 
+IDR_MAINFRAME MENU DISCARDABLE  
+BEGIN 
+    POPUP "&File" 
+    BEGIN 
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW 
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN 
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE, GRAYED 
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS, GRAYED 
+        MENUITEM SEPARATOR 
+        MENUITEM "Load sample MultiSchedules (simple)",  
+                                                ID_FILE_LOAD_SAMPLE_MULTISCHEDULES_SIMPLE 
+ 
+        MENUITEM "Load sample MultiSchedules (extended)",  
+                                                ID_FILE_LOAD_SAMPLE_MULTISCHEDULES_EXTENDED 
+ 
+        MENUITEM "MultiSchedules configuration...",  
+                                                ID_FILE_MULTISCHEDULES_CFG 
+        MENUITEM SEPARATOR 
+        MENUITEM "Page Setup",                  ID_FILE_PAGE_SETUP 
+        MENUITEM "Print Setup",                 ID_FILE_PRINT_SETUP 
+        MENUITEM "Print Preview",               ID_FILE_PRINT_PREVIEW 
+        MENUITEM "Print",                       ID_FILE_PRINT 
+        MENUITEM SEPARATOR 
+        MENUITEM "E&xit",                       ID_APP_EXIT 
+    END 
+    POPUP "&Edit" 
+    BEGIN 
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO 
+        MENUITEM SEPARATOR 
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT 
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY 
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE 
+        MENUITEM SEPARATOR 
+        MENUITEM "&Add new event",              ID_CALENDAR_ADD_NEW_EVENT 
+    END 
+    POPUP "&View" 
+    BEGIN 
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR 
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR 
+        MENUITEM SEPARATOR 
+        MENUITEM "Date Picker Bar",             ID_VIEW_DATEPICKER 
+        MENUITEM "Options Bar",                 ID_VIEW_PROPERTIES 
+        MENUITEM "&Advanced Options",           IDC_ADVANCED_OPT_BTN 
+        MENUITEM SEPARATOR 
+        MENUITEM "Reminders",                   ID_VIEW_REMINDERS 
+    END 
+    POPUP "Calendar" 
+    BEGIN 
+        POPUP "Change &View" 
+        BEGIN 
+            MENUITEM "&Day",                        ID_CALENDAR_VIEW_DAY 
+            MENUITEM "Wo&rk week",                  ID_CALENDAR_VIEW_WORKWEEK 
+ 
+            MENUITEM "&Week",                       ID_CALENDAR_VIEW_WEEK 
+            MENUITEM "&Month",                      ID_CALENDAR_VIEW_MONTH 
+        END 
+        POPUP "Change &Timescale" 
+        BEGIN 
+            MENUITEM "6&0 Minutes",                 ID_CALENDAR_CHANGETIMESCALE_60MINUTES 
+ 
+            MENUITEM "&30 Minutes",                 ID_CALENDAR_CHANGETIMESCALE_30MINUTES 
+ 
+            MENUITEM "&15 Minutes",                 ID_CALENDAR_CHANGETIMESCALE_15MINUTES 
+ 
+            MENUITEM "10 &Minutes",                 ID_CALENDAR_CHANGETIMESCALE_10MINUTES 
+ 
+            MENUITEM "&6 Minutes",                  ID_CALENDAR_CHANGETIMESCALE_6MINUTES 
+ 
+            MENUITEM "&5 Minutes",                  ID_CALENDAR_CHANGETIMESCALE_5MINUTES 
+ 
+            MENUITEM SEPARATOR 
+            MENUITEM "&Change time zone",           ID_CALENDAR_CHANGETIMESCALE_CHANGETIMEZONE 
+ 
+        END 
+//        POPUP "Language" 
+//        BEGIN 
+//            MENUITEM "Default",                     ID_CALENDAR_LANGUAGE_DEFAULT 
+// 
+//            MENUITEM SEPARATOR 
+//            MENUITEM "Russian",                     ID_CALENDAR_LANGUAGE_RUSSIAN 
+//        END 
+    END 
+    POPUP "&Help" 
+    BEGIN 
+        MENUITEM "&About CalendarDemo...",      ID_APP_ABOUT 
+    END 
+END 
+ 
+IDR_MENU_CONTEXT_DAY MENU DISCARDABLE  
+BEGIN 
+    POPUP "Popup" 
+    BEGIN 
+        MENUITEM "6&0 Minutes",                 ID_CALENDAR_CHANGETIMESCALE_60MINUTES 
+ 
+        MENUITEM "&30 Minutes",                 ID_CALENDAR_CHANGETIMESCALE_30MINUTES 
+ 
+        MENUITEM "&15 Minutes",                 ID_CALENDAR_CHANGETIMESCALE_15MINUTES 
+ 
+        MENUITEM "10 &Minutes",                 ID_CALENDAR_CHANGETIMESCALE_10MINUTES 
+ 
+        MENUITEM "&6 Minutes",                  ID_CALENDAR_CHANGETIMESCALE_6MINUTES 
+ 
+        MENUITEM "&5 Minutes",                  ID_CALENDAR_CHANGETIMESCALE_5MINUTES 
+ 
+        MENUITEM SEPARATOR 
+        MENUITEM "&Change time zone",           ID_CALENDAR_CHANGETIMESCALE_CHANGETIMEZONE 
+ 
+        MENUITEM SEPARATOR 
+        MENUITEM "&Add new event",              ID_CALENDAR_ADD_NEW_EVENT 
+    END 
+END 
+ 
+IDR_MENU_CONTEXT_WEEK MENU DISCARDABLE  
+BEGIN 
+    POPUP "Popup" 
+    BEGIN 
+        MENUITEM "Go to This &Day",             ID_POPUP_GOTOTHISDAY 
+        MENUITEM SEPARATOR 
+        MENUITEM "&Add new event",              ID_CALENDAR_ADD_NEW_EVENT 
+    END 
+END 
+ 
+IDR_MENU_CONTEXT_EVENT MENU DISCARDABLE  
+BEGIN 
+    POPUP "Popup" 
+    BEGIN 
+        MENUITEM "Delete event",                ID_POPUP_DELETEEVENT 
+        MENUITEM SEPARATOR 
+        MENUITEM "Properties",                  ID_POPUP_PROPERTIES 
+    END 
+END 
+ 
+IDR_MENU_POPUP_CALENDAR_THEME MENU DISCARDABLE  
+BEGIN 
+    POPUP "Theme" 
+    BEGIN 
+        MENUITEM "Office 2000",                 ID_CALENDAR_THEME_OFFICE_2000 
+ 
+        MENUITEM "Office XP",                   ID_CALENDAR_THEME_OFFICE_XP 
+        MENUITEM "Office 2003",                 ID_CALENDAR_THEME_OFFICE_2003 
+ 
+        MENUITEM "Office 2007",                 ID_CALENDAR_THEME_OFFICE_2007 
+ 
+    END 
+END 
+ 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// Accelerator 
+// 
+ 
+IDR_MAINFRAME ACCELERATORS MOVEABLE PURE  
+BEGIN 
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL 
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL 
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL 
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL 
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL 
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL 
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL 
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL 
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT 
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT 
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL 
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT 
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY  
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT 
+END 
+ 
+ 
+#ifndef _MAC 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// Version 
+// 
+ 
+VS_VERSION_INFO VERSIONINFO 
+ FILEVERSION 12,0,0,4 
+ PRODUCTVERSION 12,0,0,4 
+ FILEFLAGSMASK 0x3fL 
+#ifdef _DEBUG 
+ FILEFLAGS 0x1L 
+#else 
+ FILEFLAGS 0x0L 
+#endif 
+ FILEOS 0x4L 
+ FILETYPE 0x1L 
+ FILESUBTYPE 0x0L 
+BEGIN 
+    BLOCK "StringFileInfo" 
+    BEGIN 
+        BLOCK "040904B0" 
+        BEGIN 
+            VALUE "FileDescription", "CalendarDemo MFC Application\0" 
+            VALUE "FileVersion", "12, 0, 0, 4\0" 
+            VALUE "InternalName", "CalendarDemo\0" 
+            VALUE "LegalCopyright", "(c)1998-2008 Codejock Software, All Rights Reserved.\0" 
+            VALUE "OriginalFilename", "CalendarDemo.EXE\0" 
+            VALUE "ProductName", "CalendarDemo Application\0" 
+            VALUE "ProductVersion", "12, 0, 0, 4\0" 
+        END 
+    END 
+    BLOCK "VarFileInfo" 
+    BEGIN 
+        VALUE "Translation", 0x409, 1200 
+    END 
+END 
+ 
+#endif    // !_MAC 
+ 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// String Table 
+// 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    IDR_MAINFRAME           "Codejock Calendar Sample\nCalendarDemo File\nCalend\nAccess Files(*.mdb)\n.mdb\nCalendarDemo.Document\nCalend Document" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    AFX_IDS_APP_TITLE       "Codejock Calendar Sample" 
+    AFX_IDS_IDLEMESSAGE     "Ready" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_INDICATOR_EXT        "EXT" 
+    ID_INDICATOR_CAPS       "CAP" 
+    ID_INDICATOR_NUM        "NUM" 
+    ID_INDICATOR_SCRL       "SCRL" 
+    ID_INDICATOR_OVR        "OVR" 
+    ID_INDICATOR_REC        "REC" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_FILE_NEW             "Create a new document\nNew" 
+    ID_FILE_OPEN            "Open an existing document\nOpen" 
+    ID_FILE_CLOSE           "Close the active document\nClose" 
+    ID_FILE_SAVE            "Save the active document\nSave" 
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As" 
+    ID_FILE_PAGE_SETUP      "Change the printing options\nPage Setup" 
+    ID_FILE_PRINT_SETUP     "Change the printer and printing options\nPrint Setup" 
+    ID_FILE_PRINT           "Print the active document\nPrint" 
+    ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout" 
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_FILE_MRU_FILE1       "Open this document" 
+    ID_FILE_MRU_FILE2       "Open this document" 
+    ID_FILE_MRU_FILE3       "Open this document" 
+    ID_FILE_MRU_FILE4       "Open this document" 
+    ID_FILE_MRU_FILE5       "Open this document" 
+    ID_FILE_MRU_FILE6       "Open this document" 
+    ID_FILE_MRU_FILE7       "Open this document" 
+    ID_FILE_MRU_FILE8       "Open this document" 
+    ID_FILE_MRU_FILE9       "Open this document" 
+    ID_FILE_MRU_FILE10      "Open this document" 
+    ID_FILE_MRU_FILE11      "Open this document" 
+    ID_FILE_MRU_FILE12      "Open this document" 
+    ID_FILE_MRU_FILE13      "Open this document" 
+    ID_FILE_MRU_FILE14      "Open this document" 
+    ID_FILE_MRU_FILE15      "Open this document" 
+    ID_FILE_MRU_FILE16      "Open this document" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane" 
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_EDIT_CLEAR           "Erase the selection\nErase" 
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All" 
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy" 
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut" 
+    ID_EDIT_FIND            "Find the specified text\nFind" 
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste" 
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat" 
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace" 
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All" 
+    ID_EDIT_UNDO            "Undo/Redo last action\nUndo/Redo (Alt+BackSpace, Ctrl+Z)" 
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar" 
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar" 
+    ID_VIEW_PROPERTIES      "Show/hide options pane\nShow/hide options pane" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_VIEW_DATEPICKER      "Show/hide date picker control \n Show/hide date picker control" 
+    IDS_MSG_EXT             "Would you like to add %s extension to your file name?" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    AFX_IDS_SCSIZE          "Change the window size" 
+    AFX_IDS_SCMOVE          "Change the window position" 
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon" 
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size" 
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window" 
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window" 
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    AFX_IDS_SCRESTORE       "Restore the window to normal size" 
+    AFX_IDS_SCTASKLIST      "Activate Task List" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_CALENDAR_VIEW_DAY    "Switch calendar to day view mode\nDay view" 
+    ID_CALENDAR_VIEW_WORKWEEK  
+                            "Switch calendar to work week view mode\nWork week view" 
+    ID_CALENDAR_VIEW_WEEK   "Switch calendar to week view mode\nWeek view" 
+    ID_CALENDAR_VIEW_MONTH  "Switch calendar to month view mode\nMonth view" 
+END 
+ 
+STRINGTABLE DISCARDABLE  
+BEGIN 
+    ID_VIEW_OFFICE_THEME    "Change Office Theme\nOffice Theme" 
+END 
+ 
+#endif    // English (U.S.) resources 
+///////////////////////////////////////////////////////////////////////////// 
+ 
+ 
+ 
+#ifndef APSTUDIO_INVOKED 
+///////////////////////////////////////////////////////////////////////////// 
+// 
+// Generated from the TEXTINCLUDE 3 resource. 
+// 
+#define _AFX_NO_SPLITTER_RESOURCES 
+#define _AFX_NO_OLE_RESOURCES 
+#define _AFX_NO_TRACKER_RESOURCES 
+#define _AFX_NO_PROPERTY_RESOURCES 
+ 
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU) 
+#ifdef _WIN32 
+LANGUAGE 9, 1 
+#pragma code_page(1252) 
+#endif //_WIN32 
+#include "res\CalendarDemo.rc2"  // non-Microsoft Visual C++ edited resources 
+#include "afxres.rc"         // Standard components 
+#include "afxprint.rc"       // printing/print preview resources 
+#endif 
+ 
+///////////////////////////////////////////////////////////////////////////// 
+#endif    // not APSTUDIO_INVOKED 

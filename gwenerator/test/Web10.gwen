@@ -1,0 +1,13 @@
+This is a GWenerator project file (a "GWen"). Visit GWenerator on the Web: http://sf.net/projects/gnavi
+RC_NAME Web10.rc
+RC_LISTEN TRUE
+RC_AUTO_TRANS TRUE
+SEPARATE_ITEMS FALSE
+BASE_X           6
+BASE_Y          13
+BASE_DEFAULTS TRUE
+ADA_MAIN 
+ADA_LISTEN TRUE
+ADA_AUTO_BUILD TRUE
+ADA_COMMAND gnatmake -i %1
+SHOW_DETAILS TRUE
