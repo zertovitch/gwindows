@@ -35,7 +35,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "15-May-2009";
+  Grammar_Version: constant String:= "16-May-2009";
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -58,6 +58,7 @@ package RC_Help is
   base_unit_x: Positive;
   base_unit_y: Positive;
   separate_items: Boolean;
+  generate_test: Boolean;
 
   type Pkg_output is (to_spec, to_body);
 
@@ -69,7 +70,10 @@ package RC_Help is
 
   type Style_switch_type is
     ( auto,
+      radio,
       state3,
+      checkbox,
+      push,
       default,
       shell_font,
       auto_h_scroll,
@@ -97,6 +101,7 @@ package RC_Help is
     ( unknown,
       -- "Static controls":
       bitmap,
+      button,
       -- "Common controls":
       track_bar, -- slider
       up_down,   -- spin
@@ -189,6 +194,10 @@ package RC_Help is
   procedure Ada_Coord_conv(rect: Rect_type);
   procedure Ada_normal_control_create(comma_text, extra: String:= ""; with_id: Boolean:= True);
   procedure Ada_normal_control(type_name: String; comma_text, extra: String:= ""; with_id: Boolean:= True);
+  procedure Ada_button_control;
+
+  -- Control class is given as a string, not a token (e.g. "Button")
+  procedure Identify_control_class(RC_String: String);
 
   procedure RC_Comment(s: String);
 

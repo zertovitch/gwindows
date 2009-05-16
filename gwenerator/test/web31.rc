@@ -1,0 +1,442 @@
+//
+// Found on the Web by Googling keywords.
+//
+
+#include "web01.h"
+#include "windows.h"
+
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+// Throughout, we use the font "MS Shell Dlg". This seems to be necessary to
+// work around some not-fully-understood issues with PropertySheets. Hopefully,
+// using this font will cause things to 'just work'. Further information on
+// this topic is at:
+//   http://sources.redhat.com/ml/cygwin-apps/2003-05/msg00177.html
+
+IDD_SOURCE DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_CENTER | WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "OSGeo4W Setup - Choose Installation Type"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "&Install from Internet\n(downloaded files will be kept for future re-use)",
+                    IDC_SOURCE_NETINST, "Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP | BS_MULTILINE
+                    | BS_TOP,
+                    71, 60, 200, 20
+
+    CONTROL         "&Download Without Installing",
+                    IDC_SOURCE_DOWNLOAD, "Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,
+                    71, 90, 200, 10
+
+    CONTROL         "Install from &Local Directory",IDC_SOURCE_CWD,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,
+                    71,120,200,10
+
+    ICON            IDI_CYGWIN, IDC_HEADICON, 290, 0, 21, 20
+    CONTROL         "", IDC_HEADSEPARATOR, "Static", SS_BLACKFRAME | SS_SUNKEN,
+                    0, 28, 317, 1
+    LTEXT           "Choose A Download Source", IDC_STATIC_HEADER_TITLE,
+                    7, 0, 258, 8, NOT WS_GROUP
+    LTEXT           "Choose whether to install or download from the internet, or install from files in a local directory.",
+                    IDC_STATIC,
+                    21, 9, 239, 16, NOT WS_GROUP
+END
+
+IDD_VIRUS DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_CENTER | WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "OSGeo4W Setup - Disable Virus Scanner?"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "&Disable Virus scanner",IDC_DISABLE_AV,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,101,69,115,10
+    CONTROL         "&Leave Virus scanner alone",IDC_LEAVE_AV,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,101,84,115,10
+    ICON            IDI_CYGWIN,IDC_HEADICON,290,0,21,20
+    CONTROL         "",IDC_HEADSEPARATOR,"Static",SS_BLACKFRAME | SS_SUNKEN,0,28,
+                    317,1
+    LTEXT           "Choose whether to disable your virus scanner while installing.",IDC_STATIC_HEADER_TITLE,7,0,
+                    258,8,NOT WS_GROUP
+    LTEXT           "Some Antivirus programs, notably McAfee, cause a blue screen on Windows NT/2000/XP computers during installation of OSGeo4W.", 
+   		    IDC_STATIC,21,9,239,16,NOT WS_GROUP
+    LTEXT	    "One that may be a problem has been detected. OSGeo4W setup can disable this during the installation process, and re-enable it when the install is complete.",
+                    IDC_STATIC,21,32,239,24,NOT WS_GROUP
+END
+
+IDD_LOCAL_DIR DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_CENTER | WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "OSGeo4W Setup - Select Local Package Directory"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Select Local Package Directory",IDC_STATIC_HEADER_TITLE,
+                    7,0,258,8,NOT WS_GROUP
+    LTEXT           "Select a directory where you want Setup to store the installation files it downloads.  The directory will be created if it does not already exist.",IDC_STATIC,
+                    21,9,248,16,NOT WS_GROUP
+    ICON            IDI_CYGWIN,IDC_HEADICON,290,0,21,20
+    CONTROL         "",IDC_HEADSEPARATOR,"Static",SS_BLACKFRAME | SS_SUNKEN,0,28,
+                    317,1
+
+    GROUPBOX        "Local Package Directory",IDC_LOCALDIR_GRP,5,72,305,35
+    EDITTEXT        IDC_LOCAL_DIR,13,85,245,14,ES_AUTOHSCROLL | WS_GROUP
+    PUSHBUTTON      "B&rowse...",IDC_LOCAL_DIR_BROWSE,260,85,44,14
+END
+
+IDD_ROOT DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_CENTER | WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "OSGeo4W Setup - Choose Installation Directory"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Select Root Install Directory",IDC_STATIC_HEADER_TITLE,
+                    7,0,258,8,NOT WS_GROUP
+    LTEXT           "Select the directory where you want to install OSGeo4W. Also choose a few installation parameters.",
+                    IDC_STATIC,21,9,239,16,NOT WS_GROUP
+    ICON            IDI_CYGWIN,IDC_HEADICON,290,0,21,20
+    CONTROL         "",IDC_HEADSEPARATOR,"Static",SS_BLACKFRAME | SS_SUNKEN,0,28,
+                    317,1
+
+    GROUPBOX        "Root Directory",IDC_ROOTDIR_GRP,5,35,305,35
+    EDITTEXT        IDC_ROOT_DIR,13,47,245,14,ES_AUTOHSCROLL | WS_TABSTOP
+    PUSHBUTTON      "B&rowse...",IDC_ROOT_BROWSE,260,47,44,14,WS_TABSTOP
+
+    GROUPBOX        "Install For",IDC_INSTALLFOR_GRP,5,76,150,101
+    CONTROL         "&All Users (RECOMMENDED)",IDC_ROOT_SYSTEM,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_GROUP,13,89,130,8
+    CONTROL         "Just &Me",IDC_ROOT_USER,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,13,130,130,8
+    LTEXT           "OSGeo4W will be available to all users of the system.  ",
+                    IDC_ALLUSERS_TEXT,25,101,125,28
+    LTEXT           "OSGeo4W will only be available to the current user.  Only select this if you lack Admin. privileges or you have specific needs.",IDC_JUSTME_TEXT,25,140,125,32
+END
+
+IDD_SITE DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_CHILD | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "OSGeo4W Setup - Choose Download Site(s)"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    ICON            IDI_CYGWIN,IDC_HEADICON,290,0,21,20
+    LISTBOX         IDC_URL_LIST,66,45,185,110,LBS_NOINTEGRALHEIGHT | 
+                    LBS_EXTENDEDSEL | WS_VSCROLL | WS_HSCROLL | WS_GROUP | 
+                    WS_TABSTOP
+    LTEXT           "Available Download Sites:",IDC_STATIC,66,34,183,8,NOT 
+                    WS_GROUP
+    CONTROL         "",IDC_HEADSEPARATOR,"Static",SS_BLACKFRAME | SS_SUNKEN,0,28,
+                    317,1
+    LTEXT           "Choose a site from this list, or add your own sites to the list",
+                    IDC_STATIC,21,9,239,16,NOT WS_GROUP
+    LTEXT           "Choose A Download Site",IDC_STATIC_HEADER_TITLE,7,0,258,
+                    8,NOT WS_GROUP
+    EDITTEXT        IDC_EDIT_USER_URL,65,160,185,14,ES_AUTOHSCROLL | 
+                    WS_GROUP
+    LTEXT           "User URL:",IDC_SITE_USERURL,15,162,45,8,NOT WS_GROUP
+    PUSHBUTTON      "Add",IDC_BUTTON_ADD_URL,255,160,50,14
+END
+
+IDD_NET DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_CENTER | WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "OSGeo4W Setup - Select Connection Type"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "&Direct Connection",IDC_NET_DIRECT,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,60,55,73,10
+    CONTROL         "Use &IE5 Settings",IDC_NET_IE5,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,60,70,69,10
+    CONTROL         "Use HTTP/FTP &Proxy:",IDC_NET_PROXY,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,60,85,88,10
+    EDITTEXT        IDC_PROXY_HOST,120,105,120,12,ES_AUTOHSCROLL | 
+                    WS_DISABLED | WS_GROUP
+    EDITTEXT        IDC_PROXY_PORT,120,125,30,12,ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    GROUPBOX        "",IDC_STATIC,60,95,185,50
+    RTEXT           "Proxy &Host",IDC_STATIC,65,105,50,12,SS_CENTERIMAGE | 
+                    NOT WS_GROUP
+    RTEXT           "Por&t",IDC_STATIC,85,125,30,12,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    ICON            IDI_CYGWIN,IDC_HEADICON,290,0,21,20
+    CONTROL         "",IDC_HEADSEPARATOR,"Static",SS_BLACKFRAME | SS_SUNKEN,0,28,
+                    317,1
+    LTEXT           "Setup needs to know how you want it to connect to the internet.  Choose the appropriate settings below.",
+                    IDC_STATIC,21,9,239,16,NOT WS_GROUP
+    LTEXT           "Select Your Internet Connection",
+                    IDC_STATIC_HEADER_TITLE,7,0,258,8,NOT WS_GROUP
+END
+
+IDD_INSTATUS DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_CENTER | WS_CHILD | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "OSGeo4W Setup"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Installing...",IDC_INS_ACTION,45,55,205,8,SS_ENDELLIPSIS
+    LTEXT           "(PKG)",IDC_INS_PKG,45,70,205,8,SS_ENDELLIPSIS
+    LTEXT           "(FILE)",IDC_INS_FILE,45,85,205,8,SS_ENDELLIPSIS
+    CONTROL         "Progress1",IDC_INS_DISKFULL,"msctls_progress32",
+                    PBS_SMOOTH | WS_BORDER,95,130,155,10
+    CONTROL         "Progress1",IDC_INS_IPROGRESS,"msctls_progress32",
+                    PBS_SMOOTH | WS_BORDER,95,115,155,10
+    CONTROL         "Progress1",IDC_INS_PPROGRESS,"msctls_progress32",
+                    PBS_SMOOTH | WS_BORDER,95,100,155,10
+    LTEXT           "Package:",IDC_INS_BL_PACKAGE,45,100,47,8,NOT WS_GROUP
+    LTEXT           "Total:",IDC_INS_BL_TOTAL,45,115,48,8,NOT WS_GROUP
+    LTEXT           "Disk:",IDC_INS_BL_DISK,45,130,47,8,NOT WS_GROUP
+    ICON            IDI_CYGWIN,IDC_HEADICON,290,0,21,20
+    CONTROL         "",IDC_HEADSEPARATOR,"Static",SS_BLACKFRAME | SS_SUNKEN,0,28,
+                    317,1
+    LTEXT           "This page displays the progress of the download or installation.",
+                    IDC_STATIC,21,9,239,16,NOT WS_GROUP
+    LTEXT           "Progress",IDC_STATIC_HEADER_TITLE,7,0,258,8,NOT 
+                    WS_GROUP
+END
+
+IDD_PROXY_AUTH DIALOG DISCARDABLE  0, 0, 215, 95
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Proxy Authentication required"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    ICON            IDI_CYGWIN,IDC_HEADICON,5,5,21,20
+    LTEXT           "Proxy &User ID",IDC_STATIC,5,28,55,15,SS_CENTERIMAGE,
+                    WS_EX_RIGHT
+    EDITTEXT        IDC_NET_USER,65,28,145,12,ES_AUTOHSCROLL
+    LTEXT           "&Password",IDC_STATIC,10,43,50,15,SS_CENTERIMAGE,
+                    WS_EX_RIGHT
+    EDITTEXT        IDC_NET_PASSWD,65,43,145,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Proxy Authorization Required",IDC_STATIC,65,10,145,10
+    DEFPUSHBUTTON   "&OK",IDOK,100,75,45,15,WS_DISABLED
+    PUSHBUTTON      "Cancel",IDCANCEL,165,75,45,15
+END
+
+IDD_NET_AUTH DIALOG DISCARDABLE  0, 0, 215, 95
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Server Authentication required"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    ICON            IDI_CYGWIN,IDC_HEADICON,5,5,21,20
+    LTEXT           "&User ID",IDC_STATIC,5,28,55,15,SS_CENTERIMAGE,
+                    WS_EX_RIGHT
+    EDITTEXT        IDC_NET_USER,65,28,145,12,ES_AUTOHSCROLL
+    LTEXT           "&Password",IDC_STATIC,10,43,50,15,SS_CENTERIMAGE,
+                    WS_EX_RIGHT
+    EDITTEXT        IDC_NET_PASSWD,65,43,145,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Server Authorization Required",IDC_STATIC,65,10,145,10
+    DEFPUSHBUTTON   "&OK",IDOK,100,75,45,15,WS_DISABLED
+    PUSHBUTTON      "Cancel",IDCANCEL,165,75,45,15
+END
+
+IDD_SPLASH DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_CHILD | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "OSGeo4W Setup"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "OSGeo4W Net Release Setup Program",
+                    IDC_STATIC_WELCOME_TITLE,35,1,195,24
+    LTEXT           "This setup program is used for the initial installation blah blah",IDC_SPLASH_TEXT,35,25,265,90
+    CONTROL         "Express Install",IDC_EXPRESS,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,60,124,73,10
+    CONTROL         "Advanced Install",IDC_ADVANCED,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,60,144,69,10
+END
+
+IDD_DESKTOP DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_CHILD | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "OSGeo4W Setup - Installation Status and Create Icons"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "Create icon on &Desktop",IDC_ROOT_DESKTOP,"Button",
+                    BS_AUTOCHECKBOX,108,78,100,8
+    CONTROL         "Add icon to &Start Menu",IDC_ROOT_MENU,"Button",
+                    BS_AUTOCHECKBOX,108,93,100,8
+    ICON            IDI_CYGWIN,IDC_HEADICON,290,0,21,20
+    CONTROL         "",IDC_HEADSEPARATOR,"Static",SS_BLACKFRAME | SS_SUNKEN,0,28,
+                    317,1
+    LTEXT           "Tell setup if you want it to create a few icons for convenient access to the OSGeo4W environment.",
+                    IDC_STATIC_HEADER,21,9,239,16,NOT WS_GROUP
+    LTEXT           "Create Icons",IDC_STATIC_HEADER_TITLE,7,0,258,8,NOT 
+                    WS_GROUP
+    CONTROL         "",IDC_DESKTOP_SEPARATOR,"Static",SS_BLACKFRAME | SS_SUNKEN,
+                    0,155,317,1
+    LTEXT           "Installation Status",IDC_STATUS_HEADER,7,160,258,8,NOT WS_GROUP
+    LTEXT           "OSGeo4W installation completed successfully.",IDC_STATUS,
+                    21,169,239,16,NOT WS_GROUP
+END
+
+IDD_FTP_AUTH DIALOG DISCARDABLE  0, 0, 215, 95
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "FTP Authentication required"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    ICON            IDI_CYGWIN,IDC_HEADICON,5,5,21,20
+    LTEXT           "&User ID",IDC_STATIC,5,28,55,15,SS_CENTERIMAGE,
+                    WS_EX_RIGHT
+    EDITTEXT        IDC_NET_USER,65,28,145,12,ES_AUTOHSCROLL
+    LTEXT           "&Password",IDC_STATIC,10,43,50,15,SS_CENTERIMAGE,
+                    WS_EX_RIGHT
+    EDITTEXT        IDC_NET_PASSWD,65,43,145,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "FTP Authorization Required",IDC_STATIC,65,10,145,10
+    DEFPUSHBUTTON   "&OK",IDOK,100,75,45,15,WS_DISABLED
+    PUSHBUTTON      "Cancel",IDCANCEL,165,75,45,15
+END
+
+IDD_CHOOSE DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_CHILD | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "OSGeo4W Setup - Select Packages"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "&Keep",IDC_CHOOSE_KEEP,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,99,30,30,14
+    CONTROL         "&Prev",IDC_CHOOSE_PREV,"Button",BS_AUTORADIOBUTTON , 
+                    134,30,27,14
+    CONTROL         "&Curr",IDC_CHOOSE_CURR,"Button",BS_AUTORADIOBUTTON , 
+                    169,30,25,14
+    CONTROL         "E&xp",IDC_CHOOSE_EXP,"Button",BS_AUTORADIOBUTTON , 
+                    204,30,25,14
+    PUSHBUTTON      "&View",IDC_CHOOSE_VIEW,239,30,26,14,WS_GROUP
+    CONTROL         "",IDC_HEADSEPARATOR,"Static",SS_BLACKFRAME | SS_SUNKEN,0,28,
+                    317,1
+    CONTROL         "",IDC_LISTVIEW_POS,"Static",SS_BLACKFRAME | NOT 
+                    WS_VISIBLE,7,45,303,122
+    CONTROL         "&Hide obsolete packages",IDC_CHOOSE_HIDE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,167,160,14
+    ICON            IDI_CYGWIN,IDC_HEADICON,290,0,21,20
+    LTEXT           "Select the packages you want setup to install.",
+                    IDC_CHOOSE_INST_TEXT,21,9,239,16,NOT WS_GROUP
+    LTEXT           "Select Packages",IDC_STATIC_HEADER_TITLE,7,0,258,8,NOT 
+                    WS_GROUP
+    LTEXT           "",IDC_CHOOSE_VIEWCAPTION,270,33,40,10
+END
+
+IDD_PREREQ DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_CHILD | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "OSGeo4W Setup - Resolve Dependencies"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "",IDC_HEADSEPARATOR,"Static",SS_BLACKFRAME | SS_SUNKEN,
+                    0,28,317,1
+    ICON            IDI_CYGWIN,IDC_HEADICON,290,0,21,20
+    LTEXT           "Warning!  Unmet Dependencies Found",IDC_STATIC_HEADER_TITLE
+                    ,7,0,258,8,NOT WS_GROUP
+    LTEXT           "The following packages are required but have not been selected.",IDC_STATIC,21,9,239,16,NOT WS_GROUP
+    CONTROL         "&Install these packages to meet dependencies (RECOMMENDED)"
+                    ,IDC_PREREQ_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    7,167,225,14
+    EDITTEXT        IDC_PREREQ_EDIT,7,41,303,124,WS_VSCROLL | WS_HSCROLL |
+                    ES_LEFT | ES_MULTILINE | ES_READONLY | ES_AUTOHSCROLL |
+                    ES_AUTOVSCROLL
+
+END
+
+IDD_DROPPED DIALOG DISCARDABLE  0, 0, 317, 142
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "OSGeo4W Setup - Use dropped mirrors?"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Warning:",IDC_STATIC,7,8,40,8
+    LTEXT           "One or more mirrors you have selected is/are not on the list of official OSGeo4W mirrors any more. ",
+                    IDC_STATIC,47,8,263,32
+    EDITTEXT        IDC_DROP_MIRRORS,7,40,303,40,WS_VSCROLL | WS_HSCROLL |
+                    ES_LEFT | ES_MULTILINE | ES_READONLY | ES_AUTOHSCROLL |
+                    ES_AUTOVSCROLL
+    LTEXT           "If you experience installation problems consider trying official mirrors only.\n\nDo you want to continue, using this/these mirror(s)?",
+                    IDC_STATIC,7,88,303,24
+    CONTROL         "&Don't warn me about this/these mirror(s) again",
+                    IDC_DROP_NOWARN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    7,120,213,15
+    PUSHBUTTON      "&Yes",IDYES,220,120,45,15
+    DEFPUSHBUTTON   "&No",IDNO,265,120,45,15
+
+END
+
+IDD_EXP_PACKAGES DIALOG DISCARDABLE  0, 0, 317, 179
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_CHILD | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "OSGeo4W Setup - Express Package Selection"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "MapServer",IDC_PKG_MAPSERVER,"Button",
+                    BS_AUTOCHECKBOX,108,48,100,8
+    CONTROL         "QGIS",IDC_PKG_QGIS,"Button",
+                    BS_AUTOCHECKBOX,108,63,100,8
+    CONTROL         "GDAL",IDC_PKG_GDAL,"Button",
+                    BS_AUTOCHECKBOX,108,78,100,8
+    CONTROL         "Apache",IDC_PKG_APACHE,"Button",
+                    BS_AUTOCHECKBOX,108,93,100,8
+    CONTROL         "uDig",IDC_PKG_UDIG,"Button",
+                    BS_AUTOCHECKBOX,108,108,100,8
+    CONTROL         "OpenEV",IDC_PKG_OPENEV,"Button",
+                    BS_AUTOCHECKBOX,108,123,100,8
+    ICON            IDI_CYGWIN,IDC_HEADICON,290,0,21,20
+
+    LTEXT           "Select Packages",IDC_STATIC_HEADER_TITLE,7,0,258,8,NOT 
+                    WS_GROUP
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Manifest
+//
+
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "setup.exe.manifest"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_CYGWIN              ICON    DISCARDABLE     "osgeo.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SPIN                BITMAP  DISCARDABLE     "choose-spin.bmp"
+IDB_CHECK_YES           BITMAP  DISCARDABLE     "check-yes.bmp"
+IDB_CHECK_NO            BITMAP  DISCARDABLE     "check-no.bmp"
+IDB_CHECK_NA            BITMAP  DISCARDABLE     "check-na.bmp"
+IDB_TREE_PLUS           BITMAP  DISCARDABLE     "tree-plus.bmp"
+IDB_TREE_MINUS          BITMAP  DISCARDABLE     "tree-minus.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ROOT_SLASH          "Warning: we recommend you do NOT use the root of your hard drive as the OSGeo4W root.  Proceed anyway?"
+    IDS_ROOT_SPACE          "You should not choose a root path that include spaces in directory names.  Proceed anyway?"
+    IDS_MIRROR_LST          "http://download.osgeo.org/osgeo4w/mirrors.lst"
+    IDS_ERR_OPEN_WRITE      "Can't open %s for writing: %s"
+    IDS_SETUPINI_MISSING    "Unable to get %s from <%s>"
+    IDS_OLD_SETUPINI        "This setup.ini is older than the one you used last time you installed OSGeo4W.  Proceed anyway?"
+    IDS_NOTHING_INSTALLED   "Nothing needed to be installed"
+    IDS_INSTALL_COMPLETE    "Installation Complete"
+    IDS_REBOOT_REQUIRED     "In-use files have been replaced. You need to reboot as soon as possible to activate the new versions. OSGeo4W may operate incorrectly until you reboot."
+    IDS_ERR_OPEN_READ       "Can't open %s for reading: %s"
+    IDS_ROOT_ABSOLUTE       "The install directory must be absolute, with both a drive letter and leading slash, like C:\\OSGeo4W"
+    IDS_DOWNLOAD_COMPLETE   "Download Complete"
+    IDS_NOLOGFILE           "Cannot open log file %s for writing"
+    IDS_UNINSTALL_COMPLETE  "Uninstalls complete."
+    IDS_WININET             "Unable to find or load the Internet Explorer 5 DLLs"
+    IDS_ERR_CHDIR           "Could not change dir to %s: %s [%.8x]"
+    IDS_OLD_SETUP_VERSION   "This setup is version %s, but setup.ini claims version %s is available.\nYou might want to upgrade to get the latest features and bug fixes."
+    IDS_DOWNLOAD_INCOMPLETE "Download Incomplete.  Try again?"
+    IDS_INSTALL_ERROR	    "Installation error (%s), Continue with other packages?"
+    IDS_INSTALL_INCOMPLETE  "Installation incomplete.  Check %s for details"
+    IDS_CORRUPT_PACKAGE     "Package file %s has a corrupt local copy, please remove and retry."
+    IDS_SKIP_PACKAGE	    "%s\nDo you want to skip this package ?"
+    IDS_WINDOW_INIT_BADMSG  "Fatal Error: Unexpected windows message %u received too early in window initialization."
+    IDS_UNCAUGHT_EXCEPTION  "Fatal Error: Uncaught Exception\nThread: %s\nType: %s\nMessage: %s"
+    IDS_UNCAUGHT_EXCEPTION_WITH_ERRNO  "Fatal Error: Uncaught Exception\nThread: %s\nType: %s\nMessage: %s\nAppErrNo: %d"
+END

@@ -11,15 +11,12 @@
 //
 // Bitmap resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Listen_32x32       BITMAP         ".\\listen_32x32.bmp"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Not_Listen_32x32   BITMAP         ".\\not_listen_32x32.bmp"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Wheels_32x32       BITMAP         ".\\wheels_32_32.bmp"
 
 
@@ -27,23 +24,18 @@ Wheels_32x32       BITMAP         ".\\wheels_32_32.bmp"
 //
 // Icon resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 AAA_Main_Icon      ICON           ".\\gwenerator.ico"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Ada_file           ICON           ".\\Ada_file.ico"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Exe_file           ICON           ".\\Exe_file.ico"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 RC_file            ICON           ".\\RC_file.ico"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 gwenerator_icon    ICON           ".\\gwenerator.ico"
 
 
@@ -51,10 +43,9 @@ gwenerator_icon    ICON           ".\\gwenerator.ico"
 //
 // Menu resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Main_Menu MENU
 {
-    POPUP "File"
+    POPUP "&File"
     {
         MENUITEM "&New...", New_GWen
         MENUITEM "&Open...", Open_GWen
@@ -63,14 +54,18 @@ Main_Menu MENU
         MENUITEM SEPARATOR
         MENUITEM "&Quit", Quit
     }
-    POPUP "Options"
+    POPUP "&Tools"
     {
-        MENUITEM "Options for this GWen", GWen_Options
-        MENUITEM "GWenerator preferences", GWenerator_Preferences
+        MENUITEM "&Generate test application", Generate_test_app
     }
-    POPUP "Help"
+    POPUP "&Options"
     {
-        MENUITEM "About", About
+        MENUITEM "&Options for this GWen", GWen_Options
+        MENUITEM "GWenerator &preferences", GWenerator_Preferences
+    }
+    POPUP "&Help"
+    {
+        MENUITEM "&About", About
     }
 }
 
@@ -79,8 +74,7 @@ Main_Menu MENU
 //
 // Dialog resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-About_box DIALOGEX 0, 0, 218, 145
+About_box DIALOGEX 0, 0, 218, 129
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "About GWenerator"
 FONT 8, "Ms Shell Dlg 2", 400, 0, 1
@@ -98,8 +92,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-GWen_properties DIALOGEX 0, 0, 314, 245
+GWen_properties DIALOGEX 0, 0, 314, 231
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "GWen options"
 FONT 8, "Ms Shell Dlg 2", 400, 0, 1
@@ -131,8 +124,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-Main_dialog DIALOGEX 0, 0, 403, 250
+Main_dialog DIALOGEX 0, 0, 403, 246
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "GWenerator - Link 1.gwen"
 FONT 8, "Ms Shell Dlg 2", 400, 0, 1
@@ -146,8 +138,8 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     PUSHBUTTON      "Build now", Button_Build, 245, 37, 100, 20, BS_PUSHBUTTON
     CONTROL         "", Bar_RC, PROGRESS_CLASS, 0, 67, 62, 100, 10
     CONTROL         "", Bar_Ada, PROGRESS_CLASS, 0, 245, 62, 100, 10
-    CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, WS_BORDER | SS_BITMAP, 247, 12, 21, 20
-    CONTROL         Listen_32x32, Ear_RC, WC_STATIC, WS_BORDER | SS_BITMAP, 67, 12, 21, 20
+    CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, WS_BORDER | SS_BITMAP, 247, 12, 24, 22
+    CONTROL         Listen_32x32, Ear_RC, WC_STATIC, WS_BORDER | SS_BITMAP, 67, 12, 24, 22
     AUTOCHECKBOX    "Show details", Show_Details, 5, 80, 56, 10, BS_AUTOCHECKBOX
     LTEXT           "Resource file is newer!", Newer_RC, 97, 12, 60, 15, SS_LEFT
     LTEXT           "Ada files are newer!", Newer_Ada, 277, 12, 40, 20, SS_LEFT
@@ -161,9 +153,8 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 //
 // Version Information resources
 //
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 1 VERSIONINFO
-    FILEVERSION     0,96,0,0
+    FILEVERSION     0,97,0,0
     PRODUCTVERSION  0,0,0,0
     FILEOS          VOS_UNKNOWN
     FILETYPE        VFT_UNKNOWN
@@ -174,7 +165,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
         {
             VALUE "Authors", "Gautier de Montmollin"
             VALUE "FileDescription", "Resource script (.rc) to GWindows code builder"
-            VALUE "FileVersion", "0.96"
+            VALUE "FileVersion", "0.97"
             VALUE "LegalCopyright", "© 2008..2009 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWenerator"
         }
@@ -190,5 +181,4 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 // Cursor resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Finger_cursor      CURSOR         ".\\finger.cur"

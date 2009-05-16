@@ -28,6 +28,6 @@ call make_one AdaGIDE
 
 rem Just test parsing some .rc google'd on the web using keywords
 
-for %%w in (Web*.rc) do call make_one %%~nw
+for %%w in (Web*.rc) do call make_one -t %%~nw
 
 pause

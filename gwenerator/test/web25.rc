@@ -1,0 +1,303 @@
+//
+// Found on the Web by Googling keywords.
+//
+
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONFIG DIALOG DISCARDABLE  0, 0, 288, 226
+STYLE DS_SYSMODAL | DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "WinPanel Configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,178,205,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,231,205,50,14
+    CONTROL         "Tree1",IDC_TREE,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_EDITLABELS | 
+                    TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | 
+                    WS_BORDER | WS_TABSTOP,7,7,128,193
+    EDITTEXT        IDC_NAME,7,200,104,14,ES_AUTOHSCROLL | NOT WS_VISIBLE | 
+                    NOT WS_TABSTOP
+END
+
+IDD_MAIN DIALOG DISCARDABLE  140, 0, 145, 202
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_IMAGE_DIRECTORY,7,16,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_IMAGE_DIRECTORY_BROWSE,125,16,13,12
+    CONTROL         "Confirm Quit",IDC_CONFIRM_QUIT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,34,54,10
+    CONTROL         "Hide Explorer Desktop",IDC_HIDE_EXPLORER_DESKTOP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,46,87,10
+    CONTROL         "Hide Explorer Task Bar",IDC_HIDE_EXPLORER_TASKBAR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,59,89,10
+    PUSHBUTTON      "Add Panel",IDC_MAIN_ADD_PANEL,7,82,61,12
+    EDITTEXT        IDC_DESKTOP_TOP,47,119,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_DESKTOP_LEFT,47,132,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_DESKTOP_BOTTOM,47,146,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_DESKTOP_RIGHT,47,158,22,12,ES_AUTOHSCROLL
+    LTEXT           "Image Directory:",IDC_STATIC,7,7,52,8
+    GROUPBOX        "Desktop Area",IDC_STATIC,7,105,67,71
+    LTEXT           "Top:",IDC_STATIC,12,121,16,8
+    LTEXT           "Left:",IDC_STATIC,12,134,15,8
+    LTEXT           "Bottom:",IDC_STATIC,12,148,25,8
+    LTEXT           "Right:",IDC_STATIC,12,161,20,8
+END
+
+IDD_BUTTON DIALOG DISCARDABLE  140, 0, 145, 202
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_BUTTON_X,17,7,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BUTTON_Y,17,20,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BUTTON_W,17,33,22,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_BUTTON_H,17,46,22,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_BUTTON_BACKGROUND,7,72,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BUTTON_BACKGROUND_BROWSE,125,72,13,12
+    EDITTEXT        IDC_BUTTON_NORMAL,7,98,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BUTTON_NORMAL_BROWSE,125,98,13,12
+    EDITTEXT        IDC_BUTTON_OVER,7,126,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BUTTON_OVER_BROWSE,125,126,13,12
+    EDITTEXT        IDC_BUTTON_CLICK,7,155,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BUTTON_CLICK_BROWSE,125,155,13,12
+    EDITTEXT        IDC_BUTTON_EXECUTE,7,182,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BUTTON_EXECUTE_BROWSE,125,182,13,12
+    LTEXT           "X:",IDC_STATIC,7,9,8,8
+    LTEXT           "Y:",IDC_STATIC,7,22,8,8
+    LTEXT           "Normal:",IDC_STATIC,7,89,25,8
+    LTEXT           "Over:",IDC_STATIC,7,117,25,8
+    LTEXT           "Click:",IDC_STATIC,7,145,25,8
+    LTEXT           "Execute:",IDC_STATIC,7,172,29,8
+    LTEXT           "W:",IDC_STATIC,7,35,8,8
+    LTEXT           "H:",IDC_STATIC,7,48,8,8
+    LTEXT           "Background:",IDC_STATIC,7,63,42,8
+    EDITTEXT        IDC_BUTTON_NAME,48,36,90,12,ES_AUTOHSCROLL | NOT 
+                    WS_VISIBLE | NOT WS_TABSTOP
+    PUSHBUTTON      "Delete Button",IDC_DELETE_BUTTON,55,7,61,12
+END
+
+IDD_PANEL_LEFT DIALOG DISCARDABLE  140, 0, 145, 202
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_LEFT_X,17,7,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LEFT_Y,17,20,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LEFT_NORMAL,7,52,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_LEFT_NORMAL_BROWSE,125,52,13,12
+    EDITTEXT        IDC_LEFT_OVER,7,80,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_LEFT_OVER_BROWSE,125,80,13,12
+    EDITTEXT        IDC_LEFT_CLICK,7,109,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_LEFT_CLICK_BROWSE,125,109,13,12
+    LTEXT           "X:",-1,7,9,8,8
+    LTEXT           "Y:",-1,7,22,8,8
+    LTEXT           "Normal:",-1,7,43,25,8
+    LTEXT           "Over:",-1,7,71,25,8
+    LTEXT           "Click:",-1,7,99,25,8
+END
+
+IDD_PANEL_RIGHT DIALOG DISCARDABLE  140, 0, 145, 202
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_RIGHT_X,17,7,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RIGHT_Y,17,20,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RIGHT_NORMAL,7,52,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_RIGHT_NORMAL_BROWSE,125,52,13,12
+    EDITTEXT        IDC_RIGHT_OVER,7,80,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_RIGHT_OVER_BROWSE,125,80,13,12
+    EDITTEXT        IDC_RIGHT_CLICK,7,109,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_RIGHT_CLICK_BROWSE,125,109,13,12
+    LTEXT           "X:",-1,7,9,8,8
+    LTEXT           "Y:",-1,7,22,8,8
+    LTEXT           "Normal:",-1,7,43,25,8
+    LTEXT           "Over:",-1,7,71,25,8
+    LTEXT           "Click:",-1,7,99,25,8
+END
+
+IDD_PANEL DIALOG DISCARDABLE  140, 0, 145, 202
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_X,17,7,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_Y,17,20,22,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_W,17,33,22,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_H,17,46,22,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_OPEN,7,75,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_OPEN_BROWSE,125,75,13,12
+    EDITTEXT        IDC_CLOSED,7,101,115,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_CLOSED_BROWSE,125,101,13,12
+    CONTROL         "On All Desktops",IDC_ON_ALL_DESKTOPS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,130,67,10
+    CONTROL         "Always On Top",IDC_ALWAYS_ON_TOP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,140,64,10
+    LTEXT           "X:",IDC_STATIC,7,9,8,8
+    LTEXT           "Y:",IDC_STATIC,7,22,8,8
+    LTEXT           "W:",IDC_STATIC,7,35,8,8
+    LTEXT           "H:",IDC_STATIC,7,48,8,8
+    LTEXT           "Open:",IDC_STATIC,7,66,20,8
+    LTEXT           "Closed:",IDC_STATIC,7,92,24,8
+    EDITTEXT        IDC_PANEL_NAME,50,7,88,12,ES_AUTOHSCROLL | NOT 
+                    WS_VISIBLE | NOT WS_TABSTOP
+END
+
+IDD_BUTTON_MAIN DIALOG DISCARDABLE  140, 0, 145, 202
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Add Button",IDC_ADD_BUTTON,7,7,61,12
+END
+
+IDD_PANEL_MAIN DIALOG DISCARDABLE  140, 0, 145, 202
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Delete Panel",IDC_DELETE_PANEL,7,7,61,12
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_CONFIG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 281
+        VERTGUIDE, 135
+        VERTGUIDE, 140
+        VERTGUIDE, 281
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 219
+        HORZGUIDE, 200
+    END
+
+    IDD_BUTTON, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 138
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 195
+        HORZGUIDE, 194
+    END
+
+    IDD_PANEL_LEFT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 138
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 199
+        HORZGUIDE, 7
+    END
+
+    IDD_PANEL_RIGHT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 138
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 199
+        HORZGUIDE, 7
+    END
+
+    IDD_PANEL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 138
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 199
+        HORZGUIDE, 7
+    END
+
+    IDD_BUTTON_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 138
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 195
+        HORZGUIDE, 194
+    END
+
+    IDD_PANEL_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 138
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 195
+        HORZGUIDE, 194
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

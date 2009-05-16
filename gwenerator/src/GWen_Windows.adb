@@ -1,3 +1,5 @@
+--
+
 with GWindows.Base;                     use GWindows.Base;
 with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;
 with GWindows.List_Boxes;               use GWindows.List_Boxes;
@@ -47,9 +49,9 @@ package body GWen_Windows is
 
   procedure Update_status_display (Window : in out GWen_Window_Type) is
     no_Ada_build_part: constant Boolean:= Window.proj.Ada_main = U("");
-    margin_x      : constant:= 27;
+    margin_x      : constant:= 25;
     margin_x_frame: constant:= 18;
-    margin_y      : constant:= 62;
+    margin_y      : constant:= 15;
     title: Unbounded_String:= Window.short_name;
   begin
     --
@@ -64,10 +66,10 @@ package body GWen_Windows is
     --
     if Window.proj.show_details then
       Window.Show_Details.State(Checked);
-      Window.Height(Window.Details_frame.Top + Window.Details_frame.Height + margin_y);
+      Window.Client_Area_Height(Window.Details_frame.Top + Window.Details_frame.Height + margin_y);
     else
       Window.Show_Details.State(Unchecked);
-      Window.Height(Window.Show_Details.Top + Window.Show_Details.Height + margin_y);
+      Window.Client_Area_Height(Window.Show_Details.Top + Window.Show_Details.Height + margin_y);
     end if;
     --
     -- RC main part
@@ -86,11 +88,11 @@ package body GWen_Windows is
     -- Ada main part
     --
     if no_Ada_build_part then
-      Window.Width(Window.Ada_file_icon.Left + Window.Ada_file_icon.Width + margin_x);
+      Window.Client_Area_Width(Window.Ada_file_icon.Left + Window.Ada_file_icon.Width + margin_x);
       Window.GNATMake_messages.Hide;
       Window.Ada_comp_label.Hide;
     else
-      Window.Width(Window.Exe_file_icon.Left + Window.Exe_file_icon.Width + margin_x);
+      Window.Client_Area_Width(Window.Exe_file_icon.Left + Window.Exe_file_icon.Width + margin_x);
       Window.GNATMake_messages.Show;
       Window.Ada_comp_label.Show;
       if Window.proj.Ada_listen then
@@ -104,7 +106,7 @@ package body GWen_Windows is
         Window.Newer_Ada.Hide;
       end if;
     end if;
-    Window.Details_frame.Width(Window.Width - margin_x_frame);
+    Window.Details_frame.Width(Window.Client_Area_Width - margin_x_frame);
     --
   end Update_status_display;
 
@@ -385,8 +387,7 @@ package body GWen_Windows is
     end if;
   end On_About;
 
-  procedure Do_Translate (Window : in out GWindows.Base.Base_Window_Type'Class) is
-    gw: GWen_Window_Type renames GWen_Window_Type(Parent(Window).all);
+  procedure Translation (gw: in out GWen_Window_Type; generate_test: Boolean) is
     sn: constant String:= S(gw.proj.RC_name);
     fe, fo: File_Type;
     -- We derout the standard output & error - anyway, there is no terminal!
@@ -398,10 +399,10 @@ package body GWen_Windows is
     gw.Bar_RC.Position(5);
     delay 0.01;
     if sn="" then
-      Message_Box(Window, "Ressource file", "Resource file name is empty!");
+      Message_Box(gw, "Ressource file", "Resource file name is empty!");
       On_Options(gw);
     elsif not Exists(sn) then
-      Message_Box(Window, "Ressource file missing", "Cannot find: [" & sn & ']');
+      Message_Box(gw, "Ressource file missing", "Cannot find: [" & sn & ']');
       On_Options(gw);
     else
       gw.Bar_RC.Position(10);
@@ -409,6 +410,7 @@ package body GWen_Windows is
       -- These variables are used by the code generated into yyparse.adb from RC.y.
       RC_Help.Reset_globals;
       RC_Help.separate_items:= gw.proj.separate_items;
+      RC_Help.generate_test:= generate_test;
       if not gw.proj.base_defaults then
         RC_Help.base_unit_x:= gw.proj.base_x;
         RC_Help.base_unit_y:= gw.proj.base_y;
@@ -421,7 +423,7 @@ package body GWen_Windows is
       Create(fo, Out_File, ""); -- temp file
       declare
         se: constant String:= Name(fe); -- get name of temp file
-        so: constant String:= Name(fo); -- get name of temp file
+        -- so: constant String:= Name(fo); -- get name of temp file
         line: Unbounded_String;
       begin
         Set_Error(fe);
@@ -472,6 +474,11 @@ package body GWen_Windows is
       gw.Ear_RC.Set_Bitmap(gw.no_ear);
     end if;
 
+  end Translation;
+
+  procedure Do_Translate (Window : in out GWindows.Base.Base_Window_Type'Class) is
+  begin
+    Translation(GWen_Window_Type(Parent(Window).all), generate_test => False);
   end Do_Translate;
 
   --------------------------------------------
@@ -614,6 +621,8 @@ package body GWen_Windows is
         Window.On_Save_As;
       when Quit =>
         Window.Close;
+      when Generate_test_app =>
+        Translation(Window, generate_test => True);
       when GWen_Options =>
         Window.On_Options;
       when GWenerator_Preferences =>

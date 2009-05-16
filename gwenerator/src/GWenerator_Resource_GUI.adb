@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/05/15   15:10:24
+-- Transcription time: 2009/05/16   08:19:29
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 15-May-2009
+-- RC Grammar version: 16-May-2009
 ---------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -21,14 +21,14 @@ package body GWenerator_Resource_GUI is
   -- ** Generated code begins here \/ \/ \/.
 
 
-  -- Menu at line 55
+  -- Menu at line 46
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type)
   is
   begin
     Menu.Main:= Create_Menu;
     Menu.Popup_0001:= Create_Popup;
-    Append_Menu(Menu.Main, "File", Menu.Popup_0001);
+    Append_Menu(Menu.Main, "&File", Menu.Popup_0001);
     Append_Item(Menu.Popup_0001, "&New...", New_GWen);
     Append_Item(Menu.Popup_0001, "&Open...", Open_GWen);
     Append_Item(Menu.Popup_0001, "&Save", Save_GWen);
@@ -36,16 +36,19 @@ package body GWenerator_Resource_GUI is
     Append_Separator(Menu.Popup_0001);
     Append_Item(Menu.Popup_0001, "&Quit", Quit);
     Menu.Popup_0002:= Create_Popup;
-    Append_Menu(Menu.Main, "Options", Menu.Popup_0002);
-    Append_Item(Menu.Popup_0002, "Options for this GWen", GWen_Options);
-    Append_Item(Menu.Popup_0002, "GWenerator preferences", GWenerator_Preferences);
+    Append_Menu(Menu.Main, "&Tools", Menu.Popup_0002);
+    Append_Item(Menu.Popup_0002, "&Generate test application", Generate_test_app);
     Menu.Popup_0003:= Create_Popup;
-    Append_Menu(Menu.Main, "Help", Menu.Popup_0003);
-    Append_Item(Menu.Popup_0003, "About", About);
+    Append_Menu(Menu.Main, "&Options", Menu.Popup_0003);
+    Append_Item(Menu.Popup_0003, "&Options for this GWen", GWen_Options);
+    Append_Item(Menu.Popup_0003, "GWenerator &preferences", GWenerator_Preferences);
+    Menu.Popup_0004:= Create_Popup;
+    Append_Menu(Menu.Main, "&Help", Menu.Popup_0004);
+    Append_Item(Menu.Popup_0004, "&About", About);
   end Create_Full_Menu; -- Main_Menu_Type
 
 
-  -- Dialog at resource line 86
+  -- Dialog at resource line 80
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -61,7 +64,7 @@ package body GWenerator_Resource_GUI is
   is
     x,y,w,h: Integer;
   begin
-    Dlg_to_Scn(  0, 0, 218, 145, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 218, 129, x,y,w,h);
     if Left   /= Use_Default then x:= Left;   end if;
     if Top    /= Use_Default then y:= Top;    end if;
     if Width  /= Use_Default then w:= Width;  end if;
@@ -77,6 +80,8 @@ package body GWenerator_Resource_GUI is
       Help_Button => Help_Button,
       Is_Dynamic  => Is_Dynamic
     );
+    if Width = Use_Default then Client_Area_Width(Window, w); end if;
+    if Height = Use_Default then Client_Area_Height(Window, h); end if;
     Use_GUI_Font(Window);
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- About_box_Type
@@ -93,11 +98,9 @@ package body GWenerator_Resource_GUI is
     x,y,w,h: Integer;
   begin
     if resize then
-    Dlg_to_Scn(  0, 0, 218, 145, x,y,w,h);
-      Left(Window, x);
-      Top(Window, y);
-      Width(Window, w);
-      Height(Window, h);
+    Dlg_to_Scn(  0, 0, 218, 129, x,y,w,h);
+      Move(Window, x,y);
+      Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
     Dlg_to_Scn(  85, 110, 50, 14, x,y,w,h);
@@ -130,7 +133,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- About_box_Type
 
 
-  -- Dialog at resource line 105
+  -- Dialog at resource line 98
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -146,7 +149,7 @@ package body GWenerator_Resource_GUI is
   is
     x,y,w,h: Integer;
   begin
-    Dlg_to_Scn(  0, 0, 314, 245, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 314, 231, x,y,w,h);
     if Left   /= Use_Default then x:= Left;   end if;
     if Top    /= Use_Default then y:= Top;    end if;
     if Width  /= Use_Default then w:= Width;  end if;
@@ -162,6 +165,8 @@ package body GWenerator_Resource_GUI is
       Help_Button => Help_Button,
       Is_Dynamic  => Is_Dynamic
     );
+    if Width = Use_Default then Client_Area_Width(Window, w); end if;
+    if Height = Use_Default then Client_Area_Height(Window, h); end if;
     Use_GUI_Font(Window);
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- GWen_properties_Type
@@ -178,11 +183,9 @@ package body GWenerator_Resource_GUI is
     x,y,w,h: Integer;
   begin
     if resize then
-    Dlg_to_Scn(  0, 0, 314, 245, x,y,w,h);
-      Left(Window, x);
-      Top(Window, y);
-      Width(Window, w);
-      Height(Window, h);
+    Dlg_to_Scn(  0, 0, 314, 231, x,y,w,h);
+      Move(Window, x,y);
+      Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
     Dlg_to_Scn(  197, 212, 50, 14, x,y,w,h);
@@ -270,7 +273,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- GWen_properties_Type
 
 
-  -- Dialog at resource line 138
+  -- Dialog at resource line 130
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -286,7 +289,7 @@ package body GWenerator_Resource_GUI is
   is
     x,y,w,h: Integer;
   begin
-    Dlg_to_Scn(  0, 0, 403, 250, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 403, 246, x,y,w,h);
     if Left   /= Use_Default then x:= Left;   end if;
     if Top    /= Use_Default then y:= Top;    end if;
     if Width  /= Use_Default then w:= Width;  end if;
@@ -302,6 +305,8 @@ package body GWenerator_Resource_GUI is
       Help_Button => Help_Button,
       Is_Dynamic  => Is_Dynamic
     );
+    if Width = Use_Default then Client_Area_Width(Window, w); end if;
+    if Height = Use_Default then Client_Area_Height(Window, h); end if;
     Use_GUI_Font(Window);
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- Main_dialog_Type
@@ -318,11 +323,9 @@ package body GWenerator_Resource_GUI is
     x,y,w,h: Integer;
   begin
     if resize then
-    Dlg_to_Scn(  0, 0, 403, 250, x,y,w,h);
-      Left(Window, x);
-      Top(Window, y);
-      Width(Window, w);
-      Height(Window, h);
+    Dlg_to_Scn(  0, 0, 403, 246, x,y,w,h);
+      Move(Window, x,y);
+      Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
     Dlg_to_Scn(  5, 100, 390, 140, x,y,w,h);
@@ -490,6 +493,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 190
+  -- Last line of resource script file: 180
 
 end GWenerator_Resource_GUI;

@@ -44,6 +44,7 @@
 #define Newer_RC                                40006
 #define Quit                                    40006
 #define Save_GWen_as                            40007
+#define Generate_test_app                       40008
 #define Listen_Ada                              40008
 #define Newer_Ada                               40008
 #define Auto_translate                          40009

@@ -54,6 +54,7 @@ procedure RC2GW is
     Put_Line( Standard_Error, "options:  -x# : set base_unit_x as # (default:" & Positive'Image(RC_Help.base_unit_x) & ')' );
     Put_Line( Standard_Error, "          -y# : set base_unit_y as # (default:" & Positive'Image(RC_Help.base_unit_y) & ')' );
     Put_Line( Standard_Error, "          -s  : put each item (dialog, menu) in a separate package");
+    Put_Line( Standard_Error, "          -t  : generate test procedure");
   end Syntax;
 
 begin
@@ -73,6 +74,8 @@ begin
             RC_Help.base_unit_y:= Positive'Value(u_arg(3..u_arg'Last));
           when 'S' =>
             RC_Help.separate_items:= True;
+          when 'T' =>
+            RC_Help.generate_Test:= True;
           when others =>  -- includes "-h", "/?" etc.
             Syntax;
             return;

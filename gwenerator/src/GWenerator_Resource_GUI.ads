@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/05/15   15:10:24
+-- Transcription time: 2009/05/16   08:19:29
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 15-May-2009
+-- RC Grammar version: 16-May-2009
 ---------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -27,12 +27,13 @@ package GWenerator_Resource_GUI is
 
   type Main_Menu_Type is tagged record
     Main: Menu_Type; -- Root of the whole menu tree
-    Popup_0001: Menu_Type;  -- level 1; title: "File"
-    Popup_0002: Menu_Type;  -- level 1; title: "Options"
-    Popup_0003: Menu_Type;  -- level 1; title: "Help"
+    Popup_0001: Menu_Type;  -- level 1; title: "&File"
+    Popup_0002: Menu_Type;  -- level 1; title: "&Tools"
+    Popup_0003: Menu_Type;  -- level 1; title: "&Options"
+    Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 74
+  -- Menu at line 69
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -50,7 +51,7 @@ package GWenerator_Resource_GUI is
     GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 96
+  -- Dialog at resource line 90
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -104,7 +105,7 @@ package GWenerator_Resource_GUI is
     -- Label: IDC_STATIC
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 129
+  -- Dialog at resource line 122
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -150,7 +151,7 @@ package GWenerator_Resource_GUI is
     Exe_file_icon: GWindows.Static_Controls.Icon_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 156
+  -- Dialog at resource line 148
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -233,6 +234,7 @@ package GWenerator_Resource_GUI is
   Newer_RC               : constant:=  40006;
   Quit                   : constant:=  40006;
   Save_GWen_as           : constant:=  40007;
+  Generate_test_app      : constant:=  40008;
   Listen_Ada             : constant:=  40008;
   Newer_Ada              : constant:=  40008;
   Auto_translate         : constant:=  40009;
@@ -253,6 +255,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 190
+  -- Last line of resource script file: 180
 
 end GWenerator_Resource_GUI;

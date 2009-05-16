@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compier script parser
 --
---  Copyright (c) Gautier de Montmollin 2008
+--  Copyright (c) Gautier de Montmollin 2008..2009
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,7 +30,7 @@
 
 -- with Ada.Command_Line;                  use Ada.Command_Line;
 with Ada.Text_IO;                       use Ada.Text_IO;
--- with Ada.Characters.Handling;
+with Ada.Characters.Handling;           use Ada.Characters.Handling;
 with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
 with Ada.Unchecked_Deallocation;
 with Time_Log;
@@ -129,6 +129,16 @@ package body RC_Help is
     iPut_Line(to, "-- " & s, as_comment => True);
   end;
 
+  function Root_name(sn: String) return String is
+  begin
+    for i in reverse sn'Range loop
+      if sn(i)='.' then -- skip file extension, if any
+        return sn(sn'First..i-1);
+      end if;
+    end loop;
+    return sn;
+  end Root_Name;
+
   function RC_to_Package_name(
     rc_name     : String;
     has_input   : Boolean;
@@ -140,15 +150,9 @@ package body RC_Help is
     -- problem with making a the package a child: parent may not be a procedure
     sep: constant array(Boolean) of Character:= ('_', sep_child(as_file_name));
     suffix: constant String:= sep(as_child) & "Resource_GUI";
-    sn: constant String:= rc_name;
   begin
     if has_input then
-      for i in sn'Range loop
-        if sn(i)='.' then -- skip file extension
-          return sn(sn'First..i-1) & suffix;
-        end if;
-      end loop;
-      return sn & suffix;
+      return Root_Name(rc_name) & suffix;
     else
       return "Input" & suffix;
     end if;
@@ -427,6 +431,9 @@ package body RC_Help is
     end if;
   end Close_if_separate;
 
+  dialog_mem: array(1..10_000) of Unbounded_String;
+  dialog_top: Natural:= 0;
+
   procedure Ada_Proc_Dialog(
     to          : Pkg_output;
     type_name   : String;
@@ -436,6 +443,8 @@ package body RC_Help is
   begin
     -- First, finish defining type
     if to = to_spec then
+      dialog_top:= dialog_top + 1;
+      dialog_mem(dialog_top):= U(type_name);
       if empty_dialog_record then
         Ada_Put_Line(to_spec, "    null; -- empty!");
       end if;
@@ -484,6 +493,8 @@ package body RC_Help is
         Ada_Put_Line(to_body, "      Help_Button => Help_Button,");
         Ada_Put_Line(to_body, "      Is_Dynamic  => Is_Dynamic");
         Ada_Put_Line(to_body, "    );");
+        Ada_Put_Line(to_body, "    if Width = Use_Default then Client_Area_Width(Window, w); end if;");
+        Ada_Put_Line(to_body, "    if Height = Use_Default then Client_Area_Height(Window, h); end if;");
         if style_switch(shell_font) then
           Ada_Put_Line(to_body, "    Use_GUI_Font(Window);");
         end if;
@@ -507,10 +518,8 @@ package body RC_Help is
       Ada_Put_Line(to_body, "  begin");
       Ada_Put_Line(to_body, "    if resize then");
       Ada_Coord_conv(last_dialog_rect);
-      Ada_Put_Line(to_body, "      Left(Window, x);");
-      Ada_Put_Line(to_body, "      Top(Window, y);");
-      Ada_Put_Line(to_body, "      Width(Window, w);");
-      Ada_Put_Line(to_body, "      Height(Window, h);");
+      Ada_Put_Line(to_body, "      Move(Window, x,y);");
+      Ada_Put_Line(to_body, "      Client_Area_Size(Window, w, h);" );
       Ada_Put_Line(to_body, "    end if;");
       if style_switch(shell_font) then
         Ada_Put_Line(to_body, "    Use_GUI_Font(Window);");
@@ -614,6 +623,109 @@ package body RC_Help is
     Ada_Put_Line(to_spec, "    " & S(last_Ada_ident) & ": " & type_name & ";" );
     Ada_normal_control_create(comma_text, extra, with_id);
   end Ada_normal_control;
+
+  procedure Ada_very_normal_control(type_name: String) is
+  begin
+    Ada_normal_control(type_name, ", " & S(last_text));
+  end Ada_very_normal_control;
+
+  procedure Ada_button_control is
+  begin
+    if style_switch(state3) then
+      Ada_very_normal_control("Three_State_Box_Type");
+    elsif style_switch(checkbox) then
+      Ada_very_normal_control("Check_Box_Type");
+    elsif style_switch(radio) then
+      Ada_very_normal_control("Radio_Button_Type");
+    elsif style_switch(push) then
+      Ada_Coord_conv(last_rect);
+      -- Here it is a bit tricky, since, as expected,
+      -- Dialog_Button's close the window and Button don't .
+      -- If we want a "real", permanent, window, then we want
+      -- the latter sort.
+      --
+      -- "Dialog" version of the button
+      --
+      Ada_Put(to_spec, "    " & S(last_Ada_ident) & ": ");
+      if style_switch(default) then
+        Ada_Put(to_spec, "Default_");
+      end if;
+      Ada_Put_Line(to_spec, "Dialog_Button_Type;    -- closes parent window after click" );
+      Ada_Put_Line(to_body, "    -- Both versions of the button are created.");
+      Ada_Put_Line(to_body, "    -- The more meaningful one is made visible, but this choice");
+      Ada_Put_Line(to_body, "    -- can be reversed, for instance on a ""Browse"" button.");
+      Ada_normal_control_create(", " & S(last_text));
+      --
+      -- "Window" version of the button
+      --
+      temp_ustr:= last_Ada_ident;
+      last_Ada_ident:= U(S(last_Ada_ident) & "_permanent");
+      Ada_Put(to_spec, "    " & S(last_Ada_ident) & ": ");
+      if style_switch(default) then
+        Ada_Put(to_spec, "Default_");
+      end if;
+      Ada_Put_Line(to_spec, "Button_Type; -- doesn't close parent window after click" );
+      Ada_normal_control_create(", " & S(last_text));
+      Ada_Put_Line(to_body, "    if for_dialog then -- hide the non-closing button");
+      Ada_Put_Line(to_body, "      Window." & S(last_Ada_ident) & ".Hide;");
+      Ada_Put_Line(to_body, "    else -- hide the closing button");
+      Ada_Put_Line(to_body, "      Window." & S(temp_ustr) & ".Hide;");
+      Ada_Put_Line(to_body, "    end if;");
+    end if;
+  end Ada_button_control;
+
+  -- Control class is given as a string, not a token (e.g. "Button")
+  procedure Identify_control_class(RC_String: String) is
+  begin
+    for c in Control_type loop
+      if To_Upper(RC_String) = '"' & To_Upper(Control_type'Image(c)) & '"' then
+        control:= c;
+        exit;
+      end if;
+    end loop;
+  end Identify_control_class;
+
+  procedure Test_generation is
+    pkg: constant String:= Root_Name(S(source_name));
+  begin
+    Create(to_body, pkg & "_Test_app.adb");
+    Ada_Put_Line(to_body, "-- GWindows test application, generated by GWenerator");
+    Ada_New_Line(to_body);
+    Ada_Put_Line(to_body, "with GWindows.Base;               use GWindows.Base;");
+    Ada_Put_Line(to_body, "with GWindows.Edit_Boxes;         use GWindows.Edit_Boxes;");
+    Ada_Put_Line(to_body, "with GWindows.Windows;            use GWindows.Windows;");
+    Ada_Put_Line(to_body, "with GWindows.Message_Boxes;      use GWindows.Message_Boxes;");
+    Ada_Put_Line(to_body, "with GWindows.Application;");
+    Ada_New_Line(to_body);
+    Ada_Put_Line(to_body, "with " & pkg & "_Resource_GUI;");
+    Ada_Put_Line(to_body, " use " & pkg & "_Resource_GUI;");
+    Ada_New_Line(to_body);
+    Ada_Put_Line(to_body, "procedure " & pkg & "_Test_app is");
+    Ada_New_Line(to_body);
+    Ada_Put_Line(to_body, "  pragma Linker_Options (""-mwindows"");");
+    Ada_New_Line(to_body);
+    for i in 1..dialog_top loop
+      Ada_Put_Line(to_body,
+        "  Dlg" & Trim(Integer'Image(i), both) &
+        "      : " & pkg & "_Resource_GUI." & S(dialog_mem(i)) & ";"
+      );
+    end loop;
+    Ada_Put_Line(to_body, "  Result    : Integer;");
+    Ada_Put_Line(to_body, "  No_Parent : Window_Type;");
+    Ada_New_Line(to_body);
+    Ada_Put_Line(to_body, "begin");
+    for i in 1..dialog_top loop
+      declare
+        dlg: constant String:=  "Dlg" & Trim(Integer'Image(i), both);
+      begin
+        Ada_Put_Line(to_body, "  Create_Full_Dialog (" & dlg & ", No_Parent);");
+        Ada_Put_Line(to_body, "  Center(" & dlg & ");");
+        Ada_Put_Line(to_body, "  Result := GWindows.Application.Show_Dialog (" & dlg & ");");
+      end;
+    end loop;
+    Ada_Put_Line(to_body, "end " & pkg & "_Test_app;");
+    Close(Ada_Files(to_body));
+  end Test_generation;
 
   procedure YY_Accept is
   begin
@@ -767,6 +879,9 @@ package body RC_Help is
     end loop;
     Delete(symbols_by_name);
     Delete(symbols_by_value);
+    if generate_test then
+      Test_generation;
+    end if;
   end YY_Accept;
 
   procedure YY_Abort is
@@ -792,6 +907,7 @@ package body RC_Help is
     base_unit_x:= 6;  -- usual value, overriden with option -x
     base_unit_y:= 13; -- usual value, overriden with option -y
     separate_items:= False;
+    generate_test:= False;
     first_include:= True;
     --
     -- Initialize the symbol dictionaries with common symbols (See GWindows.Constants)

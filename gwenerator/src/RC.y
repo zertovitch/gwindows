@@ -118,17 +118,18 @@
        SS_LEFTNOWORDWRAP_t, SS_ENDELLIPSIS_t,
        SS_BLACKRECT_t, SS_GRAYRECT_t, SS_WHITERECT_t,
        SS_REALSIZEIMAGE_t, SS_GRAYFRAME_t
-       SS_LEFT_t, SS_RIGHT_t
+       SS_LEFT_t, SS_RIGHT_t,
+       SS_NOTIFY_t
 -- Edit styles
 %token ES_MULTILINE_t, ES_READONLY_t,
        ES_AUTOHSCROLL_t, ES_AUTOVSCROLL_t,
        ES_WANTRETURN_t, ES_NUMBER_t,
        ES_LEFT_t, ES_CENTER_t, ES_RIGHT_t,
        ES_PASSWORD_t, ES_UPPERCASE_t,
-       ES_OEMCONVERT_t
+       ES_OEMCONVERT_t, ES_NOHIDESEL_t
 -- Box/button styles
 %token BS_LEFTTEXT_t, BS_AUTORADIOBUTTON_t,  BS_3STATE_t
-       BS_AUTOCHECKBOX_t, BS_BITMAP_t, BS_OWNERDRAW_t,
+       BS_CHECKBOX_t, BS_AUTOCHECKBOX_t, BS_BITMAP_t, BS_OWNERDRAW_t,
        BS_BOTTOM_t, BS_FLAT_t, BS_LEFT_t, BS_RIGHT_t, BS_CENTER_t, BS_VCENTER_t,
        BS_PUSHLIKE_t, BS_TOP_t, BS_MULTILINE_t,
        BS_DEFPUSHBUTTON_t, BS_PUSHBUTTON_t, BS_RADIOBUTTON_t, BS_AUTO3STATE_t,
@@ -144,14 +145,15 @@
        LBS_DISABLENOSCROLL_t, LBS_NOSEL_t,
        LBS_OWNERDRAWFIXED_t, LBS_HASSTRINGS_t
 -- Progress bar styles
-%token PBS_VERTICAL_t
+%token PBS_VERTICAL_t, PBS_SMOOTH_t
 -- Scrollbar styles
 %token SBS_VERT_t
 -- Trackbar styles
 %token TBS_NOTICKS_t, TBS_AUTOTICKS_t, TBS_VERT_t, TBS_TOP_t,
        TBS_BOTTOM_t, TBS_TOOLTIPS_t, TBS_BOTH_t
--- Trackbar styles
-%token UDS_HORZ_t, UDS_ARROWKEYS_t, UDS_WRAP_t, UDS_NOTHOUSANDS_t
+-- Up-down styles
+%token UDS_HORZ_t, UDS_ARROWKEYS_t, UDS_WRAP_t, UDS_NOTHOUSANDS_t,
+       UDS_SETBUDDYINT_t
 -- Listview styles
 %token LVS_ALIGNLEFT_t, LVS_ICON_t, LVS_REPORT_t,
        LVS_SHOWSELALWAYS_t, LVS_SORTASCENDING_t,
@@ -160,13 +162,14 @@
 -- Treeview styles
 %token TVS_INFOTIP_t, TVS_NOSCROLL_t, TVS_HASLINES_t,
        TVS_SHOWSELALWAYS_t, TVS_HASBUTTONS_t, TVS_LINESATROOT_t,
-       TVS_NOTOOLTIPS_t, TVS_EDITLABELS_t
+       TVS_NOTOOLTIPS_t, TVS_EDITLABELS_t, TVS_DISABLEDRAGDROP_t,
+       TVS_SINGLEEXPAND_t, TVS_TRACKSELECT_t
 -- Date time picker styles
 %token DTS_RIGHTALIGN_t
 -- Month calendar styles
 %token MCS_NOTODAY_t
 -- Tab Control Styles
-%token TCS_HOTTRACK_t
+%token TCS_HOTTRACK_t, TCS_BUTTONS_t
 -- Grid Styles
 %token GS_COLUMNLABELS_t, GS_READONLY_t
 -- Extended styles
@@ -174,7 +177,7 @@
        WS_EX_APPWINDOW_t, WS_EX_TOOLWINDOW_t,
        WS_EX_CONTROLPARENT_t, WS_EX_NOPARENTNOTIFY_t,
        WS_EX_CONTEXTHELP_t, WS_EX_RIGHT_t, WS_EX_TRANSPARENT_t,
-       WS_EX_TOPMOST_t
+       WS_EX_TOPMOST_t, WS_EX_DLGMODALFRAME_t
 
 -- Misc --
 %token IDC_STATIC_t
@@ -356,6 +359,7 @@ language :  LANGUAGE_t
           ;
 
 font      : FONT_t
+            { style_switch(shell_font):= True; }
             NUMBER -- size
             COMMA_t
             RCSTRING -- face
@@ -475,6 +479,9 @@ control   :    CONTROL_t
                   case control is
                     when unknown =>
                       Ada_Comment(to_spec, "Unknown CONTROL Class = " & S(last_class));
+                    when button =>
+                      last_text:= last_control_text;
+                      Ada_button_control;
                     when bitmap =>
                       Ada_normal_control(
                         "Bitmap_Type",
@@ -541,6 +548,7 @@ control_text :
 
 class : window_class
       | RCSTRING
+        { Identify_control_class(yytext); }
       ;
 
 
@@ -622,6 +630,7 @@ ctrl_style: ws_style
           | es_style_only
           | PBS_VERTICAL_t
             { Control_Direction:= Vertical; }
+          | PBS_SMOOTH_t
           | TBS_VERT_t
             { Control_Direction:= Vertical; }
           | TBS_TOP_t
@@ -642,6 +651,7 @@ ctrl_style: ws_style
             { style_switch(wrap):= True; }
           | UDS_NOTHOUSANDS_t
             { style_switch(no_1000):= True; }
+          | UDS_SETBUDDYINT_t
           | LVS_ALIGNLEFT_t
           | LVS_ICON_t
           | LVS_REPORT_t
@@ -660,9 +670,13 @@ ctrl_style: ws_style
           | TVS_LINESATROOT_t
           | TVS_NOTOOLTIPS_t
           | TVS_EDITLABELS_t
+          | TVS_DISABLEDRAGDROP_t
+          | TVS_SINGLEEXPAND_t
+          | TVS_TRACKSELECT_t
           | DTS_RIGHTALIGN_t
           | MCS_NOTODAY_t
           | TCS_HOTTRACK_t
+          | TCS_BUTTONS_t
           | GS_COLUMNLABELS_t
           | GS_READONLY_t
           | NUMBER
@@ -698,6 +712,7 @@ ex_style_only
           | WS_EX_RIGHT_t
           | WS_EX_TOPMOST_t
           | WS_EX_TRANSPARENT_t
+          | WS_EX_DLGMODALFRAME_t
           ;
 
 -------------------
@@ -720,6 +735,7 @@ ss_style  : SS_NOPREFIX_t
           | SS_GRAYFRAME_t
           | SS_WHITERECT_t
           | SS_ENDELLIPSIS_t
+          | SS_NOTIFY_t
           ;
 
 
@@ -783,6 +799,7 @@ es_style_only :
           | ES_CENTER_t
           | ES_RIGHT_t
           | ES_OEMCONVERT_t
+          | ES_NOHIDESEL_t
           ;
 
 
@@ -947,11 +964,9 @@ lbs_style :       LBS_SORT_t
 checkbox  : checkbox_hint
             ctrl_properties
             bs_styles_optional
-            { if style_switch(state3) then
-                Ada_normal_control("Three_State_Box_Type", ", " & S(last_text));
-              else
-                Ada_normal_control("Check_Box_Type", ", " & S(last_text));
-              end if;
+            {
+              style_switch(checkbox):= True;
+              Ada_button_control;
             }
             ;
 
@@ -973,6 +988,50 @@ checkbox_hint : CHECKBOX_t
                }
             ;
 
+------------------
+-- Push buttons --
+------------------
+
+pushbutton  :
+            pushbutton_hint
+            ctrl_properties
+            bs_styles_optional
+            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            {
+              style_switch(push):= True;
+              Ada_button_control;
+            }
+            ;
+
+pushbutton_hint :
+            PUSHBUTTON_t
+          | DEFPUSHBUTTON_t
+            { style_switch(default):= True; }
+           ;
+
+-----------------------
+-- Radio buttons (.) --
+-----------------------
+
+radiobutton :
+            radiobutton_hint
+            ctrl_properties
+            bs_styles_optional
+            {
+              style_switch(radio):= True;
+              Ada_button_control;
+            }
+            ;
+
+radiobutton_hint :
+             RADIOBUTTON_t
+           | AUTORADIOBUTTON_t
+             { style_switch(auto):= True; }
+           ;
+
+-------------------
+-- Button styles --
+-------------------
 
 bs_styles_optional :
           -- nothing
@@ -992,15 +1051,22 @@ bs_style  : bs_style_only
 bs_style_only :
             BS_LEFTTEXT_t
           | BS_AUTORADIOBUTTON_t
-            { style_switch(auto):= True; }
+            { style_switch(auto):= True;
+              style_switch(radio):= True;
+            }
+          | BS_RADIOBUTTON_t
+            { style_switch(radio):= True; }
           | BS_3STATE_t
             { style_switch(state3):= True; }
           | BS_AUTO3STATE_t
             { style_switch(state3):= True;
-              style_switch(auto):= True; 
+              style_switch(auto):= True;
             }
+          | BS_CHECKBOX_t
+            { style_switch(checkbox):= True; }
           | BS_AUTOCHECKBOX_t
-            { style_switch(auto):= True; }
+            { style_switch(auto):= True;
+              style_switch(checkbox):= True; }
           | BS_BITMAP_t
           | BS_OWNERDRAW_t
           | BS_TOP_t
@@ -1013,81 +1079,12 @@ bs_style_only :
           | BS_MULTILINE_t
           | BS_PUSHLIKE_t
           | BS_PUSHBUTTON_t
+            { style_switch(push):= True; }
           | BS_DEFPUSHBUTTON_t
-          | BS_RADIOBUTTON_t
+            { style_switch(push):= True;
+              style_switch(default):= True; }
           | BS_TEXT_t
           ;
-
-------------------
--- Push buttons --
-------------------
-
-pushbutton  :
-            pushbutton_hint
-            ctrl_properties
-            bs_styles_optional
-            {
-              Ada_Coord_conv(last_rect);
-              -- Here it is a bit tricky, since, as expected,
-              -- Dialog_Button's close the window and Button don't .
-              -- If we want a "real", permanent, window, then we want
-              -- the latter sort.
-              --
-              -- "Dialog" version of the button
-              --
-              Ada_Put(to_spec, "    " & S(last_Ada_ident) & ": ");
-              if style_switch(default) then
-                Ada_Put(to_spec, "Default_");
-              end if;
-              Ada_Put_Line(to_spec, "Dialog_Button_Type;    -- closes parent window after click" );
-              Ada_Put_Line(to_body, "    -- Both versions of the button are created.");
-              Ada_Put_Line(to_body, "    -- The more meaningful one is made visible, but this choice");
-              Ada_Put_Line(to_body, "    -- can be reversed, for instance on a ""Browse"" button.");
-              Ada_normal_control_create(", " & S(last_text));
-              --
-              -- "Window" version of the button
-              --
-              temp_ustr:= last_Ada_ident;
-              last_Ada_ident:= U(S(last_Ada_ident) & "_permanent");
-              Ada_Put(to_spec, "    " & S(last_Ada_ident) & ": ");
-              if style_switch(default) then
-                Ada_Put(to_spec, "Default_");
-              end if;
-              Ada_Put_Line(to_spec, "Button_Type; -- doesn't close parent window after click" );
-              Ada_normal_control_create(", " & S(last_text));
-              Ada_Put_Line(to_body, "    if for_dialog then -- hide the non-closing button");
-              Ada_Put_Line(to_body, "      Window." & S(last_Ada_ident) & ".Hide;");
-              Ada_Put_Line(to_body, "    else -- hide the closing button");
-              Ada_Put_Line(to_body, "      Window." & S(temp_ustr) & ".Hide;");
-              Ada_Put_Line(to_body, "    end if;");
-            }
-            ;
-
-pushbutton_hint :
-             PUSHBUTTON_t
-           | DEFPUSHBUTTON_t
-             { style_switch(default):= True; }
-           ;
-
------------------------
--- Radio buttons (.) --
------------------------
-
-radiobutton :
-            radiobutton_hint
-            ctrl_properties
-            bs_styles_optional
-            {
-              Ada_normal_control(
-                "Radio_Button_Type",
-                ", " & S(last_text));
-            }
-            ;
-
-radiobutton_hint :
-             RADIOBUTTON_t
-           | AUTORADIOBUTTON_t
-           ;
 
 -----------------
 -- Scroll bars --
@@ -1131,11 +1128,14 @@ icon      : ICON_t
             COMMA_t
             ctrl_properties_notext
             es_styles_optional
-            {
-              Ada_normal_control(
-                "GWindows.Static_Controls.Icon_Type",
-                ", Num_resource(" & S(last_control_text) & ')' ,
-                with_id => False);
+            { if S(last_control_text) = """""" then
+                null; -- phantom icon...
+              else
+                Ada_normal_control(
+                  "GWindows.Static_Controls.Icon_Type",
+                  ", Num_resource(" & S(last_control_text) & ')' ,
+                  with_id => False);
+              end if;
             }
             ;
 

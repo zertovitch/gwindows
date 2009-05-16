@@ -70,8 +70,8 @@ IDR_TRAYMENU MENU DISCARDABLE
 BEGIN
     POPUP "t"
     BEGIN
-        MENUITEM "Nueva conexi?n",              ID_NEWCONN
-        MENUITEM "Opciones de Conexi?n por defecto...", IDC_OPTIONBUTTON
+        MENUITEM "Nueva conexion",              ID_NEWCONN
+        MENUITEM "Opciones de Conexion por defecto...", IDC_OPTIONBUTTON
         MENUITEM SEPARATOR
         MENUITEM "Acerca de VNCViewer...",          IDD_APP_ABOUT
         MENUITEM SEPARATOR
@@ -81,7 +81,7 @@ END
 
 IDR_tbMENU MENU DISCARDABLE 
 BEGIN
-    POPUP "Men? Click Derecho"
+    POPUP "Menu Click Derecho"
     BEGIN
         MENUITEM "Restaurar",                     IDC_NULL
         MENUITEM "Minimizar",                    IDC_NULL
@@ -279,7 +279,7 @@ BEGIN
 END
 
 IDD_SERVINFO_DLG DIALOG DISCARDABLE  0, 0, 224, 170
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Informacion del Servidor RFB"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -289,7 +289,7 @@ BEGIN
 END
 
 IDD_AUTH_DIALOG DIALOG DISCARDABLE  101, 66, 214, 63
-STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION
 CAPTION " Autenticacion de usuario Ultr@VNC"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -305,7 +305,7 @@ BEGIN
 END
 
 IDD_CUSTUM_KEY DIALOG DISCARDABLE  0, 0, 224, 53
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION " Envio de Teclazo Personalizado (Experimental ...)"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -318,24 +318,24 @@ BEGIN
     CONTROL         "ALT",IDC_ALT,"Button",BS_AUTORADIOBUTTON,54,37,26,9
     CONTROL         "NORMAL",IDC_NORMAL,"Button",BS_AUTORADIOBUTTON,100,37,
                     45,9
-    LTEXT           "C?digo de tecla (decimal) :",IDC_STATIC,7,9,87,12
+    LTEXT           "Codigo de tecla (decimal) :",IDC_STATIC,7,9,87,12
 END
 
 IDD_STATUS DIALOGEX 0, 0, 198, 129
-STYLE DS_MODALFRAME | DS_3DLOOK | WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOOLWINDOW
-CAPTION " Estado de Conexi?n del Visor VNC"
+CAPTION " Estado de Conexion del Visor VNC"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Cerrar",IDCLOSE,140,114,50,14
-    GROUPBOX        "Conexi?n",IDC_STATIC,4,0,186,68
-    GROUPBOX        "Tr?fico",IDC_STATIC,4,69,186,42
+    GROUPBOX        "Conexion",IDC_STATIC,4,0,186,68
+    GROUPBOX        "Trafico",IDC_STATIC,4,69,186,42
     LTEXT           "Puerto:",IDC_STATIC,13,23,52,9
     LTEXT           "Bytes Enviados",IDC_STATIC,7,82,63,9
     RTEXT           "Bytes Recibidos",IDC_STATIC,117,82,68,9
     RTEXT           "Enviados",IDC_SEND,6,98,64,9
     RTEXT           "Recibidos",IDC_RECEIVED,113,98,72,9
-    RTEXT           "N?mero de Puerto",IDC_PORT,96,23,89,9
+    RTEXT           "Numero de Puerto",IDC_PORT,96,23,89,9
     ICON            IDI_NET,IDC_STATIC,89,78,20,20
     CONTROL         167,IDC_STATIC,"Static",SS_BITMAP | SS_REALSIZEIMAGE,71,
                     86,13,1,WS_EX_TRANSPARENT
@@ -346,32 +346,32 @@ BEGIN
     LTEXT           "Server VNC:",IDC_STATIC,13,12,64,9
     RTEXT           "Nombre del Servidor",IDC_VNCSERVER,94,12,91,9
     LTEXT           "Estado:",IDC_STATIC,13,34,52,9
-    RTEXT           "Conexi?n terminada",IDC_STATUS,44,34,141,9
+    RTEXT           "Conexion terminada",IDC_STATUS,44,34,141,9
     PUSHBUTTON      "Cancelar",IDQUIT,5,114,50,14
     LTEXT           "Velocidad:",IDC_STATIC,13,56,64,8
     RTEXT           "123",IDC_SPEED,81,56,62,8
     RTEXT           "kbit/s",IDC_STATIC,147,56,38,8
     RTEXT           "",IDC_ENCODER,65,45,120,8
-    LTEXT           "Codificaci?n:",IDC_STATIC,13,45,63,8
+    LTEXT           "Codificacion:",IDC_STATIC,13,45,63,8
 END
 
 IDD_AUTH_DIALOG1 DIALOG DISCARDABLE  101, 66, 234, 58
-STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION
-CAPTION "Autenticaci?n"
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Autenticacion"
 FONT 8, "MS Sans Serif"
 BEGIN
     EDITTEXT        IDC_PASSWD_EDIT,136,13,82,14,ES_PASSWORD | 
                     ES_AUTOHSCROLL
     DEFPUSHBUTTON   "Aceptar",IDOK,108,37,54,15
     PUSHBUTTON      "Cancelar",IDCANCEL,168,37,50,15
-    RTEXT           "Contrase?a:",-1,65,16,61,8
+    RTEXT           "Contraseña:",-1,65,16,61,8
     CONTROL         156,-1,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_SUNKEN,6,
                     6,50,42
 END
 
 IDD_FTPARAM_DLG DIALOG DISCARDABLE  0, 0, 241, 63
-STYLE DS_SYSMODAL | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION
-CAPTION "Di?logo de Par?metros de Transferencia de Archivos"
+STYLE DS_SETFONT | DS_SYSMODAL | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION
+CAPTION "Dialogo de Parametros de Transferencia de Archivos"
 FONT 8, "MS Sans Serif"
 BEGIN
     EDITTEXT        IDC_FTPARAM_EDIT,10,21,224,14,ES_AUTOHSCROLL
@@ -382,7 +382,7 @@ BEGIN
 END
 
 IDD_TEXTCHAT_DLG DIALOGEX 0, 0, 307, 174
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CAPTION
 CAPTION " Chat - Ultr@VNC"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
@@ -399,13 +399,13 @@ BEGIN
 END
 
 IDD_FTCONFIRM_DLG DIALOG DISCARDABLE  0, 0, 178, 86
-STYLE DS_SYSMODAL | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION
-CAPTION "Di?logo"
+STYLE DS_SETFONT | DS_SYSMODAL | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION
+CAPTION "Dialogo"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "Si",IDC_YES_B,4,65,39,14
     PUSHBUTTON      "No",IDC_NO_B,92,65,40,14
-    LTEXT           "Mensaje de confirmaci?n aqu?",IDC_FTPCONFIRMCOMMENT,4,8,163,53
+    LTEXT           "Mensaje de confirmacion aqui",IDC_FTPCONFIRMCOMMENT,4,8,163,53
     PUSHBUTTON      "Si a Todo",IDC_YESALL_B,46,65,40,14
     PUSHBUTTON      "No a Todo",IDC_NOALL_B,135,65,39,14
 END
@@ -583,8 +583,8 @@ END
 STRINGTABLE DISCARDABLE 
 BEGIN
     ID_CLOSEDAEMON          "Detener escucha de conexiones entrantes"
-    ID_SHOWWINDOW           "Mostrar ventana de conexi?n"
-    ID_NEWCONN              "Hacer una conexi?n manual"
+    ID_SHOWWINDOW           "Mostrar ventana de conexion"
+    ID_NEWCONN              "Hacer una conexion manual"
     ID_BUTTON_CAD           "Enviar CTRL+ALT+SUPR to host"
     ID_BUTTON_FTRANS        "Transferencia de Archivos"
 END
@@ -595,11 +595,11 @@ BEGIN
     ID_BUTTON_DBUTTON       "Inhabilitar mouse y teclado del Servidor"
     ID_BUTTON_SW            "Seleccionar SW"
     ID_BUTTON_DESKTOP       "Seleccionar Escritorio"
-    IDS_WARNING             "PRECAUCION: Por defecto, esta sesi?n no usa ninguna encriptaci?n. Por favor no la use para enviar informaci?n sensible a menos que est? seguro de que su conexi?n es segura (por ejemplo usando un plugin de encriptaci?n).\n\n"
-    IDS_A1                  "Error al cargar disposici?n de teclado espec?fico"
+    IDS_WARNING             "PRECAUCION: Por defecto, esta sesion no usa ninguna encriptacion. Por favor no la use para enviar informacion sensible a menos que esta seguro de que su conexion es segura (por ejemplo usando un plugin de encriptacion).\n\n"
+    IDS_A1                  "Error al cargar disposicion de teclado especifico"
     IDS_A2                  "Ultr@VNC info"
     IDS_A3                  "Error al crear demonio de escucha:\n"
-    IDS_A4                  "Tal vez otro visor est? corriendo?"
+    IDS_A4                  "Tal vez otro visor esta corriendo?"
     IDS_A5                  "Error del visor VNC"
     IDS_B1                  "Error al inicializar la biblioteca de sockets"
     IDS_B2                  "Rebosamiento de la lista de Clientes!"
@@ -617,8 +617,8 @@ BEGIN
     IDS_C2                  "Falla al vaciar el clipboard\n"
     IDS_C3                  "Falla al cerrar el clipboard\n"
     IDS_D1                  "Error de Argumento"
-    IDS_D2                  "Factor de Escala no v?lido - restableciendo escala normal"
-    IDS_D3                  "Puerto de escucha especificado no v?lido"
+    IDS_D2                  "Factor de Escala no valido - restableciendo escala normal"
+    IDS_D3                  "Puerto de escucha especificado no valido"
     IDS_D4                  "No se especific? factor de escala"
     IDS_D5                  "Escala especificada no v?lida"
     IDS_D6                  "No se especific? timeout"

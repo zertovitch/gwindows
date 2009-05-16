@@ -94,7 +94,7 @@ DLGINCLUDE       { return DLGINCLUDE_t; }
 TEXTINCLUDE      { return TEXTINCLUDE_t; }
 GUIDELINES       { return GUIDELINES_t; }
 DESIGNINFO       { return DESIGNINFO_t; }
-RT_MANIFEST      { return RT_MANIFEST_t; }    
+RT_MANIFEST      { return RT_MANIFEST_t; }
 MOVEABLE         { return MOVEABLE_t; }
 PURE             { return PURE_t; }
 FIXED            { return FIXED_t; }
@@ -253,6 +253,7 @@ SS_ICON                        { return SS_ICON_t; }
 SS_LEFT                        { return SS_LEFT_t; }
 SS_LEFTNOWORDWRAP              { return SS_LEFTNOWORDWRAP_t; }
 SS_NOPREFIX                    { return SS_NOPREFIX_t; }
+SS_NOTIFY                      { return SS_NOTIFY_t; }
 SS_REALSIZEIMAGE               { return SS_REALSIZEIMAGE_t; }
 SS_RIGHT                       { return SS_RIGHT_t; }
 SS_SIMPLE                      { return SS_SIMPLE_t; }
@@ -265,6 +266,7 @@ ES_AUTOVSCROLL                 { return ES_AUTOVSCROLL_t; }
 ES_CENTER                      { return ES_CENTER_t; }
 ES_LEFT                        { return ES_LEFT_t; }
 ES_MULTILINE                   { return ES_MULTILINE_t; }
+ES_NOHIDESEL                   { return ES_NOHIDESEL_t; }
 ES_NUMBER                      { return ES_NUMBER_t; }
 ES_OEMCONVERT                  { return ES_OEMCONVERT_t; }
 ES_PASSWORD                    { return ES_PASSWORD_t; }
@@ -281,6 +283,7 @@ BS_AUTORADIOBUTTON             { return BS_AUTORADIOBUTTON_t; }
 BS_BITMAP                      { return BS_BITMAP_t; }
 BS_BOTTOM                      { return BS_BOTTOM_t; }
 BS_CENTER                      { return BS_CENTER_t; }
+BS_CHECKBOX                    { return BS_CHECKBOX_t; }
 BS_DEFPUSHBUTTON               { return BS_DEFPUSHBUTTON_t; }
 BS_FLAT                        { return BS_FLAT_t; }
 BS_LEFT                        { return BS_LEFT_t; }
@@ -319,7 +322,8 @@ LBS_SORT                       { return LBS_SORT_t; }
 LBS_USETABSTOPS                { return LBS_USETABSTOPS_t; }
 
 -- Progress bar styles
-PBS_VERTICAL       { return PBS_VERTICAL_t;}
+PBS_SMOOTH                     { return PBS_SMOOTH_t; }
+PBS_VERTICAL                   { return PBS_VERTICAL_t; }
 
 -- Scrollbar styles
 SBS_VERT           { return SBS_VERT_t; }
@@ -338,6 +342,7 @@ UDS_HORZ           { return UDS_HORZ_t; }
 UDS_ARROWKEYS      { return UDS_ARROWKEYS_t; }
 UDS_WRAP           { return UDS_WRAP_t; }
 UDS_NOTHOUSANDS    { return UDS_NOTHOUSANDS_t; }
+UDS_SETBUDDYINT    { return UDS_SETBUDDYINT_t; }
 
 -- Listview styles
 LVS_AUTOARRANGE                { return LVS_AUTOARRANGE_t; }
@@ -351,6 +356,7 @@ LVS_SINGLESEL                  { return LVS_SINGLESEL_t; }
 LVS_SORTASCENDING              { return LVS_SORTASCENDING_t; }
 
 -- Treeview styles
+TVS_DISABLEDRAGDROP            { return TVS_DISABLEDRAGDROP_t; }
 TVS_EDITLABELS                 { return TVS_EDITLABELS_t; }
 TVS_INFOTIP                    { return TVS_INFOTIP_t; }
 TVS_HASBUTTONS                 { return TVS_HASBUTTONS_t; }
@@ -359,7 +365,9 @@ TVS_LINESATROOT                { return TVS_LINESATROOT_t; }
 TVS_NOSCROLL                   { return TVS_NOSCROLL_t; }
 TVS_NOTOOLTIPS                 { return TVS_NOTOOLTIPS_t; }
 TVS_SHOWSELALWAYS              { return TVS_SHOWSELALWAYS_t; }
-
+TVS_SINGLEEXPAND               { return TVS_SINGLEEXPAND_t; }
+TVS_TRACKSELECT                { return TVS_TRACKSELECT_t; }
+ 
 -- Date time picker styles
 DTS_RIGHTALIGN     { return DTS_RIGHTALIGN_t; }
 
@@ -368,6 +376,7 @@ MCS_NOTODAY        { return MCS_NOTODAY_t; }
 
 -- Tab Control Styles
 TCS_HOTTRACK                   { return TCS_HOTTRACK_t; }
+TCS_BUTTONS                    { return TCS_BUTTONS_t; }
 
 -- Grid Styles
 GS_COLUMNLABELS                { return GS_COLUMNLABELS_t; }
@@ -380,6 +389,7 @@ WS_EX_APPWINDOW                { return WS_EX_APPWINDOW_t; }
 WS_EX_CLIENTEDGE               { return WS_EX_CLIENTEDGE_t; }
 WS_EX_CONTEXTHELP              { return WS_EX_CONTEXTHELP_t; }
 WS_EX_CONTROLPARENT            { return WS_EX_CONTROLPARENT_t; }
+WS_EX_DLGMODALFRAME            { return WS_EX_DLGMODALFRAME_t; }
 WS_EX_NOPARENTNOTIFY           { return WS_EX_NOPARENTNOTIFY_t; }
 WS_EX_RIGHT                    { return WS_EX_RIGHT_t; }
 WS_EX_STATICEDGE               { return WS_EX_STATICEDGE_t; }
