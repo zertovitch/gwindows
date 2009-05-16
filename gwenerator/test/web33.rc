@@ -1,0 +1,382 @@
+//
+// Found on the Web by Googling keywords.
+//
+
+#include "web01.h"
+#include "defs.h"
+#include "windows.h"
+
+ID_MENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open GBA...\tCtrl+O",        ID_MENU_FILE_OPENGBA
+        MENUITEM "Open &DS...\tShift+Ctrl+O",   ID_MENU_FILE_OPENDS
+        MENUITEM "&Close",            ID_MENU_FILE_CLOSE, GRAYED
+        MENUITEM "E&xit",             ID_MENU_FILE_EXIT
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "&Run\aF4",                     ID_MENU_DBG_RUN,   GRAYED
+        MENUITEM "&Pause\aF5",                   ID_MENU_DBG_PAUSE, GRAYED
+        MENUITEM "Re&set\aF6",                   ID_MENU_DBG_RESET, GRAYED
+        MENUITEM "&Step Into\aF7",               ID_MENU_DBG_STEP,  GRAYED
+        MENUITEM "Animate Step\aShift+F7",       ID_MENU_DBG_ASTEP, GRAYED
+        MENUITEM "Scan&line\aCtrl+F7",           ID_MENU_DBG_LINE,  GRAYED
+        MENUITEM "Animate Line\aShift+Ctrl+F7",  ID_MENU_DBG_ALINE, GRAYED
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&GPU Active",  ID_MENU_VIEW_GPU, GRAYED, CHECKED
+        MENUITEM "&Limit FPS",   ID_MENU_VIEW_FPS, GRAYED, CHECKED
+        MENUITEM "&Palette",     ID_MENU_VIEW_PAL, GRAYED, CHECKED
+        MENUITEM "&Debugger",    ID_MENU_VIEW_DBG, GRAYED, CHECKED
+        MENUITEM "&Memory View", ID_MENU_VIEW_MEM, GRAYED, CHECKED
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "&Configuration...", ID_MENU_OPT_CONF
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About", ID_MENU_HELP_ABOUT
+    END
+END
+
+ID_ACCEL ACCELERATORS
+BEGIN
+    "o",   ID_MENU_FILE_OPENGBA,  VIRTKEY, CONTROL
+    "o",   ID_MENU_FILE_OPENDS,   VIRTKEY, CONTROL, SHIFT
+    VK_F4, ID_MENU_DBG_RUN,    VIRTKEY
+    VK_F5, ID_MENU_DBG_PAUSE,  VIRTKEY
+    VK_F6, ID_MENU_DBG_RESET,  VIRTKEY
+    VK_F7, ID_MENU_DBG_STEP,   VIRTKEY
+    VK_F7, ID_MENU_DBG_ASTEP,  VIRTKEY, CONTROL
+    VK_F7, ID_MENU_DBG_LINE,   VIRTKEY, SHIFT
+    VK_F7, ID_MENU_DBG_ALINE,  VIRTKEY, CONTROL, SHIFT
+END
+
+ID_ABOUTBOX DIALOG 30,30, 143,155
+CAPTION "About"
+STYLE WS_OVERLAPPED | WS_CAPTION
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+FONT 8, "MS Sans Serif"
+{
+   CONTROL    ID_DSPIC, IDC_STATIC, STATIC, SS_BITMAP     | WS_CHILD | WS_VISIBLE, 0,0,     143,133
+
+   CONTROL    DSEMU_VERSION_STR,                        IDC_STATIC, STATIC, WS_VISIBLE, 4,25, 135,8
+   CONTROL    "Copyright Imran Nazar, 2004-05.",        IDC_STATIC, STATIC, WS_VISIBLE, 4,34, 135,8
+   CONTROL    "Released under the BSD Public Licence.", IDC_STATIC, STATIC, WS_VISIBLE, 4,43, 135,8
+   CONTROL    "Incorporates code from zlib and",        IDC_STATIC, STATIC, WS_VISIBLE, 4,61, 135,8
+   CONTROL    "info-zip, modified by Lucian Wischik.",  IDC_STATIC, STATIC, WS_VISIBLE, 4,70, 135,8
+   CONTROL    "This Emulator is not",                   IDC_STATIC, STATIC, WS_VISIBLE, 4,85, 135,8
+   CONTROL    "Affiliated with Nintendo(R)",            IDC_STATIC, STATIC, WS_VISIBLE, 4,94, 135,8
+
+   CONTROL    "",       IDC_STATIC, STATIC, SS_ETCHEDHORZ | WS_CHILD | WS_VISIBLE, 0,133,   145,1
+   PUSHBUTTON "OK",     ID_OK,                                                     101,137, 39,16
+}
+
+ID_CONFBOX DIALOG 40,40, 132,276
+CAPTION "Configuration"
+STYLE WS_OVERLAPPED | WS_CAPTION
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+FONT 8, "MS Sans Serif"
+{
+    GROUPBOX "Miscellaneous", IDC_STATIC, 4,6, 125,74
+
+    CHECKBOX "Run on Load:",  ID_CONF_CHK_RUN, 7,18, 65,12, BS_CHECKBOX|BS_RIGHTBUTTON|WS_TABSTOP
+    CHECKBOX "Limit FPS:",      ID_CONF_CHK_FPS, 7,32, 65,12, BS_CHECKBOX|BS_RIGHTBUTTON|WS_TABSTOP
+    CONTROL  "BIOS File:",      IDC_STATIC, STATIC, WS_VISIBLE, 8,48, 60,12
+    EDITTEXT ID_CONF_EDIT_BIOS, 63,46, 60,12
+
+    CONTROL "BIOS must be in the same directory as the application.",IDC_STATIC, STATIC, WS_VISIBLE, 8,60, 110,16
+
+    GROUPBOX "Key Assignments", IDC_STATIC, 4,84, 125,156
+
+    CONTROL "Up:",     IDC_STATIC, STATIC, WS_VISIBLE, 8,100, 30,12
+    CONTROL "Down:",   IDC_STATIC, STATIC, WS_VISIBLE, 8,114, 30,12
+    CONTROL "Left:",   IDC_STATIC, STATIC, WS_VISIBLE, 8,128, 30,12
+    CONTROL "Right:",  IDC_STATIC, STATIC, WS_VISIBLE, 8,142, 30,12
+    CONTROL "A:",      IDC_STATIC, STATIC, WS_VISIBLE, 8,156, 30,12
+    CONTROL "B:",      IDC_STATIC, STATIC, WS_VISIBLE, 8,170, 30,12
+    CONTROL "L:",      IDC_STATIC, STATIC, WS_VISIBLE, 8,184, 30,12
+    CONTROL "R:",      IDC_STATIC, STATIC, WS_VISIBLE, 8,198, 30,12
+    CONTROL "Start:",  IDC_STATIC, STATIC, WS_VISIBLE, 8,212, 30,12
+    CONTROL "Select:", IDC_STATIC, STATIC, WS_VISIBLE, 8,226, 30,12
+
+    EDITTEXT ID_CONF_EDIT_UP,    53,98, 70,12, WS_BORDER|ES_WANTRETURN|ES_LEFT|ES_READONLY
+    EDITTEXT ID_CONF_EDIT_DOWN,  53,112,70,12, WS_BORDER|ES_WANTRETURN|ES_LEFT|ES_READONLY
+    EDITTEXT ID_CONF_EDIT_LEFT,  53,126,70,12, WS_BORDER|ES_WANTRETURN|ES_LEFT|ES_READONLY
+    EDITTEXT ID_CONF_EDIT_RIGHT, 53,140,70,12, WS_BORDER|ES_WANTRETURN|ES_LEFT|ES_READONLY
+    EDITTEXT ID_CONF_EDIT_A,     53,154,70,12, WS_BORDER|ES_WANTRETURN|ES_LEFT|ES_READONLY
+    EDITTEXT ID_CONF_EDIT_B,     53,168,70,12, WS_BORDER|ES_WANTRETURN|ES_LEFT|ES_READONLY
+    EDITTEXT ID_CONF_EDIT_L,     53,182,70,12, WS_BORDER|ES_WANTRETURN|ES_LEFT|ES_READONLY
+    EDITTEXT ID_CONF_EDIT_R,     53,196,70,12, WS_BORDER|ES_WANTRETURN|ES_LEFT|ES_READONLY
+    EDITTEXT ID_CONF_EDIT_START, 53,210,70,12, WS_BORDER|ES_WANTRETURN|ES_LEFT|ES_READONLY
+    EDITTEXT ID_CONF_EDIT_SEL,   53,224,70,12, WS_BORDER|ES_WANTRETURN|ES_LEFT|ES_READONLY
+
+    CONTROL "Changes affect next ROM load.", IDC_STATIC, STATIC, WS_VISIBLE, 4,244, 128,12
+
+    PUSHBUTTON "OK",     ID_OK,     46,256, 39,16
+    PUSHBUTTON "Cancel", ID_CANCEL, 89,256, 39,16
+}
+
+ID_DSPIC    BITMAP DISCARDABLE "dsabout.bmp"
+ID_DSICON32 ICON "ds32.ico"
+ID_DSICON16 ICON "ds16.ico"
+
+STRINGTABLE
+BEGIN
+    1024 "(null)"
+    1025 "Mouse Left"
+    1026 "Mouse Right"
+    1027 "Ctrl-Break"
+    1028 "Mouse Middle"
+    1029 "Mouse X1"
+    1030 "Mouse X2"
+    1031 "(null)"
+    1032 "Backspace"
+    1033 "Tab"
+    1034 "(null)"
+    1035 "(null)"
+    1036 "Clear"
+    1037 "Enter"
+    1038 "(null)"
+    1039 "(null)"
+    1040 "Shift"
+    1041 "Ctrl"
+    1042 "Alt"
+    1043 "Pause"
+    1044 "CapsLock"
+    1045 "IME Hangul"
+    1046 "(null)"
+    1047 "IME Junja"
+    1048 "IME Final"
+    1049 "IME Kanji"
+    1050 "(null)"
+    1051 "Escape"
+    1052 "IME Convert"
+    1053 "IME NoConv"
+    1054 "IME Accept"
+    1055 "IME Mode"
+    1056 "Space"
+    1057 "PgUp"
+    1058 "PgDown"
+    1059 "End"
+    1060 "Home"
+    1061 "Left Arrow"
+    1062 "Up Arrow"
+    1063 "Right Arrow"
+    1064 "Down Arrow"
+    1065 "Select"
+    1066 "Print"
+    1067 "Execute"
+    1068 "PrntScrn"
+    1069 "Insert"
+    1070 "Delete"
+    1071 "Help"
+    1072 "0"
+    1073 "1"
+    1074 "2"
+    1075 "3"
+    1076 "4"
+    1077 "5"
+    1078 "6"
+    1079 "7"
+    1080 "8"
+    1081 "9"
+    1082 "(null)"
+    1083 "(null)"
+    1084 "(null)"
+    1085 "(null)"
+    1086 "(null)"
+    1087 "(null)"
+    1088 "(null)"
+    1089 "A"
+    1090 "B"
+    1091 "C"
+    1092 "D"
+    1093 "E"
+    1094 "F"
+    1095 "G"
+    1096 "H"
+    1097 "I"
+    1098 "J"
+    1099 "K"
+    1100 "L"
+    1101 "M"
+    1102 "N"
+    1103 "O"
+    1104 "P"
+    1105 "Q"
+    1106 "R"
+    1107 "S"
+    1108 "T"
+    1109 "U"
+    1110 "V"
+    1111 "W"
+    1112 "X"
+    1113 "Y"
+    1114 "Z"
+    1115 "Win Left"
+    1116 "Win Right"
+    1117 "Apps"
+    1118 "(null)"
+    1119 "Sleep"
+    1120 "Numpad 0"
+    1121 "Numpad 1"
+    1122 "Numpad 2"
+    1123 "Numpad 3"
+    1124 "Numpad 4"
+    1125 "Numpad 5"
+    1126 "Numpad 6"
+    1127 "Numpad 7"
+    1128 "Numpad 8"
+    1129 "Numpad 9"
+    1130 "Numpad *"
+    1131 "Numpad +"
+    1132 "Numpad Sep"
+    1133 "Numpad -"
+    1134 "Numpad ."
+    1135 "Numpad /"
+    1136 "F1"
+    1137 "F2"
+    1138 "F3"
+    1139 "F4"
+    1140 "F5"
+    1141 "F6"
+    1142 "F7"
+    1143 "F8"
+    1144 "F9"
+    1145 "F10"
+    1146 "F11"
+    1147 "F12"
+    1148 "F13"
+    1149 "F14"
+    1150 "F15"
+    1151 "F16"
+    1152 "F17"
+    1153 "F18"
+    1154 "F19"
+    1155 "F20"
+    1156 "F21"
+    1157 "F22"
+    1158 "F23"
+    1159 "F24"
+    1160 "(null)"
+    1161 "(null)"
+    1162 "(null)"
+    1163 "(null)"
+    1164 "(null)"
+    1165 "(null)"
+    1166 "(null)"
+    1167 "(null)"
+    1168 "NumLock"
+    1169 "ScrlLock"
+    1170 "(null)"
+    1171 "(null)"
+    1172 "(null)"
+    1173 "(null)"
+    1174 "(null)"
+    1175 "(null)"
+    1176 "(null)"
+    1177 "(null)"
+    1178 "(null)"
+    1179 "(null)"
+    1180 "(null)"
+    1181 "(null)"
+    1182 "(null)"
+    1183 "(null)"
+    1184 "Left Shift"
+    1185 "Right Shift"
+    1186 "Left Ctrl"
+    1187 "Right Ctrl"
+    1188 "Left Alt"
+    1189 "Right Alt"
+    1190 "(null)"
+    1191 "(null)"
+    1192 "(null)"
+    1193 "(null)"
+    1194 "(null)"
+    1195 "(null)"
+    1196 "(null)"
+    1197 "(null)"
+    1198 "(null)"
+    1199 "(null)"
+    1200 "(null)"
+    1201 "(null)"
+    1202 "(null)"
+    1203 "(null)"
+    1204 "(null)"
+    1205 "(null)"
+    1206 "(null)"
+    1207 "(null)"
+    1208 "(null)"
+    1209 "(null)"
+    1210 "Semicolon"
+    1211 "Equals"
+    1212 "Comma"
+    1213 "Hyphen"
+    1214 "Period"
+    1215 "Slash"
+    1216 "Backtick"
+    1217 "(null)"
+    1218 "(null)"
+    1219 "(null)"
+    1220 "(null)"
+    1221 "(null)"
+    1222 "(null)"
+    1223 "(null)"
+    1224 "(null)"
+    1225 "(null)"
+    1226 "(null)"
+    1227 "(null)"
+    1228 "(null)"
+    1229 "(null)"
+    1230 "(null)"
+    1231 "(null)"
+    1232 "(null)"
+    1233 "(null)"
+    1234 "(null)"
+    1235 "(null)"
+    1236 "(null)"
+    1237 "(null)"
+    1238 "(null)"
+    1239 "(null)"
+    1240 "(null)"
+    1241 "(null)"
+    1242 "(null)"
+    1243 "Left Sq.Bracket"
+    1244 "Backslash"
+    1245 "Right Sq.Bracket"
+    1246 "Quote"
+END
+
+1 VERSIONINFO
+FILEVERSION 0,0,3,2
+PRODUCTVERSION 0,0,3,2
+FILEOS VOS__WINDOWS32
+FILETYPE VFT_APP
+BEGIN
+   BLOCK "StringFileInfo"
+   BEGIN
+      BLOCK "080904e4"
+      BEGIN
+         VALUE "LegalCopyright", "Imran Nazar, 2004-05. Released under the BSD Public Licence."
+         VALUE "CompanyName", "Imran Nazar"
+         VALUE "FileDescription", "DSemu"
+         VALUE "FileVersion", "0.0.3b"
+         VALUE "OriginalFilename", "dsemu.exe"
+         VALUE "InternalName", "DSemu"
+         VALUE "ProductName", "DSemu"
+         VALUE "ProductVersion", "0.0.3b"
+      END
+   END
+   BLOCK "VarFileInfo"
+   BEGIN
+      VALUE "Translation", 0x0809 
+   END
+END
+
+/*** EOF:main.rc *********************************************************/
+

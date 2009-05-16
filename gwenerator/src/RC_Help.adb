@@ -674,6 +674,97 @@ package body RC_Help is
     end if;
   end Ada_button_control;
 
+  procedure Ada_edit_control is
+  begin
+    if style_switch(multi_line) then
+      Ada_normal_control(
+        "Multi_Line_Edit_Box_Type",
+        ", " & S(last_text),
+        ", " & Boolean'Image(style_switch(auto_h_scroll))
+      );
+    else
+      Ada_normal_control(
+        "Edit_Box_Type",
+        ", " & S(last_text),
+        ", " & Boolean'Image(style_switch(auto_h_scroll))
+      );
+    end if;
+  end Ada_edit_control;
+
+  -- All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
+  procedure Ada_untyped_control is
+  begin
+    if control /= unknown then
+      empty_dialog_record:= False;
+    end if;
+    case control is
+      when unknown =>
+        Ada_Comment(to_spec, "Unknown CONTROL Class = " & S(last_class));
+      when button =>
+        last_text:= last_control_text;
+        Ada_button_control;
+      when edit =>
+        last_text:= last_control_text;
+        Ada_edit_control;
+      when bitmap =>
+        if S(last_control_text) = """""" then
+          null; -- phantom bitmap...
+        else
+          Ada_normal_control(
+            "Bitmap_Type",
+             ", Num_resource(" & S(last_control_text) & ')',
+             -- ^ direct resource name, as string
+             "",
+            with_id => False
+          );
+        end if;
+      when track_bar =>
+        Ada_normal_control(
+          "Trackbar_Control_Type",
+           "",
+           ", " & Trackbar_Control_Ticks_Type'Image(Trackbar_Control_Ticks) &
+           ", " & Control_Direction_Type'Image(Control_Direction) &
+           ", Tips => " & Boolean'Image(style_switch(tips)),
+           with_id => False
+        );
+      when up_down =>
+        Ada_normal_control(
+          "Up_Down_Control_Type",
+           "",
+           ", " & Boolean'Image(style_switch(keys)) &
+           ", " & Control_Direction_Type'Image(Control_Direction) &
+           ", " & Boolean'Image(style_switch(wrap)) &
+						 ", Auto_Buddy => False" &
+           ", Thousands => " & Boolean'Image(not style_switch(no_1000)),
+           with_id => False
+        );
+      when progress =>
+        Ada_normal_control("Progress_Control_Type", with_id => False );
+      when list_view =>
+        Ada_normal_control("List_View_Control_Type", with_id => False );
+      when tree_view =>
+        Ada_normal_control("List_View_Control_Type", with_id => False );
+      when tab_control =>
+        Ada_normal_control("Tab_Window_Control_Type", with_id => False );
+        -- Tab_Window_Control_Type allows to associate a window
+        -- to a tab via the Tab_Window method
+      when date_time =>
+        Ada_normal_control(
+          "Date_Time_Picker_Type",
+           "",
+           ", Method=> Up_Down",
+          with_id => False
+        );
+      when calendar =>
+        Ada_normal_control(
+          "Date_Time_Picker_Type",
+           "",
+           ", Method => Calendar",
+          with_id => False
+        );
+    end case;
+  end Ada_untyped_control;
+
   -- Control class is given as a string, not a token (e.g. "Button")
   procedure Identify_control_class(RC_String: String) is
   begin

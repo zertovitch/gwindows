@@ -53,7 +53,7 @@
 %token DIALOG_t, DIALOGEX_t, CONTROL_t, CAPTION_t,
        BEGIN_t, END_t, LANGUAGE_t, STYLE_t, EXSTYLE_t,
        FONT_t, CLASS_t
-%token PURE_t, DISCARDABLE_t, MOVEABLE_t, PRELOAD_t, FIXED_t
+%token PURE_t, IMPURE_t, DISCARDABLE_t, MOVEABLE_t, PRELOAD_t, FIXED_t
 %token DLGINCLUDE_t, TEXTINCLUDE_t,
        GUIDELINES_t, DESIGNINFO_t,
        RT_MANIFEST_t
@@ -89,7 +89,7 @@
        WC_BUTTON_t, WC_COMBOBOX_t, WC_COMBOBOXEX_t, WC_EDIT_t,
        WC_HEADER_t, WC_LISTBOX_t, WC_IPADDRESS_t, WC_LINK_t
        WC_LISTVIEW_t, WC_NATIVEFONTCTL_t, WC_PAGESCROLLER_t
-       WC_SCROLLBAR_t, WC_STATIC_t, WC_TABCONTROL_t
+       WC_SCROLLBAR_t, WC_STATIC_t, STATIC_t, WC_TABCONTROL_t
        WC_TREEVIEW_t
 
 ------------
@@ -104,7 +104,7 @@
        WS_MINIMIZEBOX_t, WS_MAXIMIZEBOX_t,
        WS_THICKFRAME_t,
        WS_CHILD_t, WS_CLIPSIBLINGS_t, WS_CLIPCHILDREN_t
-       WS_SIZEBOX_t
+       WS_SIZEBOX_t, WS_OVERLAPPED_t
 -- Dialog style
 %token DS_3DLOOK_t, DS_CENTER_t,
        DS_MODALFRAME_t, DS_SYSMODAL_t,
@@ -119,7 +119,7 @@
        SS_BLACKRECT_t, SS_GRAYRECT_t, SS_WHITERECT_t,
        SS_REALSIZEIMAGE_t, SS_GRAYFRAME_t
        SS_LEFT_t, SS_RIGHT_t,
-       SS_NOTIFY_t
+       SS_NOTIFY_t, SS_ETCHEDHORZ_t, SS_ETCHEDVERT_t
 -- Edit styles
 %token ES_MULTILINE_t, ES_READONLY_t,
        ES_AUTOHSCROLL_t, ES_AUTOVSCROLL_t,
@@ -133,15 +133,17 @@
        BS_BOTTOM_t, BS_FLAT_t, BS_LEFT_t, BS_RIGHT_t, BS_CENTER_t, BS_VCENTER_t,
        BS_PUSHLIKE_t, BS_TOP_t, BS_MULTILINE_t,
        BS_DEFPUSHBUTTON_t, BS_PUSHBUTTON_t, BS_RADIOBUTTON_t, BS_AUTO3STATE_t,
-       BS_TEXT_t
+       BS_TEXT_t, BS_RIGHTBUTTON_t, BS_ICON_t,
+       BS_NOTIFY_t
 -- Combo-box styles
 %token CBS_SIMPLE_t, CBS_DROPDOWN_t, CBS_DROPDOWNLIST_t,
        CBS_SORT_t, CBS_HASSTRINGS_t, CBS_AUTOHSCROLL_t,
-       CBS_DISABLENOSCROLL_t, CBS_OWNERDRAWFIXED_t
+       CBS_DISABLENOSCROLL_t, CBS_OWNERDRAWFIXED_t,
+       CBS_UPPERCASE_t
 -- Listbox styles
 %token LBS_SORT_t, LBS_MULTIPLESEL_t, LBS_MULTICOLUMN_t,
        LBS_NOINTEGRALHEIGHT_t, LBS_USETABSTOPS_t,
-       LBS_NOTIFY_t, LBS_EXTENDEDSEL_t,
+       LBS_NOTIFY_t, LBS_NOREDRAW_t, LBS_EXTENDEDSEL_t,
        LBS_DISABLENOSCROLL_t, LBS_NOSEL_t,
        LBS_OWNERDRAWFIXED_t, LBS_HASSTRINGS_t
 -- Progress bar styles
@@ -153,12 +155,12 @@
        TBS_BOTTOM_t, TBS_TOOLTIPS_t, TBS_BOTH_t
 -- Up-down styles
 %token UDS_HORZ_t, UDS_ARROWKEYS_t, UDS_WRAP_t, UDS_NOTHOUSANDS_t,
-       UDS_SETBUDDYINT_t
+       UDS_SETBUDDYINT_t, UDS_ALIGNRIGHT_t, UDS_AUTOBUDDY_t
 -- Listview styles
 %token LVS_ALIGNLEFT_t, LVS_ICON_t, LVS_REPORT_t,
        LVS_SHOWSELALWAYS_t, LVS_SORTASCENDING_t,
-       LVS_AUTOARRANGE_t, LVS_NOSORTHEADER_t, LVS_LIST_t,
-       LVS_SINGLESEL_t
+       LVS_AUTOARRANGE_t, LVS_NOCOLUMNHEADER_t, LVS_NOSORTHEADER_t, LVS_LIST_t,
+       LVS_SINGLESEL_t, LVS_EDITLABELS_t
 -- Treeview styles
 %token TVS_INFOTIP_t, TVS_NOSCROLL_t, TVS_HASLINES_t,
        TVS_SHOWSELALWAYS_t, TVS_HASBUTTONS_t, TVS_LINESATROOT_t,
@@ -268,6 +270,7 @@ ws_style  :
           |       WS_CLIPSIBLINGS_t
           |       WS_CLIPCHILDREN_t
           |       WS_SIZEBOX_t
+          |       WS_OVERLAPPED_t
           ;
 
 ------------
@@ -377,6 +380,7 @@ properties:               -- !! right name for it ?
           ;
 
 property  : PURE_t
+          | IMPURE_t
           | DISCARDABLE_t
           | MOVEABLE_t
           | PRELOAD_t
@@ -473,69 +477,7 @@ control   :    CONTROL_t
                COMMA_t
                rect
                ex_styles_optional -- this adds 1 Shift/Reduce conflict
-               {  if control /= unknown then
-                    empty_dialog_record:= False;
-                  end if;
-                  case control is
-                    when unknown =>
-                      Ada_Comment(to_spec, "Unknown CONTROL Class = " & S(last_class));
-                    when button =>
-                      last_text:= last_control_text;
-                      Ada_button_control;
-                    when bitmap =>
-                      Ada_normal_control(
-                        "Bitmap_Type",
-                         ", Num_resource(" & S(last_control_text) & ')',
-                         -- ^ direct resource name, as string
-                         "",
-                        with_id => False
-                      );
-                    when track_bar =>
-                      Ada_normal_control(
-                        "Trackbar_Control_Type",
-                         "",
-                         ", " & Trackbar_Control_Ticks_Type'Image(Trackbar_Control_Ticks) &
-                         ", " & Control_Direction_Type'Image(Control_Direction) &
-                         ", Tips => " & Boolean'Image(style_switch(tips)),
-                         with_id => False
-                      );
-                    when up_down =>
-                      Ada_normal_control(
-                        "Up_Down_Control_Type",
-                         "",
-                         ", " & Boolean'Image(style_switch(keys)) &
-                         ", " & Control_Direction_Type'Image(Control_Direction) &
-                         ", " & Boolean'Image(style_switch(wrap)) &
-						 ", Auto_Buddy => False" &
-                         ", Thousands => " & Boolean'Image(not style_switch(no_1000)),
-                         with_id => False
-                      );
-                    when progress =>
-                      Ada_normal_control("Progress_Control_Type", with_id => False );
-                    when list_view =>
-                      Ada_normal_control("List_View_Control_Type", with_id => False );
-                    when tree_view =>
-                      Ada_normal_control("List_View_Control_Type", with_id => False );
-                    when tab_control =>
-                      Ada_normal_control("Tab_Window_Control_Type", with_id => False );
-                      -- Tab_Window_Control_Type allows to associate a window
-                      -- to a tab via the Tab_Window method
-                    when date_time =>
-                      Ada_normal_control(
-                        "Date_Time_Picker_Type",
-                         "",
-                         ", Method=> Up_Down",
-                        with_id => False
-                      );
-                    when calendar =>
-                      Ada_normal_control(
-                        "Date_Time_Picker_Type",
-                         "",
-                         ", Method => Calendar",
-                        with_id => False
-                      );
-                  end case;
-               }
+               { Ada_untyped_control; }
           ;
 
 control_text :
@@ -607,8 +549,9 @@ window_class:
       | WC_PAGESCROLLER_t  -- Creates pager controls (contain and scroll another window).
       | WC_SCROLLBAR_t     -- Creates scrollbar controls (scroll the contents of a window).
       | WC_STATIC_t
+      |    STATIC_t 
         -- Creates static controls. These controls contain noneditable text.
-        -- ResEdit seems to use that for pictures
+        -- ResEdit seems to use WC_STATIC for pictures; some sources use STATIC
       | WC_TABCONTROL_t
         -- Creates tab controls
         { control:= tab_control;
@@ -652,12 +595,16 @@ ctrl_style: ws_style
           | UDS_NOTHOUSANDS_t
             { style_switch(no_1000):= True; }
           | UDS_SETBUDDYINT_t
+          | UDS_ALIGNRIGHT_t
+          | UDS_AUTOBUDDY_t
           | LVS_ALIGNLEFT_t
+          | LVS_EDITLABELS_t
           | LVS_ICON_t
           | LVS_REPORT_t
           | LVS_SHOWSELALWAYS_t
           | LVS_SORTASCENDING_t
           | LVS_AUTOARRANGE_t
+          | LVS_NOCOLUMNHEADER_t
           | LVS_NOSORTHEADER_t
           | LVS_LIST_t
           | LVS_SINGLESEL_t
@@ -736,6 +683,8 @@ ss_style  : SS_NOPREFIX_t
           | SS_WHITERECT_t
           | SS_ENDELLIPSIS_t
           | SS_NOTIFY_t
+          | SS_ETCHEDHORZ_t
+          | SS_ETCHEDVERT_t
           ;
 
 
@@ -749,19 +698,7 @@ edittext  : EDITTEXT_t
             es_styles_optional
             ex_styles_optional -- this adds 1 Shift/Reduce conflict
             {
-              if style_switch(multi_line) then
-                Ada_normal_control(
-                  "Multi_Line_Edit_Box_Type",
-                  ", " & S(last_text),
-                  ", " & Boolean'Image(style_switch(auto_h_scroll))
-                );
-              else
-                Ada_normal_control(
-                  "Edit_Box_Type",
-                  ", " & S(last_text),
-                  ", " & Boolean'Image(style_switch(auto_h_scroll))
-                );
-              end if;
+              Ada_edit_control;
             }
             ;
 
@@ -868,6 +805,7 @@ cbs_style : CBS_SIMPLE_t          { combo:= no_drop; }
           | CBS_DROPDOWNLIST_t    { combo:= drop_down_list; }
           | CBS_SORT_t            { style_switch(sort):= True; }
           | CBS_HASSTRINGS_t
+          | CBS_UPPERCASE_t
           | CBS_AUTOHSCROLL_t
           | CBS_DISABLENOSCROLL_t
           | CBS_OWNERDRAWFIXED_t
@@ -948,6 +886,7 @@ lbs_style :       LBS_SORT_t
           |       LBS_USETABSTOPS_t
           |       LBS_NOTIFY_t
           | NOT_t LBS_NOTIFY_t
+          |       LBS_NOREDRAW_t
           |       LBS_EXTENDEDSEL_t
           |       LBS_DISABLENOSCROLL_t
           |       LBS_NOSEL_t
@@ -1069,6 +1008,7 @@ bs_style_only :
               style_switch(checkbox):= True; }
           | BS_BITMAP_t
           | BS_OWNERDRAW_t
+          | BS_NOTIFY_t
           | BS_TOP_t
           | BS_BOTTOM_t
           | BS_CENTER_t
@@ -1084,6 +1024,8 @@ bs_style_only :
             { style_switch(push):= True;
               style_switch(default):= True; }
           | BS_TEXT_t
+          | BS_RIGHTBUTTON_t
+          | BS_ICON_t
           ;
 
 -----------------

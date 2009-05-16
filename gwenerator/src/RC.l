@@ -97,6 +97,7 @@ DESIGNINFO       { return DESIGNINFO_t; }
 RT_MANIFEST      { return RT_MANIFEST_t; }
 MOVEABLE         { return MOVEABLE_t; }
 PURE             { return PURE_t; }
+IMPURE           { return IMPURE_t; }
 FIXED            { return FIXED_t; }
 PRELOAD          { return PRELOAD_t; }
 DISCARDABLE      { return DISCARDABLE_t; }
@@ -201,6 +202,7 @@ WC_LISTVIEW        { return WC_LISTVIEW_t; }
 WC_TABCONTROL      { return WC_TABCONTROL_t; }
 WC_TREEVIEW        { return WC_TREEVIEW_t; }
 WC_STATIC          { return WC_STATIC_t; }
+STATIC             { return STATIC_t; }
 
 ------------
 -- Styles --
@@ -218,6 +220,7 @@ WS_GROUP                       { return WS_GROUP_t; }
 WS_HSCROLL                     { return WS_HSCROLL_t; }
 WS_MINIMIZEBOX                 { return WS_MINIMIZEBOX_t; }
 WS_MAXIMIZEBOX                 { return WS_MAXIMIZEBOX_t; }
+WS_OVERLAPPED                  { return WS_OVERLAPPED_t; }
 WS_POPUP                       { return WS_POPUP_t; }
 WS_SIZEBOX                     { return WS_SIZEBOX_t; }
 WS_SYSMENU                     { return WS_SYSMENU_t; }
@@ -247,6 +250,8 @@ SS_BLACKFRAME                  { return SS_BLACKFRAME_t; }
 SS_BLACKRECT                   { return SS_BLACKRECT_t; }
 SS_CENTERIMAGE                 { return SS_CENTERIMAGE_t; }
 SS_ENDELLIPSIS                 { return SS_ENDELLIPSIS_t; }
+SS_ETCHEDHORZ                  { return SS_ETCHEDHORZ_t; }
+SS_ETCHEDVERT                  { return SS_ETCHEDVERT_t; }
 SS_GRAYFRAME                   { return SS_GRAYFRAME_t; }
 SS_GRAYRECT                    { return SS_GRAYRECT_t; }
 SS_ICON                        { return SS_ICON_t; }
@@ -285,15 +290,18 @@ BS_BOTTOM                      { return BS_BOTTOM_t; }
 BS_CENTER                      { return BS_CENTER_t; }
 BS_CHECKBOX                    { return BS_CHECKBOX_t; }
 BS_DEFPUSHBUTTON               { return BS_DEFPUSHBUTTON_t; }
+BS_ICON                        { return BS_ICON_t; }
 BS_FLAT                        { return BS_FLAT_t; }
 BS_LEFT                        { return BS_LEFT_t; }
 BS_LEFTTEXT                    { return BS_LEFTTEXT_t; }
 BS_MULTILINE                   { return BS_MULTILINE_t; }
+BS_NOTIFY                      { return BS_NOTIFY_t; }
 BS_OWNERDRAW                   { return BS_OWNERDRAW_t; }
 BS_PUSHBUTTON                  { return BS_PUSHBUTTON_t; }
 BS_PUSHLIKE                    { return BS_PUSHLIKE_t; }
 BS_RADIOBUTTON                 { return BS_RADIOBUTTON_t; }
 BS_RIGHT                       { return BS_RIGHT_t; }
+BS_RIGHTBUTTON                 { return BS_RIGHTBUTTON_t; }
 BS_TEXT                        { return BS_TEXT_t; }
 BS_TOP                         { return BS_TOP_t; }
 BS_VCENTER                     { return BS_VCENTER_t; }
@@ -307,6 +315,7 @@ CBS_DROPDOWNLIST               { return CBS_DROPDOWNLIST_t; }
 CBS_HASSTRINGS                 { return CBS_HASSTRINGS_t; }
 CBS_OWNERDRAWFIXED             { return CBS_OWNERDRAWFIXED_t; }
 CBS_SORT                       { return CBS_SORT_t; }
+CBS_UPPERCASE                  { return CBS_UPPERCASE_t; }
 
 -- Listbox styles
 LBS_DISABLENOSCROLL            { return LBS_DISABLENOSCROLL_t; }
@@ -315,6 +324,7 @@ LBS_HASSTRINGS                 { return LBS_HASSTRINGS_t; }
 LBS_MULTIPLESEL                { return LBS_MULTIPLESEL_t; }
 LBS_MULTICOLUMN                { return LBS_MULTICOLUMN_t; }
 LBS_NOINTEGRALHEIGHT           { return LBS_NOINTEGRALHEIGHT_t; }
+LBS_NOREDRAW                   { return LBS_NOREDRAW_t; }
 LBS_NOSEL                      { return LBS_NOSEL_t; }
 LBS_NOTIFY                     { return LBS_NOTIFY_t; }
 LBS_OWNERDRAWFIXED             { return LBS_OWNERDRAWFIXED_t; }
@@ -338,17 +348,21 @@ TBS_TOP                        { return TBS_TOP_t; }
 TBS_TOOLTIPS                   { return TBS_TOOLTIPS_t; }
 
 -- Up-down styles
-UDS_HORZ           { return UDS_HORZ_t; }
-UDS_ARROWKEYS      { return UDS_ARROWKEYS_t; }
-UDS_WRAP           { return UDS_WRAP_t; }
-UDS_NOTHOUSANDS    { return UDS_NOTHOUSANDS_t; }
-UDS_SETBUDDYINT    { return UDS_SETBUDDYINT_t; }
+UDS_ALIGNRIGHT                 { return UDS_ALIGNRIGHT_t; }
+UDS_AUTOBUDDY                  { return UDS_AUTOBUDDY_t; }
+UDS_HORZ                       { return UDS_HORZ_t; }
+UDS_ARROWKEYS                  { return UDS_ARROWKEYS_t; }
+UDS_WRAP                       { return UDS_WRAP_t; }
+UDS_NOTHOUSANDS                { return UDS_NOTHOUSANDS_t; }
+UDS_SETBUDDYINT                { return UDS_SETBUDDYINT_t; }
 
 -- Listview styles
 LVS_AUTOARRANGE                { return LVS_AUTOARRANGE_t; }
 LVS_ALIGNLEFT                  { return LVS_ALIGNLEFT_t; }
+LVS_EDITLABELS                 { return LVS_EDITLABELS_t; }
 LVS_ICON                       { return LVS_ICON_t; }
 LVS_LIST                       { return LVS_LIST_t; }
+LVS_NOCOLUMNHEADER             { return LVS_NOCOLUMNHEADER_t; }
 LVS_NOSORTHEADER               { return LVS_NOSORTHEADER_t; }
 LVS_REPORT                     { return LVS_REPORT_t; }
 LVS_SHOWSELALWAYS              { return LVS_SHOWSELALWAYS_t; }

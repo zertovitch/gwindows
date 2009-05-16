@@ -24,6 +24,8 @@
 #define IDD_RENAMEDLG                   158
 #define IDD_ABOUTBOX1                   159
 #define IDD_INFOBOX                     159
+#define IDI_ACTIVE2                     213
+#define IDI_PRINTER                     222
 #define IDIMMER                         1000
 #define IDC_COMBO1                      1000
 #define IDC_COMBO2                      1001
@@ -97,6 +99,7 @@
 #define IDC_EING7                       1124
 #define IDC_CHECK7                      1125
 #define IDC_CHECK8                      1126
+#define ID_DSPIC           5001
 #define ID_ADDFILES                     32771
 #define ID_FINDTEXT                     32772
 #define ID_FINDHEX                      32774

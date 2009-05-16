@@ -102,6 +102,7 @@ package RC_Help is
       -- "Static controls":
       bitmap,
       button,
+      edit,
       -- "Common controls":
       track_bar, -- slider
       up_down,   -- spin
@@ -192,9 +193,14 @@ package RC_Help is
     type_name: String
   );
   procedure Ada_Coord_conv(rect: Rect_type);
+
   procedure Ada_normal_control_create(comma_text, extra: String:= ""; with_id: Boolean:= True);
   procedure Ada_normal_control(type_name: String; comma_text, extra: String:= ""; with_id: Boolean:= True);
   procedure Ada_button_control;
+  procedure Ada_edit_control;
+
+  -- All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
+  procedure Ada_untyped_control;
 
   -- Control class is given as a string, not a token (e.g. "Button")
   procedure Identify_control_class(RC_String: String);
