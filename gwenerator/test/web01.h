@@ -24,6 +24,7 @@
 #define IDD_RENAMEDLG                   158
 #define IDD_ABOUTBOX1                   159
 #define IDD_INFOBOX                     159
+#define IDB_BANNER          200
 #define IDI_ACTIVE2                     213
 #define IDI_PRINTER                     222
 #define IDIMMER                         1000

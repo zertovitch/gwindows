@@ -95,12 +95,20 @@ TEXTINCLUDE      { return TEXTINCLUDE_t; }
 GUIDELINES       { return GUIDELINES_t; }
 DESIGNINFO       { return DESIGNINFO_t; }
 RT_MANIFEST      { return RT_MANIFEST_t; }
+DLGINIT          { return DLGINIT_t; }
+
+----------------
+-- Properties --
+----------------
+
+LOADONCALL       { return LOADONCALL_t; }
 MOVEABLE         { return MOVEABLE_t; }
 PURE             { return PURE_t; }
 IMPURE           { return IMPURE_t; }
 FIXED            { return FIXED_t; }
 PRELOAD          { return PRELOAD_t; }
 DISCARDABLE      { return DISCARDABLE_t; }
+
 LANGUAGE         { return LANGUAGE_t; }
 STYLE            { return STYLE_t; }
 EXSTYLE          { return EXSTYLE_t; }
@@ -178,7 +186,9 @@ VALUE                          { return VALUE_t; }
 -------------------
 ICON                           { return ICON_t; }
 BITMAP                         { return BITMAP_t; }
+BITMAP_FONT                    { return BITMAP_FONT_t; }
 CURSOR                         { return CURSOR_t; }
+PNG                            { return PNG_t; }
 
 --------------
 -- Toolbars --
@@ -313,6 +323,7 @@ CBS_DISABLENOSCROLL            { return CBS_DISABLENOSCROLL_t; }
 CBS_DROPDOWN                   { return CBS_DROPDOWN_t; }
 CBS_DROPDOWNLIST               { return CBS_DROPDOWNLIST_t; }
 CBS_HASSTRINGS                 { return CBS_HASSTRINGS_t; }
+CBS_NOINTEGRALHEIGHT           { return CBS_NOINTEGRALHEIGHT_t; }
 CBS_OWNERDRAWFIXED             { return CBS_OWNERDRAWFIXED_t; }
 CBS_SORT                       { return CBS_SORT_t; }
 CBS_UPPERCASE                  { return CBS_UPPERCASE_t; }
@@ -350,6 +361,7 @@ TBS_TOOLTIPS                   { return TBS_TOOLTIPS_t; }
 -- Up-down styles
 UDS_ALIGNRIGHT                 { return UDS_ALIGNRIGHT_t; }
 UDS_AUTOBUDDY                  { return UDS_AUTOBUDDY_t; }
+UDS_HOTTRACK                   { return UDS_HOTTRACK_t; }
 UDS_HORZ                       { return UDS_HORZ_t; }
 UDS_ARROWKEYS                  { return UDS_ARROWKEYS_t; }
 UDS_WRAP                       { return UDS_WRAP_t; }
@@ -363,8 +375,10 @@ LVS_EDITLABELS                 { return LVS_EDITLABELS_t; }
 LVS_ICON                       { return LVS_ICON_t; }
 LVS_LIST                       { return LVS_LIST_t; }
 LVS_NOCOLUMNHEADER             { return LVS_NOCOLUMNHEADER_t; }
+LVS_NOLABELWRAP                { return LVS_NOLABELWRAP_t; }
 LVS_NOSORTHEADER               { return LVS_NOSORTHEADER_t; }
 LVS_REPORT                     { return LVS_REPORT_t; }
+LVS_SHAREIMAGELISTS            { return LVS_SHAREIMAGELISTS_t; }
 LVS_SHOWSELALWAYS              { return LVS_SHOWSELALWAYS_t; }
 LVS_SINGLESEL                  { return LVS_SINGLESEL_t; }
 LVS_SORTASCENDING              { return LVS_SORTASCENDING_t; }
@@ -372,6 +386,7 @@ LVS_SORTASCENDING              { return LVS_SORTASCENDING_t; }
 -- Treeview styles
 TVS_DISABLEDRAGDROP            { return TVS_DISABLEDRAGDROP_t; }
 TVS_EDITLABELS                 { return TVS_EDITLABELS_t; }
+TVS_FULLROWSELECT              { return TVS_FULLROWSELECT_t; }
 TVS_INFOTIP                    { return TVS_INFOTIP_t; }
 TVS_HASBUTTONS                 { return TVS_HASBUTTONS_t; }
 TVS_HASLINES                   { return TVS_HASLINES_t; }
@@ -383,7 +398,9 @@ TVS_SINGLEEXPAND               { return TVS_SINGLEEXPAND_t; }
 TVS_TRACKSELECT                { return TVS_TRACKSELECT_t; }
  
 -- Date time picker styles
-DTS_RIGHTALIGN     { return DTS_RIGHTALIGN_t; }
+DTS_APPCANPARSE                { return DTS_APPCANPARSE_t; }
+DTS_RIGHTALIGN                 { return DTS_RIGHTALIGN_t; }
+DTS_UPDOWN                     { return DTS_UPDOWN_t; }
 
 -- Month calendar styles
 MCS_NOTODAY        { return MCS_NOTODAY_t; }
@@ -391,6 +408,7 @@ MCS_NOTODAY        { return MCS_NOTODAY_t; }
 -- Tab Control Styles
 TCS_HOTTRACK                   { return TCS_HOTTRACK_t; }
 TCS_BUTTONS                    { return TCS_BUTTONS_t; }
+TCS_MULTILINE                  { return TCS_MULTILINE_t; }
 
 -- Grid Styles
 GS_COLUMNLABELS                { return GS_COLUMNLABELS_t; }
@@ -412,7 +430,8 @@ WS_EX_TOPMOST                  { return WS_EX_TOPMOST_t; }
 WS_EX_TRANSPARENT              { return WS_EX_TRANSPARENT_t; }
 
 -- Misc --
-IDC_STATIC         { return IDC_STATIC_t; }
+IDC_STATIC                     { return IDC_STATIC_t; }
+HIDC_STATIC                    { return HIDC_STATIC_t; } 
 
 TRUE                { yylval.intval := 0; return NUMBER; }
 FALSE               { yylval.intval := 1; return NUMBER; }

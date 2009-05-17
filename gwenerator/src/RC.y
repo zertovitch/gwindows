@@ -53,16 +53,18 @@
 %token DIALOG_t, DIALOGEX_t, CONTROL_t, CAPTION_t,
        BEGIN_t, END_t, LANGUAGE_t, STYLE_t, EXSTYLE_t,
        FONT_t, CLASS_t
-%token PURE_t, IMPURE_t, DISCARDABLE_t, MOVEABLE_t, PRELOAD_t, FIXED_t
+%token PURE_t, IMPURE_t, LOADONCALL_t
+       DISCARDABLE_t, MOVEABLE_t, PRELOAD_t, FIXED_t
 %token DLGINCLUDE_t, TEXTINCLUDE_t,
        GUIDELINES_t, DESIGNINFO_t,
-       RT_MANIFEST_t
+       RT_MANIFEST_t, DLGINIT_t
 %token MENU_t, POPUP_t, MENUITEM_t, SEPARATOR_t,
        GRAYED_t, INACTIVE_t, CHECKED_t,
        HELP_t, MENUBARBREAK_t, MENUBREAK_t
 %token ACCELERATORS_t, CHARACTERISTICS_t, VERSION_t, ASCII_t, VIRTKEY_t,
        NOINVERT_t, ALT_t, SHIFT_t
-%token ICON_t, BITMAP_t, CURSOR_t
+%token ICON_t, BITMAP_t, BITMAP_FONT_t, CURSOR_t,
+       PNG_t
 %token VERSIONINFO_t, FILEVERSION_t, PRODUCTVERSION_t, FILEFLAGSMASK_t,
        FILEFLAGS_t, FILEOS_t, FILETYPE_t, FILESUBTYPE_t, BLOCK_t,
        VALUE_t
@@ -139,7 +141,7 @@
 %token CBS_SIMPLE_t, CBS_DROPDOWN_t, CBS_DROPDOWNLIST_t,
        CBS_SORT_t, CBS_HASSTRINGS_t, CBS_AUTOHSCROLL_t,
        CBS_DISABLENOSCROLL_t, CBS_OWNERDRAWFIXED_t,
-       CBS_UPPERCASE_t
+       CBS_UPPERCASE_t, CBS_NOINTEGRALHEIGHT_t
 -- Listbox styles
 %token LBS_SORT_t, LBS_MULTIPLESEL_t, LBS_MULTICOLUMN_t,
        LBS_NOINTEGRALHEIGHT_t, LBS_USETABSTOPS_t,
@@ -155,23 +157,25 @@
        TBS_BOTTOM_t, TBS_TOOLTIPS_t, TBS_BOTH_t
 -- Up-down styles
 %token UDS_HORZ_t, UDS_ARROWKEYS_t, UDS_WRAP_t, UDS_NOTHOUSANDS_t,
-       UDS_SETBUDDYINT_t, UDS_ALIGNRIGHT_t, UDS_AUTOBUDDY_t
+       UDS_SETBUDDYINT_t, UDS_ALIGNRIGHT_t, UDS_AUTOBUDDY_t,
+       UDS_HOTTRACK_t
 -- Listview styles
 %token LVS_ALIGNLEFT_t, LVS_ICON_t, LVS_REPORT_t,
        LVS_SHOWSELALWAYS_t, LVS_SORTASCENDING_t,
        LVS_AUTOARRANGE_t, LVS_NOCOLUMNHEADER_t, LVS_NOSORTHEADER_t, LVS_LIST_t,
-       LVS_SINGLESEL_t, LVS_EDITLABELS_t
+       LVS_SINGLESEL_t, LVS_EDITLABELS_t, LVS_NOLABELWRAP_t,
+       LVS_SHAREIMAGELISTS_t
 -- Treeview styles
 %token TVS_INFOTIP_t, TVS_NOSCROLL_t, TVS_HASLINES_t,
        TVS_SHOWSELALWAYS_t, TVS_HASBUTTONS_t, TVS_LINESATROOT_t,
        TVS_NOTOOLTIPS_t, TVS_EDITLABELS_t, TVS_DISABLEDRAGDROP_t,
-       TVS_SINGLEEXPAND_t, TVS_TRACKSELECT_t
+       TVS_SINGLEEXPAND_t, TVS_TRACKSELECT_t, TVS_FULLROWSELECT_t
 -- Date time picker styles
-%token DTS_RIGHTALIGN_t
+%token DTS_RIGHTALIGN_t, DTS_APPCANPARSE_t, DTS_UPDOWN_t
 -- Month calendar styles
 %token MCS_NOTODAY_t
 -- Tab Control Styles
-%token TCS_HOTTRACK_t, TCS_BUTTONS_t
+%token TCS_HOTTRACK_t, TCS_BUTTONS_t, TCS_MULTILINE_t
 -- Grid Styles
 %token GS_COLUMNLABELS_t, GS_READONLY_t
 -- Extended styles
@@ -182,7 +186,7 @@
        WS_EX_TOPMOST_t, WS_EX_DLGMODALFRAME_t
 
 -- Misc --
-%token IDC_STATIC_t
+%token IDC_STATIC_t, HIDC_STATIC_t
 
 %token IDENT_t, STRINGTABLE_t
 %token RCString, INCString, CONSUME_EOL_t
@@ -231,6 +235,7 @@ RC_item   : dialog
           | include
           | guidelines
           | manifest
+          | dialog_info
           ;
 
 -------------------
@@ -381,6 +386,7 @@ properties:               -- !! right name for it ?
 
 property  : PURE_t
           | IMPURE_t
+          | LOADONCALL_t
           | DISCARDABLE_t
           | MOVEABLE_t
           | PRELOAD_t
@@ -482,7 +488,6 @@ control   :    CONTROL_t
 
 control_text :
           RCString -- correct syntax (MSDN)
-        | NUMBER   -- web1.rc, 465
         | RC_Ident -- image reference for WC_Static
                    -- this adds 1 Reduce/Reduce conflict
         ;
@@ -569,8 +574,9 @@ ctrl_style_list:
 
 ctrl_style: ws_style
           | ss_style
-          | bs_style_only
           | es_style_only
+          | bs_style_only
+          | cbs_style_only
           | PBS_VERTICAL_t
             { Control_Direction:= Vertical; }
           | PBS_SMOOTH_t
@@ -597,6 +603,7 @@ ctrl_style: ws_style
           | UDS_SETBUDDYINT_t
           | UDS_ALIGNRIGHT_t
           | UDS_AUTOBUDDY_t
+          | UDS_HOTTRACK_t
           | LVS_ALIGNLEFT_t
           | LVS_EDITLABELS_t
           | LVS_ICON_t
@@ -606,8 +613,10 @@ ctrl_style: ws_style
           | LVS_AUTOARRANGE_t
           | LVS_NOCOLUMNHEADER_t
           | LVS_NOSORTHEADER_t
+          | LVS_NOLABELWRAP_t
           | LVS_LIST_t
           | LVS_SINGLESEL_t
+          | LVS_SHAREIMAGELISTS_t
           | TVS_INFOTIP_t
             { style_switch(tips):= True; }
           | TVS_NOSCROLL_t
@@ -620,10 +629,14 @@ ctrl_style: ws_style
           | TVS_DISABLEDRAGDROP_t
           | TVS_SINGLEEXPAND_t
           | TVS_TRACKSELECT_t
+          | TVS_FULLROWSELECT_t
+          | DTS_APPCANPARSE_t
           | DTS_RIGHTALIGN_t
+          | DTS_UPDOWN_t
           | MCS_NOTODAY_t
           | TCS_HOTTRACK_t
           | TCS_BUTTONS_t
+          | TCS_MULTILINE_t
           | GS_COLUMNLABELS_t
           | GS_READONLY_t
           | NUMBER
@@ -636,6 +649,9 @@ ctrl_style: ws_style
 ex_styles_optional :
           -- nothing
           | COMMA_t ex_style_list
+          | COMMA_t ex_style_list 
+              COMMA_t HIDC_STATIC_t
+              -- ^ one more undocumented M$ fiddling (help id ?)...
           ;
 
 ex_style_list:
@@ -695,8 +711,7 @@ ss_style  : SS_NOPREFIX_t
 edittext  : EDITTEXT_t
             edit_text
             ctrl_properties_notext
-            es_styles_optional
-            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            es_styles_optional -- also with optional extended styles
             {
               Ada_edit_control;
             }
@@ -709,7 +724,9 @@ edit_text :
 
 es_styles_optional :
           -- nothing
-          | COMMA_t es_style_list
+          | COMMA_t 
+            es_style_list
+            ex_styles_optional
           ;
 
 es_style_list:
@@ -742,8 +759,7 @@ es_style_only :
 
 label     : pos_hint
             ctrl_properties
-            es_styles_optional
-            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            es_styles_optional -- also with optional extended styles
             {
               if anonymous_item then
                 Ada_Coord_conv(last_rect);
@@ -779,8 +795,7 @@ pos_hint : LTEXT_t {last_alignment:= GWindows.Static_Controls.Left;   }
 combobox  : COMBOBOX_t
             { combo:= no_drop; }
             ctrl_properties_notext
-            cbs_styles_optional
-            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            cbs_styles_optional -- also with optional extended styles
             {
               Ada_normal_control(
                 Combo_type_name(combo),
@@ -792,7 +807,9 @@ combobox  : COMBOBOX_t
 
 cbs_styles_optional :
           -- nothing
-          | COMMA_t cbs_style_list
+          | COMMA_t 
+            cbs_style_list
+            ex_styles_optional 
           ;
 
 cbs_style_list:
@@ -800,7 +817,13 @@ cbs_style_list:
           | cbs_style BAR_t cbs_style_list
           ;
 
-cbs_style : CBS_SIMPLE_t          { combo:= no_drop; }
+cbs_style : cbs_style_only
+          | ws_style
+          | NUMBER
+          ;
+
+cbs_style_only
+          : CBS_SIMPLE_t          { combo:= no_drop; }
           | CBS_DROPDOWN_t        { combo:= drop_down; }
           | CBS_DROPDOWNLIST_t    { combo:= drop_down_list; }
           | CBS_SORT_t            { style_switch(sort):= True; }
@@ -809,18 +832,16 @@ cbs_style : CBS_SIMPLE_t          { combo:= no_drop; }
           | CBS_AUTOHSCROLL_t
           | CBS_DISABLENOSCROLL_t
           | CBS_OWNERDRAWFIXED_t
-          | ws_style
-          | NUMBER
+          | CBS_NOINTEGRALHEIGHT_t
           ;
-
+          
 -----------------
 -- Group boxes --
 -----------------
 
 groupbox  : GROUPBOX_t
             ctrl_properties
-            gbs_styles_optional
-            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            gbs_styles_optional -- also with optional extended styles
             {
               Ada_Put_Line(to_spec, "    " & S(last_Ada_ident) & ": Group_Box_Type;");
               Ada_Coord_conv(last_rect);
@@ -833,7 +854,9 @@ groupbox  : GROUPBOX_t
 
 gbs_styles_optional :
           -- nothing
-          | COMMA_t gbs_style_list
+          | COMMA_t 
+            gbs_style_list 
+            ex_styles_optional
           ;
 
 gbs_style_list:
@@ -853,8 +876,7 @@ gbs_style : NUMBER
 listbox   : LISTBOX_t
             lbs_text
             ctrl_properties_notext
-            lbs_styles_optional
-            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            lbs_styles_optional -- also with optional extended styles
             {
               Ada_normal_control(
                 "List_Box_Type",
@@ -871,7 +893,9 @@ lbs_text  :
 
 lbs_styles_optional :
           -- nothing
-          | COMMA_t lbs_style_list
+          | COMMA_t 
+            lbs_style_list
+            ex_styles_optional
           ;
 
 lbs_style_list: lbs_style
@@ -1069,7 +1093,7 @@ icon      : ICON_t
             { last_control_text:= U(yytext); }
             COMMA_t
             ctrl_properties_notext
-            es_styles_optional
+            es_styles_optional -- also with optional extended styles
             { if S(last_control_text) = """""" then
                 null; -- phantom icon...
               else
@@ -1371,8 +1395,10 @@ graphic :   RC_Ident
 graphic_type
           :
             BITMAP_t
+          | BITMAP_FONT_t  
           | CURSOR_t
           | ICON_t
+          | PNG_t
           ;
 
 file_name : RC_Ident | RCString ;
@@ -1618,6 +1644,22 @@ guidelines_line :
 
 manifest : RC_Ident RT_MANIFEST_t properties RCString ;
 
+dialog_info :
+           RC_Ident 
+           DLGINIT_t
+           BEGIN_block
+           dlginit_stuff_list
+           END_block
+           ;
+
+dlginit_stuff_list:
+            dlginit_stuff
+          | dlginit_stuff dlginit_stuff_list
+          | dlginit_stuff COMMA_t dlginit_stuff_list
+          ;
+
+dlginit_stuff: RC_Ident | RCString;
+           
 --------------------
 -- Terminal items --
 --------------------
