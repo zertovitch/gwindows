@@ -222,6 +222,7 @@ STATIC             { return STATIC_t; }
 WS_BORDER                      { return WS_BORDER_t; }
 WS_CAPTION                     { return WS_CAPTION_t; }
 WS_CHILD                       { return WS_CHILD_t; }
+WS_CHILDWINDOW                 { return WS_CHILDWINDOW_t; }
 WS_CLIPCHILDREN                { return WS_CLIPCHILDREN_t; }
 WS_CLIPSIBLINGS                { return WS_CLIPSIBLINGS_t; }
 WS_DISABLED                    { return WS_DISABLED_t; }
@@ -274,6 +275,7 @@ SS_RIGHT                       { return SS_RIGHT_t; }
 SS_SIMPLE                      { return SS_SIMPLE_t; }
 SS_SUNKEN                      { return SS_SUNKEN_t; }
 SS_WHITERECT                   { return SS_WHITERECT_t; }
+SS_WORDELLIPSIS                { return SS_WORDELLIPSIS_t; }
 
 -- Edit styles
 ES_AUTOHSCROLL                 { return ES_AUTOHSCROLL_t; }
@@ -428,6 +430,7 @@ WS_EX_STATICEDGE               { return WS_EX_STATICEDGE_t; }
 WS_EX_TOOLWINDOW               { return WS_EX_TOOLWINDOW_t; }
 WS_EX_TOPMOST                  { return WS_EX_TOPMOST_t; }
 WS_EX_TRANSPARENT              { return WS_EX_TRANSPARENT_t; }
+WS_EX_WINDOWEDGE               { return WS_EX_WINDOWEDGE_t; }
 
 -- Misc --
 IDC_STATIC                     { return IDC_STATIC_t; }

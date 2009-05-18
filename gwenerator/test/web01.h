@@ -122,3 +122,4 @@
 #define ID_CPPBEATIFY                   32795
 #define IDI_ID3                         32796
 #define IDI_CYGWIN                      32797
+#define IDC_SLIDER1                   32798

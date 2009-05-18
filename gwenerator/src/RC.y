@@ -105,7 +105,8 @@
        WS_GROUP_t, WS_DISABLED_t,
        WS_MINIMIZEBOX_t, WS_MAXIMIZEBOX_t,
        WS_THICKFRAME_t,
-       WS_CHILD_t, WS_CLIPSIBLINGS_t, WS_CLIPCHILDREN_t
+       WS_CHILD_t, WS_CHILDWINDOW_t, 
+       WS_CLIPSIBLINGS_t, WS_CLIPCHILDREN_t
        WS_SIZEBOX_t, WS_OVERLAPPED_t
 -- Dialog style
 %token DS_3DLOOK_t, DS_CENTER_t,
@@ -121,7 +122,8 @@
        SS_BLACKRECT_t, SS_GRAYRECT_t, SS_WHITERECT_t,
        SS_REALSIZEIMAGE_t, SS_GRAYFRAME_t
        SS_LEFT_t, SS_RIGHT_t,
-       SS_NOTIFY_t, SS_ETCHEDHORZ_t, SS_ETCHEDVERT_t
+       SS_NOTIFY_t, SS_ETCHEDHORZ_t, SS_ETCHEDVERT_t,
+       SS_WORDELLIPSIS_t
 -- Edit styles
 %token ES_MULTILINE_t, ES_READONLY_t,
        ES_AUTOHSCROLL_t, ES_AUTOVSCROLL_t,
@@ -183,7 +185,8 @@
        WS_EX_APPWINDOW_t, WS_EX_TOOLWINDOW_t,
        WS_EX_CONTROLPARENT_t, WS_EX_NOPARENTNOTIFY_t,
        WS_EX_CONTEXTHELP_t, WS_EX_RIGHT_t, WS_EX_TRANSPARENT_t,
-       WS_EX_TOPMOST_t, WS_EX_DLGMODALFRAME_t
+       WS_EX_TOPMOST_t, WS_EX_DLGMODALFRAME_t,
+       WS_EX_WINDOWEDGE_t
 
 -- Misc --
 %token IDC_STATIC_t, HIDC_STATIC_t
@@ -272,6 +275,7 @@ ws_style  :
           |       WS_MAXIMIZEBOX_t
           |       WS_THICKFRAME_t
           |       WS_CHILD_t
+          |       WS_CHILDWINDOW_t
           |       WS_CLIPSIBLINGS_t
           |       WS_CLIPCHILDREN_t
           |       WS_SIZEBOX_t
@@ -489,7 +493,6 @@ control   :    CONTROL_t
 control_text :
           RCString -- correct syntax (MSDN)
         | RC_Ident -- image reference for WC_Static
-                   -- this adds 1 Reduce/Reduce conflict
         ;
 
 
@@ -665,8 +668,9 @@ ex_style  : ex_style_only
 
 ex_style_only
           : WS_EX_CLIENTEDGE_t
-          | WS_EX_CONTROLPARENT_t
+          | WS_EX_WINDOWEDGE_t
           | WS_EX_STATICEDGE_t
+          | WS_EX_CONTROLPARENT_t
           | WS_EX_ACCEPTFILES_t
           | WS_EX_APPWINDOW_t
           | WS_EX_TOOLWINDOW_t
@@ -701,6 +705,7 @@ ss_style  : SS_NOPREFIX_t
           | SS_NOTIFY_t
           | SS_ETCHEDHORZ_t
           | SS_ETCHEDVERT_t
+          | SS_WORDELLIPSIS_t
           ;
 
 
