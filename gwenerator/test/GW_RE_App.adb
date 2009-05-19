@@ -2,6 +2,7 @@
 
 with GWindows.Application;        use GWindows.Application;
 with GWindows.Base;               use GWindows.Base;
+with GWindows.Common_Controls;          use GWindows.Common_Controls;
 with GWindows.Edit_Boxes;         use GWindows.Edit_Boxes;
 with GWindows.Windows;            use GWindows.Windows;
 with GWindows.Windows.Main;       use GWindows.Windows.Main;
@@ -36,6 +37,8 @@ procedure GW_RE_App is
     Final_text:= U(Text(Dialog_1.Edit_Box_1));
   end Get_Data;
 
+  root, node: Tree_Item_Node;
+
 begin
   Create_Full_Dialog (Dialog_1, No_Parent);
   On_Destroy_Handler (Dialog_1, Get_Data'Unrestricted_Access);
@@ -45,6 +48,12 @@ begin
   Message_Box ("Info", "Text in the edit box: [" & S(Final_text) & "].");
   --
   Create_Full_Dialog (Dialog_2, No_Parent);
+  Dialog_2.IDC_TREE1.Insert_Item("The Root", 0, root, As_a_root);
+  Dialog_2.IDC_TREE1.Expand(root);
+  Dialog_2.IDC_TREE1.Insert_Item("First level item 1", root, node);
+  Dialog_2.IDC_TREE1.Insert_Item("First level item 2", root, node);
+  Dialog_2.IDC_TREE1.Insert_Item("Second level item",  node, node);
+  Dialog_2.IDC_TREE1.Insert_Item("First level item 3", root, node);
   Center(Dialog_2);
   Result := GWindows.Application.Show_Dialog (Dialog_2);
   --

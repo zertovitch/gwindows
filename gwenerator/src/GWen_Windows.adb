@@ -16,6 +16,7 @@ with GWindows.Static_Controls.Web;      use GWindows.Static_Controls.Web;
 
 with GWenerator_Resource_GUI;           use GWenerator_Resource_GUI;
 
+with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
 with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 with Ada.Directories;                   use Ada.Directories;
 with Ada.Command_Line;
@@ -514,6 +515,7 @@ package body GWen_Windows is
     Window.Create_Contents(for_dialog => False);
     Window.menus.Create_Full_menu;
     Window.Menu(Window.menus.main);
+    Window.Accelerator_Table('#' & Trim(Integer'Image(Main_Menu),Left));
     if Argument_count=0 then
       Window.On_New;
     else

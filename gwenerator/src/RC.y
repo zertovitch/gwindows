@@ -105,7 +105,7 @@
        WS_GROUP_t, WS_DISABLED_t,
        WS_MINIMIZEBOX_t, WS_MAXIMIZEBOX_t,
        WS_THICKFRAME_t,
-       WS_CHILD_t, WS_CHILDWINDOW_t, 
+       WS_CHILD_t, WS_CHILDWINDOW_t,
        WS_CLIPSIBLINGS_t, WS_CLIPCHILDREN_t
        WS_SIZEBOX_t, WS_OVERLAPPED_t
 -- Dialog style
@@ -486,7 +486,7 @@ control   :    CONTROL_t
                ctrl_style_list
                COMMA_t
                rect
-               ex_styles_optional -- this adds 1 Shift/Reduce conflict
+               ex_styles_optional
                { Ada_untyped_control; }
           ;
 
@@ -557,7 +557,7 @@ window_class:
       | WC_PAGESCROLLER_t  -- Creates pager controls (contain and scroll another window).
       | WC_SCROLLBAR_t     -- Creates scrollbar controls (scroll the contents of a window).
       | WC_STATIC_t
-      |    STATIC_t 
+      |    STATIC_t
         -- Creates static controls. These controls contain noneditable text.
         -- ResEdit seems to use WC_STATIC for pictures; some sources use STATIC
       | WC_TABCONTROL_t
@@ -624,13 +624,17 @@ ctrl_style: ws_style
             { style_switch(tips):= True; }
           | TVS_NOSCROLL_t
           | TVS_HASLINES_t
+            { style_switch(has_lines):= True; }
           | TVS_SHOWSELALWAYS_t
           | TVS_HASBUTTONS_t
+            { style_switch(has_buttons):= True; }
           | TVS_LINESATROOT_t
+            { style_switch(lines_at_root):= True; }
           | TVS_NOTOOLTIPS_t
           | TVS_EDITLABELS_t
           | TVS_DISABLEDRAGDROP_t
           | TVS_SINGLEEXPAND_t
+            { style_switch(single_expand):= True; }
           | TVS_TRACKSELECT_t
           | TVS_FULLROWSELECT_t
           | DTS_APPCANPARSE_t
@@ -652,7 +656,7 @@ ctrl_style: ws_style
 ex_styles_optional :
           -- nothing
           | COMMA_t ex_style_list
-          | COMMA_t ex_style_list 
+          | COMMA_t ex_style_list
               COMMA_t HIDC_STATIC_t
               -- ^ one more undocumented M$ fiddling (help id ?)...
           ;
@@ -729,7 +733,7 @@ edit_text :
 
 es_styles_optional :
           -- nothing
-          | COMMA_t 
+          | COMMA_t
             es_style_list
             ex_styles_optional
           ;
@@ -812,9 +816,9 @@ combobox  : COMBOBOX_t
 
 cbs_styles_optional :
           -- nothing
-          | COMMA_t 
+          | COMMA_t
             cbs_style_list
-            ex_styles_optional 
+            ex_styles_optional
           ;
 
 cbs_style_list:
@@ -839,7 +843,7 @@ cbs_style_only
           | CBS_OWNERDRAWFIXED_t
           | CBS_NOINTEGRALHEIGHT_t
           ;
-          
+
 -----------------
 -- Group boxes --
 -----------------
@@ -859,8 +863,8 @@ groupbox  : GROUPBOX_t
 
 gbs_styles_optional :
           -- nothing
-          | COMMA_t 
-            gbs_style_list 
+          | COMMA_t
+            gbs_style_list
             ex_styles_optional
           ;
 
@@ -898,7 +902,7 @@ lbs_text  :
 
 lbs_styles_optional :
           -- nothing
-          | COMMA_t 
+          | COMMA_t
             lbs_style_list
             ex_styles_optional
           ;
@@ -931,7 +935,7 @@ lbs_style :       LBS_SORT_t
 
 checkbox  : checkbox_hint
             ctrl_properties
-            bs_styles_optional
+            bs_styles_optional -- also with optional extended styles
             {
               style_switch(checkbox):= True;
               Ada_button_control;
@@ -963,8 +967,7 @@ checkbox_hint : CHECKBOX_t
 pushbutton  :
             pushbutton_hint
             ctrl_properties
-            bs_styles_optional
-            ex_styles_optional -- this adds 1 Shift/Reduce conflict
+            bs_styles_optional -- also with optional extended styles
             {
               style_switch(push):= True;
               Ada_button_control;
@@ -984,7 +987,7 @@ pushbutton_hint :
 radiobutton :
             radiobutton_hint
             ctrl_properties
-            bs_styles_optional
+            bs_styles_optional -- also with optional extended styles
             {
               style_switch(radio):= True;
               Ada_button_control;
@@ -1003,7 +1006,9 @@ radiobutton_hint :
 
 bs_styles_optional :
           -- nothing
-          | COMMA_t bs_style_list
+          | COMMA_t
+            bs_style_list
+            ex_styles_optional
           ;
 
 bs_style_list:
@@ -1400,7 +1405,7 @@ graphic :   RC_Ident
 graphic_type
           :
             BITMAP_t
-          | BITMAP_FONT_t  
+          | BITMAP_FONT_t
           | CURSOR_t
           | ICON_t
           | PNG_t
@@ -1650,7 +1655,7 @@ guidelines_line :
 manifest : RC_Ident RT_MANIFEST_t properties RCString ;
 
 dialog_info :
-           RC_Ident 
+           RC_Ident
            DLGINIT_t
            BEGIN_block
            dlginit_stuff_list
@@ -1664,7 +1669,7 @@ dlginit_stuff_list:
           ;
 
 dlginit_stuff: RC_Ident | RCString;
-           
+
 --------------------
 -- Terminal items --
 --------------------

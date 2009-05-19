@@ -87,7 +87,11 @@ package RC_Help is
       multi_line, -- edit boxes
       grayed,     -- menus
       inactive,
-      checked
+      checked,
+      has_buttons, -- tree view
+      has_lines,
+      lines_at_root,
+      single_expand
     );
 
   style_switch: array(Style_switch_type) of Boolean;

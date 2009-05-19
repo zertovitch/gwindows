@@ -432,7 +432,7 @@ package body RC_Help is
   end Close_if_separate;
 
   dialog_mem: array(1..10_000) of Unbounded_String;
-  dialog_top: Natural:= 0;
+  dialog_top: Natural;
 
   procedure Ada_Proc_Dialog(
     to          : Pkg_output;
@@ -743,7 +743,15 @@ package body RC_Help is
       when list_view =>
         Ada_normal_control("List_View_Control_Type", with_id => False );
       when tree_view =>
-        Ada_normal_control("List_View_Control_Type", with_id => False );
+        Ada_normal_control(
+          "Tree_View_Control_Type",
+          "",
+          ", Buttons=> " & Boolean'Image(style_switch(has_buttons)) &
+          ", Lines => " & Boolean'Image(style_switch(has_lines)) &
+          ", Lines_At_Root => " & Boolean'Image(style_switch(lines_at_root)) &
+          ", Single_Expand => " & Boolean'Image(style_switch(single_expand)),
+          with_id => False
+        );
       when tab_control =>
         Ada_normal_control("Tab_Window_Control_Type", with_id => False );
         -- Tab_Window_Control_Type allows to associate a window
@@ -1000,6 +1008,7 @@ package body RC_Help is
     separate_items:= False;
     generate_test:= False;
     first_include:= True;
+    dialog_top:= 0;
     --
     -- Initialize the symbol dictionaries with common symbols (See GWindows.Constants)
     Insert_Common( "IDOK"    , 1);
