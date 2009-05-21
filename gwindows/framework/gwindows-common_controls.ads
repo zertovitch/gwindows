@@ -926,6 +926,12 @@ package GWindows.Common_Controls is
      (Control     : in out Tree_View_Control_Type;
       At_Node     : in     Tree_Item_Node);
 
+   -- GdM: Select_Item added 21-May-2009
+
+   procedure Select_Item
+     (Control     : in out Tree_View_Control_Type;
+      Node        : in     Tree_Item_Node);
+
    -------------------------------------------------------------------------
    --  Tree_View_Control_Type - Event Framework Methods
    -------------------------------------------------------------------------

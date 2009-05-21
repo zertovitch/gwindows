@@ -234,6 +234,7 @@ package body GWindows.Common_Controls is
    TVM_SETITEMA            : constant := TV_FIRST + 13;  --  AnSp
    TVM_SETITEMW            : constant := TV_FIRST + 63;  --  AnSp
    TVM_SETIMAGELIST        : constant := TV_FIRST + 9;  --  AnSp
+   TVM_SELECTITEM          : constant := TV_FIRST + 11; -- GdM
 
    TVGN_ROOT               : constant := 16#0000#;
    TVGN_NEXT               : constant := 16#0001#;
@@ -2858,6 +2859,27 @@ package body GWindows.Common_Controls is
    begin
       SendMessage;
    end Collapse;
+
+   -----------------
+   -- Select_Item --
+   -----------------
+   -- GdM: added 21-May-2009
+
+   procedure Select_Item
+     (Control     : in out Tree_View_Control_Type;
+      Node        : in     Tree_Item_Node)
+   is
+
+      procedure SendMessage
+        (hwnd   : Interfaces.C.long := Handle (Control);
+         uMsg   : Interfaces.C.int  := TVM_SELECTITEM;
+         wParam : Integer           := TVGN_Caret;
+         lParam : Tree_Item_Node    := Node);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Select_Item;
 
    ---------------
    -- On_Create --
