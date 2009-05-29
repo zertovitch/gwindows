@@ -121,6 +121,8 @@ package body GWindows.Image_Lists is
       C_Text : Interfaces.C.char_array :=
         Interfaces.C.To_C (GWindows.GStrings.To_String (Name));
 
+      LR_CREATEDIBSECTION: constant:= 16#2000#;
+
       function ImageList_LoadImage
         (HINST : in     Interfaces.C.long      :=
            GWindows.Internal.Current_hInstance;
@@ -129,7 +131,7 @@ package body GWindows.Image_Lists is
          Grow  : in     Natural                := Grow_By;
          CREF  : in     Interfaces.C.unsigned  := 16#FF000000#;
          UT    : in     Integer                := 0;
-         FLAGS : in     Natural                := 0)
+         FLAGS : in     Natural                := LR_CREATEDIBSECTION)
         return GWindows.Types.Handle;
       pragma Import (StdCall, ImageList_LoadImage, "ImageList_LoadImage");
    begin
