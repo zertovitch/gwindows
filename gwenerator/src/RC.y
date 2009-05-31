@@ -64,7 +64,7 @@
 %token ACCELERATORS_t, CHARACTERISTICS_t, VERSION_t, ASCII_t, VIRTKEY_t,
        NOINVERT_t, ALT_t, SHIFT_t
 %token ICON_t, BITMAP_t, BITMAP_FONT_t, CURSOR_t,
-       PNG_t
+       PNG_t, AVI_t
 %token VERSIONINFO_t, FILEVERSION_t, PRODUCTVERSION_t, FILEFLAGSMASK_t,
        FILEFLAGS_t, FILEOS_t, FILETYPE_t, FILESUBTYPE_t, BLOCK_t,
        VALUE_t
@@ -114,7 +114,7 @@
        DS_SHELLFONT_t, DS_SETFONT_t, DS_FIXEDSYS_t,
        DS_NOIDLEMSG_t, DS_CENTERMOUSE_t,
        DS_LOCALEDIT_t, DS_SETFOREGROUND_t, DS_CONTEXTHELP_t,
-       DS_CONTROL_t
+       DS_CONTROL_t, DS_ABSALIGN_t
 -- Static styles
 %token SS_NOPREFIX_t, SS_SUNKEN_t, SS_BLACKFRAME_t,
        SS_CENTERIMAGE_t, SS_BITMAP_t, SS_ICON_t, SS_SIMPLE_t,
@@ -186,7 +186,7 @@
        WS_EX_CONTROLPARENT_t, WS_EX_NOPARENTNOTIFY_t,
        WS_EX_CONTEXTHELP_t, WS_EX_RIGHT_t, WS_EX_TRANSPARENT_t,
        WS_EX_TOPMOST_t, WS_EX_DLGMODALFRAME_t,
-       WS_EX_WINDOWEDGE_t
+       WS_EX_WINDOWEDGE_t, WS_EX_LEFTSCROLLBAR_t, WS_EX_RTLREADING_t
 
 -- Misc --
 %token IDC_STATIC_t, HIDC_STATIC_t
@@ -419,6 +419,7 @@ dlg_style : DS_3DLOOK_t
           | DS_SETFOREGROUND_t
           | DS_CONTEXTHELP_t
           | DS_CONTROL_t
+          | DS_ABSALIGN_t
           | ws_style
           | NUMBER
           ;
@@ -680,10 +681,12 @@ ex_style_only
           | WS_EX_TOOLWINDOW_t
           | WS_EX_NOPARENTNOTIFY_t
           | WS_EX_CONTEXTHELP_t
+          | WS_EX_LEFTSCROLLBAR_t
           | WS_EX_RIGHT_t
           | WS_EX_TOPMOST_t
           | WS_EX_TRANSPARENT_t
           | WS_EX_DLGMODALFRAME_t
+          | WS_EX_RTLREADING_t
           ;
 
 -------------------
@@ -1409,6 +1412,7 @@ graphic_type
           | CURSOR_t
           | ICON_t
           | PNG_t
+          | AVI_t
           ;
 
 file_name : RC_Ident | RCString ;

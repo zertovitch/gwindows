@@ -10,18 +10,18 @@
 //
 // Bitmap resources
 //
-Listen_32x32       BITMAP         ".\\listen_32x32.bmp"
-Not_Listen_32x32   BITMAP         ".\\not_listen_32x32.bmp"
-Wheels_32x32       BITMAP         ".\\wheels_32_32.bmp"
+Listen_32x32       BITMAP         "listen_32x32.bmp"
+Not_Listen_32x32   BITMAP         "not_listen_32x32.bmp"
+Wheels_32x32       BITMAP         "wheels_32_32.bmp"
 
 //
 // Icon resources
 //
-AAA_Main_Icon      ICON           ".\\gwenerator.ico"
-Ada_file           ICON           ".\\Ada_file.ico"
-Exe_file           ICON           ".\\Exe_file.ico"
-RC_file            ICON           ".\\RC_file.ico"
-gwenerator_icon    ICON           ".\\gwenerator.ico"
+AAA_Main_Icon      ICON           "gwenerator.ico"
+Ada_file           ICON           "Ada_file.ico"
+Exe_file           ICON           "Exe_file.ico"
+RC_file            ICON           "RC_file.ico"
+gwenerator_icon    ICON           "gwenerator.ico"
 
 //
 // Menu resources

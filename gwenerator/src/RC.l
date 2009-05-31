@@ -185,6 +185,7 @@ VALUE                          { return VALUE_t; }
 -- Graphic items --
 -------------------
 ICON                           { return ICON_t; }
+AVI                            { return AVI_t; }
 BITMAP                         { return BITMAP_t; }
 BITMAP_FONT                    { return BITMAP_FONT_t; }
 CURSOR                         { return CURSOR_t; }
@@ -242,6 +243,7 @@ WS_THICKFRAME                  { return WS_THICKFRAME_t; }
 
 -- Dialog style
 DS_3DLOOK                      { return DS_3DLOOK_t; }
+DS_ABSALIGN                    { return DS_ABSALIGN_t; }
 DS_CENTER                      { return DS_CENTER_t; }
 DS_CENTERMOUSE                 { return DS_CENTERMOUSE_t; }
 DS_CONTROL                     { return DS_CONTROL_t; }
@@ -424,8 +426,10 @@ WS_EX_CLIENTEDGE               { return WS_EX_CLIENTEDGE_t; }
 WS_EX_CONTEXTHELP              { return WS_EX_CONTEXTHELP_t; }
 WS_EX_CONTROLPARENT            { return WS_EX_CONTROLPARENT_t; }
 WS_EX_DLGMODALFRAME            { return WS_EX_DLGMODALFRAME_t; }
+WS_EX_LEFTSCROLLBAR            { return WS_EX_LEFTSCROLLBAR_t; }
 WS_EX_NOPARENTNOTIFY           { return WS_EX_NOPARENTNOTIFY_t; }
 WS_EX_RIGHT                    { return WS_EX_RIGHT_t; }
+WS_EX_RTLREADING               { return WS_EX_RTLREADING_t; }
 WS_EX_STATICEDGE               { return WS_EX_STATICEDGE_t; }
 WS_EX_TOOLWINDOW               { return WS_EX_TOOLWINDOW_t; }
 WS_EX_TOPMOST                  { return WS_EX_TOPMOST_t; }
