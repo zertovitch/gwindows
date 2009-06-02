@@ -877,6 +877,11 @@ package GWindows.Common_Controls is
                   Where   : in Tree_Item_Node)
                  return GString;
 
+   -- GdM: procedure Text (with node) added 2-Jun-2009, uses AnSp's Set_Item
+   procedure Text (Control : in out Tree_View_Control_Type;
+                   Where   : in     Tree_Item_Node;
+                   Text    : in     GString);
+
    function Get_Root_Item (Control : in Tree_View_Control_Type)
                           return Tree_Item_Node;
 
@@ -969,6 +974,36 @@ package GWindows.Common_Controls is
       Where       : in     Tree_Item_Node;
       Image       : in     Integer;
       ImageSelect : in     Integer);
+
+   -- GdM: Tree_View_Control_Type handlers added 2-Jun-2009
+   -------------------------------------------------------------------------
+   --  Tree_View_Control_Type - Event Handlers
+   -------------------------------------------------------------------------
+   --  See Event Methods for details on each event
+
+   procedure On_Selection_Change_Handler
+     (Control : in out Tree_View_Control_Type;
+      Handler : in     GWindows.Base.Action_Event);
+   procedure Fire_On_Selection_Change
+     (Control : in out Tree_View_Control_Type);
+
+   -------------------------------------------------------------------------
+   --  Tree_View_Control_Type - Event Methods
+   -------------------------------------------------------------------------
+
+   procedure On_Selection_Change (Control : in out Tree_View_Control_Type);
+
+   -------------------------------------------------------------------------
+   --  Tree_View_Control_Type - Event Framework Methods
+   -------------------------------------------------------------------------
+   --  These should be overiden with caution and only with a full
+   --  understanding of the internals of the entire GWindows framework
+
+   procedure On_Notify
+     (Window       : in out Tree_View_Control_Type;
+      Message      : in     GWindows.Base.Pointer_To_Notification;
+      Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
+      Return_Value : in out Interfaces.C.long);
 
    -------------------------------------------------------------------------
    --  Tab_Control_Type
@@ -1426,7 +1461,10 @@ private
 
    type List_View_Control_Type is new Common_Control_Type with null record;
 
-   type Tree_View_Control_Type is new Common_Control_Type with null record;
+   type Tree_View_Control_Type is new Common_Control_Type with
+      record
+         On_Selection_Change_Event  : GWindows.Base.Action_Event := null;
+      end record;
 
    type Trackbar_Control_Type is new Common_Control_Type with null record;
 

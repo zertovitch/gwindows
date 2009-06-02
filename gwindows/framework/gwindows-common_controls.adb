@@ -2818,6 +2818,15 @@ package body GWindows.Common_Controls is
         (GString_C (To_PBuffer (TV.Text).all));
    end Text;
 
+   -- GdM: procedure Text (with node) added 2-Jun-2009, uses AnSp's Set_Item
+   procedure Text (Control : in out Tree_View_Control_Type;
+                   Where   : in     Tree_Item_Node;
+                   Text    : in     GString)
+   is
+   begin
+     Set_Item(Control, Where, TVIF_TEXT, Text, 0,0,0,0,0);
+   end Text;
+
    ------------
    -- Expand --
    ------------
@@ -2985,6 +2994,62 @@ package body GWindows.Common_Controls is
       Set_Item (Control, Where, TVIF_IMAGE + TVIF_SELECTEDIMAGE, "", Image,
          ImageSelect, 0, 0, 0);
    end Set_Image;
+
+   -------------------------
+   -- On_Selection_Change --
+   -------------------------
+
+   procedure On_Selection_Change (Control : in out Tree_View_Control_Type) is
+   begin
+      Fire_On_Selection_Change (Control);
+   end On_Selection_Change;
+
+   ---------------------------------
+   -- On_Selection_Change_Handler --
+   ---------------------------------
+
+   procedure On_Selection_Change_Handler (Control : in out Tree_View_Control_Type;
+                                Handler : in     GWindows.Base.Action_Event)
+   is
+   begin
+      Control.On_Selection_Change_Event := Handler;
+   end On_Selection_Change_Handler;
+
+   ------------------------------
+   -- Fire_On_Selection_Change --
+   ------------------------------
+
+   procedure Fire_On_Selection_Change (Control : in out Tree_View_Control_Type)
+   is
+      use GWindows.Base;
+   begin
+      if Control.On_Selection_Change_Event /= null then
+         Control.On_Selection_Change_Event (Base_Window_Type'Class (Control));
+      end if;
+   end Fire_On_Selection_Change;
+
+   ---------------
+   -- On_Notify --
+   ---------------
+
+   procedure On_Notify
+     (Window       : in out Tree_View_Control_Type;
+      Message      : in     GWindows.Base.Pointer_To_Notification;
+      Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
+      Return_Value : in out Interfaces.C.long)
+   is
+      TVN_FIRST       : constant := -400;
+      TVN_SELCHANGEDA : constant := TVN_FIRST - 2;
+      TVN_SELCHANGEDW : constant := TVN_FIRST - 51;
+   begin
+      case Message.Code is
+         when TVN_SELCHANGEDA | TVN_SELCHANGEDW =>
+            On_Selection_Change ( Tree_View_Control_Type'Class(Window) );
+         when others =>
+            On_Notify (Common_Control_Type (Window),
+                       Message, Control, Return_Value);
+      end case;
+   end On_Notify;
 
    ------------
    -- Create --
