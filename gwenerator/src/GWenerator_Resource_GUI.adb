@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/05/16   08:19:29
+-- Transcription time: 2009/06/04   23:12:14
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 16-May-2009
+-- RC Grammar version: 4-Jun-2009
 ---------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -21,7 +21,7 @@ package body GWenerator_Resource_GUI is
   -- ** Generated code begins here \/ \/ \/.
 
 
-  -- Menu at line 46
+  -- Menu at line 29
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type)
   is
@@ -48,7 +48,7 @@ package body GWenerator_Resource_GUI is
   end Create_Full_Menu; -- Main_Menu_Type
 
 
-  -- Dialog at resource line 80
+  -- Dialog at resource line 61
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -117,23 +117,23 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  5, 5, 21, 20, x,y,w,h);
     Create( Window.Static_0001, Window, Num_resource(gwenerator_icon), x,y,w,h);
     Dlg_to_Scn(  35, 10, 165, 8, x,y,w,h);
-    Create_label( Window, "GWenerator - a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Create_label( Window, "GWenerator - a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  35, 25, 150, 8, x,y,w,h);
-    Create_label( Window, "Copyright © Gautier de Montmollin 2008..2009", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Create_label( Window, "Copyright © Gautier de Montmollin 2008..2009", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  35, 40, 100, 8, x,y,w,h);
-    Create_label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Create_label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  35, 55, 30, 8, x,y,w,h);
-    Create_label( Window, "Internet:", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Create_label( Window, "Internet:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  70, 55, 90, 8, x,y,w,h);
-    Create( Window.URL, Window, "http://sf.net/projects/gnavi", x,y,w,h, GWindows.Static_Controls.LEFT, URL);
+    Create( Window.URL, Window, "http://sf.net/projects/gnavi", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, URL);
     Dlg_to_Scn(  35, 70, 170, 8, x,y,w,h);
-    Create( Window.RC_gramm_ver, Window, "RC Grammar version: ", x,y,w,h, GWindows.Static_Controls.LEFT, RC_gramm_ver);
+    Create( Window.RC_gramm_ver, Window, "RC Grammar version: ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, RC_gramm_ver);
     Dlg_to_Scn(  35, 85, 170, 8, x,y,w,h);
-    Create( Window.GWen_ver, Window, "GWenerator version: ", x,y,w,h, GWindows.Static_Controls.LEFT, GWen_ver);
+    Create( Window.GWen_ver, Window, "GWenerator version: ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GWen_ver);
   end Create_Contents; -- About_box_Type
 
 
-  -- Dialog at resource line 98
+  -- Dialog at resource line 77
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -213,7 +213,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  85, 19, 168, 15, x,y,w,h);
     Create( Window.Edit_RC_File_Name, Window, "", x,y,w,h, TRUE, Edit_RC_File_Name);
     Dlg_to_Scn(  22, 22, 60, 8, x,y,w,h);
-    Create_label( Window, "File name", x,y,w,h, GWindows.Static_Controls.RIGHT);
+    Create_label( Window, "File name", x,y,w,h, GWindows.Static_Controls.RIGHT, NONE);
     Dlg_to_Scn(  255, 19, 43, 14, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
@@ -255,11 +255,11 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  65, 97, 20, 15, x,y,w,h);
     Create( Window.Basx, Window, "", x,y,w,h, TRUE, Basx);
     Dlg_to_Scn(  25, 97, 39, 8, x,y,w,h);
-    Create_label( Window, "Base unit x:", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Create_label( Window, "Base unit x:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  102, 97, 20, 15, x,y,w,h);
     Create( Window.Basy, Window, "", x,y,w,h, TRUE, Basy);
     Dlg_to_Scn(  90, 97, 10, 8, x,y,w,h);
-    Create_label( Window, " y:", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Create_label( Window, " y:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  130, 97, 55, 10, x,y,w,h);
     Create( Window.Use_base_defs, Window, "use defaults", x,y,w,h, Use_base_defs);
     Dlg_to_Scn(  12, 67, 294, 50, x,y,w,h);
@@ -269,11 +269,11 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  17, 187, 275, 14, x,y,w,h);
     Create( Window.Ada_cmd, Window, "", x,y,w,h, TRUE, Ada_cmd);
     Dlg_to_Scn(  20, 135, 62, 8, x,y,w,h);
-    Create_label( Window, "App. source or exe", x,y,w,h, GWindows.Static_Controls.RIGHT);
+    Create_label( Window, "App. source or exe", x,y,w,h, GWindows.Static_Controls.RIGHT, NONE);
   end Create_Contents; -- GWen_properties_Type
 
 
-  -- Dialog at resource line 130
+  -- Dialog at resource line 107
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -335,9 +335,9 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  210, 132, 182, 105, x,y,w,h);
     Create( Window.GNATMake_messages, Window, x,y,w,h, TRUE, GNATMake_messages);
     Dlg_to_Scn(  10, 115, 88, 8, x,y,w,h);
-    Create_label( Window, "Resource to Ada messages", x,y,w,h, GWindows.Static_Controls.LEFT);
+    Create_label( Window, "Resource to Ada messages", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  212, 117, 84, 8, x,y,w,h);
-    Create( Window.Ada_comp_label, Window, "Ada compilation messages", x,y,w,h, GWindows.Static_Controls.LEFT, Ada_comp_label);
+    Create( Window.Ada_comp_label, Window, "Ada compilation messages", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Ada_comp_label);
     Dlg_to_Scn(  67, 37, 100, 20, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
@@ -364,16 +364,16 @@ package body GWenerator_Resource_GUI is
     Create( Window.Bar_RC, Window, x,y,w,h);
     Dlg_to_Scn(  245, 62, 100, 10, x,y,w,h);
     Create( Window.Bar_Ada, Window, x,y,w,h);
-    Dlg_to_Scn(  247, 12, 21, 20, x,y,w,h);
+    Dlg_to_Scn(  247, 12, 24, 22, x,y,w,h);
     Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h);
-    Dlg_to_Scn(  67, 12, 21, 20, x,y,w,h);
+    Dlg_to_Scn(  67, 12, 24, 22, x,y,w,h);
     Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h);
     Dlg_to_Scn(  5, 80, 56, 10, x,y,w,h);
     Create( Window.Show_Details, Window, "Show details", x,y,w,h, Show_Details);
     Dlg_to_Scn(  97, 12, 60, 15, x,y,w,h);
-    Create( Window.Newer_RC, Window, "Resource file is newer!", x,y,w,h, GWindows.Static_Controls.LEFT, Newer_RC);
+    Create( Window.Newer_RC, Window, "Resource file is newer!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Newer_RC);
     Dlg_to_Scn(  277, 12, 40, 20, x,y,w,h);
-    Create( Window.Newer_Ada, Window, "Ada files are newer!", x,y,w,h, GWindows.Static_Controls.LEFT, Newer_Ada);
+    Create( Window.Newer_Ada, Window, "Ada files are newer!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Newer_Ada);
     Dlg_to_Scn(  17, 37, 21, 20, x,y,w,h);
     Create( Window.Static_0002, Window, Num_resource(RC_file), x,y,w,h);
     Dlg_to_Scn(  197, 37, 21, 20, x,y,w,h);
@@ -493,6 +493,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 180
+  -- Last line of resource script file: 163
 
 end GWenerator_Resource_GUI;

@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/05/16   08:19:29
+-- Transcription time: 2009/06/04   23:12:14
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 16-May-2009
+-- RC Grammar version: 4-Jun-2009
 ---------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -33,7 +33,7 @@ package GWenerator_Resource_GUI is
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 69
+  -- Menu at line 52
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -51,7 +51,7 @@ package GWenerator_Resource_GUI is
     GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 90
+  -- Dialog at resource line 71
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -105,7 +105,7 @@ package GWenerator_Resource_GUI is
     -- Label: IDC_STATIC
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 122
+  -- Dialog at resource line 101
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -151,7 +151,7 @@ package GWenerator_Resource_GUI is
     Exe_file_icon: GWindows.Static_Controls.Icon_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 148
+  -- Dialog at resource line 125
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
 
   procedure Create_Full_Dialog
@@ -177,7 +177,7 @@ package GWenerator_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Resource script (.rc) to GWindows code builder";
-    FileVersion: constant String:= "0.96";
+    FileVersion: constant String:= "0.975";
     LegalCopyright: constant String:= "© 2008..2009 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWenerator";
     Translation: constant:= 1033;
@@ -255,6 +255,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 180
+  -- Last line of resource script file: 163
 
 end GWenerator_Resource_GUI;

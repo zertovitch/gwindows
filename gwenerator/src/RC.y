@@ -259,6 +259,7 @@ ws_style  :
                   WS_HSCROLL_t
           |       WS_VSCROLL_t
           |       WS_BORDER_t
+            { style_switch(simple_border):= True; }
           | NOT_t WS_BORDER_t
           |       WS_VISIBLE_t
           | NOT_t WS_VISIBLE_t
@@ -271,6 +272,7 @@ ws_style  :
           |       WS_GROUP_t
           | NOT_t WS_GROUP_t
           |       WS_DISABLED_t
+                  { style_switch(disabled):= True; }
           |       WS_MINIMIZEBOX_t
           |       WS_MAXIMIZEBOX_t
           |       WS_THICKFRAME_t
@@ -558,17 +560,19 @@ window_class:
       | WC_PAGESCROLLER_t  -- Creates pager controls (contain and scroll another window).
       | WC_SCROLLBAR_t     -- Creates scrollbar controls (scroll the contents of a window).
       | WC_STATIC_t
+        -- Creates static controls. These controls contain noneditable text.
+        -- ResEdit seems to use WC_STATIC for pictures; some sources use STATIC
+        { control:= static; }
       |    STATIC_t
         -- Creates static controls. These controls contain noneditable text.
         -- ResEdit seems to use WC_STATIC for pictures; some sources use STATIC
+        { control:= static; }
       | WC_TABCONTROL_t
         -- Creates tab controls
-        { control:= tab_control;
-		}
+        { control:= tab_control; }
       | WC_TREEVIEW_t
         -- Creates tree-view controls.
-        { control:= tree_view;
-		}
+        { control:= tree_view; }
       ;
 
 ctrl_style_list:
@@ -673,8 +677,10 @@ ex_style  : ex_style_only
 
 ex_style_only
           : WS_EX_CLIENTEDGE_t
-          | WS_EX_WINDOWEDGE_t
+            { style_switch(fully_sunken):= True; }
           | WS_EX_STATICEDGE_t
+            { style_switch(half_sunken):= True; }
+          | WS_EX_WINDOWEDGE_t
           | WS_EX_CONTROLPARENT_t
           | WS_EX_ACCEPTFILES_t
           | WS_EX_APPWINDOW_t
@@ -695,9 +701,12 @@ ex_style_only
 
 ss_style  : SS_NOPREFIX_t
           | SS_SUNKEN_t
+            { style_switch(half_sunken):= True; }
           | SS_BLACKFRAME_t
           | SS_CENTERIMAGE_t
-          | SS_BITMAP_t         { control:= bitmap; }
+          | SS_BITMAP_t        
+            { control:= bitmap; -- overrides the "control:= static;" of WC_STATIC
+            }
           | SS_ICON_t
           | SS_REALSIZEIMAGE_t
           | SS_SIMPLE_t
@@ -708,6 +717,7 @@ ss_style  : SS_NOPREFIX_t
           | SS_GRAYRECT_t
           | SS_GRAYFRAME_t
           | SS_WHITERECT_t
+            { style_switch(whiterect):= True; }
           | SS_ENDELLIPSIS_t
           | SS_NOTIFY_t
           | SS_ETCHEDHORZ_t
@@ -772,27 +782,7 @@ es_style_only :
 label     : pos_hint
             ctrl_properties
             es_styles_optional -- also with optional extended styles
-            {
-              if anonymous_item then
-                Ada_Coord_conv(last_rect);
-                Ada_Put_Line(to_spec, "    -- Label: " & S(last_ident) );
-                Ada_Put_Line(to_body,
-                  "    Create_label( Window, " &
-                  S(last_text) &
-                  ", x,y,w,h, GWindows.Static_Controls." &
-                  GWindows.Static_Controls.Alignment_Type'Image(last_alignment)
-                  & ");"
-                );
-              else
-                empty_dialog_record:= False;
-                Ada_normal_control(
-                  "Label_Type",
-                  ", " & S(last_text),
-                  ", GWindows.Static_Controls." &
-                  GWindows.Static_Controls.Alignment_Type'Image(last_alignment)
-                );
-              end if;
-            }
+            { Ada_label_control; }
             ;
 
 pos_hint : LTEXT_t {last_alignment:= GWindows.Static_Controls.Left;   }

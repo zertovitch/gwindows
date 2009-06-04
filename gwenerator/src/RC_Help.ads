@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------
 --  RC_Help.ads
 --
---  Helper for the MS Windows Resource Compier script parser
+--  Helper for the MS Windows Resource Compiler script parser
 --
 --  Copyright (c) Gautier de Montmollin 2008..2009
 --  SWITZERLAND
@@ -35,7 +35,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "31-May-2009";
+  Grammar_Version: constant String:= "4-Jun-2009";
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -70,6 +70,7 @@ package RC_Help is
 
   type Style_switch_type is
     ( auto,
+      disabled,
       radio,
       state3,
       checkbox,
@@ -84,6 +85,10 @@ package RC_Help is
       keys,
       wrap,
       no_1000,
+      simple_border,
+      fully_sunken,
+      half_sunken,
+      whiterect,
       multi_line, -- edit boxes
       grayed,     -- menus
       inactive,
@@ -104,6 +109,7 @@ package RC_Help is
   type Control_type is
     ( unknown,
       -- "Static controls":
+      static,
       bitmap,
       button,
       edit,
@@ -200,11 +206,14 @@ package RC_Help is
 
   procedure Ada_normal_control_create(comma_text, extra: String:= ""; with_id: Boolean:= True);
   procedure Ada_normal_control(type_name: String; comma_text, extra: String:= ""; with_id: Boolean:= True);
+  procedure Ada_label_control; -- Static text
   procedure Ada_button_control;
   procedure Ada_edit_control;
 
   -- All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
   procedure Ada_untyped_control;
+
+  procedure Ada_optional_disabling;
 
   -- Control class is given as a string, not a token (e.g. "Button")
   procedure Identify_control_class(RC_String: String);

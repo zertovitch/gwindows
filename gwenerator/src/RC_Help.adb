@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------
 --  RC_Help.adb
 --
---  Helper for the MS Windows Resource Compier script parser
+--  Helper for the MS Windows Resource Compiler script parser
 --
 --  Copyright (c) Gautier de Montmollin 2008..2009
 --  SWITZERLAND
@@ -622,12 +622,54 @@ package body RC_Help is
     Ada_Coord_conv(last_rect);
     Ada_Put_Line(to_spec, "    " & S(last_Ada_ident) & ": " & type_name & ";" );
     Ada_normal_control_create(comma_text, extra, with_id);
+    Ada_optional_disabling;
   end Ada_normal_control;
 
   procedure Ada_very_normal_control(type_name: String) is
   begin
     Ada_normal_control(type_name, ", " & S(last_text));
   end Ada_very_normal_control;
+
+  procedure Ada_label_control is -- Static text
+
+    function Static_tail return String is
+      use GWindows.Static_Controls;
+      border: Border_Type:= none;
+    begin
+      if style_switch(simple_border) then
+        border:= simple;
+      elsif style_switch(half_sunken) then
+        border:= Half_Sunken;
+      elsif style_switch(fully_sunken) then
+        null; -- border:= Fully_Sunken;
+      end if;
+      return
+        ", GWindows.Static_Controls." &
+        Alignment_Type'Image(last_alignment) &
+        ", " &
+        Border_Type'Image(border);
+    end;
+
+  begin
+    if anonymous_item then
+      Ada_Coord_conv(last_rect);
+      Ada_Put_Line(to_spec, "    -- Label: " & S(last_ident) );
+      Ada_Put_Line(to_body,
+        "    Create_label( Window, " &
+        S(last_text) &
+        ", x,y,w,h" &
+        Static_tail
+        & ");"
+      );
+    else
+      empty_dialog_record:= False;
+      Ada_normal_control(
+        "Label_Type",
+        ", " & S(last_text),
+        Static_tail
+      );
+    end if;
+  end Ada_label_control;
 
   procedure Ada_button_control is
   begin
@@ -672,6 +714,7 @@ package body RC_Help is
       Ada_Put_Line(to_body, "      Window." & S(temp_ustr) & ".Hide;");
       Ada_Put_Line(to_body, "    end if;");
     end if;
+    Ada_optional_disabling;
   end Ada_button_control;
 
   procedure Ada_edit_control is
@@ -700,6 +743,9 @@ package body RC_Help is
     case control is
       when unknown =>
         Ada_Comment(to_spec, "Unknown CONTROL Class = " & S(last_class));
+      when static =>
+        last_text:= last_control_text;
+        Ada_label_control;
       when button =>
         last_text:= last_control_text;
         Ada_button_control;
@@ -771,7 +817,15 @@ package body RC_Help is
           with_id => False
         );
     end case;
+    Ada_optional_disabling;
   end Ada_untyped_control;
+
+  procedure Ada_optional_disabling is
+  begin
+    if style_switch(disabled) then
+      Ada_Put_Line(to_body, "    Window." & S(last_Ada_ident) & ".Disable;");
+    end if;
+  end;
 
   -- Control class is given as a string, not a token (e.g. "Button")
   procedure Identify_control_class(RC_String: String) is

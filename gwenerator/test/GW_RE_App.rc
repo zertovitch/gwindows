@@ -79,6 +79,17 @@ Menu_gourmet MENU
     }
 }
 
+Static_Borders DIALOG 0, 0, 371, 161
+STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
+CAPTION "Static labels with various borders"
+FONT 8, "Ms Shell Dlg 2"
+{
+    LTEXT           "None", IDC_STATIC, 10, 10, 50, 10, SS_LEFT
+    LTEXT           "Half sunken (SS_SUNKEN)", IDC_STATIC, 10, 25, 100, 15, SS_LEFT | SS_SUNKEN
+    LTEXT           "Half sunken (WS_EX_STATICEDGE)", IDC_STATIC, 10, 45, 130, 20, SS_LEFT, WS_EX_STATICEDGE
+    LTEXT           "Simple border (WS_BORDER)", IDC_STATIC, 10, 75, 140, 20, WS_BORDER | SS_LEFT
+    LTEXT           "Fully sunken (WS_EX_CLIENTEDGE)", IDC_STATIC, 10, 100, 140, 15, SS_LEFT, WS_EX_CLIENTEDGE
+}
 
 
 //

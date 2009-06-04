@@ -185,9 +185,9 @@ package body GWindows.Static_Controls.Web is
     end if;
   end Create_Common_Fonts;
 
- ----------------
- -- Create_URL --
- ----------------
+   ----------------
+   -- Create_URL --
+   ----------------
 
    procedure Create
      (Static     : in out URL_Type;
@@ -200,63 +200,71 @@ package body GWindows.Static_Controls.Web is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
-  is
-  begin
-    Create (Static,
-            Parent, Text, Left, Top, Width, Height, Alignment, ID, Show,
-            Is_Dynamic);
-    Set_Font(Static, URL_Font);
-    Static.URL:= To_GString_Unbounded(URL);
-  end Create;
+   is
+   begin
+      Create (Static,
+              Parent, Text, Left, Top, Width, Height,
+              Alignment, Border,
+              ID, Show,
+              Is_Dynamic);
+      Set_Font(Static, URL_Font);
+      Static.URL:= To_GString_Unbounded(URL);
+   end Create;
 
-  procedure Create_URL
-    (Parent     : in out GWindows.Base.Base_Window_Type'Class;
-     Text       : in     GString;
-     URL        : in     GString;
-     Left       : in     Integer;
-     Top        : in     Integer;
-     Width      : in     Integer;
-     Height     : in     Integer;
-     Alignment  : in     Alignment_Type                       :=
-       GWindows.Static_Controls.Left;
-     ID         : in     Integer                              := 0;
-     Show       : in     Boolean                              := True)
-  is
-    Temp_URL : constant URL_Access := new URL_Type;
-  begin
-    Create (Temp_URL.all,
-            Parent, Text, URL, Left, Top, Width, Height, Alignment, ID, Show,
-            Is_Dynamic => True);
-  end Create_URL;
+   procedure Create_URL
+     (Parent     : in out GWindows.Base.Base_Window_Type'Class;
+      Text       : in     GString;
+      URL        : in     GString;
+      Left       : in     Integer;
+      Top        : in     Integer;
+      Width      : in     Integer;
+      Height     : in     Integer;
+      Alignment  : in     Alignment_Type                       :=
+        GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
+      ID         : in     Integer                              := 0;
+      Show       : in     Boolean                              := True)
+   is
+     Temp_URL : constant URL_Access := new URL_Type;
+   begin
+     Create (Temp_URL.all,
+             Parent, Text, URL, Left, Top, Width, Height,
+             Alignment, Border,
+             ID, Show,
+             Is_Dynamic => True);
+   end Create_URL;
 
-  procedure Create_and_Swap
-    (To_Show    : in out URL_Type;
-     To_Hide    : in out Label_Type;
-     Parent     : in out GWindows.Base.Base_Window_Type'Class;
-     URL        : in     GString;
-     Alignment  : in     Alignment_Type:= GWindows.Static_Controls.Left;
-     Is_Dynamic : in     Boolean:= False
-    )
-  is
-  begin
-    Create (To_Show,
-            Parent,
-            Text(To_Hide),
-            URL,
-            Left(To_Hide),
-            Top(To_Hide),
-            Width(To_Hide),
-            Height(To_Hide),
-            Alignment,
-            ID(To_Hide),
-            True,
-            Is_Dynamic
-    );
-    Hide(To_Hide);
-  end Create_and_Swap;
+   procedure Create_and_Swap
+      (To_Show    : in out URL_Type;
+       To_Hide    : in out Label_Type;
+       Parent     : in out GWindows.Base.Base_Window_Type'Class;
+       URL        : in     GString;
+       Alignment  : in     Alignment_Type:= GWindows.Static_Controls.Left;
+       Border     : in     Border_Type                          := None;
+       Is_Dynamic : in     Boolean:= False
+      )
+   is
+   begin
+      Create (To_Show,
+              Parent,
+              Text(To_Hide),
+              URL,
+              Left(To_Hide),
+              Top(To_Hide),
+              Width(To_Hide),
+              Height(To_Hide),
+              Alignment,
+              Border,
+              ID(To_Hide),
+              True,
+              Is_Dynamic
+      );
+      Hide(To_Hide);
+   end Create_and_Swap;
 
 begin
   Create_Common_Fonts;

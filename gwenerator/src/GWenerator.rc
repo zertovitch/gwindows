@@ -150,7 +150,7 @@ Main_Menu ACCELERATORS
         {
             VALUE "Authors", "Gautier de Montmollin"
             VALUE "FileDescription", "Resource script (.rc) to GWindows code builder"
-            VALUE "FileVersion", "0.97"
+            VALUE "FileVersion", "0.975"
             VALUE "LegalCopyright", "© 2008..2009 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWenerator"
         }
