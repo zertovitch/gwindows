@@ -79,6 +79,25 @@ package body GWindows.Static_Controls is
    STN_ENABLE   : constant := 2;
    STN_DISABLE  : constant := 3;
 
+   procedure Adapt_To_Border(
+      Styles : in out Interfaces.C.unsigned;
+      Border :        Border_Type)
+   is
+      WS_BORDER        : constant := 8388608;
+      -- WS_EX_CLIENTEDGE : constant := 16#200#;
+   begin
+      case Border is
+         when None =>
+            null;
+         when Simple =>
+            Styles := Styles or WS_BORDER;
+         when Half_Sunken =>
+            Styles := Styles or SS_SUNKEN;
+         -- when Fully_Sunken =>
+            -- ExStyles := ExStyles or WS_EX_CLIENTEDGE;
+      end case;
+   end Adapt_To_Border;
+
    ------------
    -- Create --
    ------------
@@ -93,13 +112,12 @@ package body GWindows.Static_Controls is
       Height     : in     Integer                              := 0;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
-      Border     : in     Border_Type                          := Flat;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
    is
       Styles : Interfaces.C.unsigned :=  SS_NOTIFY;
-      WS_BORDER: constant := 8388608;
    begin
       case Alignment is
          when Right =>
@@ -112,14 +130,7 @@ package body GWindows.Static_Controls is
             Styles := Styles or SS_LEFT;
       end case;
 
-      case Border is
-         when Flat =>
-            null;
-         when Half_Sunken =>
-            Styles := Styles or SS_SUNKEN;
-         when Fully_Sunken =>
-            Styles := Styles or WS_BORDER;
-      end case;
+      Adapt_To_Border(Styles, Border);
 
       Create_Control (Static,
                       Parent,
@@ -165,15 +176,15 @@ package body GWindows.Static_Controls is
       Height     : in     Integer                              := 0;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
-      Border     : in     Border_Type                          := Flat;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True)
    is
       Temp_Label : constant Label_Access := new Label_Type;
    begin
       Create (Temp_Label.all,
-              Parent, Text, Left, Top, Width, Height, Alignment,
-              Border,
+              Parent, Text, Left, Top, Width, Height,
+              Alignment, Border,
               ID, Show,
               Is_Dynamic => True);
    end Create_Label;
@@ -218,6 +229,7 @@ package body GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
@@ -234,6 +246,8 @@ package body GWindows.Static_Controls is
          when others =>
             null;
       end case;
+
+      Adapt_To_Border(Styles, Border);
 
       Create_Control (Static,
                       Parent,
@@ -265,13 +279,16 @@ package body GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True)
    is
       Temp_Icon : constant Icon_Access := new Icon_Type;
    begin
       Create (Temp_Icon.all,
-              Parent, Text, Left, Top, Width, Height, Alignment, ID, Show,
+              Parent, Text, Left, Top, Width, Height,
+              Alignment, Border,
+              ID, Show,
               Is_Dynamic => True);
    end Create_Icon;
 
@@ -289,6 +306,7 @@ package body GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
@@ -305,6 +323,8 @@ package body GWindows.Static_Controls is
          when others =>
             null;
       end case;
+
+      Adapt_To_Border(Styles, Border);
 
       Create_Control (Static,
                       Parent,
@@ -336,13 +356,16 @@ package body GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True)
    is
       Temp_Bitmap : constant Bitmap_Access := new Bitmap_Type;
    begin
       Create (Temp_Bitmap.all,
-              Parent, Text, Left, Top, Width, Height, Alignment, ID, Show,
+              Parent, Text, Left, Top, Width, Height,
+              Alignment, Border,
+              ID, Show,
               Is_Dynamic => True);
    end Create_Bitmap;
 
@@ -381,6 +404,7 @@ package body GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
@@ -398,6 +422,8 @@ package body GWindows.Static_Controls is
          when others =>
             null;
       end case;
+
+      Adapt_To_Border(Styles, Border);
 
       Create_Control (Static,
                       Parent,
@@ -425,13 +451,16 @@ package body GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True)
    is
       Temp_Meta_File : constant Meta_File_Access := new Meta_File_Type;
    begin
       Create (Temp_Meta_File.all,
-              Parent, Text, Left, Top, Width, Height, Alignment, ID, Show,
+              Parent, Text, Left, Top, Width, Height,
+              Alignment, Border,
+              ID, Show,
               Is_Dynamic => True);
    end Create_Meta_File;
 

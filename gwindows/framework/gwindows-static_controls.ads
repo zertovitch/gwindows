@@ -57,7 +57,7 @@ package GWindows.Static_Controls is
    --  then the control will not grow to fit the graphic
 
    type Border_Type is
-     (Flat, Half_Sunken, Fully_Sunken);
+     (None, Simple, Half_Sunken);
 
    procedure Create
      (Static     : in out Label_Type;
@@ -69,7 +69,7 @@ package GWindows.Static_Controls is
       Height     : in     Integer                              := 0;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
-      Border     : in     Border_Type                          := Flat;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False);
@@ -84,7 +84,7 @@ package GWindows.Static_Controls is
       Height     : in     Integer                              := 0;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
-      Border     : in     Border_Type                          := Flat;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True);
    --  Create Label with no variable
@@ -165,6 +165,7 @@ package GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False);
@@ -182,6 +183,7 @@ package GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True);
    --  Create Icon with no variable
@@ -208,6 +210,7 @@ package GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False);
@@ -225,6 +228,7 @@ package GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True);
    --  Create Bitmap with no Variable
@@ -255,6 +259,7 @@ package GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False);
@@ -272,6 +277,7 @@ package GWindows.Static_Controls is
       Height     : in     Integer;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := None;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True);
    --  Create Meta File with no variable
