@@ -63,7 +63,7 @@ package body GWindows.Static_Controls is
    SS_CENTERIMAGE    : constant := 16#200#;
    SS_RIGHTJUST      : constant := 16#400#;
    SS_REALSIZEIMAGE  : constant := 16#800#;
---     SS_SUNKEN         : constant := 16#1000#;
+   SS_SUNKEN         : constant := 16#1000#;
 --     SS_ENDELLIPSIS    : constant := 16#4000#;
 --     SS_PATHELLIPSIS   : constant := 16#8000#;
 --     SS_WORDELLIPSIS   : constant := 16#C000#;
@@ -93,11 +93,13 @@ package body GWindows.Static_Controls is
       Height     : in     Integer                              := 0;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := Flat;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
    is
       Styles : Interfaces.C.unsigned :=  SS_NOTIFY;
+      WS_BORDER: constant := 8388608;
    begin
       case Alignment is
          when Right =>
@@ -108,6 +110,15 @@ package body GWindows.Static_Controls is
             Styles := Styles or SS_LEFTNOWORDWRAP;
          when others =>
             Styles := Styles or SS_LEFT;
+      end case;
+
+      case Border is
+         when Flat =>
+            null;
+         when Half_Sunken =>
+            Styles := Styles or SS_SUNKEN;
+         when Fully_Sunken =>
+            Styles := Styles or WS_BORDER;
       end case;
 
       Create_Control (Static,
@@ -148,19 +159,22 @@ package body GWindows.Static_Controls is
    procedure Create_Label
      (Parent     : in out GWindows.Base.Base_Window_Type'Class;
       Text       : in     GString;
-      Left      : in     Integer                              := 0;
-      Top       : in     Integer                              := 0;
-      Width     : in     Integer                              := 0;
-      Height    : in     Integer                              := 0;
+      Left       : in     Integer                              := 0;
+      Top        : in     Integer                              := 0;
+      Width      : in     Integer                              := 0;
+      Height     : in     Integer                              := 0;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := Flat;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True)
    is
       Temp_Label : constant Label_Access := new Label_Type;
    begin
       Create (Temp_Label.all,
-              Parent, Text, Left, Top, Width, Height, Alignment, ID, Show,
+              Parent, Text, Left, Top, Width, Height, Alignment,
+              Border,
+              ID, Show,
               Is_Dynamic => True);
    end Create_Label;
 

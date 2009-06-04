@@ -56,6 +56,9 @@ package GWindows.Static_Controls is
    --  If Static_Size is set and the static control is a graphical type
    --  then the control will not grow to fit the graphic
 
+   type Border_Type is
+     (Flat, Half_Sunken, Fully_Sunken);
+
    procedure Create
      (Static     : in out Label_Type;
       Parent     : in out GWindows.Base.Base_Window_Type'Class;
@@ -66,6 +69,7 @@ package GWindows.Static_Controls is
       Height     : in     Integer                              := 0;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := Flat;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False);
@@ -80,6 +84,7 @@ package GWindows.Static_Controls is
       Height     : in     Integer                              := 0;
       Alignment  : in     Alignment_Type                       :=
         GWindows.Static_Controls.Left;
+      Border     : in     Border_Type                          := Flat;
       ID         : in     Integer                              := 0;
       Show       : in     Boolean                              := True);
    --  Create Label with no variable
