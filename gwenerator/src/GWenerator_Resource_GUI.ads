@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/06/04   23:12:14
+-- Transcription time: 2009/06/07   22:07:22
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 4-Jun-2009
+-- RC Grammar version: 7-Jun-2009
 ---------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -41,7 +41,7 @@ package GWenerator_Resource_GUI is
 
     IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
     IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
-    Static_0001: GWindows.Static_Controls.Icon_Type;
+    Static_0001: Icon_Type;
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
@@ -146,9 +146,9 @@ package GWenerator_Resource_GUI is
     Show_Details: Check_Box_Type;
     Newer_RC: Label_Type;
     Newer_Ada: Label_Type;
-    Static_0002: GWindows.Static_Controls.Icon_Type;
-    Ada_file_icon: GWindows.Static_Controls.Icon_Type;
-    Exe_file_icon: GWindows.Static_Controls.Icon_Type;
+    Static_0002: Icon_Type;
+    Ada_file_icon: Icon_Type;
+    Exe_file_icon: Icon_Type;
   end record; -- Main_dialog_Type
 
   -- Dialog at resource line 125

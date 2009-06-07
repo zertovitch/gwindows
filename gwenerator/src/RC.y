@@ -704,10 +704,12 @@ ss_style  : SS_NOPREFIX_t
             { style_switch(half_sunken):= True; }
           | SS_BLACKFRAME_t
           | SS_CENTERIMAGE_t
-          | SS_BITMAP_t        
+          | SS_BITMAP_t
             { control:= bitmap; -- overrides the "control:= static;" of WC_STATIC
             }
           | SS_ICON_t
+            { control:= icon;   -- overrides the "control:= static;" of WC_STATIC
+            }
           | SS_REALSIZEIMAGE_t
           | SS_SIMPLE_t
           | SS_LEFTNOWORDWRAP_t
@@ -1097,15 +1099,7 @@ icon      : ICON_t
             COMMA_t
             ctrl_properties_notext
             es_styles_optional -- also with optional extended styles
-            { if S(last_control_text) = """""" then
-                null; -- phantom icon...
-              else
-                Ada_normal_control(
-                  "GWindows.Static_Controls.Icon_Type",
-                  ", Num_resource(" & S(last_control_text) & ')' ,
-                  with_id => False);
-              end if;
-            }
+            { Ada_icon_control; }
             ;
 
 icon_file : RC_Ident | RCString ;

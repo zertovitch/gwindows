@@ -115,8 +115,8 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     PUSHBUTTON      "Build now", Button_Build, 245, 37, 100, 20, BS_PUSHBUTTON
     CONTROL         "", Bar_RC, PROGRESS_CLASS, 0, 67, 62, 100, 10
     CONTROL         "", Bar_Ada, PROGRESS_CLASS, 0, 245, 62, 100, 10
-    CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, WS_BORDER | SS_BITMAP, 247, 12, 24, 22
-    CONTROL         Listen_32x32, Ear_RC, WC_STATIC, WS_BORDER | SS_BITMAP, 67, 12, 24, 22
+    CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, SS_BITMAP | SS_SUNKEN, 247, 12, 23, 21
+    CONTROL         Listen_32x32, Ear_RC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 67, 12, 23, 21
     AUTOCHECKBOX    "Show details", Show_Details, 5, 80, 56, 10, BS_AUTOCHECKBOX
     LTEXT           "Resource file is newer!", Newer_RC, 97, 12, 60, 15, SS_LEFT
     LTEXT           "Ada files are newer!", Newer_Ada, 277, 12, 40, 20, SS_LEFT

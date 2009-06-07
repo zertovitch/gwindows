@@ -630,26 +630,25 @@ package body RC_Help is
     Ada_normal_control(type_name, ", " & S(last_text));
   end Ada_very_normal_control;
 
+  function Static_tail return String is
+    use GWindows.Static_Controls;
+    border: Border_Type:= none;
+  begin
+    if style_switch(simple_border) then
+      border:= simple;
+    elsif style_switch(half_sunken) then
+      border:= Half_Sunken;
+    elsif style_switch(fully_sunken) then
+      null; -- border:= Fully_Sunken;
+    end if;
+    return
+      ", GWindows.Static_Controls." &
+      Alignment_Type'Image(last_alignment) &
+      ", " &
+      Border_Type'Image(border);
+  end Static_tail;
+
   procedure Ada_label_control is -- Static text
-
-    function Static_tail return String is
-      use GWindows.Static_Controls;
-      border: Border_Type:= none;
-    begin
-      if style_switch(simple_border) then
-        border:= simple;
-      elsif style_switch(half_sunken) then
-        border:= Half_Sunken;
-      elsif style_switch(fully_sunken) then
-        null; -- border:= Fully_Sunken;
-      end if;
-      return
-        ", GWindows.Static_Controls." &
-        Alignment_Type'Image(last_alignment) &
-        ", " &
-        Border_Type'Image(border);
-    end;
-
   begin
     if anonymous_item then
       Ada_Coord_conv(last_rect);
@@ -734,6 +733,35 @@ package body RC_Help is
     end if;
   end Ada_edit_control;
 
+  procedure Ada_icon_control is
+  begin
+    if S(last_control_text) = """""" then
+      null; -- phantom icon...
+    else
+      Ada_normal_control(
+        "Icon_Type",
+        ", Num_resource(" & S(last_control_text) & ')' ,
+        Static_tail,
+        with_id => False
+      );
+    end if;
+  end Ada_icon_control;
+
+  procedure Ada_bitmap_control is
+  begin
+    if S(last_control_text) = """""" then
+      null; -- phantom bitmap...
+    else
+      Ada_normal_control(
+        "Bitmap_Type",
+         ", Num_resource(" & S(last_control_text) & ')',
+         -- ^ direct resource name, as string
+        Static_tail,
+        with_id => False
+      );
+    end if;
+  end Ada_bitmap_control;
+
   -- All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
   procedure Ada_untyped_control is
   begin
@@ -752,18 +780,10 @@ package body RC_Help is
       when edit =>
         last_text:= last_control_text;
         Ada_edit_control;
+      when icon =>
+        Ada_icon_control;
       when bitmap =>
-        if S(last_control_text) = """""" then
-          null; -- phantom bitmap...
-        else
-          Ada_normal_control(
-            "Bitmap_Type",
-             ", Num_resource(" & S(last_control_text) & ')',
-             -- ^ direct resource name, as string
-             "",
-            with_id => False
-          );
-        end if;
+        Ada_bitmap_control;
       when track_bar =>
         Ada_normal_control(
           "Trackbar_Control_Type",

@@ -35,7 +35,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "4-Jun-2009";
+  Grammar_Version: constant String:= "7-Jun-2009";
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -110,6 +110,7 @@ package RC_Help is
     ( unknown,
       -- "Static controls":
       static,
+      icon,
       bitmap,
       button,
       edit,
@@ -207,6 +208,8 @@ package RC_Help is
   procedure Ada_normal_control_create(comma_text, extra: String:= ""; with_id: Boolean:= True);
   procedure Ada_normal_control(type_name: String; comma_text, extra: String:= ""; with_id: Boolean:= True);
   procedure Ada_label_control; -- Static text
+  procedure Ada_icon_control;
+  procedure Ada_bitmap_control;
   procedure Ada_button_control;
   procedure Ada_edit_control;
 

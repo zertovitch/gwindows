@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/06/04   23:12:14
+-- Transcription time: 2009/06/07   22:07:22
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 4-Jun-2009
+-- RC Grammar version: 7-Jun-2009
 ---------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -115,7 +115,7 @@ package body GWenerator_Resource_GUI is
       Window.IDOK.Hide;
     end if;
     Dlg_to_Scn(  5, 5, 21, 20, x,y,w,h);
-    Create( Window.Static_0001, Window, Num_resource(gwenerator_icon), x,y,w,h);
+    Create( Window.Static_0001, Window, Num_resource(gwenerator_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  35, 10, 165, 8, x,y,w,h);
     Create_label( Window, "GWenerator - a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  35, 25, 150, 8, x,y,w,h);
@@ -364,10 +364,10 @@ package body GWenerator_Resource_GUI is
     Create( Window.Bar_RC, Window, x,y,w,h);
     Dlg_to_Scn(  245, 62, 100, 10, x,y,w,h);
     Create( Window.Bar_Ada, Window, x,y,w,h);
-    Dlg_to_Scn(  247, 12, 24, 22, x,y,w,h);
-    Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h);
-    Dlg_to_Scn(  67, 12, 24, 22, x,y,w,h);
-    Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h);
+    Dlg_to_Scn(  247, 12, 23, 21, x,y,w,h);
+    Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
+    Dlg_to_Scn(  67, 12, 23, 21, x,y,w,h);
+    Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  5, 80, 56, 10, x,y,w,h);
     Create( Window.Show_Details, Window, "Show details", x,y,w,h, Show_Details);
     Dlg_to_Scn(  97, 12, 60, 15, x,y,w,h);
@@ -375,11 +375,11 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  277, 12, 40, 20, x,y,w,h);
     Create( Window.Newer_Ada, Window, "Ada files are newer!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Newer_Ada);
     Dlg_to_Scn(  17, 37, 21, 20, x,y,w,h);
-    Create( Window.Static_0002, Window, Num_resource(RC_file), x,y,w,h);
+    Create( Window.Static_0002, Window, Num_resource(RC_file), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  197, 37, 21, 20, x,y,w,h);
-    Create( Window.Ada_file_icon, Window, Num_resource(Ada_file), x,y,w,h);
+    Create( Window.Ada_file_icon, Window, Num_resource(Ada_file), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  367, 37, 21, 20, x,y,w,h);
-    Create( Window.Exe_file_icon, Window, Num_resource(Exe_file), x,y,w,h);
+    Create( Window.Exe_file_icon, Window, Num_resource(Exe_file), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
   end Create_Contents; -- Main_dialog_Type
 
 
