@@ -28,14 +28,15 @@
 -- http://www.opensource.org/licenses/mit-license.php
 ----------------------------------------------------------------------------
 
-with GWindows.Static_Controls;
+with GWindows.Static_Controls,
+     GWindows.Common_Controls;
 
 with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "7-Jun-2009";
+  Grammar_Version: constant String:= "10-Jun-2009";
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -138,6 +139,14 @@ package RC_Help is
   Trackbar_Control_Ticks: Trackbar_Control_Ticks_Type;
 
   last_alignment: GWindows.Static_Controls.Alignment_Type;
+  --
+  -- List view options
+  --
+  lv_type  : GWindows.Common_Controls.List_View_Control_View_Type;
+  lv_select: GWindows.Common_Controls.List_View_Control_Select_Type;
+  lv_sort  : GWindows.Common_Controls.List_View_Control_Sort_Type;
+  lv_align : GWindows.Common_Controls.List_View_Control_Alignment_Type;
+  lv_auto_arrange: Boolean;
 
   type Combo_type is (no_drop, drop_down, drop_down_list);
   combo: Combo_type;

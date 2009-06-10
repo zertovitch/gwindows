@@ -26,6 +26,8 @@ procedure GW_RE_App is
   Dialog_2  : GW_RE_App_Resource_GUI.Dialog_without_picture_adv_controls_Type;
   Dialog_3  : GW_RE_App_Resource_GUI.Dialog_with_pictures_Type;
   menu_1    : GW_RE_App_Resource_GUI.Menu_gourmet_Type;
+  Dlg_Statix: GW_RE_App_Resource_GUI.Static_Borders_Type;
+  Dlg_LVs   : GW_RE_App_Resource_GUI.Dialog_ListViews_Type;
 
   Result      : Integer;
   No_Parent   : Window_Type;
@@ -37,9 +39,35 @@ procedure GW_RE_App is
     Final_text:= U(Text(Dialog_1.Edit_Box_1));
   end Get_Data;
 
+  procedure Populate_LV(lv: in out List_View_Control_Type) is
+  begin
+   Insert_Column (lv, "Item", 0, 75);
+   Insert_Column (lv, "Sub_Item", 1, 100);
+
+   for N in 0 .. 20 loop
+      Insert_Item (lv, N'Img, N);
+      Set_Sub_Item (lv,
+                    "Sub of" & N'Img,
+                    N,
+                    1);
+   end loop;
+  end;
+
   root, node: Tree_Item_Node;
 
 begin
+  Create_Full_Dialog (Dlg_Statix, No_Parent);
+  Center(Dlg_Statix);
+  Result := GWindows.Application.Show_Dialog (Dlg_Statix);
+  --
+  Create_Full_Dialog (Dlg_LVs, No_Parent);
+  Populate_LV(Dlg_LVs.IDC_LIST1);
+  Populate_LV(Dlg_LVs.IDC_LIST2);
+  Populate_LV(Dlg_LVs.IDC_LIST3);
+  Populate_LV(Dlg_LVs.IDC_LIST4);
+  Center(Dlg_LVs);
+  Result := GWindows.Application.Show_Dialog (Dlg_LVs);
+  --
   Create_Full_Dialog (Dialog_1, No_Parent);
   On_Destroy_Handler (Dialog_1, Get_Data'Unrestricted_Access);
   Center(Dialog_1);
@@ -49,11 +77,11 @@ begin
   --
   Create_Full_Dialog (Dialog_2, No_Parent);
   Dialog_2.IDC_TREE1.Insert_Item("The Root", 0, root, As_a_root);
-  Dialog_2.IDC_TREE1.Expand(root);
   Dialog_2.IDC_TREE1.Insert_Item("First level item 1", root, node);
   Dialog_2.IDC_TREE1.Insert_Item("First level item 2", root, node);
   Dialog_2.IDC_TREE1.Insert_Item("Second level item",  node, node);
   Dialog_2.IDC_TREE1.Insert_Item("First level item 3", root, node);
+  Dialog_2.IDC_TREE1.Expand(root);
   Center(Dialog_2);
   Result := GWindows.Application.Show_Dialog (Dialog_2);
   --

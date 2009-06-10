@@ -162,8 +162,8 @@
        UDS_SETBUDDYINT_t, UDS_ALIGNRIGHT_t, UDS_AUTOBUDDY_t,
        UDS_HOTTRACK_t
 -- Listview styles
-%token LVS_ALIGNLEFT_t, LVS_ICON_t, LVS_REPORT_t,
-       LVS_SHOWSELALWAYS_t, LVS_SORTASCENDING_t,
+%token LVS_ALIGNLEFT_t, LVS_ICON_t, LVS_SMALLICON_t, LVS_REPORT_t,
+       LVS_SHOWSELALWAYS_t, LVS_SORTASCENDING_t, LVS_SORTDESCENDING_t,
        LVS_AUTOARRANGE_t, LVS_NOCOLUMNHEADER_t, LVS_NOSORTHEADER_t, LVS_LIST_t,
        LVS_SINGLESEL_t, LVS_EDITLABELS_t, LVS_NOLABELWRAP_t,
        LVS_SHAREIMAGELISTS_t
@@ -555,6 +555,11 @@ window_class:
       | WC_LISTVIEW_t
         -- Creates list-view controls.
         { control:= list_view;
+          lv_type  := GWindows.Common_Controls.List_View;
+          lv_select:= GWindows.Common_Controls.Multiple; -- MSDN: By default, multiple items may be selected
+          lv_sort  := GWindows.Common_Controls.No_Sorting;
+          lv_auto_arrange:= False;
+          lv_align := GWindows.Common_Controls.Align_None;
 		}
       | WC_NATIVEFONTCTL_t -- Creates native font controls (invisible)
       | WC_PAGESCROLLER_t  -- Creates pager controls (contain and scroll another window).
@@ -613,17 +618,28 @@ ctrl_style: ws_style
           | UDS_AUTOBUDDY_t
           | UDS_HOTTRACK_t
           | LVS_ALIGNLEFT_t
+            { lv_align := GWindows.Common_Controls.Align_Left; }
           | LVS_EDITLABELS_t
           | LVS_ICON_t
+            { lv_type:= GWindows.Common_Controls.Icon_View; }
+          | LVS_SMALLICON_t
+            { lv_type:= GWindows.Common_Controls.Small_Icon_View; }
+          | LVS_LIST_t
+            { lv_type:= GWindows.Common_Controls.List_View; }
           | LVS_REPORT_t
+            { lv_type:= GWindows.Common_Controls.Report_View; }
           | LVS_SHOWSELALWAYS_t
           | LVS_SORTASCENDING_t
+            { lv_sort:= GWindows.Common_Controls.Sort_Ascending; }
+          | LVS_SORTDESCENDING_t
+            { lv_sort:= GWindows.Common_Controls.Sort_Descending; }
           | LVS_AUTOARRANGE_t
+            { lv_auto_arrange:= True; }
           | LVS_NOCOLUMNHEADER_t
           | LVS_NOSORTHEADER_t
           | LVS_NOLABELWRAP_t
-          | LVS_LIST_t
           | LVS_SINGLESEL_t
+            { lv_select:= GWindows.Common_Controls.Single; }          
           | LVS_SHAREIMAGELISTS_t
           | TVS_INFOTIP_t
             { style_switch(tips):= True; }
@@ -1713,7 +1729,8 @@ with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
 
 with Interfaces;                        use Interfaces;
 
-with GWindows.Static_Controls;
+with GWindows.Static_Controls,
+     GWindows.Common_Controls;
 
 -- Header end.
 

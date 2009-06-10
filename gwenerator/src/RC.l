@@ -377,6 +377,7 @@ LVS_AUTOARRANGE                { return LVS_AUTOARRANGE_t; }
 LVS_ALIGNLEFT                  { return LVS_ALIGNLEFT_t; }
 LVS_EDITLABELS                 { return LVS_EDITLABELS_t; }
 LVS_ICON                       { return LVS_ICON_t; }
+LVS_SMALLICON                  { return LVS_SMALLICON_t; }
 LVS_LIST                       { return LVS_LIST_t; }
 LVS_NOCOLUMNHEADER             { return LVS_NOCOLUMNHEADER_t; }
 LVS_NOLABELWRAP                { return LVS_NOLABELWRAP_t; }
@@ -386,6 +387,7 @@ LVS_SHAREIMAGELISTS            { return LVS_SHAREIMAGELISTS_t; }
 LVS_SHOWSELALWAYS              { return LVS_SHOWSELALWAYS_t; }
 LVS_SINGLESEL                  { return LVS_SINGLESEL_t; }
 LVS_SORTASCENDING              { return LVS_SORTASCENDING_t; }
+LVS_SORTDESCENDING             { return LVS_SORTDESCENDING_t; }
 
 -- Treeview styles
 TVS_DISABLEDRAGDROP            { return TVS_DISABLEDRAGDROP_t; }

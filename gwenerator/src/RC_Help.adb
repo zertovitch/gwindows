@@ -805,9 +805,21 @@ package body RC_Help is
            with_id => False
         );
       when progress =>
-        Ada_normal_control("Progress_Control_Type", with_id => False );
+        Ada_normal_control(
+          "Progress_Control_Type",
+          with_id => False
+        );
       when list_view =>
-        Ada_normal_control("List_View_Control_Type", with_id => False );
+        Ada_normal_control(
+          "List_View_Control_Type",
+          "",
+          ", " & GWindows.Common_Controls.List_View_Control_Select_Type'Image(lv_select) &
+          ", " & GWindows.Common_Controls.List_View_Control_View_Type'Image(lv_type) &
+          ", " & GWindows.Common_Controls.List_View_Control_Sort_Type'Image(lv_sort) &
+          ", " & Boolean'Image(lv_auto_arrange) &
+          ", " & GWindows.Common_Controls.List_View_Control_Alignment_Type'Image(lv_align),
+          with_id => False
+       );
       when tree_view =>
         Ada_normal_control(
           "Tree_View_Control_Type",

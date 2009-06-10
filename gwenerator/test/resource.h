@@ -5,9 +5,13 @@
 #define IDR_ACCELERATOR1                        101
 #define Dialog_with_pictures                    102
 #define IDR_TOOLBAR1                            103
+#define Dialog_ListViews                        105
 #define Gotcha                                  1000
+#define IDC_LIST2                               1000
+#define IDC_LIST3                               1001
 #define IDC_RADIO1                              1001
 #define IDC_TREE1                               1001
+#define IDC_LIST4                               1002
 #define IDC_RADIO2                              1002
 #define IDC_TAB1                                1002
 #define IDC_SLIDER1                             1003
