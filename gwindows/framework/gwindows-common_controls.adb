@@ -539,17 +539,22 @@ package body GWindows.Common_Controls is
      (Bar        : in out Status_Bar_Type;
       Parent     : in out GWindows.Base.Base_Window_Type'Class;
       Text       : in     GString;
+      Size_Grip  : in     Boolean                              := True;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
 
    is
       SBS_SIZEGRIP : constant := 16#100#;
       SBT_TOOLTIPS : constant := 16#800#;
+      Styles       : Interfaces.C.unsigned  := SBT_TOOLTIPS;
    begin
+      if Size_Grip then
+        Styles:= Styles or SBS_SIZEGRIP;
+      end if;
       Create_Control (Bar, Parent,
                       "msctls_statusbar32",
                       Text,
-                      0, 0, 0, 0, 0, SBS_SIZEGRIP or SBT_TOOLTIPS,
+                      0, 0, 0, 0, 0, Styles,
                       Is_Dynamic => Is_Dynamic);
 
       if Show then

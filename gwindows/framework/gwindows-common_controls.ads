@@ -166,6 +166,7 @@ package GWindows.Common_Controls is
      (Bar        : in out Status_Bar_Type;
       Parent     : in out GWindows.Base.Base_Window_Type'Class;
       Text       : in     GString;
+      Size_Grip  : in     Boolean                              := True;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False);
    --  Create a status bar
