@@ -1,19 +1,18 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/06/07   22:07:22
+-- Transcription time: 2009/06/23   19:41:15
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 7-Jun-2009
+-- RC Grammar version: 23-Jun-2009
 ---------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
 with GWindows.Drawing;                  use GWindows.Drawing;
 with GWindows.Drawing_Objects;
-with Interfaces.C;                      use Interfaces.C;
 with System;
 
 package body GWenerator_Resource_GUI is
@@ -21,7 +20,7 @@ package body GWenerator_Resource_GUI is
   -- ** Generated code begins here \/ \/ \/.
 
 
-  -- Menu at line 29
+  -- Menu at line 46
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type)
   is
@@ -48,9 +47,25 @@ package body GWenerator_Resource_GUI is
   end Create_Full_Menu; -- Main_Menu_Type
 
 
-  -- Dialog at resource line 61
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  -- Dialog at resource line 80
 
+  -- Pre-Create operation to switch off default styles
+  -- or add ones that are not in usual GWindows Create parameters
+  --
+  procedure On_Pre_Create (Window    : in out About_box_Type;
+                           dwStyle   : in out Interfaces.C.unsigned;
+                           dwExStyle : in out Interfaces.C.unsigned)
+  is
+    pragma Warnings (Off, Window);
+    pragma Warnings (Off, dwExStyle);
+    WS_SYSMENU: constant:= 16#0008_0000#;
+    use Interfaces.C;
+  begin
+    dwStyle:= dwStyle and not WS_SYSMENU;
+  end On_Pre_Create;
+
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
   procedure Create_Full_Dialog
      (Window      : in out About_box_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
@@ -88,7 +103,7 @@ package body GWenerator_Resource_GUI is
 
   --  b) Create all contents, not the window itself (must be
   --      already created) -> can be used in/as any kind of window.
-
+  --
   procedure Create_Contents
      ( Window      : in out About_box_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
@@ -133,9 +148,10 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- About_box_Type
 
 
-  -- Dialog at resource line 77
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  -- Dialog at resource line 98
 
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
   procedure Create_Full_Dialog
      (Window      : in out GWen_properties_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
@@ -173,7 +189,7 @@ package body GWenerator_Resource_GUI is
 
   --  b) Create all contents, not the window itself (must be
   --      already created) -> can be used in/as any kind of window.
-
+  --
   procedure Create_Contents
      ( Window      : in out GWen_properties_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
@@ -273,9 +289,10 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- GWen_properties_Type
 
 
-  -- Dialog at resource line 107
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  -- Dialog at resource line 130
 
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
   procedure Create_Full_Dialog
      (Window      : in out Main_dialog_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
@@ -313,7 +330,7 @@ package body GWenerator_Resource_GUI is
 
   --  b) Create all contents, not the window itself (must be
   --      already created) -> can be used in/as any kind of window.
-
+  --
   procedure Create_Contents
      ( Window      : in out Main_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
@@ -364,9 +381,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.Bar_RC, Window, x,y,w,h);
     Dlg_to_Scn(  245, 62, 100, 10, x,y,w,h);
     Create( Window.Bar_Ada, Window, x,y,w,h);
-    Dlg_to_Scn(  247, 12, 23, 21, x,y,w,h);
+    Dlg_to_Scn(  247, 12, 21, 20, x,y,w,h);
     Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
-    Dlg_to_Scn(  67, 12, 23, 21, x,y,w,h);
+    Dlg_to_Scn(  67, 12, 21, 20, x,y,w,h);
     Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  5, 80, 56, 10, x,y,w,h);
     Create( Window.Show_Details, Window, "Show details", x,y,w,h, Show_Details);
@@ -493,6 +510,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 163
+  -- Last line of resource script file: 192
 
 end GWenerator_Resource_GUI;

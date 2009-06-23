@@ -7,21 +7,38 @@
 #include <commctrl.h>
 #include <richedit.h>
 
+
 //
 // Bitmap resources
 //
 Listen_32x32       BITMAP         "listen_32x32.bmp"
+
+
 Not_Listen_32x32   BITMAP         "not_listen_32x32.bmp"
+
+
 Wheels_32x32       BITMAP         "wheels_32_32.bmp"
+
+
 
 //
 // Icon resources
 //
 AAA_Main_Icon      ICON           "gwenerator.ico"
+
+
 Ada_file           ICON           "Ada_file.ico"
+
+
 Exe_file           ICON           "Exe_file.ico"
+
+
 RC_file            ICON           "RC_file.ico"
+
+
 gwenerator_icon    ICON           "gwenerator.ico"
+
+
 
 //
 // Menu resources
@@ -52,11 +69,13 @@ Main_Menu MENU
     }
 }
 
+
+
 //
 // Dialog resources
 //
 About_box DIALOGEX 0, 0, 218, 129
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
+STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP
 CAPTION "About GWenerator"
 FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 {
@@ -70,6 +89,8 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     LTEXT           "RC Grammar version: ", RC_gramm_ver, 35, 70, 170, 8, SS_LEFT
     LTEXT           "GWenerator version: ", GWen_ver, 35, 85, 170, 8, SS_LEFT
 }
+
+
 
 GWen_properties DIALOGEX 0, 0, 314, 231
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
@@ -101,6 +122,8 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     RTEXT           "App. source or exe", IDC_STATIC, 20, 135, 62, 8, SS_RIGHT
 }
 
+
+
 Main_dialog DIALOGEX 0, 0, 403, 246
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "GWenerator - Link 1.gwen"
@@ -115,8 +138,8 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     PUSHBUTTON      "Build now", Button_Build, 245, 37, 100, 20, BS_PUSHBUTTON
     CONTROL         "", Bar_RC, PROGRESS_CLASS, 0, 67, 62, 100, 10
     CONTROL         "", Bar_Ada, PROGRESS_CLASS, 0, 245, 62, 100, 10
-    CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, SS_BITMAP | SS_SUNKEN, 247, 12, 23, 21
-    CONTROL         Listen_32x32, Ear_RC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 67, 12, 23, 21
+    CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, SS_BITMAP | SS_SUNKEN, 247, 12, 21, 20
+    CONTROL         Listen_32x32, Ear_RC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 67, 12, 21, 20
     AUTOCHECKBOX    "Show details", Show_Details, 5, 80, 56, 10, BS_AUTOCHECKBOX
     LTEXT           "Resource file is newer!", Newer_RC, 97, 12, 60, 15, SS_LEFT
     LTEXT           "Ada files are newer!", Newer_Ada, 277, 12, 40, 20, SS_LEFT
@@ -124,6 +147,8 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     ICON            Ada_file, Ada_file_icon, 197, 37, 21, 20, SS_ICON
     ICON            Exe_file, Exe_file_icon, 367, 37, 21, 20, SS_ICON
 }
+
+
 
 //
 // Accelerator resources
@@ -134,6 +159,8 @@ Main_Menu ACCELERATORS
     "S",            Save_GWen, VIRTKEY, CONTROL
     "N",            New_GWen, VIRTKEY, CONTROL
 }
+
+
 
 //
 // Version Information resources
@@ -160,6 +187,8 @@ Main_Menu ACCELERATORS
         VALUE "Translation", 1033, 437
     }
 }
+
+
 
 //
 // Cursor resources

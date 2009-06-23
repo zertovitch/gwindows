@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/06/07   22:07:22
+-- Transcription time: 2009/06/23   19:41:15
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 7-Jun-2009
+-- RC Grammar version: 23-Jun-2009
 ---------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -22,6 +22,7 @@ with GWindows.Scroll_Bars;              use GWindows.Scroll_Bars;
 with GWindows.Common_Controls;          use GWindows.Common_Controls;
 with GWindows.Menus;                    use GWindows.Menus;
 use GWindows;
+with Interfaces.C;                      use Interfaces.C;
 
 package GWenerator_Resource_GUI is
 
@@ -33,7 +34,7 @@ package GWenerator_Resource_GUI is
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 52
+  -- Menu at line 69
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -51,9 +52,17 @@ package GWenerator_Resource_GUI is
     GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 71
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  -- Dialog at resource line 90
 
+  -- Pre-Create operation to switch off default styles
+  -- or add ones that are not in usual GWindows Create parameters
+  --
+  procedure On_Pre_Create (Window    : in out About_box_Type;
+                           dwStyle   : in out Interfaces.C.unsigned;
+                           dwExStyle : in out Interfaces.C.unsigned);
+
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
   procedure Create_Full_Dialog
      (Window      : in out About_box_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
@@ -67,7 +76,7 @@ package GWenerator_Resource_GUI is
 
   --  b) Create all contents, not the window itself (must be
   --      already created) -> can be used in/as any kind of window.
-
+  --
   procedure Create_Contents
      ( Window      : in out About_box_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
@@ -105,9 +114,10 @@ package GWenerator_Resource_GUI is
     -- Label: IDC_STATIC
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 101
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  -- Dialog at resource line 122
 
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
   procedure Create_Full_Dialog
      (Window      : in out GWen_properties_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
@@ -121,7 +131,7 @@ package GWenerator_Resource_GUI is
 
   --  b) Create all contents, not the window itself (must be
   --      already created) -> can be used in/as any kind of window.
-
+  --
   procedure Create_Contents
      ( Window      : in out GWen_properties_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
@@ -151,9 +161,10 @@ package GWenerator_Resource_GUI is
     Exe_file_icon: Icon_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 125
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  -- Dialog at resource line 148
 
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
   procedure Create_Full_Dialog
      (Window      : in out Main_dialog_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
@@ -167,7 +178,7 @@ package GWenerator_Resource_GUI is
 
   --  b) Create all contents, not the window itself (must be
   --      already created) -> can be used in/as any kind of window.
-
+  --
   procedure Create_Contents
      ( Window      : in out Main_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
@@ -255,6 +266,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 163
+  -- Last line of resource script file: 192
 
 end GWenerator_Resource_GUI;

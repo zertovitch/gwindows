@@ -377,6 +377,7 @@ package body RC_Help is
     Ada_Put_Line(to_spec, "with GWindows.Common_Controls;          use GWindows.Common_Controls;");
     Ada_Put_Line(to_spec, "with GWindows.Menus;                    use GWindows.Menus;");
     Ada_Put_Line(to_spec, "use GWindows;");
+    Ada_Put_Line(to_spec, "with Interfaces.C;                      use Interfaces.C;");
     Ada_New_Line(to_spec);
     Ada_Put_Line(to_spec, "package " & pkg & eventual_child &" is");
     Ada_New_Line(to_spec);
@@ -384,7 +385,6 @@ package body RC_Help is
     Ada_Put_Line(to_body, "with GWindows.Types;                    use GWindows.Types;");
     Ada_Put_Line(to_body, "with GWindows.Drawing;                  use GWindows.Drawing;");
     Ada_Put_Line(to_body, "with GWindows.Drawing_Objects;");
-    Ada_Put_Line(to_body, "with Interfaces.C;                      use Interfaces.C;");
     Ada_Put_Line(to_body, "with System;");
     Ada_New_Line(to_body);
     if separate_items then
@@ -431,6 +431,41 @@ package body RC_Help is
     end if;
   end Close_if_separate;
 
+  -- Add or remove specific Windows styles that are not in GWindows Create parameters
+  --
+  procedure Ada_Dialog_Pre_settings(
+    to          : Pkg_output;
+    type_name   : String
+  )
+  is
+  begin
+    if not dialog_style_switch(sys_menu) then -- maybe also: " and ws_dlgframe)"
+      Ada_Put_Line(to, "  -- Pre-Create operation to switch off default styles");
+      Ada_Put_Line(to, "  -- or add ones that are not in usual GWindows Create parameters");
+      Ada_Put_Line(to, "  --");
+      Ada_Put_Line(to, "  procedure On_Pre_Create (Window    : in out " & type_name & ";");
+      Ada_Put_Line(to, "                           dwStyle   : in out Interfaces.C.unsigned;");
+      Ada_Put     (to, "                           dwExStyle : in out Interfaces.C.unsigned)");
+      case to is
+        when to_spec =>
+          Ada_Put_Line(to, ";");
+        when to_body =>
+          Ada_New_Line(to);
+          Ada_Put_Line(to, "  is");
+          Ada_Put_Line(to, "    pragma Warnings (Off, Window);");
+          Ada_Put_Line(to, "    pragma Warnings (Off, dwExStyle);");
+          Ada_Put_Line(to, "    WS_SYSMENU: constant:= 16#0008_0000#;");
+          Ada_Put_Line(to, "    use Interfaces.C;");
+          Ada_Put_Line(to, "  begin");
+          if not style_switch(sys_menu) then
+            Ada_Put_Line(to, "    dwStyle:= dwStyle and not WS_SYSMENU;");
+          end if;
+          Ada_Put_Line(to, "  end On_Pre_Create;");
+      end case;
+      Ada_New_Line(to);
+    end if;
+  end;
+
   dialog_mem: array(1..10_000) of Unbounded_String;
   dialog_top: Natural;
 
@@ -455,8 +490,10 @@ package body RC_Help is
     end if;
 
     Ada_Put_Line(to, "  -- Dialog at resource line" & Integer'Image(linenum));
-    Ada_Put_Line(to, "  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog");
     Ada_New_Line(to);
+    Ada_Dialog_Pre_settings(to, type_name);
+    Ada_Put_Line(to, "  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog");
+    Ada_Put_Line(to, "  --");
     Ada_Put_Line(to, "  procedure Create_Full_Dialog");
     Ada_Put_Line(to, "     (Window      : in out " & type_name & ";");
     Ada_Put_Line(to, "      Parent      : in out GWindows.Base.Base_Window_Type'Class;");
@@ -505,7 +542,7 @@ package body RC_Help is
     Ada_New_Line(to);
     Ada_Put_Line(to, "  --  b) Create all contents, not the window itself (must be");
     Ada_Put_Line(to, "  --      already created) -> can be used in/as any kind of window.");
-    Ada_New_Line(to);
+    Ada_Put_Line(to, "  --");
     Ada_Put_Line(to, "  procedure Create_Contents");
     Ada_Put_Line(to, "     ( Window      : in out " & type_name & ";");
     Ada_Put_Line(to, "       for_dialog  : in     Boolean; -- True: buttons do close the window");

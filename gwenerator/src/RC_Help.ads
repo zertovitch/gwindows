@@ -36,7 +36,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "10-Jun-2009";
+  Grammar_Version: constant String:= "23-Jun-2009";
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -78,6 +78,7 @@ package RC_Help is
       push,
       default,
       shell_font,
+      sys_menu,
       auto_h_scroll,
       auto_v_scroll,
       sort,
@@ -100,7 +101,9 @@ package RC_Help is
       single_expand
     );
 
-  style_switch: array(Style_switch_type) of Boolean;
+  type Set_of_styles is array(Style_switch_type) of Boolean;
+
+  dialog_style_switch, style_switch: Set_of_styles;
 
   ------------------------------------------------------------
   -- Static controls - very standard Windows                --

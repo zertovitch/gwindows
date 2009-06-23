@@ -267,6 +267,7 @@ ws_style  :
           |       WS_DLGFRAME_t
           |       WS_POPUP_t
           |       WS_SYSMENU_t
+                  { style_switch(sys_menu):= True; }
           |       WS_TABSTOP_t
           | NOT_t WS_TABSTOP_t
           |       WS_GROUP_t
@@ -320,6 +321,7 @@ dialog    :    RC_Ident
                dlg_optional_statements
                {
                  last_dialog_caption:= last_caption;
+                 dialog_style_switch:= style_switch;
                  Ada_Proc_Dialog(
                     to_body,
                     S(last_dialog_ident) & "_Type",
