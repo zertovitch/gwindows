@@ -1751,15 +1751,29 @@ package body GWindows.Common_Controls is
       Top        : in     Integer;
       Width      : in     Integer;
       Height     : in     Integer;
+      Direction  : in     Progress_Control_Direction_Type      := Vertical;
+      Smooth     : in     Boolean                              := False;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
    is
+      PBS_SMOOTH       : constant:= 16#01#;
+      PBS_VERTICAL     : constant:= 16#04#;
+      -- PBS_MARQUEE      : constant:= 16#08#;
+      -- PBS_SMOOTHREVERSE: constant:= 16#10#;
+      --
+      Styles     : Interfaces.C.unsigned := 0;
    begin
+      if Direction = Vertical then
+         Styles := Styles or PBS_VERTICAL;
+      end if;
+      if Smooth then
+         Styles := Styles or PBS_SMOOTH;
+      end if;
       Create_Control (Control, Parent,
                       "msctls_progress32",
                       "",
                       Left, Top, Width, Height,
-                      0, 0,
+                      0, Styles,
                       Is_Dynamic => Is_Dynamic);
 
       if Show then

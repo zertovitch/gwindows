@@ -479,6 +479,8 @@ package GWindows.Common_Controls is
    --  Progress_Control_Type - Creation Methods
    -------------------------------------------------------------------------
 
+   type Progress_Control_Direction_Type is (Horizontal, Vertical);
+
    procedure Create
      (Control    : in out Progress_Control_Type;
       Parent     : in out GWindows.Base.Base_Window_Type'Class;
@@ -486,6 +488,8 @@ package GWindows.Common_Controls is
       Top        : in     Integer;
       Width      : in     Integer;
       Height     : in     Integer;
+      Direction  : in     Progress_Control_Direction_Type      := Vertical;
+      Smooth     : in     Boolean                              := False;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False);
 
