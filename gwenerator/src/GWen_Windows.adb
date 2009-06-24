@@ -186,10 +186,11 @@ package body GWen_Windows is
       candidate.RC_listen     := dlg.Listen_RC.State = Checked;
       candidate.RC_auto_trans := dlg.Auto_translate.State = Checked;
       --
-      candidate.separate_items:= dlg.Separate_items.State = Checked;
-      candidate.base_x        := Integer'Value(dlg.Basx.Text);
-      candidate.base_y        := Integer'Value(dlg.Basy.Text);
-      candidate.base_defaults := dlg.Use_Base_defs.State = Checked;
+      candidate.separate_items      := dlg.Separate_items.State = Checked;
+      candidate.base_x              := Integer'Value(dlg.Basx.Text);
+      candidate.base_y              := Integer'Value(dlg.Basy.Text);
+      candidate.base_defaults       := dlg.Use_Base_defs.State = Checked;
+      candidate.initialize_controls := dlg.Initialize_controls.State = Checked;
       --
       candidate.Ada_Main      := U(dlg.Edit_Main_Ada_File_Name.Text);
       candidate.Ada_listen    := dlg.Listen_Ada.State = Checked;
@@ -221,6 +222,7 @@ package body GWen_Windows is
     dlg.Basx.Text(Integer'Image(candidate.base_x));
     dlg.Basy.Text(Integer'Image(candidate.base_y));
     dlg.Use_Base_defs.State(Bool_to_Check(candidate.base_defaults));
+    dlg.Initialize_controls.State(Bool_to_Check(candidate.initialize_controls));
     --
     dlg.Edit_Main_Ada_File_Name.Text(S(candidate.Ada_main));
     dlg.Listen_Ada.State(Bool_to_Check(candidate.Ada_listen));
@@ -396,7 +398,6 @@ package body GWen_Windows is
     gw.Ear_RC.Set_Bitmap(gw.wheels);
     delay 0.01;
     gw.Bar_RC.Progress_Range(0, 100);
-    delay 0.01;
     gw.Bar_RC.Position(5);
     delay 0.01;
     if sn="" then
@@ -416,6 +417,7 @@ package body GWen_Windows is
         RC_Help.base_unit_x:= gw.proj.base_x;
         RC_Help.base_unit_y:= gw.proj.base_y;
       end if;
+      RC_Help.initialize_controls:= gw.proj.initialize_controls;
       RC_Help.source_name:= gw.proj.RC_name;
       gw.Bar_RC.Position(15);
       --
@@ -461,7 +463,6 @@ package body GWen_Windows is
         end loop;
         Close(fe);
       end;
-      delay 0.02;
       gw.Bar_RC.Position(100);
       delay 0.02;
     end if;

@@ -21,6 +21,8 @@
 #define Scroll_vert                             1005
 #define Spinner1                                1006
 #define IDD_ANIMATION1                          1007
+#define Progress_Vertical                       1008
+#define Progress_Default                        1009
 #define Dialog_without_picture                  1033
 #define Edit_Box_1                              1033
 #define Menu_gourmet                            1033
@@ -32,7 +34,6 @@
 #define IDC_COMBO3                              1039
 #define Scroll_horiz                            1040
 #define Spinner                                 1041
-#define IDC_PROGRESS1                           1043
 #define Dialog_without_picture_adv_controls     4108
 #define IDM_NEW1                                40000
 #define IDR_COMMAND1                            40000
@@ -59,3 +60,5 @@
 #define IDM_MODE_1                              40017
 #define IDM_AS_XML1                             40018
 #define IDM_MODE_2                              40019
+#define Progress_Vertical_Smooth                40020
+#define Progress_Vertical_Smooth_Transparent    40022

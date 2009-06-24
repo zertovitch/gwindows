@@ -31,7 +31,9 @@
 --
 -- Change log:
 --
--- 29-Aug-2008 GdM: Added the x and y options
+-- 24-Jun-2009 GdM: Added the -c option (initialize controls, for testing)
+--  ~ May-2009 GdM: Added the -t option (test generation)
+-- 29-Aug-2008 GdM: Added the -x and -y options
 -- 28-Jul-2008 GdM: Created
 --
 
@@ -55,6 +57,7 @@ procedure RC2GW is
     Put_Line( Standard_Error, "          -y# : set base_unit_y as # (default:" & Positive'Image(RC_Help.base_unit_y) & ')' );
     Put_Line( Standard_Error, "          -s  : put each item (dialog, menu) in a separate package");
     Put_Line( Standard_Error, "          -t  : generate test procedure");
+    Put_Line( Standard_Error, "          -c  : initialize some controls, for testing");
   end Syntax;
 
 begin
@@ -76,6 +79,8 @@ begin
             RC_Help.separate_items:= True;
           when 'T' =>
             RC_Help.generate_Test:= True;
+          when 'C' =>
+            RC_Help.initialize_controls:= True;
           when others =>  -- includes "-h", "/?" etc.
             Syntax;
             return;

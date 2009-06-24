@@ -11,12 +11,15 @@
 //
 // Bitmap resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Listen_32x32       BITMAP         "listen_32x32.bmp"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Not_Listen_32x32   BITMAP         "not_listen_32x32.bmp"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Wheels_32x32       BITMAP         "wheels_32_32.bmp"
 
 
@@ -24,18 +27,23 @@ Wheels_32x32       BITMAP         "wheels_32_32.bmp"
 //
 // Icon resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 AAA_Main_Icon      ICON           "gwenerator.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Ada_file           ICON           "Ada_file.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Exe_file           ICON           "Exe_file.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 RC_file            ICON           "RC_file.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 gwenerator_icon    ICON           "gwenerator.ico"
 
 
@@ -43,6 +51,7 @@ gwenerator_icon    ICON           "gwenerator.ico"
 //
 // Menu resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Main_Menu MENU
 {
     POPUP "&File"
@@ -74,6 +83,7 @@ Main_Menu MENU
 //
 // Dialog resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 About_box DIALOGEX 0, 0, 218, 129
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP
 CAPTION "About GWenerator"
@@ -92,38 +102,41 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 
 
 
-GWen_properties DIALOGEX 0, 0, 314, 231
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+GWen_properties DIALOGEX 0, 0, 314, 253
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "GWen options"
 FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 {
-    DEFPUSHBUTTON   "OK", IDOK, 197, 212, 50, 14, BS_DEFPUSHBUTTON
-    PUSHBUTTON      "Cancel", IDCANCEL, 252, 212, 50, 14, BS_PUSHBUTTON
+    DEFPUSHBUTTON   "OK", IDOK, 197, 225, 50, 14, BS_DEFPUSHBUTTON
+    PUSHBUTTON      "Cancel", IDCANCEL, 252, 225, 50, 14, BS_PUSHBUTTON
     EDITTEXT        Edit_RC_File_Name, 85, 19, 168, 15, ES_AUTOHSCROLL
     RTEXT           "File name", IDC_STATIC, 22, 22, 60, 8, SS_RIGHT
     PUSHBUTTON      "Browse...", Button_Browse_RC, 255, 19, 43, 14, BS_PUSHBUTTON
     AUTOCHECKBOX    "Listen for newer version", Listen_RC, 22, 44, 93, 10, BS_AUTOCHECKBOX
     AUTOCHECKBOX    "Automatically translate when newer", Auto_translate, 132, 44, 131, 10, BS_AUTOCHECKBOX
     GROUPBOX        "Resource file", IDC_STATIC, 12, 7, 290, 55
-    AUTOCHECKBOX    "Automatically build when GUI newer", Auto_build, 132, 155, 131, 10, BS_AUTOCHECKBOX
-    EDITTEXT        Edit_Main_Ada_File_Name, 85, 130, 168, 15, ES_AUTOHSCROLL
-    PUSHBUTTON      "Browse...", Button_Browse_Ada, 255, 130, 43, 14, BS_PUSHBUTTON
-    AUTOCHECKBOX    "Listen for newer GUI version", Listen_Ada, 22, 155, 107, 10, BS_AUTOCHECKBOX
-    GROUPBOX        "Main application ( facultative )", IDC_STATIC, 12, 118, 290, 55
-    AUTOCHECKBOX    "Produce a separate package for each item", Separate_items, 22, 82, 151, 10, BS_AUTOCHECKBOX
-    EDITTEXT        Basx, 65, 97, 20, 15, ES_AUTOHSCROLL
-    LTEXT           "Base unit x:", IDC_STATIC, 25, 97, 39, 8, SS_LEFT
-    EDITTEXT        Basy, 102, 97, 20, 15, ES_AUTOHSCROLL
-    LTEXT           " y:", IDC_STATIC, 90, 97, 10, 8, SS_LEFT
-    AUTOCHECKBOX    "use defaults", Use_base_defs, 130, 97, 55, 10, BS_AUTOCHECKBOX
-    GROUPBOX        "RC2GW - RC to GWindows transcription engine", IDC_STATIC, 12, 67, 294, 50
-    GROUPBOX        "Ada builder command line ( facultative )", IDC_STATIC, 12, 177, 288, 30
-    EDITTEXT        Ada_cmd, 17, 187, 275, 14, ES_AUTOHSCROLL
-    RTEXT           "App. source or exe", IDC_STATIC, 20, 135, 62, 8, SS_RIGHT
+    AUTOCHECKBOX    "Automatically build when GUI newer", Auto_build, 132, 168, 131, 10, BS_AUTOCHECKBOX
+    EDITTEXT        Edit_Main_Ada_File_Name, 85, 143, 168, 15, ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...", Button_Browse_Ada, 255, 143, 43, 14, BS_PUSHBUTTON
+    AUTOCHECKBOX    "Listen for newer GUI version", Listen_Ada, 22, 168, 107, 10, BS_AUTOCHECKBOX
+    GROUPBOX        "Main application ( facultative )", IDC_STATIC, 12, 131, 290, 55
+    AUTOCHECKBOX    "Produce a separate package for each item", Separate_items, 25, 80, 270, 10, BS_AUTOCHECKBOX
+    EDITTEXT        Basx, 65, 95, 20, 15, ES_AUTOHSCROLL
+    LTEXT           "Base unit x:", IDC_STATIC, 25, 95, 39, 8, SS_LEFT
+    EDITTEXT        Basy, 102, 95, 20, 15, ES_AUTOHSCROLL
+    LTEXT           " y:", IDC_STATIC, 90, 95, 10, 8, SS_LEFT
+    AUTOCHECKBOX    "use defaults", Use_base_defs, 130, 95, 55, 10, BS_AUTOCHECKBOX
+    GROUPBOX        "RC2GW - RC to GWindows transcription engine", IDC_STATIC, 12, 67, 290, 60
+    GROUPBOX        "Ada builder command line ( facultative )", IDC_STATIC, 12, 190, 288, 30
+    EDITTEXT        Ada_cmd, 17, 200, 275, 14, ES_AUTOHSCROLL
+    RTEXT           "App. source or exe", IDC_STATIC, 20, 148, 62, 8, SS_RIGHT
+    AUTOCHECKBOX    "Initialize some controls (analogy to pragma Initialize_Scalars)", Initialize_controls, 25, 110, 265, 10, BS_AUTOCHECKBOX
 }
 
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Main_dialog DIALOGEX 0, 0, 403, 246
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "GWenerator - Link 1.gwen"
@@ -136,8 +149,8 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     LTEXT           "Ada compilation messages", Ada_comp_label, 212, 117, 84, 8, SS_LEFT
     PUSHBUTTON      "Translate now", Button_Translate, 67, 37, 100, 20, BS_PUSHBUTTON
     PUSHBUTTON      "Build now", Button_Build, 245, 37, 100, 20, BS_PUSHBUTTON
-    CONTROL         "", Bar_RC, PROGRESS_CLASS, 0, 67, 62, 100, 10
-    CONTROL         "", Bar_Ada, PROGRESS_CLASS, 0, 245, 62, 100, 10
+    CONTROL         "", Bar_RC, PROGRESS_CLASS, PBS_SMOOTH, 67, 62, 100, 10
+    CONTROL         "", Bar_Ada, PROGRESS_CLASS, PBS_SMOOTH, 245, 62, 100, 10
     CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, SS_BITMAP | SS_SUNKEN, 247, 12, 21, 20
     CONTROL         Listen_32x32, Ear_RC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 67, 12, 21, 20
     AUTOCHECKBOX    "Show details", Show_Details, 5, 80, 56, 10, BS_AUTOCHECKBOX
@@ -153,6 +166,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 //
 // Accelerator resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Main_Menu ACCELERATORS
 {
     "O",            Open_GWen, VIRTKEY, CONTROL
@@ -165,6 +179,7 @@ Main_Menu ACCELERATORS
 //
 // Version Information resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1 VERSIONINFO
     FILEVERSION     0,97,0,0
     PRODUCTVERSION  0,0,0,0
@@ -193,4 +208,5 @@ Main_Menu ACCELERATORS
 //
 // Cursor resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Finger_cursor      CURSOR         ".\\finger.cur"

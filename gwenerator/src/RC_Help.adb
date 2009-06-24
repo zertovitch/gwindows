@@ -385,6 +385,10 @@ package body RC_Help is
     Ada_Put_Line(to_body, "with GWindows.Types;                    use GWindows.Types;");
     Ada_Put_Line(to_body, "with GWindows.Drawing;                  use GWindows.Drawing;");
     Ada_Put_Line(to_body, "with GWindows.Drawing_Objects;");
+    if initialize_controls then
+      Ada_Put_Line(to_body, "with GWindows.GStrings;                 use GWindows.GStrings;");
+    end if;
+
     Ada_Put_Line(to_body, "with System;");
     Ada_New_Line(to_body);
     if separate_items then
@@ -799,8 +803,18 @@ package body RC_Help is
     end if;
   end Ada_bitmap_control;
 
+  procedure Reset_control_styles is
+  begin
+    lv_type  := GWindows.Common_Controls.List_View;
+    lv_select:= GWindows.Common_Controls.Multiple; -- MSDN: By default, multiple items may be selected
+    lv_sort  := GWindows.Common_Controls.No_Sorting;
+    lv_auto_arrange:= False;
+    lv_align := GWindows.Common_Controls.Align_None;
+  end;
+
   -- All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
   procedure Ada_untyped_control is
+    use GWindows.Common_Controls;
   begin
     if control /= unknown then
       empty_dialog_record:= False;
@@ -844,9 +858,17 @@ package body RC_Help is
       when progress =>
         Ada_normal_control(
           "Progress_Control_Type",
+           "",
+           ", " & Control_Direction_Type'Image(Control_Direction) &
+           ", " & Boolean'Image(style_switch(smooth)),
           with_id => False
         );
-      when list_view =>
+        if initialize_controls then
+          Ada_Put_Line(to_body, "    Window." & S(last_Ada_ident) &
+            ".Position(66); -- reminds to initialize; nice for testing"
+          );
+        end if;
+      when list_view | SysListView32=>
         Ada_normal_control(
           "List_View_Control_Type",
           "",
@@ -857,7 +879,23 @@ package body RC_Help is
           ", " & GWindows.Common_Controls.List_View_Control_Alignment_Type'Image(lv_align),
           with_id => False
        );
-      when tree_view =>
+        if initialize_controls then
+          Ada_Put_Line(to_body, "    -- Initialize_controls");
+          Ada_Put_Line(to_body, "    Insert_Column (Window." & S(last_Ada_ident)  & ", ""Item"", 0, 75);");
+          if lv_type = Report_View then
+            Ada_Put_Line(to_body, "    Insert_Column (Window." & S(last_Ada_ident)  & ", ""Sub_Item"", 1, 100);");
+          end if;
+          Ada_Put_Line(to_body, "    for N in 0 .. 25 loop");
+          Ada_Put_Line(to_body, "       Insert_Item (Window." & S(last_Ada_ident)  & ", To_GString_From_String (""Item Nb"" & N'Img), N);");
+          if lv_type = Report_View then
+            Ada_Put_Line(to_body, "       Set_Sub_Item (Window." & S(last_Ada_ident)  & ",");
+            Ada_Put_Line(to_body, "                     To_GString_From_String (""Sub of"" & N'Img),");
+            Ada_Put_Line(to_body, "                     N,");
+            Ada_Put_Line(to_body, "                    1);");
+          end if;
+          Ada_Put_Line(to_body, "    end loop;");
+        end if;
+      when tree_view | SysTreeView32 =>
         Ada_normal_control(
           "Tree_View_Control_Type",
           "",
@@ -867,6 +905,21 @@ package body RC_Help is
           ", Single_Expand => " & Boolean'Image(style_switch(single_expand)),
           with_id => False
         );
+        if initialize_controls then
+          Ada_Put_Line(to_body, "    declare -- Initialize_controls");
+          Ada_Put_Line(to_body, "       Root_Node : Tree_Item_Node;");
+          Ada_Put_Line(to_body, "       An_Item   : Tree_Item_Node;");
+          Ada_Put_Line(to_body, "    begin");
+          Ada_Put_Line(to_body, "       Insert_Item (Window." & S(last_Ada_ident)  & ", ""Root"", 0, Root_Node, As_A_Root);");
+          Ada_Put_Line(to_body, "       Insert_Item (Window." & S(last_Ada_ident)  & ", ""Child 1"", Root_Node, An_Item);");
+          Ada_Put_Line(to_body, "       Insert_Item (Window." & S(last_Ada_ident)  & ", ""Child 2"", Root_Node, An_Item);");
+          Ada_Put_Line(to_body, "       Insert_Item (Window." & S(last_Ada_ident)  & ", ""Child 3"", Root_Node, An_Item);");
+          Ada_Put_Line(to_body, "       Insert_Item (Window." & S(last_Ada_ident)  & ", ""Sub-Child 1"", An_Item, An_Item);");
+          Ada_Put_Line(to_body, "       Insert_Item (Window." & S(last_Ada_ident)  & ", ""Sub-Child 2"", An_Item, An_Item);");
+          Ada_Put_Line(to_body, "       Insert_Item (Window." & S(last_Ada_ident)  & ", ""Sub-Child 3"", An_Item, An_Item);");
+          Ada_Put_Line(to_body, "       Expand (Window." & S(last_Ada_ident)  & ", Root_Node);");
+          Ada_Put_Line(to_body, "    end;");
+        end if;
       when tab_control =>
         Ada_normal_control("Tab_Window_Control_Type", with_id => False );
         -- Tab_Window_Control_Type allows to associate a window
@@ -1126,10 +1179,13 @@ package body RC_Help is
     has_input:= False;
     source_name:= U("");
     linenum:= 0;
+    --
     base_unit_x:= 6;  -- usual value, overriden with option -x
     base_unit_y:= 13; -- usual value, overriden with option -y
     separate_items:= False;
     generate_test:= False;
+    initialize_controls:= False;
+    --
     first_include:= True;
     dialog_top:= 0;
     --

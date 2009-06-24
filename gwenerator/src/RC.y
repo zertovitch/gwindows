@@ -477,7 +477,9 @@ dlg_item  : control
 -- CONTROL text, id, class, style, x, y, width, height [, extended-style]
 
 control   :    CONTROL_t
-               { control:= unknown; }
+               { control:= unknown;
+                 Reset_control_styles;
+               }
                control_text
                { last_control_text:= U(yytext); }
                COMMA_t
@@ -556,13 +558,7 @@ window_class:
       | WC_LINK_t          -- Creates SysLink controls. These controls contain hypertext links.
       | WC_LISTVIEW_t
         -- Creates list-view controls.
-        { control:= list_view;
-          lv_type  := GWindows.Common_Controls.List_View;
-          lv_select:= GWindows.Common_Controls.Multiple; -- MSDN: By default, multiple items may be selected
-          lv_sort  := GWindows.Common_Controls.No_Sorting;
-          lv_auto_arrange:= False;
-          lv_align := GWindows.Common_Controls.Align_None;
-		}
+        { control:= list_view; }
       | WC_NATIVEFONTCTL_t -- Creates native font controls (invisible)
       | WC_PAGESCROLLER_t  -- Creates pager controls (contain and scroll another window).
       | WC_SCROLLBAR_t     -- Creates scrollbar controls (scroll the contents of a window).
@@ -595,6 +591,7 @@ ctrl_style: ws_style
           | PBS_VERTICAL_t
             { Control_Direction:= Vertical; }
           | PBS_SMOOTH_t
+            { style_switch(smooth):= True; }
           | TBS_VERT_t
             { Control_Direction:= Vertical; }
           | TBS_TOP_t

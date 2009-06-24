@@ -160,9 +160,22 @@ package body Resource_Header is
       l : Integer := s'Last;
       c,d : Integer := 0;
       dummy : Integer;
+
+      procedure Insert(s: String) is
+      begin
+        if s(s'First)= '_' then
+          RC_Help.Insert_symbol(s(s'First+1..s'Last), dummy);
+        else
+          RC_Help.Insert_symbol(s, dummy);
+        end if;
+      end;
+
     begin
       -- put_line("@..." & s & "@");
       if s = "#endif" then
+        return;
+      end if;
+      if l >= 7 and then s (f..f+6) = "#ifdef," then
         return;
       end if;
       if l >= 8 and then s (f..f+7) = "#ifndef," then
@@ -212,7 +225,7 @@ package body Resource_Header is
           when others =>
             raise Illegal_Number with s (d+1..l-1);
         end;
-        RC_Help.Insert_symbol(s (f+8..c-1), dummy);
+        Insert(s (f+8..c-1));
       end if;
 
     end Generate_Output;

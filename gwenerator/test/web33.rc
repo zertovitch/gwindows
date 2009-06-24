@@ -64,7 +64,7 @@ FONT 8, "MS Sans Serif"
 {
    CONTROL    ID_DSPIC, IDC_STATIC, STATIC, SS_BITMAP     | WS_CHILD | WS_VISIBLE, 0,0,     143,133
 
-   CONTROL    DSEMU_VERSION_STR,                        IDC_STATIC, STATIC, WS_VISIBLE, 4,25, 135,8
+   CONTROL    "DSEMU Version ...",                      IDC_STATIC, STATIC, WS_VISIBLE, 4,25, 135,8
    CONTROL    "Copyright Imran Nazar, 2004-05.",        IDC_STATIC, STATIC, WS_VISIBLE, 4,34, 135,8
    CONTROL    "Released under the BSD Public Licence.", IDC_STATIC, STATIC, WS_VISIBLE, 4,43, 135,8
    CONTROL    "Incorporates code from zlib and",        IDC_STATIC, STATIC, WS_VISIBLE, 4,61, 135,8

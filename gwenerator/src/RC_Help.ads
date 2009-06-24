@@ -36,7 +36,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "23-Jun-2009";
+  Grammar_Version: constant String:= "24-Jun-2009";
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -56,10 +56,15 @@ package RC_Help is
 
   linenum : Integer;
 
-  base_unit_x: Positive;
-  base_unit_y: Positive;
-  separate_items: Boolean;
-  generate_test: Boolean;
+  --------------------------------
+  -- GWenerator / RC2GW Options --
+  --------------------------------
+
+  base_unit_x        : Positive;
+  base_unit_y        : Positive;
+  separate_items     : Boolean;
+  generate_test      : Boolean;
+  initialize_controls: Boolean; -- Analogy: Ada's pragma Initialize_Scalars
 
   type Pkg_output is (to_spec, to_body);
 
@@ -87,6 +92,7 @@ package RC_Help is
       keys,
       wrap,
       no_1000,
+      smooth,
       simple_border,
       fully_sunken,
       half_sunken,
@@ -122,8 +128,8 @@ package RC_Help is
       track_bar, -- slider
       up_down,   -- spin
       progress,
-      list_view,
-      tree_view,
+      list_view, SysListView32, -- list view (with specific/alias notation)
+      tree_view, SysTreeView32, -- tree view (with specific/alias notation)
       tab_control,
       date_time,
       calendar
@@ -132,7 +138,7 @@ package RC_Help is
   control: Control_type;
 
   type Control_Direction_Type is (Horizontal, Vertical);
-  Control_Direction: Control_Direction_Type;
+  Control_Direction: Control_Direction_Type; -- direction of various controls
 
   type Trackbar_Control_Ticks_Type is (Top_Ticks,
                                        Bottom_Ticks,
@@ -225,6 +231,7 @@ package RC_Help is
   procedure Ada_button_control;
   procedure Ada_edit_control;
 
+  procedure Reset_control_styles;
   -- All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
   procedure Ada_untyped_control;
 

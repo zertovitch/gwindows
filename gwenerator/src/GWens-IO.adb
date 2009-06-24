@@ -31,40 +31,47 @@ package body GWens.IO is
     Open(f, In_File, file_name);
     Skip_Line(f);
     while not End_of_File(f) loop
-      Get(f, k);
-      case k is
-        when RC_name =>
-          Get(f, dummy); -- absorb the first separating ' '
-          Get_Line(f, proj.RC_Name);
-        when RC_listen =>
-          Get(f, proj.RC_Listen);
-        when RC_auto_trans =>
-          Get(f, proj.RC_auto_trans);
-        --
-        when separate_items =>
-          Get(f, proj.separate_items);
-        when base_x =>
-          Get(f, proj.base_x);
-        when base_y =>
-          Get(f, proj.base_y);
-        when base_defaults =>
-          Get(f, proj.base_defaults);
-        --
-        when Ada_main =>
-          Get(f, dummy); -- absorb the first separating ' '
-          Get_Line(f, proj.Ada_Main);
-        when Ada_listen =>
-          Get(f, proj.Ada_listen);
-        when Ada_auto_build =>
-          Get(f, proj.Ada_auto_build);
-        --
-        when Ada_command =>
-          Get(f, dummy); -- absorb the first separating ' '
-          Get_Line(f, proj.Ada_command);
-        --
-        when show_details =>
-          Get(f, proj.show_details);
-      end case;
+      begin
+        Get(f, k);
+        case k is
+          when RC_name =>
+            Get(f, dummy); -- absorb the first separating ' '
+            Get_Line(f, proj.RC_Name);
+          when RC_listen =>
+            Get(f, proj.RC_Listen);
+          when RC_auto_trans =>
+            Get(f, proj.RC_auto_trans);
+          --
+          when separate_items =>
+            Get(f, proj.separate_items);
+          when base_x =>
+            Get(f, proj.base_x);
+          when base_y =>
+            Get(f, proj.base_y);
+          when base_defaults =>
+            Get(f, proj.base_defaults);
+          when initialize_controls =>
+            Get(f, proj.initialize_controls);
+          --
+          when Ada_main =>
+            Get(f, dummy); -- absorb the first separating ' '
+            Get_Line(f, proj.Ada_Main);
+          when Ada_listen =>
+            Get(f, proj.Ada_listen);
+          when Ada_auto_build =>
+            Get(f, proj.Ada_auto_build);
+          --
+          when Ada_command =>
+            Get(f, dummy); -- absorb the first separating ' '
+            Get_Line(f, proj.Ada_command);
+          --
+          when show_details =>
+            Get(f, proj.show_details);
+        end case;
+      exception
+        when Data_Error => -- item from a later version
+          Skip_Line(f);
+      end;
     end loop;
     Close(f);
     --
@@ -108,6 +115,9 @@ package body GWens.IO is
           New_Line(f);
         when base_defaults =>
           Put(f, proj.base_defaults);
+          New_Line(f);
+        when initialize_controls =>
+          Put(f, proj.initialize_controls);
           New_Line(f);
         --
         when Ada_main =>

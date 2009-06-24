@@ -11,9 +11,10 @@
 #define Listen_RC                               1000
 #define URL                                     1000
 #define Exe_file_icon                           1001
-#define Separate_items                          1001
+#define Initialize_controls                     1001
 #define Details_frame                           1002
 #define GWen_ver                                1002
+#define Separate_items                          1002
 #define Ada_cmd                                 1003
 #define Ada_comp_label                          1003
 #define Basx                                    1004

@@ -10,9 +10,11 @@
 //
 // Bitmap resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 IDR_TOOLBAR1       BITMAP         "bitmap1.bmp"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Toolbar_Bmp        BITMAP         "TC_Tools.bmp"
 
 
@@ -20,6 +22,7 @@ Toolbar_Bmp        BITMAP         "TC_Tools.bmp"
 //
 // Icon resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 AAA_Main_Icon      ICON           "texcad.ico"
 
 
@@ -27,6 +30,7 @@ AAA_Main_Icon      ICON           "texcad.ico"
 //
 // Menu resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Menu_gourmet MENU
 {
     POPUP "File"
@@ -84,6 +88,7 @@ Menu_gourmet MENU
 //
 // Dialog resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Dialog_ListViews DIALOG 0, 0, 441, 307
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "Dialog with ListView's"
@@ -103,6 +108,7 @@ FONT 8, "Ms Shell Dlg 2"
 
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Dialog_with_pictures DIALOGEX 0, 0, 186, 122
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "Dialog"
@@ -118,7 +124,8 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 
 
 
-Dialog_without_picture DIALOGEX 0, 0, 271, 194
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+Dialog_without_picture DIALOGEX 0, 0, 271, 241
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "Nice Dialog"
 FONT 8, "Ms Shell Dlg 2", 400, 0, 1
@@ -143,12 +150,16 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     CONTROL         "", IDC_SLIDER1, TRACKBAR_CLASS, TBS_VERT | TBS_TOOLTIPS, 163, 106, 20, 45
     CONTROL         "", Spinner1, UPDOWN_CLASS, UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HORZ | UDS_WRAP, 185, 7, 12, 11
     GROUPBOX        "Combo group", IDC_STATIC, 170, 45, 94, 57
-    CONTROL         "", IDC_PROGRESS1, PROGRESS_CLASS, 0, 12, 145, 145, 14
+    CONTROL         "", Progress_Default, PROGRESS_CLASS, 0, 10, 145, 145, 14
     GROUPBOX        "Electrostatic", IDC_STATIC, 6, 2, 157, 29
+    CONTROL         "", Progress_Vertical, PROGRESS_CLASS, PBS_VERTICAL, 15, 170, 20, 60
+    CONTROL         "", Progress_Vertical_Smooth, PROGRESS_CLASS, PBS_SMOOTH | PBS_VERTICAL, 40, 170, 20, 60
+    CONTROL         "", Progress_Vertical_Smooth_Transparent, PROGRESS_CLASS, PBS_SMOOTH | PBS_VERTICAL, 65, 170, 20, 60, WS_EX_TRANSPARENT
 }
 
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Dialog_without_picture_adv_controls DIALOGEX 0, 0, 330, 330
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "Dialog"
@@ -169,6 +180,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Static_Borders DIALOG 0, 0, 371, 161
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "Static labels with various borders (press ESC to skip)"
@@ -186,6 +198,7 @@ FONT 8, "Ms Shell Dlg 2"
 //
 // String Table resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 STRINGTABLE
 
 {
@@ -197,6 +210,7 @@ STRINGTABLE
 //
 // Accelerator resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 IDR_ACCELERATOR1 ACCELERATORS
 {
     "V",            Paste, VIRTKEY, CONTROL
@@ -211,6 +225,7 @@ IDR_ACCELERATOR1 ACCELERATORS
 //
 // Toolbar resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 IDR_TOOLBAR1 TOOLBAR 16, 15
 {
     BUTTON      IDR_COMMAND1
@@ -224,6 +239,7 @@ IDR_TOOLBAR1 TOOLBAR 16, 15
 //
 // Manifest resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1                  RT_MANIFEST    ".\\manifest.xml"
 
 
@@ -231,4 +247,5 @@ IDR_TOOLBAR1 TOOLBAR 16, 15
 //
 // Cursor resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Select_cursor      CURSOR         "select.cur"

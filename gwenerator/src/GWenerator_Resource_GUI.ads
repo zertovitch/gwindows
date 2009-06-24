@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/06/23   19:41:15
+-- Transcription time: 2009/06/24   12:54:34
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 23-Jun-2009
+-- RC Grammar version: 24-Jun-2009
 ---------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -34,7 +34,7 @@ package GWenerator_Resource_GUI is
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 69
+  -- Menu at line 78
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -52,7 +52,7 @@ package GWenerator_Resource_GUI is
     GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 90
+  -- Dialog at resource line 100
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -112,9 +112,10 @@ package GWenerator_Resource_GUI is
     Static_0007: Group_Box_Type;
     Ada_cmd: Edit_Box_Type;
     -- Label: IDC_STATIC
+    Initialize_controls: Check_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 122
+  -- Dialog at resource line 134
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -161,7 +162,7 @@ package GWenerator_Resource_GUI is
     Exe_file_icon: Icon_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 148
+  -- Dialog at resource line 161
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -212,9 +213,10 @@ package GWenerator_Resource_GUI is
   Listen_RC              : constant:=   1000;
   URL                    : constant:=   1000;
   Exe_file_icon          : constant:=   1001;
-  Separate_items         : constant:=   1001;
+  Initialize_controls    : constant:=   1001;
   Details_frame          : constant:=   1002;
   GWen_ver               : constant:=   1002;
+  Separate_items         : constant:=   1002;
   Ada_cmd                : constant:=   1003;
   Ada_comp_label         : constant:=   1003;
   Basx                   : constant:=   1004;
@@ -266,6 +268,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 192
+  -- Last line of resource script file: 208
 
 end GWenerator_Resource_GUI;

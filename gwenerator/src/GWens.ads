@@ -14,10 +14,11 @@ package GWens is
     RC_listen     : Boolean:= True;
     RC_auto_trans : Boolean:= True;
     --
-    separate_items: Boolean:= False;
-    base_x        : Integer:= 6;
-    base_y        : Integer:= 13;
-    base_defaults : Boolean:= True;
+    separate_items      : Boolean:= False;
+    base_x              : Integer:= 6;
+    base_y              : Integer:= 13;
+    base_defaults       : Boolean:= True;
+    initialize_controls : Boolean:= False;
     --
     Ada_main      : Unbounded_String;
     Ada_listen    : Boolean:= True;

@@ -1,6 +1,6 @@
 package GWens.IO is
 
-  -- Keys for easy and safe load / save through a file or the registry
+  -- Keys for easy and safe load / save through a file or the registry.
   -- Each key correspond to a record field of the type GWen.
 
   type Key is
@@ -13,6 +13,7 @@ package GWens.IO is
     base_x,
     base_y,
     base_defaults,
+    initialize_controls,
     --
     Ada_main,
     Ada_listen,

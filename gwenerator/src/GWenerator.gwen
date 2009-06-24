@@ -1,11 +1,13 @@
-GWenerator project file ("GWen")
+This is a GWenerator project file (a "GWen"). Visit GWenerator on the Web: http://sf.net/projects/gnavi
 RC_NAME GWenerator.rc
 RC_LISTEN TRUE
 RC_AUTO_TRANS TRUE
 SEPARATE_ITEMS FALSE
+Future_thing Data_Error but must pass !
 BASE_X           6
 BASE_Y          13
 BASE_DEFAULTS TRUE
+INITIALIZE_CONTROLS FALSE
 ADA_MAIN 
 ADA_LISTEN TRUE
 ADA_AUTO_BUILD TRUE

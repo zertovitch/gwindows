@@ -46,13 +46,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Accelerator
-//
-
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Menu
 //
 
@@ -60,14 +53,16 @@ IDR_MENU1 MENU
 BEGIN
     POPUP "File"
     BEGIN
-        MENUITEM "New",                         ID_FILE_NEW40004
-        MENUITEM "Open",                        ID_FILE_OPEN40002
-        MENUITEM "Save",                        ID_FILE_SAVE40003
-        POPUP "Save as"
+        MENUITEM "&New",                        IDM_NEW
+        MENUITEM "&Open",                       IDM_OPEN
+        MENUITEM SEPARATOR
+        POPUP "&Export as..."
         BEGIN
-            MENUITEM "as CSV",                      ID_SAVEAS_ASCSV
-            MENUITEM "as XML",                      ID_SAVEAS_ASXML
+            MENUITEM "as &CSV",                     ID_EXPORTAS_ASCSV
+            MENUITEM "as &Excel",                   ID_EXPORTAS_ASEXCEL
         END
+        MENUITEM SEPARATOR
+        MENUITEM "&Quit",                       ID_FILE_QUIT
     END
 END
 
@@ -97,7 +92,7 @@ BEGIN
             VALUE "FileDescription", "vs_2008"
             VALUE "FileVersion", "1, 0, 0, 1"
             VALUE "InternalName", "vs_2008"
-            VALUE "LegalCopyright", "Copyright (C) 2008"
+            VALUE "LegalCopyright", "Copyright (C) 2008..2009"
             VALUE "OriginalFilename", "vs_2008.rc"
             VALUE "ProductName", "vs_2008"
             VALUE "ProductVersion", "1, 0, 0, 1"
@@ -127,30 +122,34 @@ LANGUAGE LANG_FRENCH, SUBLANG_FRENCH_SWISS
 // Dialog
 //
 
-MY_NICE_DIALOG DIALOGEX 85, 62, 306, 219
+My_nice_dialog DIALOGEX 85, 62, 343, 237
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "That's a title"
 FONT 10, "Microsoft Sans Serif", 400, 0, 0x0
 BEGIN
-    CTEXT           "Text",102,26,12,90,12,SS_NOPREFIX
+    CTEXT           "Text, centered",102,26,12,90,12,SS_NOPREFIX
     EDITTEXT        Simple_text_box,22,42,135,39,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_HSCROLL
-    GROUPBOX        "Group me!",101,22,91,115,41
-    DEFPUSHBUTTON   "Push me plenty!",104,157,100,61,14
-    CONTROL         "Radio, auto",106,"Button",BS_AUTORADIOBUTTON | BS_LEFTTEXT | WS_TABSTOP,144,130,51,12
-    COMBOBOX        107,18,148,48,35,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    LISTBOX         108,73,147,111,26,LBS_SORT | LBS_MULTIPLESEL | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
-    SCROLLBAR       109,217,172,48,8,WS_TABSTOP
-    SCROLLBAR       110,276,123,9,40,SBS_VERT | WS_GROUP
+    GROUPBOX        "Group me!",101,22,91,115,36
+    DEFPUSHBUTTON   "Push me plenty!",104,157,100,77,18
+    CONTROL         "Radio, auto",106,"Button",BS_AUTORADIOBUTTON | BS_LEFTTEXT | WS_TABSTOP,269,139,51,12
+    COMBOBOX        107,16,147,48,35,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    SCROLLBAR       109,268,164,48,8,WS_TABSTOP
+    SCROLLBAR       110,328,123,9,40,SBS_VERT | WS_GROUP
     RTEXT           "Text, right",111,104,11,90,12,SS_NOPREFIX | SS_SUNKEN | WS_BORDER,WS_EX_CLIENTEDGE
-    LTEXT           "Text",112,204,12,90,12,SS_NOPREFIX
+    LTEXT           "Text !",112,204,12,90,12,SS_NOPREFIX
     CHECKBOX        "Check me!",114,180,44,62,10
     CONTROL         "Check me!",115,"Button",BS_3STATE | WS_TABSTOP,184,59,62,10
-    RADIOBUTTON     "Radio, NON auto",113,200,131,67,12,BS_LEFTTEXT | WS_TABSTOP
-    CONTROL         "",IDC_TREE1,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,9,168,58,45
+    RADIOBUTTON     "Radio, NON auto",113,262,125,67,12,BS_LEFTTEXT | WS_TABSTOP
+    CONTROL         "",IDC_TREE1,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,9,168,58,61
     LTEXT           "List box here:",IDC_STATIC,72,134,48,11
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,74,181,118,31
+    LISTBOX         108,160,145,87,20,LBS_SORT | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,74,198,226,31
     CONTROL         "",IDC_DATETIMEPICKER1,"SysDateTimePick32",DTS_RIGHTALIGN | WS_TABSTOP,226,75,70,13
     LTEXT           "Edit multi-line:",IDC_STATIC,7,30,42,8
+    CONTROL         "",PROGRESS_VERT,"msctls_progress32",PBS_SMOOTH | PBS_VERTICAL | WS_BORDER,322,188,15,41
+    LTEXT           "List box (drop down) here:",IDC_STATIC,161,130,89,11
+    LISTBOX         116,71,145,87,50,LBS_SORT | LBS_MULTIPLESEL | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Combo here",IDC_STATIC,11,132,48,8
 END
 
 #endif    // French (Switzerland) resources
