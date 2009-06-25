@@ -815,13 +815,7 @@ combobox  : COMBOBOX_t
             { combo:= no_drop; }
             ctrl_properties_notext
             cbs_styles_optional -- also with optional extended styles
-            {
-              Ada_normal_control(
-                Combo_type_name(combo),
-                 ", " & S(last_text),
-                 ", " & Boolean'Image(style_switch(sort))
-              );
-            }
+            { Ada_combo_control; }
             ;
 
 cbs_styles_optional :
@@ -896,13 +890,7 @@ listbox   : LISTBOX_t
             lbs_text
             ctrl_properties_notext
             lbs_styles_optional -- also with optional extended styles
-            {
-              Ada_normal_control(
-                "List_Box_Type",
-                 "",
-                 ", " & Boolean'Image(style_switch(sort))
-              );
-            }
+            { Ada_list_box_control; }
             ;
 
 -- Windres (.res -> .rc) outputs a text (seems wrong)

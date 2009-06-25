@@ -12,60 +12,13 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// German (Switzerland) resources
+// Neutral resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DES)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 #ifdef _WIN32
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_SWISS
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1252)
 #endif //_WIN32
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "resource.\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""afxres.h""\r\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_MENU1 MENU 
-BEGIN
-    POPUP "File"
-    BEGIN
-        MENUITEM "&New",                        IDM_NEW
-        MENUITEM "&Open",                       IDM_OPEN
-        MENUITEM SEPARATOR
-        POPUP "&Export as..."
-        BEGIN
-            MENUITEM "as &CSV",                     ID_EXPORTAS_ASCSV
-            MENUITEM "as &Excel",                   ID_EXPORTAS_ASEXCEL
-        END
-        MENUITEM SEPARATOR
-        MENUITEM "&Quit",                       ID_FILE_QUIT
-    END
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -87,8 +40,9 @@ VS_VERSION_INFO VERSIONINFO
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "080704b0"
+        BLOCK "0c0c04b0"
         BEGIN
+            VALUE "CompanyName", "Virtual Studios"
             VALUE "FileDescription", "vs_2008"
             VALUE "FileVersion", "1, 0, 0, 1"
             VALUE "InternalName", "vs_2008"
@@ -100,9 +54,82 @@ BEGIN
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x807, 1200
+        VALUE "Translation", 0xc0c, 1200
     END
 END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Switzerland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DES)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_SWISS
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource_vs.h\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+About_box DIALOGEX 0, 0, 316, 122
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About..."
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,135,101,50,14
+    LTEXT           "My nice app",IDC_STATIC,60,21,199,16
+    ICON            "",IDC_STATIC,17,16,21,20
+    LTEXT           "Copyright bla bla",IDC_STATIC,61,46,215,18
+    CONTROL         "<a>On the Web</a>",IDC_SYSLINK1,"SysLink",WS_TABSTOP,61,65,98,7
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    About_box, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 115
+    END
+END
+#endif    // APSTUDIO_INVOKED
 
 #endif    // German (Switzerland) resources
 /////////////////////////////////////////////////////////////////////////////
@@ -129,30 +156,94 @@ FONT 10, "Microsoft Sans Serif", 400, 0, 0x0
 BEGIN
     CTEXT           "Text, centered",102,26,12,90,12,SS_NOPREFIX
     EDITTEXT        Simple_text_box,22,42,135,39,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_HSCROLL
-    GROUPBOX        "Group me!",101,22,91,115,36
-    DEFPUSHBUTTON   "Push me plenty!",104,157,100,77,18
-    CONTROL         "Radio, auto",106,"Button",BS_AUTORADIOBUTTON | BS_LEFTTEXT | WS_TABSTOP,269,139,51,12
-    COMBOBOX        107,16,147,48,35,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    SCROLLBAR       109,268,164,48,8,WS_TABSTOP
-    SCROLLBAR       110,328,123,9,40,SBS_VERT | WS_GROUP
+    GROUPBOX        "Group me!",101,3,91,134,36
+    DEFPUSHBUTTON   "Push me plenty!",104,153,93,77,18
+    CONTROL         "Radio, auto",106,"Button",BS_AUTORADIOBUTTON | BS_LEFTTEXT | WS_TABSTOP,262,26,51,12
+    COMBOBOX        Combo_simple,97,149,65,82,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    SCROLLBAR       109,268,52,48,8,WS_TABSTOP
+    SCROLLBAR       110,328,11,9,40,SBS_VERT | WS_GROUP
     RTEXT           "Text, right",111,104,11,90,12,SS_NOPREFIX | SS_SUNKEN | WS_BORDER,WS_EX_CLIENTEDGE
     LTEXT           "Text !",112,204,12,90,12,SS_NOPREFIX
     CHECKBOX        "Check me!",114,180,44,62,10
     CONTROL         "Check me!",115,"Button",BS_3STATE | WS_TABSTOP,184,59,62,10
-    RADIOBUTTON     "Radio, NON auto",113,262,125,67,12,BS_LEFTTEXT | WS_TABSTOP
-    CONTROL         "",IDC_TREE1,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,9,168,58,61
-    LTEXT           "List box here:",IDC_STATIC,72,134,48,11
-    LISTBOX         108,160,145,87,20,LBS_SORT | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,74,198,226,31
-    CONTROL         "",IDC_DATETIMEPICKER1,"SysDateTimePick32",DTS_RIGHTALIGN | WS_TABSTOP,226,75,70,13
+    RADIOBUTTON     "Radio, NON auto",113,251,11,67,12,BS_LEFTTEXT | WS_TABSTOP
+    CONTROL         "",IDC_TREE1,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,242,92,95,40
+    LTEXT           "List box here:",IDC_STATIC,3,134,48,11
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,101,198,199,31
+    CONTROL         "",IDC_DATETIMEPICKER1,"SysDateTimePick32",DTS_RIGHTALIGN | WS_TABSTOP,243,64,70,13
     LTEXT           "Edit multi-line:",IDC_STATIC,7,30,42,8
     CONTROL         "",PROGRESS_VERT,"msctls_progress32",PBS_SMOOTH | PBS_VERTICAL | WS_BORDER,322,188,15,41
-    LTEXT           "List box (drop down) here:",IDC_STATIC,161,130,89,11
-    LISTBOX         116,71,145,87,50,LBS_SORT | LBS_MULTIPLESEL | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Combo here",IDC_STATIC,11,132,48,8
+    LTEXT           "Drop down list (combo)",IDC_STATIC,258,137,79,11
+    LISTBOX         116,3,149,84,80,LBS_SORT | LBS_MULTIPLESEL | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Combo here",IDC_STATIC,98,138,48,8
+    COMBOBOX        Combo_drop_down_list,255,149,73,48,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Drop down combo",IDC_STATIC,173,138,67,11
+    COMBOBOX        Combo_drop_down,173,149,73,48,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    My_nice_dialog, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 337
+        TOPMARGIN, 11
+        BOTTOMMARGIN, 229
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
 #endif    // French (Switzerland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// French (Monaco) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRM)
+#ifdef _WIN32
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH_MONACO
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+Menu_du_chef MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New",                        IDM_NEW
+        MENUITEM "&Open",                       IDM_OPEN
+        MENUITEM SEPARATOR
+        POPUP "&Export as..."
+        BEGIN
+            MENUITEM "as &CSV",                     ID_EXPORTAS_ASCSV
+            MENUITEM "as &Excel",                   ID_EXPORTAS_ASEXCEL
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Quit",                       ID_FILE_QUIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy",                       ID_EDIT_COPY40005
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About",                      ID_HELP_ABOUT
+    END
+END
+
+#endif    // French (Monaco) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -599,27 +599,21 @@ when 285 => -- #line 815
  combo:= no_drop; 
 
 when 286 => -- #line 818
+ Ada_combo_control; 
 
-              Ada_normal_control(
-                Combo_type_name(combo),
-                 ", " & S(last_text),
-                 ", " & Boolean'Image(style_switch(sort))
-              );
-            
-
-when 294 => -- #line 845
+when 294 => -- #line 839
  combo:= no_drop; 
 
-when 295 => -- #line 846
+when 295 => -- #line 840
  combo:= drop_down; 
 
-when 296 => -- #line 847
+when 296 => -- #line 841
  combo:= drop_down_list; 
 
-when 297 => -- #line 848
+when 297 => -- #line 842
  style_switch(sort):= True; 
 
-when 304 => -- #line 864
+when 304 => -- #line 858
 
               Ada_Put_Line(to_spec, "    " & S(last_Ada_ident) & ": Group_Box_Type;");
               Ada_Coord_conv(last_rect);
@@ -629,93 +623,87 @@ when 304 => -- #line 864
               );
             
 
-when 312 => -- #line 899
+when 312 => -- #line 893
+ Ada_list_box_control; 
 
-              Ada_normal_control(
-                "List_Box_Type",
-                 "",
-                 ", " & Boolean'Image(style_switch(sort))
-              );
-            
-
-when 319 => -- #line 925
+when 319 => -- #line 913
  style_switch(sort):= True; 
 
-when 334 => -- #line 949
+when 334 => -- #line 937
 
               style_switch(checkbox):= True;
               Ada_button_control;
             
 
-when 335 => -- #line 956
+when 335 => -- #line 944
  style_switch(auto):= False;
                  style_switch(state3):= False;
                
 
-when 336 => -- #line 960
+when 336 => -- #line 948
  style_switch(auto):= False;
                  style_switch(state3):= True;
                
 
-when 337 => -- #line 964
+when 337 => -- #line 952
  style_switch(auto):= True;
                  style_switch(state3):= False;
                
 
-when 338 => -- #line 968
+when 338 => -- #line 956
  style_switch(auto):= True;
                  style_switch(state3):= True;
                
 
-when 339 => -- #line 981
+when 339 => -- #line 969
 
               style_switch(push):= True;
               Ada_button_control;
             
 
-when 341 => -- #line 990
+when 341 => -- #line 978
  style_switch(default):= True; 
 
-when 342 => -- #line 1001
+when 342 => -- #line 989
 
               style_switch(radio):= True;
               Ada_button_control;
             
 
-when 344 => -- #line 1010
+when 344 => -- #line 998
  style_switch(auto):= True; 
 
-when 353 => -- #line 1037
+when 353 => -- #line 1025
  style_switch(auto):= True;
               style_switch(radio):= True;
             
 
-when 354 => -- #line 1041
+when 354 => -- #line 1029
  style_switch(radio):= True; 
 
-when 355 => -- #line 1043
+when 355 => -- #line 1031
  style_switch(state3):= True; 
 
-when 356 => -- #line 1045
+when 356 => -- #line 1033
  style_switch(state3):= True;
               style_switch(auto):= True;
             
 
-when 357 => -- #line 1049
+when 357 => -- #line 1037
  style_switch(checkbox):= True; 
 
-when 358 => -- #line 1051
+when 358 => -- #line 1039
  style_switch(auto):= True;
               style_switch(checkbox):= True; 
 
-when 371 => -- #line 1066
+when 371 => -- #line 1054
  style_switch(push):= True; 
 
-when 372 => -- #line 1068
+when 372 => -- #line 1056
  style_switch(push):= True;
               style_switch(default):= True; 
 
-when 376 => -- #line 1083
+when 376 => -- #line 1071
 
               if style_switch(vertical) then
                 Ada_normal_control("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Vertical");
@@ -724,38 +712,38 @@ when 376 => -- #line 1083
               end if;
             
 
-when 381 => -- #line 1102
+when 381 => -- #line 1090
  style_switch(vertical):= True; 
 
-when 384 => -- #line 1113
+when 384 => -- #line 1101
  last_control_text:= U(yytext); 
 
-when 385 => -- #line 1117
+when 385 => -- #line 1105
  Ada_icon_control; 
 
-when 388 => -- #line 1128
+when 388 => -- #line 1116
  Insert_last_symbol; 
 
-when 390 => -- #line 1135
+when 390 => -- #line 1123
  last_text:= U(yytext); 
 
-when 392 => -- #line 1141
+when 392 => -- #line 1129
  RC_Help.last_rect.x:= yylval.intval;
        
 
-when 393 => -- #line 1145
+when 393 => -- #line 1133
  RC_Help.last_rect.y:= yylval.intval;
        
 
-when 394 => -- #line 1149
+when 394 => -- #line 1137
  RC_Help.last_rect.w:= yylval.intval;
        
 
-when 395 => -- #line 1153
+when 395 => -- #line 1141
  RC_Help.last_rect.h:= yylval.intval;
        
 
-when 396 => -- #line 1162
+when 396 => -- #line 1150
  if anonymous_item then
            anonymous_menu_counter:=
              anonymous_menu_counter+1;
@@ -766,7 +754,7 @@ when 396 => -- #line 1162
          end if;
        
 
-when 397 => -- #line 1173
+when 397 => -- #line 1161
 
          Open_if_separate(S(last_dialog_ident));
          Ada_Put_Line(to_spec,
@@ -789,11 +777,11 @@ when 397 => -- #line 1173
          Ada_Put_Line(to_body, "    Menu.Main:= Create_Menu;");
        
 
-when 398 => -- #line 1195
+when 398 => -- #line 1183
  empty_dialog_record:= True;
        
 
-when 399 => -- #line 1199
+when 399 => -- #line 1187
  if empty_dialog_record then
            Ada_Put_Line(to_spec, "    null; -- empty!");
          end if;
@@ -814,13 +802,13 @@ when 399 => -- #line 1199
          Close_if_separate(S(last_dialog_ident));
        
 
-when 406 => -- #line 1234
+when 406 => -- #line 1222
  empty_dialog_record:= False; 
 
-when 407 => -- #line 1239
+when 407 => -- #line 1227
  last_popup_title:= U(yytext); 
 
-when 408 => -- #line 1241
+when 408 => -- #line 1229
 
               menu_popup_counter:= menu_popup_counter + 1;
               Ada_Put_Line(to_spec,
@@ -848,12 +836,12 @@ when 408 => -- #line 1241
               popup_stack(popup_top):= menu_popup_counter;
             
 
-when 409 => -- #line 1270
+when 409 => -- #line 1258
 
               popup_top:= popup_top-1;
             
 
-when 410 => -- #line 1278
+when 410 => -- #line 1266
 
               style_switch:= (others => False); -- Reset all style switches
               Ada_Put(to_body,
@@ -863,13 +851,13 @@ when 410 => -- #line 1278
               );
             
 
-when 411 => -- #line 1288
+when 411 => -- #line 1276
 
               Insert_last_symbol;
               Ada_Put_Line(to_body, ", " & S(last_Ada_constant) & ");");
             
 
-when 412 => -- #line 1293
+when 412 => -- #line 1281
 
               if style_switch(grayed) then
                 Ada_Put_Line(to_body, "    State(Menu." &
@@ -891,16 +879,16 @@ when 412 => -- #line 1293
               end if;
             
 
-when 419 => -- #line 1327
+when 419 => -- #line 1315
  style_switch(grayed):= True; 
 
-when 420 => -- #line 1328
+when 420 => -- #line 1316
  style_switch(inactive):= True; 
 
-when 421 => -- #line 1329
+when 421 => -- #line 1317
  style_switch(checked):= True; 
 
-when 425 => -- #line 1338
+when 425 => -- #line 1326
 
               Ada_Put_Line(to_body,
                 "    Append_Separator(Menu." &
@@ -909,7 +897,7 @@ when 425 => -- #line 1338
               );
             
 
-when 453 => -- #line 1426
+when 453 => -- #line 1414
 
                  Open_if_separate("Version_info", with_body => False);
                  if not separate_items then
@@ -917,7 +905,7 @@ when 453 => -- #line 1426
                  end if;
                
 
-when 454 => -- #line 1434
+when 454 => -- #line 1422
  if not separate_items then
                    Ada_Put_Line(to_spec, "  end Version_info;");
                    Ada_New_Line(to_spec);
@@ -925,10 +913,10 @@ when 454 => -- #line 1434
                  Close_if_separate("Version_info", with_body => False);
                
 
-when 473 => -- #line 1485
+when 473 => -- #line 1473
 RC_Help.version_info_value_counter:= 0;
 
-when 478 => -- #line 1500
+when 478 => -- #line 1488
 RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
@@ -944,7 +932,7 @@ RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               end case;
              
 
-when 479 => -- #line 1515
+when 479 => -- #line 1503
 RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
@@ -956,16 +944,16 @@ RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               end case;
              
 
-when 493 => -- #line 1585
+when 493 => -- #line 1573
 Treat_include(yytext(2..yylength-1));
 
-when 500 => -- #line 1610
+when 500 => -- #line 1598
 Treat_include(yytext(2..yylength-1));
 
-when 501 => -- #line 1613
+when 501 => -- #line 1601
 Treat_include(yytext(2..yylength-1));
 
-when 522 => -- #line 1681
+when 522 => -- #line 1669
  last_ident:= U(yytext);
              last_Ada_constant:= Ada_ify(yytext);
              last_Ada_ident:= last_Ada_constant;
@@ -973,7 +961,7 @@ when 522 => -- #line 1681
              anonymous_item:= False;
            
 
-when 523 => -- #line 1688
+when 523 => -- #line 1676
  last_ident:= U(yytext);
              last_Ada_constant:= last_ident;
              if yylval.intval < -1 then
@@ -987,7 +975,7 @@ when 523 => -- #line 1688
              anonymous_item:= True;
            
 
-when 524 => -- #line 1701
+when 524 => -- #line 1689
  last_ident:= U(yytext);
              last_Ada_constant:= last_ident;
              New_static_item;

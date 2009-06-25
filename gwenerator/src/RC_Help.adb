@@ -774,6 +774,38 @@ package body RC_Help is
     end if;
   end Ada_edit_control;
 
+  procedure Ada_list_box_control is
+  begin
+    Ada_normal_control(
+      "List_Box_Type",
+      "",
+      ", " & Boolean'Image(style_switch(sort))
+    );
+    if initialize_controls then
+      Ada_Put_Line(to_body, "    for N in 0 .. 5 loop");
+      Ada_Put_Line(to_body, "      Add(Window." & S(last_Ada_ident) &
+        ", To_GString_From_String (""List_Box item Nr"" & N'Img));"
+      );
+      Ada_Put_Line(to_body, "    end loop;");
+    end if;
+  end;
+
+  procedure Ada_combo_control is
+  begin
+    Ada_normal_control(
+      Combo_type_name(combo),
+      ", " & S(last_text),
+      ", " & Boolean'Image(style_switch(sort))
+    );
+    if initialize_controls then
+      Ada_Put_Line(to_body, "    for N in 0 .. 5 loop");
+      Ada_Put_Line(to_body, "      Add(Window." & S(last_Ada_ident) &
+        ", To_GString_From_String (""Combo item Nr"" & N'Img));"
+      );
+      Ada_Put_Line(to_body, "    end loop;");
+    end if;
+  end;
+
   procedure Ada_icon_control is
   begin
     if S(last_control_text) = """""" then
@@ -821,7 +853,7 @@ package body RC_Help is
     end if;
     case control is
       when unknown =>
-        Ada_Comment(to_spec, "Unknown CONTROL Class = " & S(last_class));
+        Ada_Comment(to_spec, "    Unknown CONTROL Class: " & S(last_class));
       when static =>
         last_text:= last_control_text;
         Ada_label_control;
@@ -864,8 +896,8 @@ package body RC_Help is
           with_id => False
         );
         if initialize_controls then
-          Ada_Put_Line(to_body, "    Window." & S(last_Ada_ident) &
-            ".Position(66); -- reminds to initialize; nice for testing"
+          Ada_Put_Line(to_body, "    Position(Window." & S(last_Ada_ident) &
+            ", 66); -- reminds to initialize; nice for testing"
           );
         end if;
       when list_view | SysListView32=>

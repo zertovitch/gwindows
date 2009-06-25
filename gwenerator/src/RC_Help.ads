@@ -36,7 +36,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "24-Jun-2009";
+  Grammar_Version: constant String:= "25-Jun-2009";
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -160,8 +160,6 @@ package RC_Help is
   type Combo_type is (no_drop, drop_down, drop_down_list);
   combo: Combo_type;
 
-  function Combo_type_name(combo: Combo_type) return String;
-
   type Rect_type is record
     x,y,w,h: Long_Long_Integer;
   end record;
@@ -230,6 +228,8 @@ package RC_Help is
   procedure Ada_bitmap_control;
   procedure Ada_button_control;
   procedure Ada_edit_control;
+  procedure Ada_list_box_control;
+  procedure Ada_combo_control;
 
   procedure Reset_control_styles;
   -- All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
