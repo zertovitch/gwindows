@@ -459,7 +459,6 @@ package body RC_Help is
           Ada_Put_Line(to, "    pragma Warnings (Off, Window);");
           Ada_Put_Line(to, "    pragma Warnings (Off, dwExStyle);");
           Ada_Put_Line(to, "    WS_SYSMENU: constant:= 16#0008_0000#;");
-          Ada_Put_Line(to, "    use Interfaces.C;");
           Ada_Put_Line(to, "  begin");
           if not style_switch(sys_menu) then
             Ada_Put_Line(to, "    dwStyle:= dwStyle and not WS_SYSMENU;");

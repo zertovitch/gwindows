@@ -57,7 +57,7 @@ procedure RC2GW is
     Put_Line( Standard_Error, "          -y# : set base_unit_y as # (default:" & Positive'Image(RC_Help.base_unit_y) & ')' );
     Put_Line( Standard_Error, "          -s  : put each item (dialog, menu) in a separate package");
     Put_Line( Standard_Error, "          -t  : generate test procedure");
-    Put_Line( Standard_Error, "          -c  : initialize some controls, for testing");
+    Put_Line( Standard_Error, "          -c  : initialize some controls with fake contents, for test/debug");
   end Syntax;
 
 begin

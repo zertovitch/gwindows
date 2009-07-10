@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/06/24   12:54:34
+-- Transcription time: 2009/07/10   22:07:00
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 24-Jun-2009
+-- RC Grammar version: 25-Jun-2009
 ---------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -34,7 +34,7 @@ package GWenerator_Resource_GUI is
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 78
+  -- Menu at line 50
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -52,7 +52,7 @@ package GWenerator_Resource_GUI is
     GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 100
+  -- Dialog at resource line 71
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -115,7 +115,7 @@ package GWenerator_Resource_GUI is
     Initialize_controls: Check_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 134
+  -- Dialog at resource line 104
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -162,7 +162,7 @@ package GWenerator_Resource_GUI is
     Exe_file_icon: Icon_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 161
+  -- Dialog at resource line 130
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -268,6 +268,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 208
+  -- Last line of resource script file: 200
 
 end GWenerator_Resource_GUI;
