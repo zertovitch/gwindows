@@ -36,6 +36,7 @@ with GWindows.Colors;
 with GWindows.Base;
 with GWindows.Drawing_Objects;
 with GWindows.Drawing;
+with GWindows.Types;                                                --  * AnSp
 
 package GWindows.Common_Dialogs is
 
@@ -86,6 +87,12 @@ package GWindows.Common_Dialogs is
    --  File Chooser
    -------------------------------------------------------------------------
 
+   type OFNHookProc is access
+      function (hWnd    : GWindows.Types.Handle;
+                uiMsg   : Interfaces.C.unsigned;
+                wParam  : Interfaces.C.int;
+                lParam  : Interfaces.C.int) return Interfaces.C.long;
+
    type Filter_Type is
       record
          Name   : GString_Unbounded;
@@ -101,7 +108,9 @@ package GWindows.Common_Dialogs is
       Filters           : in     Filter_Array;
       Default_Extension : in     GString;
       File_Title        :    out GString_Unbounded;
-      Success           :    out Boolean);
+      Success           :    out Boolean;
+      TemplateId        : in     Integer := 0;
+      UserProc          : in     OFNHookProc := null);
 
    procedure Save_File
      (Window            : in     GWindows.Base.Base_Window_Type'Class;
@@ -110,7 +119,9 @@ package GWindows.Common_Dialogs is
       Filters           : in     Filter_Array;
       Default_Extension : in     GString;
       File_Title        :    out GString_Unbounded;
-      Success           :    out Boolean);
+      Success           :    out Boolean;
+      TemplateId        : in     Integer := 0;
+      UserProc          : in     OFNHookProc := null);
 
    -------------------------------------------------------------------------
    --  Font Chooser

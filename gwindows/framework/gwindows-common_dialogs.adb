@@ -33,7 +33,7 @@
 ------------------------------------------------------------------------------
 
 with Interfaces.C;
-with GWindows.Types;
+with GWindows.Application;                                          --  * AnSp
 with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 with GNATCOM.Types;
@@ -61,8 +61,8 @@ package body GWindows.Common_Dialogs is
    OFN_HIDEREADONLY         : constant := 4;
 --     OFN_NOCHANGEDIR          : constant := 8;
 --     OFN_SHOWHELP             : constant := 16;
---     OFN_ENABLEHOOK           : constant := 32;
---     OFN_ENABLETEMPLATE       : constant := 64;
+   OFN_ENABLEHOOK           : constant := 32;                       --  * AnSp
+   OFN_ENABLETEMPLATE       : constant := 64;                       --  * AnSp
 --     OFN_ENABLETEMPLATEHANDLE : constant := 128;
 --     OFN_NOVALIDATE           : constant := 256;
 --     OFN_ALLOWMULTISELECT     : constant := 512;
@@ -75,7 +75,7 @@ package body GWindows.Common_Dialogs is
 --     OFN_NOTESTFILECREATE     : constant := 65536;
 --     OFN_NONETWORKBUTTON      : constant := 131072;
 --     OFN_NOLONGNAMES          : constant := 262144;
---     OFN_EXPLORER             : constant := 524288;
+   OFN_EXPLORER             : constant := 524288;                   --  * AnSp
 --     OFN_NODEREFERENCELINKS   : constant := 1048576;
 --     OFN_LONGNAMES            : constant := 2097152;
 
@@ -99,6 +99,13 @@ package body GWindows.Common_Dialogs is
 
    type LPSTR is access all Interfaces.C.char;
 
+   type OFNHookProcStdcall is access
+      function (hWnd    : GWindows.Types.Handle;
+                uiMsg   : Interfaces.C.unsigned;
+                wParam  : Interfaces.C.int;
+                lParam  : Interfaces.C.int) return Interfaces.C.long;
+   pragma Convention (Stdcall, OFNHookProcStdcall);
+
    type OPENFILENAME is
       record
          lStructSize       : Interfaces.C.long := 76;
@@ -119,7 +126,7 @@ package body GWindows.Common_Dialogs is
          nFileExtension    : Interfaces.C.short := 0;
          lpstrDefExt       : LPSTR := null;
          lCustData         : Interfaces.C.long := 0;
-         lpfnHook          : Interfaces.C.long := 0;
+         lpfnHook          : OFNHookProcStdcall := null;
          lpTemplateName    : Interfaces.C.long := 0;
       end record;
 
@@ -274,6 +281,22 @@ package body GWindows.Common_Dialogs is
       end if;
    end Choose_Color;
 
+   Hook : OFNHookProc;
+
+   function Stdcallhook (hWnd   : GWindows.Types.Handle;
+                         uiMsg  : Interfaces.C.unsigned;
+                         wParam : Interfaces.C.int;
+                         lParam : Interfaces.C.int) return Interfaces.C.long;
+   pragma Convention (Stdcall, Stdcallhook);
+
+   function Stdcallhook (hWnd   : GWindows.Types.Handle;
+                         uiMsg  : Interfaces.C.unsigned;
+                         wParam : Interfaces.C.int;
+                         lParam : Interfaces.C.int) return Interfaces.C.long is
+   begin
+      return Hook (hWnd, uiMsg, wParam, lParam);
+   end Stdcallhook;
+
    ---------------
    -- Open_File --
    ---------------
@@ -285,7 +308,9 @@ package body GWindows.Common_Dialogs is
       Filters           : in     Filter_Array;
       Default_Extension : in     GString;
       File_Title        :    out GString_Unbounded;
-      Success           :    out Boolean)
+      Success           :    out Boolean;
+      TemplateId        : in     Integer := 0;                      --  * AnSp
+      UserProc          : in     OFNHookProc := null)               --  * AnSp
    is
       use Interfaces.C;
       use GWindows.GStrings;
@@ -339,7 +364,22 @@ package body GWindows.Common_Dialogs is
          OFN.nFilterIndex := 1;
          OFN.lpstrDefExt := C_Default_Extension (0)'Unchecked_Access;
          OFN.lpstrTitle := C_Dialog_Title (0)'Unchecked_Access;
-
+         --  * AnSp: next if statements are new
+         if TemplateId /= 0 or UserProc /= null then
+            --  Need to set explorer style with user template or procedure
+            OFN.flags := OFN.flags + Interfaces.C.long (OFN_EXPLORER);
+         end if;
+         if TemplateId /= 0 then
+            OFN.lpTemplateName := Interfaces.C.long (TemplateId);
+            OFN.hInstance := GWindows.Application.hInstance;
+            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLETEMPLATE);
+         end if;
+         if UserProc /= null then
+            Hook := UserProc;
+            OFN.lpfnHook := Stdcallhook'Access;
+            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLEHOOK);
+         end if;
+         --  * AnSp: added code up to here
          Result := GetOpenFileName (OFN);
       end;
       Success := Result /= 0;
@@ -368,7 +408,9 @@ package body GWindows.Common_Dialogs is
       Filters           : in     Filter_Array;
       Default_Extension : in     GString;
       File_Title        :    out GString_Unbounded;
-      Success           :    out Boolean)
+      Success           :    out Boolean;
+      TemplateId        : in     Integer := 0;                      --  * AnSp
+      UserProc          : in     OFNHookProc := null)               --  * AnSp
    is
       use Interfaces.C;
       use GWindows.GStrings;
@@ -422,7 +464,22 @@ package body GWindows.Common_Dialogs is
          OFN.nFilterIndex := 1;
          OFN.lpstrDefExt := C_Default_Extension (0)'Unchecked_Access;
          OFN.lpstrTitle := C_Dialog_Title (0)'Unchecked_Access;
-
+         --  * AnSp: next if statements are new
+         if TemplateId /= 0 or UserProc /= null then
+            --  Need to set explorer style with user template or procedure
+            OFN.flags := OFN.flags + Interfaces.C.long (OFN_EXPLORER);
+         end if;
+         if TemplateId /= 0 then
+            OFN.lpTemplateName := Interfaces.C.long (TemplateId);
+            OFN.hInstance := GWindows.Application.hInstance;
+            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLETEMPLATE);
+         end if;
+         if UserProc /= null then
+            Hook := UserProc;
+            OFN.lpfnHook := Stdcallhook'Access;
+            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLEHOOK);
+         end if;
+         --  * AnSp: added code up to here
          Result := GetSaveFileName (OFN);
       end;
       Success := Result /= 0;
