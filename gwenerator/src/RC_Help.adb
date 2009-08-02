@@ -976,7 +976,7 @@ package body RC_Help is
   procedure Ada_optional_disabling is
   begin
     if style_switch(disabled) then
-      Ada_Put_Line(to_body, "    Window." & S(last_Ada_ident) & ".Disable;");
+      Ada_Put_Line(to_body, "    Disable(Window." & S(last_Ada_ident) & ");");
     end if;
   end;
 
