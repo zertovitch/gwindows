@@ -748,9 +748,9 @@ package body RC_Help is
       Ada_Put_Line(to_spec, "Button_Type; -- doesn't close parent window after click" );
       Ada_normal_control_create(", " & S(last_text));
       Ada_Put_Line(to_body, "    if for_dialog then -- hide the non-closing button");
-      Ada_Put_Line(to_body, "      Window." & S(last_Ada_ident) & ".Hide;");
+      Ada_Put_Line(to_body, "      Hide(Window." & S(last_Ada_ident) & ");");
       Ada_Put_Line(to_body, "    else -- hide the closing button");
-      Ada_Put_Line(to_body, "      Window." & S(temp_ustr) & ".Hide;");
+      Ada_Put_Line(to_body, "      Hide(Window." & S(temp_ustr) & ");");
       Ada_Put_Line(to_body, "    end if;");
     end if;
     Ada_optional_disabling;
