@@ -13,3 +13,5 @@ del test\*.bk.*
 del test\*resource_GUI*
 del test\*.o
 del test\*.ali
+del test\web*.adb
+del test\*.exe

@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/07/10   22:07:00
+-- Transcription time: 2009/08/10   21:02:12
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
@@ -124,9 +124,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.IDOK, Window, "Close", x,y,w,h, IDOK);
     Create( Window.IDOK_permanent, Window, "Close", x,y,w,h, IDOK);
     if for_dialog then -- hide the non-closing button
-      Window.IDOK_permanent.Hide;
+      Hide(Window.IDOK_permanent);
     else -- hide the closing button
-      Window.IDOK.Hide;
+      Hide(Window.IDOK);
     end if;
     Dlg_to_Scn(  5, 5, 21, 20, x,y,w,h);
     Create( Window.Static_0001, Window, Num_resource(gwenerator_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
@@ -210,9 +210,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.IDOK, Window, "OK", x,y,w,h, IDOK);
     Create( Window.IDOK_permanent, Window, "OK", x,y,w,h, IDOK);
     if for_dialog then -- hide the non-closing button
-      Window.IDOK_permanent.Hide;
+      Hide(Window.IDOK_permanent);
     else -- hide the closing button
-      Window.IDOK.Hide;
+      Hide(Window.IDOK);
     end if;
     Dlg_to_Scn(  252, 225, 50, 14, x,y,w,h);
     -- Both versions of the button are created.
@@ -221,9 +221,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.IDCANCEL, Window, "Cancel", x,y,w,h, IDCANCEL);
     Create( Window.IDCANCEL_permanent, Window, "Cancel", x,y,w,h, IDCANCEL);
     if for_dialog then -- hide the non-closing button
-      Window.IDCANCEL_permanent.Hide;
+      Hide(Window.IDCANCEL_permanent);
     else -- hide the closing button
-      Window.IDCANCEL.Hide;
+      Hide(Window.IDCANCEL);
     end if;
     Dlg_to_Scn(  85, 19, 168, 15, x,y,w,h);
     Create( Window.Edit_RC_File_Name, Window, "", x,y,w,h, TRUE, Edit_RC_File_Name);
@@ -236,9 +236,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.Button_Browse_RC, Window, "Browse...", x,y,w,h, Button_Browse_RC);
     Create( Window.Button_Browse_RC_permanent, Window, "Browse...", x,y,w,h, Button_Browse_RC);
     if for_dialog then -- hide the non-closing button
-      Window.Button_Browse_RC_permanent.Hide;
+      Hide(Window.Button_Browse_RC_permanent);
     else -- hide the closing button
-      Window.Button_Browse_RC.Hide;
+      Hide(Window.Button_Browse_RC);
     end if;
     Dlg_to_Scn(  22, 44, 93, 10, x,y,w,h);
     Create( Window.Listen_RC, Window, "Listen for newer version", x,y,w,h, Listen_RC);
@@ -257,9 +257,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.Button_Browse_Ada, Window, "Browse...", x,y,w,h, Button_Browse_Ada);
     Create( Window.Button_Browse_Ada_permanent, Window, "Browse...", x,y,w,h, Button_Browse_Ada);
     if for_dialog then -- hide the non-closing button
-      Window.Button_Browse_Ada_permanent.Hide;
+      Hide(Window.Button_Browse_Ada_permanent);
     else -- hide the closing button
-      Window.Button_Browse_Ada.Hide;
+      Hide(Window.Button_Browse_Ada);
     end if;
     Dlg_to_Scn(  22, 168, 107, 10, x,y,w,h);
     Create( Window.Listen_Ada, Window, "Listen for newer GUI version", x,y,w,h, Listen_Ada);
@@ -363,9 +363,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.Button_Translate, Window, "Translate now", x,y,w,h, Button_Translate);
     Create( Window.Button_Translate_permanent, Window, "Translate now", x,y,w,h, Button_Translate);
     if for_dialog then -- hide the non-closing button
-      Window.Button_Translate_permanent.Hide;
+      Hide(Window.Button_Translate_permanent);
     else -- hide the closing button
-      Window.Button_Translate.Hide;
+      Hide(Window.Button_Translate);
     end if;
     Dlg_to_Scn(  245, 37, 100, 20, x,y,w,h);
     -- Both versions of the button are created.
@@ -374,9 +374,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.Button_Build, Window, "Build now", x,y,w,h, Button_Build);
     Create( Window.Button_Build_permanent, Window, "Build now", x,y,w,h, Button_Build);
     if for_dialog then -- hide the non-closing button
-      Window.Button_Build_permanent.Hide;
+      Hide(Window.Button_Build_permanent);
     else -- hide the closing button
-      Window.Button_Build.Hide;
+      Hide(Window.Button_Build);
     end if;
     Dlg_to_Scn(  67, 62, 100, 10, x,y,w,h);
     Create( Window.Bar_RC, Window, x,y,w,h, HORIZONTAL, TRUE);
