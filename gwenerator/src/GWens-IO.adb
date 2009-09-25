@@ -18,7 +18,7 @@ package body GWens.IO is
   -- Load --
   ----------
 
-  procedure Load (file_name: in String; proj: out GWen) is
+  procedure Load (file_name: in String; proj: out GWen; success: out Boolean) is
     f: File_Type;
     k: Key;
     fresh_gwen: GWen;
@@ -26,6 +26,7 @@ package body GWens.IO is
     -- for the case of an incomplete .gwen file,
     -- e.g. saved with an older version
     dummy: Character;
+    is_gwen_file: Boolean:= False;
   begin
     proj:= fresh_gwen;
     Open(f, In_File, file_name);
@@ -37,6 +38,7 @@ package body GWens.IO is
           when RC_name =>
             Get(f, dummy); -- absorb the first separating ' '
             Get_Line(f, proj.RC_Name);
+            is_gwen_file:= True;
           when RC_listen =>
             Get(f, proj.RC_Listen);
           when RC_auto_trans =>
@@ -74,9 +76,11 @@ package body GWens.IO is
       end;
     end loop;
     Close(f);
-    --
-    proj.name:= U(file_name);
-    proj.titled:= True; -- project has at least now a file name
+    if is_gwen_file then
+      proj.name:= U(file_name);
+      proj.titled:= True; -- project has at least now a file name
+    end if;
+    success:= is_gwen_file;
   end Load;
 
   ----------

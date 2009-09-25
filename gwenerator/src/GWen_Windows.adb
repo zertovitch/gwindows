@@ -310,10 +310,19 @@ package body GWen_Windows is
       if Success then
         GWens.IO.Load(
           file_name => S(New_File_Name),
-          proj      => Window.proj
+          proj      => Window.proj,
+          success   => Success
         );
-        Window.short_name:= File_Title;
-        Update_status_display (Window);
+        if Success then
+          Window.short_name:= File_Title;
+          Update_status_display (Window);
+        else
+          Message_Box(
+            Window,
+            "Error", S(New_File_Name) &
+            " is not a GWen project file."
+          );
+        end if;
       end if;
     end if;
   end On_Open;
@@ -507,6 +516,7 @@ package body GWen_Windows is
   procedure On_Create (Window : in out GWen_Window_Type) is
   --  Handles setting up icons, menus, etc.
     use Ada.Command_Line;
+    success: Boolean;
   begin
     Window.ear.Load_Bitmap(Num_resource(Listen_32x32));
     Window.no_ear.Load_Bitmap(Num_resource(Not_Listen_32x32));
@@ -522,9 +532,19 @@ package body GWen_Windows is
     else
       GWens.IO.Load(
         file_name => Argument(1),
-        proj      => Window.proj
+        proj      => Window.proj,
+        success   => success
       );
-      Window.short_name:= U(Simple_Name(Argument(1)));
+      if success then
+        Window.short_name:= U(Simple_Name(Argument(1)));
+      else
+        Message_Box(
+          Window,
+          "Error", Simple_Name(Argument(1)) &
+          " is not a GWen project file."
+        );
+        Window.short_name:= Window.proj.name; -- "Untitled"
+      end if;
     end if;
     Update_status_display(Window);
     Window.Center;

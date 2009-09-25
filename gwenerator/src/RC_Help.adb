@@ -147,12 +147,21 @@ package body RC_Help is
   is
     sep_child: constant array(Boolean) of Character:= ('.', '-');
     as_child: constant Boolean:= False;
-    -- problem with making a the package a child: parent may not be a procedure
+    -- Problem with making a the main resource package a child:
+    -- parent may not be a package but a procedure.
     sep: constant array(Boolean) of Character:= ('_', sep_child(as_file_name));
     suffix: constant String:= sep(as_child) & "Resource_GUI";
+    first: Natural:= rc_name'First;
   begin
     if has_input then
-      return Root_Name(rc_name) & suffix;
+      if not as_file_name then -- remove path by finding last separator
+        for i in rc_name'Range loop
+          if rc_name(i)='\' or rc_name(i)='/' then
+            first:= i+1;
+          end if;
+        end loop;
+      end if;
+      return Root_Name(rc_name(first..rc_name'Last)) & suffix;
     else
       return "Input" & suffix;
     end if;
@@ -416,6 +425,7 @@ package body RC_Help is
         Create(to_body, pkg(as_file_name => True) & '-' & item & ".adb");
         Ada_package_headers(eventual_child => '.' & item);
       else
+        Blurb(to_spec);
         Ada_Put_Line(to_spec, "package " & pkg & '.' & item & " is");
         Ada_New_Line(to_spec);
       end if;
