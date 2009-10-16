@@ -33,7 +33,7 @@ with Ada.Text_IO;                       use Ada.Text_IO;
 with Ada.Characters.Handling;           use Ada.Characters.Handling;
 with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
 with Ada.Unchecked_Deallocation;
-with Time_Log;
+with Time_display;
 with Resource_Header;                   use Resource_Header;
 
 package body RC_Help is
@@ -357,7 +357,7 @@ package body RC_Help is
   begin
     Ada_Put_Line(to, "---------------------------------------------------------------------");
     Ada_Put_Line(to, "-- GUI contents of resource script file: " & S(source_name));
-    Ada_Put_Line(to, "-- Transcription time: " & Time_Log);
+    Ada_Put_Line(to, "-- Transcription time: " & Time_display);
     Ada_Put_Line(to, "--");
     Ada_Put_Line(to, "-- Translated by the RC2GW or GWenerator tools.");
     Ada_Put_Line(to, "-- URL: http://sf.net/projects/gnavi");

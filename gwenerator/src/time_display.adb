@@ -6,18 +6,21 @@
 --
 --  Test program in following comment:
 --
---   with Text_IO,Time_log;procedure Test is begin Text_IO.Put(Time_log);end;
+--   with Text_IO,Time_display;procedure Test is begin Text_IO.Put(Time_display);end;
 
 with Calendar;
 
-function Time_log return String is
+function Time_display(
+  T      : Calendar.Time:= Calendar.Clock;
+  Seconds: Boolean      := True
+) return String
+is
   use Calendar;
   subtype Sec_int is Long_Integer; -- must contain 86_400
-  T    : constant Time:= Clock;
   m, s : Sec_int;
 
 begin
-  s := Sec_int( Seconds(T) );
+  s := Sec_int( Calendar.Seconds(T) );
   m := s / 60;
 
   declare
@@ -40,4 +43,4 @@ begin
       ssc( ssc'Last-1 .. ssc'Last );
   end;
 
-end Time_log;
+end Time_display;

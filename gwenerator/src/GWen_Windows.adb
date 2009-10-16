@@ -28,7 +28,7 @@ with RC_IO, RC_Help, YYParse, Resource_Header;
 
 with GWens.IO;
 
-with Time_Log;
+with Time_display;
 
 with Windows_Timers;
 
@@ -442,7 +442,7 @@ package body GWen_Windows is
         Set_Output(fo);
         Put_Line(Current_error, "GWenerator - RC to GWindows" );
         Put_Line(Current_error, "Transcripting '" & S(gw.proj.RC_name) & "'." );
-        Put_Line(Current_error, "Time now: " & Time_Log );
+        Put_Line(Current_error, "Time now: " & Time_display );
         RC_Help.has_input:= True;
         RC_Help.Ada_Begin;
         begin
