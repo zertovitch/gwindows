@@ -24,6 +24,9 @@ with Ada.Text_IO;                       use Ada.Text_IO;
 with Ada.Text_IO.Unbounded_IO;          use Ada.Text_IO.Unbounded_IO;
 with Ada.Calendar;
 
+with GNAT.OS_Lib;
+with GNAT.Expect;                       use GNAT.Expect;
+
 with RC_IO, RC_Help, YYParse, Resource_Header;
 
 with GWens.IO;
@@ -399,6 +402,50 @@ package body GWen_Windows is
     end if;
   end On_About;
 
+  procedure Call_windres (gw: in out GWen_Window_Type) is
+    sn: constant String:= S(gw.proj.RC_name);
+    on: constant String:= sn(sn'First..sn'Last-1) & "bj";
+    Command : constant String :=
+  --    "windres " & sn & ' ' & on;
+       "gnatmake -Pc:\ada/globe_3d/demo/globe_3d_gps_win32.gpr";
+    Pd      : Process_Descriptor;
+    Args    : GNAT.OS_Lib.Argument_List_Access;
+    Result  : Expect_Match;
+  begin
+    Add(gw.RC_to_GWindows_messages, "");
+    Add(gw.RC_to_GWindows_messages, "Compiling resource... " & Time_display);
+    Add(gw.RC_to_GWindows_messages, Command);
+    Args := GNAT.OS_Lib.Argument_String_To_List (Command);
+    Non_Blocking_Spawn
+      (Pd,
+       Command     => Args (Args'First).all,
+       Args        => Args (Args'First + 1 .. Args'Last),
+       Buffer_Size => 0,
+       Err_To_Out  => True);
+    loop
+      begin
+        Expect (Pd, Result, Regexp => "\n", Timeout => 1_000);
+        case Result is
+          when 1 => -- regexp matched
+            Add(gw.RC_to_GWindows_messages, Expect_Out(Pd));
+          when others =>
+            null;
+        end case;
+      exception
+        when Process_died => exit;
+      end;
+    end loop;
+    declare
+      rest_after_death: constant String:= Expect_Out(Pd);
+    begin
+      if rest_after_death /= "" then
+        Add(gw.RC_to_GWindows_messages, rest_after_death);
+      end if;
+    end;
+    Close (Pd);
+    Add(gw.RC_to_GWindows_messages, "Resource compiled. " & Time_display);
+  end Call_windres;
+
   procedure Translation (gw: in out GWen_Window_Type; generate_test: Boolean) is
     sn: constant String:= S(gw.proj.RC_name);
     fe, fo: File_Type;
@@ -462,8 +509,8 @@ package body GWen_Windows is
         -- Message_Box("Std Output", so);
         -- The file fo should be empty, but something
         -- somewhere puts a new line...
-        gw.Bar_RC.Position(90);
-        -- Output the error messages into the box
+        gw.Bar_RC.Position(70);
+        -- Output the rc2gw messages into the box
         Open(fe, In_File, se);
         Clear(gw.RC_to_GWindows_messages);
         while not End_of_File(fe) loop
@@ -471,6 +518,17 @@ package body GWen_Windows is
           Add(gw.RC_to_GWindows_messages, S(line));
         end loop;
         Close(fe);
+        --
+        -- Now, compile the resource.
+        -- Since it is a quick task, we can wait for the
+        -- process to complete here
+        --
+        case gw.proj.RC_compile is
+          when none =>
+            null;
+          when windres =>
+            Call_windres(gw);
+        end case;
       end;
       gw.Bar_RC.Position(100);
       delay 0.02;

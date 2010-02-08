@@ -8,6 +8,7 @@ package GWens.IO is
     RC_name,
     RC_listen,
     RC_auto_trans,
+    RC_compile,
     --
     separate_items,
     base_x,

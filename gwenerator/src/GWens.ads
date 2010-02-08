@@ -2,6 +2,12 @@ with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 
 package GWens is
 
+  type RC_compiler_choice is (
+    none,
+    -- rc_cvtres, -- the Microsoft way
+    windres       -- GNU
+  );
+
   type GWen is record
     name          : Unbounded_String:= To_Unbounded_String("Untitled");
     titled        : Boolean:= False;
@@ -13,6 +19,7 @@ package GWens is
     RC_name       : Unbounded_String;
     RC_listen     : Boolean:= True;
     RC_auto_trans : Boolean:= True;
+    RC_compile    : RC_compiler_choice:= windres;
     --
     separate_items      : Boolean:= False;
     base_x              : Integer:= 6;

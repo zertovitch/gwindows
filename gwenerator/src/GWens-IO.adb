@@ -4,10 +4,9 @@ with Ada.Integer_Text_IO;               use Ada.Integer_Text_IO;
 
 package body GWens.IO is
 
-  package Key_IO is new Enumeration_IO(Key);
-  use Key_IO;
-  package Bool_IO is new Enumeration_IO(Boolean);
-  use Bool_IO;
+  package Key_IO is new Enumeration_IO(Key); use Key_IO;
+  package Bool_IO is new Enumeration_IO(Boolean); use Bool_IO;
+  package RCC_IO is new Enumeration_IO(RC_compiler_choice); use RCC_IO;
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -43,6 +42,8 @@ package body GWens.IO is
             Get(f, proj.RC_Listen);
           when RC_auto_trans =>
             Get(f, proj.RC_auto_trans);
+          when RC_compile =>
+            Get(f, proj.RC_compile);
           --
           when separate_items =>
             Get(f, proj.separate_items);
@@ -107,6 +108,9 @@ package body GWens.IO is
         when RC_auto_trans =>
           Put(f, proj.RC_auto_trans);
           New_Line(f);
+        when RC_compile =>
+          Put(f, proj.RC_compile);
+          Put_Line(f, " -- compilation of .rc script to a .rbj object file");
         --
         when separate_items =>
           Put(f, proj.separate_items);

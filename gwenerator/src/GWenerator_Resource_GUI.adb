@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2009/08/10   21:02:12
+-- Transcription time: 2010/02/08   22:13:29
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
@@ -20,7 +20,7 @@ package body GWenerator_Resource_GUI is
   -- ** Generated code begins here \/ \/ \/.
 
 
-  -- Menu at line 27
+  -- Menu at line 29
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type)
   is
@@ -47,7 +47,7 @@ package body GWenerator_Resource_GUI is
   end Create_Full_Menu; -- Main_Menu_Type
 
 
-  -- Dialog at resource line 61
+  -- Dialog at resource line 63
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -147,7 +147,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- About_box_Type
 
 
-  -- Dialog at resource line 79
+  -- Dialog at resource line 81
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -290,7 +290,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- GWen_properties_Type
 
 
-  -- Dialog at resource line 112
+  -- Dialog at resource line 114
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -349,9 +349,9 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  5, 100, 390, 140, x,y,w,h);
     Create( Window.Details_frame, Window, "Details", x,y,w,h);
     Dlg_to_Scn(  12, 132, 185, 105, x,y,w,h);
-    Create( Window.RC_to_GWindows_messages, Window, x,y,w,h, TRUE, RC_to_GWindows_messages);
+    Create( Window.RC_to_GWindows_messages, Window, x,y,w,h, FALSE, RC_to_GWindows_messages);
     Dlg_to_Scn(  210, 132, 182, 105, x,y,w,h);
-    Create( Window.GNATMake_messages, Window, x,y,w,h, TRUE, GNATMake_messages);
+    Create( Window.GNATMake_messages, Window, x,y,w,h, FALSE, GNATMake_messages);
     Dlg_to_Scn(  10, 115, 88, 8, x,y,w,h);
     Create_label( Window, "Resource to Ada messages", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  212, 117, 84, 8, x,y,w,h);
@@ -382,7 +382,7 @@ package body GWenerator_Resource_GUI is
     Create( Window.Bar_RC, Window, x,y,w,h, HORIZONTAL, TRUE);
     Dlg_to_Scn(  245, 62, 100, 10, x,y,w,h);
     Create( Window.Bar_Ada, Window, x,y,w,h, HORIZONTAL, TRUE);
-    Dlg_to_Scn(  247, 12, 7, 6, x,y,w,h);
+    Dlg_to_Scn(  237, 2, 7, 6, x,y,w,h);
     Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  67, 12, 7, 6, x,y,w,h);
     Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
@@ -511,6 +511,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 200
+  -- Last line of resource script file: 202
 
 end GWenerator_Resource_GUI;

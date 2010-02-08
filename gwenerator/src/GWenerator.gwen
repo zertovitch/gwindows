@@ -2,8 +2,8 @@ This is a GWenerator project file (a "GWen"). Visit GWenerator on the Web: http:
 RC_NAME GWenerator.rc
 RC_LISTEN TRUE
 RC_AUTO_TRANS TRUE
+RC_COMPILE WINDRES -- compilation of .rc script to a .rbj object file
 SEPARATE_ITEMS FALSE
-Future_thing Data_Error but must pass !
 BASE_X           6
 BASE_Y          13
 BASE_DEFAULTS TRUE
