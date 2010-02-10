@@ -182,12 +182,27 @@ package body GWen_Windows is
       end if;
     end Select_Ada;
 
+    function Img(ch: GWens.RC_compiler_choice) return String is
+    begin
+      case ch is
+        when none =>
+          return "Never";
+        when windres =>
+          return "Call windres";
+      end case;
+    end Img;
+
     procedure Get_Data ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
       pragma Warnings(off, dummy);
     begin
       candidate.RC_Name       := U(dlg.Edit_RC_File_Name.Text);
       candidate.RC_listen     := dlg.Listen_RC.State = Checked;
       candidate.RC_auto_trans := dlg.Auto_translate.State = Checked;
+      for ch in GWens.RC_compiler_choice loop
+        if dlg.RC_Compiler_list.Text = Img(ch) then
+          candidate.RC_compile:= ch;
+        end if;
+      end loop;
       --
       candidate.separate_items      := dlg.Separate_items.State = Checked;
       candidate.base_x              := Integer'Value(dlg.Basx.Text);
@@ -207,6 +222,7 @@ package body GWen_Windows is
 
   begin
     dlg.Create_Full_Dialog(Window);
+    dlg.Small_Icon("Tools");
     --
     -- Display the non-closing buttons
     --
@@ -217,15 +233,24 @@ package body GWen_Windows is
     --
     -- Fill dialog's contents
     --
+    -- - RC box:
     dlg.Edit_RC_File_Name.Text(S(candidate.RC_name));
     dlg.Listen_RC.State(Bool_to_Check(candidate.RC_listen));
     dlg.Auto_translate.State(Bool_to_Check(candidate.RC_auto_trans));
+    for ch in GWens.RC_compiler_choice loop
+      dlg.RC_Compiler_list.Add(Img(ch));
+    end loop;
+    dlg.RC_Compiler_list.Text(Img(Window.proj.RC_compile));
+    --
+    -- - Code generation box:
     --
     dlg.Separate_items.State(Bool_to_Check(candidate.separate_items));
     dlg.Basx.Text(Integer'Image(candidate.base_x));
     dlg.Basy.Text(Integer'Image(candidate.base_y));
     dlg.Use_Base_defs.State(Bool_to_Check(candidate.base_defaults));
     dlg.Initialize_controls.State(Bool_to_Check(candidate.initialize_controls));
+    --
+    -- - Ada background compilation box:
     --
     dlg.Edit_Main_Ada_File_Name.Text(S(candidate.Ada_main));
     dlg.Listen_Ada.State(Bool_to_Check(candidate.Ada_listen));
@@ -406,8 +431,8 @@ package body GWen_Windows is
     sn: constant String:= S(gw.proj.RC_name);
     on: constant String:= sn(sn'First..sn'Last-1) & "bj";
     Command : constant String :=
-  --    "windres " & sn & ' ' & on;
-       "gnatmake -Pc:\ada/globe_3d/demo/globe_3d_gps_win32.gpr";
+      "windres " & sn & ' ' & on;
+      -- "gnatmake -Pc:\ada/globe_3d/demo/globe_3d_gps_win32.gpr";
     Pd      : Process_Descriptor;
     Args    : GNAT.OS_Lib.Argument_List_Access;
     Result  : Expect_Match;

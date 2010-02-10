@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2010/02/08   22:13:29
+-- Transcription time: 2010/02/10   13:16:00
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
@@ -34,7 +34,7 @@ package GWenerator_Resource_GUI is
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 52
+  -- Menu at line 56
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -52,7 +52,7 @@ package GWenerator_Resource_GUI is
     GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 73
+  -- Dialog at resource line 78
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -113,9 +113,11 @@ package GWenerator_Resource_GUI is
     Ada_cmd: Edit_Box_Type;
     -- Label: IDC_STATIC
     Initialize_controls: Check_Box_Type;
+    -- Label: IDC_STATIC
+    RC_Compiler_list: Drop_Down_Combo_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 106
+  -- Dialog at resource line 114
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -162,7 +164,7 @@ package GWenerator_Resource_GUI is
     Exe_file_icon: Icon_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 132
+  -- Dialog at resource line 141
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -189,8 +191,8 @@ package GWenerator_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Resource script (.rc) to GWindows code builder";
-    FileVersion: constant String:= "0.98";
-    LegalCopyright: constant String:= "© 2008..2009 G. de Montmollin (MIT license)";
+    FileVersion: constant String:= "0.99";
+    LegalCopyright: constant String:= "© 2008..2010 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWenerator";
     Translation: constant:= 1033;
   end Version_info;
@@ -209,6 +211,7 @@ package GWenerator_Resource_GUI is
   Ada_file               : constant:=    116;
   Exe_file               : constant:=    118;
   Wheels_32x32           : constant:=    120;
+  Tools_icon             : constant:=    122;
   Ada_file_icon          : constant:=   1000;
   Listen_RC              : constant:=   1000;
   URL                    : constant:=   1000;
@@ -224,6 +227,7 @@ package GWenerator_Resource_GUI is
   Basy                   : constant:=   1005;
   Ear_RC                 : constant:=   1006;
   Ear_Ada                : constant:=   1007;
+  RC_Compiler_list       : constant:=   1007;
   About_box              : constant:=   1033;
   Not_Listen_32x32       : constant:=   1033;
   RC_file                : constant:=   1034;
@@ -268,6 +272,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 202
+  -- Last line of resource script file: 222
 
 end GWenerator_Resource_GUI;
