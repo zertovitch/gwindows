@@ -17,7 +17,12 @@ package GWen_Windows is
     RC_new             : Boolean:= False;
     Ada_new            : Boolean:= False;
     last_save_success  : Boolean;
-    ear, no_ear, wheels: GWindows.Drawing_Objects.Bitmap_Type;
+    ear, no_ear,
+    wheels,
+    more_details,
+    less_details,
+    more_build,
+    less_build         : GWindows.Drawing_Objects.Bitmap_Type;
   end record;
 
   --------------------------------------------

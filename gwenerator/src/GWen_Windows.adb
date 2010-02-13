@@ -52,7 +52,7 @@ package body GWen_Windows is
   -------------------------
 
   procedure Update_status_display (Window : in out GWen_Window_Type) is
-    no_Ada_build_part: constant Boolean:= Window.proj.Ada_main = U("");
+    Ada_build_part: constant Boolean:= Window.proj.Ada_main /= U(""); --!! add boolean option
     margin_x      : constant:= 25;
     margin_x_frame: constant:= 18;
     margin_y      : constant:= 15;
@@ -71,9 +71,11 @@ package body GWen_Windows is
     if Window.proj.show_details then
       Window.Show_Details.State(Checked);
       Window.Client_Area_Height(Window.Details_frame.Top + Window.Details_frame.Height + margin_y);
+      Window.More_less_details.Set_Bitmap(Window.less_details);
     else
       Window.Show_Details.State(Unchecked);
-      Window.Client_Area_Height(Window.Show_Details.Top + Window.Show_Details.Height + margin_y);
+      Window.Client_Area_Height(Window.More_less_details.Top + Window.More_less_details.Height + 4);
+      Window.More_less_details.Set_Bitmap(Window.more_details);
     end if;
     --
     -- RC main part
@@ -91,12 +93,9 @@ package body GWen_Windows is
     --
     -- Ada main part
     --
-    if no_Ada_build_part then
-      Window.Client_Area_Width(Window.Ada_file_icon.Left + Window.Ada_file_icon.Width + margin_x);
-      Window.GNATMake_messages.Hide;
-      Window.Ada_comp_label.Hide;
-    else
+    if Ada_build_part then
       Window.Client_Area_Width(Window.Exe_file_icon.Left + Window.Exe_file_icon.Width + margin_x);
+      Window.More_less_build.Set_Bitmap(Window.less_build);
       Window.GNATMake_messages.Show;
       Window.Ada_comp_label.Show;
       if Window.proj.Ada_listen then
@@ -109,6 +108,11 @@ package body GWen_Windows is
       else
         Window.Newer_Ada.Hide;
       end if;
+    else
+      Window.Client_Area_Width(Window.Ada_file_icon.Left + Window.Ada_file_icon.Width + margin_x);
+      Window.More_less_build.Set_Bitmap(Window.more_build);
+      Window.GNATMake_messages.Hide;
+      Window.Ada_comp_label.Hide;
     end if;
     Window.Details_frame.Width(Window.Client_Area_Width - margin_x_frame);
     --
@@ -604,6 +608,10 @@ package body GWen_Windows is
     Window.ear.Load_Bitmap(Num_resource(Listen_32x32));
     Window.no_ear.Load_Bitmap(Num_resource(Not_Listen_32x32));
     Window.wheels.Load_Bitmap(Num_resource(Wheels_32x32));
+    Window.more_details.Load_Bitmap(Num_resource(More_Vertical));
+    Window.less_details.Load_Bitmap(Num_resource(Less_Vertical));
+    Window.more_build.Load_Bitmap(Num_resource(More_Horizontal));
+    Window.less_build.Load_Bitmap(Num_resource(Less_Horizontal));
     Small_Icon (Window, "AAA_Main_Icon");
     Large_Icon (Window, "AAA_Main_Icon");
     Window.Create_Contents(for_dialog => False);
@@ -632,6 +640,7 @@ package body GWen_Windows is
     Update_status_display(Window);
     Window.Center;
     On_Click_Handler( Window.Show_Details, On_Details_Check_Box_Click'Access );
+    On_Click_Handler( Window.More_less_details, On_Details_Check_Box_Click'Access );
     On_Click_Handler( Window.Button_Translate_permanent, Do_Translate'Access );
     Windows_Timers.Set_Timer(Window, timer_id, 1000);
     --

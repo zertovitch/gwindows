@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2010/02/10   13:16:00
+-- Transcription time: 2010/02/13   12:23:59
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
@@ -34,7 +34,7 @@ package GWenerator_Resource_GUI is
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 56
+  -- Menu at line 64
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -52,7 +52,7 @@ package GWenerator_Resource_GUI is
     GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 78
+  -- Dialog at resource line 85
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -117,7 +117,7 @@ package GWenerator_Resource_GUI is
     RC_Compiler_list: Drop_Down_Combo_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 114
+  -- Dialog at resource line 120
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -162,9 +162,12 @@ package GWenerator_Resource_GUI is
     Static_0002: Icon_Type;
     Ada_file_icon: Icon_Type;
     Exe_file_icon: Icon_Type;
+    Show_Ada_build: Check_Box_Type;
+    More_less_details: Bitmap_Type;
+    More_less_build: Bitmap_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 141
+  -- Dialog at resource line 149
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -211,7 +214,10 @@ package GWenerator_Resource_GUI is
   Ada_file               : constant:=    116;
   Exe_file               : constant:=    118;
   Wheels_32x32           : constant:=    120;
-  Tools_icon             : constant:=    122;
+  Less_Horizontal        : constant:=    122;
+  More_Horizontal        : constant:=    123;
+  Less_Vertical          : constant:=    124;
+  More_Vertical          : constant:=    125;
   Ada_file_icon          : constant:=   1000;
   Listen_RC              : constant:=   1000;
   URL                    : constant:=   1000;
@@ -223,11 +229,14 @@ package GWenerator_Resource_GUI is
   Ada_cmd                : constant:=   1003;
   Ada_comp_label         : constant:=   1003;
   Basx                   : constant:=   1004;
+  More_less_details      : constant:=   1004;
   RC_gramm_ver           : constant:=   1004;
   Basy                   : constant:=   1005;
+  Show_Ada_build         : constant:=   1005;
   Ear_RC                 : constant:=   1006;
   Ear_Ada                : constant:=   1007;
   RC_Compiler_list       : constant:=   1007;
+  More_less_build        : constant:=   1009;
   About_box              : constant:=   1033;
   Not_Listen_32x32       : constant:=   1033;
   RC_file                : constant:=   1034;

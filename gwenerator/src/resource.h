@@ -7,7 +7,10 @@
 #define Ada_file                                116
 #define Exe_file                                118
 #define Wheels_32x32                            120
-#define Tools_icon                              122
+#define Less_Horizontal                         122
+#define More_Horizontal                         123
+#define Less_Vertical                           124
+#define More_Vertical                           125
 #define Ada_file_icon                           1000
 #define Listen_RC                               1000
 #define URL                                     1000
@@ -19,11 +22,14 @@
 #define Ada_cmd                                 1003
 #define Ada_comp_label                          1003
 #define Basx                                    1004
+#define More_less_details                       1004
 #define RC_gramm_ver                            1004
 #define Basy                                    1005
+#define Show_Ada_build                          1005
 #define Ear_RC                                  1006
 #define Ear_Ada                                 1007
 #define RC_Compiler_list                        1007
+#define More_less_build                         1009
 #define About_box                               1033
 #define Not_Listen_32x32                        1033
 #define RC_file                                 1034
