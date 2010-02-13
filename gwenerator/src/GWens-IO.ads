@@ -22,7 +22,8 @@ package GWens.IO is
     --
     Ada_command,
     --
-    show_details
+    show_details,
+    show_ada_build
   );
 
   -- Load / Save through files

@@ -12,9 +12,10 @@ package GWens is
     name          : Unbounded_String:= To_Unbounded_String("Untitled");
     titled        : Boolean:= False;
     modified      : Boolean:= False;
-    show_details  : Boolean:= False;
     --
     -- Data to be saved:
+    --
+    show_details  : Boolean:= False;
     --
     RC_name       : Unbounded_String;
     RC_listen     : Boolean:= True;
@@ -27,6 +28,7 @@ package GWens is
     base_defaults       : Boolean:= True;
     initialize_controls : Boolean:= False;
     --
+    show_ada_build: Boolean:= False;
     Ada_main      : Unbounded_String;
     Ada_listen    : Boolean:= True;
     Ada_auto_build: Boolean:= True;

@@ -52,7 +52,6 @@ package body GWen_Windows is
   -------------------------
 
   procedure Update_status_display (Window : in out GWen_Window_Type) is
-    Ada_build_part: constant Boolean:= Window.proj.Ada_main /= U(""); --!! add boolean option
     margin_x      : constant:= 25;
     margin_x_frame: constant:= 18;
     margin_y      : constant:= 15;
@@ -93,7 +92,7 @@ package body GWen_Windows is
     --
     -- Ada main part
     --
-    if Ada_build_part then
+    if Window.proj.show_ada_build then
       Window.Client_Area_Width(Window.Exe_file_icon.Left + Window.Exe_file_icon.Width + margin_x);
       Window.More_less_build.Set_Bitmap(Window.less_build);
       Window.GNATMake_messages.Show;
@@ -124,6 +123,13 @@ package body GWen_Windows is
     gw.proj.show_details:= gw.Show_Details.State = Checked;
     Update_status_display(gw);
   end On_Details_Check_Box_Click;
+
+  procedure On_Build_Check_Box_Click (Window : in out GWindows.Base.Base_Window_Type'Class) is
+    gw: GWen_Window_Type renames GWen_Window_Type(Parent(Window).all);
+  begin
+    gw.proj.show_ada_build:= gw.Show_Ada_build.State = Checked;
+    Update_status_display(gw);
+  end On_Build_Check_Box_Click;
 
   --------------------------------------
   -- New methods for GWen_Window_Type --
@@ -640,7 +646,9 @@ package body GWen_Windows is
     Update_status_display(Window);
     Window.Center;
     On_Click_Handler( Window.Show_Details, On_Details_Check_Box_Click'Access );
-    On_Click_Handler( Window.More_less_details, On_Details_Check_Box_Click'Access );
+    On_Click_Handler( Window.More_less_details, On_Details_Check_Box_Click'Access ); -- !! doesn't work
+    On_Click_Handler( Window.Show_Ada_build, On_Build_Check_Box_Click'Access );
+    On_Click_Handler( Window.More_less_build, On_Build_Check_Box_Click'Access ); -- !! doesn't work
     On_Click_Handler( Window.Button_Translate_permanent, Do_Translate'Access );
     Windows_Timers.Set_Timer(Window, timer_id, 1000);
     --

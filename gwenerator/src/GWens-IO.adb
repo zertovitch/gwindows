@@ -70,6 +70,8 @@ package body GWens.IO is
           --
           when show_details =>
             Get(f, proj.show_details);
+          when show_ada_build =>
+            Get(f, proj.show_ada_build);
         end case;
       exception
         when Data_Error => -- item from a later version
@@ -128,6 +130,9 @@ package body GWens.IO is
           Put(f, proj.initialize_controls);
           New_Line(f);
         --
+        when show_ada_Build =>
+          Put(f, proj.show_ada_build);
+          Put_Line(f, " -- in the UI, show the right part with ada build");
         when Ada_main =>
           Put_Line(f, proj.Ada_Main);
         when Ada_listen =>
@@ -142,7 +147,7 @@ package body GWens.IO is
         --
         when show_details =>
           Put(f, proj.show_details);
-          New_Line(f);
+          Put_Line(f, " -- in the UI, show the bottom part with message boxes");
       end case;
     end loop;
     Close(f);

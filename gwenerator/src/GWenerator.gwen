@@ -12,4 +12,5 @@ ADA_MAIN
 ADA_LISTEN TRUE
 ADA_AUTO_BUILD TRUE
 ADA_COMMAND  gnatmake -i %1
-SHOW_DETAILS TRUE
+SHOW_DETAILS TRUE -- in the UI, show the bottom part with message boxes
+SHOW_ADA_BUILD FALSE -- in the UI, show the right part with ada build
