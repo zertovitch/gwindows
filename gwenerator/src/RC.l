@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script lexer file (AFLEX)
 --
---  Copyright (c) Gautier de Montmollin 2008..2009
+--  Copyright (c) Gautier de Montmollin 2008..2010
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -209,6 +209,14 @@ MONTHCAL_CLASS     { return MONTHCAL_CLASS_t; }
 PROGRESS_CLASS     { return PROGRESS_CLASS_t; }
 TRACKBAR_CLASS     { return TRACKBAR_CLASS_t; }
 UPDOWN_CLASS       { return UPDOWN_CLASS_t; }
+WC_BUTTON          { return WC_BUTTON_t; }
+WC_COMBOBOX        { return WC_COMBOBOX_t; }
+WC_COMBOBOXEX      { return WC_COMBOBOXEX_t; }
+WC_EDIT            { return WC_EDIT_t; }
+WC_HEADER          { return WC_HEADER_t; }
+WC_IPADDRESS       { return WC_IPADDRESS_t; }
+WC_LINK            { return WC_LINK_t; }
+WC_LISTBOX         { return WC_LISTBOX_t; }
 WC_LISTVIEW        { return WC_LISTVIEW_t; }
 WC_TABCONTROL      { return WC_TABCONTROL_t; }
 WC_TREEVIEW        { return WC_TREEVIEW_t; }
