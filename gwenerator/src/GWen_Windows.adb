@@ -30,7 +30,7 @@ with GWens.IO;
 
 with Time_display;
 
-with Windows_Timers, Win_pipes;
+with Windows_Timers, Windows_pipes;
 
 package body GWen_Windows is
 
@@ -443,7 +443,7 @@ package body GWen_Windows is
     begin
       Add(gw.RC_to_GWindows_messages, l);
     end;
-    package WP is new Win_pipes(Output_a_line);
+    package WP is new Windows_pipes(Output_a_line);
     p: WP.Piped_process;
   begin
     Add(gw.RC_to_GWindows_messages, "");

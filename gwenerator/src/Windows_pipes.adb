@@ -1,4 +1,4 @@
-package body Win_pipes is
+package body Windows_pipes is
 
    type PHANDLE is access all HANDLE;
    function CreatePipe (hReadPipe : PHANDLE;
@@ -84,7 +84,9 @@ package body Win_pipes is
   procedure Start (p: in out Piped_process; command, path: String) is
     Created       : BOOL;
     IgnoreBool    : BOOL;
+    pragma Warnings(Off, IgnoreBool);
     IgnoreLResult : LRESULT;
+    pragma Warnings(Off, IgnoreLResult);
     --
     Process_Buffer : array (command'First..command'Last+1) of aliased CHAR;
     Start_Path     : array (path'First..path'Last+1) of aliased CHAR;
@@ -133,17 +135,19 @@ package body Win_pipes is
     --
     -- http://msdn.microsoft.com/en-us/library/ms682425(VS.85).aspx
     --
-    Created := CreateProcess(
-       null,
-       Process_Buffer(Process_Buffer'First)'unchecked_access,
-       null,
-       null,
-       BOOL(1),  -- inherit handles
-       DWORD(0), -- flags
-       System.Null_Address,
-       Start_Path(Start_path'First)'unrestricted_access,
-       p.SI'unrestricted_access,
-       p.PI'unrestricted_access);
+    Created :=
+      CreateProcess(
+        null,
+        Process_Buffer(Process_Buffer'First)'unchecked_access,
+        null,
+        null,
+        BOOL(1),  -- inherit handles
+        DWORD(0), -- flags
+        System.Null_Address,
+        Start_Path(Start_path'First)'unrestricted_access,
+        p.SI'unrestricted_access,
+        p.PI'unrestricted_access
+      );
 
     if Created = 0 or p.Pi.Hprocess = System.Null_Address then
       raise Cannot_start;
@@ -151,7 +155,7 @@ package body Win_pipes is
 
     p.ProcessObject := p.Pi.HProcess;
     IgnoreBool := CloseHandle(p.PipeWrite);
-    p.rest_of_line:= Ada.Strings.Unbounded.Null_Unbounded_String;
+    p.part_of_line:= Ada.Strings.Unbounded.Null_Unbounded_String;
   end Start;
 
   ----------
@@ -160,12 +164,13 @@ package body Win_pipes is
 
   procedure Stop (p: in out Piped_process) is
     IgnoreBool : BOOL;
+    pragma Warnings(Off, IgnoreBool);
     use System;
   begin
     if Alive(p)  then
       IgnoreBool := TerminateProcess(p.ProcessObject,0);
+      p.ProcessObject := System.Null_Address;
     end if;
-    p.ProcessObject := System.Null_Address;
   end Stop;
 
   -- Internal
@@ -175,15 +180,17 @@ package body Win_pipes is
     StuffInPipe   : BOOL;
     HowManyBytes  : aliased DWORD;
     IgnoreBool    : BOOL;
+    pragma Warnings(Off, IgnoreBool);
     use Interfaces.C, Ada.Strings.Unbounded;
   begin
-    StuffInPipe := PeekNamedPipe(
-       p.PipeRead,
-       System.Null_Address, 0, -- don't actually read anything
-       null, -- don't care
-       HowManyBytes'Unchecked_Access,
-       null
-    );
+    StuffInPipe :=
+      PeekNamedPipe(
+        p.PipeRead,
+        System.Null_Address, 0, -- don't actually read anything
+        null, -- don't care
+        HowManyBytes'Unchecked_Access,
+        null
+      );
     if StuffInPipe = 0 or HowManyBytes = 0 then
       return;
     end if;
@@ -197,7 +204,7 @@ package body Win_pipes is
         for i in s'Range loop
           s(i):= Character(Buffer(i));
         end loop;
-        p.rest_of_line:= p.rest_of_line & To_Unbounded_String(s);
+        p.part_of_line:= p.part_of_line & To_Unbounded_String(s);
       end;
       --
       procedure Spit_a_line(a,b: Integer) is
@@ -206,8 +213,8 @@ package body Win_pipes is
         for i in s'Range loop
           s(i):= Character(Buffer(i));
         end loop;
-        Output_Line(To_String(p.rest_of_line) & s);
-        p.rest_of_line:= Ada.Strings.Unbounded.Null_Unbounded_String;
+        Output_Line(To_String(p.part_of_line) & s);
+        p.part_of_line:= Ada.Strings.Unbounded.Null_Unbounded_String;
       end;
       --
     begin
@@ -230,7 +237,7 @@ package body Win_pipes is
              null;
          end case;
        end loop;
-       -- We may hav still an incomplete line:
+       -- We may have still an incomplete line:
        Memorize_chunk(mark, Integer(Numread));
     end;
 
@@ -242,6 +249,7 @@ package body Win_pipes is
 
   procedure Check_progress (p: in out Piped_process) is
     IgnoreBool : BOOL;
+    pragma Warnings(Off, IgnoreBool);
     DwExitCode : aliased DWORD;
     TempProcessObject: HANDLE;
     use System, Interfaces.C;
@@ -250,7 +258,9 @@ package body Win_pipes is
       return;
     end if;
     --
-    IgnoreBool := GetExitCodeProcess(p.ProcessObject, DwExitCode'Unchecked_Access);
+    IgnoreBool :=
+      GetExitCodeProcess(p.ProcessObject, DwExitCode'Unchecked_Access);
+    --
     if DwExitCode /= STILL_ACTIVE then -- died
       p.Processobject := System.Null_Address;
       return;
@@ -279,4 +289,4 @@ package body Win_pipes is
     return True;
   end Alive;
 
-end Win_pipes;
+end Windows_pipes;

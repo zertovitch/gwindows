@@ -1,15 +1,15 @@
---  Win_pipes - Windows pipes
+--  Windows_pipes
 --  G. de Montmollin, 13-Feb-2010
 --
 --  Test procedure here in comment:
 --
---  with Ada.Text_IO, Win_pipes;
+--  with Ada.Text_IO, Windows_pipes;
 --  procedure Win_Pipe_test is
 --    procedure Output_a_line(l: String) is
 --    begin
 --      Ada.Text_IO.Put_Line('[' & l & ']');
 --    end;
---    package WP is new Win_pipes(Output_a_line);
+--    package WP is new Windows_pipes(Output_a_line);
 --    p: WP.Piped_process;
 --  begin
 --    WP.Start(p, "cmd.exe /c dir", ".");
@@ -24,7 +24,8 @@ with Interfaces.C, System;
 generic
   -- Output a line to anywhere: a terminal (Text_IO), a message box,...
   with procedure Output_Line(l: String);
-package Win_pipes is
+
+package Windows_pipes is
 
    Cannot_create_pipe: exception;
    Cannot_start: exception;
@@ -117,7 +118,7 @@ private
      SA : aliased Security_Attributes;
      PipeRead, PipeWrite : aliased HANDLE;
      ProcessObject : HANDLE := System.Null_Address;
-     rest_of_line: Ada.Strings.Unbounded.Unbounded_String;
+     part_of_line: Ada.Strings.Unbounded.Unbounded_String;
    end record;
 
-end Win_pipes;
+end Windows_pipes;
