@@ -24,16 +24,13 @@ with Ada.Text_IO;                       use Ada.Text_IO;
 with Ada.Text_IO.Unbounded_IO;          use Ada.Text_IO.Unbounded_IO;
 with Ada.Calendar;
 
-with GNAT.OS_Lib;
-with GNAT.Expect;                       use GNAT.Expect;
-
 with RC_IO, RC_Help, YYParse, Resource_Header;
 
 with GWens.IO;
 
 with Time_display;
 
-with Windows_Timers;
+with Windows_Timers, Win_pipes;
 
 package body GWen_Windows is
 
@@ -441,43 +438,21 @@ package body GWen_Windows is
     sn: constant String:= S(gw.proj.RC_name);
     on: constant String:= sn(sn'First..sn'Last-1) & "bj";
     Command : constant String :=
-      "windres " & sn & ' ' & on;
-      -- "gnatmake -Pc:\ada/globe_3d/demo/globe_3d_gps_win32.gpr";
-    Pd      : Process_Descriptor;
-    Args    : GNAT.OS_Lib.Argument_List_Access;
-    Result  : Expect_Match;
+      "windres -v " & sn & ' ' & on;
+    procedure Output_a_line(l: String) is
+    begin
+      Add(gw.RC_to_GWindows_messages, l);
+    end;
+    package WP is new Win_pipes(Output_a_line);
+    p: WP.Piped_process;
   begin
     Add(gw.RC_to_GWindows_messages, "");
     Add(gw.RC_to_GWindows_messages, "Compiling resource... " & Time_display);
     Add(gw.RC_to_GWindows_messages, Command);
-    Args := GNAT.OS_Lib.Argument_String_To_List (Command);
-    Non_Blocking_Spawn
-      (Pd,
-       Command     => Args (Args'First).all,
-       Args        => Args (Args'First + 1 .. Args'Last),
-       Buffer_Size => 0,
-       Err_To_Out  => True);
-    loop
-      begin
-        Expect (Pd, Result, Regexp => "\n", Timeout => 1_000);
-        case Result is
-          when 1 => -- regexp matched
-            Add(gw.RC_to_GWindows_messages, Expect_Out(Pd));
-          when others =>
-            null;
-        end case;
-      exception
-        when Process_died => exit;
-      end;
+    WP.Start(p, Command, ".");
+    while WP.Alive(p) loop
+      WP.Check_progress(p);
     end loop;
-    declare
-      rest_after_death: constant String:= Expect_Out(Pd);
-    begin
-      if rest_after_death /= "" then
-        Add(gw.RC_to_GWindows_messages, rest_after_death);
-      end if;
-    end;
-    Close (Pd);
     Add(gw.RC_to_GWindows_messages, "Resource compiled. " & Time_display);
   end Call_windres;
 
