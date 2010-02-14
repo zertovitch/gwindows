@@ -6,9 +6,9 @@ with GWindows;                          use GWindows;
 with GWindows.Drawing_Objects;
 
 with Interfaces.C;
+with Windows_pipes;
 
 package GWen_Windows is
-
 
   type GWen_Window_Type is new GWenerator_Resource_GUI.Main_dialog_Type with record
     proj               : GWens.GWen;
@@ -23,6 +23,8 @@ package GWen_Windows is
     less_details,
     more_build,
     less_build         : GWindows.Drawing_Objects.Bitmap_Type;
+    build_process      : Windows_pipes.Piped_process;
+    last_seen_running  : Boolean:= False;
   end record;
 
   --------------------------------------------

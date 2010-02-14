@@ -1,38 +1,44 @@
 --  Windows_pipes
 --  G. de Montmollin, 13-Feb-2010
 --
---  Test procedure here in comment:
+--  A test follows here in comment:
 --
---  with Ada.Text_IO, Windows_pipes;
---  procedure Win_Pipe_test is
---    procedure Output_a_line(l: String) is
---    begin
---      Ada.Text_IO.Put_Line('[' & l & ']');
---    end;
---    package WP is new Windows_pipes(Output_a_line);
---    p: WP.Piped_process;
+--  with Ada.Text_IO;
+--  procedure Output_a_line(l: String) is
 --  begin
---    WP.Start(p, "cmd.exe /c dir", ".");
---    while WP.Alive(p) loop
---      WP.Check_progress(p);
+--    Ada.Text_IO.Put_Line('[' & l & ']');
+--  end;
+--  --
+--  with Output_a_line, Windows_pipes;
+--  procedure Win_Pipe_test is
+--    use Windows_pipes;
+--    p: Piped_process;
+--  begin
+--    Start(p, "cmd.exe /c dir", ".", Output_a_line'Access);
+--    while Alive(p) loop
+--      Check_progress(p);
 --    end loop;
 --  end Win_Pipe_test;
 
 with Ada.Strings.Unbounded;
 with Interfaces.C, System;
 
-generic
-  -- Output a line to anywhere: a terminal (Text_IO), a message box,...
-  with procedure Output_Line(l: String);
-
 package Windows_pipes is
+
+   -- Output a line to anywhere: a terminal (Text_IO), a message box,...
+   type Output_Line is access procedure (l: String);
 
    Cannot_create_pipe: exception;
    Cannot_start: exception;
+   Output_is_null: exception;
 
    type Piped_process is private;
 
-   procedure Start(p: in out Piped_process; command, path: String);
+   procedure Start(
+     p            : in out Piped_process;
+     command, path: String;
+     text_output  : Output_Line
+   );
    procedure Stop(p: in out Piped_process);
    procedure Check_progress(p: in out Piped_process);
    function Alive(p: Piped_process) return Boolean;
@@ -118,7 +124,8 @@ private
      SA : aliased Security_Attributes;
      PipeRead, PipeWrite : aliased HANDLE;
      ProcessObject : HANDLE := System.Null_Address;
-     part_of_line: Ada.Strings.Unbounded.Unbounded_String;
+     part_of_line : Ada.Strings.Unbounded.Unbounded_String;
+     text_output : Output_Line;
    end record;
 
 end Windows_pipes;

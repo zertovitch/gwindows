@@ -30,7 +30,7 @@ with GWens.IO;
 
 with Time_display;
 
-with Windows_Timers, Windows_pipes;
+with Windows_Timers;
 
 package body GWen_Windows is
 
@@ -90,6 +90,7 @@ package body GWen_Windows is
     -- Ada main part
     --
     if Window.proj.show_ada_build then
+      Window.Show_Ada_build.State(Checked);
       Window.Client_Area_Width(Window.Exe_file_icon.Left + Window.Exe_file_icon.Width + margin_x);
       Window.More_less_build.Set_Bitmap(Window.less_build);
       Window.GNATMake_messages.Show;
@@ -104,7 +105,13 @@ package body GWen_Windows is
       else
         Window.Newer_Ada.Hide;
       end if;
+      if Windows_pipes.Alive(Window.build_process) then
+        Window.Button_Build_permanent.Text("Stop build");
+      else
+        Window.Button_Build_permanent.Text("Build now");
+      end if;
     else
+      Window.Show_Ada_build.State(Unchecked);
       Window.Client_Area_Width(Window.Ada_file_icon.Left + Window.Ada_file_icon.Width + margin_x);
       Window.More_less_build.Set_Bitmap(Window.more_build);
       Window.GNATMake_messages.Hide;
@@ -294,7 +301,14 @@ package body GWen_Windows is
   begin
     Success:= False;
     if Window.proj.modified then
-      case Message_Box(Window, "GWen is changed", "Save modified GWen ?", Yes_No_Cancel_Box) is
+      case Message_Box(
+        Window,
+        "GWen is changed",
+        "Save modified GWen ?",
+        Yes_No_Cancel_Box,
+        Question_Icon
+      )
+      is
         when Yes    =>
           Window.last_save_success:= False;
           Window.On_Save;
@@ -355,7 +369,9 @@ package body GWen_Windows is
           Message_Box(
             Window,
             "Error", S(New_File_Name) &
-            " is not a GWen project file."
+            " is not a GWen project file.",
+            OK_Box,
+            Error_Icon
           );
         end if;
       end if;
@@ -443,15 +459,14 @@ package body GWen_Windows is
     begin
       Add(gw.RC_to_GWindows_messages, l);
     end;
-    package WP is new Windows_pipes(Output_a_line);
-    p: WP.Piped_process;
+    p: Windows_pipes.Piped_process;
   begin
     Add(gw.RC_to_GWindows_messages, "");
     Add(gw.RC_to_GWindows_messages, "Compiling resource... " & Time_display);
     Add(gw.RC_to_GWindows_messages, Command);
-    WP.Start(p, Command, ".");
-    while WP.Alive(p) loop
-      WP.Check_progress(p);
+    Windows_pipes.Start(p, Command, ".", Output_a_line'Unrestricted_Access);
+    while Windows_pipes.Alive(p) loop
+      Windows_pipes.Check_progress(p);
     end loop;
     Add(gw.RC_to_GWindows_messages, "Resource compiled. " & Time_display);
   end Call_windres;
@@ -467,10 +482,10 @@ package body GWen_Windows is
     gw.Bar_RC.Position(5);
     delay 0.01;
     if sn="" then
-      Message_Box(gw, "Ressource file", "Resource file name is empty!");
+      Message_Box(gw, "Ressource file", "Resource file name is empty!", OK_Box, Error_Icon);
       On_Options(gw);
     elsif not Exists(sn) then
-      Message_Box(gw, "Ressource file missing", "Cannot find: [" & sn & ']');
+      Message_Box(gw, "Ressource file missing", "Cannot find: [" & sn & ']', OK_Box, Error_Icon);
       On_Options(gw);
     else
       gw.Bar_RC.Position(10);
@@ -560,6 +575,54 @@ package body GWen_Windows is
     Translation(GWen_Window_Type(Parent(Window).all), generate_test => False);
   end Do_Translate;
 
+  -- Not nice (we reasonably suppose there is only *one* main window)
+  type GWen_Window_Type_Access is access all GWen_Window_Type;
+  the_main: GWen_Window_Type_Access;
+  --
+  procedure Output_build_line(l: String) is
+  begin
+    Add(the_main.GNATMake_messages, l);
+  end Output_build_line;
+
+  procedure Do_Start_Stop_Build (Window : in out GWindows.Base.Base_Window_Type'Class) is
+    use Windows_pipes;
+    gw: GWen_Window_Type renames GWen_Window_Type(Parent(Window).all);
+  begin
+    if Alive(gw.build_process) then
+      Stop(gw.build_process);
+      Add(gw.GNATMake_messages, "Stopped! " & Time_display);
+      gw.last_seen_running:= False;
+    else
+      Clear(gw.GNATMake_messages);
+      Add(gw.GNATMake_messages, "Starting build... " & Time_display);
+      the_main:= gw'Access;
+      begin
+        Start(gw.build_process, S(gw.proj.Ada_command), ".", Output_build_line'Access);
+        gw.last_seen_running:= True;
+      exception
+        when Cannot_create_pipe =>
+          Message_Box(
+            Window,
+            "Process error",
+            "Cannot create pipe",
+            OK_Box,
+            Error_Icon
+          );
+        when Cannot_start =>
+          Message_Box(
+            Window,
+            "Process error",
+            "Cannot start process:" & NL &
+            S(gw.proj.Ada_command),
+            OK_Box,
+            Error_Icon
+          );
+          On_Options(gw);
+      end;
+    end if;
+    Update_status_display(gw);
+  end Do_Start_Stop_Build;
+
   --------------------------------------------
   -- Overriden methods for GWen_Window_Type --
   --------------------------------------------
@@ -613,7 +676,9 @@ package body GWen_Windows is
         Message_Box(
           Window,
           "Error", Simple_Name(Argument(1)) &
-          " is not a GWen project file."
+          " is not a GWen project file.",
+          OK_Box,
+          Error_Icon
         );
         Window.short_name:= Window.proj.name; -- "Untitled"
       end if;
@@ -625,11 +690,9 @@ package body GWen_Windows is
     On_Click_Handler( Window.Show_Ada_build, On_Build_Check_Box_Click'Access );
     On_Click_Handler( Window.More_less_build, On_Build_Check_Box_Click'Access ); -- !! doesn't work
     On_Click_Handler( Window.Button_Translate_permanent, Do_Translate'Access );
+    On_Click_Handler( Window.Button_Build_permanent, Do_Start_Stop_Build'Access );
     Windows_Timers.Set_Timer(Window, timer_id, 1000);
     --
-    -- Disable non-implemeted features !!
-    --
-    Window.Button_Build_permanent.Disable;
     Window.Visible;
   end On_Create;
 
@@ -654,6 +717,24 @@ package body GWen_Windows is
       );
   end Is_RC_newer;
 
+  function Is_Ada_newer(proj: GWen) return Boolean is
+    use RC_Help, Ada.Calendar;
+    en: constant String:= S(proj.Ada_main);
+    rn: constant String:= S(proj.RC_name);
+    an: constant String:= RC_to_Package_name(rn,True,True) & ".ads";
+  begin
+    if en = "" then
+      return False;
+    end if;
+    return
+      proj.Ada_listen and then
+      an /= "" and then
+      Exists(an) and then
+      ( (en="" or else not Exists(en)) or else
+        Modification_Time(an) > Modification_Time(en)
+      );
+  end Is_Ada_newer;
+
   busy_listening: Boolean:= False;
 
   procedure On_Message (Window       : in out GWen_Window_Type;
@@ -662,7 +743,7 @@ package body GWen_Windows is
                         lParam       : in     Interfaces.C.int;
                         Return_Value : in out Interfaces.C.long)
   is
-    use Interfaces.C;
+    use Interfaces.C, Windows_pipes;
 
     procedure Update_RC_newer_flag_and_message is
     begin
@@ -675,6 +756,17 @@ package body GWen_Windows is
       delay 0.02;
     end Update_RC_newer_flag_and_message;
 
+    procedure Update_Ada_newer_flag_and_message is
+    begin
+      Window.Ada_new:= Is_Ada_newer(Window.proj);
+      if Window.Ada_new then
+        Window.Newer_Ada.Show;
+      else
+        Window.Newer_Ada.Hide;
+      end if;
+      delay 0.02;
+    end Update_Ada_newer_flag_and_message;
+
   begin
     if message = Windows_Timers.WM_TIMER then
       -- Window.RC_to_GWindows_messages.Add("tick!");
@@ -682,12 +774,34 @@ package body GWen_Windows is
         -- Lock the listener in case the timer ticks again during what follows
         -- Without such a lock I guess it could mess something...
         busy_listening:= True;
-        -- Listen RC
+        ---------------
+        -- Listen RC --
+        ---------------
         Update_RC_newer_flag_and_message;
         -- Translate if RC new and this automatism desired
         if Window.RC_new and Window.proj.RC_auto_trans then
           Do_Translate(Window.Button_Translate_permanent);
           Update_RC_newer_flag_and_message;
+        end if;
+        ----------------
+        -- Listen Ada --
+        ----------------
+        Update_Ada_newer_flag_and_message;
+        if Window.Ada_new and Window.proj.Ada_auto_build
+          and Window.proj.show_ada_build
+          and not Alive(Window.build_process)
+          -- ^avoid stopping a running build!
+        then
+          Do_Start_Stop_Build(Window.Button_Build_permanent);
+        end if;
+        -- In case there is new messages from a running Ada build,
+        -- it is the occasion to empty the pipe
+        if Alive(Window.build_process) then
+          Check_progress(Window.build_process);
+        elsif Window.last_seen_running then
+          Window.last_seen_running:= False;
+          Window.GNATMake_messages.Add("Completed. " & Time_display);
+          Update_status_display(Window);
         end if;
         -- Unlock
         busy_listening:= False;
@@ -736,10 +850,14 @@ package body GWen_Windows is
                       Can_Close :    out Boolean)
   is
     Success: Boolean;
+    use Windows_pipes;
   begin
     Process_unsaved_changes(Window, Success);
     if Success then
       Windows_Timers.Kill_Timer(Window, timer_id);
+      if Alive(Window.build_process) then
+        Stop(Window.build_process);
+      end if;
     end if;
     Can_Close:= Success;
   end On_Close;

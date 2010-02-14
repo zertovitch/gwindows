@@ -81,7 +81,12 @@ package body Windows_pipes is
   -- Start --
   -----------
 
-  procedure Start (p: in out Piped_process; command, path: String) is
+  procedure Start(
+    p            : in out Piped_process;
+    command, path: String;
+    text_output  : Output_Line
+  )
+   is
     Created       : BOOL;
     IgnoreBool    : BOOL;
     pragma Warnings(Off, IgnoreBool);
@@ -97,6 +102,10 @@ package body Windows_pipes is
     SW_HIDE : constant := 0;
     use System;
   begin
+    if text_output = null then
+      raise Output_is_null;
+    end if;
+    p.text_output := text_output;
     p.SA.NLength := DWORD(p.SA'Size/8);
     p.SA.LpSecurityDescriptor := System.Null_Address;
     p.SA.BInheritHandle := 1; -- BOOL(TRUE)
@@ -213,7 +222,7 @@ package body Windows_pipes is
         for i in s'Range loop
           s(i):= Character(Buffer(i));
         end loop;
-        Output_Line(To_String(p.part_of_line) & s);
+        p.text_output(To_String(p.part_of_line) & s);
         p.part_of_line:= Ada.Strings.Unbounded.Null_Unbounded_String;
       end;
       --
