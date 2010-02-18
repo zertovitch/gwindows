@@ -700,4 +700,17 @@ package body GWindows.Buttons is
       end if;
    end Fire_On_Released;
 
+   ---------
+   -- not --
+   ---------
+
+   function "not" (State : in Check_State_Type) return Check_State_Type is
+   begin
+     if State = Checked then
+       return Unchecked;
+     else
+       return Checked;
+     end if;
+   end "not";
+
 end GWindows.Buttons;

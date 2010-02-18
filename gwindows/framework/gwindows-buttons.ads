@@ -221,6 +221,8 @@ package GWindows.Buttons is
 
    type Check_State_Type is (Checked, Unchecked);
 
+   function "not" (State : in Check_State_Type) return Check_State_Type;
+
    function State (Button : in Check_Box_Type)
                   return Check_State_Type;
 
