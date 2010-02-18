@@ -8,12 +8,12 @@ with GWindows.Colors;
 with GWindows.Message_Boxes;
 with GWindows.Buttons;
 
-with Owner_Drawn_Button;
+with GWindows.Buttons.Owner_Drawn;
 
 procedure mybutton is
    use GWindows.Windows.Main;
    use GWindows.Buttons;
-   use Owner_Drawn_Button;
+   use GWindows.Buttons.Owner_Drawn;
 
    procedure Do_Paint (Window   : in out GWindows.Base.Base_Window_Type'Class;
                        Canvas   : in out GWindows.Drawing.Canvas_Type;
