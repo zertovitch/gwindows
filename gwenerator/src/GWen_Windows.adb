@@ -67,11 +67,11 @@ package body GWen_Windows is
     if Window.proj.show_details then
       Window.Show_Details.State(Checked);
       Window.Client_Area_Height(Window.Details_frame.Top + Window.Details_frame.Height + margin_y);
-      Window.More_less_details.Set_Bitmap(Window.less_details);
+      Window.details_button.Set_Bitmap(Window.less_details);
     else
       Window.Show_Details.State(Unchecked);
       Window.Client_Area_Height(Window.More_less_details.Top + Window.More_less_details.Height + 4);
-      Window.More_less_details.Set_Bitmap(Window.more_details);
+      Window.details_button.Set_Bitmap(Window.more_details);
     end if;
     --
     -- RC main part
@@ -92,7 +92,7 @@ package body GWen_Windows is
     if Window.proj.show_ada_build then
       Window.Show_Ada_build.State(Checked);
       Window.Client_Area_Width(Window.Exe_file_icon.Left + Window.Exe_file_icon.Width + margin_x);
-      Window.More_less_build.Set_Bitmap(Window.less_build);
+      Window.ada_build_button.Set_Bitmap(Window.less_build);
       Window.GNATMake_messages.Show;
       Window.Ada_comp_label.Show;
       if Window.proj.Ada_listen then
@@ -113,7 +113,7 @@ package body GWen_Windows is
     else
       Window.Show_Ada_build.State(Unchecked);
       Window.Client_Area_Width(Window.Ada_file_icon.Left + Window.Ada_file_icon.Width + margin_x);
-      Window.More_less_build.Set_Bitmap(Window.more_build);
+      Window.ada_build_button.Set_Bitmap(Window.more_build);
       Window.GNATMake_messages.Hide;
       Window.Ada_comp_label.Hide;
     end if;
@@ -128,12 +128,26 @@ package body GWen_Windows is
     Update_status_display(gw);
   end On_Details_Check_Box_Click;
 
+  procedure On_Details_Button_Click (Window : in out GWindows.Base.Base_Window_Type'Class) is
+    gw: GWen_Window_Type renames GWen_Window_Type(Parent(Window).all);
+  begin
+    gw.Show_Details.State(not gw.Show_Details.State);
+    On_Details_Check_Box_Click(Window);
+  end On_Details_Button_Click;
+
   procedure On_Build_Check_Box_Click (Window : in out GWindows.Base.Base_Window_Type'Class) is
     gw: GWen_Window_Type renames GWen_Window_Type(Parent(Window).all);
   begin
     gw.proj.show_ada_build:= gw.Show_Ada_build.State = Checked;
     Update_status_display(gw);
   end On_Build_Check_Box_Click;
+
+  procedure On_Build_Button_Click (Window : in out GWindows.Base.Base_Window_Type'Class) is
+    gw: GWen_Window_Type renames GWen_Window_Type(Parent(Window).all);
+  begin
+    gw.Show_Ada_Build.State(not gw.Show_Ada_Build.State);
+    On_Build_Check_Box_Click(Window);
+  end On_Build_Button_Click;
 
   --------------------------------------
   -- New methods for GWen_Window_Type --
@@ -580,8 +594,26 @@ package body GWen_Windows is
   the_main: GWen_Window_Type_Access;
   --
   procedure Output_build_line(l: String) is
+    x,y: Integer;
   begin
-    Add(the_main.GNATMake_messages, l);
+    if l'Length >= 10 and then
+      l(l'First..l'First+9)="completed " and then
+      Index(l, "%)") > 0
+    then
+      x:= Index(l, "(") + 1;
+      y:= x;
+      while l(y+1) /= '%' loop
+        y:= y + 1;
+      end loop;
+      the_main.Bar_Ada.Position(
+        Integer'Max(
+          the_main.Bar_Ada.Position,  -- avoid going back
+          Integer'Value(l(x..y))
+        )
+      );
+    else
+      the_main.GNATMake_messages.Add(l);
+    end if;
   end Output_build_line;
 
   procedure Do_Start_Stop_Build (Window : in out GWindows.Base.Base_Window_Type'Class) is
@@ -591,10 +623,12 @@ package body GWen_Windows is
     if Alive(gw.build_process) then
       Stop(gw.build_process);
       Add(gw.GNATMake_messages, "Stopped! " & Time_display);
+      gw.Bar_Ada.Position(0);
       gw.last_seen_running:= False;
     else
       Clear(gw.GNATMake_messages);
       Add(gw.GNATMake_messages, "Starting build... " & Time_display);
+      gw.Bar_Ada.Progress_Range(0, 100);
       the_main:= gw'Access;
       begin
         Start(gw.build_process, S(gw.proj.Ada_command), ".", Output_build_line'Access);
@@ -646,7 +680,7 @@ package body GWen_Windows is
 
   procedure On_Create (Window : in out GWen_Window_Type) is
   --  Handles setting up icons, menus, etc.
-    use Ada.Command_Line;
+    use Ada.Command_Line, GWindows.Buttons.Graphic;
     success: Boolean;
   begin
     Window.ear.Load_Bitmap(Num_resource(Listen_32x32));
@@ -686,9 +720,27 @@ package body GWen_Windows is
     Update_status_display(Window);
     Window.Center;
     On_Click_Handler( Window.Show_Details, On_Details_Check_Box_Click'Access );
-    On_Click_Handler( Window.More_less_details, On_Details_Check_Box_Click'Access ); -- !! doesn't work
+    Window.details_button.Create(
+      Window, "",
+      Left(Window.More_less_details),
+      Top(Window.More_less_details),
+      Width(Window.More_less_details),
+      Height(Window.More_less_details)
+    );
+    Window.details_button.Set_Bitmap(Window.more_details);
+    Window.More_less_details.Hide;
+    On_Click_Handler( Window.details_button, On_Details_Button_Click'Access );
     On_Click_Handler( Window.Show_Ada_build, On_Build_Check_Box_Click'Access );
-    On_Click_Handler( Window.More_less_build, On_Build_Check_Box_Click'Access ); -- !! doesn't work
+    Window.ada_build_button.Create(
+      Window, "",
+      Left(Window.More_less_build),
+      Top(Window.More_less_build),
+      Width(Window.More_less_build),
+      Height(Window.More_less_build)
+    );
+    Window.ada_build_button.Set_Bitmap(Window.more_build);
+    Window.More_less_build.Hide;
+    On_Click_Handler( Window.ada_build_button, On_Build_Button_Click'Access );
     On_Click_Handler( Window.Button_Translate_permanent, Do_Translate'Access );
     On_Click_Handler( Window.Button_Build_permanent, Do_Start_Stop_Build'Access );
     Windows_Timers.Set_Timer(Window, timer_id, 1000);
@@ -801,6 +853,7 @@ package body GWen_Windows is
         elsif Window.last_seen_running then
           Window.last_seen_running:= False;
           Window.GNATMake_messages.Add("Completed. " & Time_display);
+          Window.Bar_Ada.Position(0);
           Update_status_display(Window);
         end if;
         -- Unlock

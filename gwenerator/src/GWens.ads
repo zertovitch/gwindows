@@ -33,7 +33,7 @@ package GWens is
     Ada_listen    : Boolean:= True;
     Ada_auto_build: Boolean:= True;
     --
-    Ada_command   : Unbounded_String:= To_Unbounded_String("gnatmake -i %1");
+    Ada_command   : Unbounded_String:= To_Unbounded_String("gnatmake -P[project] -d");
   end record;
 
 end GWens;

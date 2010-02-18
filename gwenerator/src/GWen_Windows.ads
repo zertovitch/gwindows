@@ -4,6 +4,7 @@ with GWens;                             use GWens;
 
 with GWindows;                          use GWindows;
 with GWindows.Drawing_Objects;
+with GWindows.Buttons.Graphic;
 
 with Interfaces.C;
 with Windows_pipes;
@@ -18,11 +19,13 @@ package GWen_Windows is
     Ada_new            : Boolean:= False;
     last_save_success  : Boolean;
     ear, no_ear,
-    wheels,
+    wheels             : GWindows.Drawing_Objects.Bitmap_Type;
     more_details,
     less_details,
     more_build,
     less_build         : GWindows.Drawing_Objects.Bitmap_Type;
+    details_button,
+    ada_build_button   : GWindows.Buttons.Graphic.Bitmap_Button_type;
     build_process      : Windows_pipes.Piped_process;
     last_seen_running  : Boolean:= False;
   end record;
