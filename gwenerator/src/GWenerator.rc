@@ -13,31 +13,24 @@
 //
 // Bitmap resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Less_Horizontal    BITMAP         "less_horizontal.bmp"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Less_Vertical      BITMAP         "less_vertical.bmp"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Listen_32x32       BITMAP         "listen_32x32.bmp"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 More_Horizontal    BITMAP         "more_horizontal.bmp"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 More_Vertical      BITMAP         "more_vertical.bmp"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Not_Listen_32x32   BITMAP         "not_listen_32x32.bmp"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Wheels_32x32       BITMAP         "wheels_32_32.bmp"
 
 
@@ -45,7 +38,6 @@ Wheels_32x32       BITMAP         "wheels_32_32.bmp"
 //
 // Menu resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Main_Menu MENU
 {
     POPUP "&File"
@@ -77,7 +69,6 @@ Main_Menu MENU
 //
 // Dialog resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 About_box DIALOGEX 0, 0, 218, 129
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP
 CAPTION "About GWenerator"
@@ -96,7 +87,6 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 GWen_properties DIALOGEX 0, 0, 314, 282
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "GWen options"
@@ -124,7 +114,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     GROUPBOX        "RC2GW - RC to GWindows transcription engine", IDC_STATIC, 10, 97, 290, 60
     GROUPBOX        "Ada builder command line ( facultative )", IDC_STATIC, 10, 220, 288, 30
     EDITTEXT        Ada_cmd, 15, 230, 275, 14, ES_AUTOHSCROLL
-    RTEXT           "App. source or exe", IDC_STATIC, 18, 178, 62, 8, SS_RIGHT
+    RTEXT           "Executable", IDC_STATIC, 18, 178, 60, 8, SS_RIGHT
     AUTOCHECKBOX    "Initialize some controls with fake contents (analogy to pragma Initialize_Scalars)", Initialize_controls, 23, 140, 275, 10
     LTEXT           "Invoking resource compiler from GWenerator...", IDC_STATIC, 20, 65, 155, 8, SS_LEFT
     COMBOBOX        RC_Compiler_list, 180, 63, 110, 15, CBS_DROPDOWN | CBS_HASSTRINGS
@@ -132,7 +122,6 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Main_dialog DIALOGEX 0, 0, 403, 246
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "GWenerator - Link 1.gwen"
@@ -147,8 +136,8 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     PUSHBUTTON      "Build now", Button_Build, 245, 37, 100, 20
     CONTROL         "", Bar_RC, PROGRESS_CLASS, PBS_SMOOTH, 67, 62, 100, 10
     CONTROL         "", Bar_Ada, PROGRESS_CLASS, PBS_SMOOTH, 245, 62, 100, 10
-    CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, SS_BITMAP | SS_SUNKEN, 245, 12, 7, 6
-    CONTROL         Listen_32x32, Ear_RC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 67, 12, 7, 6
+    CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, SS_BITMAP | SS_SUNKEN, 245, 12, 23, 21
+    CONTROL         Listen_32x32, Ear_RC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 67, 12, 23, 21
     AUTOCHECKBOX    "Show details", Show_Details, 5, 80, 56, 10
     LTEXT           "Resource file is newer!", Newer_RC, 97, 12, 60, 15, SS_LEFT
     LTEXT           "Ada files are newer!", Newer_Ada, 277, 12, 40, 20, SS_LEFT
@@ -156,8 +145,14 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     ICON            Ada_file, Ada_file_icon, 197, 37, 21, 20, SS_ICON
     ICON            Exe_file, Exe_file_icon, 367, 37, 21, 20, SS_ICON
     AUTOCHECKBOX    "Ada build", Show_Ada_build, 180, 80, 45, 10
-    CONTROL         More_Vertical, More_less_details, WC_STATIC, SS_BITMAP, 4, 93, 7, 6
-    CONTROL         More_Horizontal, More_less_build, WC_STATIC, SS_BITMAP, 215, 93, 7, 6
+    CONTROL         More_Vertical, More_less_details, WC_STATIC, SS_BITMAP, 4, 93, 10, 9
+    CONTROL         More_Horizontal, More_less_build, WC_STATIC, SS_BITMAP, 215, 93, 10, 9
+    LTEXT           "Last build failed or was stopped. Auto build is temporarily disabled.", Auto_build_lift_msg, 275, 80, 120, 25, SS_LEFT
+    ICON            Warning_icon, Auto_build_lift_ico, 250, 80, 11, 10, SS_ICON
+    ICON            Arrow_icon, IDC_STATIC, 40, 40, 21, 20, SS_ICON
+    ICON            Arrow_icon, IDC_STATIC, 170, 40, 21, 20, SS_ICON
+    ICON            Arrow_icon, Ada_blue_3, 220, 40, 21, 20, SS_ICON
+    ICON            Arrow_icon, IDC_STATIC, 345, 40, 21, 20, SS_ICON
 }
 
 
@@ -165,7 +160,6 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 //
 // Accelerator resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Main_Menu ACCELERATORS
 {
     "O",            Open_GWen, VIRTKEY, CONTROL
@@ -178,7 +172,6 @@ Main_Menu ACCELERATORS
 //
 // Cursor resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Finger_cursor      CURSOR         ".\\finger.cur"
 
 
@@ -186,35 +179,34 @@ Finger_cursor      CURSOR         ".\\finger.cur"
 //
 // Icon resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 AAA_Main_Icon      ICON           "gwenerator.ico"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Tools              ICON           "tools.ico"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Ada_file           ICON           "Ada_file.ico"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+Arrow_icon         ICON           ".\\arrow.ico"
+
+
 Exe_file           ICON           "Exe_file.ico"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 gwenerator_icon    ICON           "gwenerator.ico"
 
 
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 RC_file            ICON           "RC_file.ico"
+
+
+Warning_icon       ICON           "warning.ico"
 
 
 
 //
 // Version Information resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1 VERSIONINFO
     FILEVERSION     0,98,0,0
     PRODUCTVERSION  0,0,0,0
@@ -246,5 +238,4 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 //
 // Manifest resources
 //
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1                  RT_MANIFEST    ".\\manifest.xml"

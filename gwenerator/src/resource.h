@@ -11,6 +11,8 @@
 #define More_Horizontal                         123
 #define Less_Vertical                           124
 #define More_Vertical                           125
+#define Warning_icon                            127
+#define Arrow_icon                              129
 #define Ada_file_icon                           1000
 #define Listen_RC                               1000
 #define URL                                     1000
@@ -29,7 +31,10 @@
 #define Ear_RC                                  1006
 #define Ear_Ada                                 1007
 #define RC_Compiler_list                        1007
+#define Auto_build_lift_msg                     1008
 #define More_less_build                         1009
+#define Auto_build_lift_ico                     1010
+#define Ada_blue_3                              1011
 #define About_box                               1033
 #define Not_Listen_32x32                        1033
 #define RC_file                                 1034

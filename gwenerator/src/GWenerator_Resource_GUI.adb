@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2010/02/18   20:24:00
+-- Transcription time: 2010/02/23   21:07:25
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
@@ -20,7 +20,7 @@ package body GWenerator_Resource_GUI is
   -- ** Generated code begins here \/ \/ \/.
 
 
-  -- Menu at line 49
+  -- Menu at line 41
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type)
   is
@@ -47,7 +47,7 @@ package body GWenerator_Resource_GUI is
   end Create_Full_Menu; -- Main_Menu_Type
 
 
-  -- Dialog at resource line 84
+  -- Dialog at resource line 75
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -147,7 +147,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- About_box_Type
 
 
-  -- Dialog at resource line 103
+  -- Dialog at resource line 93
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -283,8 +283,8 @@ package body GWenerator_Resource_GUI is
     Create( Window.Static_0007, Window, "Ada builder command line ( facultative )", x,y,w,h);
     Dlg_to_Scn(  15, 230, 275, 14, x,y,w,h);
     Create( Window.Ada_cmd, Window, "", x,y,w,h, TRUE, Ada_cmd);
-    Dlg_to_Scn(  18, 178, 62, 8, x,y,w,h);
-    Create_label( Window, "App. source or exe", x,y,w,h, GWindows.Static_Controls.RIGHT, NONE);
+    Dlg_to_Scn(  18, 178, 60, 8, x,y,w,h);
+    Create_label( Window, "Executable", x,y,w,h, GWindows.Static_Controls.RIGHT, NONE);
     Dlg_to_Scn(  23, 140, 275, 10, x,y,w,h);
     Create( Window.Initialize_controls, Window, "Initialize some controls with fake contents (analogy to pragma Initialize_Scalars)", x,y,w,h, Initialize_controls);
     Dlg_to_Scn(  20, 65, 155, 8, x,y,w,h);
@@ -294,7 +294,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- GWen_properties_Type
 
 
-  -- Dialog at resource line 139
+  -- Dialog at resource line 128
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -386,9 +386,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.Bar_RC, Window, x,y,w,h, HORIZONTAL, TRUE);
     Dlg_to_Scn(  245, 62, 100, 10, x,y,w,h);
     Create( Window.Bar_Ada, Window, x,y,w,h, HORIZONTAL, TRUE);
-    Dlg_to_Scn(  245, 12, 7, 6, x,y,w,h);
+    Dlg_to_Scn(  245, 12, 23, 21, x,y,w,h);
     Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
-    Dlg_to_Scn(  67, 12, 7, 6, x,y,w,h);
+    Dlg_to_Scn(  67, 12, 23, 21, x,y,w,h);
     Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  5, 80, 56, 10, x,y,w,h);
     Create( Window.Show_Details, Window, "Show details", x,y,w,h, Show_Details);
@@ -404,10 +404,22 @@ package body GWenerator_Resource_GUI is
     Create( Window.Exe_file_icon, Window, Num_resource(Exe_file), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  180, 80, 45, 10, x,y,w,h);
     Create( Window.Show_Ada_build, Window, "Ada build", x,y,w,h, Show_Ada_build);
-    Dlg_to_Scn(  4, 93, 7, 6, x,y,w,h);
+    Dlg_to_Scn(  4, 93, 10, 9, x,y,w,h);
     Create( Window.More_less_details, Window, Num_resource(More_Vertical), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  215, 93, 7, 6, x,y,w,h);
+    Dlg_to_Scn(  215, 93, 10, 9, x,y,w,h);
     Create( Window.More_less_build, Window, Num_resource(More_Horizontal), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  275, 80, 120, 25, x,y,w,h);
+    Create( Window.Auto_build_lift_msg, Window, "Last build failed or was stopped. Auto build is temporarily disabled.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Auto_build_lift_msg);
+    Dlg_to_Scn(  250, 80, 11, 10, x,y,w,h);
+    Create( Window.Auto_build_lift_ico, Window, Num_resource(Warning_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  40, 40, 21, 20, x,y,w,h);
+    Create( Window.Static_0003, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  170, 40, 21, 20, x,y,w,h);
+    Create( Window.Static_0004, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  220, 40, 21, 20, x,y,w,h);
+    Create( Window.Ada_blue_3, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  345, 40, 21, 20, x,y,w,h);
+    Create( Window.Static_0005, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
   end Create_Contents; -- Main_dialog_Type
 
 
@@ -521,6 +533,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 243
+  -- Last line of resource script file: 234
 
 end GWenerator_Resource_GUI;

@@ -95,6 +95,7 @@ package body GWen_Windows is
       Window.ada_build_button.Set_Bitmap(Window.less_build);
       Window.GNATMake_messages.Show;
       Window.Ada_comp_label.Show;
+      Window.Ada_blue_3.Show;
       if Window.proj.Ada_listen then
         Window.Ear_Ada.Set_Bitmap(Window.ear);
       else
@@ -110,12 +111,20 @@ package body GWen_Windows is
       else
         Window.Button_Build_permanent.Text("Build now");
       end if;
+      if Window.proj.Ada_auto_build and Window.last_build_failed then
+        Window.Auto_build_lift_ico.Show;
+        Window.Auto_build_lift_msg.Show;
+      else
+        Window.Auto_build_lift_ico.Hide;
+        Window.Auto_build_lift_msg.Hide;
+      end if;
     else
       Window.Show_Ada_build.State(Unchecked);
       Window.Client_Area_Width(Window.Ada_file_icon.Left + Window.Ada_file_icon.Width + margin_x);
       Window.ada_build_button.Set_Bitmap(Window.more_build);
       Window.GNATMake_messages.Hide;
       Window.Ada_comp_label.Hide;
+      Window.Ada_blue_3.Hide;
     end if;
     Window.Details_frame.Width(Window.Client_Area_Width - margin_x_frame);
     --
@@ -313,7 +322,7 @@ package body GWen_Windows is
 
   procedure Process_unsaved_changes (Window : in out GWen_Window_Type; Success: out Boolean) is
   begin
-    Success:= False;
+    Success:= True;
     if Window.proj.modified then
       case Message_Box(
         Window,
@@ -328,15 +337,15 @@ package body GWen_Windows is
           Window.On_Save;
           Success:= Window.last_save_success;
           -- False e.g. if "Save as..." of a new file is cancelled
+          return;
         when No     =>
           null;
         when Cancel =>
-          return;
+          Success:= False;
         when others =>
           null;
       end case;
     end if;
-    Success:= True;
   end Process_unsaved_changes;
 
   procedure On_New (Window : in out GWen_Window_Type) is
@@ -622,16 +631,22 @@ package body GWen_Windows is
   begin
     if Alive(gw.build_process) then
       Stop(gw.build_process);
-      Add(gw.GNATMake_messages, "Stopped! " & Time_display);
+      gw.GNATMake_messages.Add("Stopped! ");
+      gw.GNATMake_messages.Add("Time : " & Time_display);
+      gw.last_build_failed:= True;
       gw.Bar_Ada.Position(0);
       gw.last_seen_running:= False;
     else
       Clear(gw.GNATMake_messages);
-      Add(gw.GNATMake_messages, "Starting build... " & Time_display);
+      gw.last_build_failed:= False;
       gw.Bar_Ada.Progress_Range(0, 100);
       the_main:= gw'Access;
+      declare
+        cmd: constant String:= Trim(S(gw.proj.Ada_command), Left);
       begin
-        Start(gw.build_process, S(gw.proj.Ada_command), ".", Output_build_line'Access);
+        gw.GNATMake_messages.Add("Starting build... [" & cmd & "] ");
+        gw.GNATMake_messages.Add("Time : " & Time_display);
+        Start(gw.build_process, cmd, ".", Output_build_line'Access);
         gw.last_seen_running:= True;
       exception
         when Cannot_create_pipe =>
@@ -746,6 +761,9 @@ package body GWen_Windows is
     Windows_Timers.Set_Timer(Window, timer_id, 1000);
     --
     Window.Visible;
+    --
+    Window.last_seen_running:= False;
+    Window.last_build_failed:= False;
   end On_Create;
 
   procedure On_Destroy (Window : in out GWen_Window_Type) is
@@ -819,6 +837,8 @@ package body GWen_Windows is
       delay 0.02;
     end Update_Ada_newer_flag_and_message;
 
+    exit_code: Integer;
+
   begin
     if message = Windows_Timers.WM_TIMER then
       -- Window.RC_to_GWindows_messages.Add("tick!");
@@ -841,6 +861,7 @@ package body GWen_Windows is
         Update_Ada_newer_flag_and_message;
         if Window.Ada_new and Window.proj.Ada_auto_build
           and Window.proj.show_ada_build
+          and not Window.last_build_failed
           and not Alive(Window.build_process)
           -- ^avoid stopping a running build!
         then
@@ -850,9 +871,29 @@ package body GWen_Windows is
         -- it is the occasion to empty the pipe
         if Alive(Window.build_process) then
           Check_progress(Window.build_process);
-        elsif Window.last_seen_running then
+        end if;
+        if Window.last_seen_running and not Alive(Window.build_process) then
+          -- Process just died
           Window.last_seen_running:= False;
-          Window.GNATMake_messages.Add("Completed. " & Time_display);
+          exit_code:= Last_exit_code(Window.build_process);
+          if exit_code = 0 then
+            Window.GNATMake_messages.Add(
+              "Completed (exit code:" & Integer'Image(exit_code) & "). "
+            );
+            Window.GNATMake_messages.Add("Time : " & Time_display);
+            Window.last_build_failed:= False;
+            -- But wait, sometimes the exit code is not sufficient!
+            Update_Ada_newer_flag_and_message;
+            if Window.Ada_new then -- Ada code still newer
+              Window.last_build_failed:= True;
+            end if;
+          else
+            Window.GNATMake_messages.Add(
+              "Build failed with exit code" & Integer'Image(exit_code) & ". "
+            );
+            Window.GNATMake_messages.Add("Time : " & Time_display);
+            Window.last_build_failed:= True;
+          end if;
           Window.Bar_Ada.Position(0);
           Update_status_display(Window);
         end if;
@@ -905,11 +946,35 @@ package body GWen_Windows is
     Success: Boolean;
     use Windows_pipes;
   begin
-    Process_unsaved_changes(Window, Success);
+    --
+    -- 1/ Check running processes
+    --
+    if Alive(Window.build_process) then
+      case Message_Box(
+        Window,
+        "Build process active",
+        "The Ada build process is still active." & NL &
+        "Stop it now ?",
+        Yes_No_Box,
+        Question_Icon
+      )
+      is
+        when Yes    =>
+          Stop(Window.build_process);
+          Success:= True;
+        when others =>
+          Success:= False;
+      end case;
+    else
+      Success:= True;
+    end if;
+    --
+    -- 2/ Check unsaved changes
+    --
     if Success then
-      Windows_Timers.Kill_Timer(Window, timer_id);
-      if Alive(Window.build_process) then
-        Stop(Window.build_process);
+      Process_unsaved_changes(Window, Success);
+      if Success then
+        Windows_Timers.Kill_Timer(Window, timer_id);
       end if;
     end if;
     Can_Close:= Success;

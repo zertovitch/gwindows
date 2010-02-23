@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2010/02/18   20:24:00
+-- Transcription time: 2010/02/23   21:07:25
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
@@ -34,7 +34,7 @@ package GWenerator_Resource_GUI is
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 72
+  -- Menu at line 64
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -52,7 +52,7 @@ package GWenerator_Resource_GUI is
     GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 94
+  -- Dialog at resource line 85
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -117,7 +117,7 @@ package GWenerator_Resource_GUI is
     RC_Compiler_list: Drop_Down_Combo_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 130
+  -- Dialog at resource line 120
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -165,9 +165,15 @@ package GWenerator_Resource_GUI is
     Show_Ada_build: Check_Box_Type;
     More_less_details: Bitmap_Type;
     More_less_build: Bitmap_Type;
+    Auto_build_lift_msg: Label_Type;
+    Auto_build_lift_ico: Icon_Type;
+    Static_0003: Icon_Type;
+    Static_0004: Icon_Type;
+    Ada_blue_3: Icon_Type;
+    Static_0005: Icon_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 160
+  -- Dialog at resource line 155
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -218,6 +224,8 @@ package GWenerator_Resource_GUI is
   More_Horizontal        : constant:=    123;
   Less_Vertical          : constant:=    124;
   More_Vertical          : constant:=    125;
+  Warning_icon           : constant:=    127;
+  Arrow_icon             : constant:=    129;
   Ada_file_icon          : constant:=   1000;
   Listen_RC              : constant:=   1000;
   URL                    : constant:=   1000;
@@ -236,7 +244,10 @@ package GWenerator_Resource_GUI is
   Ear_RC                 : constant:=   1006;
   Ear_Ada                : constant:=   1007;
   RC_Compiler_list       : constant:=   1007;
+  Auto_build_lift_msg    : constant:=   1008;
   More_less_build        : constant:=   1009;
+  Auto_build_lift_ico    : constant:=   1010;
+  Ada_blue_3             : constant:=   1011;
   About_box              : constant:=   1033;
   Not_Listen_32x32       : constant:=   1033;
   RC_file                : constant:=   1034;
@@ -281,6 +292,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 243
+  -- Last line of resource script file: 234
 
 end GWenerator_Resource_GUI;

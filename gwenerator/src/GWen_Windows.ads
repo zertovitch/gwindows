@@ -28,6 +28,7 @@ package GWen_Windows is
     ada_build_button   : GWindows.Buttons.Graphic.Bitmap_Button_type;
     build_process      : Windows_pipes.Piped_process;
     last_seen_running  : Boolean:= False;
+    last_build_failed  : Boolean:= False;
   end record;
 
   --------------------------------------------

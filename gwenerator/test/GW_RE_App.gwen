@@ -2,13 +2,15 @@ This is a GWenerator project file (a "GWen"). Visit GWenerator on the Web: http:
 RC_NAME GW_RE_App.rc
 RC_LISTEN TRUE
 RC_AUTO_TRANS TRUE
+RC_COMPILE WINDRES -- compilation of .rc script to a .rbj object file
 SEPARATE_ITEMS FALSE
 BASE_X           6
 BASE_Y          13
 BASE_DEFAULTS TRUE
 INITIALIZE_CONTROLS TRUE
-ADA_MAIN 
-ADA_LISTEN FALSE
-ADA_AUTO_BUILD FALSE
-ADA_COMMAND  gnatmake -i %1
-SHOW_DETAILS TRUE
+ADA_MAIN GW_RE_App.exe
+ADA_LISTEN TRUE
+ADA_AUTO_BUILD TRUE
+ADA_COMMAND   gnatmake.exe -i GW_RE_App.adb -I..\obj\gnatdebg -I..\windows_stuff 
+SHOW_DETAILS TRUE -- in the UI, show the bottom part with message boxes
+SHOW_ADA_BUILD TRUE -- in the UI, show the right part with ada build

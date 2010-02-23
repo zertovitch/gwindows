@@ -147,7 +147,7 @@ package RC_Help is
 
   Trackbar_Control_Ticks: Trackbar_Control_Ticks_Type;
 
-  last_alignment: GWindows.Static_Controls.Alignment_Type;
+  last_alignment: GWindows.Static_Controls.Alignment_Type:= GWindows.Static_Controls.Left;
   --
   -- List view options
   --

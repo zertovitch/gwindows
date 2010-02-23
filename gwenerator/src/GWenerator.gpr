@@ -2,7 +2,7 @@ project GWenerator is
 
    type Build_Mode_Type is
       ("Debug", "Small");
-   Build_Mode : Build_Mode_Type := external ("Build_Mode", "Small");
+   Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
    for Main use ("GWenerator.adb", "GWenerator_tb.ads", "RC2GW.adb");
    for Source_Dirs use (".\/**", "..\windows_stuff");
    for Exec_Dir use ".";

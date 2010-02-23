@@ -47,7 +47,7 @@ package body Windows_pipes is
    pragma Import (Stdcall, GetExitCodeProcess, "GetExitCodeProcess");
 
    STATUS_PENDING : constant DWORD    :=  16#103#;
-   STILL_ACTIVE : constant DWORD := STATUS_PENDING;
+   STILL_ACTIVE_W : constant DWORD := STATUS_PENDING;
 
    function PeekNamedPipe (hNamedPipe : HANDLE;
                            lpBuffer : LPVOID;
@@ -257,8 +257,7 @@ package body Windows_pipes is
   --------------------
 
   procedure Check_progress (p: in out Piped_process) is
-    IgnoreBool : BOOL;
-    pragma Warnings(Off, IgnoreBool);
+    func_exit_code_result : BOOL;
     DwExitCode : aliased DWORD;
     TempProcessObject: HANDLE;
     use System, Interfaces.C;
@@ -266,12 +265,18 @@ package body Windows_pipes is
     if not Alive(p) then
       return;
     end if;
-    --
-    IgnoreBool :=
+    -- http://msdn.microsoft.com/en-us/library/ms683189(VS.85).aspx
+    func_exit_code_result :=
       GetExitCodeProcess(p.ProcessObject, DwExitCode'Unchecked_Access);
     --
-    if DwExitCode /= STILL_ACTIVE then -- died
+    if func_exit_code_result = 0 then -- should never happen
       p.Processobject := System.Null_Address;
+      p.exit_code:= 666;
+      return;
+    end if;
+    if DwExitCode /= STILL_ACTIVE_W then -- died
+      p.Processobject := System.Null_Address;
+      p.exit_code:= Integer(DwExitCode);
       return;
     end if;
     --
@@ -297,5 +302,13 @@ package body Windows_pipes is
     end if;
     return True;
   end Alive;
+
+  function Last_exit_code(p: Piped_process) return Integer is
+  begin
+    if Alive(p) then
+      raise Still_active;
+    end if;
+    return p.exit_code;
+  end Last_exit_code;
 
 end Windows_pipes;

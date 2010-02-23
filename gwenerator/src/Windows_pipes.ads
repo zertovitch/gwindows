@@ -29,8 +29,9 @@ package Windows_pipes is
    type Output_Line is access procedure (l: String);
 
    Cannot_create_pipe: exception;
-   Cannot_start: exception;
-   Output_is_null: exception;
+   Cannot_start      : exception;
+   Output_is_null    : exception;
+   Still_active      : exception; -- raised if exit code is queried too early
 
    type Piped_process is private;
 
@@ -42,6 +43,7 @@ package Windows_pipes is
    procedure Stop(p: in out Piped_process);
    procedure Check_progress(p: in out Piped_process);
    function Alive(p: Piped_process) return Boolean;
+   function Last_exit_code(p: Piped_process) return Integer;
 
 private
 
@@ -123,9 +125,10 @@ private
      PI : aliased Process_Information;
      SA : aliased Security_Attributes;
      PipeRead, PipeWrite : aliased HANDLE;
-     ProcessObject : HANDLE := System.Null_Address;
+     ProcessObject : HANDLE := System.Null_Address; -- = null <=> inactive
      part_of_line : Ada.Strings.Unbounded.Unbounded_String;
      text_output : Output_Line;
+     exit_code   : Integer;
    end record;
 
 end Windows_pipes;
