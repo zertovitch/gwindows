@@ -1,6 +1,5 @@
 with Ada.Exceptions; use Ada.Exceptions;
-with GWindows;       use GWindows;
-with GWindows.Base;  use GWindows.Base;
+with GWindows.Base;
 
 package GWindows.Exceptions is
 
@@ -15,6 +14,9 @@ package GWindows.Exceptions is
       (Parent : in out GWindows.Base.Base_Window_Type'Class;
        E      :        Exception_Occurrence;
        Title  :        GString);
+
+
+   -- Show the exception, as above, and also terminate current program
 
    procedure Basic_Exception_Handler
       (Parent : in out GWindows.Base.Base_Window_Type'Class;

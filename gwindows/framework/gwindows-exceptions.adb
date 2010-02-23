@@ -5,9 +5,12 @@ with GWindows.Edit_Boxes;  use GWindows.Edit_Boxes;
 with GWindows.GStrings;    use GWindows.GStrings;
 with GWindows.Windows;     use GWindows.Windows;
 with Interfaces.C;         use Interfaces.C;
-with Win32.Winuser;        use Win32.Winuser;
 
 package body GWindows.Exceptions is
+
+   WS_POPUP      : constant := 16#80000000#;
+   WS_CAPTION    : constant := 16#c00000#;
+   DS_MODALFRAME : constant := 16#80#;
 
    procedure On_Pre_Create
       (Window    : in out GWindows.Base.Base_Window_Type'Class;
@@ -136,7 +139,8 @@ package body GWindows.Exceptions is
    procedure Basic_Exception_Handler
       (Parent : in out GWindows.Base.Base_Window_Type'Class;
        E      :        Exception_Occurrence) is
-      procedure ExitProcess (uExitCode : Integer := 0);
+      -- http://msdn.microsoft.com/en-us/library/ms682658(VS.85).aspx
+      procedure ExitProcess (uExitCode : Integer := 1);
       pragma Import (Stdcall, ExitProcess, "ExitProcess");
    begin
       Show_Exception (Parent, E, "Exception");
