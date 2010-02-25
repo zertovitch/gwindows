@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008..2009
+--  Copyright (c) Gautier de Montmollin 2008..2010
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -378,6 +378,8 @@ package body RC_Help is
     Ada_Put_Line(to_spec, "with GWindows.Constants;                use GWindows.Constants;");
     Ada_Put_Line(to_spec, "with GWindows.Windows;                  use GWindows.Windows;");
     Ada_Put_Line(to_spec, "with GWindows.Buttons;                  use GWindows.Buttons;");
+    Ada_Put_Line(to_spec, "with GWindows.Buttons.Graphic;          use GWindows.Buttons.Graphic;");
+    Ada_Put_Line(to_spec, "with GWindows.Buttons.Owner_drawn;      use GWindows.Buttons.Owner_drawn;");
     Ada_Put_Line(to_spec, "with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;");
     Ada_Put_Line(to_spec, "with GWindows.List_Boxes;               use GWindows.List_Boxes;");
     Ada_Put_Line(to_spec, "with GWindows.Combo_Boxes;              use GWindows.Combo_Boxes;");
@@ -728,6 +730,12 @@ package body RC_Help is
       Ada_very_normal_control("Check_Box_Type");
     elsif style_switch(radio) then
       Ada_very_normal_control("Radio_Button_Type");
+    elsif style_switch(bitmap) then
+      Ada_very_normal_control("Bitmap_Button_Type");
+    elsif style_switch(icon) then
+      Ada_very_normal_control("Icon_Button_Type");
+    elsif style_switch(ownerdraw) then
+      Ada_very_normal_control("Owner_Drawn_Button_Type");
     elsif style_switch(push) then
       Ada_Coord_conv(last_rect);
       -- Here it is a bit tricky, since, as expected,

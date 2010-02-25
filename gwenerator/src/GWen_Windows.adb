@@ -67,11 +67,11 @@ package body GWen_Windows is
     if Window.proj.show_details then
       Window.Show_Details.State(Checked);
       Window.Client_Area_Height(Window.Details_frame.Top + Window.Details_frame.Height + margin_y);
-      Window.details_button.Set_Bitmap(Window.less_details);
+      Window.More_less_details.Set_Bitmap(Window.less_details);
     else
       Window.Show_Details.State(Unchecked);
       Window.Client_Area_Height(Window.More_less_details.Top + Window.More_less_details.Height + 4);
-      Window.details_button.Set_Bitmap(Window.more_details);
+      Window.More_less_details.Set_Bitmap(Window.more_details);
     end if;
     --
     -- RC main part
@@ -92,7 +92,7 @@ package body GWen_Windows is
     if Window.proj.show_ada_build then
       Window.Show_Ada_build.State(Checked);
       Window.Client_Area_Width(Window.Exe_file_icon.Left + Window.Exe_file_icon.Width + margin_x);
-      Window.ada_build_button.Set_Bitmap(Window.less_build);
+      Window.More_less_build.Set_Bitmap(Window.less_build);
       Window.GNATMake_messages.Show;
       Window.Ada_comp_label.Show;
       Window.Ada_blue_3.Show;
@@ -121,7 +121,7 @@ package body GWen_Windows is
     else
       Window.Show_Ada_build.State(Unchecked);
       Window.Client_Area_Width(Window.Ada_file_icon.Left + Window.Ada_file_icon.Width + margin_x);
-      Window.ada_build_button.Set_Bitmap(Window.more_build);
+      Window.More_less_build.Set_Bitmap(Window.more_build);
       Window.GNATMake_messages.Hide;
       Window.Ada_comp_label.Hide;
       Window.Ada_blue_3.Hide;
@@ -735,27 +735,11 @@ package body GWen_Windows is
     Update_status_display(Window);
     Window.Center;
     On_Click_Handler( Window.Show_Details, On_Details_Check_Box_Click'Access );
-    Window.details_button.Create(
-      Window, "",
-      Left(Window.More_less_details),
-      Top(Window.More_less_details),
-      Width(Window.More_less_details),
-      Height(Window.More_less_details)
-    );
-    Window.details_button.Set_Bitmap(Window.more_details);
-    Window.More_less_details.Hide;
-    On_Click_Handler( Window.details_button, On_Details_Button_Click'Access );
+    Window.More_less_details.Set_Bitmap(Window.more_details);
+    On_Click_Handler( Window.More_less_details, On_Details_Button_Click'Access );
     On_Click_Handler( Window.Show_Ada_build, On_Build_Check_Box_Click'Access );
-    Window.ada_build_button.Create(
-      Window, "",
-      Left(Window.More_less_build),
-      Top(Window.More_less_build),
-      Width(Window.More_less_build),
-      Height(Window.More_less_build)
-    );
-    Window.ada_build_button.Set_Bitmap(Window.more_build);
-    Window.More_less_build.Hide;
-    On_Click_Handler( Window.ada_build_button, On_Build_Button_Click'Access );
+    Window.More_less_build.Set_Bitmap(Window.more_build);
+    On_Click_Handler( Window.More_less_build, On_Build_Button_Click'Access );
     On_Click_Handler( Window.Button_Translate_permanent, Do_Translate'Access );
     On_Click_Handler( Window.Button_Build_permanent, Do_Start_Stop_Build'Access );
     Windows_Timers.Set_Timer(Window, timer_id, 1000);

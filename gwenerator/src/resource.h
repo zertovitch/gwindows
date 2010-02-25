@@ -24,7 +24,6 @@
 #define Ada_cmd                                 1003
 #define Ada_comp_label                          1003
 #define Basx                                    1004
-#define More_less_details                       1004
 #define RC_gramm_ver                            1004
 #define Basy                                    1005
 #define Show_Ada_build                          1005
@@ -32,9 +31,9 @@
 #define Ear_Ada                                 1007
 #define RC_Compiler_list                        1007
 #define Auto_build_lift_msg                     1008
-#define More_less_build                         1009
 #define Auto_build_lift_ico                     1010
 #define Ada_blue_3                              1011
+#define More_less_details                       1012
 #define About_box                               1033
 #define Not_Listen_32x32                        1033
 #define RC_file                                 1034
@@ -67,3 +66,4 @@
 #define Button_Browse_Ada                       40012
 #define Button_Browse_RC                        40013
 #define Use_base_defs                           40015
+#define More_less_build                         40016

@@ -36,7 +36,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "25-Jun-2009";
+  Grammar_Version: constant String:= "24-Feb-2010";
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -77,11 +77,14 @@ package RC_Help is
   type Style_switch_type is
     ( auto,
       disabled,
-      radio,
+      radio,        -- buttons
       state3,
       checkbox,
       push,
       default,
+      bitmap,
+      icon,
+      ownerdraw,
       shell_font,
       sys_menu,
       auto_h_scroll,

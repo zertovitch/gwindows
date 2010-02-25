@@ -13,24 +13,31 @@
 //
 // Bitmap resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Less_Horizontal    BITMAP         "less_horizontal.bmp"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Less_Vertical      BITMAP         "less_vertical.bmp"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Listen_32x32       BITMAP         "listen_32x32.bmp"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 More_Horizontal    BITMAP         "more_horizontal.bmp"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 More_Vertical      BITMAP         "more_vertical.bmp"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Not_Listen_32x32   BITMAP         "not_listen_32x32.bmp"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Wheels_32x32       BITMAP         "wheels_32_32.bmp"
 
 
@@ -38,6 +45,7 @@ Wheels_32x32       BITMAP         "wheels_32_32.bmp"
 //
 // Menu resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Main_Menu MENU
 {
     POPUP "&File"
@@ -69,6 +77,7 @@ Main_Menu MENU
 //
 // Dialog resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 About_box DIALOGEX 0, 0, 218, 129
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP
 CAPTION "About GWenerator"
@@ -87,6 +96,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 GWen_properties DIALOGEX 0, 0, 314, 282
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "GWen options"
@@ -122,6 +132,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Main_dialog DIALOGEX 0, 0, 403, 246
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_VISIBLE | WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
 CAPTION "GWenerator - Link 1.gwen"
@@ -145,14 +156,14 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     ICON            Ada_file, Ada_file_icon, 197, 37, 21, 20, SS_ICON
     ICON            Exe_file, Exe_file_icon, 367, 37, 21, 20, SS_ICON
     AUTOCHECKBOX    "Ada build", Show_Ada_build, 180, 80, 45, 10
-    CONTROL         More_Vertical, More_less_details, WC_STATIC, SS_BITMAP, 4, 93, 10, 9
-    CONTROL         More_Horizontal, More_less_build, WC_STATIC, SS_BITMAP, 215, 93, 10, 9
     LTEXT           "Last build failed or was stopped. Auto build is temporarily disabled.", Auto_build_lift_msg, 275, 80, 120, 25, SS_LEFT
     ICON            Warning_icon, Auto_build_lift_ico, 250, 80, 11, 10, SS_ICON
     ICON            Arrow_icon, IDC_STATIC, 40, 40, 21, 20, SS_ICON
     ICON            Arrow_icon, IDC_STATIC, 170, 40, 21, 20, SS_ICON
     ICON            Arrow_icon, Ada_blue_3, 220, 40, 21, 20, SS_ICON
     ICON            Arrow_icon, IDC_STATIC, 345, 40, 21, 20, SS_ICON
+    PUSHBUTTON      "", More_less_details, 5, 93, 10, 9, BS_BITMAP
+    PUSHBUTTON      "", More_less_build, 215, 93, 10, 9, BS_BITMAP
 }
 
 
@@ -160,6 +171,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 //
 // Accelerator resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Main_Menu ACCELERATORS
 {
     "O",            Open_GWen, VIRTKEY, CONTROL
@@ -172,6 +184,7 @@ Main_Menu ACCELERATORS
 //
 // Cursor resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Finger_cursor      CURSOR         ".\\finger.cur"
 
 
@@ -179,27 +192,35 @@ Finger_cursor      CURSOR         ".\\finger.cur"
 //
 // Icon resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 AAA_Main_Icon      ICON           "gwenerator.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Tools              ICON           "tools.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Ada_file           ICON           "Ada_file.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Arrow_icon         ICON           ".\\arrow.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Exe_file           ICON           "Exe_file.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 gwenerator_icon    ICON           "gwenerator.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 RC_file            ICON           "RC_file.ico"
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Warning_icon       ICON           "warning.ico"
 
 
@@ -207,6 +228,7 @@ Warning_icon       ICON           "warning.ico"
 //
 // Version Information resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1 VERSIONINFO
     FILEVERSION     0,98,0,0
     PRODUCTVERSION  0,0,0,0
@@ -238,4 +260,5 @@ Warning_icon       ICON           "warning.ico"
 //
 // Manifest resources
 //
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1                  RT_MANIFEST    ".\\manifest.xml"

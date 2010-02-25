@@ -1,19 +1,21 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2010/02/23   21:07:25
+-- Transcription time: 2010/02/24   18:12:01
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This is automatically generated code. Do not edit this.
 -- Rework the resource instead, and re-run the translator.
--- RC Grammar version: 25-Jun-2009
+-- RC Grammar version: 24-Feb-2010
 ---------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
 with GWindows.Constants;                use GWindows.Constants;
 with GWindows.Windows;                  use GWindows.Windows;
 with GWindows.Buttons;                  use GWindows.Buttons;
+with GWindows.Buttons.Graphic;          use GWindows.Buttons.Graphic;
+with GWindows.Buttons.Owner_drawn;      use GWindows.Buttons.Owner_drawn;
 with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;
 with GWindows.List_Boxes;               use GWindows.List_Boxes;
 with GWindows.Combo_Boxes;              use GWindows.Combo_Boxes;
@@ -34,7 +36,7 @@ package GWenerator_Resource_GUI is
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 64
+  -- Menu at line 72
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -52,7 +54,7 @@ package GWenerator_Resource_GUI is
     GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 85
+  -- Dialog at resource line 94
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -117,7 +119,7 @@ package GWenerator_Resource_GUI is
     RC_Compiler_list: Drop_Down_Combo_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 120
+  -- Dialog at resource line 130
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -163,17 +165,17 @@ package GWenerator_Resource_GUI is
     Ada_file_icon: Icon_Type;
     Exe_file_icon: Icon_Type;
     Show_Ada_build: Check_Box_Type;
-    More_less_details: Bitmap_Type;
-    More_less_build: Bitmap_Type;
     Auto_build_lift_msg: Label_Type;
     Auto_build_lift_ico: Icon_Type;
     Static_0003: Icon_Type;
     Static_0004: Icon_Type;
     Ada_blue_3: Icon_Type;
     Static_0005: Icon_Type;
+    More_less_details: Bitmap_Button_Type;
+    More_less_build: Bitmap_Button_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 155
+  -- Dialog at resource line 166
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -237,7 +239,6 @@ package GWenerator_Resource_GUI is
   Ada_cmd                : constant:=   1003;
   Ada_comp_label         : constant:=   1003;
   Basx                   : constant:=   1004;
-  More_less_details      : constant:=   1004;
   RC_gramm_ver           : constant:=   1004;
   Basy                   : constant:=   1005;
   Show_Ada_build         : constant:=   1005;
@@ -245,9 +246,9 @@ package GWenerator_Resource_GUI is
   Ear_Ada                : constant:=   1007;
   RC_Compiler_list       : constant:=   1007;
   Auto_build_lift_msg    : constant:=   1008;
-  More_less_build        : constant:=   1009;
   Auto_build_lift_ico    : constant:=   1010;
   Ada_blue_3             : constant:=   1011;
+  More_less_details      : constant:=   1012;
   About_box              : constant:=   1033;
   Not_Listen_32x32       : constant:=   1033;
   RC_file                : constant:=   1034;
@@ -280,6 +281,7 @@ package GWenerator_Resource_GUI is
   Button_Browse_Ada      : constant:=  40012;
   Button_Browse_RC       : constant:=  40013;
   Use_base_defs          : constant:=  40015;
+  More_less_build        : constant:=  40016;
 
   -- ** Some helper utilities (spec).
 
@@ -292,6 +294,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 234
+  -- Last line of resource script file: 257
 
 end GWenerator_Resource_GUI;
