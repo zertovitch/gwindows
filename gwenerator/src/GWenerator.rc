@@ -205,7 +205,7 @@ Ada_file           ICON           "Ada_file.ico"
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-Arrow_icon         ICON           ".\\arrow.ico"
+Arrow_icon         ICON           "arrow.ico"
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
@@ -243,7 +243,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
         BLOCK "040901b5"
         {
             VALUE "Authors", "Gautier de Montmollin"
-            VALUE "FileDescription", "Resource script (.rc) to GWindows code builder"
+            VALUE "FileDescription", "GWenerator - Resource script (.rc) to GWindows Ada code translator"
             VALUE "FileVersion", "0.99"
             VALUE "LegalCopyright", "© 2008..2010 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWenerator"

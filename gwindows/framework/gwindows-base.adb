@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2010 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -2399,8 +2399,8 @@ package body GWindows.Base is
       use Interfaces.C;
 
       P     : Pointer_To_Base_Window_Class := Win_Ptr;
-      X     : Integer := GWindows.Utilities.Low_Word (lParam);
-      Y     : Integer := GWindows.Utilities.High_Word (lParam);
+      X     : constant Integer := GWindows.Utilities.Low_Word (lParam);
+      Y     : constant Integer := GWindows.Utilities.High_Word (lParam);
       Found : Boolean := False;
 
       --  Check if point (with desktop coordinates) is on a window

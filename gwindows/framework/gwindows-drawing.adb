@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2010 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -1279,7 +1279,7 @@ package body GWindows.Drawing is
                            Y_Origin : in     Integer;
                            Angle    : in     Float) is
       X_form  : XFORM;
-      Radians : Float := Angle * 2.0 * Ada.Numerics.Pi / 360.0;
+      Radians : constant Float := Angle * 2.0 * Ada.Numerics.Pi / 360.0;
    begin
       X_form.eM11 := Ada.Numerics.Elementary_Functions.Cos (Radians);
       X_form.eM12 := Ada.Numerics.Elementary_Functions.Sin (Radians);
