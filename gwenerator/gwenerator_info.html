@@ -1,0 +1,306 @@
+<head><title>GWenerator</title></head>
+<body>
+<h2>GWenerator</h2>
+Welcome to <b>GWenerator</b>, a code generator that translates a
+Resource Compiler script file (.rc or .dlg)
+into an Ada package for the <a href=#resources>GWindows</a> GUI framework.
+
+<p>
+The Copyright statement appears in the tool's human-written source files:
+RC2GW.adb, RC_Help.ads, RC_Help.adb, RC.l, RC.y.
+
+<hr>
+<ol>
+<li><a href=#intro>Presentation</a>
+<li><a href=#use>Quick user guide of <b>GWenerator.exe</b></a>
+<li><a href=#build>How to build the <b>tool</b></a>
+<li><a href=#demo>How to build the <b>demo / test</b> applications</a>
+<li><a href=#resources><b>Web</b> resources to this project</a>
+<li><a href=#todo><b>To-do</b> list</a>
+<li><a href=#changes>List of <b>changes</b></a>
+<li><a href=#thanks>Thanks</a>
+<li><a href=#contact>Contact</a>
+</ol>
+<hr>
+
+<ol>
+
+<li>
+ <a name=intro></a>
+ <b><font face="Arial, Tahoma">Presentation</font></b></a>
+ <p>
+<b>GWenerator</b> is a code generator that translates a
+Resource Compiler script file (.rc or .dlg)
+into an Ada package for the GWindows GUI system.<br>
+This tool comes in two "flavours":
+ <ul>
+  <li> A graphical, user-friendly version, <b>GWenerator.exe</b>
+  <li> A command-line version, <b>rc2gw.exe</b>
+ </ul>
+&nbsp;<br>
+GWenerator doesn't pretend to be the ultimate tool, but is rather
+there to fill the gap between visual GUI design
+and the wonderful GWindows programming framework.
+Fortunately, there is a way, though not perfect, nor complete,
+nor interactive, to
+separate the GUI design and the code generation.
+This way is the Resource! There are many Resource Editors
+for Windows, for more than 20 years (in 2009). It ranges from
+the antique DlgEdit to Visual Studio 2008 for those provided
+by Microsoft; in the free or open-source world, there are
+also some, e.g. ResEdit. What was missing, to benefit 
+from that source
+of GUI design, was a parser for the resource script files.
+It is precisely around such a parser that GWenerator
+is built.
+<p>
+GWenerator translates those resources that
+are meaningful to be translated, that is:
+ <ul>
+  <li> dialogs
+  <li> menus
+  </ul>&nbsp;<br>
+
+Typically, a resource like <b>XYZ.rc</b> will be translated into  
+<b>XYZ_Resource_GUI</b> Ada package (.ads and .adb), that can be "with"-ed
+from your application, for instance <b>XYZ.adb</b>. Note that the
+graphical interface of the tool is build through the tool itself!
+It means that looking at <b>GWenerator.rc</b> and the
+<b>GWenerator_Resource_GUI</b> gives you a good example of what are
+the inputs and outputs.
+
+<p>  
+The advantage of having a tool like GWenerator instead of
+using the resource items directly
+is that once these resources are as GWindows code,
+they can be transformed dynamically (e.g. status of dialog items, recent
+file list menus), and benefit from the high-level, safe, and easy to program
+framework of GWindows. Edit box contents can be set or read without
+needing interfacing C strings. You can program within the GWindows
+type system and don't need to mix GWindows and tricky, low-level Win32 as if you used
+the resources directly.
+It is perfectly possible to mix
+dialogs or menus from the GWenerator tool and other GWindows elements which are
+programmed in a "non-visual" way. 
+After all, the compiler cannot distinguish what is automatically generated and what is type by hand.
+
+<p> Eventually, parts of the generated code
+can be reused for more profound transformation or automation, 
+but in most cases the link [graphic edition &rarr; automatic code generation]
+would be better to be kept. For dynamically adding dialog items, better to use the inheritance
+from the generated object types.
+</p>
+ 
+<p> Here is a schema describing which tool generates which file when building an application:<br><br>
+<center>
+     <img border=1 width=600 height=439 alt="Schema" src="img/schema.png">
+</center>  
+ </p>
+ 
+ <p>
+<li>
+ <a name=use></a>
+ <b><font face="Arial, Tahoma">Quick user guide of <b>GWenerator.exe</b>
+ </font></b></a>
+ <p>
+ <ul>
+ <li><b>GWenerator projects ("GWen's")</b>.<br>
+     A project serves as to memorize the name of a resource script file (<tt>.rc</tt>)
+     as well as transcription options. Additionally, you can designate a main
+     Ada application (source or exe). All this information is stored into a project file
+     with the <tt>.gwen</tt> extension.
+ <li><b>Create a new project</b><br>
+     When you start the GWenerator or decide to begin a
+     new project with the "File/New" menu entry,
+     select "Options/Options for this GWen"
+     and set a resource script file name (red box below).
+     You can also choose the file with the "<b>Browse...</b>" button,
+     and may want to remove absolute path after that.
+     <img align=right width=515 height=473 alt="GWen options" src="img/gwen_options.png">
+     If you check the "<b>Listen for newer version</b>" option, GWenerator will monitor
+     new saves of the resource script and detect when the script is newer than
+     the generated Ada code.
+     If you check the "<b>Automatically translate when newer</b>" option, GWenerator
+     will also launch a new translation of the script into Ada code when it
+     detects that the script is newer.
+ <li><b>Start a translation</b><br>
+     When you press the "<b>Translate now</b>" button, a translation occurs and details
+     appear in the box below as long as you have checked the "<b>Show details</b>" option.
+     The translation also occurs automatically via the mechanism described above.<br>
+     <img align=middle width=367 height=469 alt="GWenerator running" src="img/trans.png">
+ <li><b>Ada background build</b><br>
+     If the "Automatically build when GUI newer" check box is selected in the "GWen"
+     project options, the tool will rebuild your application
+     automatically whenever the generated Ada sources are newer than the executable (or any object file)
+     you have specified. The same occurs on demand when you press the "Build now" button in the
+     right part of the user interface. The right part is shown when you check
+     then "<b>Show Ada build</b>" option (cf red oval here).
+     <img align=middle width=424 height=469 alt="Ada build running" src="img/build.png">
+ </ul> 
+</p>
+<li>
+ <a name=build></a>
+ <b><font face="Arial, Tahoma">How to build the tool itself (obtain the executables of rc2gw or GWenerator):
+ </font></b></a>
+ <p>
+You need an Ada compiler (Ada 95 or more) that compiles for Windows 32 bit. 
+Only GNAT has been tested with GWindows, but probably any will fit.
+ <p>
+If you have GNAT installed, go to the "<b>src</b>" sub-directory and 
+start "<b>make.cmd</b>". 
+Then, the <b>GWenerator.exe</b> is built, as well as the command-line version, <b>rc2gw.exe</b>.
+<p>
+For programming with the tool, you may want an installation 
+of the GWindows system, although a full one
+is included in the RC2GW package (built for ANSI, i.e.
+8 bit character applications).
+<p>
+If you want to <b>modify</b> the tool, you may need to modify the RC.l and RC.y files,
+especially if you want to expand the grammar for new resource styles, options
+or whatever (the possible combinations are huge!).
+In that case, you also need to build "ayacc.exe" (via: "gnatmake ayacc.adb")
+and "aflex.exe" (via: "gnatmake aflex.adb") which are
+in the "ayacc95" and "aflex95" sub-directories.
+These executable have to be put into a directory callable from the PATH
+or directly into the "src" sub-directory along with the RC.l and RC.y files.
+Then, "make -r" recreates some Ada sources from the RC.l and RC.y files
+and builds rc2gw.exe using these new sources.
+If you are confused by these generators of code generators,
+you can also submit .rc files (or fragments) to the project coordinators
+and hope they will do something good with it...
+</p>
+<li>
+ <a name=demo></a>
+ <b><font face="Arial, Tahoma">How to build the demo / test applications:
+ </font></b></a>
+ <p>
+Go to the "<b>test</b>" sub-directory and start "<b>make_all.cmd</b>".
+For each name mentioned in "make_all.cmd",
+you will get first a code generation for a resource (.rc) file.
+<br>
+For instance
+<b>GW_RE_App.rc</b> will give a <b>GW_RE_App_Resource_GUI</b> Ada package (.ads and .adb).
+Then an application will be built (GW_RE_App.exe). 
+<br>
+There are several resources tested:
+<ul>
+<li> <b>GW_RE_App.rc</b> is created with <a href=#resources>ResEdit</a>; there is a demo application with the same name
+<li> <b>VS_2008.rc</b> is created with Visual Studio 2008; there is a demo
+     application with the same name; we choose to translate it with the "one package per item" option
+<li> <b>TeXCAD.rc</b>, only to test parsing; no demo
+<li> <b>AdaGIDE.rc</b>, only to test parsing; no demo
+<li> <b>Web??.rc</b>, resources downloaded from Internet by "googling" keywords
+</ul>
+Additionally, you can look at <b>GWenerator.rc</b> in the tool's source directory (src),
+which is created with <a href=#resources>ResEdit</a>. The application there is functional.
+ </p>
+ <li> 
+ <a name=resources>
+  <b><font face="Arial, Tahoma">Web resources for RC2GW:</font></b>
+</a>
+ <p>
+  <ul>
+   <li> <b>GNAVI - GWindows</b> SourceForge project site: 
+      <a target=_blank href=http://sf.net/projects/gnavi/>here</a>.
+     &nbsp;
+     <a target=_blank href="http://sourceforge.net"><img
+     src="http://sflogo.sourceforge.net/sflogo.php?group_id=121876&amp;type=4" 
+	 width="125" height="37" border=1 ALIGN=absmiddle alt="SourceForge.net Logo" /></a>. 
+     <br>
+     You can download <b>GWenerator</b> from there.<br>&nbsp;<br>
+
+   <li> <b>GNAT</b>, a free Ada compiler with which GWenerator can be compiled:
+    <ul>
+     <li> GNAT Web site: <a target=_blank href=http://www.adacore.com/>here</a>.
+     <li> Free GNAT GPL version to be found <a target=_blank href=http://libre2.adacore.com/>here</a>, 
+          comes with the wonderful GNAT Development Studio (GPS).
+     <li> AdaGIDE: a free Development Environment for GNAT, as alternative to GNAT's GPS,
+          e.g. to separately build tools in parallel to a GPS session:
+       <a target=_blank href=http://adagide.martincarlisle.com/>here</a>.
+    </ul><br>&nbsp;<br>
+    <li> <b>ResEdit</b>, a very cool resource editor
+          <a target=_blank href=http://www.resedit.net/>here</a>.
+   </ul>
+ </p>
+<li> 
+ <a name=todo>
+  <b><font face="Arial, Tahoma">To-do list:</font></b>
+</a>
+ <p>
+  <ul>
+  <li> support all images, icons, videos embedded in dialogs
+  <li> parse the "Dialog Info" - DLGINIT block
+  </ul>
+ </p>
+<li> 
+ <a name=changes>
+  <b><font face="Arial, Tahoma">List of changes:</font></b>
+</a>
+ <p>
+  <ul>
+  <li><b>0.99</b>  (28-Feb-2010): 
+    <ul>
+      <li>Ada background build or on-demand build 
+      <li>A few improvements on supported controls   
+    </ul>
+  <li><b>0.98</b>  (10-Aug-2009): 
+    <ul>
+      <li>Generated code compatible with Ada 95 (there was some 2005-only lines)
+      <li>Enabled visual styles (Windows XP, Vista and later) in GWenerator's own interface by adding a 'manifest.xml' in the resource
+    </ul>
+  <li><b>0.975</b> (05-Jul-2009): 
+    <ul>
+      <li>new Initialize_controls option: initialize some controls with fake contents, for test/debug;
+          analoguous to Ada's Initialize_Scalars pragma
+      <li>better support for: progress bars, tree views, list views, static borders, some special window styles
+    </ul>
+  <li><b>0.97</b> (01-Jun-2009): 
+     <ul>
+       <li>a <b>test application</b> with all of a resource's dialogs is optionally generated
+       <li>width/height settings in dialogs now refer to client area (bug fix)
+       <li>CONTROLs of "Button" and "Edit" classes... understood as alternative 
+             to 'typed' button/editbox controls
+       <li>much more of resources files from MS Visual Studio, Borland Resource Workshop, ResEdit
+           and others are now translated
+     </ul>
+  <li><b>0.96</b> (15-May-2009): 
+     <ul>
+       <li>some rc grammar additions for matching ResEdit 1.4.4.19 supplemental tags
+       <li>VersionInfo strings appear in generated code
+     </ul>
+  <li><b>0.95</b> (28-Nov-2008): first working version of GWenerator.exe (the GUI flavour)
+  <li><b>0.9</b> (4-Sep-2008): following to-do's were done:
+  <ul><li>Coordinate conversion factors (base_unit_x,y) are set by default.
+      These values can be overriden: in RC2GW, option -x# and -y#.
+      <li>New option -s splits the generated code in 1 package per dialog or menu,
+      plus 1 for helper code and 1 for constants (ID's).
+      <li>Now parsing the first #include resource.h to get the right constants for symbols IDs.
+      <li>Constants for common IDs: IDOK, IDCANCEL, etc. (GWindows.Constants) are not redefined.
+      <li>Bitmaps controls as "CONTROL... WC_STATIC, SS_BITMAP" supported
+  </ul>
+  <li><b>0.8</b> (12-Aug-2008): first version released.
+  <li><b>0.0</b> (28-Jul-2008): begin, with an AYACC grammar for .RC files.
+  </ul>
+ </p>
+<li>
+  <a name=thanks>
+    <b><font face="Arial, Tahoma">Thanks to...</font></b>
+  </a>
+  <p>
+  <ul>
+  <li> Andr&eacute; van Splunter, for the nice name (GWenerator) and his knowledge of both Windows and GWindows!
+  </ul>  
+  </p>
+  
+<li>
+  <a name=contact>
+    <b><font face="Arial, Tahoma">Contact:</font></b>
+  </a>
+  <p>
+  <ul>
+   <li>Main author and GWenerator project coordinator: Gautier de Montmollin, Switzerland
+       e-mail: <a target=_blank href=http://sf.net/users/gdemont/>here</a>.
+  </ul>
+ </p>
+</ol>
+</body>
