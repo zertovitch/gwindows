@@ -25,22 +25,22 @@ package body ADO.Field_Interface is
    end Attach;
 
    function Get_Properties
-     (This      : Field_Type)
-     return Pointer_To_Properties
+      (This      : Field_Type)
+      return Pointer_To_Properties
    is
-       RetVal : aliased Pointer_To_Properties;
+      RetVal : aliased Pointer_To_Properties;
    begin
       GNATCOM.Errors.Error_Check
-        (Pointer (This).Vtbl.Get_Properties
-         (Pointer (This),
-          RetVal'Unchecked_Access));
+         (Pointer (This).Vtbl.Get_Properties
+          (Pointer (This),
+              RetVal'Unchecked_Access));
 
       return RetVal;
    end Get_Properties;
 
    function Get_ActualSize
-     (This : Field_Type)
-     return Interfaces.C.long
+      (This : Field_Type)
+      return Interfaces.C.long
    is
        RetVal : aliased Interfaces.C.long;
    begin
@@ -53,8 +53,8 @@ package body ADO.Field_Interface is
    end Get_ActualSize;
 
    function Get_Attributes
-     (This : Field_Type)
-     return Interfaces.C.long
+      (This : Field_Type)
+      return Interfaces.C.long
    is
        RetVal : aliased Interfaces.C.long;
    begin
@@ -67,8 +67,8 @@ package body ADO.Field_Interface is
    end Get_Attributes;
 
    function Get_DefinedSize
-     (This : Field_Type)
-     return Interfaces.C.long
+      (This : Field_Type)
+      return Interfaces.C.long
    is
        RetVal : aliased Interfaces.C.long;
    begin
@@ -81,8 +81,8 @@ package body ADO.Field_Interface is
    end Get_DefinedSize;
 
    function Get_Name
-     (This  : Field_Type)
-     return GNATCOM.Types.BSTR
+      (This  : Field_Type)
+      return GNATCOM.Types.BSTR
    is
        RetVal : aliased GNATCOM.Types.BSTR;
    begin
@@ -95,8 +95,8 @@ package body ADO.Field_Interface is
    end Get_Name;
 
    function Get_Type
-     (This      : Field_Type)
-     return DataTypeEnum
+      (This      : Field_Type)
+      return DataTypeEnum
    is
        RetVal : aliased DataTypeEnum;
    begin
@@ -109,8 +109,8 @@ package body ADO.Field_Interface is
    end Get_Type;
 
    function Get_Value
-     (This : Field_Type)
-     return GNATCOM.Types.VARIANT
+      (This : Field_Type)
+      return GNATCOM.Types.VARIANT
    is
        RetVal : aliased GNATCOM.Types.VARIANT;
    begin
@@ -134,15 +134,14 @@ package body ADO.Field_Interface is
           pvar));
 
       if Free then
-               GNATCOM.Iinterface.Free (pvar);
-
+         GNATCOM.Iinterface.Free (pvar);
       end if;
 
    end Put_Value;
 
    function Get_Precision
-     (This        : Field_Type)
-     return Interfaces.C.unsigned_char
+      (This        : Field_Type)
+      return Interfaces.C.unsigned_char
    is
        RetVal : aliased Interfaces.C.unsigned_char;
    begin
@@ -155,8 +154,8 @@ package body ADO.Field_Interface is
    end Get_Precision;
 
    function Get_NumericScale
-     (This           : Field_Type)
-     return Interfaces.C.unsigned_char
+      (This           : Field_Type)
+      return Interfaces.C.unsigned_char
    is
        RetVal : aliased Interfaces.C.unsigned_char;
    begin
@@ -180,16 +179,15 @@ package body ADO.Field_Interface is
           Data));
 
       if Free then
-               GNATCOM.Iinterface.Free (Data);
-
+         GNATCOM.Iinterface.Free (Data);
       end if;
 
    end AppendChunk;
 
    function GetChunk
-     (This   : Field_Type;
-      Length : Interfaces.C.long)
-     return GNATCOM.Types.VARIANT
+      (This   : Field_Type;
+       Length : Interfaces.C.long)
+      return GNATCOM.Types.VARIANT
    is
        RetVal : aliased GNATCOM.Types.VARIANT;
    begin
@@ -203,8 +201,8 @@ package body ADO.Field_Interface is
    end GetChunk;
 
    function Get_OriginalValue
-     (This : Field_Type)
-     return GNATCOM.Types.VARIANT
+      (This : Field_Type)
+      return GNATCOM.Types.VARIANT
    is
        RetVal : aliased GNATCOM.Types.VARIANT;
    begin
@@ -217,8 +215,8 @@ package body ADO.Field_Interface is
    end Get_OriginalValue;
 
    function Get_UnderlyingValue
-     (This : Field_Type)
-     return GNATCOM.Types.VARIANT
+      (This : Field_Type)
+      return GNATCOM.Types.VARIANT
    is
        RetVal : aliased GNATCOM.Types.VARIANT;
    begin
@@ -231,8 +229,8 @@ package body ADO.Field_Interface is
    end Get_UnderlyingValue;
 
    function Get_DataFormat
-     (This  : Field_Type)
-     return GNATCOM.Types.Pointer_To_IUnknown
+      (This  : Field_Type)
+      return GNATCOM.Types.Pointer_To_IUnknown
    is
        RetVal : aliased GNATCOM.Types.Pointer_To_IUnknown;
    begin

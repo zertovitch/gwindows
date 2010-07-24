@@ -6,8 +6,9 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
+--                            $Revision: 1.1 $
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2002 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -27,12 +28,12 @@
 -- however invalidate  any other reasons why  the executable file  might be --
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
--- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- More information about GWINDOWS and the most current public version can  --
+-- be located on the web at http://www.adapower.com/gwindows                --
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Strings.Unbounded;
+with Ada.Strings.Wide_Unbounded;
 with Interfaces.C;
 
 package GWindows is
@@ -41,18 +42,19 @@ package GWindows is
 
    type Character_Mode_Type is (ANSI, Unicode);
 
-   --  Bind to ANSI version of Win32
+   --  Bind to UNICODE version of Win32
 
-   Character_Mode : constant Character_Mode_Type := ANSI;
-   Character_Mode_Identifier : constant String := "A";
+   Character_Mode : constant Character_Mode_Type := Unicode;
+   Character_Mode_Identifier : constant String := "W";
 
-   subtype GCharacter is Character;
-   subtype GString is String;
-   subtype GString_Unbounded is Ada.Strings.Unbounded.Unbounded_String;
+   subtype GCharacter is Wide_Character;
+   subtype GString is Wide_String;
+   subtype GString_Unbounded is
+     Ada.Strings.Wide_Unbounded.Unbounded_Wide_String;
 
-   subtype GChar_C is Interfaces.C.char;
-   subtype GString_C is Interfaces.C.char_array;
-   GString_C_Null : constant GChar_C := Interfaces.C.nul;
+   subtype GChar_C is Interfaces.C.wchar_t;
+   subtype GString_C is Interfaces.C.wchar_array;
+   GString_C_Null : constant GChar_C := Interfaces.C.wide_nul;
 
    --  Universal
 

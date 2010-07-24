@@ -36,7 +36,6 @@
 --  Libraries, COM+/COM/DCOM Objects, ActiveX, Automation and OLE
 
 with Ada.Finalization;
-with Interfaces.C;
 
 package GNATCOM is
    pragma Linker_Options ("-lole32");
@@ -99,7 +98,7 @@ package GNATCOM is
    CONNECT_E_OVERRIDDEN      : constant := 16#80040203#;
 
 private
-   Initialize_Count : aliased Interfaces.C.long := 0;
+   Initialize_Count : aliased Integer := 0;
 
    type COM_Uninitialize_Type is
      new Ada.Finalization.Controlled with null record;

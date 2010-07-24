@@ -92,42 +92,42 @@ package body GWindows.Drawing is
                     "GetTextMetrics" & Character_Mode_Identifier);
 
    procedure SetTextColor
-     (hDC    : Interfaces.C.long;
+     (hDC    : GWindows.Types.Handle;
       clrref : GWindows.Colors.Color_Type);
    pragma Import (StdCall, SetTextColor, "SetTextColor");
 
    function GetTextColor
-     (hDC : Interfaces.C.long)
+     (hDC : GWindows.Types.Handle)
      return GWindows.Colors.Color_Type;
    pragma Import (StdCall, GetTextColor, "GetTextColor");
 
    procedure SetTextAlign
-     (hDC   : Interfaces.C.long;
+     (hDC   : GWindows.Types.Handle;
       fmode : Interfaces.C.unsigned);
    pragma Import (StdCall, SetTextAlign, "SetTextAlign");
 
    function GetTextAlign
-     (hDC : Interfaces.C.long)
+     (hDC : GWindows.Types.Handle)
      return Interfaces.C.unsigned;
    pragma Import (StdCall, GetTextAlign, "GetTextAlign");
 
    procedure SetBkColor
-     (hDC    : Interfaces.C.long;
+     (hDC    : GWindows.Types.Handle;
       clrref : GWindows.Colors.Color_Type);
    pragma Import (StdCall, SetBkColor, "SetBkColor");
 
    procedure SetBkMode
-     (hDC      : Interfaces.C.long;
+     (hDC      : GWindows.Types.Handle;
       fnBkMode : Interfaces.C.int);
    pragma Import (StdCall, SetBkMode, "SetBkMode");
 
    function GetBkColor
-     (hDC : Interfaces.C.long)
+     (hDC : GWindows.Types.Handle)
      return GWindows.Colors.Color_Type;
    pragma Import (StdCall, GetBkColor, "GetBkColor");
 
    function GetBkMode
-     (hDC : Interfaces.C.long)
+     (hDC : GWindows.Types.Handle)
      return Interfaces.C.int;
    pragma Import (StdCall, GetBkMode, "GetBkMode");
 
@@ -150,13 +150,13 @@ package body GWindows.Drawing is
    -- Finalize --
    --------------
 
-   procedure Finalize (Object : in out Information_Canvas_Type)
-   is
+   procedure Finalize (Object : in out Information_Canvas_Type) is
+      use type GWindows.Types.Handle;
       use type Interfaces.C.long;
    begin
-      if Object.HWND /= 0 then
+      if Object.HWND /= GWindows.Types.Null_Handle then
          Release (Object);
-      elsif Object.HDC /= 0 then
+      elsif Object.HDC /= GWindows.Types.Null_Handle then
          Load_State (Object, Object.Orig_State);
       end if;
 
@@ -170,7 +170,7 @@ package body GWindows.Drawing is
                        return Canvas_State_Type
    is
       function SaveDC
-        (hDC : Interfaces.C.long := Canvas.HDC)
+        (hDC : GWindows.Types.Handle := Canvas.HDC)
         return Canvas_State_Type;
       pragma Import (StdCall, SaveDC, "SaveDC");
    begin
@@ -185,7 +185,7 @@ package body GWindows.Drawing is
                          State  : in     Canvas_State_Type)
    is
       procedure RestoreDC
-        (hDC       : Interfaces.C.long := Canvas.HDC;
+        (hDC       : GWindows.Types.Handle := Canvas.HDC;
          SaveState : Canvas_State_Type := State);
       pragma Import (StdCall, RestoreDC, "RestoreDC");
    begin
@@ -253,7 +253,7 @@ package body GWindows.Drawing is
          lprc      : GWindows.Types.Rectangle_Type := Clip_Area;
          Text      : GString_C                     := C_Text;
          Size      : Integer                       := C_Text'Length - 1;
-         lpDX      : Integer                       := 0);
+         lpDX      : access Integer                := null);
       pragma Import (StdCall, ExtTextOut,
                        "ExtTextOut" & Character_Mode_Identifier);
    begin
@@ -474,7 +474,7 @@ package body GWindows.Drawing is
       Color_Const : in     Integer)
    is
       procedure FillRect
-        (hDC  : Interfaces.C.long             := Canvas.HDC;
+        (hDC  : GWindows.Types.Handle         := Canvas.HDC;
          rect : GWindows.Types.Rectangle_Type := Rectangle;
          hbr  : Interfaces.C.long             :=
            Interfaces.C.long (Color_Const + 1));
@@ -489,9 +489,9 @@ package body GWindows.Drawing is
       Brush     : in     GWindows.Drawing_Objects.Brush_Type)
    is
       procedure FillRect
-        (hDC  : Interfaces.C.long             := Canvas.HDC;
+        (hDC  : GWindows.Types.Handle         := Canvas.HDC;
          rect : GWindows.Types.Rectangle_Type := Rectangle;
-         hbr  : Interfaces.C.long             :=
+         hbr  : GWindows.Types.Handle         :=
            GWindows.Drawing_Objects.Handle (Brush));
       pragma Import (StdCall, FillRect, "FillRect");
    begin
@@ -508,9 +508,9 @@ package body GWindows.Drawing is
       Brush     : in     GWindows.Drawing_Objects.Brush_Type)
    is
       procedure FrameRect
-        (hDC  : Interfaces.C.long             := Canvas.HDC;
+        (hDC  : GWindows.Types.Handle         := Canvas.HDC;
          rect : GWindows.Types.Rectangle_Type := Rectangle;
-         hbr  : Interfaces.C.long             :=
+         hbr  : GWindows.Types.Handle         :=
            GWindows.Drawing_Objects.Handle (Brush));
       pragma Import (StdCall, FrameRect, "FrameRect");
    begin
@@ -526,7 +526,7 @@ package body GWindows.Drawing is
       Rectangle : in     GWindows.Types.Rectangle_Type)
    is
       procedure InvertRect
-        (hDC  : Interfaces.C.long             := Canvas.HDC;
+        (hDC  : GWindows.Types.Handle         := Canvas.HDC;
          rect : GWindows.Types.Rectangle_Type := Rectangle);
       pragma Import (StdCall, InvertRect, "InvertRect");
    begin
@@ -542,8 +542,8 @@ package body GWindows.Drawing is
       Object : in     GWindows.Drawing_Objects.Drawing_Object_Type'Class)
    is
       procedure SelectObject
-        (hDC     : Interfaces.C.long := Canvas.HDC;
-         HOBJECT : Interfaces.C.long :=
+        (hDC     : GWindows.Types.Handle := Canvas.HDC;
+         HOBJECT : GWindows.Types.Handle :=
            GWindows.Drawing_Objects.Handle (Object));
       pragma Import (StdCall, SelectObject, "SelectObject");
    begin
@@ -568,23 +568,23 @@ package body GWindows.Drawing is
    -- Release --
    -------------
 
-   procedure Release (Canvas : in out Information_Canvas_Type)
-   is
+   procedure Release (Canvas : in out Information_Canvas_Type) is
+      use type GWindows.Types.Handle;
       use type Interfaces.C.long;
 
       procedure ReleaseDC
-        (hWnd : Interfaces.C.long := Canvas.HWND;
-         hDC  : Interfaces.C.long := Canvas.HDC);
+        (hWnd : GWindows.Types.Handle := Canvas.HWND;
+         hDC  : GWindows.Types.Handle := Canvas.HDC);
       pragma Import (StdCall, ReleaseDC, "ReleaseDC");
    begin
-      if Canvas.HDC /= 0 then
+      if Canvas.HDC /= GWindows.Types.Null_Handle then
          Load_State (Canvas, Canvas.Orig_State);
       end if;
 
       ReleaseDC;
 
-      Canvas.HDC := 0;
-      Canvas.HWND := 0;
+      Canvas.HDC := GWindows.Types.Null_Handle;
+      Canvas.HWND := GWindows.Types.Null_Handle;
    end Release;
 
    ---------------
@@ -595,7 +595,7 @@ package body GWindows.Drawing is
                         Left, Top, Right, Bottom : Integer)
    is
       procedure GDI_Rectangle
-        (hDC     : Interfaces.C.long := Canvas.HDC;
+        (hDC     : GWindows.Types.Handle := Canvas.HDC;
          NLeft   : Integer           := Left;
          NTop    : Integer           := Top;
          NRight  : Integer           := Right;
@@ -615,7 +615,7 @@ package body GWindows.Drawing is
                                   Ellipse_Height : Integer)
    is
       procedure GDI_RoundRect
-        (hDC     : Interfaces.C.long := Canvas.HDC;
+        (hDC     : GWindows.Types.Handle := Canvas.HDC;
          NLeft   : Integer           := Left;
          NTop    : Integer           := Top;
          NRight  : Integer           := Right;
@@ -636,7 +636,7 @@ package body GWindows.Drawing is
                       XRadial1, YRadial1, XRadial2, YRadial2 : Integer)
    is
       procedure GDI_Chord
-        (hDC     : Interfaces.C.long := Canvas.HDC;
+        (hDC     : GWindows.Types.Handle := Canvas.HDC;
          NLeft   : Integer           := Left;
          NTop    : Integer           := Top;
          NRight  : Integer           := Right;
@@ -658,7 +658,7 @@ package body GWindows.Drawing is
                       Left, Top, Right, Bottom : Integer)
    is
       procedure GDI_Ellipse
-        (hDC     : Interfaces.C.long := Canvas.HDC;
+        (hDC     : GWindows.Types.Handle := Canvas.HDC;
          NLeft   : Integer           := Left;
          NTop    : Integer           := Top;
          NRight  : Integer           := Right;
@@ -677,7 +677,7 @@ package body GWindows.Drawing is
                     XRadial1, YRadial1, XRadial2, YRadial2 : Integer)
    is
       procedure GDI_Pie
-        (hDC     : Interfaces.C.long := Canvas.HDC;
+        (hDC     : GWindows.Types.Handle := Canvas.HDC;
          NLeft   : Integer           := Left;
          NTop    : Integer           := Top;
          NRight  : Integer           := Right;
@@ -699,7 +699,7 @@ package body GWindows.Drawing is
                       Vertices : in     GWindows.Types.Point_Array_Type)
    is
       procedure GDI_Polygon
-        (hDC    : Interfaces.C.long               := Canvas.HDC;
+        (hDC    : GWindows.Types.Handle           := Canvas.HDC;
          Points : GWindows.Types.Point_Array_Type := Vertices;
          Count  : Integer                         := Vertices'Length);
       pragma Import (StdCall, GDI_Polygon, "Polygon");
@@ -716,7 +716,7 @@ package body GWindows.Drawing is
                   return GWindows.Colors.Color_Type
    is
       function GetPixel
-        (hDC   : Interfaces.C.long := Canvas.HDC;
+        (hDC   : GWindows.Types.Handle := Canvas.HDC;
          nXPos : Integer           := X;
          nYPos : Integer           := Y)
         return GWindows.Colors.Color_Type;
@@ -730,7 +730,7 @@ package body GWindows.Drawing is
                     Color  : in     GWindows.Colors.Color_Type)
    is
       procedure SetPixelV
-        (hDC    : Interfaces.C.long          := Canvas.HDC;
+        (hDC    : GWindows.Types.Handle      := Canvas.HDC;
          nXPos  : Integer                    := X;
          nYPos  : Integer                    := Y;
          clrref : GWindows.Colors.Color_Type := Color);
@@ -747,14 +747,14 @@ package body GWindows.Drawing is
                    X1, Y1, X2, Y2 : in     Integer)
    is
       procedure MoveToEx
-        (hDC    : Interfaces.C.long := Canvas.HDC;
+        (hDC    : GWindows.Types.Handle := Canvas.HDC;
          X      : Integer := X1;
          Y      : Integer := Y1;
          Unused : Integer := 0);
       pragma Import (StdCall, MoveToEx, "MoveToEx");
 
       procedure LineTo
-        (hDC    : Interfaces.C.long := Canvas.HDC;
+        (hDC    : GWindows.Types.Handle := Canvas.HDC;
          X      : Integer := X2;
          Y      : Integer := Y2);
       pragma Import (StdCall, LineTo, "LineTo");
@@ -772,7 +772,7 @@ package body GWindows.Drawing is
                     XStartArc, YStartArc, XEndArc, YEndArc : Integer)
    is
       procedure GDI_Arc
-        (hDC     : Interfaces.C.long := Canvas.HDC;
+        (hDC     : GWindows.Types.Handle := Canvas.HDC;
          NLeft   : Integer           := Left;
          NTop    : Integer           := Top;
          NRight  : Integer           := Right;
@@ -794,7 +794,7 @@ package body GWindows.Drawing is
                       Points : in     GWindows.Types.Point_Array_Type)
    is
       procedure PolyBezier
-        (hDC     : Interfaces.C.long               := Canvas.HDC;
+        (hDC     : GWindows.Types.Handle           := Canvas.HDC;
          pPoints : GWindows.Types.Point_Array_Type := Points;
          Count   : Integer                         := Points'Length);
       pragma Import (StdCall, PolyBezier, "PolyBezier");
@@ -810,7 +810,7 @@ package body GWindows.Drawing is
                     Points : in     GWindows.Types.Point_Array_Type)
    is
       procedure Polyline
-        (hDC     : Interfaces.C.long               := Canvas.HDC;
+        (hDC     : GWindows.Types.Handle           := Canvas.HDC;
          pPoints : GWindows.Types.Point_Array_Type := Points;
          Count   : Integer                         := Points'Length);
       pragma Import (StdCall, Polyline, "Polyline");
@@ -829,7 +829,7 @@ package body GWindows.Drawing is
       AD_CLOCKWISE                    : constant := 2;
 
       procedure SetArcDirection
-        (hDC    : Interfaces.C.long := Canvas.HDC;
+        (hDC    : GWindows.Types.Handle := Canvas.HDC;
          Direct : Integer);
       pragma Import (StdCall, SetArcDirection, "SetArcDirection");
    begin
@@ -879,15 +879,15 @@ package body GWindows.Drawing is
    ------------------------------
 
    procedure Create_Compatible_Bitmap
-     (Canvas        : in out Canvas_Type;
+     (Canvas        : in     Canvas_Type;
       Bitmap        : in out GWindows.Drawing_Objects.Bitmap_Type;
       Width, Height : in     Natural)
    is
       function CreateCompatibleBitmap
-        (hDC     : Interfaces.C.long := Canvas.HDC;
+        (hDC     : GWindows.Types.Handle := Canvas.HDC;
          nWidth  : Integer           := Width;
          nHeight : Integer           := Height)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import
         (StdCall, CreateCompatibleBitmap, "CreateCompatibleBitmap");
 
@@ -922,10 +922,11 @@ package body GWindows.Drawing is
                          X, Y   : in     Integer)
    is
       procedure DrawIcon
-        (hDC   : Interfaces.C.long := Canvas.HDC;
-         iX    : Integer           := X;
-         iY    : Integer           := Y;
-         hIcon : Interfaces.C.long := GWindows.Drawing_Objects.Handle (Icon));
+        (hDC   : GWindows.Types.Handle := Canvas.HDC;
+         iX    : Integer               := X;
+         iY    : Integer               := Y;
+         hIcon : GWindows.Types.Handle :=
+                 GWindows.Drawing_Objects.Handle (Icon));
       pragma Import (StdCall, DrawIcon, "DrawIcon");
    begin
       DrawIcon;
@@ -945,12 +946,12 @@ package body GWindows.Drawing is
         : in     Interfaces.C.unsigned := SRCCOPY)
    is
       procedure GDI_BitBlt
-        (hdcDest : Interfaces.C.long := Handle (Destination_Canvas);
+        (hdcDest : GWindows.Types.Handle := Handle (Destination_Canvas);
          nXDest  : Integer := Destination_X;
          nYDest  : Integer := Destination_Y;
          nWidth  : Integer := Destination_Width;
          nHeight : Integer := Destination_Height;
-         hdcSrc  : Interfaces.C.long := Handle (Source_Canvas);
+         hdcSrc  : GWindows.Types.Handle := Handle (Source_Canvas);
          nXSrc   : Integer := Source_X;
          nYSrc   : Integer := Source_Y;
          dwRop   : Interfaces.C.unsigned := Raster_Operation_Code);
@@ -974,12 +975,12 @@ package body GWindows.Drawing is
         : in     Interfaces.C.unsigned := SRCCOPY)
    is
       procedure GDI_StretchBlt
-        (hdcDest    : Interfaces.C.long     := Handle (Destination_Canvas);
+        (hdcDest    : GWindows.Types.Handle := Handle (Destination_Canvas);
          nXDest     : Integer               := Destination_X;
          nYDest     : Integer               := Destination_Y;
          nWidth     : Integer               := Destination_Width;
          nHeight    : Integer               := Destination_Height;
-         hdcSrc     : Interfaces.C.long     := Handle (Source_Canvas);
+         hdcSrc     : GWindows.Types.Handle := Handle (Source_Canvas);
          nXSrc      : Integer               := Source_X;
          nYSrc      : Integer               := Source_Y;
          nWidthSrc  : Integer               := Source_Width;
@@ -998,8 +999,8 @@ package body GWindows.Drawing is
                                    Source_Canvas : in     Canvas_Type'Class)
    is
       function CreateCompatibleDC
-        (hDC : Interfaces.C.long := Source_Canvas.HDC)
-        return Interfaces.C.long;
+        (hDC : GWindows.Types.Handle := Source_Canvas.HDC)
+        return GWindows.Types.Handle;
       pragma Import (StdCall, CreateCompatibleDC, "CreateCompatibleDC");
    begin
       Handle (Canvas, CreateCompatibleDC);
@@ -1011,7 +1012,7 @@ package body GWindows.Drawing is
    --------------
 
    procedure Finalize (Canvas : in out Memory_Canvas_Type) is
-      procedure DeleteDC (hdc : Interfaces.C.long := Canvas.HDC);
+      procedure DeleteDC (hdc : GWindows.Types.Handle := Canvas.HDC);
       pragma Import (StdCall, DeleteDC, "DeleteDC");
    begin
       DeleteDC;
@@ -1025,7 +1026,7 @@ package body GWindows.Drawing is
                            Mode   : in Natural)
    is
       procedure SetROP2
-        (hDC : Interfaces.C.long := Canvas.HDC;
+        (hDC : GWindows.Types.Handle := Canvas.HDC;
          ROP : Natural := Mode);
       pragma Import (StdCall, SetROP2, "SetROP2");
    begin
@@ -1042,7 +1043,7 @@ package body GWindows.Drawing is
       Result : GWindows.Types.Rectangle_Type := (0, 0, 0, 0);
 
       procedure GetClipBox
-        (hDC  :     Interfaces.C.long             := Canvas.HDC;
+        (hDC  : GWindows.Types.Handle := Canvas.HDC;
          Rect : out GWindows.Types.Rectangle_Type);
       pragma Import (StdCall, GetClipBox, "GetClipBox");
    begin

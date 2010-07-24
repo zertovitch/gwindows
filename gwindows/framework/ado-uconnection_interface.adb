@@ -25,8 +25,8 @@ package body ADO.uConnection_Interface is
    end Attach;
 
    function Get_Properties
-     (This      : uConnection_Type)
-     return Pointer_To_Properties
+      (This      : uConnection_Type)
+      return Pointer_To_Properties
    is
        RetVal : aliased Pointer_To_Properties;
    begin
@@ -39,8 +39,8 @@ package body ADO.uConnection_Interface is
    end Get_Properties;
 
    function Get_ConnectionString
-     (This  : uConnection_Type)
-     return GNATCOM.Types.BSTR
+      (This  : uConnection_Type)
+      return GNATCOM.Types.BSTR
    is
        RetVal : aliased GNATCOM.Types.BSTR;
    begin
@@ -64,15 +64,14 @@ package body ADO.uConnection_Interface is
           pbstr));
 
       if Free then
-               GNATCOM.Iinterface.Free (pbstr);
-
+         GNATCOM.Iinterface.Free (pbstr);
       end if;
 
    end Put_ConnectionString;
 
    function Get_CommandTimeout
-     (This      : uConnection_Type)
-     return Interfaces.C.long
+      (This      : uConnection_Type)
+      return Interfaces.C.long
    is
        RetVal : aliased Interfaces.C.long;
    begin
@@ -97,8 +96,8 @@ package body ADO.uConnection_Interface is
    end Put_CommandTimeout;
 
    function Get_ConnectionTimeout
-     (This      : uConnection_Type)
-     return Interfaces.C.long
+      (This      : uConnection_Type)
+      return Interfaces.C.long
    is
        RetVal : aliased Interfaces.C.long;
    begin
@@ -166,8 +165,7 @@ package body ADO.uConnection_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.Iinterface.Free (CommandText);
-
+         GNATCOM.Iinterface.Free (CommandText);
       end if;
 
       return RetVal;
@@ -225,10 +223,9 @@ package body ADO.uConnection_Interface is
           Options));
 
       if Free then
-               GNATCOM.Iinterface.Free (ConnectionString);
-               GNATCOM.Iinterface.Free (UserID);
-               GNATCOM.Iinterface.Free (Password);
-
+         GNATCOM.Iinterface.Free (ConnectionString);
+         GNATCOM.Iinterface.Free (UserID);
+         GNATCOM.Iinterface.Free (Password);
       end if;
 
    end Open;
@@ -273,8 +270,7 @@ package body ADO.uConnection_Interface is
           pbstr));
 
       if Free then
-               GNATCOM.Iinterface.Free (pbstr);
-
+         GNATCOM.Iinterface.Free (pbstr);
       end if;
 
    end Put_DefaultDatabase;
@@ -409,8 +405,7 @@ package body ADO.uConnection_Interface is
           pbstr));
 
       if Free then
-               GNATCOM.Iinterface.Free (pbstr);
-
+         GNATCOM.Iinterface.Free (pbstr);
       end if;
 
    end Put_Provider;
@@ -448,9 +443,8 @@ package body ADO.uConnection_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.Iinterface.Free (Restrictions);
-               GNATCOM.Iinterface.Free (SchemaID);
-
+         GNATCOM.Iinterface.Free (Restrictions);
+         GNATCOM.Iinterface.Free (SchemaID);
       end if;
 
       return RetVal;

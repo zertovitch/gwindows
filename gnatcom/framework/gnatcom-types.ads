@@ -41,8 +41,6 @@ package GNATCOM.Types is
 
    package C renames Interfaces.C;
 
-   Size_Of_Pointers : constant := 32;
-
    type HRESULT is new Interfaces.C.unsigned_long;
    type Pointer_To_HRESULT is access all HRESULT;
    subtype SCODE is HRESULT;
@@ -143,7 +141,7 @@ package GNATCOM.Types is
    pragma Convention (C_Pass_By_Copy, DECIMAL);
    type Pointer_To_DECIMAL is access all DECIMAL;
 
-   Size_Of_BLOB : constant := 64;
+   Size_Of_BLOB : constant := 2 * Standard'Address_Size;
 
    type BLOB is
       record
@@ -170,7 +168,7 @@ package GNATCOM.Types is
          cbElements : Interfaces.C.unsigned_long;
          cLocks     : Interfaces.C.unsigned_long;
          pvData     : Pointer_To_Void;
-         rgsabound  : Pointer_To_SAFEARRAYBOUND;
+         rgsabound  : SAFEARRAYBOUND;
       end record;
    pragma Convention (C_Pass_By_Copy, SAFEARRAY);
    type Pointer_To_SAFEARRAY is access all SAFEARRAY;
@@ -426,12 +424,13 @@ package GNATCOM.Types is
                pintVal   : Pointer_To_int;
             when 41 =>
                puintVal  : Pointer_To_unsigned;
+               puintVal2 : Pointer_To_unsigned;
          end case;
       end record;
    pragma Convention (C_Pass_By_Copy, Variant_Union);
    pragma Unchecked_Union (Variant_Union);
 
-   Size_Of_VARIANT : constant := 128;
+   Size_Of_VARIANT : constant := 64 + 2 * Standard'Address_Size;
 
    type VARIANT is
       record

@@ -40,6 +40,7 @@ with Interfaces.C;
 with GWindows.GStrings;
 with GWindows.Errors;
 with GWindows.Internal;
+with GWindows.Types;
 
 package body GWindows.Registry is
 
@@ -66,7 +67,7 @@ package body GWindows.Registry is
       Server_Path : Interfaces.C.char_array (1 .. MAX_PATH);
 
       function GetModuleFileName
-        (hInst        : in     Interfaces.C.long :=
+        (hInst        : GWindows.Types.Handle :=
            GWindows.Internal.Current_hInstance;
          lpszFileName : access Interfaces.C.char := Server_Path (1)'Access;
          cbFileName   : in     Integer           := MAX_PATH)

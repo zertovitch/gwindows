@@ -15,8 +15,7 @@ package GWindows.Exceptions is
        E      :        Exception_Occurrence;
        Title  :        GString);
 
-
-   -- Show the exception, as above, and also terminate current program
+   --  Show the exception, as above, and also terminate current program
 
    procedure Basic_Exception_Handler
       (Parent : in out GWindows.Base.Base_Window_Type'Class;

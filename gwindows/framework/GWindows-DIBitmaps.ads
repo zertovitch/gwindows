@@ -3,6 +3,7 @@ with GWindows.Drawing;              use GWindows.Drawing;
 with GWindows.Drawing_Objects;      use GWindows.Drawing_Objects;
 with GWindows.Types;                use GWindows.Types;
 with Interfaces.C;
+with System;
 
 package GWindows.DIBitmaps is
 
@@ -25,9 +26,9 @@ package GWindows.DIBitmaps is
    BLACKNESS        : constant  := 16#00000042#;
    WHITENESS        : constant  := 16#00FF0062#;
 
-   type Color_Depth_Type is (Unknown, Mono, EGA, VGA, Triple);
+   type Color_Depth_Type is (Unknown, Mono, EGA, VGA, Triple, RGB);
    for Color_Depth_Type use
-      (Unknown => 0, Mono => 1, EGA => 4, VGA => 8, Triple => 24);
+      (Unknown => 0, Mono => 1, EGA => 4, VGA => 8, Triple => 24, RGB => 32);
    for Color_Depth_Type'Size use 16;
 
    type DIB_Compression_Type is (BI_RGB, BI_RLE8, BI_RLE4, BI_BITFIELDS);
@@ -104,12 +105,12 @@ package GWindows.DIBitmaps is
       end record;
    pragma Warnings (Off, Root_DIBitmap_Type);
 
-   for Root_DIBitmap_Type use
-      record
-         Height             at  4 range 0 .. 31;
-         Width              at  8 range 0 .. 31;
-         Bitmap_Info_Header at 12 range 0 .. 40 * 8 - 1;
-      end record;
+--     for Root_DIBitmap_Type use
+--        record
+--           Height             at  4 range 0 .. 31;
+--           Width              at  8 range 0 .. 31;
+--           Bitmap_Info_Header at 12 range 0 .. 40 * 8 - 1;
+--        end record;
 
    type Basic_DIBitmap_Type is abstract new Root_DIBitmap_Type with
      null record;
@@ -159,9 +160,9 @@ package GWindows.DIBitmaps is
          Color_Table : DIB_Color_List_Type (0 .. 255);
          Image       : VGA_Image_Type (1 .. Height, 1 .. Width);
       end record;
-   for VGA_DIBitmap_Type use record
-      Color_Table at 52 range 0 .. 256 * 32 - 1;
-   end record;
+--     for VGA_DIBitmap_Type use record
+--        Color_Table at 52 range 0 .. 256 * 32 - 1;
+--     end record;
    type PVGA_DIBitmap_Type is access VGA_DIBitmap_Type;
 
    type Extended_Image_Type is array (Integer range <>, Integer range <>)
@@ -182,6 +183,14 @@ package GWindows.DIBitmaps is
    --  Set the Windows components in Bitmap.
    --  This routine is intended to be used only by Claw.
    --
+   procedure Create_DIB_Section
+     (Canvas   : Canvas_Type;
+      Bminfo   : DIB_Info_Header_Type;
+      Bitmap   : in out GWindows.Drawing_Objects.Bitmap_Type;
+      Pxls     : out System.Address);
+   --  Create a bitmap that matches Canvas, but use data from Bminfo
+   --  to create is. This creates a DIB that can be selected into
+   --  a memory canvas
 
    procedure Get_Image_Ptr (Bitmap : in out VGA_DIBitmap_Type;
                             Result : out    Pixel_Byte_Ptr_Type);

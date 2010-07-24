@@ -391,7 +391,7 @@ package GWindows.Drawing is
    --  stretching or shrinking the image as needed)
 
    procedure Create_Compatible_Bitmap
-     (Canvas        : in out Canvas_Type;
+     (Canvas        : in     Canvas_Type;
       Bitmap        : in out GWindows.Drawing_Objects.Bitmap_Type;
       Width, Height : in     Natural);
    --  Creates a bitmap that matches this Canvas in a way that can be edited
@@ -607,8 +607,8 @@ private
    type Information_Canvas_Type is
      new Ada.Finalization.Limited_Controlled with
       record
-         HDC        : GWindows.Types.Handle := 0;
-         HWND       : GWindows.Types.Handle := 0;
+         HDC        : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         HWND       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          Orig_State : Canvas_State_Type     := 0;
       end record;
 

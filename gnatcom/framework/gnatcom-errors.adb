@@ -52,29 +52,15 @@ package body GNATCOM.Errors is
    --  Returns a TLS Index used to access OS allocated thread storage for
    --  last HRESULT
 
-   procedure TlsSetValue
-     (Index  : GNATCOM.Types.DWORD;
-      Result : GNATCOM.Types.HRESULT);
+   type Uns is mod 2 ** Standard'Address_Size;
+
+   procedure TlsSetValue (Index  : GNATCOM.Types.DWORD; Result : Uns);
    pragma Import (StdCall, TlsSetValue, "TlsSetValue");
    --  Sets the HRESULT in to the TLS storage
 
-   function TlsGetValue (Index : GNATCOM.Types.DWORD)
-                        return GNATCOM.Types.HRESULT;
+   function TlsGetValue (Index : GNATCOM.Types.DWORD) return Uns;
    pragma Import (StdCall, TlsGetValue, "TlsGetValue");
    --  Gets the HRESULT ouf of TLS storage
-
-   FORMAT_MESSAGE_FROM_SYSTEM : constant := 4096;
-   procedure FormatMessage
-     (dwFlags      : in     GNATCOM.Types.DWORD
-        := FORMAT_MESSAGE_FROM_SYSTEM;
-      lpSource     : in     Interfaces.C.unsigned_long := 0;
-      hr           : in     GNATCOM.Types.HRESULT;
-      dwLanguageId : in     Interfaces.C.unsigned_long := 0;
-      lpBuffer     : access Interfaces.C.char;
-      nSize        : in     Interfaces.C.unsigned_long;
-      Arguments    : in     Interfaces.C.unsigned_long := 0);
-   pragma Import (StdCall, FormatMessage, "FormatMessageA");
-   --  Returns a string representation of an HRESULT
 
    ---------------
    -- SUCCEEDED --
@@ -111,16 +97,27 @@ package body GNATCOM.Errors is
    -- To_String --
    ---------------
 
-   function To_String (Result : GNATCOM.Types.HRESULT)
-     return String
-   is
-      MAX_ERROR : constant := 1024;
-      Message   : Interfaces.C.char_array (0 .. MAX_ERROR);
+   function To_String (Result : GNATCOM.Types.HRESULT) return String is
+      FORMAT_MESSAGE_FROM_SYSTEM : constant := 4096;
+      function FormatMessage
+        (dwFlags      : in     GNATCOM.Types.DWORD
+         := FORMAT_MESSAGE_FROM_SYSTEM;
+         lpSource     : in     System.Address := System.Null_Address;
+         dwMessageId  : in     GNATCOM.Types.HRESULT;
+         dwLanguageId : in     Interfaces.C.unsigned_long := 0;
+         lpBuffer     : in     System.Address;
+         nSize        : in     Interfaces.C.unsigned_long;
+         Arguments    : in     System.Address := System.Null_Address)
+         return Integer;
+      pragma Import (StdCall, FormatMessage, "FormatMessageA");
+
+      Message : String (1 .. 1024);
+      Len     : Integer;
    begin
-         FormatMessage (hr       => Result,
-                        lpBuffer => Message (Message'First)'Access,
-                        nSize    => MAX_ERROR);
-         return Interfaces.C.To_Ada (Message);
+      Len := FormatMessage (dwMessageId => Result,
+                            lpBuffer    => Message'Address,
+                            nSize       => Message'Length);
+      return Message (1 .. Len);
    end To_String;
 
    -----------------
@@ -228,7 +225,7 @@ package body GNATCOM.Errors is
 
    function Get_Last_HRESULT return GNATCOM.Types.HRESULT is
    begin
-      return TlsGetValue (TLS_Index);
+      return GNATCOM.Types.HRESULT (TlsGetValue (TLS_Index));
    end Get_Last_HRESULT;
 
    ----------------------
@@ -237,7 +234,7 @@ package body GNATCOM.Errors is
 
    procedure Set_Last_HRESULT (Result : GNATCOM.Types.HRESULT) is
    begin
-      TlsSetValue (TLS_Index, Result);
+      TlsSetValue (TLS_Index, Uns (Result));
    end Set_Last_HRESULT;
 
    -----------

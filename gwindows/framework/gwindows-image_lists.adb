@@ -121,10 +121,10 @@ package body GWindows.Image_Lists is
       C_Text : Interfaces.C.char_array :=
         Interfaces.C.To_C (GWindows.GStrings.To_String (Name));
 
-      LR_CREATEDIBSECTION: constant:= 16#2000#;
+      LR_CREATEDIBSECTION : constant := 16#2000#;
 
       function ImageList_LoadImage
-        (HINST : in     Interfaces.C.long      :=
+        (HINST : GWindows.Types.Handle :=
            GWindows.Internal.Current_hInstance;
          Name  : access Interfaces.C.char      := C_Text (C_Text'First)'Access;
          CX    : in     Positive               := Width;
@@ -154,8 +154,7 @@ package body GWindows.Image_Lists is
       LR_LOADFROMFILE : constant := 16;
 
       function ImageList_LoadImage
-        (HINST : in     Interfaces.C.long     :=
-           GWindows.Internal.Current_hInstance;
+        (HINST : GWindows.Types.Handle := GWindows.Internal.Current_hInstance;
          Name  : access Interfaces.C.char     := C_Text (C_Text'First)'Access;
          CX    : in     Positive              := Width;
          Grow  : in     Natural               := Grow_By;
@@ -378,7 +377,7 @@ package body GWindows.Image_Lists is
       --       pragma Import
       --  (StdCall, ImageList_Duplicate, "ImageList_Duplicate");
    begin
-      Handle (Out_List, 0);
+      Handle (Out_List, GWindows.Types.Null_Handle);
       null;
    end Duplicate;
 

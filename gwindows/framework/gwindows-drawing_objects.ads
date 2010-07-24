@@ -336,7 +336,7 @@ private
    type Drawing_Object_Type is
      new Ada.Finalization.Limited_Controlled with
       record
-         HOBJECT          : GWindows.Types.Handle := 0;
+         HOBJECT         : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          Protected_Object : Boolean := False;
       end record;
 

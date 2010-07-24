@@ -76,6 +76,15 @@ package GWindows.Databases is
    --  Executes a Query
 
    -------------------------------------------------------------------------
+   --  Trans functions
+   -------------------------------------------------------------------------
+   procedure Begin_Trans (Database : in out Database_Type);
+
+   procedure Commit_Trans (Database : in out Database_Type);
+
+   procedure Rollback_Trans (Database : in out Database_Type);
+
+   -------------------------------------------------------------------------
    --  Recordset_Type
    -------------------------------------------------------------------------
 

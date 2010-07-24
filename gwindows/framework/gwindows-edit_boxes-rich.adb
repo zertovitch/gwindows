@@ -216,9 +216,9 @@ package body GWindows.Edit_Boxes.Rich is
       RichEditOle : aliased Pointer_To_IUnknown;
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
-         uMsg   : Interfaces.C.int  := EM_GETOLEINTERFACE;
-         wParam : Interfaces.C.long := 0;
+        (hwnd   : GWindows.Types.Handle      := Handle (Edit);
+         uMsg   : Interfaces.C.int           := EM_GETOLEINTERFACE;
+         wParam : GWindows.Types.Wparam      := 0;
          lParam : access Pointer_To_IUnknown := RichEditOle'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -237,11 +237,12 @@ package body GWindows.Edit_Boxes.Rich is
    ---------------
 
    procedure On_Create (Edit : in out Rich_Edit_Box_Type) is
+      use GWindows.Types;
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
-         uMsg   : Interfaces.C.int  := EM_SETEVENTMASK;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.unsigned :=
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
+         uMsg   : Interfaces.C.int      := EM_SETEVENTMASK;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam :=
            ENM_CHANGE or ENM_SCROLL or ENM_UPDATE);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);

@@ -44,15 +44,16 @@ package body GWindows.Windows is
    use type Interfaces.C.unsigned;
    use type Interfaces.C.int;
    use type Interfaces.C.long;
+   use GWindows.Types;
 
    -------------------------------------------------------------------------
    --  Local Specs
    -------------------------------------------------------------------------
 
    procedure Translate_Key
-     (wParam      : in     Interfaces.C.int;
-      Special_Key :    out Special_Key_Type;
-      Key         :    out GCharacter);
+     (wParam      : GWindows.Types.Wparam;
+      Special_Key : out Special_Key_Type;
+      Key         : out GCharacter);
    --  Translates Windows key information to GWindows key information
 
    -------------------------------------------------------------------------
@@ -117,13 +118,13 @@ package body GWindows.Windows is
    LR_DEFAULTSIZE             : constant := 64;
 
    function LoadImage
-     (hInst     : Interfaces.C.long := GWindows.Internal.Current_hInstance;
+     (hInst     : GWindows.Types.Handle := GWindows.Internal.Current_hInstance;
       lpszName  : GString_C;
       uType     : Interfaces.C.int := IMAGE_ICON;
       cxDesired : Interfaces.C.int := LR_DEFAULTSIZE;
       cyDesired : Interfaces.C.int := LR_DEFAULTSIZE;
       fuLoad    : Interfaces.C.int := 0)
-     return Interfaces.C.long;
+     return GWindows.Types.Handle;
    pragma Import (StdCall, LoadImage, "LoadImage" & Character_Mode_Identifier);
 
    TPM_RIGHTBUTTON            : constant := 2;
@@ -135,7 +136,7 @@ package body GWindows.Windows is
       x         : Integer;
       y         : Integer;
       nReserved : Interfaces.C.int;
-      hwnd      : Interfaces.C.long;
+      hwnd      : GWindows.Types.Handle;
       lprc      : Interfaces.C.long := 0);
    pragma Import (StdCall, TrackPopupMenu, "TrackPopupMenu");
 
@@ -150,23 +151,20 @@ package body GWindows.Windows is
          rgbReserved : PS_RESERVE_TYPE;
       end record;
 
-   procedure BeginPaint
-     (HWND    : in     Interfaces.C.long;
-      lpPaint :    out PAINTSTRUCT_Type);
+   procedure BeginPaint (HWND    : GWindows.Types.Handle;
+                         lpPaint : out PAINTSTRUCT_Type);
    pragma Import (StdCall, BeginPaint, "BeginPaint");
 
-   procedure EndPaint
-     (HWND    : in Interfaces.C.long;
-      lpPaint : in PAINTSTRUCT_Type);
+   procedure EndPaint (HWND    : GWindows.Types.Handle;
+                       lpPaint : in PAINTSTRUCT_Type);
    pragma Import (StdCall, EndPaint, "EndPaint");
 
    SW_MAXIMIZE        : constant := 3;
    SW_MINIMIZE        : constant := 6;
    SW_RESTORE         : constant := 9;
 
-   procedure ShowWindow
-     (hwnd     : Interfaces.C.long;
-      nCmdShow : Interfaces.C.long);
+   procedure ShowWindow (hwnd     : GWindows.Types.Handle;
+                         nCmdShow : Interfaces.C.long);
    pragma Import (StdCall, ShowWindow, "ShowWindow");
 
    WS_EX_CONTEXTHELP   : constant := 1024;
@@ -201,8 +199,8 @@ package body GWindows.Windows is
       y            : Integer;
       nWidth       : Integer;
       nHeight      : Integer;
-      hwndParent   : GWindows.Types.Handle   := 0;
-      hMenu        : GWindows.Types.Handle   := 0;
+      hwndParent   : GWindows.Types.Handle   := GWindows.Types.Null_Handle;
+      hMenu        : GWindows.Types.Handle   := GWindows.Types.Null_Handle;
       hInst        : GWindows.Types.Handle   :=
         GWindows.Internal.Current_hInstance;
       lpParam      : Interfaces.C.long       := 0)
@@ -235,7 +233,7 @@ package body GWindows.Windows is
       nWidth       : Integer                 := 0;
       nHeight      : Integer                 := 0;
       hwndParent   : GWindows.Types.Handle;
-      hMenu        : GWindows.Types.Handle   := 0;
+      hMenu        : GWindows.Types.Handle   := GWindows.Types.Null_Handle;
       hInst        : GWindows.Types.Handle   :=
         GWindows.Internal.Current_hInstance;
       lpParam      : CLIENTCREATESTRUCT      := Client_Create_Struct)
@@ -507,7 +505,7 @@ package body GWindows.Windows is
                                   nHeight      => Height,
                                   hwndParent   => PHWND,
                                   hMenu        =>
-                                    GWindows.Types.Handle (ID));
+                                    GWindows.Types.To_Handle (ID));
 
       GWindows.Base.Link
         (Window, Win_HWND, Is_Dynamic, GWindows.Base.Control_Link);
@@ -645,10 +643,10 @@ package body GWindows.Windows is
       C_Name : constant GString_C := GWindows.GStrings.To_GString_C (Name);
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int  := WM_SETICON;
-         wParam : Interfaces.C.long := ICON_BIG;
-         lParam : Interfaces.C.long := LoadImage (lpszName => C_Name));
+         wParam : GWindows.Types.Wparam := ICON_BIG;
+         lParam : GWindows.Types.Handle := LoadImage (lpszName => C_Name));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -663,9 +661,9 @@ package body GWindows.Windows is
                          Icon    : in Drawing_Objects.Icon_Type)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long     := Handle (Window);
-         uMsg   : Interfaces.C.int      := WM_SETICON;
-         wParam : Interfaces.C.long     := ICON_BIG;
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
+         uMsg   : Interfaces.C.int     := WM_SETICON;
+         wParam : GWindows.Types.Wparam := ICON_BIG;
          lParam : GWindows.Types.Handle :=
             GWindows.Drawing_Objects.Handle (Icon));
       pragma Import (StdCall, SendMessage,
@@ -684,10 +682,10 @@ package body GWindows.Windows is
       C_Name : constant GString_C := GWindows.GStrings.To_GString_C (Name);
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int  := WM_SETICON;
-         wParam : Interfaces.C.long := ICON_SMALL;
-         lParam : Interfaces.C.long := LoadImage (lpszName => C_Name));
+         wParam : GWindows.Types.Wparam := ICON_SMALL;
+         lParam : GWindows.Types.Handle := LoadImage (lpszName => C_Name));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -702,9 +700,9 @@ package body GWindows.Windows is
                          Icon    : in Drawing_Objects.Icon_Type)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long     := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int      := WM_SETICON;
-         wParam : Interfaces.C.long     := ICON_SMALL;
+         wParam : GWindows.Types.Wparam := ICON_SMALL;
          lParam : GWindows.Types.Handle :=
             GWindows.Drawing_Objects.Handle (Icon));
       pragma Import (StdCall, SendMessage,
@@ -732,7 +730,7 @@ package body GWindows.Windows is
       use GWindows.Menus;
 
       procedure SetMenu
-        (hwnd   : Interfaces.C.long := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          hmenu  : GWindows.Menus.Menu_Type := Menu);
       pragma Import (StdCall, SetMenu, "SetMenu");
 
@@ -740,7 +738,7 @@ package body GWindows.Windows is
    begin
       SetMenu;
 
-      if (Old_Menu /= 0) and Destroy_Old then
+      if (Old_Menu /= Null_Menu) and Destroy_Old then
          Destroy_Menu (Old_Menu);
       end if;
    end Menu;
@@ -749,7 +747,7 @@ package body GWindows.Windows is
                  return GWindows.Menus.Menu_Type
    is
       function GetMenu
-        (hwnd : Interfaces.C.long := Handle (Window))
+        (hwnd : GWindows.Types.Handle := Handle (Window))
         return GWindows.Menus.Menu_Type;
       pragma Import (StdCall, GetMenu, "GetMenu");
    begin
@@ -766,7 +764,7 @@ package body GWindows.Windows is
    is
       pragma Warnings (Off, Window);
       procedure SendMessage
-        (hwnd   : Interfaces.C.long        :=
+        (hwnd   : GWindows.Types.Handle        :=
            GWindows.Base.Handle (MDI_Client_Window (Window).all);
          uMsg   : Interfaces.C.int         := WM_MDISETMENU;
          wParam : GWindows.Menus.Menu_Type := Menu;
@@ -785,7 +783,7 @@ package body GWindows.Windows is
 
    procedure Menu_Refresh (Window : in Window_Type) is
       procedure DrawMenuBar
-        (hwnd   : Interfaces.C.long := Handle (Window));
+        (hwnd   : GWindows.Types.Handle := Handle (Window));
       pragma Import (StdCall, DrawMenuBar, "DrawMenuBar");
    begin
       DrawMenuBar;
@@ -1043,11 +1041,11 @@ package body GWindows.Windows is
       Child  : in GWindows.Base.Base_Window_Type'Class)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long :=
+        (hwnd   : GWindows.Types.Handle :=
            GWindows.Base.Handle (MDI_Client_Window (Window).all);
          uMsg   : Interfaces.C.int  := WM_MDIACTIVATE;
-         wParam : Interfaces.C.long := GWindows.Base.Handle (Child);
-         lParam : Integer           := 0);
+         wParam : GWindows.Types.Handle := GWindows.Base.Handle (Child);
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -1060,10 +1058,10 @@ package body GWindows.Windows is
       use type GWindows.Base.Base_Window_Access;
 
       function SendMessage
-        (hwnd   : Interfaces.C.long;
+        (hwnd   : GWindows.Types.Handle;
          uMsg   : Interfaces.C.int  := WM_MDIGETACTIVE;
-         wParam : Integer           := 0;
-         lParam : Integer           := 0)
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
       return GWindows.Types.Handle;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -1086,11 +1084,11 @@ package body GWindows.Windows is
 
    procedure MDI_Tile_Horizontal (Window : in Window_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long :=
+        (hwnd   : GWindows.Types.Handle :=
            GWindows.Base.Handle (MDI_Client_Window (Window).all);
-         uMsg   : Interfaces.C.int  := WM_MDITILE;
-         wParam : Integer           := MDITILE_HORIZONTAL;
-         lParam : Integer           := 0);
+         uMsg   : Interfaces.C.int      := WM_MDITILE;
+         wParam : GWindows.Types.Wparam := MDITILE_HORIZONTAL;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -1103,11 +1101,11 @@ package body GWindows.Windows is
 
    procedure MDI_Tile_Vertical (Window : in Window_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long :=
+        (hwnd   : GWindows.Types.Handle :=
            GWindows.Base.Handle (MDI_Client_Window (Window).all);
          uMsg   : Interfaces.C.int  := WM_MDITILE;
-         wParam : Integer           := MDITILE_VERTICAL;
-         lParam : Integer           := 0);
+         wParam : GWindows.Types.Wparam := MDITILE_VERTICAL;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -1120,11 +1118,11 @@ package body GWindows.Windows is
 
    procedure MDI_Cascade (Window : in Window_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long :=
+        (hwnd   : GWindows.Types.Handle :=
            GWindows.Base.Handle (MDI_Client_Window (Window).all);
          uMsg   : Interfaces.C.int  := WM_MDICASCADE;
-         wParam : Integer           := MDITILE_SKIPDISABLED;
-         lParam : Integer           := 0);
+         wParam : GWindows.Types.Wparam := MDITILE_SKIPDISABLED;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -1137,11 +1135,11 @@ package body GWindows.Windows is
 
    procedure MDI_Arrange_Icons (Window : in Window_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long :=
+        (hwnd   : GWindows.Types.Handle :=
            GWindows.Base.Handle (MDI_Client_Window (Window).all);
          uMsg   : Interfaces.C.int  := WM_MDIICONARRANGE;
-         wParam : Integer           := 0;
-         lParam : Integer           := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -1725,11 +1723,10 @@ package body GWindows.Windows is
    ----------------
 
    procedure On_Message (Window       : in out Window_Type;
-                         message      : in     Interfaces.C.unsigned;
-                         wParam       : in     Interfaces.C.int;
-                         lParam       : in     Interfaces.C.int;
-                         Return_Value : in out Interfaces.C.long)
-   is
+                         message      : Interfaces.C.unsigned;
+                         wParam       : GWindows.Types.Wparam;
+                         lParam       : GWindows.Types.Lparam;
+                         Return_Value : in out GWindows.Types.Lresult) is
       use GWindows.Base;
 
       WM_SETFOCUS                : constant := 7;
@@ -1827,26 +1824,27 @@ package body GWindows.Windows is
                File_Name : Char_Buf := (others => Interfaces.C.nul);
 
                function Number_Of_Files
-                 (HDROP : in Interfaces.C.int      := wParam;
-                  Index : in Interfaces.C.unsigned := 16#FFFFFFFF#;
-                  Lpsz  : in Integer               := 0;
-                  Cch   : in Integer               := 0)
+                 (HDROP : GWindows.Types.Handle := To_Handle (wParam);
+                  Index : Interfaces.C.unsigned := 16#FFFFFFFF#;
+                  Lpsz  : Integer               := 0;
+                  Cch   : Integer               := 0)
                return Natural;
                pragma Import (StdCall, Number_Of_Files, "DragQueryFile");
 
                File_Count : constant Natural := Number_Of_Files;
 
                procedure DragQueryFile
-                 (HDROP : in     Interfaces.C.int  := wParam;
-                  Index : in     Natural;
+                 (HDROP : GWindows.Types.Handle := To_Handle (wParam);
+                  Index : Natural;
                   Lpsz  : access Interfaces.C.char :=
                     File_Name (File_Name'First)'Access;
-                  Cch   : in     Integer           := 256);
+                  Cch   : Integer           := 256);
                pragma Import (StdCall, DragQueryFile, "DragQueryFile");
 
                procedure DragFinish
-                 (HDROP : in Interfaces.C.int := wParam);
+                 (HDROP : GWindows.Types.Handle := To_Handle (wParam));
                pragma Import (StdCall, DragFinish, "DragFinish");
+
             begin
                if File_Count > 0 then
                   declare
@@ -1873,10 +1871,10 @@ package body GWindows.Windows is
             Return_Value := 0;
 
          when WM_GETFONT =>
-            Return_Value := Window.Font_Handle;
+            Return_Value := To_Lresult (Window.Font_Handle);
 
          when WM_SETFONT =>
-            Window.Font_Handle := GWindows.Types.Handle (wParam);
+            Window.Font_Handle := GWindows.Types.To_Handle (wParam);
 
          when WM_GETDLGCODE =>
             if Window.All_Keys then
@@ -1898,7 +1896,7 @@ package body GWindows.Windows is
                          CV,
                          PS.rcPaint);
                GWindows.Drawing.Load_State (CV, ST);
-               GWindows.Drawing.Handle (CV, 0);
+               GWindows.Drawing.Handle (CV, Null_Handle);
                EndPaint (Handle (Window), PS);
 
                Return_Value := 0;
@@ -1908,7 +1906,7 @@ package body GWindows.Windows is
             declare
                CV : GWindows.Drawing.Canvas_Type;
             begin
-               GWindows.Drawing.Handle (CV, Interfaces.C.long (wParam));
+               GWindows.Drawing.Handle (CV, To_Handle (wParam));
 
                On_Erase_Background (Window_Type'Class (Window),
                                     CV,
@@ -1928,7 +1926,7 @@ package body GWindows.Windows is
                if
                  Low = HTCLIENT
                  and
-                 GWindows.Types.Handle (wParam) = Handle (Window)
+                 GWindows.Types.To_Handle (wParam) = Handle (Window)
                then
                   On_Change_Cursor (Window_Type'Class (Window));
 
@@ -2226,7 +2224,7 @@ package body GWindows.Windows is
             Return_Value := 0;
 
          when WM_MDIACTIVATE =>
-            if Interfaces.C.long (lParam) = Handle (Window) then
+            if To_Handle (lParam) = Handle (Window) then
                On_MDI_Activate (Window_Type'Class (Window));
             else
                On_MDI_Deactivate (Window_Type'Class (Window));
@@ -3551,14 +3549,11 @@ package body GWindows.Windows is
       C_Text  : GString_C := GWindows.GStrings.To_GString_C (Name);
 
       function CreateDialog
-        (hInst : in     Interfaces.C.long       :=
-           GWindows.Internal.Current_hInstance;
-         Name  : access GChar_C                 :=
-           C_Text (C_Text'First)'Access;
-         hPrnt : in     GWindows.Types.Handle   :=
-           GWindows.Base.Handle (Parent);
-         PROC  : in     Integer                 := 0;
-         PARM  : in     Integer                 := 0)
+        (hInst : GWindows.Types.Handle := GWindows.Internal.Current_hInstance;
+         Name  : access GChar_C        := C_Text (C_Text'First)'Access;
+         hPrnt : GWindows.Types.Handle := GWindows.Base.Handle (Parent);
+         PROC  : GWindows.Types.Lparam := 0;
+         PARM  : GWindows.Types.Lparam := 0)
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreateDialog,
                        "CreateDialogParam" & Character_Mode_Identifier);
@@ -3584,10 +3579,9 @@ package body GWindows.Windows is
    -------------------------------
 
    procedure Accept_File_Drag_And_Drop (Window : Window_Type;
-                                        State  : Boolean     := True)
-   is
+                                        State  : Boolean     := True) is
       procedure DragAcceptFiles
-        (hwnd  : Interfaces.C.long := Handle (Window);
+        (hwnd  : GWindows.Types.Handle := Handle (Window);
          fAcpt : Boolean := State);
       pragma Import (StdCall, DragAcceptFiles, "DragAcceptFiles");
    begin
@@ -3692,11 +3686,10 @@ package body GWindows.Windows is
    -- Translate_Key --
    -------------------
 
-   procedure Translate_Key
-     (wParam      : in     Interfaces.C.int;
-      Special_Key :    out Special_Key_Type;
-      Key         :    out GCharacter)
-   is
+   procedure Translate_Key (wParam      : GWindows.Types.Wparam;
+                            Special_Key : out Special_Key_Type;
+                            Key         : out GCharacter) is
+
       type State_Array is array (0 .. 255) of aliased Character;
       Keyboard_State : State_Array := (others => ' ');
 
@@ -3707,7 +3700,7 @@ package body GWindows.Windows is
       Key_Value : aliased Interfaces.C.unsigned := 0;
 
       procedure ToAscii
-        (uVirtKey    : in     Interfaces.C.int      := wParam;
+        (uVirtKey    : in     Interfaces.C.int := Interfaces.C.int (wParam);
          uScanCode   : in     Interfaces.C.int      := 0;
          lpbKeyState : in     State_Array           := Keyboard_State;
          lpChar      : access Interfaces.C.unsigned := Key_Value'Access;
@@ -3715,7 +3708,7 @@ package body GWindows.Windows is
       pragma Import (StdCall, ToAscii, "ToAscii");
 
       procedure ToUnicode
-        (uVirtKey    : in     Interfaces.C.int      := wParam;
+        (uVirtKey    : in     Interfaces.C.int :=  Interfaces.C.int (wParam);
          uScanCode   : in     Interfaces.C.int      := 0;
          lpbKeyState : in     State_Array           := Keyboard_State;
          lpChar      : access Interfaces.C.unsigned := Key_Value'Access;

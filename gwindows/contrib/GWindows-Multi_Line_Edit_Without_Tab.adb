@@ -12,10 +12,12 @@ package body GWindows.Multi_Line_Edit_Without_Tab is
 
    procedure On_Message
       (Window       : in out Multi_Line_Edit_Without_Tab_Type;
-       message      : in     Interfaces.C.unsigned;
-       wParam       : in     Interfaces.C.int;
-       lParam       : in     Interfaces.C.int;
-       Return_Value : in out Interfaces.C.long) is
+       message      : Interfaces.C.unsigned;
+       wParam       : GWindows.Types.Wparam;
+       lParam       : GWindows.Types.Lparam;
+       Return_Value : in out GWindows.Types.Lresult) is
+      use GWindows.Types;
+
       Parent_Window : Pointer_To_Base_Window_Class := Parent (Window);
       Next_Window : Pointer_To_Base_Window_Class;
    begin

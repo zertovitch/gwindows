@@ -6,8 +6,9 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
+--                            $Revision: 1.1 $
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2002 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -27,8 +28,8 @@
 -- however invalidate  any other reasons why  the executable file  might be --
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
--- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- More information about GWINDOWS and the most current public version can  --
+-- be located on the web at http://www.adapower.com/gwindows                --
 --                                                                          --
 ------------------------------------------------------------------------------
 

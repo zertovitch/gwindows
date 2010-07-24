@@ -143,11 +143,12 @@ package GWindows.Common_Controls is
    --  These should be overiden with caution and only with a full
    --  understanding of the internals of the entire GWindows framework
 
+   overriding
    procedure On_Notify
      (Window       : in out Common_Control_Type;
       Message      : in     GWindows.Base.Pointer_To_Notification;
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-      Return_Value : in out Interfaces.C.long);
+      Return_Value : in out GWindows.Types.Lresult);
    --  Handles Notify Messages
 
    -------------------------------------------------------------------------
@@ -397,11 +398,12 @@ package GWindows.Common_Controls is
    --  These should be overiden with caution and only with a full
    --  understanding of the internals of the entire GWindows framework
 
+   overriding
    procedure On_Notify
      (Window       : in out Date_Time_Picker_Type;
       Message      : in     GWindows.Base.Pointer_To_Notification;
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-      Return_Value : in out Interfaces.C.long);
+      Return_Value : in out GWindows.Types.Lresult);
    --  Handles Notify Messages
 
    procedure On_Create (Control : in out Date_Time_Picker_Type);
@@ -611,11 +613,12 @@ package GWindows.Common_Controls is
    --  These should be overiden with caution and only with a full
    --  understanding of the internals of the entire GWindows framework
 
+   overriding
    procedure On_Notify
      (Window       : in out Up_Down_Control_Type;
       Message      : in     GWindows.Base.Pointer_To_Notification;
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-      Return_Value : in out Interfaces.C.long);
+      Return_Value : in out GWindows.Types.Lresult);
    --  Handles Notify Messages
 
    procedure On_Create (Control : in out Up_Down_Control_Type);
@@ -853,11 +856,10 @@ package GWindows.Common_Controls is
    --  Tree_View_Control_Type - Properties
    -------------------------------------------------------------------------
 
-   type Tree_Item_Node is new Interfaces.C.unsigned;
+   type Tree_Item_Node is new GWindows.Types.Lparam;
 
    type Tree_View_List_Location_Type is (First, Last, Sort, As_A_Root);
 
-   --  AnSp: TVITEM was declared in body, need it for TVN_SELCHANGED
    type TVITEM is
       record
          Mask           : Interfaces.C.unsigned := 0;
@@ -869,7 +871,7 @@ package GWindows.Common_Controls is
          Image          : Integer := 0;
          Selected_Image : Integer := 0;
          Children       : Integer := 0;
-         LPARAM         : Interfaces.C.int := 0;
+         LPARAM         : GWindows.Types.Lparam := 0;
       end record;
 
    function Selected_Item (Control : in Tree_View_Control_Type)
@@ -882,7 +884,7 @@ package GWindows.Common_Controls is
                   Where   : in Tree_Item_Node)
                  return GString;
 
-   -- GdM: procedure Text (with node) added 2-Jun-2009, uses AnSp's Set_Item
+   --  GdM: procedure Text (with node) added 2-Jun-2009, uses AnSp's Set_Item
    procedure Text (Control : in out Tree_View_Control_Type;
                    Where   : in     Tree_Item_Node;
                    Text    : in     GString);
@@ -936,7 +938,7 @@ package GWindows.Common_Controls is
      (Control     : in out Tree_View_Control_Type;
       At_Node     : in     Tree_Item_Node);
 
-   -- GdM: Select_Item added 21-May-2009
+   --  GdM: Select_Item added 21-May-2009
 
    procedure Select_Item
      (Control     : in out Tree_View_Control_Type;
@@ -952,7 +954,7 @@ package GWindows.Common_Controls is
    --  Sets control as a tab stop and with a border
 
    --------------
-   -- AnSp: Next Tree_View_Control_Type functions are added --
+   --  AnSp: Next Tree_View_Control_Type functions are added --
    --------------
 
    function Get_Count
@@ -980,7 +982,7 @@ package GWindows.Common_Controls is
       Image       : in     Integer;
       ImageSelect : in     Integer);
 
-   -- GdM: Tree_View_Control_Type handlers added 2-Jun-2009
+   --  GdM: Tree_View_Control_Type handlers added 2-Jun-2009
    -------------------------------------------------------------------------
    --  Tree_View_Control_Type - Event Handlers
    -------------------------------------------------------------------------
@@ -1004,11 +1006,12 @@ package GWindows.Common_Controls is
    --  These should be overiden with caution and only with a full
    --  understanding of the internals of the entire GWindows framework
 
+   overriding
    procedure On_Notify
      (Window       : in out Tree_View_Control_Type;
       Message      : in     GWindows.Base.Pointer_To_Notification;
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-      Return_Value : in out Interfaces.C.long);
+      Return_Value : in out GWindows.Types.Lresult);
 
    -------------------------------------------------------------------------
    --  Tab_Control_Type
@@ -1102,11 +1105,12 @@ package GWindows.Common_Controls is
    procedure On_Create (Control : in out Tab_Control_Type);
    --  Sets control as a tab stop
 
+   overriding
    procedure On_Notify
      (Window       : in out Tab_Control_Type;
       Message      : in     GWindows.Base.Pointer_To_Notification;
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-      Return_Value : in out Interfaces.C.long);
+      Return_Value : in out GWindows.Types.Lresult);
    --  Handles Notify Messages
 
    -------------------------------------------------------------------------

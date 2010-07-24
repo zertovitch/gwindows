@@ -36,6 +36,7 @@
 
 with GWindows.Base;
 with GWindows.GStrings;
+with GWindows.Types;
 pragma Elaborate_All (GWindows.GStrings);
 
 private package GWindows.Internal is
@@ -56,7 +57,7 @@ private package GWindows.Internal is
    Main_Thread_ID : Interfaces.C.unsigned_long;
    --  Main application thread ID
 
-   Current_hInstance : Interfaces.C.long;
+   Current_hInstance : GWindows.Types.Handle;
    --  Current hInstance
 
    function Desktop_Width return Natural;

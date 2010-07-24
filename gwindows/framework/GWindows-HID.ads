@@ -96,6 +96,7 @@ package GWindows.HID is
    record
       --  What was needed from RAWINPUTHEADER structure
       Device     : GWindows.Types.Handle;
+      RType      : Natural;
       case DType is
          when RIM_TYPEMOUSE =>  --  RAWMOUSE structure
             MFlags       : Natural;

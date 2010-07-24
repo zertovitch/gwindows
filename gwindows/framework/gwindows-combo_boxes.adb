@@ -87,8 +87,8 @@ package body GWindows.Combo_Boxes is
    CB_SELECTSTRING            : constant := 333;
    CB_SETCURSEL               : constant := 334;
    CB_SHOWDROPDOWN            : constant := 335;
---     CB_GETITEMDATA             : constant := 336;
---     CB_SETITEMDATA             : constant := 337;
+   CB_GETITEMDATA             : constant := 336;
+   CB_SETITEMDATA             : constant := 337;
 --     CB_GETDROPPEDCONTROLRECT   : constant := 338;
 --     CB_SETITEMHEIGHT           : constant := 339;
 --     CB_GETITEMHEIGHT           : constant := 340;
@@ -293,10 +293,10 @@ package body GWindows.Combo_Boxes is
                          Size  : in Natural)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Combo);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
          uMsg   : Interfaces.C.int  := CB_LIMITTEXT;
-         wParam : Natural           := Size;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Size);
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -311,10 +311,10 @@ package body GWindows.Combo_Boxes is
                       State : in     Boolean := True)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Combo);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
          uMsg   : Interfaces.C.int  := CB_SHOWDROPDOWN;
-         wParam : Interfaces.C.long := 1;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 1;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -329,10 +329,10 @@ package body GWindows.Combo_Boxes is
                     return Boolean
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
+        (hwnd   : GWindows.Types.Handle   := Handle (Combo);
          uMsg   : Interfaces.C.int        := CB_GETDROPPEDSTATE;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0)
+         wParam : GWindows.Types.Wparam   := 0;
+         lParam : GWindows.Types.Lparam   := 0)
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -353,10 +353,10 @@ package body GWindows.Combo_Boxes is
       End_Pos   : aliased Natural := 0;
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Combo);
-         uMsg   : Interfaces.C.int  := CB_GETEDITSEL;
-         wParam : access Natural    := Start_Pos'Access;
-         lParam : access Natural    := End_Pos'Access);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_GETEDITSEL;
+         wParam : access Natural        := Start_Pos'Access;
+         lParam : access Natural        := End_Pos'Access);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -375,16 +375,16 @@ package body GWindows.Combo_Boxes is
       End_Position   : in     Integer)
    is
       procedure SendMessage
-        (hwnd    : Interfaces.C.long            := Handle (Combo);
-         uMsg    : Interfaces.C.int             := CB_SETEDITSEL;
-         wParam  : Integer                      := 0;
-         lParam  : Integer);
+        (hwnd    : GWindows.Types.Handle  := Handle (Combo);
+         uMsg    : Interfaces.C.int       := CB_SETEDITSEL;
+         wParam  : GWindows.Types.Wparam  := 0;
+         lParam  : GWindows.Types.Lparam);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
 
-      DWord : Integer;
+      DWord : GWindows.Types.Lparam;
    begin
-      DWord := (End_Position * 2**16) + Start_Position;
+      DWord := GWindows.Types.Lparam ((End_Position * 2**16) + Start_Position);
       SendMessage (lParam => DWord);
    end Set_Edit_Selection;
 
@@ -396,10 +396,10 @@ package body GWindows.Combo_Boxes is
                                        State  : in     Boolean := True)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Combo);
-         uMsg   : Interfaces.C.int  := CB_ADDSTRING;
-         wParam : Interfaces.C.long := 1;
-         lParam : Interfaces.C.long := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_ADDSTRING;
+         wParam : GWindows.Types.Wparam := 1;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -414,10 +414,10 @@ package body GWindows.Combo_Boxes is
                                      return Boolean
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
-         uMsg   : Interfaces.C.int        := CB_FINDSTRING;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_FINDSTRING;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -435,14 +435,32 @@ package body GWindows.Combo_Boxes is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
       procedure SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (Combo);
-         uMsg   : in     Interfaces.C.int  := CB_ADDSTRING;
-         wParam : in     Interfaces.C.long := 0;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_ADDSTRING;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
       SendMessage;
+   end Add;
+
+   function Add (Combo : in Combo_Box_Type;
+                 Value : in GString)
+                return Natural
+   is
+      C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
+
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_ADDSTRING;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access)
+        return Natural;
+      pragma Import (StdCall, SendMessage,
+                        "SendMessage" & Character_Mode_Identifier);
+   begin
+      return SendMessage + 1;
    end Add;
 
    procedure Add (Combo : in out Combo_Box_Type;
@@ -452,10 +470,10 @@ package body GWindows.Combo_Boxes is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
       function SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (Combo);
-         uMsg   : in     Interfaces.C.int  := CB_ADDSTRING;
-         wParam : in     Interfaces.C.long := 0;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access)
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_ADDSTRING;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access)
       return Interfaces.C.int;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -476,10 +494,10 @@ package body GWindows.Combo_Boxes is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
       procedure SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (Combo);
-         uMsg   : in     Interfaces.C.int  := CB_INSERTSTRING;
-         wParam : in     Natural           := After - 1;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_INSERTSTRING;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (After - 1);
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -494,10 +512,10 @@ package body GWindows.Combo_Boxes is
                      Item  : in     Positive)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
-         uMsg   : Interfaces.C.int        := CB_DELETESTRING;
-         wParam : Natural                 := Item - 1;
-         lParam : Natural                 := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_DELETESTRING;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -510,10 +528,10 @@ package body GWindows.Combo_Boxes is
 
    procedure Cut (Combo : in out Combo_Box_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Combo);
-         uMsg   : Interfaces.C.int  := WM_CUT;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := WM_CUT;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -526,10 +544,10 @@ package body GWindows.Combo_Boxes is
 
    procedure Copy (Combo : in out Combo_Box_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Combo);
-         uMsg   : Interfaces.C.int  := WM_COPY;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := WM_COPY;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -542,10 +560,10 @@ package body GWindows.Combo_Boxes is
 
    procedure Paste (Combo : in out Combo_Box_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Combo);
-         uMsg   : Interfaces.C.int  := WM_PASTE;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := WM_PASTE;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -559,10 +577,10 @@ package body GWindows.Combo_Boxes is
    procedure Clear (Combo : in out Combo_Box_Type)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
-         uMsg   : Interfaces.C.int        := CB_RESETCONTENT;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_RESETCONTENT;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -575,10 +593,10 @@ package body GWindows.Combo_Boxes is
 
    procedure Undo (Combo : in out Combo_Box_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Combo);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
          uMsg   : Interfaces.C.int  := WM_UNDO;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -589,18 +607,18 @@ package body GWindows.Combo_Boxes is
    -- Find --
    ----------
 
-   function Find (Combo      : in Combo_Box_Type;
-                  Value      : in GString;
-                  Start_Item : in Natural        := 0)
-                 return Natural
+   function Find (Combo      : Combo_Box_Type;
+                  Value      : GString;
+                  Start_Item : Natural := 0) return Natural
    is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
       function SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (Combo);
-         uMsg   : in     Interfaces.C.int  := CB_FINDSTRING;
-         wParam : in     Integer           := Start_Item - 1;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access)
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_FINDSTRING;
+         wParam : GWindows.Types.Wparam :=
+           GWindows.Types.Wparam (Start_Item - 1);
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access)
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -612,18 +630,19 @@ package body GWindows.Combo_Boxes is
    -- Find_Exact --
    ----------------
 
-   function Find_Exact (Combo      : in Combo_Box_Type;
-                        Value      : in GString;
-                        Start_Item : in Natural        := 0)
+   function Find_Exact (Combo      : Combo_Box_Type;
+                        Value      : GString;
+                        Start_Item : Natural        := 0)
                        return Natural
    is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
       function SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (Combo);
-         uMsg   : in     Interfaces.C.int  := CB_FINDSTRINGEXACT;
-         wParam : in     Integer           := Start_Item - 1;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access)
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_FINDSTRINGEXACT;
+         wParam : GWindows.Types.Wparam :=
+           GWindows.Types.Wparam (Start_Item - 1);
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access)
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -667,10 +686,10 @@ package body GWindows.Combo_Boxes is
                       Item : in Natural)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
-         uMsg   : Interfaces.C.int        := CB_SETCURSEL;
-         wParam : Integer                 := Item - 1;
-         lParam : Natural                 := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_SETCURSEL;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -679,10 +698,10 @@ package body GWindows.Combo_Boxes is
 
    function Current (Combo : in Combo_Box_Type) return Natural is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
-         uMsg   : Interfaces.C.int        := CB_GETCURSEL;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_GETCURSEL;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -690,16 +709,48 @@ package body GWindows.Combo_Boxes is
       return SendMessage + 1;
    end Current;
 
+   ---------------
+   -- Item_Data --
+   ---------------
+
+   procedure Item_Data (Combo : in Combo_Box_Type;
+                        Item : Natural;
+                        Data : GWindows.Types.Lparam) is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_SETITEMDATA;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := Data);
+      pragma Import (StdCall, SendMessage, "SendMessage"
+                       & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Item_Data;
+
+   function Item_Data (Combo : in Combo_Box_Type;
+                       Item : Natural) return GWindows.Types.Lparam is
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_GETITEMDATA;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := 0)
+        return GWindows.Types.Lparam;
+      pragma Import (StdCall, SendMessage, "SendMessage"
+                       & Character_Mode_Identifier);
+   begin
+      return SendMessage;
+   end Item_Data;
+
    -----------
    -- Count --
    -----------
 
    function Count (Combo : in Combo_Box_Type) return Natural is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
-         uMsg   : Interfaces.C.int        := CB_GETCOUNT;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_GETCOUNT;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -716,10 +767,10 @@ package body GWindows.Combo_Boxes is
                          return Natural
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
-         uMsg   : Interfaces.C.int        := CB_GETLBTEXTLEN;
-         wParam : Natural                 := Item - 1;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_GETLBTEXTLEN;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := 0)
         return Natural;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -742,9 +793,9 @@ package body GWindows.Combo_Boxes is
         (others => GString_C_Null);
 
       procedure SendMessage
-        (hwnd   :     Interfaces.C.long := Handle (Combo);
-         uMsg   :     Interfaces.C.int  := CB_GETLBTEXT;
-         wParam :     Natural           := Item - 1;
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_GETLBTEXT;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
          lParam : out GString_C);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -761,10 +812,10 @@ package body GWindows.Combo_Boxes is
                        Item  : in     Positive)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
+        (hwnd   : GWindows.Types.Handle   := Handle (Combo);
          uMsg   : Interfaces.C.int        := CB_SETTOPINDEX;
-         wParam : Integer                 := Item - 1;
-         lParam : Natural                 := 0);
+         wParam : GWindows.Types.Wparam   := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam   := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -774,10 +825,10 @@ package body GWindows.Combo_Boxes is
    function Top_Item (Combo  : in Combo_Box_Type) return Natural
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
-         uMsg   : Interfaces.C.int        := CB_GETTOPINDEX;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_GETTOPINDEX;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -795,10 +846,10 @@ package body GWindows.Combo_Boxes is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Text);
 
       procedure SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (Window);
-         uMsg   : in     Interfaces.C.int  := CB_SELECTSTRING;
-         wParam : in     Interfaces.C.long := 0;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
+         uMsg   : Interfaces.C.int      := CB_SELECTSTRING;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin

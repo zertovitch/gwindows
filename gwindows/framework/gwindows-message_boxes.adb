@@ -41,6 +41,7 @@ with GWindows.Edit_Boxes;
 with GWindows.Buttons;
 with GWindows.Static_Controls;
 with GWindows.Application;
+with GWindows.Types;
 
 package body GWindows.Message_Boxes is
 
@@ -80,8 +81,7 @@ package body GWindows.Message_Boxes is
       use type Interfaces.C.unsigned;
 
       function MessageBox
-        (hwnd    : in     Interfaces.C.long       :=
-           GWindows.Base.Handle (Window);
+        (hwnd    : GWindows.Types.Handle := GWindows.Base.Handle (Window);
          Message : access GChar_C;
          Title   : access GChar_C;
          uType   : in     Interfaces.C.unsigned   := 0)

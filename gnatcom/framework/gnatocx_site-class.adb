@@ -517,7 +517,7 @@ package body GNATOCX_Site.Class is
       Frame_Interface : aliased GNATCOM.Types.Pointer_To_Void;
 
       procedure GetClientRect
-        (hwnd            : in  Interfaces.C.long := Object.HWND;
+        (hwnd            : System.Address := Object.HWND;
          Rect            : out GNATOCX_Site.RECT);
       pragma Import (StdCall, GetClientRect, "GetClientRect");
 

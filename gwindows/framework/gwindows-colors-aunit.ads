@@ -31,7 +31,6 @@
 -- be located on the web at http://www.gnavi.org/gwindows                   --
 --                                                                          --
 ------------------------------------------------------------------------------
-
 package GWindows.Colors.AUnit is
 
    procedure Check (Label     : in String;

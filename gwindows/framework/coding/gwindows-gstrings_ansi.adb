@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2010 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -216,7 +216,7 @@ package body GWindows.GStrings is
 
    function Resource_ID (ID : Integer) return GString
    is
-      X : GString := Image (ID);
+      X : constant GString := Image (ID);
    begin
       if X'Length > 1 then
          return "#" & X (X'First + 1 .. X'Last);

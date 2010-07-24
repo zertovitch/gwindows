@@ -50,6 +50,25 @@ use GNATCOM.Dispinterface;
 with GNATCOM.VARIANT;
 
 package body GWindows.Databases is
+   ---------------------
+   -- Trans functions --
+   ---------------------
+
+   procedure Begin_Trans (Database : in out Database_Type) is
+      n : Integer;
+   begin
+      n := Integer (BeginTrans (Database.Connection));
+   end Begin_Trans;
+
+   procedure Commit_Trans (Database : in out Database_Type) is
+   begin
+      CommitTrans (Database.Connection);
+   end Commit_Trans;
+
+   procedure Rollback_Trans (Database : in out Database_Type) is
+   begin
+      RollbackTrans (Database.Connection);
+   end Rollback_Trans;
 
    -------------
    -- Add_New --

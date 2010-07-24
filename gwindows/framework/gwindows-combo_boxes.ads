@@ -68,19 +68,19 @@ package GWindows.Combo_Boxes is
    -------------------------------------------------------------------------
 
    procedure Alternate_User_Interface (Combo : in out Combo_Box_Type;
-                                       State : in     Boolean := True);
-   function Alternate_User_Interface (Combo : in Combo_Box_Type)
+                                       State : Boolean := True);
+   function Alternate_User_Interface (Combo : Combo_Box_Type)
                                      return Boolean;
    --  Use of alternative user interface for combo boxes (ie. use
    --  down arrow instead of F4 to drop lists)
 
    procedure Text_Limit (Combo : in out Combo_Box_Type;
-                         Size  : in Natural);
+                         Size  : Natural);
    --  Limit amount of text that can be entered
 
    procedure Dropped (Combo : in out Combo_Box_Type;
-                      State : in     Boolean := True);
-   function Dropped (Combo : in Combo_Box_Type)
+                      State : Boolean := True);
+   function Dropped (Combo : Combo_Box_Type)
                     return Boolean;
    --  Drop state of list box
 
@@ -90,31 +90,38 @@ package GWindows.Combo_Boxes is
       End_Position   :    out Natural);
    procedure Set_Edit_Selection
      (Combo          : in out Combo_Box_Type;
-      Start_Position : in     Integer;
-      End_Position   : in     Integer);
+      Start_Position : Integer;
+      End_Position   : Integer);
    --  Selection in edit box
 
-   procedure Current (Combo : in Combo_Box_Type;
-                      Item  : in Natural);
-   function Current (Combo : in Combo_Box_Type) return Natural;
+   procedure Current (Combo : Combo_Box_Type;
+                      Item  : Natural);
+   function Current (Combo : Combo_Box_Type) return Natural;
    --  Index of currently selected item; index is 1 based (even though
    --  Win32 indexes are 0 based).
 
-   function Count (Combo : in Combo_Box_Type) return Natural;
+   procedure Item_Data (Combo : Combo_Box_Type;
+                        Item : Natural;
+                        Data : GWindows.Types.Lparam);
+   function Item_Data (Combo : Combo_Box_Type;
+                       Item : Natural) return GWindows.Types.Lparam;
+   --  To use user data with list box items
+
+   function Count (Combo : Combo_Box_Type) return Natural;
    --  Returns number of items in combo box
 
-   function Value_Length (Combo : in Combo_Box_Type;
-                          Item  : in Positive)
+   function Value_Length (Combo : Combo_Box_Type;
+                          Item  : Positive)
                          return Natural;
    --  Returns the length of string value at Item
 
-   function Value (Combo : in Combo_Box_Type;
-                   Item  : in Positive)
+   function Value (Combo : Combo_Box_Type;
+                   Item  : Positive)
                   return GString;
    --  Returns the string value at Item
 
    procedure Top_Item (Combo : in out Combo_Box_Type;
-                       Item  : in     Positive);
+                       Item  : Positive);
    function Top_Item (Combo  : in Combo_Box_Type) return Natural;
    --  Top item displayed in combo box
 
@@ -123,19 +130,22 @@ package GWindows.Combo_Boxes is
    -------------------------------------------------------------------------
 
    procedure Add (Combo : in out Combo_Box_Type;
-                  Value : in     GString);
+                  Value : GString);
+   function Add (Combo : in Combo_Box_Type;
+                 Value : in GString)
+                return Natural;
    procedure Add (Combo : in out Combo_Box_Type;
-                  After : in     Positive;
-                  Value : in     GString);
+                  After : Positive;
+                  Value : GString);
    --  Add a value to the combo box
 
    procedure Add (Combo : in out Combo_Box_Type;
-                  Value : in     GString;
+                  Value : GString;
                   Index :    out Natural);
    --  Add a value to the combo box, return the (1 based) index to it.
 
    procedure Delete (Combo : in out Combo_Box_Type;
-                     Item  : in     Positive);
+                     Item  : Positive);
    --  Delete value at item
 
    procedure Cut (Combo : in out Combo_Box_Type);
@@ -153,9 +163,9 @@ package GWindows.Combo_Boxes is
    procedure Clear (Combo : in out Combo_Box_Type);
    --  Clear combo box
 
-   function Find (Combo      : in Combo_Box_Type;
-                  Value      : in GString;
-                  Start_Item : in Natural        := 0)
+   function Find (Combo      : Combo_Box_Type;
+                  Value      : GString;
+                  Start_Item : Natural        := 0)
                  return Natural;
    --  Find a string in the combo box, return its 1 based index. The
    --  search starts with the item after Start_Item. If Start_Item = 0

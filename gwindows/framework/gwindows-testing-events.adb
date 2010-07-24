@@ -117,9 +117,9 @@ package body GWindows.Testing.Events is
    begin
       --  Use case statement to ensure we handle all characters
       case Key is
-      when NUL | SOH | STX | EOT | ENQ | ACK | BEL | LF | VT | SO | SI |
-         DLE | DC1 | DC2 | DC3 | DC4 | NAK | SYN | ETB |
-         CAN | EM | SUB | ESC | FS | GS | RS | US =>
+      when Nul | Soh | Stx | Eot | Enq | Ack | Bel | Lf | Vt | So | Si |
+         Dle | Dc1 | Dc2 | Dc3 | Dc4 | Nak | Syn | Etb |
+         Can | Em | Sub | Esc | Fs | Gs | Rs | Us =>
          null;
 
       when ' ' =>
@@ -186,7 +186,7 @@ package body GWindows.Testing.Events is
          Set_Not_Shifted;
          Key_Stroke (VK_OEM_2, Key_Delay);
 
-      when ETX | BS | HT | FF | CR |
+      when Etx | Bs | Ht | Ff | Cr |
         '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
         =>
          Set_Not_Shifted;
@@ -270,7 +270,7 @@ package body GWindows.Testing.Events is
 
       when '~' =>
          Key_Stroke (VK_OEM_3, Key_Delay);
-      when DEL =>
+      when Del =>
          Set_Not_Shifted;
          Key_Stroke (VK_DELETE, Key_Delay);
 

@@ -37,6 +37,7 @@ with GWindows.Drawing;
 with GWindows.Drawing_Objects;
 with GWindows.GStrings;
 with Interfaces.C;
+with GWindows.Types; use GWindows.Types;
 
 package body GWindows.Edit_Boxes is
    use type Interfaces.C.unsigned;
@@ -48,14 +49,14 @@ package body GWindows.Edit_Boxes is
    GWL_STYLE : constant := -16;
 
    procedure SetWindowLong
-     (hwnd    : Interfaces.C.long;
+     (hwnd    : GWindows.Types.Handle;
       nIndex  : Interfaces.C.int := GWL_STYLE;
       newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong, "SetWindowLong"
                     & Character_Mode_Identifier);
 
    function GetWindowLong
-     (hwnd   : Interfaces.C.long;
+     (hwnd   : GWindows.Types.Handle;
       nIndex : Interfaces.C.int := GWL_STYLE)
      return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong, "GetWindowLong"
@@ -67,8 +68,8 @@ package body GWindows.Edit_Boxes is
    SWP_FRAMECHANGED           : constant := 32;
 
    procedure SetWindowPos
-     (hwnd            : Interfaces.C.long;
-      hwndInsertAfter : Interfaces.C.long     := 0;
+     (hwnd            : GWindows.Types.Handle;
+      hwndInsertAfter : GWindows.Types.Handle := GWindows.Types.Null_Handle;
       x               : Integer := 0;
       y               : Integer := 0;
       cx              : Integer := 0;
@@ -229,7 +230,6 @@ package body GWindows.Edit_Boxes is
    function Recommended_Size (Edit : in Edit_Box_Type)
                              return GWindows.Types.Size_Type
    is
-      use GWindows.Types;
 
       Text_Size : Size_Type;
       Extra     : constant Size_Type := (9, 4);
@@ -345,10 +345,10 @@ package body GWindows.Edit_Boxes is
                               State  : Boolean := True)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int  := EM_SETREADONLY;
-         wParam : Interfaces.C.long := 1;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 1;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -372,10 +372,10 @@ package body GWindows.Edit_Boxes is
                        Password_Char : in     Character     := '*')
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int  := EM_SETPASSWORDCHAR;
-         wParam : Interfaces.C.long := Character'Pos (Password_Char);
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := Character'Pos (Password_Char);
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -384,15 +384,15 @@ package body GWindows.Edit_Boxes is
 
    function Password (Window : in Edit_Box_Type) return Boolean is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int  := EM_GETPASSWORDCHAR;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0)
-      return Integer;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
+      return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return SendMessage /= 0;
+      return To_Integer (SendMessage) /= 0;
    end Password;
 
    ---------
@@ -401,10 +401,10 @@ package body GWindows.Edit_Boxes is
 
    procedure Cut (Edit : in out Edit_Box_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := WM_CUT;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -417,10 +417,10 @@ package body GWindows.Edit_Boxes is
 
    procedure Copy (Edit : in out Edit_Box_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := WM_COPY;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -433,10 +433,10 @@ package body GWindows.Edit_Boxes is
 
    procedure Paste (Edit : in out Edit_Box_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := WM_PASTE;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -449,10 +449,10 @@ package body GWindows.Edit_Boxes is
 
    procedure Clear (Edit : in out Edit_Box_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := WM_CLEAR;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -465,10 +465,10 @@ package body GWindows.Edit_Boxes is
 
    procedure Undo (Edit : in out Edit_Box_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_UNDO;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -481,10 +481,10 @@ package body GWindows.Edit_Boxes is
 
    procedure Clear_Undo (Edit : in out Edit_Box_Type) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_EMPTYUNDOBUFFER;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -498,11 +498,11 @@ package body GWindows.Edit_Boxes is
    function Can_Undo (Edit : in Edit_Box_Type) return Boolean
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_CANUNDO;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0)
-      return Integer;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
+      return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -516,15 +516,15 @@ package body GWindows.Edit_Boxes is
    function First_Visible (Edit : in Edit_Box_Type) return Natural
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_GETFIRSTVISIBLELINE;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0)
-      return Integer;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
+      return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return SendMessage;
+      return To_Integer (SendMessage);
    end First_Visible;
 
    ----------------
@@ -535,10 +535,10 @@ package body GWindows.Edit_Boxes is
                          Size : in     Natural)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_LIMITTEXT;
-         wParam : Natural           := Size;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Size);
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -548,15 +548,15 @@ package body GWindows.Edit_Boxes is
    function Text_Limit (Edit : in Edit_Box_Type) return Natural
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_GETLIMITTEXT;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0)
-      return Integer;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
+      return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return SendMessage;
+      return To_Integer (SendMessage);
    end Text_Limit;
 
    ----------------
@@ -566,15 +566,15 @@ package body GWindows.Edit_Boxes is
    function Line_Count (Edit : Multi_Line_Edit_Box_Type) return Natural
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_GETLINECOUNT;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0)
-      return Integer;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
+      return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return SendMessage;
+      return To_Integer (SendMessage);
    end Line_Count;
 
    --------------
@@ -585,10 +585,10 @@ package body GWindows.Edit_Boxes is
                        State : in     Boolean       := True)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_SETMODIFY;
-         wParam : Natural           := 1;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 1;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -601,11 +601,11 @@ package body GWindows.Edit_Boxes is
 
    function Modified (Edit : in Edit_Box_Type) return Boolean is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_GETMODIFY;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0)
-      return Integer;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
+      return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -625,7 +625,7 @@ package body GWindows.Edit_Boxes is
       End_Pos   : aliased Natural := 0;
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_GETSEL;
          wParam : access Natural    := Start_Pos'Access;
          lParam : access Natural    := End_Pos'Access);
@@ -647,15 +647,16 @@ package body GWindows.Edit_Boxes is
       End_Position   : in     Integer)
    is
       procedure SendMessage
-        (hwnd    : Interfaces.C.long            := Handle (Edit);
+        (hwnd    : GWindows.Types.Handle        := Handle (Edit);
          uMsg    : Interfaces.C.int             := EM_SETSEL;
-         wParam  : Integer                      := 0;
-         lParam  : Integer);
+         wParam  : GWindows.Types.Wparam;
+         lParam  : GWindows.Types.Lparam);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
 
    begin
-      SendMessage (wParam => Start_Position, lParam => End_Position);
+      SendMessage (wParam => To_Wparam (Start_Position),
+                   lParam => To_Lparam (End_Position));
    end Set_Selection;
 
    -----------------------
@@ -670,9 +671,9 @@ package body GWindows.Edit_Boxes is
       C_Text : GString_C := GWindows.GStrings.To_GString_C (Text);
 
       procedure SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (Edit);
+        (hwnd   : in     GWindows.Types.Handle := Handle (Edit);
          uMsg   : in     Interfaces.C.int  := EM_REPLACESEL;
-         wParam : in     Integer           := 1;
+         wParam : in     GWindows.Types.Wparam := 1;
          lParam : access GChar_C           := C_Text (C_Text'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -693,15 +694,15 @@ package body GWindows.Edit_Boxes is
                                return Positive
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_LINEFROMCHAR;
-         wParam : Integer           := Position - 1;
-         lParam : Interfaces.C.long := 0)
-      return Integer;
+         wParam : GWindows.Types.Wparam := To_Wparam ((Position) - 1);
+         lParam : GWindows.Types.Lparam := 0)
+      return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return SendMessage + 1;
+      return To_Integer (SendMessage) + 1;
    end Line_From_Position;
 
    ------------------------
@@ -713,15 +714,15 @@ package body GWindows.Edit_Boxes is
                                return Positive
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_LINEINDEX;
-         wParam : Integer           := Line - 1;
-         lParam : Interfaces.C.long := 0)
-      return Integer;
+         wParam : GWindows.Types.Wparam := To_Wparam (Line - 1);
+         lParam : GWindows.Types.Lparam := 0)
+      return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return SendMessage + 1;
+      return To_Integer (SendMessage) + 1;
    end Position_From_Line;
 
    ---------------
@@ -749,11 +750,11 @@ package body GWindows.Edit_Boxes is
                (Length)) := (others => GString_C_Null);
 
             function SendMessage
-              (hwnd   : Interfaces.C.long := Handle (Edit);
+              (hwnd   : GWindows.Types.Handle := Handle (Edit);
                uMsg   : Interfaces.C.int  := EM_GETLINE;
-               wParam : Integer           := Line - 1;
+               wParam : GWindows.Types.Wparam := To_Wparam (Line - 1);
                lParam : GString_C         := C_Text)
-              return Integer;
+              return GWindows.Types.Lresult;
             pragma Import (StdCall, SendMessage, "SendMessage"
                              & Character_Mode_Identifier);
          begin
@@ -778,11 +779,11 @@ package body GWindows.Edit_Boxes is
       Position : constant Integer := Position_From_Line (Edit, Line);
 
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_LINELENGTH;
-         wParam : Integer           := Position;
-         lParam : Interfaces.C.long := 0)
-        return Integer;
+         wParam : GWindows.Types.Wparam := To_Wparam (Position);
+         lParam : GWindows.Types.Lparam := 0)
+        return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -790,7 +791,7 @@ package body GWindows.Edit_Boxes is
          return 0;
       end if;
 
-      return SendMessage + 1;
+      return To_Integer (SendMessage) + 1;
    end Line_Length;
 
    ---------------------
@@ -801,15 +802,15 @@ package body GWindows.Edit_Boxes is
                             return Integer
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Edit);
+        (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_GETTHUMB;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0)
-      return Integer;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
+      return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return SendMessage;
+      return To_Integer (SendMessage);
    end Scroll_Position;
 
    ------------
@@ -820,10 +821,10 @@ package body GWindows.Edit_Boxes is
                      Command : in     Scroll_Command_Type)
    is
       procedure SendMessage
-        (hwnd    : Interfaces.C.long            := Handle (Edit);
-         uMsg    : Interfaces.C.int             := EM_SETSEL;
-         wParam  : Integer;
-         lParam  : Integer                      := 0);
+        (hwnd    : GWindows.Types.Handle   := Handle (Edit);
+         uMsg    : Interfaces.C.int        := EM_SETSEL;
+         wParam  : GWindows.Types.Wparam;
+         lParam  : GWindows.Types.Lparam   := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -845,10 +846,10 @@ package body GWindows.Edit_Boxes is
 
    procedure Scroll_To_Caret (Edit : in out Multi_Line_Edit_Box_Type) is
       procedure SendMessage
-        (hwnd    : Interfaces.C.long            := Handle (Edit);
-         uMsg    : Interfaces.C.int             := EM_SCROLLCARET;
-         wParam  : Integer                      := 0;
-         lParam  : Integer                      := 0);
+        (hwnd    : GWindows.Types.Handle := Handle (Edit);
+         uMsg    : Interfaces.C.int      := EM_SCROLLCARET;
+         wParam  : GWindows.Types.Wparam := 0;
+         lParam  : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -1187,8 +1188,6 @@ package body GWindows.Edit_Boxes is
    function Recommended_Size (Edit : in Multi_Line_Edit_Box_Type)
                              return GWindows.Types.Size_Type
    is
-      use GWindows.Types;
-
       Text_Size : Size_Type;
       Extra     : constant Size_Type := (9, 4);
       --  white space around text, borders.

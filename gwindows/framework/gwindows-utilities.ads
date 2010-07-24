@@ -1,3 +1,4 @@
+with GWindows.Types;
 ------------------------------------------------------------------------------
 --                                                                          --
 --             GWINDOWS - Ada 95 Framework for Win32 Development            --
@@ -34,19 +35,20 @@
 
 package GWindows.Utilities is
 
-   function Low_Word (DWORD : in Interfaces.C.int) return Integer;
-   function Unsigned_Low_Word (DWORD : in Interfaces.C.int)
+   function Low_Word (L : GWindows.Types.Lparam) return Integer;
+   function Low_Word (L : GWindows.Types.Wparam) return Integer;
+   function Unsigned_Low_Word (W : GWindows.Types.Wparam)
                               return Interfaces.C.unsigned;
    --  Return the low word of a DWORD
 
-   function High_Word (DWORD : in Interfaces.C.int) return Integer;
-   function Unsigned_High_Word (DWORD : in Interfaces.C.int)
+   function High_Word (L : GWindows.Types.Lparam) return Integer;
+   function High_Word (L : GWindows.Types.Wparam) return Integer;
+   function Unsigned_High_Word (W : GWindows.Types.Wparam)
                                return Interfaces.C.unsigned;
    --  Return the high word of a DWORD
 
    function Make_Long (Low  : in Interfaces.C.short;
                        High : in Interfaces.C.short)
-                      return Integer;
-   --  Create a DWORD from two 16 bit values
+                       return GWindows.Types.Lparam;
 
 end GWindows.Utilities;

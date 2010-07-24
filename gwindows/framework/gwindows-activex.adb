@@ -34,6 +34,7 @@
 
 with Ada.Unchecked_Conversion;
 with Interfaces.C;
+with System;
 
 with GWindows.GStrings;
 
@@ -43,6 +44,7 @@ with GNATCOM.Create.COM_Interface;
 with GNATOCX.IOleObject_Interface;
 with GNATOCX.IOleInPlaceObject_Interface;
 with GNATOCX_Site.Class;
+with GWindows.Types;
 
 package body GWindows.ActiveX is
    OLEIVERB_PRIMARY            : constant := 0;
@@ -148,7 +150,9 @@ package body GWindows.ActiveX is
 
       function To_Pointer_To_IOleClientSite is
          new Ada.Unchecked_Conversion
-        (GNATCOM.Types.Pointer_To_Void, GNATOCX.Pointer_To_IOleClientSite);
+          (GNATCOM.Types.Pointer_To_Void, GNATOCX.Pointer_To_IOleClientSite);
+      function To_Addr is
+         new Ada.Unchecked_Conversion (GWindows.Types.Handle, System.Address);
 
       OleObject : GNATOCX.IOleObject_Interface.IOleObject_Type;
 
@@ -163,10 +167,10 @@ package body GWindows.ActiveX is
 
       RIID    : aliased GNATCOM.Types.GUID;
       Result  : GNATCOM.Types.HRESULT;
-      WHandle : aliased Interfaces.C.long;
+      WHandle : aliased GWindows.Types.Handle;
       WRect   : aliased GNATOCX.RECT;
    begin
-      SiteObject_CoClass.HWND := Handle (Window);
+      SiteObject_CoClass.HWND := To_Addr (Handle (Window));
 
       WHandle := Handle (Window);
 
@@ -191,11 +195,11 @@ package body GWindows.ActiveX is
 
       DoVerb (OleObject, OLEIVERB_UIACTIVATE, null,
               To_Pointer_To_IOleClientSite (Site_Interface),
-              -1, WHandle, WRect'Unchecked_Access);
+              -1, To_Addr (WHandle), WRect'Unchecked_Access);
 
       DoVerb (OleObject, OLEIVERB_PRIMARY, null,
               To_Pointer_To_IOleClientSite (Site_Interface),
-              -1, WHandle, WRect'Unchecked_Access);
+              -1, To_Addr (WHandle), WRect'Unchecked_Access);
 
       GNATCOM.Iinterface.Query (IUnknown, OleObject);
       Window.Cookie := GNATCOM.Iinterface.Put_In_GIT (IUnknown);

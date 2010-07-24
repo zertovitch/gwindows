@@ -32,7 +32,8 @@ package body GWindows.Drawing_EMF_Canvas is
       else
          lpDescription := null;
       end if;
-      Handle (Canvas, CreateEnhMetaFile (0, lpFilename, null, lpDescription));
+      Handle (Canvas, CreateEnhMetaFile (GWindows.Types.Null_Handle,
+                                         lpFilename, null, lpDescription));
    end Create_EMF_Canvas;
 
    -------------------------------------------------------------------------
@@ -45,13 +46,13 @@ package body GWindows.Drawing_EMF_Canvas is
    is
       use type Interfaces.C.long;
       function CloseEnhMetaFile (hdc : GWindows.Types.Handle)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (Stdcall, CloseEnhMetaFile, "CloseEnhMetaFile");
    begin
-      if Handle (Canvas) /= 0 then
+      if Handle (Canvas) /= GWindows.Types.Null_Handle then
          Delete (Emf);
          Handle (Emf, CloseEnhMetaFile (Handle (Canvas)));
-         Handle (Canvas, 0);
+         Handle (Canvas, GWindows.Types.Null_Handle);
       end if;
    end Close_EMF_Canvas;
 

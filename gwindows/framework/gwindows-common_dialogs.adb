@@ -32,8 +32,9 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Unchecked_Conversion;
 with Interfaces.C;
-with GWindows.Application;                                          --  * AnSp
+with GWindows.Application;
 with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 with GNATCOM.Types;
@@ -82,8 +83,8 @@ package body GWindows.Common_Dialogs is
    type TCHOOSECOLOR is
       record
          lStructSize    : Interfaces.C.long := 36;
-         hwndOwner      : Interfaces.C.long := 0;
-         hInstance      : Interfaces.C.long := 0;
+         hwndOwner      : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         hInstance      : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          rgbResult      : GWindows.Colors.Color_Type := 0;
          lpCustColors   : Pointer_To_Color_Array;
          flags          : Interfaces.C.unsigned  := CC_ANYCOLOR or CC_RGBINIT;
@@ -102,32 +103,32 @@ package body GWindows.Common_Dialogs is
    type OFNHookProcStdcall is access
       function (hWnd    : GWindows.Types.Handle;
                 uiMsg   : Interfaces.C.unsigned;
-                wParam  : Interfaces.C.int;
-                lParam  : Interfaces.C.int) return Interfaces.C.long;
+                wParam  : GWindows.Types.Wparam;
+                lParam  : GWindows.Types.Lparam) return Interfaces.C.long;
    pragma Convention (Stdcall, OFNHookProcStdcall);
 
    type OPENFILENAME is
       record
-         lStructSize       : Interfaces.C.long := 76;
-         hwndOwner         : Interfaces.C.long := 0;
-         hInstance         : Interfaces.C.long := 0;
+         lStructSize     : Integer := OPENFILENAME'Size / 8;
+         hwndOwner       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         hInstance       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          lpstrFilter       : LPSTR;
-         lpstrCustomFilter : Interfaces.C.long := 0;
+         lpstrCustomFilter : LPSTR;
          nMaxCustFilter    : Interfaces.C.long := 0;
          nFilterIndex      : Interfaces.C.long := 0;
          lpstrFile         : LPSTR;
          nMaxFile          : Interfaces.C.long;
-         lpstrFileTitle    : LPSTR := null;
+         lpstrFileTitle    : LPSTR;
          nMaxFileTitle     : Interfaces.C.long := 0;
-         lpstrInitialDir   : LPSTR := null;
-         lpstrTitle        : LPSTR := null;
+         lpstrInitialDir   : LPSTR;
+         lpstrTitle        : LPSTR;
          flags             : Interfaces.C.long := OFN_HIDEREADONLY;
          nFileOffset       : Interfaces.C.short := 0;
          nFileExtension    : Interfaces.C.short := 0;
-         lpstrDefExt       : LPSTR := null;
-         lCustData         : Interfaces.C.long := 0;
-         lpfnHook          : OFNHookProcStdcall := null;
-         lpTemplateName    : Interfaces.C.long := 0;
+         lpstrDefExt       : LPSTR;
+         lCustData         : GWindows.Types.Lparam := 0;
+         lpfnHook          : OFNHookProcStdcall;
+         lpTemplateName    : LPSTR;
       end record;
 
    function GetOpenFileName
@@ -204,10 +205,10 @@ package body GWindows.Common_Dialogs is
    type TPRINTDLG is
       record
          lStructSize         : Interfaces.C.long      := 66;
-         hwndOwner           : Interfaces.C.long      := 0;
+         hwndOwner       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          hDevMode            : Pointer_To_DEVMODE     := null;
          hDevNames           : Integer                := 0;
-         hDC                 : Interfaces.C.long      := 0;
+         hDC             : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          flags               : Interfaces.C.unsigned  := 0;
          nFromPage           : Interfaces.C.short     := 0;
          nToPage             : Interfaces.C.short     := 0;
@@ -230,7 +231,7 @@ package body GWindows.Common_Dialogs is
 
    type BROWSEINFO is
       record
-         hwndOwner      : Interfaces.C.long := 0;
+         hwndOwner      : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          pidlRoot       : Interfaces.C.long := 0;
          pszDisplayName : GNATCOM.Types.LPSTR;
          lpszTitle      : GNATCOM.Types.LPSTR;
@@ -285,17 +286,27 @@ package body GWindows.Common_Dialogs is
 
    function Stdcallhook (hWnd   : GWindows.Types.Handle;
                          uiMsg  : Interfaces.C.unsigned;
-                         wParam : Interfaces.C.int;
-                         lParam : Interfaces.C.int) return Interfaces.C.long;
+                         wParam : GWindows.Types.Wparam;
+                         lParam : GWindows.Types.Lparam)
+                         return Interfaces.C.long;
    pragma Convention (Stdcall, Stdcallhook);
 
    function Stdcallhook (hWnd   : GWindows.Types.Handle;
                          uiMsg  : Interfaces.C.unsigned;
-                         wParam : Interfaces.C.int;
-                         lParam : Interfaces.C.int) return Interfaces.C.long is
+                         wParam : GWindows.Types.Wparam;
+                         lParam : GWindows.Types.Lparam)
+                         return Interfaces.C.long is
    begin
       return Hook (hWnd, uiMsg, wParam, lParam);
    end Stdcallhook;
+
+   function MAKEINTRESOURCE (Id : Integer) return LPSTR is
+      type Int is range -(2 ** (Standard'Address_Size - 1)) ..
+                         (2 ** (Standard'Address_Size - 1) - 1);
+      function To_LPSTR is new Ada.Unchecked_Conversion (Int, LPSTR);
+   begin
+      return To_LPSTR (Int (Id));
+   end MAKEINTRESOURCE;
 
    ---------------
    -- Open_File --
@@ -370,7 +381,7 @@ package body GWindows.Common_Dialogs is
             OFN.flags := OFN.flags + Interfaces.C.long (OFN_EXPLORER);
          end if;
          if TemplateId /= 0 then
-            OFN.lpTemplateName := Interfaces.C.long (TemplateId);
+            OFN.lpTemplateName := MAKEINTRESOURCE (TemplateId);
             OFN.hInstance := GWindows.Application.hInstance;
             OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLETEMPLATE);
          end if;
@@ -379,7 +390,6 @@ package body GWindows.Common_Dialogs is
             OFN.lpfnHook := Stdcallhook'Access;
             OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLEHOOK);
          end if;
-         --  * AnSp: added code up to here
          Result := GetOpenFileName (OFN);
       end;
       Success := Result /= 0;
@@ -470,7 +480,7 @@ package body GWindows.Common_Dialogs is
             OFN.flags := OFN.flags + Interfaces.C.long (OFN_EXPLORER);
          end if;
          if TemplateId /= 0 then
-            OFN.lpTemplateName := Interfaces.C.long (TemplateId);
+            OFN.lpTemplateName := MAKEINTRESOURCE (TemplateId);
             OFN.hInstance := GWindows.Application.hInstance;
             OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLETEMPLATE);
          end if;
@@ -521,8 +531,8 @@ package body GWindows.Common_Dialogs is
       type TCHOOSEFONT is
          record
             lStructSize            : Interfaces.C.long  := 60;
-            hwndOwner              : Interfaces.C.long  := Handle (Window);
-            hDC                    : Interfaces.C.long  := Handle (Canvas);
+            hwndOwner              : GWindows.Types.Handle  := Handle (Window);
+            hDC                    : GWindows.Types.Handle  := Handle (Canvas);
             lpLogFont              : Pointer_To_LOGFONT
               := LFont'Unchecked_Access;
             iPointSize             : Interfaces.C.int   := 0;
@@ -543,8 +553,8 @@ package body GWindows.Common_Dialogs is
       CFont : TCHOOSEFONT;
 
       procedure GetObject
-        (Object :        Interfaces.C.long := Handle (Font);
-         SizeOf :        Integer           := 60;
+        (Object : GWindows.Types.Handle := Handle (Font);
+         SizeOf : Integer := 60;
          Font   : in out LOGFONT);
       pragma Import (StdCall, GetObject, "GetObjectA");
 
@@ -631,7 +641,7 @@ package body GWindows.Common_Dialogs is
       Success := PrintDlg /= 0;
 
       if Success then
-         GWindows.Drawing.Capture (Canvas, 0, PD.hDC);
+         GWindows.Drawing.Capture (Canvas, GWindows.Types.Null_Handle, PD.hDC);
 
          Flags := PD.flags;
          From_Page := Integer (PD.nFromPage);
@@ -671,7 +681,7 @@ package body GWindows.Common_Dialogs is
       Success := PrintDlg /= 0;
 
       if Success then
-         GWindows.Drawing.Capture (Canvas, 0, PD.hDC);
+         GWindows.Drawing.Capture (Canvas, GWindows.Types.Null_Handle, PD.hDC);
 
          Settings := PD.hDevMode.all;
 

@@ -72,14 +72,14 @@ package body GWindows.Base is
    pragma Import (StdCall, DestroyMenu, "DestroyMenu");
 
    function GetMenu
-     (hwnd : Interfaces.C.long)
-     return Interfaces.C.long;
+     (hwnd : GWindows.Types.Handle)
+     return GWindows.Types.Handle;
    pragma Import (StdCall, GetMenu, "GetMenu");
 
    IDI_APPLICATION            : constant := 32512;
 
    function LoadIcon
-     (hInstance  : GWindows.Types.Handle := 0;
+     (hInstance  : GWindows.Types.Handle := GWindows.Types.Null_Handle;
       lpIconName : Integer := IDI_APPLICATION)
      return GWindows.Types.Handle;
    pragma Import (StdCall, LoadIcon,
@@ -98,8 +98,8 @@ package body GWindows.Base is
          itemID     : Integer;
          itemAction : Interfaces.C.unsigned;
          itemState  : Interfaces.C.unsigned;
-         hwndItem   : Interfaces.C.long;
-         hDC        : Interfaces.C.long;
+         hwndItem   : GWindows.Types.Handle;
+         hDC        : GWindows.Types.Handle;
          rcItem     : GWindows.Types.Rectangle_Type;
          itemData   : Integer;
       end record;
@@ -124,18 +124,18 @@ package body GWindows.Base is
    function DefWindowProc
      (hwnd    : GWindows.Types.Handle;
       message : Interfaces.C.unsigned;
-      wParam  : Interfaces.C.int;
-      lParam  : Interfaces.C.int)
-     return Interfaces.C.long;
+      wParam  : GWindows.Types.Wparam;
+      lParam  : GWindows.Types.Lparam)
+     return GWindows.Types.Lresult;
    pragma Import (StdCall, DefWindowProc,
                     "DefWindowProc" & Character_Mode_Identifier);
 
    function DefMDIChildProc
      (hwnd    : GWindows.Types.Handle;
       message : Interfaces.C.unsigned;
-      wParam  : Interfaces.C.int;
-      lParam  : Interfaces.C.int)
-     return Interfaces.C.long;
+      wParam  : GWindows.Types.Wparam;
+      lParam  : GWindows.Types.Lparam)
+     return GWindows.Types.Lresult;
    pragma Import (StdCall, DefMDIChildProc,
                     "DefMDIChildProc" & Character_Mode_Identifier);
 
@@ -148,18 +148,18 @@ package body GWindows.Base is
    GWL_WNDPROC : constant := -4;
 
    function Get_Window_Procedure
-     (hwnd   : Interfaces.C.long;
+     (hwnd   : GWindows.Types.Handle;
       nIndex : Interfaces.C.int := GWL_WNDPROC)
      return Windproc_Access;
    pragma Import (StdCall, Get_Window_Procedure,
-                    "GetWindowLong" & Character_Mode_Identifier);
+                  "GetWindowLongPtr" & Character_Mode_Identifier);
 
    procedure Set_Window_Procedure
-     (hwnd     : Interfaces.C.long;
+     (hwnd     : GWindows.Types.Handle;
       nIndex   : Interfaces.C.int  := GWL_WNDPROC;
       New_Proc : Windproc_Access);
    pragma Import (StdCall, Set_Window_Procedure,
-                    "SetWindowLong" & Character_Mode_Identifier);
+                  "SetWindowLongPtr" & Character_Mode_Identifier);
 
    function GlobalAddAtom
      (lpString : GString_C := GWindows.Internal.GWindows_Object_Property_Name)
@@ -188,6 +188,35 @@ package body GWindows.Base is
    pragma Import (StdCall, GetWindowLong,
                     "GetWindowLong" & Character_Mode_Identifier);
 
+   function gwlptr (hwnd   : GWindows.Types.Handle;
+                    nIndex : Interfaces.C.int) return GWindows.Types.Handle;
+   pragma Export (StdCall, gwlptr,
+                  "GetWindowLongPt" &
+                  Character'Val (Character'Pos ('r') +
+                                 (Standard'Address_Size / 32) - 1) &
+                  Character_Mode_Identifier);
+   function gwlptr (hwnd   : GWindows.Types.Handle;
+                    nIndex : Interfaces.C.int) return GWindows.Types.Handle is
+   begin
+      return GWindows.Types.To_Handle
+         (GWindows.Types.Wparam (GetWindowLong (hwnd, nIndex)));
+   end gwlptr;
+
+   procedure swlptr (hwnd   : GWindows.Types.Handle;
+                     nIndex : Interfaces.C.int;
+                     newLong : GWindows.Types.Wparam);
+   pragma Export (StdCall, swlptr,
+                  "SetWindowLongPt" &
+                  Character'Val (Character'Pos ('r') +
+                                 (Standard'Address_Size / 32) - 1) &
+                  Character_Mode_Identifier);
+   procedure swlptr (hwnd   : GWindows.Types.Handle;
+                     nIndex : Interfaces.C.int;
+                     newLong : GWindows.Types.Wparam) is
+   begin
+      SetWindowLong (hwnd, nIndex, Interfaces.C.unsigned (newLong));
+   end swlptr;
+
    SWP_NOSIZE                 : constant := 1;
    SWP_NOMOVE                 : constant := 2;
    SWP_NOZORDER               : constant := 4;
@@ -210,7 +239,7 @@ package body GWindows.Base is
 
    procedure SetWindowPos
      (hwnd            : GWindows.Types.Handle;
-      hwndInsertAfter : GWindows.Types.Handle := 0;
+      hwndInsertAfter : GWindows.Types.Handle := GWindows.Types.Null_Handle;
       x               : Integer := 0;
       y               : Integer := 0;
       cx              : Integer := 0;
@@ -309,7 +338,7 @@ package body GWindows.Base is
       C_Text  : constant GString_C := GWindows.GStrings.To_GString_C (Text);
       C_Class : constant GString_C :=
         GWindows.GStrings.To_GString_C (Win_Class);
-      PHWND   : constant Interfaces.C.long       := Parent.HWND;
+      PHWND   : constant GWindows.Types.Handle := Parent.HWND;
       Style   : Interfaces.C.unsigned;
       ExStyle : Interfaces.C.unsigned := 0;
 
@@ -323,7 +352,7 @@ package body GWindows.Base is
          nWidth       : Integer               := Width;
          nHeight      : Integer               := Height;
          hwndParent   : GWindows.Types.Handle;
-         hMenu        : GWindows.Types.Handle := GWindows.Types.Handle (ID);
+         hMenu        : GWindows.Types.Handle := GWindows.Types.To_Handle (ID);
          hInst        : GWindows.Types.Handle :=
             GWindows.Internal.Current_hInstance;
          lpParam      : Interfaces.C.long     := 0)
@@ -511,9 +540,9 @@ package body GWindows.Base is
       C_Name : constant GString_C := GWindows.GStrings.To_GString_C (Name);
 
       function LoadAccelerators
-        (hInst    : Interfaces.C.long := GWindows.Internal.Current_hInstance;
-         lpszName : GString_C         := C_Name)
-        return Interfaces.C.long;
+      (hInst    : GWindows.Types.Handle := GWindows.Internal.Current_hInstance;
+      lpszName : GString_C         := C_Name)
+      return GWindows.Types.Handle;
       pragma Import (StdCall, LoadAccelerators,
                        "LoadAccelerators" & Character_Mode_Identifier);
    begin
@@ -524,15 +553,15 @@ package body GWindows.Base is
    -- Focus --
    -----------
 
-   function Focus return Pointer_To_Base_Window_Class
-   is
+   function Focus return Pointer_To_Base_Window_Class is
+      use GWindows.Types;
 
       function GetFocus return GWindows.Types.Handle;
       pragma Import (StdCall, GetFocus, "GetFocus");
 
       Focused_Win : constant GWindows.Types.Handle := GetFocus;
    begin
-      if Focused_Win /= 0 then
+      if Focused_Win /= GWindows.Types.Null_Handle then
          return Window_From_Handle (GetFocus);
       else
          return null;
@@ -616,7 +645,7 @@ package body GWindows.Base is
    function Valid (Window : in Base_Window_Type) return Boolean
    is
 
-      function IsWindow (hwnd : Interfaces.C.long := Window.HWND)
+      function IsWindow (hwnd : GWindows.Types.Handle := Window.HWND)
                         return Interfaces.C.long;
       pragma Import (StdCall, IsWindow, "IsWindow");
    begin
@@ -723,7 +752,8 @@ package body GWindows.Base is
          No_Change         => 0);
    begin
       if Position /= No_Change then
-         SetWindowPos (Handle (Window), Values (Position),
+         SetWindowPos (Handle (Window),
+                       GWindows.Types.To_Handle (Values (Position)),
                        fuFlags => SWP_NOMOVE or SWP_NOSIZE);
       end if;
    end Order;
@@ -745,10 +775,10 @@ package body GWindows.Base is
       WM_SETREDRAW : constant := 11;
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long     := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int      := WM_SETREDRAW;
-         wParam : Interfaces.C.long     := 0;
-         lParam : Interfaces.C.unsigned := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -764,10 +794,10 @@ package body GWindows.Base is
       WM_SETREDRAW : constant := 11;
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long     := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int      := WM_SETREDRAW;
-         wParam : Interfaces.C.long     := 1;
-         lParam : Interfaces.C.unsigned := 0);
+         wParam : GWindows.Types.Wparam := 1;
+         lParam : GWindows.Types.Wparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -951,10 +981,10 @@ package body GWindows.Base is
       WM_SETFONT   : constant := 48;
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long     := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int      := WM_SETFONT;
-         wParam : Interfaces.C.long     := Handle (Font);
-         lParam : Interfaces.C.unsigned := 1);
+         wParam : GWindows.Types.Handle := Handle (Font);
+         lParam : GWindows.Types.Lparam := 1);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -973,11 +1003,11 @@ package body GWindows.Base is
       WM_GETFONT   : constant := 49;
 
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int  := WM_GETFONT;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0)
-        return Interfaces.C.long;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
+        return GWindows.Types.Handle;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -1062,7 +1092,7 @@ package body GWindows.Base is
          Flag := 0;  --  SWP_NOACTIVATE;
       end if;
       SetWindowPos (Window.HWND,
-         Values (Order),
+         GWindows.Types.To_Handle (Values (Order)),
          x => Value.Left,
          y => Value.Top,
          cx => abs (Value.Right - Value.Left),
@@ -1270,7 +1300,7 @@ package body GWindows.Base is
       New_Point  : GWindows.Types.Point_Type := Point;
 
       procedure ScreenToClient
-        (hwnd    :        Interfaces.C.long         := Window.HWND;
+        (hwnd    : GWindows.Types.Handle := Window.HWND;
          ppPoint : in out GWindows.Types.Point_Type);
       pragma Import (StdCall, ScreenToClient, "ScreenToClient");
    begin
@@ -1290,7 +1320,7 @@ package body GWindows.Base is
       New_Point  : GWindows.Types.Point_Type := Point;
 
       procedure ClientToScreen
-        (hwnd    :        Interfaces.C.long         := Window.HWND;
+        (hwnd    : GWindows.Types.Handle := Window.HWND;
          ppPoint : in out GWindows.Types.Point_Type);
       pragma Import (StdCall, ClientToScreen, "ClientToScreen");
    begin
@@ -1320,7 +1350,7 @@ package body GWindows.Base is
        Canvas :    out GWindows.Drawing.Canvas_Type)
    is
       function GetDC
-        (hwnd   : Interfaces.C.long := GWindows.Base.Handle (Window))
+        (hwnd   : GWindows.Types.Handle := GWindows.Base.Handle (Window))
         return GWindows.Types.Handle;
       pragma Import (StdCall, GetDC, "GetDC");
    begin
@@ -1336,7 +1366,7 @@ package body GWindows.Base is
       Canvas :    out GWindows.Drawing.Canvas_Type)
    is
       function GetWindowDC
-        (hwnd   : Interfaces.C.long := Handle (Window))
+        (hwnd   : GWindows.Types.Handle := Handle (Window))
         return GWindows.Types.Handle;
       pragma Import (StdCall, GetWindowDC, "GetWindowDC");
    begin
@@ -1374,7 +1404,7 @@ package body GWindows.Base is
       SW_HIDE            : constant := 0;
 
       procedure ShowWindow
-        (hwnd     : Interfaces.C.long;
+        (hwnd     : GWindows.Types.Handle;
          nCmdShow : Interfaces.C.long);
       pragma Import (StdCall, ShowWindow, "ShowWindow");
    begin
@@ -1595,10 +1625,10 @@ package body GWindows.Base is
       WM_CLOSE                   : constant := 16;
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Window);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
          uMsg   : Interfaces.C.int  := WM_CLOSE;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -1678,7 +1708,7 @@ package body GWindows.Base is
    procedure Capture_Mouse (Window : in out Base_Window_Type)
    is
       procedure SetCapture
-        (hwnd : Interfaces.C.long := Handle (Window));
+        (hwnd : GWindows.Types.Handle := Handle (Window));
       pragma Import (StdCall, SetCapture, "SetCapture");
    begin
       SetCapture;
@@ -1940,8 +1970,8 @@ package body GWindows.Base is
       procedure PostThreadMessage
         (idThread : Interfaces.C.unsigned_long;
          msg      : Interfaces.C.unsigned;
-         wParam   : Interfaces.C.unsigned      := 0;
-         lParam   : Interfaces.C.long          := 0);
+         wParam   : GWindows.Types.Wparam := 0;
+         lParam   : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, PostThreadMessage,
                        "PostThreadMessage" & Character_Mode_Identifier);
    begin
@@ -2291,7 +2321,7 @@ package body GWindows.Base is
    procedure On_Notify (Window       : in out Base_Window_Type;
                         Message      : in     Pointer_To_Notification;
                         Control      : in     Pointer_To_Base_Window_Class;
-                        Return_Value : in out Interfaces.C.long)
+                        Return_Value : in out GWindows.Types.Lresult)
    is
       pragma Warnings (Off, Window);
    begin
@@ -2306,17 +2336,17 @@ package body GWindows.Base is
 
    procedure On_Message (Window       : in out Base_Window_Type;
                          message      : in     Interfaces.C.unsigned;
-                         wParam       : in     Interfaces.C.int;
-                         lParam       : in     Interfaces.C.int;
-                         Return_Value : in out Interfaces.C.long)
+                         wParam       : in     GWindows.Types.Wparam;
+                         lParam       : in     GWindows.Types.Lparam;
+                         Return_Value : in out GWindows.Types.Lresult)
    is
       function DefFrameProc
         (hwnd    : GWindows.Types.Handle;
          chwnd   : GWindows.Types.Handle;
          message : Interfaces.C.unsigned;
-         wParam  : Interfaces.C.int;
-         lParam  : Interfaces.C.int)
-        return Interfaces.C.long;
+         wParam  : GWindows.Types.Wparam;
+         lParam  : GWindows.Types.Lparam)
+        return GWindows.Types.Lresult;
       pragma Import (StdCall, DefFrameProc,
                        "DefFrameProc" & Character_Mode_Identifier);
 
@@ -2324,9 +2354,9 @@ package body GWindows.Base is
         (Proc    : Windproc_Access;
          hwnd    : GWindows.Types.Handle;
          message : Interfaces.C.unsigned;
-         wParam  : Interfaces.C.int;
-         lParam  : Interfaces.C.int)
-        return Interfaces.C.long;
+         wParam  : GWindows.Types.Wparam;
+         lParam  : GWindows.Types.Lparam)
+        return GWindows.Types.Lresult;
       pragma Import (StdCall, CallWindowProc,
                        "CallWindowProc" & Character_Mode_Identifier);
    begin
@@ -2352,9 +2382,9 @@ package body GWindows.Base is
    procedure On_Filter_Message
      (Window       : in out Base_Window_Type;
       message      : in     Interfaces.C.unsigned;
-      wParam       : in     Interfaces.C.int;
-      lParam       : in     Interfaces.C.int;
-      Return_Value : in out Interfaces.C.long;
+      wParam       : in     GWindows.Types.Wparam;
+      lParam       : in     GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult;
       Continue     :    out Boolean)
    is
       pragma Warnings (Off, Window);
@@ -2393,8 +2423,8 @@ package body GWindows.Base is
    --  that supports the mouse wheel
    procedure Dispatch_Mouse_Wheel (Win_Ptr : Pointer_To_Base_Window_Class;
                                    message : Interfaces.C.unsigned;
-                                   wParam  : Interfaces.C.int;
-                                   lParam  : Interfaces.C.int)
+                                   wParam  : GWindows.Types.Wparam;
+                                   lParam  : GWindows.Types.Lparam)
    is
       use Interfaces.C;
 
@@ -2439,7 +2469,8 @@ package body GWindows.Base is
       procedure Dispatch_Mouse_Wheel
                    (Window : Pointer_To_Base_Window_Class) is
          procedure Handle_Child (Child : Pointer_To_Base_Window_Class) is
-            Return_Value : Interfaces.C.long := 0;
+            use GWindows.Types;
+            Return_Value : GWindows.Types.Lresult := 0;
             P            : Pointer_To_Base_Window_Class;
          begin
             Dispatch_Mouse_Wheel (Child);
@@ -2467,13 +2498,11 @@ package body GWindows.Base is
       Dispatch_Mouse_Wheel (P);
    end Dispatch_Mouse_Wheel;
 
-   function Mouse_Wheel_Dispatched (wParam : Interfaces.C.int)
+   function Mouse_Wheel_Dispatched (wParam : GWindows.Types.Wparam)
                                     return Boolean is
-      use Interfaces.C;
-      Hlp : Interfaces.C.unsigned;
-      for Hlp'Address use wParam'Address;
+      use GWindows.Types;
    begin
-      return (Hlp and MK_DISPATCHED) = MK_DISPATCHED;
+      return (wParam and MK_DISPATCHED) = MK_DISPATCHED;
    end Mouse_Wheel_Dispatched;
 
    -------------
@@ -2483,10 +2512,8 @@ package body GWindows.Base is
    function WndProc
      (hwnd    : GWindows.Types.Handle;
       message : Interfaces.C.unsigned;
-      wParam  : Interfaces.C.int;
-      lParam  : Interfaces.C.int)
-     return Interfaces.C.long
-   is
+      wParam  : GWindows.Types.Wparam;
+      lParam  : GWindows.Types.Lparam)  return GWindows.Types.Lresult is
       WM_DESTROY                 : constant := 2;
       WM_COMMAND                 : constant := 273;
       WM_CONTEXTMENU             : constant := 123;
@@ -2526,7 +2553,7 @@ package body GWindows.Base is
       end if;
 
       declare
-         Return_Value : Interfaces.C.long := 0;
+         Return_Value : GWindows.Types.Lresult := 0;
          Continue     : Boolean;
       begin
          On_Filter_Message (Win_Ptr.all,
@@ -2545,7 +2572,7 @@ package body GWindows.Base is
          when WM_COMMAND =>
             declare
                Control : constant Pointer_To_Base_Window_Class :=
-                 Window_From_Handle (GWindows.Types.Handle (lParam));
+                 Window_From_Handle (GWindows.Types.To_Handle (lParam));
             begin
                On_Command (Win_Ptr.all,
                            Integer (GWindows.Utilities.Unsigned_High_Word
@@ -2562,14 +2589,14 @@ package body GWindows.Base is
          when WM_DRAWITEM =>
             declare
                function To_LPDRAWITEMSTRUCT is
-                  new Ada.Unchecked_Conversion (Interfaces.C.int,
+                  new Ada.Unchecked_Conversion (GWindows.Types.Lparam,
                                                 LPDRAWITEMSTRUCT);
 
                LPD        : constant LPDRAWITEMSTRUCT :=
                  To_LPDRAWITEMSTRUCT (lParam);
                Canvas     : GWindows.Drawing.Canvas_Type;
                Control    : constant Pointer_To_Base_Window_Class :=
-                 Window_From_Handle (GWindows.Types.Handle (LPD.hwndItem));
+                 Window_From_Handle (LPD.hwndItem);
             begin
                GWindows.Drawing.Handle (Canvas, LPD.hDC);
 
@@ -2589,14 +2616,14 @@ package body GWindows.Base is
             declare
                function To_Pointer_To_NMHDR is
                   new Ada.Unchecked_Conversion
-                    (Interfaces.C.int, Pointer_To_Notification);
+                    (GWindows.Types.Lparam, Pointer_To_Notification);
 
                PNMHDR  : constant Pointer_To_Notification :=
                  To_Pointer_To_NMHDR (lParam);
                Control : constant Pointer_To_Base_Window_Class :=
                  Window_From_Handle (PNMHDR.Handle);
 
-               Return_Value : Interfaces.C.long := 0;
+               Return_Value : GWindows.Types.Lresult := 0;
             begin
                On_Notify (Win_Ptr.all,
                           PNMHDR,
@@ -2609,22 +2636,22 @@ package body GWindows.Base is
          when WM_INPUT =>
             declare
                Control : constant Pointer_To_Base_Window_Class :=
-                 Window_From_Handle (GWindows.Types.Handle (lParam));
-               Temp : Interfaces.C.long;
+                 Window_From_Handle (GWindows.Types.To_Handle (lParam));
+               Temp : GWindows.Types.Lresult;
                GoOn : Integer;
             begin
                On_Input (Win_Ptr.all, Integer (wParam),
-                  GWindows.Types.Handle (lParam), Control, GoOn);
+                  GWindows.Types.To_Handle (lParam), Control, GoOn);
                --  Let the system clean-up
                Temp := DefWindowProc (hwnd, message, wParam, lParam);
-               return Interfaces.C.long (GoOn);
+               return GWindows.Types.Lresult (GoOn);
             end;
 
          when WM_HSCROLL =>
             declare
                Request : Scroll_Request_Type;
                Control : constant Pointer_To_Base_Window_Class :=
-                 Window_From_Handle (GWindows.Types.Handle (lParam));
+                 Window_From_Handle (GWindows.Types.To_Handle (lParam));
             begin
                case GWindows.Utilities.Low_Word (wParam) is
                   when SB_LINELEFT =>
@@ -2658,7 +2685,7 @@ package body GWindows.Base is
             declare
                Request : Scroll_Request_Type;
                Control : constant Pointer_To_Base_Window_Class :=
-                 Window_From_Handle (GWindows.Types.Handle (lParam));
+                 Window_From_Handle (GWindows.Types.To_Handle (lParam));
             begin
                case GWindows.Utilities.Low_Word (wParam) is
                   when SB_LINEUP =>
@@ -2748,7 +2775,7 @@ package body GWindows.Base is
       end case;
 
       declare
-         Return_Value : Interfaces.C.long := 0;
+         Return_Value : GWindows.Types.Lresult := 0;
       begin
          On_Message (Win_Ptr.all,
                      message,
@@ -2771,10 +2798,8 @@ package body GWindows.Base is
    function WndProc_Control
      (hwnd    : GWindows.Types.Handle;
       message : Interfaces.C.unsigned;
-      wParam  : Interfaces.C.int;
-      lParam  : Interfaces.C.int)
-     return Interfaces.C.long
-   is
+      wParam  : GWindows.Types.Wparam;
+      lParam  : GWindows.Types.Lparam) return GWindows.Types.Lresult is
       GWL_WNDPROC : constant := -4;
 
       procedure Set_Window_Procedure
@@ -2782,7 +2807,7 @@ package body GWindows.Base is
          nIndex   : Interfaces.C.int  := GWL_WNDPROC;
          New_Proc : Windproc_Access);
       pragma Import (StdCall, Set_Window_Procedure,
-                       "SetWindowLong" & Character_Mode_Identifier);
+                     "SetWindowLongPtr" & Character_Mode_Identifier);
 
       WM_DESTROY                 : constant := 2;
       WM_SETFOCUS                : constant := 7;
@@ -2801,7 +2826,7 @@ package body GWindows.Base is
       end if;
 
       declare
-         Return_Value : Interfaces.C.long := 0;
+         Return_Value : GWindows.Types.Lresult := 0;
          Continue     : Boolean;
       begin
          On_Filter_Message (Win_Ptr.all,
@@ -2861,7 +2886,7 @@ package body GWindows.Base is
       end case;
 
       declare
-         Return_Value : Interfaces.C.long := 0;
+         Return_Value : GWindows.Types.Lresult := 0;
       begin
          On_Message (Win_Ptr.all,
                      message,

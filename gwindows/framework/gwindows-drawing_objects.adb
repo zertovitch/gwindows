@@ -105,11 +105,11 @@ package body GWindows.Drawing_Objects is
    -- Finalize --
    --------------
 
-   procedure Finalize (Object : in out Drawing_Object_Type)
-   is
+   procedure Finalize (Object : in out Drawing_Object_Type) is
+      use type GWindows.Types.Handle;
       use type Interfaces.C.long;
    begin
-      if Object.HOBJECT /= 0 then
+      if Object.HOBJECT /= GWindows.Types.Null_Handle then
          Delete (Object);
       end if;
    end Finalize;
@@ -118,21 +118,21 @@ package body GWindows.Drawing_Objects is
    -- Delete --
    ------------
 
-   procedure Delete (Object : in out Drawing_Object_Type)
-   is
+   procedure Delete (Object : in out Drawing_Object_Type) is
       use type Interfaces.C.long;
+      use type GWindows.Types.Handle;
       procedure DeleteObject
-        (HOBJECT : Interfaces.C.long := Object.HOBJECT);
+        (HOBJECT : GWindows.Types.Handle := Object.HOBJECT);
       pragma Import (StdCall, DeleteObject, "DeleteObject");
    begin
-      if Object.HOBJECT /= 0 then
+      if Object.HOBJECT /= GWindows.Types.Null_Handle then
          if not Object.Protected_Object then
             DeleteObject;
          else
             Object.Protected_Object := False;
          end if;
 
-         Object.HOBJECT := 0;
+         Object.HOBJECT := GWindows.Types.Null_Handle;
       end if;
    end Delete;
 
@@ -209,8 +209,8 @@ package body GWindows.Drawing_Objects is
                                    Bitmap_Pattern : in     Bitmap_Type'Class)
    is
       function CreatePatternBrush
-        (hBitmap : Interfaces.C.long := Handle (Bitmap_Pattern))
-        return Interfaces.C.long;
+        (hBitmap : GWindows.Types.Handle := Handle (Bitmap_Pattern))
+        return GWindows.Types.Handle;
       pragma Import (StdCall, CreatePatternBrush, "CreatePatternBrush");
    begin
       Delete (Brush);
@@ -299,7 +299,7 @@ package body GWindows.Drawing_Objects is
          fdwQuality         : Integer                 := 0;
          fdwPitchAndFamily  : Integer                 := 0;
          lpszFace           : GString_C := C_Text)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, CreateFont,
                        "CreateFont" & Character_Mode_Identifier);
    begin
@@ -323,7 +323,7 @@ package body GWindows.Drawing_Objects is
         (fnPenStyle : Integer;
          nWidth     : Integer;
          crColor    : GWindows.Colors.Color_Type)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, CreatePen, "CreatePen");
    begin
       Delete (Pen);
@@ -361,7 +361,7 @@ package body GWindows.Drawing_Objects is
    is
       function CreateSolidBrush
         (crColor : GWindows.Colors.Color_Type := Color)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, CreateSolidBrush, "CreateSolidBrush");
    begin
       Delete (Brush);
@@ -382,7 +382,7 @@ package body GWindows.Drawing_Objects is
       function CreateHatchBrush
         (fnStyle : Integer;
          clrref  : GWindows.Colors.Color_Type)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, CreateHatchBrush, "CreateHatchBrush");
    begin
       Delete (Brush);
@@ -414,7 +414,7 @@ package body GWindows.Drawing_Objects is
    is
       function GetSysColorBrush
         (crColor : Integer)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, GetSysColorBrush, "GetSysColorBrush");
    begin
       Delete (Brush);
@@ -430,9 +430,9 @@ package body GWindows.Drawing_Objects is
                                 Bitmap_Const :        Integer)
    is
       function LoadBitmap
-        (hInst     : Interfaces.C.long := 0;
+        (hInst     : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          pszBitmap : Integer := Bitmap_Const)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, LoadBitmap,
                        "LoadBitmap" & Character_Mode_Identifier);
    begin
@@ -458,13 +458,13 @@ package body GWindows.Drawing_Objects is
       LR_LOADMAP3DCOLORS : constant := 16#1000#;
 
       function LoadImage
-        (hInst     : Interfaces.C.long := 0;
+        (hInst     : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          lpszName  : Integer           := Bitmap_Const;
          uType     : Interfaces.C.int  := IMAGE_BITMAP;
          cxDesired : Interfaces.C.int  := Interfaces.C.int (X);
          cyDesired : Interfaces.C.int  := Interfaces.C.int (Y);
          fuLoad    : Interfaces.C.unsigned)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, LoadImage,
                        "LoadImage" & Character_Mode_Identifier);
 
@@ -505,13 +505,13 @@ package body GWindows.Drawing_Objects is
       LR_LOADMAP3DCOLORS : constant := 16#1000#;
 
       function LoadImage
-        (hInst     : Interfaces.C.long := 0;
+        (hInst     : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          lpszName  : Integer           := Bitmap_Const;
          uType     : Interfaces.C.int  := IMAGE_BITMAP;
          cxDesired : Interfaces.C.int  := 0;
          cyDesired : Interfaces.C.int  := 0;
          fuLoad    : Interfaces.C.unsigned)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, LoadImage,
                        "LoadImage" & Character_Mode_Identifier);
 
@@ -554,13 +554,14 @@ package body GWindows.Drawing_Objects is
       LR_LOADMAP3DCOLORS : constant := 16#1000#;
 
       function LoadImage
-        (hInst     : Interfaces.C.long := GWindows.Internal.Current_hInstance;
+        (hInst     : GWindows.Types.Handle :=
+           GWindows.Internal.Current_hInstance;
          lpszName  : GString_C         := C_Text;
          uType     : Interfaces.C.int  := IMAGE_BITMAP;
          cxDesired : Interfaces.C.int  := 0;
          cyDesired : Interfaces.C.int  := 0;
          fuLoad    : Interfaces.C.unsigned)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, LoadImage,
                        "LoadImage" & Character_Mode_Identifier);
 
@@ -606,13 +607,13 @@ package body GWindows.Drawing_Objects is
       LR_LOADMAP3DCOLORS : constant := 16#1000#;
 
       function LoadImage
-        (hInst     : Interfaces.C.long := 0;
+        (hInst     : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          lpszName  : GString_C         := C_Text;
          uType     : Interfaces.C.int  := IMAGE_BITMAP;
          cxDesired : Interfaces.C.int  := 0;
          cyDesired : Interfaces.C.int  := 0;
          fuLoad    : Interfaces.C.unsigned)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, LoadImage,
                        "LoadImage" & Character_Mode_Identifier);
 
@@ -654,7 +655,7 @@ package body GWindows.Drawing_Objects is
          cPlanes     : Integer := Planes;
          cBitsPerPel : Integer := Bits_Per_Pixel;
          lpvBits     : Address := Bits)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, CreateBitmap, "CreateBitmap");
    begin
       Delete (Bitmap);
@@ -669,9 +670,9 @@ package body GWindows.Drawing_Objects is
                               Icon_Const : in     Integer)
    is
       function LoadIcon
-        (hInst   : Interfaces.C.long := 0;
+        (hInst   : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          pszIcon : Integer           := Icon_Const)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, LoadIcon,
                        "LoadIcon" & Character_Mode_Identifier);
    begin
@@ -690,9 +691,10 @@ package body GWindows.Drawing_Objects is
       C_Text : constant GString_C := GWindows.GStrings.To_GString_C (Name);
 
       function LoadIcon
-        (hInst   : Interfaces.C.long := GWindows.Internal.Current_hInstance;
+        (hInst   : GWindows.Types.Handle :=
+           GWindows.Internal.Current_hInstance;
          pszIcon : GString_C         := C_Text)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, LoadIcon,
                        "LoadIcon" & Character_Mode_Identifier);
    begin
@@ -715,13 +717,13 @@ package body GWindows.Drawing_Objects is
       LR_LOADFROMFILE : constant := 16;
 
       function LoadImage
-        (hInst     : Interfaces.C.long := 0;
+        (hInst     : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          lpszName  : GString_C         := C_Text;
          uType     : Interfaces.C.int  := IMAGE_ICON;
          cxDesired : Interfaces.C.int  := 0;
          cyDesired : Interfaces.C.int  := 0;
          fuLoad    : Interfaces.C.int  := LR_LOADFROMFILE)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, LoadImage,
                        "LoadImage" & Character_Mode_Identifier);
    begin
@@ -742,10 +744,11 @@ package body GWindows.Drawing_Objects is
         GWindows.GStrings.To_GString_C (File_Name);
 
       function ExtractAssociatedIcon
-        (hInst    : Interfaces.C.long  := GWindows.Internal.Current_hInstance;
+        (hInst    : GWindows.Types.Handle :=
+           GWindows.Internal.Current_hInstance;
          lpszName : GString_C          := C_Text;
          lpiIcon  : Interfaces.C.short := Interfaces.C.short (Index))
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (StdCall, ExtractAssociatedIcon,
                        "ExtractAssociatedIcon" & Character_Mode_Identifier);
    begin

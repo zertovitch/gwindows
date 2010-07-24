@@ -33,6 +33,7 @@
 ------------------------------------------------------------------------------
 
 with GNATOCX.IOleObject_Interface;
+with System;
 
 package GNATOCX_Site.Class is
 
@@ -676,7 +677,7 @@ package GNATOCX_Site.Class is
      new GNATCOM.Create.COM_Interface.CoClass_Type (GUID_Map'Access) with
       record
          OleObject : GNATOCX.IOleObject_Interface.IOleObject_Type;
-         HWND      : Interfaces.C.long;
+         HWND      : System.Address;
       end record;
 
    type Pointer_To_GNATOCXClass_Type is

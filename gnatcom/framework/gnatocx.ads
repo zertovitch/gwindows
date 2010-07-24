@@ -35,6 +35,7 @@
 --  Support for direct Ada use of GUI ActiveX controls
 
 with Ada.Unchecked_Conversion;
+with System;
 with Interfaces.C;
 
 with GNATCOM.Types;
@@ -98,7 +99,7 @@ package GNATOCX is
    type IEnumSTATDATA;
    type STATDATA;
    type MSG;
-   subtype wireHWND is Interfaces.C.long;
+   subtype wireHWND is System.Address;
    type uRemotableHandle;
    type u_MIDL_IWinTypes_0009;
    type POINT;
@@ -255,8 +256,6 @@ package GNATOCX is
    for uFILETIME'Size use Size_Of_uFILETIME;
    for uFILETIME'Alignment use 4;
 
-   Size_Of_STATSTG : constant := 576;
-
    --  Element Name          : STATSTG
    --  Element Type          : Record
 
@@ -275,31 +274,6 @@ package GNATOCX is
          reserved          : Interfaces.C.unsigned_long;
       end record;
    pragma Convention (C_Pass_By_Copy, STATSTG);
-   for STATSTG use
-      record
-         pwcsName          at 0 range 0 .. 0 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-         utype             at 0 range 32 .. 32 +
-           Interfaces.C.unsigned_long'Size - 1;
-         cbSize            at 0 range 64 .. 64 + Size_Of_uULARGE_INTEGER - 1;
-         mtime             at 0 range 128 .. 128 + Size_Of_uFILETIME - 1;
-         ctime             at 0 range 192 .. 192 + Size_Of_uFILETIME - 1;
-         atime             at 0 range 256 .. 256 + Size_Of_uFILETIME - 1;
-         grfMode           at 0 range 320 .. 320 +
-           Interfaces.C.unsigned_long'Size - 1;
-         grfLocksSupported at 0 range 352 .. 352 +
-           Interfaces.C.unsigned_long'Size - 1;
-         clsid             at 0 range 384 .. 384 +
-           GNATCOM.Types.Size_Of_GUID - 1;
-         grfStateBits      at 0 range 512 .. 512 +
-           Interfaces.C.unsigned_long'Size - 1;
-         reserved          at 0 range 544 .. 544 +
-           Interfaces.C.unsigned_long'Size - 1;
-      end record;
-   for STATSTG'Size use Size_Of_STATSTG;
-
-   --  Element Name          : IStream
-   --  Element Type          : Interface
 
    IID_IStream : aliased GNATCOM.Types.GUID :=
      GNATCOM.GUID.To_GUID ("{0000000C-0000-0000-C000-000000000046}");
@@ -432,8 +406,6 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IStream);
 
-   Size_Of_uCOAUTHIDENTITY : constant := 224;
-
    --  Element Name          : _COAUTHIDENTITY
    --  Element Type          : Record
 
@@ -448,27 +420,6 @@ package GNATOCX is
          Flags          : Interfaces.C.unsigned_long;
       end record;
    pragma Convention (C_Pass_By_Copy, uCOAUTHIDENTITY);
-   for uCOAUTHIDENTITY use
-      record
-         User           at 0 range 0 .. 0 + GNATCOM.Types.Size_Of_Pointers - 1;
-         UserLength     at 0 range 32 .. 32 +
-           Interfaces.C.unsigned_long'Size - 1;
-         Domain         at 0 range 64 .. 64 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-         DomainLength   at 0 range 96 .. 96 +
-           Interfaces.C.unsigned_long'Size - 1;
-         Password       at 0 range 128 .. 128 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-         PasswordLength at 0 range 160 .. 160 +
-           Interfaces.C.unsigned_long'Size - 1;
-         Flags          at 0 range 192 .. 192 +
-           Interfaces.C.unsigned_long'Size - 1;
-      end record;
-   for uCOAUTHIDENTITY'Size use Size_Of_uCOAUTHIDENTITY;
-   for uCOAUTHIDENTITY'Alignment use 4;
-
-   Size_Of_uCOAUTHINFO : constant := 224;
-
    --  Element Name          : _COAUTHINFO
    --  Element Type          : Record
 
@@ -483,28 +434,6 @@ package GNATOCX is
          dwCapabilities       : Interfaces.C.unsigned_long;
       end record;
    pragma Convention (C_Pass_By_Copy, uCOAUTHINFO);
-   for uCOAUTHINFO use
-      record
-         dwAuthnSvc           at 0 range 0 .. 0 +
-           Interfaces.C.unsigned_long'Size - 1;
-         dwAuthzSvc           at 0 range 32 .. 32 +
-           Interfaces.C.unsigned_long'Size - 1;
-         pwszServerPrincName  at 0 range 64 .. 64 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-         dwAuthnLevel         at 0 range 96 .. 96 +
-           Interfaces.C.unsigned_long'Size - 1;
-         dwImpersonationLevel at 0 range 128 .. 128 +
-           Interfaces.C.unsigned_long'Size - 1;
-         pAuthIdentityData    at 0 range 160 .. 160 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-         dwCapabilities       at 0 range 192 .. 192 +
-           Interfaces.C.unsigned_long'Size - 1;
-      end record;
-   for uCOAUTHINFO'Size use Size_Of_uCOAUTHINFO;
-   for uCOAUTHINFO'Alignment use 4;
-
-   Size_Of_uCOSERVERINFO : constant := 128;
-
    --  Element Name          : _COSERVERINFO
    --  Element Type          : Record
 
@@ -516,18 +445,6 @@ package GNATOCX is
          dwReserved2 : Interfaces.C.unsigned_long;
       end record;
    pragma Convention (C_Pass_By_Copy, uCOSERVERINFO);
-   for uCOSERVERINFO use
-      record
-         dwReserved1 at 0 range 0 .. 0 + Interfaces.C.unsigned_long'Size - 1;
-         pwszName    at 0 range 32 .. 32 + GNATCOM.Types.Size_Of_Pointers - 1;
-         pAuthInfo   at 0 range 64 .. 64 + GNATCOM.Types.Size_Of_Pointers - 1;
-         dwReserved2 at 0 range 96 .. 96 + Interfaces.C.unsigned_long'Size - 1;
-      end record;
-   for uCOSERVERINFO'Size use Size_Of_uCOSERVERINFO;
-   for uCOSERVERINFO'Alignment use 4;
-
-   Size_Of_BIND_OPTS2 : constant := 256;
-
    --  Element Name          : BIND_OPTS2
    --  Element Type          : Record
 
@@ -543,28 +460,6 @@ package GNATOCX is
          pServerInfo         : Pointer_To_uCOSERVERINFO;
       end record;
    pragma Convention (C_Pass_By_Copy, BIND_OPTS2);
-   for BIND_OPTS2 use
-      record
-         cbStruct            at 0 range 0 .. 0 +
-           Interfaces.C.unsigned_long'Size - 1;
-         grfFlags            at 0 range 32 .. 32 +
-           Interfaces.C.unsigned_long'Size - 1;
-         grfMode             at 0 range 64 .. 64 +
-           Interfaces.C.unsigned_long'Size - 1;
-         dwTickCountDeadline at 0 range 96 .. 96 +
-           Interfaces.C.unsigned_long'Size - 1;
-         dwTrackFlags        at 0 range 128 .. 128 +
-           Interfaces.C.unsigned_long'Size - 1;
-         dwClassContext      at 0 range 160 .. 160 +
-           Interfaces.C.unsigned_long'Size - 1;
-         locale              at 0 range 192 .. 192 +
-           Interfaces.C.unsigned_long'Size - 1;
-         pServerInfo         at 0 range 224 .. 224 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-      end record;
-   for BIND_OPTS2'Size use Size_Of_BIND_OPTS2;
-   for BIND_OPTS2'Alignment use 4;
-
    --  Element Name          : IEnumMoniker
    --  Element Type          : Interface
 
@@ -1361,8 +1256,6 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IOleClientSite);
 
-   Size_Of_u_MIDL_IWinTypes_0001 : constant := 32;
-
    --  Element Name          : __MIDL_IWinTypes_0001
    --  Element Type          : Union
 
@@ -1378,9 +1271,6 @@ package GNATOCX is
       end record;
    pragma Convention (C_Pass_By_Copy, u_MIDL_IWinTypes_0001);
    pragma Unchecked_Union (u_MIDL_IWinTypes_0001);
-   for u_MIDL_IWinTypes_0001'Size use Size_Of_u_MIDL_IWinTypes_0001;
-
-   Size_Of_uuserCLIPFORMAT : constant := 64;
 
    --  Element Name          : _userCLIPFORMAT
    --  Element Type          : Record
@@ -1391,15 +1281,6 @@ package GNATOCX is
          u        : u_MIDL_IWinTypes_0001;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserCLIPFORMAT);
-   for uuserCLIPFORMAT use
-      record
-         fContext at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
-         u        at 0 range 32 .. 32 + Size_Of_u_MIDL_IWinTypes_0001 - 1;
-      end record;
-   for uuserCLIPFORMAT'Size use Size_Of_uuserCLIPFORMAT;
-   for uuserCLIPFORMAT'Alignment use 4;
-
-   Size_Of_DVTARGETDEVICE : constant := 128;
 
    --  Element Name          : DVTARGETDEVICE
    --  Element Type          : Record
@@ -1414,25 +1295,6 @@ package GNATOCX is
          tdData             : Pointer_To_unsigned_char;
       end record;
    pragma Convention (C_Pass_By_Copy, DVTARGETDEVICE);
-   for DVTARGETDEVICE use
-      record
-         tdSize             at 0 range 0 .. 0 +
-           Interfaces.C.unsigned_long'Size - 1;
-         tdDriverNameOffset at 0 range 32 .. 32 +
-           Interfaces.C.unsigned_short'Size - 1;
-         tdDeviceNameOffset at 0 range 48 .. 48 +
-           Interfaces.C.unsigned_short'Size - 1;
-         tdPortNameOffset   at 0 range 64 .. 64 +
-           Interfaces.C.unsigned_short'Size - 1;
-         tdExtDevmodeOffset at 0 range 80 .. 80 +
-           Interfaces.C.unsigned_short'Size - 1;
-         tdData             at 0 range 96 .. 96 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-      end record;
-   for DVTARGETDEVICE'Size use Size_Of_DVTARGETDEVICE;
-   for DVTARGETDEVICE'Alignment use 4;
-
-   Size_Of_FORMATETC : constant := 160;
 
    --  Element Name          : FORMATETC
    --  Element Type          : Record
@@ -1446,18 +1308,6 @@ package GNATOCX is
          tymed    : Interfaces.C.unsigned_long;
       end record;
    pragma Convention (C_Pass_By_Copy, FORMATETC);
-   for FORMATETC use
-      record
-         cfFormat at 0 range 0 .. 0 + GNATCOM.Types.Size_Of_Pointers - 1;
-         ptd      at 0 range 32 .. 32 + GNATCOM.Types.Size_Of_Pointers - 1;
-         dwAspect at 0 range 64 .. 64 + Interfaces.C.unsigned_long'Size - 1;
-         lindex   at 0 range 96 .. 96 + Interfaces.C.long'Size - 1;
-         tymed    at 0 range 128 .. 128 + Interfaces.C.unsigned_long'Size - 1;
-      end record;
-   for FORMATETC'Size use Size_Of_FORMATETC;
-   for FORMATETC'Alignment use 4;
-
-   Size_Of_uBYTE_BLOB : constant := 64;
 
    --  Element Name          : _BYTE_BLOB
    --  Element Type          : Record
@@ -1468,13 +1318,6 @@ package GNATOCX is
          abData : Pointer_To_unsigned_char;
       end record;
    pragma Convention (C_Pass_By_Copy, uBYTE_BLOB);
-   for uBYTE_BLOB use
-      record
-         clSize at 0 range 0 .. 0 + Interfaces.C.unsigned_long'Size - 1;
-         abData at 0 range 32 .. 32 + GNATCOM.Types.Size_Of_Pointers - 1;
-      end record;
-   for uBYTE_BLOB'Size use Size_Of_uBYTE_BLOB;
-   for uBYTE_BLOB'Alignment use 4;
 
    Size_Of_u_MIDL_IWinTypes_0004 : constant := 64;
 
@@ -1515,8 +1358,6 @@ package GNATOCX is
       end record;
    for uuserHMETAFILE'Size use Size_Of_uuserHMETAFILE;
 
-   Size_Of_uremoteMETAFILEPICT : constant := 128;
-
    --  Element Name          : _remoteMETAFILEPICT
    --  Element Type          : Record
 
@@ -1528,15 +1369,6 @@ package GNATOCX is
          hMF  : Pointer_To_uuserHMETAFILE;
       end record;
    pragma Convention (C_Pass_By_Copy, uremoteMETAFILEPICT);
-   for uremoteMETAFILEPICT use
-      record
-         mm   at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
-         xExt at 0 range 32 .. 32 + Interfaces.C.long'Size - 1;
-         yExt at 0 range 64 .. 64 + Interfaces.C.long'Size - 1;
-         hMF  at 0 range 96 .. 96 + GNATCOM.Types.Size_Of_Pointers - 1;
-      end record;
-   for uremoteMETAFILEPICT'Size use Size_Of_uremoteMETAFILEPICT;
-   for uremoteMETAFILEPICT'Alignment use 4;
 
    Size_Of_u_MIDL_IWinTypes_0005 : constant := 64;
 
@@ -1616,8 +1448,6 @@ package GNATOCX is
       end record;
    for uuserHENHMETAFILE'Size use Size_Of_uuserHENHMETAFILE;
 
-   Size_Of_uuserBITMAP : constant := 224;
-
    --  Element Name          : _userBITMAP
    --  Element Type          : Record
 
@@ -1633,23 +1463,6 @@ package GNATOCX is
          pBuffer      : Pointer_To_unsigned_char;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserBITMAP);
-   for uuserBITMAP use
-      record
-         bmType       at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
-         bmWidth      at 0 range 32 .. 32 + Interfaces.C.long'Size - 1;
-         bmHeight     at 0 range 64 .. 64 + Interfaces.C.long'Size - 1;
-         bmWidthBytes at 0 range 96 .. 96 + Interfaces.C.long'Size - 1;
-         bmPlanes     at 0 range 128 .. 128 +
-           Interfaces.C.unsigned_short'Size - 1;
-         bmBitsPixel  at 0 range 144 .. 144 +
-           Interfaces.C.unsigned_short'Size - 1;
-         cbSize       at 0 range 160 .. 160 +
-           Interfaces.C.unsigned_long'Size - 1;
-         pBuffer      at 0 range 192 .. 192 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-      end record;
-   for uuserBITMAP'Size use Size_Of_uuserBITMAP;
-   for uuserBITMAP'Alignment use 4;
 
    Size_Of_u_MIDL_IWinTypes_0007 : constant := 64;
 
@@ -1713,8 +1526,6 @@ package GNATOCX is
    for PALETTEENTRY'Size use Size_Of_PALETTEENTRY;
    for PALETTEENTRY'Alignment use 1;
 
-   Size_Of_LOGPALETTE : constant := 64;
-
    --  Element Name          : LOGPALETTE
    --  Element Type          : Record
 
@@ -1725,17 +1536,6 @@ package GNATOCX is
          palPalEntry   : Pointer_To_PALETTEENTRY;
       end record;
    pragma Convention (C_Pass_By_Copy, LOGPALETTE);
-   for LOGPALETTE use
-      record
-         palVersion    at 0 range 0 .. 0 +
-           Interfaces.C.unsigned_short'Size - 1;
-         palNumEntries at 0 range 16 .. 16 +
-           Interfaces.C.unsigned_short'Size - 1;
-         palPalEntry   at 0 range 32 .. 32 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-      end record;
-   for LOGPALETTE'Size use Size_Of_LOGPALETTE;
-   for LOGPALETTE'Alignment use 2;
 
    Size_Of_u_MIDL_IWinTypes_0008 : constant := 64;
 
@@ -1776,8 +1576,6 @@ package GNATOCX is
       end record;
    for uuserHPALETTE'Size use Size_Of_uuserHPALETTE;
 
-   Size_Of_uFLAGGED_BYTE_BLOB : constant := 96;
-
    --  Element Name          : _FLAGGED_BYTE_BLOB
    --  Element Type          : Record
 
@@ -1788,14 +1586,6 @@ package GNATOCX is
          abData : Pointer_To_unsigned_char;
       end record;
    pragma Convention (C_Pass_By_Copy, uFLAGGED_BYTE_BLOB);
-   for uFLAGGED_BYTE_BLOB use
-      record
-         fFlags at 0 range 0 .. 0 + Interfaces.C.unsigned_long'Size - 1;
-         clSize at 0 range 32 .. 32 + Interfaces.C.unsigned_long'Size - 1;
-         abData at 0 range 64 .. 64 + GNATCOM.Types.Size_Of_Pointers - 1;
-      end record;
-   for uFLAGGED_BYTE_BLOB'Size use Size_Of_uFLAGGED_BYTE_BLOB;
-   for uFLAGGED_BYTE_BLOB'Alignment use 4;
 
    Size_Of_u_MIDL_IWinTypes_0003 : constant := 64;
 
@@ -1836,8 +1626,6 @@ package GNATOCX is
       end record;
    for uuserHGLOBAL'Size use Size_Of_uuserHGLOBAL;
 
-   Size_Of_u_MIDL_IAdviseSink_0002 : constant := 32;
-
    --  Element Name          : __MIDL_IAdviseSink_0002
    --  Element Type          : Union
 
@@ -1855,9 +1643,6 @@ package GNATOCX is
       end record;
    pragma Convention (C_Pass_By_Copy, u_MIDL_IAdviseSink_0002);
    pragma Unchecked_Union (u_MIDL_IAdviseSink_0002);
-   for u_MIDL_IAdviseSink_0002'Size use Size_Of_u_MIDL_IAdviseSink_0002;
-
-   Size_Of_uGDI_OBJECT : constant := 64;
 
    --  Element Name          : _GDI_OBJECT
    --  Element Type          : Record
@@ -1868,15 +1653,6 @@ package GNATOCX is
          u          : u_MIDL_IAdviseSink_0002;
       end record;
    pragma Convention (C_Pass_By_Copy, uGDI_OBJECT);
-   for uGDI_OBJECT use
-      record
-         ObjectType at 0 range 0 .. 0 + Interfaces.C.unsigned_long'Size - 1;
-         u          at 0 range 32 .. 32 + Size_Of_u_MIDL_IAdviseSink_0002 - 1;
-      end record;
-   for uGDI_OBJECT'Size use Size_Of_uGDI_OBJECT;
-   for uGDI_OBJECT'Alignment use 4;
-
-   Size_Of_u_MIDL_IAdviseSink_0003 : constant := 32;
 
    --  Element Name          : __MIDL_IAdviseSink_0003
    --  Element Type          : Union
@@ -1903,9 +1679,6 @@ package GNATOCX is
       end record;
    pragma Convention (C_Pass_By_Copy, u_MIDL_IAdviseSink_0003);
    pragma Unchecked_Union (u_MIDL_IAdviseSink_0003);
-   for u_MIDL_IAdviseSink_0003'Size use Size_Of_u_MIDL_IAdviseSink_0003;
-
-   Size_Of_uSTGMEDIUM_UNION : constant := 64;
 
    --  Element Name          : _STGMEDIUM_UNION
    --  Element Type          : Record
@@ -1916,15 +1689,6 @@ package GNATOCX is
          u     : u_MIDL_IAdviseSink_0003;
       end record;
    pragma Convention (C_Pass_By_Copy, uSTGMEDIUM_UNION);
-   for uSTGMEDIUM_UNION use
-      record
-         tymed at 0 range 0 .. 0 + Interfaces.C.unsigned_long'Size - 1;
-         u     at 0 range 32 .. 32 + Size_Of_u_MIDL_IAdviseSink_0003 - 1;
-      end record;
-   for uSTGMEDIUM_UNION'Size use Size_Of_uSTGMEDIUM_UNION;
-   for uSTGMEDIUM_UNION'Alignment use 4;
-
-   Size_Of_uuserSTGMEDIUM : constant := 96;
 
    --  Element Name          : _userSTGMEDIUM
    --  Element Type          : Record
@@ -1935,16 +1699,6 @@ package GNATOCX is
          pUnkForRelease : GNATCOM.Types.Pointer_To_IUnknown;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserSTGMEDIUM);
-   for uuserSTGMEDIUM use
-      record
-         u_MIDL_0003    at 0 range 0 .. 0 + Size_Of_uSTGMEDIUM_UNION - 1;
-         pUnkForRelease at 0 range 64 .. 64 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-      end record;
-   for uuserSTGMEDIUM'Size use Size_Of_uuserSTGMEDIUM;
-   for uuserSTGMEDIUM'Alignment use 4;
-
-   Size_Of_uuserFLAG_STGMEDIUM : constant := 160;
 
    --  Element Name          : _userFLAG_STGMEDIUM
    --  Element Type          : Record
@@ -1956,14 +1710,6 @@ package GNATOCX is
          Stgmed         : uuserSTGMEDIUM;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserFLAG_STGMEDIUM);
-   for uuserFLAG_STGMEDIUM use
-      record
-         ContextFlags   at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
-         fPassOwnership at 0 range 32 .. 32 + Interfaces.C.long'Size - 1;
-         Stgmed         at 0 range 64 .. 64 + Size_Of_uuserSTGMEDIUM - 1;
-      end record;
-   for uuserFLAG_STGMEDIUM'Size use Size_Of_uuserFLAG_STGMEDIUM;
-   for uuserFLAG_STGMEDIUM'Alignment use 4;
 
    --  Element Name          : IEnumFORMATETC
    --  Element Type          : Interface
@@ -2117,8 +1863,6 @@ package GNATOCX is
      new Ada.Unchecked_Conversion
      (GNATCOM.Types.Pointer_To_Void, Pointer_To_IAdviseSink);
 
-   Size_Of_STATDATA : constant := 256;
-
    --  Element Name          : STATDATA
    --  Element Type          : Record
 
@@ -2130,18 +1874,6 @@ package GNATOCX is
          dwConnection : Interfaces.C.unsigned_long;
       end record;
    pragma Convention (C_Pass_By_Copy, STATDATA);
-   for STATDATA use
-      record
-         formatetc    at 0 range 0 .. 0 + Size_Of_FORMATETC - 1;
-         advf         at 0 range 160 .. 160 +
-           Interfaces.C.unsigned_long'Size - 1;
-         pAdvSink     at 0 range 192 .. 192 +
-           GNATCOM.Types.Size_Of_Pointers - 1;
-         dwConnection at 0 range 224 .. 224 +
-           Interfaces.C.unsigned_long'Size - 1;
-      end record;
-   for STATDATA'Size use Size_Of_STATDATA;
-   for STATDATA'Alignment use 4;
 
    --  Element Name          : IEnumSTATDATA
    --  Element Type          : Interface
@@ -2389,8 +2121,6 @@ package GNATOCX is
    for POINT'Size use Size_Of_POINT;
    for POINT'Alignment use 4;
 
-   Size_Of_MSG : constant := 224;
-
    --  Element Name          : MSG
    --  Element Type          : Record
 
@@ -2404,17 +2134,6 @@ package GNATOCX is
          pt      : POINT;
       end record;
    pragma Convention (C_Pass_By_Copy, MSG);
-   for MSG use
-      record
-         hwnd    at 0 range 0 .. 0 + GNATCOM.Types.Size_Of_Pointers - 1;
-         message at 0 range 32 .. 32 + Interfaces.C.unsigned'Size - 1;
-         wParam  at 0 range 64 .. 64 + Interfaces.C.unsigned_long'Size - 1;
-         lParam  at 0 range 96 .. 96 + Interfaces.C.long'Size - 1;
-         time    at 0 range 128 .. 128 + Interfaces.C.unsigned_long'Size - 1;
-         pt      at 0 range 160 .. 160 + Size_Of_POINT - 1;
-      end record;
-   for MSG'Size use Size_Of_MSG;
-   for MSG'Alignment use 4;
 
    Size_Of_RECT : constant := 128;
 
@@ -2439,8 +2158,6 @@ package GNATOCX is
    for RECT'Size use Size_Of_RECT;
    for RECT'Alignment use 4;
 
-   Size_Of_OLEVERB : constant := 128;
-
    --  Element Name          : OLEVERB
    --  Element Type          : Record
 
@@ -2452,17 +2169,6 @@ package GNATOCX is
          grfAttribs   : Interfaces.C.unsigned_long;
       end record;
    pragma Convention (C_Pass_By_Copy, OLEVERB);
-   for OLEVERB use
-      record
-         lVerb        at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
-         lpszVerbName at 0 range 32 .. 32 + GNATCOM.Types.Size_Of_Pointers - 1;
-         fuFlags      at 0 range 64 .. 64 +
-           Interfaces.C.unsigned_long'Size - 1;
-         grfAttribs   at 0 range 96 .. 96 +
-           Interfaces.C.unsigned_long'Size - 1;
-      end record;
-   for OLEVERB'Size use Size_Of_OLEVERB;
-   for OLEVERB'Alignment use 4;
 
    --  Element Name          : IEnumOLEVERB
    --  Element Type          : Interface

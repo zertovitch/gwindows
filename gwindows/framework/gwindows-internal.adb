@@ -34,8 +34,6 @@
 
 with Ada.Unchecked_Deallocation;
 
-with GWindows.Types;
-
 package body GWindows.Internal is
 
    function GetDesktopWindow return GWindows.Types.Handle;
@@ -126,7 +124,7 @@ package body GWindows.Internal is
 
 begin
    declare
-      function hInst (MName : Integer := 0) return Interfaces.C.long;
+      function hInst (MName : Integer := 0) return GWindows.Types.Handle;
       pragma Import (StdCall, hInst, "GetModuleHandleA");
       --  Load instance handle via Win32 API
 

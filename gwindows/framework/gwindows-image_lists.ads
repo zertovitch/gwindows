@@ -134,7 +134,7 @@ private
    type Image_List_Type is
      new Ada.Finalization.Limited_Controlled with
       record
-         HIMAGELIST : GWindows.Types.Handle := 0;
+         HIMAGELIST : GWindows.Types.Handle := GWindows.Types.Null_Handle;
       end record;
 
 end GWindows.Image_Lists;

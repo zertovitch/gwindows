@@ -50,7 +50,7 @@ package GWindows.Testing.Events is
    --  Generate key-down and key-up events, with alt key (VK_MENU)
    --  down. The scan code is not correct.
 
-   subtype Character_128 is Character range ASCII.NUL .. ASCII.DEL;
+   subtype Character_128 is Character range ASCII.Nul .. ASCII.Del;
 
    procedure Key_Stroke
      (Key       : in     Character_128;

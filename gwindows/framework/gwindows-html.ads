@@ -1,8 +1,11 @@
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
 with GNATCOM.Dispinterface; use GNATCOM.Dispinterface;
 with GWindows;              use GWindows;
 with GWindows.ActiveX;      use GWindows.ActiveX;
 with GWindows.Base;
 with Interfaces.C;
+with GWindows.Types;
 
 package GWindows.Html is
 
@@ -16,6 +19,13 @@ package GWindows.Html is
                 Top, Left     :        Natural;
                 Width, Height :        Natural);
 
+   procedure Create
+     (Html          : in out Html_Type;
+      Parent        : in out GWindows.Base.Base_Window_Type'Class;
+      Top, Left     :        Natural;
+      Width, Height :        Natural;
+      FileName      : in     Unbounded_String);
+
    procedure Accept_File_Drag_And_Drop (Html  : Html_Type;
                                         State : Boolean := True);
 
@@ -25,19 +35,25 @@ package GWindows.Html is
    procedure On_Mouse_Activate_Handler (Html    : in out Html_Type;
                                         Handler :        Action_Event);
 
+   procedure GoBack (Html : in out Html_Type);
+
+   function FileName (Html : in Html_Type) return String;
+
 private
 
    type Html_Type is new ActiveX_Type with
       record
          Browser                   : Dispinterface_Type;
          On_Mouse_Activate_Handler : Action_Event;
+         FileName                  : Unbounded_String;
       end record;
 
+   overriding
    procedure On_Message
      (Html         : in out Html_Type;
-      message      : in     Interfaces.C.unsigned;
-      wParam       : in     Interfaces.C.int;
-      lParam       : in     Interfaces.C.int;
-      Return_Value : in out Interfaces.C.long);
+      message      : Interfaces.C.unsigned;
+      wParam       : GWindows.Types.Wparam;
+      lParam       : GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult);
 
 end GWindows.Html;

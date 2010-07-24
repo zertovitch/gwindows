@@ -37,13 +37,14 @@
 with Interfaces.C;
 
 with GWindows.Base;
+with GWindows.Types;
 
 package GWindows.Application is
 
-   function hInstance return Interfaces.C.long;
+   function hInstance return GWindows.Types.Handle;
    --  hInstance of GWindows application
 
-   procedure Set_hInstance (hInstance : Interfaces.C.long);
+   procedure Set_hInstance (hInstance : GWindows.Types.Handle);
    --  When running in GWindows in a DLL, Set_hInstance
    --  should be called in the DllMain function with
    --  the process's hInstance

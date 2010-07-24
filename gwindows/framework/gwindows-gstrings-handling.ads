@@ -7,8 +7,6 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
---                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
 -- ware  Foundation;  either version 2,  or (at your option) any later ver- --
@@ -32,6 +30,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  ANSI version
-with Ada.Strings.Fixed;
-package GWindows.GStrings.Handling renames Ada.Strings.Fixed;
+--  UNICODE version
+with Ada.Strings.Wide_Fixed;
+package GWindows.GStrings.Handling renames Ada.Strings.Wide_Fixed;

@@ -59,7 +59,7 @@ package body GNATCOM.Utility is
 
    function GetMessage
      (lpMsg         : Pointer_To_MSG;
-      hwnd          : Interfaces.C.long;
+      hwnd          : System.Address;
       wMsgFilterMin : Interfaces.C.unsigned;
       wMsgFilterMax : Interfaces.C.unsigned)
      return Interfaces.C.long;
@@ -81,7 +81,7 @@ package body GNATCOM.Utility is
    pragma Import (StdCall, PostThreadMessage, "PostThreadMessageA");
 
    procedure MessageBox
-     (hwnd    : in Interfaces.C.long       := 0;
+     (hwnd    : in System.Address := System.Null_Address;
       Message : in Interfaces.C.char_array;
       Title   : in Interfaces.C.char_array;
       uType   : in Interfaces.C.unsigned   := 0);
@@ -106,7 +106,8 @@ package body GNATCOM.Utility is
 
       tMSG    : aliased MSG;
    begin
-      while GetMessage (tMSG'Unchecked_Access, 0, 0, 0) /= 0 loop
+      while GetMessage (tMSG'Unchecked_Access,
+                        System.Null_Address, 0, 0) /= 0 loop
          DispatchMessage (tMSG'Unchecked_Access);
       end loop;
    end Message_Loop;

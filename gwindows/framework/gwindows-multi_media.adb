@@ -35,6 +35,7 @@
 with Interfaces.C;
 with GWindows.GStrings;
 with GWindows.Application;
+with GWindows.Types;
 
 package body GWindows.Multi_Media is
 --     SND_SYNC                        : constant := 0;
@@ -78,8 +79,8 @@ package body GWindows.Multi_Media is
       Flags  : Interfaces.C.unsigned := Name_Kind;
 
       procedure PlaySound
-        (Sound    : access GChar_C             := C_Text (C_Text'First)'Access;
-         Handle   : in     Interfaces.C.long   := 0;
+        (Sound    : access GChar_C        := C_Text (C_Text'First)'Access;
+         Handle   : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          fdwSound : in     Interfaces.C.unsigned);
       pragma Import (StdCall, PlaySound,
                        "PlaySound" & Character_Mode_Identifier);

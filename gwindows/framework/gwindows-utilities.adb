@@ -35,6 +35,7 @@
 with Ada.Unchecked_Conversion;
 
 package body GWindows.Utilities is
+   use GWindows.Types;
 
    -------------------------------------------------------------------------
    --  Local Specs
@@ -47,10 +48,7 @@ package body GWindows.Utilities is
       end record;
 
    function To_SDWORD is new
-     Ada.Unchecked_Conversion (Interfaces.C.int, SDouble_Word);
-
-   function To_Integer is new
-     Ada.Unchecked_Conversion (SDouble_Word, Integer);
+     Ada.Unchecked_Conversion (Interfaces.C.unsigned, SDouble_Word);
 
    type Double_Word is
       record
@@ -59,7 +57,7 @@ package body GWindows.Utilities is
       end record;
 
    function To_DWORD is new
-     Ada.Unchecked_Conversion (Interfaces.C.int, Double_Word);
+     Ada.Unchecked_Conversion (Interfaces.C.unsigned, Double_Word);
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -71,20 +69,25 @@ package body GWindows.Utilities is
 
    function Make_Long (Low  : in Interfaces.C.short;
                        High : in Interfaces.C.short)
-                      return Integer
-   is
-      Result : constant Integer := To_Integer (SDouble_Word'(Low, High));
+                       return GWindows.Types.Lparam is
    begin
-      return Result;
+      return Lparam (Low) + 16#10000# * Lparam (High);
    end Make_Long;
 
    --------------
    -- Low_Word --
    --------------
 
-   function Low_Word (DWORD : in Interfaces.C.int) return Integer
-   is
-      Result : constant SDouble_Word := To_SDWORD (DWORD);
+   function Low_Word (L : GWindows.Types.Lparam) return Integer is
+      Result : constant SDouble_Word :=
+         To_SDWORD (Interfaces.C.unsigned (L and 16#FFFF_FFFF#));
+   begin
+      return Integer (Result.Low);
+   end Low_Word;
+
+   function Low_Word (L : GWindows.Types.Wparam) return Integer is
+      Result : constant SDouble_Word :=
+         To_SDWORD (Interfaces.C.unsigned (L and 16#FFFF_FFFF#));
    begin
       return Integer (Result.Low);
    end Low_Word;
@@ -93,9 +96,16 @@ package body GWindows.Utilities is
    -- High_Word --
    ---------------
 
-   function High_Word (DWORD : in Interfaces.C.int) return Integer
-   is
-      Result : constant SDouble_Word := To_SDWORD (DWORD);
+   function High_Word (L : GWindows.Types.Lparam) return Integer is
+      Result : constant SDouble_Word :=
+         To_SDWORD (Interfaces.C.unsigned (L and 16#FFFF_FFFF#));
+   begin
+      return Integer (Result.High);
+   end High_Word;
+
+   function High_Word (L : GWindows.Types.Wparam) return Integer is
+      Result : constant SDouble_Word :=
+         To_SDWORD (Interfaces.C.unsigned (L and 16#FFFF_FFFF#));
    begin
       return Integer (Result.High);
    end High_Word;
@@ -104,10 +114,10 @@ package body GWindows.Utilities is
    -- Unsigned_Low_Word --
    -----------------------
 
-   function Unsigned_Low_Word (DWORD : in Interfaces.C.int)
-                     return Interfaces.C.unsigned
-   is
-      Result : constant Double_Word := To_DWORD (DWORD);
+   function Unsigned_Low_Word (W : GWindows.Types.Wparam)
+                              return Interfaces.C.unsigned is
+      Result : constant Double_Word :=
+         To_DWORD (Interfaces.C.unsigned (W and 16#FFFF_FFFF#));
    begin
       return Interfaces.C.unsigned (Result.Low);
    end Unsigned_Low_Word;
@@ -116,10 +126,10 @@ package body GWindows.Utilities is
    -- Unsigned_High_Word --
    ------------------------
 
-   function Unsigned_High_Word (DWORD : in Interfaces.C.int)
-                      return Interfaces.C.unsigned
-   is
-      Result : constant Double_Word := To_DWORD (DWORD);
+   function Unsigned_High_Word (W : GWindows.Types.Wparam)
+                               return Interfaces.C.unsigned is
+      Result : constant Double_Word :=
+         To_DWORD (Interfaces.C.unsigned (W and 16#FFFF_FFFF#));
    begin
       return Interfaces.C.unsigned (Result.High);
    end Unsigned_High_Word;

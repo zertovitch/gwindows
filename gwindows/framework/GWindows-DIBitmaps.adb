@@ -1,6 +1,6 @@
+with Ada.Unchecked_Conversion;
 with GWindows.Errors;               use GWindows.Errors;
 with GWindows;                      use GWindows;
-with Ada.Unchecked_Conversion;
 
 package body GWindows.DIBitmaps is
 
@@ -18,8 +18,8 @@ package body GWindows.DIBitmaps is
       --  Return the size in pixel counts of the bitmap.
    begin
       return
-        (Width  => Integer (Bitmap.Bitmap_Info_Header.Private_Info.Width),
-         Height => Integer (Bitmap.Bitmap_Info_Header.Private_Info.Height));
+        (Width  => Bitmap.Bitmap_Info_Header.Private_Info.Width,
+         Height => Bitmap.Bitmap_Info_Header.Private_Info.Height);
    end Get_Size;
 
    procedure Set_Windows_Components
@@ -57,6 +57,30 @@ package body GWindows.DIBitmaps is
         Bitmap.Width * Bitmap.Height;
    end Set_Windows_Components;
 
+   ------------------------
+   -- Create_DIB_Section --
+   ------------------------
+
+   procedure Create_DIB_Section
+     (Canvas   : Canvas_Type;
+      Bminfo   : DIB_Info_Header_Type;
+      Bitmap   : in out GWindows.Drawing_Objects.Bitmap_Type;
+      Pxls     : out System.Address) is
+
+      function CreateDIBSection
+        (hdc      : GWindows.Types.Handle := GWindows.Drawing.Handle (Canvas);
+         pbmi     : DIB_Info_Header_Type := Bminfo;
+         iUsage   : DIB_Color_Meaning_Type := DIB_RGB_COLORS;
+         ppvBits  : access System.Address := Pxls'Unrestricted_Access;
+         hSection : GWindows.Types.Handle :=
+           GWindows.Types.Null_Handle;
+         dwOffset : Integer := 0) return GWindows.Types.Handle;
+      pragma Import (Stdcall, CreateDIBSection, "CreateDIBSection");
+
+   begin
+      GWindows.Drawing_Objects.Handle (Bitmap, CreateDIBSection);
+   end Create_DIB_Section;
+
    procedure Get_Image_Ptr (Bitmap : in out VGA_DIBitmap_Type;
                             Result : out    Pixel_Byte_Ptr_Type) is
       --
@@ -85,13 +109,13 @@ package body GWindows.DIBitmaps is
       Result := lpvBits (Image_Ptr);
    end Get_Image_Ptr;
 
-   function Get_DIBits (Hdc        : in Interfaces.C.long;
-                        HBitmap    : in Interfaces.C.long;
-                        Start_Scan : in Interfaces.C.unsigned;
-                        Scan_Lines : in Interfaces.C.unsigned;
-                        Bits       : in Pixel_Byte_Ptr_Type;
-                        BPI        : in DIB_Info_Header_Ptr_Type;
-                        Usage      : in Interfaces.C.unsigned)
+   function Get_DIBits (Hdc        : GWindows.Types.Handle;
+                        HBitmap    : GWindows.Types.Handle;
+                        Start_Scan : Interfaces.C.unsigned;
+                        Scan_Lines : Interfaces.C.unsigned;
+                        Bits       : Pixel_Byte_Ptr_Type;
+                        BPI        : DIB_Info_Header_Ptr_Type;
+                        Usage      : Interfaces.C.unsigned)
      return Interfaces.C.int;
 
    pragma Import (StdCall, Get_DIBits, "GetDIBits");
@@ -110,8 +134,9 @@ package body GWindows.DIBitmaps is
         := Target.Bitmap_Info_Header'Unchecked_Access;
      Image_Ptr : Pixel_Byte_Ptr_Type;
    begin
-      if GWindows.Drawing.Handle (Canvas) = 0 or else
-        GWindows.Drawing_Objects.Handle (Source) = 0 then
+      if GWindows.Drawing.Handle (Canvas) = GWindows.Types.Null_Handle or else
+         GWindows.Drawing_Objects.Handle (Source) = GWindows.Types.Null_Handle
+      then
          raise Not_Valid_Error;
       end if;
       Set_Windows_Components (Target);      --  Dispatches
@@ -142,8 +167,9 @@ package body GWindows.DIBitmaps is
         := Target.Bitmap_Info_Header'Unchecked_Access;
       Image_Ptr : Pixel_Byte_Ptr_Type;
    begin
-      if GWindows.Drawing.Handle (Canvas) = 0 or else
-        GWindows.Drawing_Objects.Handle (Source) = 0 then
+      if GWindows.Drawing.Handle (Canvas) = GWindows.Types.Null_Handle or else
+         GWindows.Drawing_Objects.Handle (Source) = GWindows.Types.Null_Handle
+      then
          raise Not_Valid_Error;
       end if;
       Set_Windows_Components (Target);      --  Dispatches
@@ -160,17 +186,17 @@ package body GWindows.DIBitmaps is
       end if;
    end Copy;
 
-   function Stretch_DIBits (The_Hdc     : in Interfaces.C.long;
-                            X_Dest      : in Interfaces.C.int;
-                            Y_Dest      : in Interfaces.C.int;
-                            Dest_Width  : in Interfaces.C.int;
-                            Dest_Height : in Interfaces.C.int;
-                            X_Src       : in Interfaces.C.int;
-                            Y_Src       : in Interfaces.C.int;
-                            Src_Width   : in Interfaces.C.int;
-                            Src_Height  : in Interfaces.C.int;
-                            Bits        : in Pixel_Byte_Ptr_Type;
-                            Bits_Info   : in DIB_Info_Header_Ptr_Type;
+   function Stretch_DIBits (The_Hdc     : GWindows.Types.Handle;
+                            X_Dest      : Interfaces.C.int;
+                            Y_Dest      : Interfaces.C.int;
+                            Dest_Width  : Interfaces.C.int;
+                            Dest_Height : Interfaces.C.int;
+                            X_Src       : Interfaces.C.int;
+                            Y_Src       : Interfaces.C.int;
+                            Src_Width   : Interfaces.C.int;
+                            Src_Height  : Interfaces.C.int;
+                            Bits        : Pixel_Byte_Ptr_Type;
+                            Bits_Info   : DIB_Info_Header_Ptr_Type;
                             Usage       : Interfaces.C.unsigned;
                             Rop         : Interfaces.C.unsigned_long)
      return Interfaces.C.int;
@@ -195,7 +221,7 @@ package body GWindows.DIBitmaps is
         := DIBitmap.Bitmap_Info_Header'Unchecked_Access;
       Image_Ptr : Pixel_Byte_Ptr_Type;
    begin
-      if GWindows.Drawing.Handle (Canvas) = 0 then
+      if GWindows.Drawing.Handle (Canvas) = GWindows.Types.Null_Handle then
          raise Not_Valid_Error;
       end if;
       Set_Windows_Components (DIBitmap);      --  Dispatches

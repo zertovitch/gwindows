@@ -584,7 +584,7 @@ package GWindows.Base is
    type Notification is
       record
          Handle : GWindows.Types.Handle;
-         ID     : Integer;
+         ID     : GWindows.Types.Wparam;
          Code   : Integer;
       end record;
    type Pointer_To_Notification is access all Notification;
@@ -593,25 +593,25 @@ package GWindows.Base is
    procedure On_Notify (Window       : in out Base_Window_Type;
                         Message      : in     Pointer_To_Notification;
                         Control      : in     Pointer_To_Base_Window_Class;
-                        Return_Value : in out Interfaces.C.long);
+                        Return_Value : in out GWindows.Types.Lresult);
    --  On message from common controls
    --  If control /= null then the message will be routed down to control
 
    procedure On_Filter_Message
      (Window       : in out Base_Window_Type;
       message      : in     Interfaces.C.unsigned;
-      wParam       : in     Interfaces.C.int;
-      lParam       : in     Interfaces.C.int;
-      Return_Value : in out Interfaces.C.long;
+      wParam       : in     GWindows.Types.Wparam;
+      lParam       : in     GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult;
       Continue     : out    Boolean);
    --  Called to allow pre processing of messages
 
    procedure On_Message
      (Window       : in out Base_Window_Type;
       message      : in     Interfaces.C.unsigned;
-      wParam       : in     Interfaces.C.int;
-      lParam       : in     Interfaces.C.int;
-      Return_Value : in out Interfaces.C.long);
+      wParam       : in     GWindows.Types.Wparam;
+      lParam       : in     GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult);
    --  Called for all unhandled messages
 
    -------------------------------------------------------------------------
@@ -767,9 +767,9 @@ package GWindows.Base is
    function WndProc
      (hwnd    : GWindows.Types.Handle;
       message : Interfaces.C.unsigned;
-      wParam  : Interfaces.C.int;
-      lParam  : Interfaces.C.int)
-     return Interfaces.C.long;
+      wParam  : GWindows.Types.Wparam;
+      lParam  : GWindows.Types.Lparam)
+     return GWindows.Types.Lresult;
    pragma Convention (Stdcall, WndProc);
    --  GWindows Implementation of Win32 Procedure Call Back
    --  Procedure and Message Dispatch
@@ -777,9 +777,9 @@ package GWindows.Base is
    function WndProc_Control
      (hwnd    : GWindows.Types.Handle;
       message : Interfaces.C.unsigned;
-      wParam  : Interfaces.C.int;
-      lParam  : Interfaces.C.int)
-     return Interfaces.C.long;
+      wParam  : GWindows.Types.Wparam;
+      lParam  : GWindows.Types.Lparam)
+     return GWindows.Types.Lresult;
    pragma Convention (Stdcall, WndProc_Control);
    --  GWindows Implementation of Win32 Procedure Call Back
    --  Procedure and Message Dispatch for controls
@@ -791,11 +791,11 @@ package GWindows.Base is
          lpfnWndProc   : System.Address        := WndProc'Address;
          cbClsExtra    : Interfaces.C.int      := 0;
          cbWndExtra    : Interfaces.C.int      := 0;
-         hInstance     : GWindows.Types.Handle := 0;
-         hIcon         : GWindows.Types.Handle := 0;
-         hCursor       : GWindows.Types.Handle := 0;
-         hbrBackground : GWindows.Types.Handle :=
-           Interfaces.C."-" (GWindows.Colors.COLOR_BTNFACE, 1);
+         hInstance     : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         hIcon         : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         hCursor       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         hbrBackground : GWindows.Types.Handle := GWindows.Types.To_Handle
+            (GWindows.Types.Lparam (GWindows.Colors.COLOR_HIGHLIGHTTEXT));
          lpszMenuName  : Pointer_To_GChar_C    := null;
          lpszClassName : Pointer_To_GChar_C    := null;
       end record;
@@ -818,21 +818,21 @@ private
    type Windproc_Access is access
      function (hwnd    : GWindows.Types.Handle;
                message : Interfaces.C.unsigned;
-               wParam  : Interfaces.C.int;
-               lParam  : Interfaces.C.int)
-              return Interfaces.C.long;
+               wParam  : GWindows.Types.Wparam;
+               lParam  : GWindows.Types.Lparam)
+              return GWindows.Types.Lresult;
    pragma Convention (Stdcall, Windproc_Access);
 
    type Base_Window_Type is
      new Ada.Finalization.Limited_Controlled with
       record
-         HWND             : GWindows.Types.Handle        := 0;
+         HWND            : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          ParentWindowProc : Windproc_Access              := null;
-         haccel           : GWindows.Types.Handle        := 0;
+         haccel          : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          MDI_Client       : Base_Window_Access           := null;
          Keyboard_Support : Boolean                      := False;
          Is_Control       : Boolean                      := False;
-         Last_Focused     : GWindows.Types.Handle        := 0;
+         Last_Focused    : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          Is_Dynamic       : Boolean                      := False;
          Modal_Result     : Integer                      := 0;
          In_Dialog        : Boolean                      := False;
@@ -857,4 +857,5 @@ private
          On_Horizontal_Scroll_Event  : Scroll_Event          := null;
          On_Vertical_Scroll_Event    : Scroll_Event          := null;
       end record;
+
 end GWindows.Base;

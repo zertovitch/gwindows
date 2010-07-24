@@ -41,15 +41,22 @@ package body GNATCOM.Create.COM_Interface is
 
    procedure Free_Interface (Pointer : in System.Address);
 
-   function InterlockedIncrement
-     (lpAddend : access Interfaces.C.long) return Interfaces.C.long;
-   pragma Import (StdCall, InterlockedIncrement, "InterlockedIncrement");
-   --  Win32 API for protected increment of a long
+   function sync_add_and_fetch (Ref : access Interfaces.C.long;
+                                Add : Integer) return Interfaces.C.long;
+   pragma Import (Intrinsic, sync_add_and_fetch,
+                  "__sync_add_and_fetch_4");
 
-   function InterlockedDecrement
-     (lpAddend : access Interfaces.C.long) return Interfaces.C.long;
-   pragma Import (StdCall, InterlockedDecrement, "InterlockedDecrement");
-   --  Win32 API for protected decrement of a long
+   function InterlockedIncrement (Ref : access Interfaces.C.long)
+                                  return Interfaces.C.long is
+   begin
+      return sync_add_and_fetch (Ref, 1);
+   end InterlockedIncrement;
+
+   function InterlockedDecrement (Ref : access Interfaces.C.long)
+                                  return Interfaces.C.long is
+   begin
+      return sync_add_and_fetch (Ref, -1);
+   end InterlockedDecrement;
 
    ------------
    -- AddRef --
@@ -148,7 +155,7 @@ package body GNATCOM.Create.COM_Interface is
       --  See if there is a user provided QueryInterface by
       --  dispatching on the QueryInterface method of the Object
       --  for any custom handling of interfaces.
-      return QueryInterface (CoClass_Type'Class (This.CoClass.all),
+      return QueryInterface (This.CoClass.all,
                              This,
                              riid,
                              ppvObject);

@@ -33,7 +33,6 @@
 ------------------------------------------------------------------------------
 
 with GWindows.GStrings;
-
 package body GWindows.Combo_Boxes.Generic_Enumeral is
 
    CB_GETITEMDATA : constant := 336;
@@ -48,10 +47,10 @@ package body GWindows.Combo_Boxes.Generic_Enumeral is
                       Pos   : in Natural)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
-         uMsg   : Interfaces.C.int        := CB_SETITEMDATA;
-         wParam : Integer                 := Index - 1;
-         lParam : Natural                 := Pos);
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_SETITEMDATA;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index - 1);
+         lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Pos));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -67,10 +66,10 @@ package body GWindows.Combo_Boxes.Generic_Enumeral is
                     return Integer
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (Combo);
-         uMsg   : Interfaces.C.int        := CB_GETITEMDATA;
-         wParam : Integer                 := Index - 1;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (Combo);
+         uMsg   : Interfaces.C.int      := CB_GETITEMDATA;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index - 1);
+         lParam : GWindows.Types.Lparam := 0)
       return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -138,9 +137,8 @@ package body GWindows.Combo_Boxes.Generic_Enumeral is
      (Combo : in Combo_Box_Type;
       Item  : in Enumeral_Type)
    is
-      Str   : GString :=
-         GWindows.GStrings.To_GString_From_String (Enumeral_Type'Image (Item));
-      Index : constant Natural := Find (Combo, Str);
+      Index : constant Natural := Find
+        (Combo, Enumeral_Type'Wide_Image (Item));
    begin
       Current (Combo, Index);
    end Current;

@@ -32,8 +32,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces.C;
 with GWindows.Base;
+with GWindows.Types;
 
 package GWindows.Menus is
 
@@ -41,7 +41,8 @@ package GWindows.Menus is
    --  Menu_Type
    -------------------------------------------------------------------------
 
-   type Menu_Type is new Interfaces.C.long;
+   type Menu_Type is new GWindows.Types.Handle;
+   Null_Menu : constant Menu_Type := Menu_Type (GWindows.Types.Null_Handle);
 
    function Load_Menu (Name : in GString) return Menu_Type;
    --  Loads a menu from a resource. If menu is not attached to a window
@@ -77,7 +78,14 @@ package GWindows.Menus is
                           Add_Menu : in Menu_Type);
    procedure Append_Menu (Menu     : in Menu_Type;
                           Text     : in GString;
+                          Add_Menu : in Positive);
+   procedure Append_Menu (Menu     : in Menu_Type;
+                          Text     : in GString;
                           Add_Menu : in Menu_Type;
+                          State    : in State_Type);
+   procedure Append_Menu (Menu     : in Menu_Type;
+                          Text     : in GString;
+                          Add_Menu : in Positive;
                           State    : in State_Type);
    --  Append menu
 

@@ -38,6 +38,7 @@ with GWindows.GStrings;
 
 package body GWindows.List_Boxes is
    use type Interfaces.C.unsigned;
+   use GWindows.Types;
 
    -------------------------------------------------------------------------
    --  Operating System Imports
@@ -213,15 +214,14 @@ package body GWindows.List_Boxes is
    ---------
 
    procedure Add (List  : in out List_Box_Type;
-                  Value : in     GString)
-   is
+                  Value : in     GString) is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
       procedure SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (List);
-         uMsg   : in     Interfaces.C.int  := LB_ADDSTRING;
-         wParam : in     Interfaces.C.long := 0;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_ADDSTRING;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -235,10 +235,10 @@ package body GWindows.List_Boxes is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
       function SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (List);
-         uMsg   : in     Interfaces.C.int  := LB_ADDSTRING;
-         wParam : in     Interfaces.C.long := 0;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access)
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_ADDSTRING;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access)
         return Natural;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -253,10 +253,10 @@ package body GWindows.List_Boxes is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
       procedure SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (List);
-         uMsg   : in     Interfaces.C.int  := LB_INSERTSTRING;
-         wParam : in     Natural           := After - 1;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_INSERTSTRING;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (After - 1);
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -271,10 +271,10 @@ package body GWindows.List_Boxes is
                      Item : in     Positive)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_DELETESTRING;
-         wParam : Natural                 := Item - 1;
-         lParam : Natural                 := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_DELETESTRING;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -288,10 +288,10 @@ package body GWindows.List_Boxes is
    procedure Clear (List : in out List_Box_Type)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_RESETCONTENT;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_RESETCONTENT;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -310,11 +310,12 @@ package body GWindows.List_Boxes is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
       function SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (List);
-         uMsg   : in     Interfaces.C.int  := LB_FINDSTRING;
-         wParam : in     Natural           := Start_Item - 1;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access)
-        return Integer;
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_FINDSTRING;
+         wParam : GWindows.Types.Wparam :=
+            GWindows.Types.Wparam (Start_Item - 1);
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access)
+         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -333,10 +334,11 @@ package body GWindows.List_Boxes is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
       function SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (List);
-         uMsg   : in     Interfaces.C.int  := LB_FINDSTRINGEXACT;
-         wParam : in     Natural           := Start_Item - 1;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access)
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_FINDSTRINGEXACT;
+         wParam : GWindows.Types.Wparam :=
+            GWindows.Types.Wparam (Start_Item - 1);
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access)
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -352,10 +354,10 @@ package body GWindows.List_Boxes is
                       Item : in Natural)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_SETCURSEL;
-         wParam : Integer                 := Item - 1;
-         lParam : Natural                 := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_SETCURSEL;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -364,10 +366,10 @@ package body GWindows.List_Boxes is
 
    function Current (List : in List_Box_Type) return Natural is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_GETCURSEL;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_GETCURSEL;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -379,31 +381,28 @@ package body GWindows.List_Boxes is
    -- Item_Data --
    ---------------
 
-   procedure Item_Data (List : in List_Box_Type;
-                       Item  : in Natural;
-                       Data  : in Integer)
-   is
+   procedure Item_Data (List : List_Box_Type;
+                        Item : Natural;
+                        Data : GWindows.Types.Lparam) is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_SETITEMDATA;
-         wParam : Integer                 := Item - 1;
-         lParam : Integer                 := Data);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_SETITEMDATA;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := Data);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
       SendMessage;
    end Item_Data;
 
-   function Item_Data (List : in List_Box_Type;
-                       Item  : in Natural)
-                      return Integer
-   is
+   function Item_Data (List : List_Box_Type;
+                       Item : Natural) return GWindows.Types.Lparam is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_GETITEMDATA;
-         wParam : Natural                 := Item - 1;
-         lParam : Natural                 := 0)
-        return Integer;
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_GETITEMDATA;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := 0)
+        return GWindows.Types.Lparam;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -416,10 +415,10 @@ package body GWindows.List_Boxes is
 
    function Count (List : in List_Box_Type) return Natural is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_GETCOUNT;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_GETCOUNT;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -436,10 +435,10 @@ package body GWindows.List_Boxes is
                          return Natural
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_GETTEXTLEN;
-         wParam : Natural                 := Item - 1;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_GETTEXTLEN;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := 0)
         return Natural;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -461,10 +460,10 @@ package body GWindows.List_Boxes is
         (1 .. Interfaces.C.size_t (Value_Length (List, Item)) + 1);
 
       procedure SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (List);
-         uMsg   : in     Interfaces.C.int  := LB_GETTEXT;
-         wParam : in     Natural           := Item - 1;
-         lParam : access GChar_C           := Buffer (Buffer'First)'Access);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_GETTEXT;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : access GChar_C        := Buffer (Buffer'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -481,17 +480,17 @@ package body GWindows.List_Boxes is
                        State : in     Boolean       := True)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_SETCURSEL;
-         wParam : Integer                 := Item - 1;
-         lParam : Natural                 := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_SETCURSEL;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
       if State then
          SendMessage;
       else
-         SendMessage (wParam => -1);
+         SendMessage (wParam => 0 - 1);
       end if;
    end Selected;
 
@@ -500,10 +499,10 @@ package body GWindows.List_Boxes is
                        State : in     Boolean       := True)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_SETSEL;
-         wParam : Integer                 := 1;
-         lParam : Natural                 := Item - 1);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_SETSEL;
+         wParam : GWindows.Types.Wparam := 1;
+         lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Item - 1));
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -519,10 +518,10 @@ package body GWindows.List_Boxes is
                      return Boolean
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
          uMsg   : Interfaces.C.int        := LB_GETSEL;
-         wParam : Natural                 := Item - 1;
-         lParam : Natural                 := 0)
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
+         lParam : GWindows.Types.Lparam := 0)
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -541,18 +540,20 @@ package body GWindows.List_Boxes is
       State      : in     Boolean                          := True)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_SELITEMRANGEEX;
-         wParam : Integer                 := Start_Item - 1;
-         lParam : Natural                 := End_Item - 1);
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_SELITEMRANGEEX;
+         wParam : GWindows.Types.Wparam :=
+            GWindows.Types.Wparam (Start_Item - 1);
+         lParam : GWindows.Types.Lparam :=
+            GWindows.Types.Lparam (End_Item - 1));
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
       if State then
          SendMessage;
       else
-         SendMessage (wParam => End_Item - 1,
-                      lParam => Start_Item - 1);
+         SendMessage (wParam => GWindows.Types.Wparam  (End_Item - 1),
+                      lParam => GWindows.Types.Lparam  (Start_Item - 1));
       end if;
    end Select_Range;
 
@@ -565,10 +566,10 @@ package body GWindows.List_Boxes is
      return Natural
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_GETSELCOUNT;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_GETSELCOUNT;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -588,10 +589,11 @@ package body GWindows.List_Boxes is
         (others => 0);
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_SELITEMRANGEEX;
-         wParam : Integer                 := Select_Count (List);
-         lParam : access Integer          := Selection_Array (1)'Access);
+        (hwnd   : GWindows.Types.Handle  := Handle (List);
+         uMsg   : Interfaces.C.int       := LB_SELITEMRANGEEX;
+         wParam : GWindows.Types.Wparam  :=
+            GWindows.Types.Wparam  (Select_Count (List));
+         lParam : access Integer         := Selection_Array (1)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -607,10 +609,10 @@ package body GWindows.List_Boxes is
                        Item  : in     Positive)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_SETTOPINDEX;
-         wParam : Integer                 := Item - 1;
-         lParam : Natural                 := 0);
+        (hwnd   : GWindows.Types.Handle  := Handle (List);
+         uMsg   : Interfaces.C.int       := LB_SETTOPINDEX;
+         wParam : GWindows.Types.Wparam  := GWindows.Types.Wparam  (Item - 1);
+         lParam : GWindows.Types.Lparam  := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -620,10 +622,10 @@ package body GWindows.List_Boxes is
    function Top_Item (List  : in List_Box_Type) return Natural
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long       := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_GETTOPINDEX;
-         wParam : Natural                 := 0;
-         lParam : Natural                 := 0)
+        (hwnd   : GWindows.Types.Handle := Handle (List);
+         uMsg   : Interfaces.C.int      := LB_GETTOPINDEX;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -641,10 +643,10 @@ package body GWindows.List_Boxes is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Text);
 
       procedure SendMessage
-        (hwnd   : in     Interfaces.C.long := Handle (Window);
-         uMsg   : in     Interfaces.C.int  := LB_SELECTSTRING;
-         wParam : in     Interfaces.C.long := 0;
-         lParam : access GChar_C           := C_Value (C_Value'First)'Access);
+        (hwnd   : GWindows.Types.Handle := Handle (Window);
+         uMsg   : Interfaces.C.int      := LB_SELECTSTRING;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin

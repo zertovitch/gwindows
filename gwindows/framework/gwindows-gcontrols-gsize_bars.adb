@@ -93,6 +93,7 @@ package body GWindows.GControls.GSize_Bars is
                        Canvas : in out GWindows.Drawing.Canvas_Type;
                        Area   : in     GWindows.Types.Rectangle_Type)
    is
+      pragma Warnings (Off, Window);
       pragma Warnings (Off, Area);
 
       use GWindows.Drawing_Objects;
@@ -279,7 +280,7 @@ package body GWindows.GControls.GSize_Bars is
             WC  : constant Point_Type := Point_To_Desktop (Window, (X, Y));
             OC  : Point_Type := Point_To_Client (PC.all, WC);
          begin
-            if Dock (Window) = At_Right and X /= 0 then
+            if Dock (Window) = At_Right then
                NS := W + X;
 
                if Window.Live_Resize then
@@ -571,6 +572,7 @@ package body GWindows.GControls.GSize_Bars is
                        Canvas : in out GWindows.Drawing.Canvas_Type;
                        Area   : in     GWindows.Types.Rectangle_Type)
    is
+      pragma Warnings (Off, Window);
       pragma Warnings (Off, Area);
 
       use GWindows.Drawing_Objects;

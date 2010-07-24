@@ -33,7 +33,6 @@
 ------------------------------------------------------------------------------
 
 with GWindows.GStrings;
-with GWindows.Types;
 with GWindows.Internal;
 with GWindows.Windows;
 with GWindows.Constants;
@@ -56,8 +55,8 @@ package body GWindows.Application is
       record
          hwnd    : GWindows.Types.Handle;
          message : Interfaces.C.int;
-         wParam  : Interfaces.C.int;
-         lParam  : Interfaces.C.long;
+         wParam  : GWindows.Types.Wparam;
+         lParam  : GWindows.Types.Lparam;
          time    : Interfaces.C.unsigned_long;
          pt      : POINTL;
       end record;
@@ -83,8 +82,8 @@ package body GWindows.Application is
    procedure PostThreadMessage
      (idThread : Interfaces.C.unsigned_long;
       msg      : Interfaces.C.unsigned;
-      wParam   : Interfaces.C.unsigned      := 0;
-      lParam   : Interfaces.C.long          := 0);
+      wParam   : GWindows.Types.Wparam := 0;
+      lParam   : GWindows.Types.Lparam := 0);
    pragma Import (StdCall, PostThreadMessage,
                     "PostThreadMessage" & Character_Mode_Identifier);
 
@@ -96,8 +95,7 @@ package body GWindows.Application is
    -- hInstance --
    ---------------
 
-   function hInstance return Interfaces.C.long
-   is
+   function hInstance return GWindows.Types.Handle is
    begin
       return GWindows.Internal.Current_hInstance;
    end hInstance;
@@ -106,7 +104,7 @@ package body GWindows.Application is
    -- Set_hInstance --
    -------------------
 
-   procedure Set_hInstance (hInstance : Interfaces.C.long) is
+   procedure Set_hInstance (hInstance : GWindows.Types.Handle) is
    begin
       GWindows.Internal.Current_hInstance := hInstance;
    end Set_hInstance;
@@ -123,7 +121,7 @@ package body GWindows.Application is
       C_Text : GString_C (0 .. Interfaces.C.size_t (Max_Size));
 
       function LoadString
-        (hInst : in     Interfaces.C.long       := hInstance;
+        (hInst : in     GWindows.Types.Handle   := hInstance;
          uID   : in     Interfaces.C.unsigned   := ID;
          Buf   : access GChar_C                 := C_Text (0)'Access;
          Max   : in     Integer                 := Max_Size)
@@ -162,7 +160,7 @@ package body GWindows.Application is
 
       function PeekMessage
         (lpMsg         : Pointer_To_MSG;
-         hwnd          : Interfaces.C.long;
+         hwnd          : GWindows.Types.Handle;
          wMsgFilterMin : Interfaces.C.unsigned;
          wMsgFilterMax : Interfaces.C.unsigned;
          RemoveMsg     : Interfaces.C.unsigned := PM_REMOVE)
@@ -173,7 +171,9 @@ package body GWindows.Application is
       tMSG        : aliased MSG;
       Null_Window : GWindows.Base.Base_Window_Type;
    begin
-      if PeekMessage (tMSG'Unchecked_Access, 0, 0, 0) /= 0 then
+      if PeekMessage (tMSG'Unchecked_Access, GWindows.Types.Null_Handle,
+                      0, 0) /= 0
+      then
          Process_Message (tMSG'Unchecked_Access, Null_Window);
       end if;
    end Message_Check;
@@ -188,7 +188,7 @@ package body GWindows.Application is
 
       function GetMessage
         (lpMsg         : Pointer_To_MSG;
-         hwnd          : Interfaces.C.long;
+         hwnd          : GWindows.Types.Handle;
          wMsgFilterMin : Interfaces.C.unsigned;
          wMsgFilterMax : Interfaces.C.unsigned)
         return Interfaces.C.long;
@@ -197,7 +197,9 @@ package body GWindows.Application is
 
       tMSG : aliased MSG;
    begin
-      while GetMessage (tMSG'Unchecked_Access, 0, 0, 0) /= 0 loop
+      while GetMessage (tMSG'Unchecked_Access, GWindows.Types.Null_Handle,
+                        0, 0) /= 0
+      loop
          Process_Message (tMSG'Unchecked_Access, Window);
       end loop;
    end Modal_Loop;
@@ -282,7 +284,7 @@ package body GWindows.Application is
    function Get_Active_Window
      return GWindows.Base.Pointer_To_Base_Window_Class
    is
-      function GetActiveWindow return Interfaces.C.long;
+      function GetActiveWindow return GWindows.Types.Handle;
       pragma Import (StdCall, GetActiveWindow, "GetActiveWindow");
 
       Win_Ptr : constant GWindows.Base.Pointer_To_Base_Window_Class :=
@@ -514,7 +516,7 @@ package body GWindows.Application is
    begin
       Processed := 0;
 
-      if GWindows.Base.Handle (Window) /= 0 then
+      if GWindows.Base.Handle (Window) /= GWindows.Types.Null_Handle then
          Processed := IsDialogMessage
            (GWindows.Base.Handle (Window),
             Message);
@@ -544,7 +546,8 @@ package body GWindows.Application is
 
             if
               GWindows.Base.Accelerator_Handle
-              (Current_Keyboard_Control.Window.all) /= 0
+                (Current_Keyboard_Control.Window.all) /=
+                GWindows.Types.Null_Handle
             then
                Processed := TranslateAccelerator
                  (GWindows.Base.Handle (Current_Keyboard_Control.Window.all),

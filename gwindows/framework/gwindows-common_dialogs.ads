@@ -90,8 +90,8 @@ package GWindows.Common_Dialogs is
    type OFNHookProc is access
       function (hWnd    : GWindows.Types.Handle;
                 uiMsg   : Interfaces.C.unsigned;
-                wParam  : Interfaces.C.int;
-                lParam  : Interfaces.C.int) return Interfaces.C.long;
+                wParam  : GWindows.Types.Wparam;
+                lParam  : GWindows.Types.Lparam) return Interfaces.C.long;
 
    type Filter_Type is
       record

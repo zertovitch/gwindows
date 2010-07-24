@@ -14,6 +14,18 @@ package body GWindows.Html is
       Create (ActiveX_Type (Html), Parent, "Shell.Explorer",
               Left, Top, Width, Height);
       Query (Html.Browser, Interfac (Html));
+      Html.FileName := To_Unbounded_String ("");
+   end Create;
+
+   procedure Create
+     (Html          : in out Html_Type;
+      Parent        : in out GWindows.Base.Base_Window_Type'Class;
+      Top, Left     :        Natural;
+      Width, Height :        Natural;
+      FileName      : in     Unbounded_String) is
+   begin
+      Create (Html, Parent, Top, Left, Width, Height);
+      Html.FileName := FileName;
    end Create;
 
    procedure Accept_File_Drag_And_Drop (Html  : Html_Type;
@@ -39,10 +51,10 @@ package body GWindows.Html is
 
    procedure On_Message
      (Html         : in out Html_Type;
-      message      : in     Interfaces.C.unsigned;
-      wParam       : in     Interfaces.C.int;
-      lParam       : in     Interfaces.C.int;
-      Return_Value : in out Interfaces.C.long) is
+      message      : Interfaces.C.unsigned;
+      wParam       : GWindows.Types.Wparam;
+      lParam       : GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult) is
       use Interfaces.C;
       WM_MOUSEACTIVATE : constant := 33;
    begin
@@ -53,5 +65,20 @@ package body GWindows.Html is
       end if;
       On_Message (ActiveX_Type (Html), message, wParam, lParam, Return_Value);
    end On_Message;
+
+   procedure GoBack
+     (Html : in out Html_Type)
+   is
+   begin
+      Invoke (Html.Browser, "GoBack");
+   exception when others => --  Exception generated when back at top.
+         null;
+   end GoBack;
+
+   function FileName (Html : in Html_Type) return String
+   is
+   begin
+      return To_String (Html.FileName);
+   end FileName;
 
 end GWindows.Html;

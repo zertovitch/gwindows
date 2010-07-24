@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2010 David Botton                   --
+--                 Copyright (C) 1999 - 2005 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -32,7 +32,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  ANSI Version
+--  UNICODE Version
 
 with Ada.Characters.Handling;
 
@@ -64,7 +64,7 @@ package body GWindows.GStrings is
      (Value : GString_Unbounded) return GString
    is
    begin
-      return GWindows.GStrings.Unbounded.To_String (Value);
+      return GWindows.GStrings.Unbounded.To_Wide_String (Value);
    end To_GString_From_Unbounded;
 
    ------------------
@@ -73,7 +73,16 @@ package body GWindows.GStrings is
 
    function To_GString_C (Value : GString) return GString_C is
    begin
-      return To_C (Value);
+      if Value'Length = 0 then
+         declare
+            Empty_GString : constant GString_C (0 .. 0) :=
+              (others => GString_C_Null);
+         begin
+            return Empty_GString;
+         end;
+      else
+         return To_C (Value);
+      end if;
    end To_GString_C;
 
    --------------------------
@@ -82,7 +91,7 @@ package body GWindows.GStrings is
 
    function To_GString_Unbounded (Value : GString) return GString_Unbounded is
    begin
-      return GWindows.GStrings.Unbounded.To_Unbounded_String (Value);
+      return GWindows.GStrings.Unbounded.To_Unbounded_Wide_String (Value);
    end To_GString_Unbounded;
 
    ---------------
@@ -92,7 +101,7 @@ package body GWindows.GStrings is
    function To_String (Value : GString) return String
    is
    begin
-      return String (Value);
+      return Ada.Characters.Handling.To_String (Value);
    end To_String;
 
    --------------------
@@ -102,7 +111,7 @@ package body GWindows.GStrings is
    function To_Wide_String (Value : GString) return Wide_String
    is
    begin
-      return Ada.Characters.Handling.To_Wide_String (Value);
+      return Value;
    end To_Wide_String;
 
    ----------------------------
@@ -112,7 +121,7 @@ package body GWindows.GStrings is
    function To_GString_From_String (Value : String) return GString
    is
    begin
-      return GString (Value);
+      return GString (Ada.Characters.Handling.To_Wide_String (Value));
    end To_GString_From_String;
 
    ---------------------------------
@@ -122,7 +131,7 @@ package body GWindows.GStrings is
    function To_GString_From_Wide_String (Value : Wide_String) return GString
    is
    begin
-      return GString (Ada.Characters.Handling.To_String (Value));
+      return Value;
    end To_GString_From_Wide_String;
 
    -----------
@@ -132,31 +141,8 @@ package body GWindows.GStrings is
    function Image (Value : Integer) return GString
    is
    begin
-      return Value'Img;
+      return Integer'Wide_Image (Value);
    end Image;
-
-   -----------------------------
-   -- To_GString_From_VARIANT --
-   -----------------------------
-
-   function To_GString_From_VARIANT (Value : GNATCOM.Types.VARIANT;
-                                     Clear : Boolean               := True)
-                                    return GString
-   is
-   begin
-      return GNATCOM.VARIANT.To_Ada (Value, Clear);
-   end To_GString_From_VARIANT;
-
-   -----------------------------
-   -- To_VARIANT_From_GString --
-   -----------------------------
-
-   function To_VARIANT_From_GString (Value : GString)
-                                    return GNATCOM.Types.VARIANT
-   is
-   begin
-      return GNATCOM.VARIANT.To_VARIANT (Value);
-   end To_VARIANT_From_GString;
 
    --------------------------
    -- To_GString_From_BSTR --
@@ -167,7 +153,7 @@ package body GWindows.GStrings is
                                  return GString
    is
    begin
-      return GNATCOM.BSTR.To_Ada (Value, Free);
+      return GNATCOM.BSTR.To_Ada_Wide (Value, Free);
    end To_GString_From_BSTR;
 
    ---------------------------
@@ -177,8 +163,31 @@ package body GWindows.GStrings is
    function To_BSTR_From_GString (Value : GString) return GNATCOM.Types.BSTR
    is
    begin
-      return GNATCOM.BSTR.To_BSTR (Value);
+      return GNATCOM.BSTR.To_BSTR_From_Wide (Value);
    end To_BSTR_From_GString;
+
+   -----------------------------
+   -- To_GString_From_VARIANT --
+   -----------------------------
+
+   function To_GString_From_VARIANT (Value : GNATCOM.Types.VARIANT;
+                                     Clear : Boolean               := True)
+                                    return GString
+   is
+   begin
+      return GNATCOM.VARIANT.To_Ada_Wide (Value, Clear);
+   end To_GString_From_VARIANT;
+
+   -----------------------------
+   -- To_VARIANT_From_GString --
+   -----------------------------
+
+   function To_VARIANT_From_GString (Value : GString)
+                                    return GNATCOM.Types.VARIANT
+   is
+   begin
+      return GNATCOM.VARIANT.To_VARIANT_From_Wide (Value);
+   end To_VARIANT_From_GString;
 
    --------------
    -- To_Upper --
@@ -186,8 +195,10 @@ package body GWindows.GStrings is
 
    procedure To_Upper (Value : in out GString)
    is
+      Temp : String := To_String (Value);
    begin
-      GNAT.Case_Util.To_Upper (Value);
+      GNAT.Case_Util.To_Upper (Temp);
+      Value := To_GString_From_String (Temp);
    end To_Upper;
 
    --------------
@@ -196,8 +207,10 @@ package body GWindows.GStrings is
 
    procedure To_Lower (Value : in out GString)
    is
+      Temp : String := To_String (Value);
    begin
-      GNAT.Case_Util.To_Lower (Value);
+      GNAT.Case_Util.To_Lower (Temp);
+      Value := To_GString_From_String (Temp);
    end To_Lower;
 
    --------------
@@ -206,8 +219,10 @@ package body GWindows.GStrings is
 
    procedure To_Mixed (Value : in out GString)
    is
+      Temp : String := To_String (Value);
    begin
-      GNAT.Case_Util.To_Mixed (Value);
+      GNAT.Case_Util.To_Mixed (Temp);
+      Value := To_GString_From_String (Temp);
    end To_Mixed;
 
    -----------------

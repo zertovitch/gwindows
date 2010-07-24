@@ -96,6 +96,7 @@ package body GWindows.Windows.MDI is
    ---------------------
 
    procedure On_MDI_Activate (Window : in out MDI_Child_Window_Type) is
+      pragma Warnings (Off, Window);
       Parent_Win : constant Window_Access :=
         Window_Access (Controlling_Parent (Window));
    begin
@@ -108,6 +109,7 @@ package body GWindows.Windows.MDI is
    -----------------------
 
    procedure On_MDI_Deactivate (Window : in out MDI_Child_Window_Type) is
+      pragma Warnings (Off, Window);
       Parent_Win : constant MDI_Main_Window_Access :=
         MDI_Main_Window_Access (Controlling_Parent (Window));
    begin
@@ -134,8 +136,8 @@ package body GWindows.Windows.MDI is
    -- Activate --
    --------------
 
-   procedure Activate (Window : in out MDI_Child_Window_Type)
-   is
+   procedure Activate (Window : in out MDI_Child_Window_Type) is
+      pragma Warnings (Off, Window);
       Parent : GWindows.Windows.Window_Type renames
         GWindows.Windows.Window_Type (Controlling_Parent (Window).all);
    begin

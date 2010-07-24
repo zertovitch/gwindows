@@ -83,9 +83,8 @@ package body GWindows.Cursors is
       C_Text : GString_C := GWindows.GStrings.To_GString_C (Name);
 
       function LoadCursor
-        (hInst : in     Interfaces.C.long :=
-           GWindows.Internal.Current_hInstance;
-         Name  : access GChar_C           := C_Text (C_Text'First)'Access)
+        (hInst : GWindows.Types.Handle := GWindows.Internal.Current_hInstance;
+         Name  : access GChar_C        := C_Text (C_Text'First)'Access)
         return Cursor_Type;
       pragma Import (StdCall, LoadCursor, "LoadCursor"
                      & Character_Mode_Identifier);

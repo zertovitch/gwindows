@@ -96,18 +96,18 @@ package body GWindows.Colored_Button is
       Text_Color (Canvas, Window.Text);
       Select_Object (Canvas, Font);
       Put_Text_Formatted (Canvas, Text (Window), (2, 2, W - 2, H - 2));
-      Handle (Font, 0);
+      Handle (Font, GWindows.Types.Null_Handle);
    end On_Draw_Item;
 
    procedure SetWindowLong
-      (hwnd    : Interfaces.C.long;
+      (hwnd    : GWindows.Types.Handle;
        nIndex  : Interfaces.C.int := GWL_STYLE;
        newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong,
                   "SetWindowLong" & Character_Mode_Identifier);
 
    function GetWindowLong
-      (hwnd   : Interfaces.C.long;
+      (hwnd   : GWindows.Types.Handle;
        nIndex : Interfaces.C.int := GWL_STYLE)
     return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong,

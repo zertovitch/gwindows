@@ -33,6 +33,7 @@
 ------------------------------------------------------------------------------
 
 with GNATCOM.Initialize;
+with Interfaces.C;
 
 package body GNATCOM is
 

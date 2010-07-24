@@ -33,6 +33,7 @@
 ------------------------------------------------------------------------------
 
 package body GWindows.Packing_Boxes is
+   use GWindows.Types;
 
    -----------------
    -- Fill_Height --
@@ -202,8 +203,6 @@ package body GWindows.Packing_Boxes is
    begin
       if Window.Auto_Size_To_Contents then
          declare
-            use GWindows.Types;
-
             New_Size : GWindows.Types.Size_Type          :=
               Content_Bounds (Window);
             Old_Size : constant GWindows.Types.Size_Type := Size (Window);
@@ -302,7 +301,6 @@ package body GWindows.Packing_Boxes is
    function Recommended_Size (Window : in Packing_Box_Type)
                              return GWindows.Types.Size_Type
    is
-      use GWindows.Types;
       use GWindows.Base;
 
       Total_Size     : Size_Type := (0, 0);
@@ -376,9 +374,7 @@ package body GWindows.Packing_Boxes is
    ----------------------
 
    function Content_Bounds (Window : in Packing_Box_Type)
-                           return GWindows.Types.Size_Type
-   is
-      use GWindows.Types;
+                           return GWindows.Types.Size_Type is
       use GWindows.Base;
 
       Total_Size : Size_Type := (0, 0);

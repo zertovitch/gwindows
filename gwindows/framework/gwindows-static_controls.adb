@@ -79,12 +79,12 @@ package body GWindows.Static_Controls is
    STN_ENABLE   : constant := 2;
    STN_DISABLE  : constant := 3;
 
-   procedure Adapt_To_Border(
-      Styles : in out Interfaces.C.unsigned;
-      Border :        Border_Type)
+   procedure Adapt_To_Border
+      (Styles : in out Interfaces.C.unsigned;
+       Border :        Border_Type)
    is
       WS_BORDER        : constant := 8388608;
-      -- WS_EX_CLIENTEDGE : constant := 16#200#;
+      --  WS_EX_CLIENTEDGE : constant := 16#200#;
    begin
       case Border is
          when None =>
@@ -93,8 +93,8 @@ package body GWindows.Static_Controls is
             Styles := Styles or WS_BORDER;
          when Half_Sunken =>
             Styles := Styles or SS_SUNKEN;
-         -- when Fully_Sunken =>
-            -- ExStyles := ExStyles or WS_EX_CLIENTEDGE;
+         --  when Fully_Sunken =>
+            --  ExStyles := ExStyles or WS_EX_CLIENTEDGE;
       end case;
    end Adapt_To_Border;
 
@@ -130,7 +130,7 @@ package body GWindows.Static_Controls is
             Styles := Styles or SS_LEFT;
       end case;
 
-      Adapt_To_Border(Styles, Border);
+      Adapt_To_Border (Styles, Border);
 
       Create_Control (Static,
                       Parent,
@@ -247,7 +247,7 @@ package body GWindows.Static_Controls is
             null;
       end case;
 
-      Adapt_To_Border(Styles, Border);
+      Adapt_To_Border (Styles, Border);
 
       Create_Control (Static,
                       Parent,
@@ -324,7 +324,7 @@ package body GWindows.Static_Controls is
             null;
       end case;
 
-      Adapt_To_Border(Styles, Border);
+      Adapt_To_Border (Styles, Border);
 
       Create_Control (Static,
                       Parent,
@@ -374,16 +374,15 @@ package body GWindows.Static_Controls is
    ----------------
 
    procedure Set_Bitmap (Static : in out Bitmap_Type;
-                         Bitmap : in GWindows.Drawing_Objects.Bitmap_Type)
-   is
+                         Bitmap : in GWindows.Drawing_Objects.Bitmap_Type) is
       IMAGE_BITMAP : constant := 0;
 
       procedure SendMessage
-        (hwnd   : Interfaces.C.long     := Handle (Static);
+        (hwnd   : GWindows.Types.Handle := Handle (Static);
          uMsg   : Interfaces.C.int      := STM_SETIMAGE;
-         wParam : Interfaces.C.long     := IMAGE_BITMAP;
-         lParam : Interfaces.C.long :=
-                  GWindows.Drawing_Objects.Handle (Bitmap));
+         wParam : GWindows.Types.Wparam := IMAGE_BITMAP;
+         lParam : GWindows.Types.Handle :=
+            GWindows.Drawing_Objects.Handle (Bitmap));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -423,7 +422,7 @@ package body GWindows.Static_Controls is
             null;
       end case;
 
-      Adapt_To_Border(Styles, Border);
+      Adapt_To_Border (Styles, Border);
 
       Create_Control (Static,
                       Parent,

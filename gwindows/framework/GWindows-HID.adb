@@ -1,22 +1,8 @@
---
---
---  .Name of module: GWindows-HID.adb
---  .Project:        Human Interface Devices
---  .Notes:          Only supported on XP or higher
---  .Abstract:       To get raw input data from input devices
---  .Author(s):      Andre van Splunter
---
---  .Notes:          Using LoadLibrary & GetprocAddress since
---                   HID is only supported on XP or later
---
---
-
 --  Include Ada specification file(s)
 --  with Ada.Text_IO;                       use Ada.Text_IO;
 with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
 with Interfaces;                        use Interfaces;
-with Interfaces.C;                      use Interfaces.C;
 
 with System;                            use System;
 
@@ -29,8 +15,6 @@ with Win32.Windef;
 with GWindows.GStrings;                 use GWindows.GStrings;
 with GWindows.Registry;                 use GWindows.Registry;
 with GWindows.Types;                    use GWindows.Types;
-
---  Include AnSp project specification file(s)
 
 package body GWindows.HID is
 
@@ -255,14 +239,15 @@ package body GWindows.HID is
       Err : Integer;
    begin
       Err := GetRawInputDeviceInfoA.all (HID.Device, RIDI_DEVICENAME, null,
-         Sze'Access);
+                                         Sze'Access);
+      pragma Warnings (Off);
       if Character_Mode_Identifier = "W" then
          declare
             Name : GString (1 .. Sze);
          begin
             Err := GetRawInputDeviceInfoW.all (HID.Device, RIDI_DEVICENAME,
                Name'Unrestricted_Access, Sze'Access);
-            HID.Name :=  To_GString_Unbounded (Name);
+            HID.Name :=  To_GString_Unbounded (Name (1 .. Err));
          end;
       else
          declare
@@ -270,9 +255,11 @@ package body GWindows.HID is
          begin
             Err := GetRawInputDeviceInfoA.all (HID.Device, RIDI_DEVICENAME,
                Name'Unrestricted_Access, Sze'Access);
-            HID.Name :=  To_GString_Unbounded (To_GString_From_String (Name));
+            HID.Name :=
+               To_GString_Unbounded (To_GString_From_String (Name (1 .. Err)));
          end;
       end if;
+      pragma Warnings (On);
    end Get_HID_Name;
 
    procedure Get_HID_Info
@@ -387,7 +374,8 @@ package body GWindows.HID is
       Delete (HIDs);
       if GetRawInputDeviceList /= null then
          Err := GetRawInputDeviceList.all (null, Num'Access, 8);
-         Lst  := new Raw_Input_Device_Arr'(1 .. Num => (0, 0));
+         Lst  := new Raw_Input_Device_Arr'
+           (1 .. Num => (GWindows.Types.Null_Handle, 0));
          HIDs := new Hid_Array'(1 .. Num => null);
          Err := GetRawInputDeviceList.all (Lst, Num'Access, 8);
          for I in 1 .. Num loop
@@ -427,7 +415,8 @@ package body GWindows.HID is
       pragma Unreferenced (Window);
    begin
       Devs := (Unsigned_16 (UsagePage), Unsigned_16 (Usage),
-         RIDEV_REMOVE, 0);  --  No window Handle! else it won't work
+               RIDEV_REMOVE, GWindows.Types.Null_Handle);
+              --  No window Handle! else it won't work
       Dummy := RegisterRawInputDevices.all (Devs'Access, 1, 12);
    end Unregister_Raw_Input_Device;
 
@@ -438,7 +427,6 @@ package body GWindows.HID is
    is
       Ret : Integer;
       Sze : aliased Integer;
-      Tpe : Natural;
    begin
       Ret := GetRawInputData.all (RawData, RID_INPUT, null, Sze'Access, 16);
       declare
@@ -446,13 +434,14 @@ package body GWindows.HID is
       begin
          Ret := GetRawInputData.all (RawData, RID_INPUT,
             Info'Unrestricted_Access, Sze'Access, 16);
-         Tpe := Natural (S4N (Info (1 .. 4)));
-         RawInfo.Device := Handle (S4N (Info (9 .. 12)));
-         if Tpe /= RawInfo.DType or HID /= RawInfo.Device then
+         RawInfo.RType := Natural (S4N (Info (1 .. 4)));
+         RawInfo.Device := GWindows.Types.To_Handle
+           (GWindows.Types.Wparam (S4N (Info (9 .. 12))));
+         if RawInfo.RType /= RawInfo.DType or HID /= RawInfo.Device then
 --            Put_Line ("Wrong device " & RawInfo.Device'Img);
             return;
          end if;
-         case Tpe is
+         case RawInfo.RType is
             when RIM_TYPEMOUSE    =>
                RawInfo.MFlags       := Natural (S2N (Info (17 .. 18)));
                RawInfo.MButtonFlags := Natural (S2N (Info (21 .. 22)));

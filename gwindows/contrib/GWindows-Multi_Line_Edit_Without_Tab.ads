@@ -1,5 +1,6 @@
 with GWindows.Edit_Boxes;       use GWindows.Edit_Boxes;
 with Interfaces.C;              use Interfaces.C;
+with GWindows.Types;
 
 package GWindows.Multi_Line_Edit_Without_Tab is
 
@@ -8,11 +9,12 @@ package GWindows.Multi_Line_Edit_Without_Tab is
    type Multi_Line_Edit_Without_Tab_Access is access
       all Multi_Line_Edit_Without_Tab_Type;
 
+   overriding
    procedure On_Message
       (Window       : in out Multi_Line_Edit_Without_Tab_Type;
-       message      : in     Interfaces.C.unsigned;
-       wParam       : in     Interfaces.C.int;
-       lParam       : in     Interfaces.C.int;
-       Return_Value : in out Interfaces.C.long);
+       message      : Interfaces.C.unsigned;
+       wParam       : GWindows.Types.Wparam;
+       lParam       : GWindows.Types.Lparam;
+       Return_Value : in out GWindows.Types.Lresult);
 
 end GWindows.Multi_Line_Edit_Without_Tab;

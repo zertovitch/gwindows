@@ -39,6 +39,7 @@ with System;
 with GWindows.Base;
 with GWindows.Windows;
 with GWindows.Colors;
+with GWindows.Types;
 
 package GWindows.Scintilla is
 
@@ -2279,13 +2280,15 @@ package GWindows.Scintilla is
    --  These should be overiden with caution and only with a full
    --  understanding of the internals of the entire GWindows framework
 
+   overriding
    procedure On_Notify
      (Window       : in out Scintilla_Type;
       Message      : in     GWindows.Base.Pointer_To_Notification;
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-      Return_Value : in out Interfaces.C.long);
+      Return_Value : in out GWindows.Types.Lresult);
    --  Handles Notify Messages
 
+   overriding
    procedure On_Command (Window  : in out Scintilla_Type;
                          Code    : in     Integer;
                          ID      : in     Integer;

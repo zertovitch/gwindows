@@ -100,7 +100,7 @@ package body GWindows.Menus is
       C_Name : GString_C := GWindows.GStrings.To_GString_C (Name);
 
       function LoadMenu
-        (hInst    : in     Interfaces.C.long :=
+        (hInst    : GWindows.Types.Handle :=
            GWindows.Internal.Current_hInstance;
          lpszName : access GChar_C         := C_Name (C_Name'First)'Access)
         return Menu_Type;
@@ -156,6 +156,13 @@ package body GWindows.Menus is
 
    procedure Append_Menu (Menu     : in Menu_Type;
                           Text     : in GString;
+                          Add_Menu : in Positive) is
+   begin
+      Append_Menu (Menu, Text, To_Handle (Add_Menu));
+   end Append_Menu;
+
+   procedure Append_Menu (Menu     : in Menu_Type;
+                          Text     : in GString;
                           Add_Menu : in Menu_Type;
                           State    : in State_Type)
    is
@@ -180,6 +187,14 @@ package body GWindows.Menus is
             Flags := MF_GRAYED;
       end case;
       AppendMenu (uflags => MF_POPUP or Flags);
+   end Append_Menu;
+
+   procedure Append_Menu (Menu     : in Menu_Type;
+                          Text     : in GString;
+                          Add_Menu : in Positive;
+                          State    : in State_Type) is
+   begin
+      Append_Menu (Menu, Text, To_Handle (Add_Menu), State);
    end Append_Menu;
 
    -----------------
@@ -507,7 +522,7 @@ package body GWindows.Menus is
                      State     : in Boolean)
    is
       procedure HiliteMenuItem
-        (hwnd    : Interfaces.C.long := GWindows.Base.Handle (Window);
+        (hwnd    : GWindows.Types.Handle := GWindows.Base.Handle (Window);
          hMenu   : Menu_Type        := Menu;
          idItem  : Natural;
          fuFlags : Interfaces.C.unsigned);
@@ -706,7 +721,7 @@ package body GWindows.Menus is
       pragma Import (StdCall, DestroyMenu, "DestroyMenu");
    begin
       DestroyMenu (Menu);
-      Menu := 0;
+      Menu := Null_Menu;
    end Destroy_Menu;
 
    -----------

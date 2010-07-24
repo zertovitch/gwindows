@@ -107,14 +107,14 @@ package body GWindows.Buttons is
    GWL_STYLE : constant := -16;
 
    procedure SetWindowLong
-     (hwnd    : Interfaces.C.long;
+     (hwnd    : GWindows.Types.Handle;
       nIndex  : Interfaces.C.int := GWL_STYLE;
       newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong,
                     "SetWindowLong" & Character_Mode_Identifier);
 
    function GetWindowLong
-     (hwnd   : Interfaces.C.long;
+     (hwnd   : GWindows.Types.Handle;
       nIndex : Interfaces.C.int := GWL_STYLE)
      return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong,
@@ -489,10 +489,10 @@ package body GWindows.Buttons is
                   return Three_State_Type
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Button);
+        (hwnd   : GWindows.Types.Handle := Handle (Button);
          uMsg   : Interfaces.C.int  := BM_GETCHECK;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0)
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
         return Interfaces.C.long;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -515,10 +515,10 @@ package body GWindows.Buttons is
                   return Check_State_Type
    is
       function SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Button);
+        (hwnd   : GWindows.Types.Handle := Handle (Button);
          uMsg   : Interfaces.C.int  := BM_GETCHECK;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0)
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
         return Interfaces.C.long;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
@@ -539,10 +539,10 @@ package body GWindows.Buttons is
                     State  : in     Three_State_Type)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Button);
+        (hwnd   : GWindows.Types.Handle := Handle (Button);
          uMsg   : Interfaces.C.int  := BM_SETCHECK;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -564,10 +564,10 @@ package body GWindows.Buttons is
                     State  : in     Check_State_Type)
    is
       procedure SendMessage
-        (hwnd   : Interfaces.C.long := Handle (Button);
-         uMsg   : Interfaces.C.int  := BM_SETCHECK;
-         wParam : Interfaces.C.long := 0;
-         lParam : Interfaces.C.long := 0);
+        (hwnd   : GWindows.Types.Handle := Handle (Button);
+         uMsg   : Interfaces.C.int      := BM_SETCHECK;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin

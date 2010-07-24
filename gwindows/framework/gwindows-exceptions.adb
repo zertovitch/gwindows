@@ -8,14 +8,13 @@ with Interfaces.C;         use Interfaces.C;
 
 package body GWindows.Exceptions is
 
-   WS_POPUP      : constant := 16#80000000#;
-   WS_CAPTION    : constant := 16#c00000#;
-   DS_MODALFRAME : constant := 16#80#;
-
    procedure On_Pre_Create
       (Window    : in out GWindows.Base.Base_Window_Type'Class;
        dwStyle   : in out Interfaces.C.unsigned;
        dwExStyle : in out Interfaces.C.unsigned) is
+      WS_POPUP : constant := 16#80000000#;
+      WS_CAPTION : constant := 16#c00000#;
+      DS_MODALFRAME : constant := 16#80#;
       pragma Unreferenced (Window);
       pragma Unreferenced (dwExStyle);
    begin
@@ -139,7 +138,7 @@ package body GWindows.Exceptions is
    procedure Basic_Exception_Handler
       (Parent : in out GWindows.Base.Base_Window_Type'Class;
        E      :        Exception_Occurrence) is
-      -- http://msdn.microsoft.com/en-us/library/ms682658(VS.85).aspx
+      --  http://msdn.microsoft.com/en-us/library/ms682658(VS.85).aspx
       procedure ExitProcess (uExitCode : Integer := 1);
       pragma Import (Stdcall, ExitProcess, "ExitProcess");
    begin

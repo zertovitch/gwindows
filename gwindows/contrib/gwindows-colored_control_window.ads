@@ -16,11 +16,12 @@ package GWindows.Colored_Control_Window is
 
    type Colored_Control_Window_Type is new Window_Type with private;
 
+   overriding
    procedure On_Message (Window       : in out Colored_Control_Window_Type;
                          message      : in     Interfaces.C.unsigned;
-                         wParam       : in     Interfaces.C.int;
-                         lParam       : in     Interfaces.C.int;
-                         Return_Value : in out Interfaces.C.long);
+                         wParam       : in     GWindows.Types.Wparam;
+                         lParam       : in     GWindows.Types.Lparam;
+                         Return_Value : in out GWindows.Types.Lresult);
 
    procedure Color (Window : in out Colored_Control_Window_Type;
                     Color : Color_Type);

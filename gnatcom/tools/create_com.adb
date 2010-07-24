@@ -2738,7 +2738,7 @@ package body Create_COM is
                   return "GNATCOM.Types." & User_Type;
                end if;
 
-               if not Get (To_Unbounded_String (User_Type))then
+               if not Get (To_Unbounded_String (User_Type)) then
                   Put_Line ("Binding Dependancy      : " & User_Type);
                   Put_Line ("Binding Dependancy Type : " &
                             Element_Kind (GetTypeKind (The_Info)));
@@ -2971,7 +2971,7 @@ package body Create_COM is
 
       for N in New_String'First + 1 .. New_String'Last loop
 
-         if (New_String (N - 1) = '_') and (New_String (N) = '_')then
+         if (New_String (N - 1) = '_') and (New_String (N) = '_') then
             New_String (N - 1) := Under_Line_Replace;
          end if;
 

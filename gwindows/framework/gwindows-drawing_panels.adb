@@ -131,8 +131,8 @@ package body GWindows.Drawing_Panels is
          Handle (Window.Memory_Canvas, Handle (New_Canvas));
          Handle (Window.Bitmap, Handle (New_Bitmap));
 
-         Handle (New_Canvas, 0);
-         Handle (New_Bitmap, 0);
+         Handle (New_Canvas, GWindows.Types.Null_Handle);
+         Handle (New_Bitmap, GWindows.Types.Null_Handle);
 
          Window.Width := Width;
          Window.Height := Height;

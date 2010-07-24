@@ -1,56 +1,49 @@
 with GWindows.GStrings; use GWindows.GStrings;
-with System;
 
 package body GWindows.Enum_EMF is
+
+   type ENHMFENUMPROC is access
+      function (hDC      : GWindows.Types.Handle;
+                lpHTable : Handle_Table_Access;
+                lpEMFR   : PEMR_Type;
+                nObj     : Integer;
+                lpData   : EMF_Enum_Proc) return Integer;
+   pragma Convention (Stdcall, ENHMFENUMPROC);
+   type Prectangle_Type is access GWindows.Types.Rectangle_Type;
+
+   function EnumEnhMetaFile (hdc           : GWindows.Types.Handle;
+                             HENHMETAFILE  : GWindows.Types.Handle;
+                             lpEnhMetaFunc : ENHMFENUMPROC;
+                             lpData        : EMF_Enum_Proc;
+                             lpRect        : Prectangle_Type) return Integer;
+   pragma Import (StdCall, EnumEnhMetaFile, "EnumEnhMetaFile");
+
+   function Enum_Func (hDC      : GWindows.Types.Handle;
+                       lpHTable : Handle_Table_Access;
+                       lpEMFR   : PEMR_Type;
+                       nObj     : Integer;
+                       lpData   : EMF_Enum_Proc) return Integer;
+   pragma Convention (Stdcall, Enum_Func);
+   function Enum_Func (hDC      : GWindows.Types.Handle;
+                       lpHTable : Handle_Table_Access;
+                       lpEMFR   : PEMR_Type;
+                       nObj     : Integer;
+                       lpData   : EMF_Enum_Proc) return Integer is
+      pragma Unreferenced (hDC);
+   begin
+      lpData (lpEMFR, lpHTable, nObj);
+      return 1;
+   end Enum_Func;
 
    function Enumerate_EMF (Canvas    : GWindows.Drawing.Canvas_Type'Class;
                            Emf       : EMF_Type;
                            Enum_Proc : EMF_Enum_Proc;
                            Rect      : GWindows.Types.Rectangle_Type)
                            return Boolean is
-      type ENHMFENUMPROC is access function
-        (hDC      : GWindows.Types.Handle;  --  handle to DC
-         lpHTable : Handle_Table_Access;    --  metafile handle table
-         lpEMFR   : PEMR_Type;              --  metafile record
-         nObj     : Integer;                --  count of objects
-         lpData   : System.Address)         --  optional data
-         return Integer;
-      pragma Convention (Stdcall, ENHMFENUMPROC);
-      type Prectangle_Type is access GWindows.Types.Rectangle_Type;
-
-      function EnumEnhMetaFile
-        (hdc           : GWindows.Types.Handle;  --  handle to DC
-         HENHMETAFILE  : GWindows.Types.Handle;  --  handle to EMF file
-         lpEnhMetaFunc : ENHMFENUMPROC;          --  callback function
-         lpData        : System.Address;         --  callback-function data
-         lpRect        : Prectangle_Type)        --  bounding rectangle
-        return Integer;
-      pragma Import (StdCall, EnumEnhMetaFile, "EnumEnhMetaFile");
-
-      function Enum_Func
-                  (hDC      : GWindows.Types.Handle;  --  handle to DC
-                   lpHTable : Handle_Table_Access;    --  metafile handle table
-                   lpEMFR   : PEMR_Type;              --  metafile record
-                   nObj     : Integer;                --  count of objects
-                   lpData   : System.Address)         --  optional data
-                   return Integer;
-      pragma Convention (Stdcall, Enum_Func);
-      function Enum_Func
-                  (hDC      : GWindows.Types.Handle;  --  handle to DC
-                   lpHTable : Handle_Table_Access;    --  metafile handle table
-                   lpEMFR   : PEMR_Type;              --  metafile record
-                   nObj     : Integer;                --  count of objects
-                   lpData   : System.Address)         --  optional data
-                   return Integer is
-         pragma Unreferenced (hDC, lpData);
-      begin
-         Enum_Proc (lpEMFR, lpHTable, nObj);
-         return 1;
-      end Enum_Func;
    begin
       return EnumEnhMetaFile (GWindows.Drawing.Handle (Canvas),
                               GWindows.Drawing_EMF.Handle (Emf),
-                              Enum_Func'Access, System.Null_Address,
+                              Enum_Func'Access, Enum_Proc,
                               Rect'Unrestricted_Access) /= 0;
    end Enumerate_EMF;
 

@@ -55,7 +55,6 @@ package body Bind_COM is
    Type_Buffer    : Source_Buffer_Type;
    Spec_Buffer    : Source_Buffer_Type;
    Pointer_Buffer : Source_Buffer_Type;
-   Alias_Buffer   : Source_Buffer_Type;
    Event_Buffer   : Source_Buffer_Type;
 
    --  Set up Type Map package
@@ -287,7 +286,6 @@ package body Bind_COM is
       Increase_Indent (Spec_Buffer);
       Increase_Indent (Type_Buffer);
       Increase_Indent (Pointer_Buffer);
-      Increase_Indent (Alias_Buffer);
 
       Put_Line (Spec_Buffer, "LIBID_" & BSTR.To_Ada (Library_Name) &
                 " : aliased GNATCOM.Types.GUID :=");
@@ -350,11 +348,6 @@ package body Bind_COM is
 
       New_Line (Base_Spec_File);
 
-      Write (From_Buffer => Alias_Buffer,
-             To_Output   => Base_Spec_File);
-
-      New_Line (Base_Spec_File);
-
       Write (From_Buffer => Spec_Buffer,
              To_Output   => Base_Spec_File);
 
@@ -365,7 +358,6 @@ package body Bind_COM is
       Clear (Type_Buffer);
       Clear (Spec_Buffer);
       Clear (Pointer_Buffer);
-      Clear (Alias_Buffer);
       Clear (Event_Buffer);
    end Bind;
 
@@ -983,27 +975,36 @@ package body Bind_COM is
          begin
             Put_Line (Bind_Buffer, "  new " & Element_Type & ";");
 
-            if Ada.Strings.Fixed.Index (Element_Type, "Pointer_To_") > 0 then
-               if
-                 not Get (To_Unbounded_String ("Size_Of_" & Bind_Name))
+            if
+            not Get (To_Unbounded_String ("Size_Of_" & Bind_Name))
+            then
+               if Ada.Strings.Fixed.Index
+                 (Element_Type, "Pointer_To_") > 0
                then
                   Size_Map.Set
                     (To_Unbounded_String (Bind_Name),
                      To_Unbounded_String ("GNATCOM.Types.Size_Of_Pointers"));
-                  Set (To_Unbounded_String ("Size_Of_" & Bind_Name), True);
+               else
+                  Put_Line (Bind_Buffer,
+                            "Size_Of_" & Bind_Name & " : constant := " &
+                            Type_Size (Element_Type) & ";");
+                  Size_Map.Set
+                    (To_Unbounded_String (Bind_Name),
+                     To_Unbounded_String ("Size_Of_" & Bind_Name));
                end if;
+               Set (To_Unbounded_String ("Size_Of_" & Bind_Name), True);
             end if;
          end;
 
          ReleaseTypeAttr (Type_Info, Attribs);
 
          Write (From_Buffer => Pre_Buffer,
-                To_Buffer   => Alias_Buffer);
+                To_Buffer   => Spec_Buffer);
 
-         New_Line (Alias_Buffer);
+         New_Line (Spec_Buffer);
 
          Write (From_Buffer => Bind_Buffer,
-                To_Buffer   => Alias_Buffer);
+                To_Buffer   => Spec_Buffer);
 
          Clear (Pre_Buffer);
          Clear (Bind_Buffer);
@@ -3581,7 +3582,7 @@ package body Bind_COM is
 
       for N in New_String'First + 1 .. New_String'Last loop
 
-         if (New_String (N - 1) = '_') and (New_String (N) = '_')then
+         if (New_String (N - 1) = '_') and (New_String (N) = '_') then
             New_String (N - 1) := Under_Line_Replace;
          end if;
 

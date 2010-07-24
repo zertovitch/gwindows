@@ -25,8 +25,8 @@ package body ADO.Fields_Interface is
    end Attach;
 
    function Get_Count
-     (This : Fields_Type)
-     return Interfaces.C.long
+      (This : Fields_Type)
+      return Interfaces.C.long
    is
        RetVal : aliased Interfaces.C.long;
    begin
@@ -39,8 +39,8 @@ package body ADO.Fields_Interface is
    end Get_Count;
 
    function uNewEnum
-     (This      : Fields_Type)
-     return GNATCOM.Types.Pointer_To_IUnknown
+      (This      : Fields_Type)
+      return GNATCOM.Types.Pointer_To_IUnknown
    is
        RetVal : aliased GNATCOM.Types.Pointer_To_IUnknown;
    begin
@@ -63,10 +63,10 @@ package body ADO.Fields_Interface is
    end Refresh;
 
    function Get_Item
-     (This      : Fields_Type;
-      Index     : GNATCOM.Types.VARIANT;
-      Free      : Boolean := True)
-     return Pointer_To_Field
+      (This      : Fields_Type;
+       Index     : GNATCOM.Types.VARIANT;
+       Free      : Boolean := True)
+      return Pointer_To_Field
    is
        RetVal : aliased Pointer_To_Field;
    begin
@@ -77,8 +77,7 @@ package body ADO.Fields_Interface is
           RetVal'Unchecked_Access));
 
       if Free then
-               GNATCOM.Iinterface.Free (Index);
-
+         GNATCOM.Iinterface.Free (Index);
       end if;
 
       return RetVal;
@@ -102,8 +101,7 @@ package body ADO.Fields_Interface is
           Attrib));
 
       if Free then
-               GNATCOM.Iinterface.Free (Name);
-
+         GNATCOM.Iinterface.Free (Name);
       end if;
 
    end Append;
@@ -120,8 +118,7 @@ package body ADO.Fields_Interface is
           Index));
 
       if Free then
-               GNATCOM.Iinterface.Free (Index);
-
+         GNATCOM.Iinterface.Free (Index);
       end if;
 
    end Delete;

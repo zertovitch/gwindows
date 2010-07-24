@@ -240,7 +240,7 @@ package body GNATCOM.Dispinterface is
    begin
       Error_Check
         (Pointer (This).Vtbl.GetTypeInfo (Pointer (This),
-                                          1,
+                                          0,
                                           LCID,
                                           Info'Unchecked_Access));
       return Info;

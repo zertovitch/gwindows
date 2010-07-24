@@ -23,19 +23,19 @@ package body GWindows.Colored_Control_Window is
 
    procedure On_Message (Window       : in out Colored_Control_Window_Type;
                          message      : in     Interfaces.C.unsigned;
-                         wParam       : in     Interfaces.C.int;
-                         lParam       : in     Interfaces.C.int;
-                         Return_Value : in out Interfaces.C.long) is
+                         wParam       : in     GWindows.Types.Wparam;
+                         lParam       : in     GWindows.Types.Lparam;
+                         Return_Value : in out GWindows.Types.Lresult) is
       Canvas : Canvas_Type;
       Area   : Rectangle_Type;
       Control : Pointer_To_Base_Window_Class :=
-        Window_From_Handle (long (lParam));
+        Window_From_Handle (To_Handle (lParam));
    begin
       if message = WM_ERASEBKGND then
-         Handle (Canvas, GWindows.Types.Handle (wParam));
+         Handle (Canvas, GWindows.Types.To_Handle (wParam));
          GetClientRect (Handle (Window), Area);
-         if Handle (Window.Bitmap) /= 0 then
-            if Handle (Window.Stretched) = 0 or
+         if Handle (Window.Bitmap) /= Null_Handle then
+            if Handle (Window.Stretched) = Null_Handle or
               Window.Width /= Area.Right - Area.Left or
               Window.Height /= Area.Bottom - Area.Top then
                Delete (Window.Stretched);
@@ -53,74 +53,75 @@ package body GWindows.Colored_Control_Window is
          else
             Fill_Rectangle (Canvas, Area, Window.Brush);
          end if;
-         Handle (Canvas, 0);
+         Handle (Canvas, Null_Handle);
          Return_Value := 1;
       elsif Control /= null then
          if message = WM_CTLCOLORSCROLLBAR and then
            Control.all in Colored_Scroll_Bar_Type'Class then
-            Return_Value :=
-              Handle (Colored_Scroll_Bar_Type (Control.all).Brush);
+            Return_Value := To_Lresult
+              (Handle (Colored_Scroll_Bar_Type (Control.all).Brush));
          elsif message = WM_CTLCOLORSTATIC and then
            Control.all in Colored_Label_Type'Class then
-            Handle (Canvas, GWindows.Types.Handle (wParam));
+            Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color (Canvas, Colored_Label_Type (Control.all).Color);
             Text_Color (Canvas, Colored_Label_Type (Control.all).Text);
-            Handle (Canvas, 0);
-            Return_Value := Handle (Colored_Label_Type (Control.all).Brush);
+            Handle (Canvas, Null_Handle);
+            Return_Value := To_Lresult
+              (Handle (Colored_Label_Type (Control.all).Brush));
          elsif (message = WM_CTLCOLORSTATIC or
                 message = WM_CTLCOLOREDIT) and then
            Control.all in Colored_Edit_Box_Type'Class then
-            Handle (Canvas, GWindows.Types.Handle (wParam));
+            Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color
                (Canvas, Colored_Edit_Box_Type (Control.all).Color);
             Text_Color (Canvas, Colored_Edit_Box_Type (Control.all).Text);
-            Handle (Canvas, 0);
-            Return_Value :=
-              Handle (Colored_Edit_Box_Type (Control.all).Brush);
+            Handle (Canvas, Null_Handle);
+            Return_Value := To_Lresult
+              (Handle (Colored_Edit_Box_Type (Control.all).Brush));
          elsif (message = WM_CTLCOLORSTATIC or
                 message = WM_CTLCOLOREDIT) and then
            Control.all in Colored_Multi_Line_Edit_Box_Type'Class then
-            Handle (Canvas, GWindows.Types.Handle (wParam));
+            Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color
               (Canvas, Colored_Multi_Line_Edit_Box_Type (Control.all).Color);
             Text_Color
               (Canvas, Colored_Multi_Line_Edit_Box_Type (Control.all).Text);
-            Handle (Canvas, 0);
-            Return_Value :=
-              Handle (Colored_Multi_Line_Edit_Box_Type (Control.all).Brush);
+            Handle (Canvas, Null_Handle);
+            Return_Value := To_Lresult
+              (Handle (Colored_Multi_Line_Edit_Box_Type (Control.all).Brush));
          elsif (message = WM_CTLCOLORSTATIC or
                 message = WM_CTLCOLOREDIT) and then
            Control.all in Colored_Combo_Box_Type'Class then
-            Handle (Canvas, GWindows.Types.Handle (wParam));
+            Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color
               (Canvas, Colored_Combo_Box_Type (Control.all).Color);
             Text_Color (Canvas, Colored_Combo_Box_Type (Control.all).Text);
-            Handle (Canvas, 0);
-            Return_Value :=
-              Handle (Colored_Combo_Box_Type (Control.all).Brush);
+            Handle (Canvas, Null_Handle);
+            Return_Value := To_Lresult
+              (Handle (Colored_Combo_Box_Type (Control.all).Brush));
          elsif (message = WM_CTLCOLORSTATIC or
                 message = WM_CTLCOLOREDIT) and then
            Control.all in Colored_Drop_Down_Combo_Box_Type'Class then
-            Handle (Canvas, GWindows.Types.Handle (wParam));
+            Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color
               (Canvas, Colored_Drop_Down_Combo_Box_Type (Control.all).Color);
             Text_Color
               (Canvas, Colored_Drop_Down_Combo_Box_Type (Control.all).Text);
-            Handle (Canvas, 0);
-            Return_Value :=
-              Handle (Colored_Drop_Down_Combo_Box_Type (Control.all).Brush);
+            Handle (Canvas, Null_Handle);
+            Return_Value := To_Lresult
+              (Handle (Colored_Drop_Down_Combo_Box_Type (Control.all).Brush));
          elsif (message = WM_CTLCOLORSTATIC or
                 message = WM_CTLCOLOREDIT or
                 message = WM_CTLCOLORBTN) and then
                Control.all in Colored_Check_Box_Type'Class then
-            Handle (Canvas, GWindows.Types.Handle (wParam));
+            Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color
               (Canvas, Colored_Check_Box_Type (Control.all).Color);
             Text_Color
               (Canvas, Colored_Check_Box_Type (Control.all).Color);
-            Handle (Canvas, 0);
-            Return_Value :=
-              Handle (Colored_Check_Box_Type (Control.all).Brush);
+            Handle (Canvas, Null_Handle);
+            Return_Value := To_Lresult
+              (Handle (Colored_Check_Box_Type (Control.all).Brush));
          else
             On_Message (Window_Type (Window), message, wParam,
                         lParam, Return_Value);
@@ -153,9 +154,9 @@ package body GWindows.Colored_Control_Window is
       Bitmap : GString) is
    begin
       Delete (Window.Bitmap);
-      Handle (Window.Bitmap, 0);
+      Handle (Window.Bitmap, Null_Handle);
       Delete (Window.Stretched);
-      Handle (Window.Stretched, 0);
+      Handle (Window.Stretched, Null_Handle);
       if Bitmap /= "" then
          Load_Bitmap_From_File (Window.Bitmap, Bitmap);
       end if;

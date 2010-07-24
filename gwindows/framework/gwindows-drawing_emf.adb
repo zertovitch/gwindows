@@ -9,7 +9,7 @@ package body GWindows.Drawing_EMF is
                        File_Name : in     GString)
    is
       function GetEnhMetaFile (lpFilename    : Pointer_To_GChar_C)
-        return Interfaces.C.long;
+        return GWindows.Types.Handle;
       pragma Import (Stdcall, GetEnhMetaFile, "GetEnhMetaFileW");
       Filename : GString_C := GWindows.GStrings.To_GString_C (File_Name);
    begin
@@ -64,16 +64,16 @@ package body GWindows.Drawing_EMF is
       procedure DeleteEnhMetaFile (HENHMETAFILE : GWindows.Types.Handle);
       pragma Import (StdCall, DeleteEnhMetaFile, "DeleteEnhMetaFile");
    begin
-      if Handle (Emf) /= 0 then
+      if Handle (Emf) /= GWindows.Types.Null_Handle then
          DeleteEnhMetaFile (Handle (Emf));
-         Handle (Emf, 0);
+         Handle (Emf, GWindows.Types.Null_Handle);
       end if;
    end Delete;
 
    function Valid (Emf : EMF_Type) return Boolean is
       use type Interfaces.C.long;
    begin
-      return Handle (Emf) /= 0;
+      return Handle (Emf) /= GWindows.Types.Null_Handle;
    end Valid;
 
 end GWindows.Drawing_EMF;

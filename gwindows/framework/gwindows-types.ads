@@ -32,11 +32,25 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces.C;
+with System;
+with Ada.Unchecked_Conversion;
 
 package GWindows.Types is
 
-   subtype Handle is Interfaces.C.long;
+   type Handle is new System.Address;
+   Null_Handle : constant Handle := Handle (System.Null_Address);
+   type Wparam is mod 2 ** Standard'Address_Size;
+   type Lparam is new Wparam;
+   type Lresult is new Wparam;
+
+   function To_Handle (I : Integer) return Handle;
+   function To_Handle (I : Interfaces.C.long) return Handle;
+   function To_Handle is new Ada.Unchecked_Conversion (Lparam, Handle);
+   function To_Handle is new Ada.Unchecked_Conversion (Wparam, Handle);
+   function To_Lresult is new Ada.Unchecked_Conversion (Handle, Lresult);
+   function To_Wparam (I : Integer) return Wparam;
+   function To_Lparam (I : Integer) return Lparam;
+   function To_Integer (Result : Lresult) return Integer;
 
    type Point_Type is
       record

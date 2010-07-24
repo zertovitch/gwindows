@@ -7,8 +7,6 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
---                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
 -- ware  Foundation;  either version 2,  or (at your option) any later ver- --
@@ -32,7 +30,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  ANSI version
-with Ada.Strings.Maps.Constants;
+--  UNICODE version
+with Ada.Strings.Wide_Maps.Wide_Constants;
 package GWindows.GStrings.Maps_Constants
-  renames Ada.Strings.Maps.Constants;
+  renames Ada.Strings.Wide_Maps.Wide_Constants;

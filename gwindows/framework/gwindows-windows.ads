@@ -964,22 +964,22 @@ package GWindows.Windows is
    --  understanding of the internals of the entire GWindows framework
 
    procedure On_Message (Window       : in out Window_Type;
-                         message      : in     Interfaces.C.unsigned;
-                         wParam       : in     Interfaces.C.int;
-                         lParam       : in     Interfaces.C.int;
-                         Return_Value : in out Interfaces.C.long);
+                         message      : Interfaces.C.unsigned;
+                         wParam       : GWindows.Types.Wparam;
+                         lParam       : GWindows.Types.Lparam;
+                         Return_Value : in out GWindows.Types.Lresult);
    --  Handles additional Win32 messages for top level Windows
 
    procedure On_Horizontal_Scroll
      (Window  : in out Window_Type;
-      Request : in     GWindows.Base.Scroll_Request_Type;
-      Control : in     GWindows.Base.Pointer_To_Base_Window_Class);
+      Request : GWindows.Base.Scroll_Request_Type;
+      Control : GWindows.Base.Pointer_To_Base_Window_Class);
    --  Handles basic processing of Horizontal Scroll Bar
 
    procedure On_Vertical_Scroll
      (Window  : in out Window_Type;
-      Request : in     GWindows.Base.Scroll_Request_Type;
-      Control : in     GWindows.Base.Pointer_To_Base_Window_Class);
+      Request : GWindows.Base.Scroll_Request_Type;
+      Control : GWindows.Base.Pointer_To_Base_Window_Class);
    --  Handles basic process of Veritcal Scroll Bar
 
    procedure On_Command
@@ -1041,7 +1041,7 @@ private
 
          All_Keys : Boolean := False;
 
-         Font_Handle          : GWindows.Types.Handle := 0;
+         Font_Handle : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          Default_Cursor       : GWindows.Cursors.Cursor_Type := 0;
          Background_Color     : GWindows.Colors.Color_Type;
          Background_Color_Sys : Boolean := True;
