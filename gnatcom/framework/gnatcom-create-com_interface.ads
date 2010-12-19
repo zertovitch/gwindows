@@ -74,29 +74,6 @@ package GNATCOM.Create.COM_Interface is
    type Pointer_To_CoClass is access all CoClass_Type'Class;
    --  Base type for CoClasses used with COM_Interface_Type
 
-   function QueryInterface
-     (Dispatch  : in     CoClass_Type;
-      This      : access COM_Interface_Type;
-      riid      : in     GNATCOM.Types.Pointer_To_GUID;
-      ppvObject : access GNATCOM.Types.Pointer_To_Void)
-     return GNATCOM.Types.HRESULT;
-   --  QueryInterface extension
-   --  Dispatched if no matching interface is found in the classes IID_Map
-   --  by the internal QueryInterface implementation.
-   --  The default implementation returns E_NOINTERFACE as should any
-   --  version of QueryInterface that does not handle interface riid
-
-   --  Function specs for IUnknown
-   --
-   --  The QueryInterface, Addref and Release are the first three functions
-   --  in every interface since every interface is a child of IUnknown. This
-   --  allows every interface to be treated polymorphically as
-   --  IUnknown. Then QueryInterface can be used to query the object for
-   --  support of an interface and retrieve a pointer to the COM object's
-   --  interface that conforms to the requested interface.  In essence
-   --  QueryInterface is used to do a typesafe "cast" from one interface of
-   --  a COM object to another.
-
    type Af_QueryInterface is access
      function (This      : access COM_Interface_Type;
                riid      : in     GNATCOM.Types.Pointer_To_GUID;
@@ -123,6 +100,29 @@ package GNATCOM.Create.COM_Interface is
    --  returning it in ppvObject
    --  If riid is not found it dispatches to the CoClass version of
    --  QueryInterface
+
+   function QueryInterface
+     (Dispatch  : in     CoClass_Type;
+      This      : access COM_Interface_Type;
+      riid      : in     GNATCOM.Types.Pointer_To_GUID;
+      ppvObject : access GNATCOM.Types.Pointer_To_Void)
+     return GNATCOM.Types.HRESULT;
+   --  QueryInterface extension
+   --  Dispatched if no matching interface is found in the classes IID_Map
+   --  by the internal QueryInterface implementation.
+   --  The default implementation returns E_NOINTERFACE as should any
+   --  version of QueryInterface that does not handle interface riid
+
+   --  Function specs for IUnknown
+   --
+   --  The QueryInterface, Addref and Release are the first three functions
+   --  in every interface since every interface is a child of IUnknown. This
+   --  allows every interface to be treated polymorphically as
+   --  IUnknown. Then QueryInterface can be used to query the object for
+   --  support of an interface and retrieve a pointer to the COM object's
+   --  interface that conforms to the requested interface.  In essence
+   --  QueryInterface is used to do a typesafe "cast" from one interface of
+   --  a COM object to another.
 
    function AddRef (This : access COM_Interface_Type)
      return Interfaces.C.unsigned_long;
