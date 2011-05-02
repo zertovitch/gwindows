@@ -48,10 +48,10 @@ project GWenerator is
       case Build_Mode is
 
          when "Small" =>
-            for Default_Switches ("ada") use ("-gnatf", "-Os", "-gnatp", "-march=i386", "-ffunction-sections", "-falign-jumps=0", "-falign-loops=0", "-falign-functions=0", "-mpreferred-stack-boundary=2");
+            for Default_Switches ("ada") use ("-gnat05", "-gnatf", "-Os", "-gnatp", "-march=i386", "-ffunction-sections", "-falign-jumps=0", "-falign-loops=0", "-falign-functions=0", "-mpreferred-stack-boundary=2");
 
          when "Debug" =>
-            for Default_Switches ("ada") use ("-fstack-check", "-g", "-gnatf", "-gnato", "-gnatwa", "-gnatVa", "-gnatecdebug.pra");
+            for Default_Switches ("ada") use ("-gnat05", "-fstack-check", "-g", "-gnatf", "-gnato", "-gnatwa", "-gnatVa", "-gnatecdebug.pra");
       end case;
    end Compiler;
 

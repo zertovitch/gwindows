@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2010/02/24   18:12:01
+-- Transcription time: 2011/05/02   14:30:14
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
@@ -31,12 +31,12 @@ package GWenerator_Resource_GUI is
   type Main_Menu_Type is tagged record
     Main: Menu_Type; -- Root of the whole menu tree
     Popup_0001: Menu_Type;  -- level 1; title: "&File"
-    Popup_0002: Menu_Type;  -- level 1; title: "&Tools"
+    Popup_0002: Menu_Type;  -- level 1; title: "&Actions"
     Popup_0003: Menu_Type;  -- level 1; title: "&Options"
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 72
+  -- Menu at line 73
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -54,7 +54,7 @@ package GWenerator_Resource_GUI is
     GWen_ver: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 94
+  -- Dialog at resource line 95
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -119,7 +119,7 @@ package GWenerator_Resource_GUI is
     RC_Compiler_list: Drop_Down_Combo_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 130
+  -- Dialog at resource line 131
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -175,7 +175,7 @@ package GWenerator_Resource_GUI is
     More_less_build: Bitmap_Button_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 166
+  -- Dialog at resource line 167
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -201,9 +201,9 @@ package GWenerator_Resource_GUI is
 
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
-    FileDescription: constant String:= "Resource script (.rc) to GWindows code builder";
-    FileVersion: constant String:= "0.99";
-    LegalCopyright: constant String:= "© 2008..2010 G. de Montmollin (MIT license)";
+    FileDescription: constant String:= "GWenerator - Resource script (.rc) to GWindows Ada code translator";
+    FileVersion: constant String:= "1.00a";
+    LegalCopyright: constant String:= "© 2008..2011 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWenerator";
     Translation: constant:= 1033;
   end Version_info;
@@ -277,6 +277,7 @@ package GWenerator_Resource_GUI is
   Newer_Ada              : constant:=  40008;
   Auto_translate         : constant:=  40009;
   Auto_build             : constant:=  40010;
+  Start_main_app         : constant:=  40010;
   Edit_Main_Ada_File_Name: constant:=  40011;
   Button_Browse_Ada      : constant:=  40012;
   Button_Browse_RC       : constant:=  40013;
@@ -294,6 +295,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 257
+  -- Last line of resource script file: 258
 
 end GWenerator_Resource_GUI;

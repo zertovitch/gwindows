@@ -4,6 +4,7 @@ with GWindows.Base;                     use GWindows.Base;
 with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;
 with GWindows.List_Boxes;               use GWindows.List_Boxes;
 with GWindows.Buttons;                  use GWindows.Buttons;
+with GWindows.Buttons.Graphic;
 with GWindows.Common_Dialogs;           use GWindows.Common_Dialogs;
 with GWindows.Constants;                use GWindows.Constants;
 with GWindows.Common_Controls;          use GWindows.Common_Controls;
@@ -27,10 +28,9 @@ with Ada.Calendar;
 with RC_IO, RC_Help, YYParse, Resource_Header;
 
 with GWens.IO;
-
 with Time_display;
-
 with Windows_Timers;
+with GWin_Util;
 
 package body GWen_Windows is
 
@@ -913,6 +913,12 @@ package body GWen_Windows is
         Window.Close;
       when Generate_test_app =>
         Translation(Window, generate_test => True);
+      when Start_Main_App =>
+        GWin_Util.Start(
+          File      => S(Window.proj.Ada_main) ,
+          Parameter => "",
+          Minimized => False
+        );
       when GWen_Options =>
         Window.On_Options;
       when GWenerator_Preferences =>

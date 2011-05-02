@@ -4,7 +4,6 @@ with GWens;                             use GWens;
 
 with GWindows;                          use GWindows;
 with GWindows.Drawing_Objects;
-with GWindows.Buttons.Graphic;
 
 with Interfaces.C;
 with Windows_pipes;

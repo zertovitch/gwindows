@@ -62,6 +62,7 @@
 #define Newer_Ada                               40008
 #define Auto_translate                          40009
 #define Auto_build                              40010
+#define Start_main_app                          40010
 #define Edit_Main_Ada_File_Name                 40011
 #define Button_Browse_Ada                       40012
 #define Button_Browse_RC                        40013

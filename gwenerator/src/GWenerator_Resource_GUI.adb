@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2010/02/24   18:12:01
+-- Transcription time: 2011/05/02   14:30:14
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
@@ -35,8 +35,9 @@ package body GWenerator_Resource_GUI is
     Append_Separator(Menu.Popup_0001);
     Append_Item(Menu.Popup_0001, "&Quit", Quit);
     Menu.Popup_0002:= Create_Popup;
-    Append_Menu(Menu.Main, "&Tools", Menu.Popup_0002);
+    Append_Menu(Menu.Main, "&Actions", Menu.Popup_0002);
     Append_Item(Menu.Popup_0002, "&Generate test application", Generate_test_app);
+    Append_Item(Menu.Popup_0002, "&Start main application", Start_main_app);
     Menu.Popup_0003:= Create_Popup;
     Append_Menu(Menu.Main, "&Options", Menu.Popup_0003);
     Append_Item(Menu.Popup_0003, "&Options for this GWen", GWen_Options);
@@ -47,7 +48,7 @@ package body GWenerator_Resource_GUI is
   end Create_Full_Menu; -- Main_Menu_Type
 
 
-  -- Dialog at resource line 84
+  -- Dialog at resource line 85
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -128,12 +129,12 @@ package body GWenerator_Resource_GUI is
     else -- hide the closing button
       Hide(Window.IDOK);
     end if;
-    Dlg_to_Scn(  5, 5, 21, 20, x,y,w,h);
+    Dlg_to_Scn(  5, 5, 32, 30, x,y,w,h);
     Create( Window.Static_0001, Window, Num_resource(gwenerator_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  35, 10, 165, 8, x,y,w,h);
     Create_label( Window, "GWenerator - a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  35, 25, 150, 8, x,y,w,h);
-    Create_label( Window, "Copyright © Gautier de Montmollin 2008..2010", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  35, 25, 151, 8, x,y,w,h);
+    Create_label( Window, "Copyright © Gautier de Montmollin 2008..2011", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  35, 40, 100, 8, x,y,w,h);
     Create_label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  35, 55, 30, 8, x,y,w,h);
@@ -147,7 +148,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- About_box_Type
 
 
-  -- Dialog at resource line 103
+  -- Dialog at resource line 104
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -294,7 +295,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- GWen_properties_Type
 
 
-  -- Dialog at resource line 139
+  -- Dialog at resource line 140
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -533,6 +534,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 257
+  -- Last line of resource script file: 258
 
 end GWenerator_Resource_GUI;
