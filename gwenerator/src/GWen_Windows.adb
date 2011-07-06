@@ -454,15 +454,19 @@ package body GWen_Windows is
 
   procedure On_About (Window : in out GWen_Window_Type) is
     box: About_Box_Type;
-    url: URL_Type;
+    url_gnat, url_gnavi_1, url_gnavi_2, url_resedit: URL_Type;
   begin
     box.Create_Full_Dialog(Window);
     GWindows.Static_Controls.Web.Create_and_Swap(
-      To_Show => url,
+      To_Show => url_gnavi_1,
       To_Hide => box.URL,
       Parent  => box,
-      URL     => box.URL.Text -- Here the text = the URL
+      URL     => RC_Help.Web 
     );
+	Text(url_gnavi_1, RC_Help.Web); -- Here the text and the URL are the same
+    Create_and_Swap(url_gnat, box.GNAT_URL, box, "http://libre.adacore.com");
+    Create_and_Swap(url_gnavi_2, box.GNAVI_URL, box, RC_Help.Web);
+    Create_and_Swap(url_resedit, box.ResEdit_URL, box, "http://resedit.net");
     -- Complete the Grammar version info:
     box.RC_gramm_ver.Text( box.RC_gramm_ver.Text & RC_Help.Grammar_Version );
     -- Complete the GWenerator version info:

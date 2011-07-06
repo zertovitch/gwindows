@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2011/05/02   14:30:14
+-- Transcription time: 2011/07/06   14:03:55
 --
 -- Translated by the RC2GW or GWenerator tools.
 -- URL: http://sf.net/projects/gnavi
@@ -52,9 +52,13 @@ package GWenerator_Resource_GUI is
     URL: Label_Type;
     RC_gramm_ver: Label_Type;
     GWen_ver: Label_Type;
+    -- Label: IDC_STATIC
+    GNAT_URL: Label_Type;
+    GNAVI_URL: Label_Type;
+    ResEdit_URL: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 95
+  -- Dialog at resource line 99
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -119,7 +123,7 @@ package GWenerator_Resource_GUI is
     RC_Compiler_list: Drop_Down_Combo_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 131
+  -- Dialog at resource line 135
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -175,7 +179,7 @@ package GWenerator_Resource_GUI is
     More_less_build: Bitmap_Button_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 167
+  -- Dialog at resource line 171
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -202,7 +206,7 @@ package GWenerator_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "GWenerator - Resource script (.rc) to GWindows Ada code translator";
-    FileVersion: constant String:= "1.00a";
+    FileVersion: constant String:= "1.00";
     LegalCopyright: constant String:= "© 2008..2011 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWenerator";
     Translation: constant:= 1033;
@@ -253,6 +257,9 @@ package GWenerator_Resource_GUI is
   Not_Listen_32x32       : constant:=   1033;
   RC_file                : constant:=   1034;
   gwenerator_icon        : constant:=   1035;
+  GNAT_URL               : constant:=   1036;
+  GNAVI_URL              : constant:=   1037;
+  ResEdit_URL            : constant:=   1038;
   Main_Menu              : constant:=   4108;
   Main_dialog            : constant:=   4108;
   GNATMake_messages      : constant:=   4109;
@@ -295,6 +302,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 258
+  -- Last line of resource script file: 262
 
 end GWenerator_Resource_GUI;

@@ -355,17 +355,17 @@ package body RC_Help is
 
   procedure Blurb(to: Pkg_output) is
   begin
-    Ada_Put_Line(to, "---------------------------------------------------------------------");
+    Ada_Put_Line(to, "---------------------------------------------------------------------------");
     Ada_Put_Line(to, "-- GUI contents of resource script file: " & S(source_name));
     Ada_Put_Line(to, "-- Transcription time: " & Time_display);
     Ada_Put_Line(to, "--");
-    Ada_Put_Line(to, "-- Translated by the RC2GW or GWenerator tools.");
-    Ada_Put_Line(to, "-- URL: http://sf.net/projects/gnavi");
+    Ada_Put_Line(to, "-- Translated by the RC2GW or by the GWenerator tool.");
+    Ada_Put_Line(to, "-- URL: " & Web);
     Ada_Put_Line(to, "--");
-    Ada_Put_Line(to, "-- This is automatically generated code. Do not edit this.");
-    Ada_Put_Line(to, "-- Rework the resource instead, and re-run the translator.");
+    Ada_Put_Line(to, "-- This file contains only automatically generated code. Do not edit this.");
+    Ada_Put_Line(to, "-- Rework the resource script instead, and re-run the translator.");
     Ada_Put_Line(to, "-- RC Grammar version: " & Grammar_Version);
-    Ada_Put_Line(to, "---------------------------------------------------------------------");
+    Ada_Put_Line(to, "---------------------------------------------------------------------------");
     Ada_New_Line(to);
   end Blurb;
 

@@ -38,6 +38,9 @@
 #define Not_Listen_32x32                        1033
 #define RC_file                                 1034
 #define gwenerator_icon                         1035
+#define GNAT_URL                                1036
+#define GNAVI_URL                               1037
+#define ResEdit_URL                             1038
 #define Main_Menu                               4108
 #define Main_dialog                             4108
 #define GNATMake_messages                       4109
