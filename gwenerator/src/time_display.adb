@@ -1,10 +1,14 @@
---  Returns date & time for a log file, e.g. "2002/10/21   16:29:51"
+--  Time_display returns date & time, current or given.
+--  E.g.: "2012/10/21  16:29:51"
+--  Useful for a log file or a display of a lengthy operation
 --  Ada 83 compatible.
---  32- or 64-bit: Compaq Ada (83), GNAT (95), ObjectAda (95)
+--
+--  Tested on following architectures:
+--  32- or 64-bit: HP Ada (83), GNAT (95,2005,2012,...), ObjectAda (95)
 --  16-bit:        Meridian (83) -> Long_Integer is 32-bit
 --  16-bit:        Janus 2.x (83): KO: no Long_Integer
 --
---  Test program in following comment:
+--  Test program is in the following comment:
 --
 --   with Text_IO,Time_display;procedure Test is begin Text_IO.Put(Time_display);end;
 
@@ -32,15 +36,24 @@ begin
     smn: constant String:= Sec_int'Image( m mod 60 + 100);
     ssc: constant String:= Sec_int'Image( s mod 60 + 100);
 
+    function secs return String is
+    begin
+      if Seconds then
+        return ':' & ssc( ssc'Last-1 .. ssc'Last );
+      else
+        return "";
+      end if;
+    end secs;
+
   begin
     return
       sY( sY'Last-3 .. sY'Last ) & '/' &  -- not Year 10'000 compliant.
       sM( sM'Last-1 .. sM'Last ) & '/' &
       sD( sD'Last-1 .. sD'Last ) &
-      "   " &
+      "  " &
       shr( shr'Last-1 .. shr'Last ) & ':' &
-      smn( smn'Last-1 .. smn'Last ) & ':' &
-      ssc( ssc'Last-1 .. ssc'Last );
+      smn( smn'Last-1 .. smn'Last ) &
+      secs;
   end;
 
 end Time_display;
