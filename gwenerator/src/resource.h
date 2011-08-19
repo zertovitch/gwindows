@@ -64,6 +64,7 @@
 #define Listen_Ada                              40008
 #define Newer_Ada                               40008
 #define Auto_translate                          40009
+#define Compile_resource_only                   40009
 #define Auto_build                              40010
 #define Start_main_app                          40010
 #define Edit_Main_Ada_File_Name                 40011

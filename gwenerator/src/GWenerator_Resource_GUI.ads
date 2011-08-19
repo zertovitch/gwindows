@@ -1,14 +1,14 @@
----------------------------------------------------------------------
+---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2011/07/06   14:03:55
+-- Transcription time: 2011/08/19   14:25:00
 --
--- Translated by the RC2GW or GWenerator tools.
+-- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
--- This is automatically generated code. Do not edit this.
--- Rework the resource instead, and re-run the translator.
+-- This file contains only automatically generated code. Do not edit this.
+-- Rework the resource script instead, and re-run the translator.
 -- RC Grammar version: 24-Feb-2010
----------------------------------------------------------------------
+---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
 with GWindows.Constants;                use GWindows.Constants;
@@ -36,7 +36,7 @@ package GWenerator_Resource_GUI is
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record; -- Main_Menu_Type
 
-  -- Menu at line 73
+  -- Menu at line 74
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -58,7 +58,7 @@ package GWenerator_Resource_GUI is
     ResEdit_URL: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 99
+  -- Dialog at resource line 100
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -123,7 +123,7 @@ package GWenerator_Resource_GUI is
     RC_Compiler_list: Drop_Down_Combo_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 135
+  -- Dialog at resource line 136
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -179,7 +179,7 @@ package GWenerator_Resource_GUI is
     More_less_build: Bitmap_Button_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 171
+  -- Dialog at resource line 172
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -283,6 +283,7 @@ package GWenerator_Resource_GUI is
   Listen_Ada             : constant:=  40008;
   Newer_Ada              : constant:=  40008;
   Auto_translate         : constant:=  40009;
+  Compile_resource_only  : constant:=  40009;
   Auto_build             : constant:=  40010;
   Start_main_app         : constant:=  40010;
   Edit_Main_Ada_File_Name: constant:=  40011;
@@ -302,6 +303,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 262
+  -- Last line of resource script file: 263
 
 end GWenerator_Resource_GUI;

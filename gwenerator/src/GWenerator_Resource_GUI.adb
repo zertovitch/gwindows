@@ -1,14 +1,14 @@
----------------------------------------------------------------------
+---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2011/07/06   14:03:55
+-- Transcription time: 2011/08/19   14:25:00
 --
--- Translated by the RC2GW or GWenerator tools.
+-- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
--- This is automatically generated code. Do not edit this.
--- Rework the resource instead, and re-run the translator.
+-- This file contains only automatically generated code. Do not edit this.
+-- Rework the resource script instead, and re-run the translator.
 -- RC Grammar version: 24-Feb-2010
----------------------------------------------------------------------
+---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
 with GWindows.Drawing;                  use GWindows.Drawing;
@@ -38,6 +38,7 @@ package body GWenerator_Resource_GUI is
     Append_Menu(Menu.Main, "&Actions", Menu.Popup_0002);
     Append_Item(Menu.Popup_0002, "&Generate test application", Generate_test_app);
     Append_Item(Menu.Popup_0002, "&Start main application", Start_main_app);
+    Append_Item(Menu.Popup_0002, "&Compile resource only", Compile_resource_only);
     Menu.Popup_0003:= Create_Popup;
     Append_Menu(Menu.Main, "&Options", Menu.Popup_0003);
     Append_Item(Menu.Popup_0003, "&Options for this GWen", GWen_Options);
@@ -48,7 +49,7 @@ package body GWenerator_Resource_GUI is
   end Create_Full_Menu; -- Main_Menu_Type
 
 
-  -- Dialog at resource line 85
+  -- Dialog at resource line 86
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -156,7 +157,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- About_box_Type
 
 
-  -- Dialog at resource line 108
+  -- Dialog at resource line 109
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -303,7 +304,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- GWen_properties_Type
 
 
-  -- Dialog at resource line 144
+  -- Dialog at resource line 145
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -542,6 +543,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 262
+  -- Last line of resource script file: 263
 
 end GWenerator_Resource_GUI;

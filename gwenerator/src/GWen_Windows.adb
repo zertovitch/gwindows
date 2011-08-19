@@ -461,7 +461,7 @@ package body GWen_Windows is
       To_Show => url_gnavi_1,
       To_Hide => box.URL,
       Parent  => box,
-      URL     => RC_Help.Web 
+      URL     => RC_Help.Web
     );
 	Text(url_gnavi_1, RC_Help.Web); -- Here the text and the URL are the same
     Create_and_Swap(url_gnat, box.GNAT_URL, box, "http://libre.adacore.com");
@@ -498,23 +498,60 @@ package body GWen_Windows is
     Add(gw.RC_to_GWindows_messages, "Resource compiled. " & Time_display);
   end Call_windres;
 
-  procedure Translation (gw: in out GWen_Window_Type; generate_test: Boolean) is
+  procedure Check_resource_name (gw: in out GWen_Window_Type; ok: out Boolean) is
     sn: constant String:= S(gw.proj.RC_name);
+  begin
+    ok:= True;
+    if sn="" then
+      Message_Box(gw, "Ressource file", "Resource file name is empty!", OK_Box, Error_Icon);
+      On_Options(gw);
+      ok:= False;
+    elsif not Exists(sn) then
+      Message_Box(gw, "Ressource file missing", "Cannot find: [" & sn & ']', OK_Box, Error_Icon);
+      On_Options(gw);
+      ok:= False;
+    end if;
+  end Check_resource_name;
+
+  procedure Resource_compilation (gw: in out GWen_Window_Type; optional: Boolean) is
+    ok: Boolean;
+  begin
+    Check_resource_name(gw, ok);
+    if ok then
+      case gw.proj.RC_compile is
+        when none =>
+          if optional then
+            null;
+          elsif
+            Message_Box(
+              gw,
+              "Resource compilation",
+              "No resource compiler has been defined." & NL &
+              "Use Windres ?",
+              Yes_No_Box, Question_Icon
+            ) = Yes
+          then
+            Call_windres(gw);
+          end if;
+        when windres =>
+          Call_windres(gw);
+      end case;
+    end if;
+  end Resource_compilation;
+
+  procedure Translation (gw: in out GWen_Window_Type; generate_test: Boolean) is
     fe, fo: File_Type;
-    -- We derout the standard output & error - anyway, there is no terminal!
+    -- ^ We "de"rout the standard output & error - anyway, there
+    -- is no terminal in the first place!
+    ok: Boolean;
   begin
     gw.Ear_RC.Set_Bitmap(gw.wheels);
     delay 0.01;
     gw.Bar_RC.Progress_Range(0, 100);
     gw.Bar_RC.Position(5);
     delay 0.01;
-    if sn="" then
-      Message_Box(gw, "Ressource file", "Resource file name is empty!", OK_Box, Error_Icon);
-      On_Options(gw);
-    elsif not Exists(sn) then
-      Message_Box(gw, "Ressource file missing", "Cannot find: [" & sn & ']', OK_Box, Error_Icon);
-      On_Options(gw);
-    else
+    Check_resource_name(gw, ok);
+    if ok then
       gw.Bar_RC.Position(10);
       -- Copy the translation options to RC_Help's globals variables.
       -- These variables are used by the code generated into yyparse.adb from RC.y.
@@ -575,12 +612,7 @@ package body GWen_Windows is
         -- Since it is a quick task, we can wait for the
         -- process to complete here
         --
-        case gw.proj.RC_compile is
-          when none =>
-            null;
-          when windres =>
-            Call_windres(gw);
-        end case;
+        Resource_compilation(gw, optional => True);
       end;
       gw.Bar_RC.Position(100);
       delay 0.02;
@@ -915,6 +947,7 @@ package body GWen_Windows is
         Window.On_Save_As;
       when Quit =>
         Window.Close;
+      -- Action menu:
       when Generate_test_app =>
         Translation(Window, generate_test => True);
       when Start_Main_App =>
@@ -923,6 +956,9 @@ package body GWen_Windows is
           Parameter => "",
           Minimized => False
         );
+      when Compile_resource_only =>
+         Resource_compilation(window, optional => False);
+      -- Options menu:
       when GWen_Options =>
         Window.On_Options;
       when GWenerator_Preferences =>
