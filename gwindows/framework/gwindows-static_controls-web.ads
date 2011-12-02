@@ -36,11 +36,13 @@ package GWindows.Static_Controls.Web is
 
    -- Overriden methods:
    procedure On_Click ( Window: in out URL_Type );
-   procedure On_Message (Window       : in out URL_Type;
-                         message      : in     Interfaces.C.unsigned;
-                         wParam       : in     Interfaces.C.int;
-                         lParam       : in     Interfaces.C.int;
-                         Return_Value : in out Interfaces.C.long);
+
+   procedure On_Message
+     (Window       : in out URL_Type;
+      message      : in     Interfaces.C.unsigned;
+      wParam       : in     GWindows.Types.Wparam;
+      lParam       : in     GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult);
 
    -- This mimics GWindows.Static_Controls.Create_Label: Label without variable
    procedure Create_URL

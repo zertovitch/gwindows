@@ -92,11 +92,13 @@ package body GWindows.Static_Controls.Web is
   ------------------------------
   cur_finger: Cursor_Type:= 0;
 
-  procedure On_Message (Window       : in out URL_Type;
-                        message      : in     Interfaces.C.unsigned;
-                        wParam       : in     Interfaces.C.int;
-                        lParam       : in     Interfaces.C.int;
-                        Return_Value : in out Interfaces.C.long) is
+  procedure On_Message
+     (Window       : in out URL_Type;
+      message      : in     Interfaces.C.unsigned;
+      wParam       : in     GWindows.Types.Wparam;
+      lParam       : in     GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult)
+  is
     WM_MOUSEMOVE  : constant := 16#200#;
     IDC_HAND: constant:= 32649;
   begin

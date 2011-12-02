@@ -1,17 +1,22 @@
+with GWindows.Types;
+
 package body GWindows.Buttons.Graphic is
 
    use Interfaces.C;
 
    GWL_STYLE   : constant:= -16;
 
-   procedure SetWindowLong(hwnd    : Interfaces.C.long;
-                           nIndex  : Interfaces.C.int := GWL_STYLE;
-                           newLong : Interfaces.C.unsigned);
+   procedure SetWindowLong
+     (hwnd    : GWindows.Types.Handle;
+      nIndex  : Interfaces.C.int := GWL_STYLE;
+      newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong,
                     "SetWindowLong" & Character_Mode_Identifier);
-   function GetWindowLong(hwnd   : Interfaces.C.long;
-                          nIndex : Interfaces.C.int := GWL_STYLE)
-                         return Interfaces.C.unsigned;
+
+   function GetWindowLong
+     (hwnd   : GWindows.Types.Handle;
+      nIndex : Interfaces.C.int := GWL_STYLE)
+     return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong,
                     "GetWindowLong" & Character_Mode_Identifier);
 
@@ -44,10 +49,10 @@ package body GWindows.Buttons.Graphic is
    is
       use GWindows.Drawing_Objects;
       -- http://msdn.microsoft.com/en-us/library/bb761822(VS.85).aspx
-      procedure Sendmessage (Hwnd   : Interfaces.C.Long := Handle (Window);
-                             Umsg   : Interfaces.C.Int  := BM_SETIMAGE;
-                             Wparam : Integer           := IMAGE_ICON;
-                             Lparam : Interfaces.C.long := Handle(Icon)
+      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Window);
+                             Umsg   : Interfaces.C.Int      := BM_SETIMAGE;
+                             Wparam : GWindows.Types.Wparam := IMAGE_ICON;
+                             Lparam : GWindows.Types.Lparam := GWindows.Types.LParam(GWindows.Types.To_LResult(Handle(Icon)))
                             );
       pragma Import (Stdcall, Sendmessage,
                      "SendMessage" & Character_Mode_Identifier);
@@ -76,10 +81,10 @@ package body GWindows.Buttons.Graphic is
    is
       use GWindows.Drawing_Objects;
       -- http://msdn.microsoft.com/en-us/library/bb761822(VS.85).aspx
-      procedure Sendmessage (Hwnd   : Interfaces.C.Long := Handle (Window);
-                             Umsg   : Interfaces.C.Int  := BM_SETIMAGE;
-                             Wparam : Integer           := IMAGE_BITMAP;
-                             Lparam : Interfaces.C.long := Handle(Bitmap)
+      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Window);
+                             Umsg   : Interfaces.C.Int      := BM_SETIMAGE;
+                             Wparam : GWindows.Types.Wparam := IMAGE_BITMAP;
+                             Lparam : GWindows.Types.Lparam := GWindows.Types.LParam(GWindows.Types.To_LResult(Handle(Bitmap)))
                             );
       pragma Import (Stdcall, Sendmessage,
                      "SendMessage" & Character_Mode_Identifier);
