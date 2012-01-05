@@ -16,13 +16,13 @@ package GWindows.Html is
    procedure Create
                (Html          : in out Html_Type;
                 Parent        : in out GWindows.Base.Base_Window_Type'Class;
-                Top, Left     :        Natural;
+                Left, Top     :        Natural;
                 Width, Height :        Natural);
 
    procedure Create
      (Html          : in out Html_Type;
       Parent        : in out GWindows.Base.Base_Window_Type'Class;
-      Top, Left     :        Natural;
+      Left, Top     :        Natural;
       Width, Height :        Natural;
       FileName      : in     Unbounded_String);
 

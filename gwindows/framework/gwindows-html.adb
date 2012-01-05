@@ -7,7 +7,7 @@ package body GWindows.Html is
    procedure Create
                (Html          : in out Html_Type;
                 Parent        : in out GWindows.Base.Base_Window_Type'Class;
-                Top, Left     :        Natural;
+                Left, Top     :        Natural;
                 Width, Height :        Natural) is
    begin
       GNATCOM.Initialize.Initialize_COM;
@@ -20,11 +20,11 @@ package body GWindows.Html is
    procedure Create
      (Html          : in out Html_Type;
       Parent        : in out GWindows.Base.Base_Window_Type'Class;
-      Top, Left     :        Natural;
+      Left, Top     :        Natural;
       Width, Height :        Natural;
       FileName      : in     Unbounded_String) is
    begin
-      Create (Html, Parent, Top, Left, Width, Height);
+      Create (Html, Parent, Left, Top, Width, Height);
       Html.FileName := FileName;
    end Create;
 

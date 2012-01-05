@@ -87,8 +87,8 @@ package Splitbar is
 
    procedure On_Move
      (Window : in out Splitbar_Type;
-      Top    : in     Integer;
-      Left   : in     Integer);
+      Left   : in     Integer;
+      Top    : in     Integer);
 
    procedure On_Change_Cursor (Window : in out Splitbar_Type);
 

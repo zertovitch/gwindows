@@ -404,8 +404,8 @@ package GWindows.Windows is
 
    type Location_Event is access
      procedure (Window : in out GWindows.Base.Base_Window_Type'Class;
-                Top    : in     Integer;
-                Left   : in     Integer);
+                Left   : in     Integer;
+                Top    : in     Integer);
 
    type Size_Event is access
      procedure (Window : in out GWindows.Base.Base_Window_Type'Class;
@@ -745,8 +745,8 @@ package GWindows.Windows is
    --  Handles resizing of MDI Client Area and Docking of Children
 
    procedure On_Move (Window : in out Window_Type;
-                      Top    : in     Integer;
-                      Left   : in     Integer);
+                      Left   : in     Integer;
+                      Top    : in     Integer);
    --  Window has moved.
 
    procedure On_Show (Window : in out Window_Type);

@@ -295,8 +295,8 @@ package body Splitbar is
 
    procedure On_Move
      (Window : in out Splitbar_Type;
-      Top    : in     Integer;
-      Left   : in     Integer)
+      Left   : in     Integer;
+      Top    : in     Integer)
    is
       pragma Warnings (Off, Left);
       pragma Warnings (Off, Top);

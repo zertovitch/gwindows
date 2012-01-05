@@ -1249,12 +1249,12 @@ package body GWindows.Windows is
    -------------
 
    procedure On_Move (Window : in out Window_Type;
-                      Top    : in     Integer;
-                      Left   : in     Integer)
+                      Left   : in     Integer;
+                      Top    : in     Integer)
    is
    begin
       pragma Warnings (Off);
-      Fire_On_Move (Window, Top, Left);
+      Fire_On_Move (Window, Left, Top);
       pragma Warnings (On);
    end On_Move;
 
