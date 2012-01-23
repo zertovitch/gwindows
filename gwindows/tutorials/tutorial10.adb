@@ -13,9 +13,11 @@ procedure Tutorial10 is
    To_Page   : Natural := 1;
    Copies    : Natural := 1;
    Success   : Boolean;
-   Null_Win  : GWindows.Windows.Window_Type;
+   Fake_Win  : GWindows.Windows.Window_Type;
 begin
-   Choose_Printer (Null_Win, Canvas, Settings, Flags,
+   GWindows.Windows.Create (Fake_Win, "Fake", 100, 100, 20, 20);
+
+   Choose_Printer (Fake_Win, Canvas, Settings, Flags,
                    From_Page, To_Page, 1, 1, Copies, Success);
 
    if Success then
