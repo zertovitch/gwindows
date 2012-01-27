@@ -1,0 +1,66 @@
+-- This is a GNAT, GCC or GNAT Programming Studio (GPS) project file
+-- for the the GWindows Installer ( http://sf.net/projects/gnavi/ )
+-- Build me with "gnatmake -P GW_Install.gpr", or open me with GPS
+--
+project GW_Install is
+
+   type Build_Mode_Type is
+      ("Debug", "Small");
+   Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
+   for Main use ("GW_Install.adb");
+   for Source_Dirs use (".\/**", 
+   -- "../framework"
+   "../../gwenerator/windows_stuff" -- make sure we use the ANSI version of GWindows
+   );
+   for Exec_Dir use ".";
+
+   case Build_Mode is
+      when "Small" =>
+         for Object_Dir use "..\obj";
+      when "Debug" =>
+         for Object_Dir use "..\obj";
+   end case;
+
+   package Binder is
+
+      case Build_Mode is
+         when "Small" =>
+         when "Debug" =>
+            for Default_Switches ("ada") use ("-E");
+      end case;
+   end Binder;
+
+   package Pretty_Printer is
+        for Default_Switches ("ada") use ("-i2");
+   end Pretty_Printer;
+
+   package Linker is
+
+      case Build_Mode is
+
+         when "Small" =>
+            for Default_Switches ("ada") use ("GW_Install.rbj", "-s", "-Wl,--gc-sections");
+
+         when "Debug" =>
+            for Default_Switches ("ada") use ("GW_Install.rbj");
+      end case;
+   end Linker;
+
+   package Builder is
+        for Default_Switches ("ada") use ("-j2");
+   end Builder;
+
+   package Compiler is
+
+      case Build_Mode is
+
+         when "Small" =>
+            for Default_Switches ("ada") use ("-gnat05", "-gnatf", "-Os", "-gnatp", "-march=i386", "-ffunction-sections", "-falign-jumps=0", "-falign-loops=0", "-falign-functions=0", "-mpreferred-stack-boundary=2");
+
+         when "Debug" =>
+            for Default_Switches ("ada") use ("-gnat05", "-fstack-check", "-g", "-gnatf", "-gnato", "-gnatwa", "-gnatVa");
+      end case;
+   end Compiler;
+
+end GW_Install;
+
