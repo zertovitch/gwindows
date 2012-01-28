@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/01/28  10:22:04
+-- Transcription time: 2012/01/28  19:25:38
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -73,7 +73,7 @@ package GW_Install_Resource_GUI is
     IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
-    IDC_EDIT1: Edit_Box_Type;
+    Directory_edit: Edit_Box_Type;
     Directory_select_button: Dialog_Button_Type;    -- closes parent window after click
     Directory_select_button_permanent: Button_Type; -- doesn't close parent window after click
     UNICODE_choice: Radio_Button_Type;
@@ -83,9 +83,11 @@ package GW_Install_Resource_GUI is
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
+    Setup_title: Label_Type;
+    Static_0008: Group_Box_Type;
   end record; -- Install_dialog_Type
 
-  -- Dialog at resource line 59
+  -- Dialog at resource line 61
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -111,8 +113,8 @@ package GW_Install_Resource_GUI is
 
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
-    FileDescription: constant String:= "GWindows Installer";
-    FileVersion: constant String:= "0.9";
+    FileDescription: constant String:= "Installer for the GWindows programming framework";
+    FileVersion: constant String:= "2.0a";
     LegalCopyright: constant String:= "© 2012 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Installer";
     Translation: constant:= 1033;
@@ -131,8 +133,9 @@ package GW_Install_Resource_GUI is
   GNAVI_Logo             : constant:=    133;
   Conflict_dialog        : constant:=    135;
   Directory_select_button: constant:=   1000;
+  Setup_title            : constant:=   1001;
+  Directory_edit         : constant:=   1002;
   Installed_version      : constant:=   1003;
-  IDC_EDIT1              : constant:=  40015;
   Installer_Version      : constant:=  40018;
   ANSI_choice            : constant:=  40019;
   UNICODE_choice         : constant:=  40021;
@@ -148,6 +151,6 @@ package GW_Install_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 101
+  -- Last line of resource script file: 111
 
 end GW_Install_Resource_GUI;

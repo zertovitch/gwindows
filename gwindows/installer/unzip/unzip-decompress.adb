@@ -487,10 +487,11 @@ package body UnZip.Decompress is
       is
         source,part,remain: Integer;
       begin
-        if some_trace and then distance > 32768+3 then
+        if full_trace or (some_trace and then distance > 32768+3) then
           Ada.Text_IO.Put(
-            "(big distance=" & Integer'Image(distance) &
-            " length=" & Integer'Image(length) & ")" );
+            "DLE(distance=" & Integer'Image(distance) &
+            " length=" & Integer'Image(length) & ")"
+          );
         end if;
         source:= index - distance;
         remain:= length;
@@ -563,7 +564,6 @@ package body UnZip.Decompress is
       Next_Free : Integer;      -- Next free code in trie
       Write_Ptr : Integer;      -- Pointer to output buffer
 
-      Stack    : Zip.Byte_Buffer ( 0..Max_Stack );  -- Stack for output
       Writebuf : Zip.Byte_Buffer ( 0..Write_Max );  -- Write buffer
 
       procedure Unshrink_Flush is
@@ -664,12 +664,14 @@ package body UnZip.Decompress is
         Last_Incode : Integer;
         Last_Outcode: Zip.Byte;
         Code_Size   : Integer:= Initial_Code_Size; -- Actual code size (9..13)
+        Stack       : Zip.Byte_Buffer ( 0..Max_Stack );  -- Stack for output
         Stack_Ptr   : Integer:= Max_Stack;
         New_Code    : Integer;  -- Save new normal code read
 
         Code_for_Special  : constant:= 256;
         Code_Increase_size: constant:= 1;
         Code_Clear_table  : constant:= 2;
+
 
         S: UnZip.File_size_type:= UnZ_Glob.uncompsize;
         -- Fix Jan-2009: replaces a remaining bits counter as Unsigned_*32*...
@@ -1455,9 +1457,9 @@ package body UnZip.Decompress is
               W:= W + 1;
               UnZ_IO.Flush_if_full(W);
 
-            when 15 =>     -- End of block (EOB)
+            when 15 =>     -- End of block (EOB, code 256)
               if full_trace then
-                Ada.Text_IO.Put_Line("Exit  Inflate_codes, e=15 EOB");
+                Ada.Text_IO.Put_Line("Exit  Inflate_codes, e=15 -> EOB");
               end if;
               exit main_loop;
 
@@ -1479,7 +1481,6 @@ package body UnZip.Decompress is
                 CTE := CTE.next_table( UnZ_IO.Bit_buffer.Read(E) )'Access;
               end loop;
               UnZ_IO.Bit_buffer.Dump( CTE.bits );
-
               UnZ_IO.Copy(
                 distance => CTE.n + UnZ_IO.Bit_buffer.Read_and_dump(E),
                 length   => length,

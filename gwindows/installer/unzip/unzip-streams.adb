@@ -191,7 +191,7 @@ package body UnZip.Streams is
       Case_sensitive : in Boolean:= False
      ) is
     use Zip_Streams, Ada.Streams;
-    MyStream     : aliased ZipFile_Stream;
+    MyStream     : aliased File_Zipstream;
     input_stream : Zipstream_Class;
     use_a_file   : constant Boolean:= Zip.Zip_Stream(Archive_Info) = null;
   begin
@@ -202,7 +202,7 @@ package body UnZip.Streams is
     end if;
     if use_a_file then
       input_stream:= MyStream'Unchecked_Access;
-      SetName (input_stream , Zip.Zip_name(Archive_Info));
+      Set_Name (input_stream , Zip.Zip_name(Archive_Info));
       Open (MyStream, Ada.Streams.Stream_IO.In_File);
     else -- use the given stream
       input_stream:= Zip.Zip_Stream(Archive_Info);

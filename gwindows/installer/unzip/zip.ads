@@ -8,11 +8,14 @@
 --------------
 -- Library for manipulating archive files in the Zip format
 --
--- Pure Ada 95 code, 100% portable: OS-, CPU- and compiler- independent.
+-- Pure Ada 95+ code, 100% portable: OS-, CPU- and compiler- independent.
+--
+-- Version / date / download info: see the version, reference, web strings
+--   defined at the end of the public part of this package.
 
 -- Legal licensing note:
 
---  Copyright (c) 1999..2010 Gautier de Montmollin
+--  Copyright (c) 1999..2011 Gautier de Montmollin
 
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
 --  of this software and associated documentation files (the "Software"), to deal
@@ -54,15 +57,15 @@ package Zip is
   -- fast searching                                                    --
   -----------------------------------------------------------------------
 
-  -- from file version
+  -- Load from a file
 
   procedure Load(
     info           : out Zip_info;
-    from           : in  String;
+    from           : in  String; -- Zip file name
     case_sensitive : in  Boolean:= False
   );
 
-  -- from stream version
+  -- Load from a stream
 
   procedure Load(
     info           : out Zip_info;
@@ -146,13 +149,14 @@ package Zip is
   -- compressed entry.
   generic
     with procedure Action(
-      name           : String; -- 'name' is compressed entry's name
-      file_index     : Positive;
-      comp_size      : File_size_type;
-      uncomp_size    : File_size_type;
-      crc_32         : Interfaces.Unsigned_32;
-      date_time      : Time;
-      method         : PKZip_method
+      name             : String; -- 'name' is compressed entry's name
+      file_index       : Positive;
+      comp_size        : File_size_type;
+      uncomp_size      : File_size_type;
+      crc_32           : Interfaces.Unsigned_32;
+      date_time        : Time;
+      method           : PKZip_method;
+      unicode_file_name: Boolean
     );
   procedure Traverse_verbose( z: Zip_info );
 
@@ -290,8 +294,8 @@ package Zip is
   -- Information about this package - e.g. for an "about" box --
   --------------------------------------------------------------
 
-  version   : constant String:= "38";
-  reference : constant String:= "27-Feb-2010";
+  version   : constant String:= "41";
+  reference : constant String:= "22-Jul-2011";
   web       : constant String:= "http://unzip-ada.sf.net/";
   -- hopefully the latest version is at that URL...  ---^
 
@@ -312,14 +316,15 @@ private
   type p_Dir_node is access Dir_node;
 
   type Dir_node(name_len: Natural) is record
-    left, right : p_Dir_node;
-    name        : String(1..name_len);
-    file_index  : Ada.Streams.Stream_IO.Positive_Count;
-    comp_size   : File_size_type;
-    uncomp_size : File_size_type;
-    crc_32      : Interfaces.Unsigned_32;
-    date_time   : Time;
-    method      : PKZip_method;
+    left, right      : p_Dir_node;
+    name             : String(1..name_len);
+    file_index       : Ada.Streams.Stream_IO.Positive_Count;
+    comp_size        : File_size_type;
+    uncomp_size      : File_size_type;
+    crc_32           : Interfaces.Unsigned_32;
+    date_time        : Time;
+    method           : PKZip_method;
+    unicode_file_name: Boolean;
   end record;
 
   type p_String is access String;

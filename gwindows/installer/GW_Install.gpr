@@ -10,7 +10,7 @@ project GW_Install is
    for Main use ("GW_Install.adb");
    for Source_Dirs use (".\/**", 
    -- "../framework"
-   "../../gwenerator/windows_stuff" -- make sure we use the ANSI version of GWindows
+   "..\..\gwenerator\windows_stuff" -- make sure we use the ANSI version of GWindows
    );
    for Exec_Dir use ".";
 

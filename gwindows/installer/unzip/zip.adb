@@ -4,6 +4,7 @@ with Ada.Characters.Handling;
 with Ada.Unchecked_Deallocation;
 with Ada.Exceptions;
 with Ada.IO_Exceptions;
+with Ada.Strings.Fixed;
 
 package body Zip is
 
@@ -147,35 +148,37 @@ package body Zip is
     case_sensitive : in  Boolean:= False)
   is
     procedure Insert(
-      name: String;
-      file_index : Ada.Streams.Stream_IO.Positive_Count;
+      name             : String;
+      file_index       : Ada.Streams.Stream_IO.Positive_Count;
       comp_size,
-      uncomp_size: File_size_type;
-      crc_32     : Unsigned_32;
-      date_time  : Time;
-      method     : PKZip_method;
-      node       : in out p_Dir_node
+      uncomp_size      : File_size_type;
+      crc_32           : Unsigned_32;
+      date_time        : Time;
+      method           : PKZip_method;
+      unicode_file_name: Boolean;
+      node             : in out p_Dir_node
       )
     is
     begin
       if node = null then
         node:= new Dir_node'
-          ( (name_len    => name'Length,
-             left        => null,
-             right       => null,
-             name        => name,
-             file_index  => file_index,
-             comp_size   => comp_size,
-             uncomp_size => uncomp_size,
-             crc_32      => crc_32,
-             date_time   => date_time,
-             method      => method
+          ( (name_len          => name'Length,
+             left              => null,
+             right             => null,
+             name              => name,
+             file_index        => file_index,
+             comp_size         => comp_size,
+             uncomp_size       => uncomp_size,
+             crc_32            => crc_32,
+             date_time         => date_time,
+             method            => method,
+             unicode_file_name => unicode_file_name
              )
           );
       elsif name > node.name then
-        Insert( name, file_index, comp_size, uncomp_size, crc_32, date_time, method, node.right );
+        Insert( name, file_index, comp_size, uncomp_size, crc_32, date_time, method, unicode_file_name, node.right );
       elsif name < node.name then
-        Insert( name, file_index, comp_size, uncomp_size, crc_32, date_time, method, node.left );
+        Insert( name, file_index, comp_size, uncomp_size, crc_32, date_time, method, unicode_file_name, node.left );
       else
         raise Duplicate_name;
       end if;
@@ -224,6 +227,9 @@ package body Zip is
                 crc_32      => header.short_info.dd.crc_32,
                 date_time   => header.short_info.file_timedate,
                 method      => Method_from_code(header.short_info.zip_type),
+                unicode_file_name =>
+                  (header.short_info.bit_flag and
+                   Zip.Headers.Language_Encoding_Flag_Bit) /= 0,
                 node        => p );
         -- Since the files are usually well ordered, the tree as inserted
         -- is very unbalanced; we need to rebalance it from time to time
@@ -251,14 +257,14 @@ package body Zip is
 
   procedure Load
    (info           : out Zip_info;
-    from           : in  String;
+    from           : in  String; -- Zip file name
     case_sensitive : in  Boolean:= False)
   is
     use Zip_Streams;
-    MyStream   : aliased ZipFile_Stream;
+    MyStream   : aliased File_Zipstream;
     StreamFile : constant Zipstream_Class:= MyStream'Unchecked_Access;
   begin
-    SetName (StreamFile, from);
+    Set_Name (StreamFile, from);
     begin
       Open (MyStream, Ada.Streams.Stream_IO.In_File);
     exception
@@ -369,7 +375,8 @@ package body Zip is
           p.uncomp_size,
           p.crc_32,
           p.date_time,
-          p.method
+          p.method,
+          p.unicode_file_name
         );
         Traverse(p.right);
       end if;
@@ -566,11 +573,13 @@ package body Zip is
   -- Workaround for the severe xxx'Read xxx'Write performance
   -- problems in the GNAT and ObjectAda compilers (as in 2009)
   -- This is possible if and only if Byte = Stream_Element and
-  -- arrays types are both packed the same way.
+  -- arrays types are both packed and aligned the same way.
   --
-  subtype Size_test_a is Byte_Buffer(1..16);
-  subtype Size_test_b is Ada.Streams.Stream_Element_Array(1..16);
-  workaround_possible: constant Boolean:= Size_test_a'Size = Size_test_b'Size;
+  subtype Size_test_a is Byte_Buffer(1..19);
+  subtype Size_test_b is Ada.Streams.Stream_Element_Array(1..19);
+  workaround_possible: constant Boolean:=
+    Size_test_a'Size = Size_test_b'Size and
+    Size_test_a'Alignment = Size_test_b'Alignment;
 
   -- BlockRead - general-purpose procedure (nothing really specific
   -- to Zip / UnZip): reads either the whole buffer from a file, or
@@ -696,15 +705,20 @@ package body Zip is
   -- Just there as helper for Ada 95 only systems
   --
   function Exists(name:String) return Boolean is
-    use Ada.Text_IO;
+    use Ada.Text_IO, Ada.Strings.Fixed;
     f: File_Type;
   begin
+    if Index(name, "*") > 0 then
+      return False;
+    end if;
     Open(f,In_File,name, Form => Ada.Strings.Unbounded.To_String (Form_For_IO_Open_N_Create));
     Close(f);
     return True;
   exception
     when Name_Error =>
-      return False;
+      return False; -- The file cannot exist !
+    when Use_Error =>
+      return True;  -- The file exist and is already opened !
   end Exists;
 
   procedure Put_Multi_Line(
