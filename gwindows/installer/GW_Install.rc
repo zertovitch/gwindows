@@ -22,19 +22,36 @@ GNAVI_Logo         BITMAP         ".\\gnavi.bmp"
 // Dialog resources
 //
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+Conflict_dialog DIALOG 0, 0, 366, 223
+STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
+CAPTION "Version check"
+FONT 8, "Ms Shell Dlg"
+{
+    DEFPUSHBUTTON   "Continue", IDOK, 235, 201, 49, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 291, 201, 50, 14
+    LTEXT           "The GWindows framework is already installed in that location. Please check the versions.", IDC_STATIC, 7, 7, 342, 11, SS_LEFT
+    LISTBOX         Installed_version, 13, 36, 159, 157, WS_TABSTOP | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_SORT | LBS_NOTIFY
+    LISTBOX         Installer_Version, 185, 36, 159, 157, WS_TABSTOP | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_SORT | LBS_NOTIFY
+    LTEXT           "Installed version:", IDC_STATIC, 14, 22, 105, 8, SS_LEFT
+    LTEXT           "Version to be installed:", IDC_STATIC, 185, 23, 133, 8, SS_LEFT
+}
+
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Install_dialog DIALOG 0, 0, 314, 239
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
 CAPTION "GWindows installer"
 FONT 8, "Ms Shell Dlg"
 {
-    DEFPUSHBUTTON   "Install", IDOK, 241, 197, 59, 14
-    PUSHBUTTON      "Cancel", IDCANCEL, 240, 216, 60, 14
+    DEFPUSHBUTTON   "Install", IDOK, 240, 192, 60, 17
+    PUSHBUTTON      "Cancel", IDCANCEL, 240, 216, 60, 17
     LTEXT           "Please specify a directory where you want to install the GWindows framework.", IDC_STATIC, 13, 64, 267, 8, SS_LEFT
     LTEXT           "NB: you can install it at several places.", IDC_STATIC, 13, 79, 122, 8, SS_LEFT
-    EDITTEXT        IDC_EDIT1, 13, 94, 201, 19, ES_AUTOHSCROLL
-    PUSHBUTTON      "...", Directory_select_button, 230, 94, 29, 19
-    AUTORADIOBUTTON "Unicode (16-bit International characters), Ada: Wide_Character / Wide_String", IDC_RADIO1, 24, 168, 265, 8
-    AUTORADIOBUTTON "ANSI (8-bit Western characters), Ada: Character / String", IDC_RADIO2, 24, 150, 212, 8
+    EDITTEXT        IDC_EDIT1, 13, 94, 251, 17, ES_AUTOHSCROLL
+    PUSHBUTTON      "...", Directory_select_button, 273, 94, 29, 17
+    AUTORADIOBUTTON "Unicode (16-bit International characters), Ada: Wide_Character / Wide_String", UNICODE_choice, 24, 168, 265, 8
+    AUTORADIOBUTTON "ANSI (8-bit Western characters), Ada: Character / String", ANSI_choice, 24, 150, 212, 8
     GROUPBOX        "Character encoding - please choose:", IDC_STATIC, 11, 134, 290, 52
     CONTROL         GNAVI_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 13, 14, 125, 33
     LTEXT           "Open Source Visual", IDC_STATIC, 154, 13, 109, 8, SS_LEFT
@@ -48,7 +65,7 @@ FONT 8, "Ms Shell Dlg"
 // Cursor resources
 //
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-Finger_cursor      CURSOR         ".\\finger.cur"
+Finger_cursor      CURSOR         "finger.cur"
 
 
 

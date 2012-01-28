@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/01/27  16:59:36
+-- Transcription time: 2012/01/28  10:22:04
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -28,6 +28,43 @@ with Interfaces.C;                      use Interfaces.C;
 
 package GW_Install_Resource_GUI is
 
+  type Conflict_dialog_Type is new Window_type with record
+
+    IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
+    IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
+    IDCANCEL: Dialog_Button_Type;    -- closes parent window after click
+    IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
+    -- Label: IDC_STATIC
+    Installed_version: List_Box_Type;
+    Installer_Version: List_Box_Type;
+    -- Label: IDC_STATIC
+    -- Label: IDC_STATIC
+  end record; -- Conflict_dialog_Type
+
+  -- Dialog at resource line 36
+
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
+  procedure Create_Full_Dialog
+     (Window      : in out Conflict_dialog_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Title       : in     GString := "Version check";
+      Left        : in     Integer := Use_Default; -- Default = as designed
+      Top         : in     Integer := Use_Default; -- Default = as designed
+      Width       : in     Integer := Use_Default; -- Default = as designed
+      Height      : in     Integer := Use_Default; -- Default = as designed
+      Help_Button : in     Boolean := False;
+      Is_Dynamic  : in     Boolean := False);
+
+  --  b) Create all contents, not the window itself (must be
+  --      already created) -> can be used in/as any kind of window.
+  --
+  procedure Create_Contents
+     ( Window      : in out Conflict_dialog_Type;
+       for_dialog  : in     Boolean; -- True: buttons do close the window
+       resize      : in     Boolean:= False -- optionnally resize Window as designed
+     );
+
   type Install_dialog_Type is new Window_type with record
 
     IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
@@ -39,8 +76,8 @@ package GW_Install_Resource_GUI is
     IDC_EDIT1: Edit_Box_Type;
     Directory_select_button: Dialog_Button_Type;    -- closes parent window after click
     Directory_select_button_permanent: Button_Type; -- doesn't close parent window after click
-    IDC_RADIO1: Radio_Button_Type;
-    IDC_RADIO2: Radio_Button_Type;
+    UNICODE_choice: Radio_Button_Type;
+    ANSI_choice: Radio_Button_Type;
     Static_0003: Group_Box_Type;
     Static_0004: Bitmap_Type;
     -- Label: IDC_STATIC
@@ -48,7 +85,7 @@ package GW_Install_Resource_GUI is
     -- Label: IDC_STATIC
   end record; -- Install_dialog_Type
 
-  -- Dialog at resource line 42
+  -- Dialog at resource line 59
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -92,10 +129,13 @@ package GW_Install_Resource_GUI is
   IDC_STATIC             : constant:=     -1;
   Install_dialog         : constant:=    131;
   GNAVI_Logo             : constant:=    133;
+  Conflict_dialog        : constant:=    135;
   Directory_select_button: constant:=   1000;
+  Installed_version      : constant:=   1003;
   IDC_EDIT1              : constant:=  40015;
-  IDC_RADIO1             : constant:=  40017;
-  IDC_RADIO2             : constant:=  40018;
+  Installer_Version      : constant:=  40018;
+  ANSI_choice            : constant:=  40019;
+  UNICODE_choice         : constant:=  40021;
 
   -- ** Some helper utilities (spec).
 
@@ -108,6 +148,6 @@ package GW_Install_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 84
+  -- Last line of resource script file: 101
 
 end GW_Install_Resource_GUI;
