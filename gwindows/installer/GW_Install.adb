@@ -3,6 +3,7 @@
 
 with GW_Install_Resource_GUI;           use GW_Install_Resource_GUI;
 
+with Zip;                               use Zip;
 with UnZip;
 
 with GWindows.Application;
@@ -14,6 +15,7 @@ with GWindows.Windows;                  use GWindows.Windows;
 
 with Ada.Command_Line;                  use Ada.Command_Line;
 with Ada.Directories;                   use Ada.Directories;
+with Ada.Exceptions;                    use Ada.Exceptions;
 with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 
 procedure GW_Install is
@@ -40,7 +42,58 @@ procedure GW_Install is
 
   type Character_mode is (ANSI, UNICODE);
   Mode: Character_mode;
-  Proceed: Boolean;
+  Proceed, OK: Boolean;
+
+  procedure Self_extract(Success: out Boolean) is
+    zi: Zip_Info;
+    n: Natural:= 0;
+    --
+    procedure Tell_data
+              ( name               : String;
+                compressed_bytes   : File_size_type;
+                uncompressed_bytes : File_size_type;
+                method             : PKZip_method )
+    is
+    pragma Unreferenced (compressed_bytes, uncompressed_bytes, method);
+      pct: Natural;
+    begin
+      n:= n + 1;
+      pct:= (100 * n) / Entries(zi);
+      null; -- show progress in a nice box!!
+    end;
+    --
+    mem: constant String:= Current_Directory;
+  begin
+    Success:= False;
+    Set_Directory(To_String(Install_dir));
+    begin
+      Load(zi, Command_Name);
+      UnZip.Extract(
+        zi,
+        null,
+        null,
+        Tell_Data'Unrestricted_Access,
+        null
+        );
+    exception
+      when E:others =>
+        Message_Box(
+          "GWindows installation error",
+          "Archive extraction failed" &
+          ASCII.LF &
+          "Archive = " & Command_Name &
+          ASCII.LF &
+          Exception_Name(E) &
+          ASCII.LF &
+          Exception_Message(E),
+          Icon => Error_Icon
+        );
+        Set_Directory(mem);
+        return;
+    end;
+    Set_Directory(mem);
+    Success:= True;
+  end Self_extract;
 
 begin
   if Argument_Count > 0 then
@@ -82,7 +135,7 @@ begin
     end if;
     Proceed:= True;
     -- We check: 1) existing version 2) valid directory
-    if Exists(To_String(Install_dir) & "\framework\gwindows.ads") then
+    if Ada.Directories.Exists(To_String(Install_dir) & "\framework\gwindows.ads") then
       -- Conflict
       -- ask !!
       null;
@@ -101,23 +154,10 @@ begin
         );
     end;
     if Proceed then
-      declare
-        mem: constant String:= Current_Directory;
-      begin
-        Set_Directory(To_String(Install_dir));
-        begin
-          UnZip.Extract(Command_Name);
-        exception
-          when others =>
-            Message_Box(
-            "GWindows installation error",
-            "Archive extraction failed",
-            Icon => Error_Icon
-          );
-        end;
-        Set_Directory(mem);
-      end;
-      -- !! unpack
+      Self_extract(OK);
+      if not OK then
+        exit;
+      end if;
       case Mode is
         -- !! copy ansi or unicode
         when ANSI =>
