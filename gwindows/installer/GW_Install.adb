@@ -10,6 +10,7 @@ with GWindows.Application;
 with GWindows.Base;
 with GWindows.Buttons;                  use GWindows.Buttons;
 with GWindows.Constants;                use GWindows.Constants;
+with GWindows.Common_Dialogs;           use GWindows.Common_Dialogs;
 with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
 with GWindows.Windows;                  use GWindows.Windows;
 
@@ -24,7 +25,7 @@ procedure GW_Install is
 
   pragma Linker_Options ("-mwindows");
 
-  Install_dir: Unbounded_String:= To_Unbounded_String("C:\temp");
+  Install_dir: Unbounded_String:= To_Unbounded_String("");
 
   type Character_mode is (ANSI, UNICODE);
   Mode: Character_mode:= ANSI;
@@ -35,10 +36,14 @@ procedure GW_Install is
     Result    : Integer;
     No_Parent : Window_Type;
 
-    procedure Select_directory( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
-      pragma Warnings(off, dummy);
+    procedure Select_directory( Parent : in out GWindows.Base.Base_Window_Type'Class ) is
     begin
-      null;-- !!
+       Main_Dlg.Directory_edit.Text(
+         Get_Directory(Parent,
+         "Choose a target directory." & ASCII.LF &
+         "Note that a new folder GWindows will be created in that directory."
+         )
+       );
     end Select_directory;
 
     procedure Get_Data ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
@@ -148,7 +153,36 @@ procedure GW_Install is
     Success:= True;
   end Self_extract;
 
-  Result    : Message_Box_Result;
+  procedure Copy_encoding_dependent(base: String) is
+    img: constant String:= Character_Mode'Image(Mode);
+  begin
+    Copy_File(
+      base & "coding\gwindows_" & img & ".ads",
+      base & "gwindows.ads"
+    );
+    Copy_File(
+      base & "coding\gwindows-gstrings_" & img & ".adb",
+      base & "gwindows-gstrings.adb"
+    );
+    Copy_File(
+      base & "coding\gwindows-gstrings-handling_" & img & ".ads",
+      base & "gwindows-gstrings-handling.ads"
+    );
+    Copy_File(
+      base & "coding\gwindows-gstrings-maps_" & img & ".ads",
+      base & "gwindows-gstrings-maps.ads"
+    );
+    Copy_File(
+      base & "coding\gwindows-gstrings-maps_constants_" & img & ".ads",
+      base & "gwindows-gstrings-maps_constants.ads"
+    );
+    Copy_File(
+      base & "coding\gwindows-gstrings-unbounded_" & img & ".ads",
+      base & "gwindows-gstrings-unbounded.ads"
+    );
+  end Copy_encoding_dependent;
+
+  Result: Message_Box_Result;
 
 begin
   if Argument_Count > 0 then
@@ -164,12 +198,16 @@ begin
     exit when not OK;
     Proceed:= True;
     -- We check: 1) existing version 2) valid directory
-    if Ada.Directories.Exists(To_String(Install_dir) & "\framework\gwindows.ads") then
+    if Ada.Directories.Exists(To_String(Install_dir) &
+       "\gwindows\framework\gwindows.ads")
+    then
       -- Conflict
+      -- !! nicer box with side-by-side comparison and dates
       Result:=
         Message_Box(
         "GWindows installation - possible version conflict",
-        "A version of GWindows is already installed there.",
+        "A version of GWindows is already installed there." & ASCII.LF &
+        "Do you want to replace it ?",
         Yes_No_Box,
         Question_Icon
       );
@@ -196,15 +234,9 @@ begin
         if not OK then
           exit;
         end if;
-        case Mode is
-        -- !! copy ansi or unicode
-        when ANSI =>
-          null;
-        when UNICODE =>
-          null;
-        end case;
-      -- Goodbye message
-      -- !! nicer box with useful URL's
+        Copy_encoding_dependent(To_String(Install_dir) & "\gwindows\framework\");
+        -- Goodbye message
+        -- !! nicer box with useful URL's
         Message_Box(
                     "GWindows installation",
                     "Installation successful.",
