@@ -63,6 +63,18 @@ FONT 8, "Ms Shell Dlg"
 
 
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+Unpack_dialog DIALOG 0, 0, 296, 97
+STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
+CAPTION "Unpacking"
+FONT 8, "Ms Shell Dlg"
+{
+    CONTROL         "", Unpack_progress, PROGRESS_CLASS, 0, 8, 58, 279, 17
+    LTEXT           "(name)", File_name, 11, 11, 277, 19, SS_LEFT
+}
+
+
+
 //
 // Cursor resources
 //

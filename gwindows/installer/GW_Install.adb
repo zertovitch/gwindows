@@ -4,7 +4,7 @@
 with GW_Install_Resource_GUI;           use GW_Install_Resource_GUI;
 
 with Zip;                               use Zip;
-with UnZip;
+with UnZip;                             use UnZip;
 
 with GWindows.Application;
 with GWindows.Base;
@@ -17,6 +17,8 @@ with Ada.Command_Line;                  use Ada.Command_Line;
 with Ada.Directories;                   use Ada.Directories;
 with Ada.Exceptions;                    use Ada.Exceptions;
 with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
+
+with Ada_Directories_Extensions; -- Ada 201X items absent in Ada 2005...
 
 procedure GW_Install is
 
@@ -84,33 +86,47 @@ procedure GW_Install is
   procedure Self_extract(Success: out Boolean) is
     zi: Zip_Info;
     n: Natural:= 0;
+    No_Parent : Window_Type;
+    Unpack_Dlg: GW_Install_Resource_GUI.Unpack_dialog_Type;
     --
     procedure Tell_data
               ( name               : String;
-                compressed_bytes   : File_size_type;
-                uncompressed_bytes : File_size_type;
-                method             : PKZip_method )
+                compressed_bytes   : Zip.File_size_type;
+                uncompressed_bytes : Zip.File_size_type;
+                method             : Zip.PKZip_method )
     is
     pragma Unreferenced (compressed_bytes, uncompressed_bytes, method);
       pct: Natural;
     begin
       n:= n + 1;
       pct:= (100 * n) / Entries(zi);
-      null; -- show progress in a nice box!!
-    end;
+      Unpack_Dlg.Unpack_progress.Position(pct);
+      Unpack_Dlg.File_name.Text(name);
+    end Tell_data;
     --
+    My_FS_routines: constant UnZip.FS_routines_type:=
+      ( Create_Path         => Ada.Directories.Create_Path'Access, -- Ada 2005
+        Set_Time_Stamp      => Ada_Directories_Extensions.Set_Modification_Time'Access,
+        Compose_File_Name   => null,
+        others              => null
+      );
     mem: constant String:= Current_Directory;
   begin
     Success:= False;
     Set_Directory(To_String(Install_dir));
+    Create_Full_Dialog (Unpack_Dlg, No_Parent);
+    Center(Unpack_Dlg);
+    Show(Unpack_Dlg);
     begin
-      Load(zi, Command_Name);
+      Load(zi, Command_Name); -- , case_sensitive => True);
       UnZip.Extract(
         zi,
         null,
         null,
         Tell_Data'Unrestricted_Access,
-        null
+        null,
+        file_system_routines => My_FS_routines
+        -- options => (case_sensitive_match => True, others => False)
         );
     exception
       when E:others =>
@@ -132,6 +148,8 @@ procedure GW_Install is
     Success:= True;
   end Self_extract;
 
+  Result    : Message_Box_Result;
+
 begin
   if Argument_Count > 0 then
     -- Install_dir
@@ -148,41 +166,52 @@ begin
     -- We check: 1) existing version 2) valid directory
     if Ada.Directories.Exists(To_String(Install_dir) & "\framework\gwindows.ads") then
       -- Conflict
-      -- ask !!
-      null;
-    end if;
-    begin
-      Create_Path(To_String(Install_dir));
-    exception
-      when Name_Error =>
-        Proceed:= False;
+      Result:=
         Message_Box(
-          "Invalid directory for GWindows installation",
-          "Directory """ &
-          To_String(Install_dir) &
-          """ cannot be created",
-          Icon => Error_Icon
-        );
-    end;
-    if Proceed then
-      Self_extract(OK);
-      if not OK then
-        exit;
+        "GWindows installation - possible version conflict",
+        "A version of GWindows is already installed there.",
+        Yes_No_Box,
+        Question_Icon
+      );
+      if Result = No then
+        Proceed:= False;
       end if;
-      case Mode is
+    end if;
+    if Proceed then
+      begin
+        Create_Path(To_String(Install_dir));
+      exception
+        when Name_Error =>
+          Proceed:= False;
+          Message_Box(
+                      "Invalid directory for GWindows installation",
+                      "Directory """ &
+                      To_String(Install_dir) &
+                      """ cannot be created",
+                      Icon => Error_Icon
+                     );
+      end;
+      if Proceed then
+        Self_extract(OK);
+        if not OK then
+          exit;
+        end if;
+        case Mode is
         -- !! copy ansi or unicode
         when ANSI =>
           null;
         when UNICODE =>
           null;
-      end case;
+        end case;
       -- Goodbye message
-      Message_Box(
-        "GWindows installation",
-        "Installation successful.",
-        Icon => Information_Icon
-      );
-      exit;
+      -- !! nicer box with useful URL's
+        Message_Box(
+                    "GWindows installation",
+                    "Installation successful.",
+                    Icon => Information_Icon
+                   );
+        exit;
+      end if;
     end if;
   end loop;
 end GW_Install;

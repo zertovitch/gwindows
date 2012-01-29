@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/01/29  09:35:50
+-- Transcription time: 2012/01/29  11:34:17
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -111,6 +111,36 @@ package GW_Install_Resource_GUI is
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
 
+  type Unpack_dialog_Type is new Window_type with record
+
+    Unpack_progress: Progress_Control_Type;
+    File_name: Label_Type;
+  end record; -- Unpack_dialog_Type
+
+  -- Dialog at resource line 73
+
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
+  procedure Create_Full_Dialog
+     (Window      : in out Unpack_dialog_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Title       : in     GString := "Unpacking";
+      Left        : in     Integer := Use_Default; -- Default = as designed
+      Top         : in     Integer := Use_Default; -- Default = as designed
+      Width       : in     Integer := Use_Default; -- Default = as designed
+      Height      : in     Integer := Use_Default; -- Default = as designed
+      Help_Button : in     Boolean := False;
+      Is_Dynamic  : in     Boolean := False);
+
+  --  b) Create all contents, not the window itself (must be
+  --      already created) -> can be used in/as any kind of window.
+  --
+  procedure Create_Contents
+     ( Window      : in out Unpack_dialog_Type;
+       for_dialog  : in     Boolean; -- True: buttons do close the window
+       resize      : in     Boolean:= False -- optionnally resize Window as designed
+     );
+
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Installer for the GWindows programming framework";
@@ -132,9 +162,12 @@ package GW_Install_Resource_GUI is
   Install_dialog         : constant:=    131;
   GNAVI_Logo             : constant:=    133;
   Conflict_dialog        : constant:=    135;
+  Unpack_dialog          : constant:=    137;
   Directory_select_button: constant:=   1000;
+  File_name              : constant:=   1001;
   Setup_title            : constant:=   1001;
   Directory_edit         : constant:=   1002;
+  Unpack_progress        : constant:=   1002;
   Installed_version      : constant:=   1003;
   Installer_Version      : constant:=  40018;
   ANSI_choice            : constant:=  40019;
@@ -151,6 +184,6 @@ package GW_Install_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 111
+  -- Last line of resource script file: 123
 
 end GW_Install_Resource_GUI;
