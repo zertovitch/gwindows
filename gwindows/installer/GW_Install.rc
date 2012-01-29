@@ -75,7 +75,7 @@ Finger_cursor      CURSOR         "finger.cur"
 // Icon resources
 //
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-AAA_Main_Icon      ICON           "g.ico"
+AAA_Main_Icon      ICON           "install.ico"
 
 
 

@@ -22,27 +22,64 @@ procedure GW_Install is
 
   pragma Linker_Options ("-mwindows");
 
-  Main_Dlg  : GW_Install_Resource_GUI.Install_dialog_Type;
-  Result    : Integer;
-  No_Parent : Window_Type;
-
   Install_dir: Unbounded_String:= To_Unbounded_String("C:\temp");
 
-  procedure Select_directory( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
-    pragma Warnings(off, dummy);
-  begin
-    null;-- !!
-  end Select_directory;
-
-  procedure Get_Data ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
-    pragma Warnings(off, dummy);
-  begin
-    Install_dir:= To_Unbounded_String(Main_Dlg.Directory_edit.Text);
-  end Get_Data;
-
   type Character_mode is (ANSI, UNICODE);
-  Mode: Character_mode;
+  Mode: Character_mode:= ANSI;
   Proceed, OK: Boolean;
+
+  procedure Main_install_dialog(Success: out Boolean) is
+    Main_Dlg  : GW_Install_Resource_GUI.Install_dialog_Type;
+    Result    : Integer;
+    No_Parent : Window_Type;
+
+    procedure Select_directory( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
+      pragma Warnings(off, dummy);
+    begin
+      null;-- !!
+    end Select_directory;
+
+    procedure Get_Data ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
+      pragma Warnings(off, dummy);
+    begin
+      Install_dir:= To_Unbounded_String(Main_Dlg.Directory_edit.Text);
+      if Main_Dlg.ANSI_choice.State = Checked then
+        Mode:= ANSI;
+      else
+        Mode:= UNICODE;
+      end if;
+    end Get_Data;
+
+  begin -- Main_install_dialog
+    Create_Full_Dialog (Main_Dlg, No_Parent);
+    Center(Main_Dlg);
+    Small_Icon (Main_Dlg, "AAA_Main_Icon");
+    Large_Icon (Main_Dlg, "AAA_Main_Icon");
+    Main_Dlg.Directory_select_button.Hide;
+    Main_Dlg.Directory_select_button_permanent.Show;
+    case Mode is
+      when ANSI =>
+        Main_Dlg.ANSI_choice.State(Checked);
+      when UNICODE =>
+        Main_Dlg.UNICODE_choice.State(Checked);
+    end case;
+    Main_Dlg.Text(
+      Main_Dlg.Text & " version " &
+      Version_info.FileVersion
+    );
+    Main_Dlg.Setup_title.Text(
+      Main_Dlg.Setup_title.Text &
+      ", version " & Version_info.FileVersion
+    );
+    Main_Dlg.Directory_edit.Text(To_String(Install_dir));
+    On_Destroy_Handler (Main_Dlg, Get_Data'Unrestricted_Access);
+    On_Click_Handler (
+      Main_Dlg.Directory_select_button_permanent,
+      Select_directory'Unrestricted_Access
+    );
+    Result := GWindows.Application.Show_Dialog (Main_Dlg);
+    Success:= Result = IDOK;
+  end Main_install_dialog;
 
   procedure Self_extract(Success: out Boolean) is
     zi: Zip_Info;
@@ -105,34 +142,8 @@ begin
     null; -- !!
   end if;
   loop
-    Create_Full_Dialog (Main_Dlg, No_Parent);
-    Center(Main_Dlg);
-    Small_Icon (Main_Dlg, "AAA_Main_Icon");
-    Large_Icon (Main_Dlg, "AAA_Main_Icon");
-    Main_Dlg.Directory_select_button.Hide;
-    Main_Dlg.Directory_select_button_permanent.Show;
-    Main_Dlg.ANSI_choice.State(Checked);
-    Main_Dlg.Text(
-      Main_Dlg.Text & " version " &
-      Version_info.FileVersion
-    );
-    Main_Dlg.Setup_title.Text(
-      Main_Dlg.Setup_title.Text &
-      ", version " & Version_info.FileVersion
-    );
-    Main_Dlg.Directory_edit.Text(To_String(Install_dir));
-    On_Destroy_Handler (Main_Dlg, Get_Data'Unrestricted_Access);
-    On_Click_Handler (
-      Main_Dlg.Directory_select_button_permanent,
-      Select_directory'Unrestricted_Access
-    );
-    Result := GWindows.Application.Show_Dialog (Main_Dlg);
-    exit when Result = IDCANCEL;
-    if Main_Dlg.ANSI_choice.State = Checked then
-      Mode:= ANSI;
-    else
-      Mode:= UNICODE;
-    end if;
+    Main_install_dialog(OK);
+    exit when not OK;
     Proceed:= True;
     -- We check: 1) existing version 2) valid directory
     if Ada.Directories.Exists(To_String(Install_dir) & "\framework\gwindows.ads") then
@@ -165,7 +176,12 @@ begin
         when UNICODE =>
           null;
       end case;
-      -- goodbye panel
+      -- Goodbye message
+      Message_Box(
+        "GWindows installation",
+        "Installation successful.",
+        Icon => Information_Icon
+      );
       exit;
     end if;
   end loop;
