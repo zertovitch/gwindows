@@ -829,9 +829,9 @@ package body GWen_Windows is
 
   procedure On_Message (Window       : in out GWen_Window_Type;
                         message      : in     Interfaces.C.unsigned;
-                        wParam       : in     Interfaces.C.int;
-                        lParam       : in     Interfaces.C.int;
-                        Return_Value : in out Interfaces.C.long)
+                        wParam       : in     GWindows.Types.Wparam;
+                        lParam       : in     GWindows.Types.Lparam;
+                        Return_Value : in out GWindows.Types.Lresult)
   is
     use Interfaces.C, Windows_pipes;
 
