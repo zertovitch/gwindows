@@ -23,8 +23,6 @@ with Ada_Directories_Extensions; -- Ada 201X items absent in Ada 2005...
 
 procedure GW_Install is
 
-  pragma Linker_Options ("-mwindows");
-
   Install_dir: Unbounded_String:= To_Unbounded_String("");
 
   type Character_mode is (ANSI, UNICODE);
@@ -40,8 +38,8 @@ procedure GW_Install is
     begin
        Main_Dlg.Directory_edit.Text(
          Get_Directory(Parent,
-         "Choose a target directory." & ASCII.LF &
-         "Note that a new folder GWindows will be created in that directory."
+         "Choose a target directory. GWindows, GNATCOM and " & ASCII.LF &
+         "GWenerator sub-folders will be created in that directory."
          )
        );
     end Select_directory;
@@ -123,7 +121,7 @@ procedure GW_Install is
     Center(Unpack_Dlg);
     Show(Unpack_Dlg);
     begin
-      Load(zi, Command_Name); -- , case_sensitive => True);
+      Load(zi, Command_Name);
       UnZip.Extract(
         zi,
         null,
@@ -131,7 +129,6 @@ procedure GW_Install is
         Tell_Data'Unrestricted_Access,
         null,
         file_system_routines => My_FS_routines
-        -- options => (case_sensitive_match => True, others => False)
         );
     exception
       when E:others =>
@@ -147,7 +144,7 @@ procedure GW_Install is
           Icon => Error_Icon
         );
         Set_Directory(mem);
-        return;
+        raise; -- !! return;
     end;
     Set_Directory(mem);
     Success:= True;
@@ -238,8 +235,11 @@ begin
         -- Goodbye message
         -- !! nicer box with useful URL's
         Message_Box(
-                    "GWindows installation",
-                    "Installation successful.",
+                    "GWindows installation complete",
+                    "Installation successful." & ASCII.LF &
+                    "Note that you can choose at any time the ANSI or the " &
+                    "Unicode version by" &
+                    " running ansi.cmd or unicode.cmd in the gwindows folder.",
                     Icon => Information_Icon
                    );
         exit;

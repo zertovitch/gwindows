@@ -30,4 +30,11 @@ shift
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Small
 upx --ultra-brute gw_install.exe
-copy /B gw_install.exe + gwin.zip "GWindows Setup.exe"
+
+gnatmake -P GW_Install.gpr -XBuild_Mode=Debug
+
+rem Version should match the field VALUE "FileVersion" in GW_Install.rc
+set version=2.0a
+
+copy /B gw_install.exe + gwin.zip "GWindows Setup %version%.exe"
+copy /B gw_inst_tb.exe + gwin.zip "Setup_Test.exe"
