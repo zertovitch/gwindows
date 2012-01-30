@@ -29,4 +29,5 @@ shift
 :no_gen
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Small
+upx --ultra-brute gw_install.exe
 copy /B gw_install.exe + gwin.zip "GWindows Setup.exe"

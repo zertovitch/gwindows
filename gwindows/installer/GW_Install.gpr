@@ -8,17 +8,17 @@ project GW_Install is
       ("Debug", "Small");
    Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
    for Main use ("GW_Install.adb");
-   for Source_Dirs use (".\/**", 
-   -- "../framework"
-   "..\..\gwenerator\windows_stuff" -- make sure we use the ANSI version of GWindows
+   for Source_Dirs use (
+     ".", "unzip",
+     "..\..\gwenerator\windows_stuff" -- make sure we use the ANSI version of GWindows
    );
    for Exec_Dir use ".";
 
    case Build_Mode is
       when "Small" =>
-         for Object_Dir use "..\obj\small";
+         for Object_Dir use "obj\small";
       when "Debug" =>
-         for Object_Dir use "..\obj";
+         for Object_Dir use "obj\debug";
    end case;
 
    package Binder is
@@ -63,4 +63,3 @@ project GW_Install is
    end Compiler;
 
 end GW_Install;
-
