@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/01/29  11:34:17
+-- Transcription time: 2012/02/09  16:37:49
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -65,36 +65,25 @@ package GW_Install_Resource_GUI is
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
 
-  type Install_dialog_Type is new Window_type with record
+  type Goodbye_dialog_Type is new Window_type with record
 
     IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
     IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
-    IDCANCEL: Dialog_Button_Type;    -- closes parent window after click
-    IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
-    Directory_edit: Edit_Box_Type;
-    Directory_select_button: Dialog_Button_Type;    -- closes parent window after click
-    Directory_select_button_permanent: Button_Type; -- doesn't close parent window after click
-    UNICODE_choice: Radio_Button_Type;
-    ANSI_choice: Radio_Button_Type;
-    Static_0003: Group_Box_Type;
-    Static_0004: Bitmap_Type;
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
-    Setup_title: Label_Type;
-    Static_0008: Group_Box_Type;
-  end record; -- Install_dialog_Type
+    -- Label: IDC_STATIC
+    Static_0005: Icon_Type;
+  end record; -- Goodbye_dialog_Type
 
-  -- Dialog at resource line 61
+  -- Dialog at resource line 52
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
-     (Window      : in out Install_dialog_Type;
+     (Window      : in out Goodbye_dialog_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
-      Title       : in     GString := "GWindows installer";
+      Title       : in     GString := "GWindows installation complete";
       Left        : in     Integer := Use_Default; -- Default = as designed
       Top         : in     Integer := Use_Default; -- Default = as designed
       Width       : in     Integer := Use_Default; -- Default = as designed
@@ -106,7 +95,56 @@ package GW_Install_Resource_GUI is
   --      already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
-     ( Window      : in out Install_dialog_Type;
+     ( Window      : in out Goodbye_dialog_Type;
+       for_dialog  : in     Boolean; -- True: buttons do close the window
+       resize      : in     Boolean:= False -- optionnally resize Window as designed
+     );
+
+  type Main_install_dialog_Type is new Window_type with record
+
+    Static_0001: Group_Box_Type;
+    -- Label: IDC_STATIC
+    -- Label: IDC_STATIC
+    -- Label: IDC_STATIC
+    Setup_title: Label_Type;
+    Static_0005: Group_Box_Type;
+    -- Label: IDC_STATIC
+    -- Label: IDC_STATIC
+    Directory_edit: Edit_Box_Type;
+    Directory_select_button: Dialog_Button_Type;    -- closes parent window after click
+    Directory_select_button_permanent: Button_Type; -- doesn't close parent window after click
+    UNICODE_choice: Radio_Button_Type;
+    ANSI_choice: Radio_Button_Type;
+    Static_0008: Group_Box_Type;
+    Static_0009: Bitmap_Type;
+    GNATCOM_check: Check_Box_Type;
+    GWen_check: Check_Box_Type;
+    IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
+    IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
+    IDCANCEL: Dialog_Button_Type;    -- closes parent window after click
+    IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
+  end record; -- Main_install_dialog_Type
+
+  -- Dialog at resource line 80
+
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
+  procedure Create_Full_Dialog
+     (Window      : in out Main_install_dialog_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Title       : in     GString := "GWindows installer, version ";
+      Left        : in     Integer := Use_Default; -- Default = as designed
+      Top         : in     Integer := Use_Default; -- Default = as designed
+      Width       : in     Integer := Use_Default; -- Default = as designed
+      Height      : in     Integer := Use_Default; -- Default = as designed
+      Help_Button : in     Boolean := False;
+      Is_Dynamic  : in     Boolean := False);
+
+  --  b) Create all contents, not the window itself (must be
+  --      already created) -> can be used in/as any kind of window.
+  --
+  procedure Create_Contents
+     ( Window      : in out Main_install_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
@@ -115,9 +153,11 @@ package GW_Install_Resource_GUI is
 
     Unpack_progress: Progress_Control_Type;
     File_name: Label_Type;
+    Static_0001: Icon_Type;
+    Static_0002: Icon_Type;
   end record; -- Unpack_dialog_Type
 
-  -- Dialog at resource line 73
+  -- Dialog at resource line 94
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -144,7 +184,7 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Installer for the GWindows programming framework";
-    FileVersion: constant String:= "2.0a";
+    FileVersion: constant String:= "09-Feb-2012";
     LegalCopyright: constant String:= "© 2012 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Installer";
     Translation: constant:= 1033;
@@ -159,19 +199,25 @@ package GW_Install_Resource_GUI is
   -- These constants are needed for getting button and menu feedbacks.
 
   IDC_STATIC             : constant:=     -1;
-  Install_dialog         : constant:=    131;
   GNAVI_Logo             : constant:=    133;
   Conflict_dialog        : constant:=    135;
   Unpack_dialog          : constant:=    137;
+  Main_install_dialog    : constant:=    138;
+  Goodbye_dialog         : constant:=    141;
+  Zip_icon               : constant:=    143;
+  Ada_doc_icon           : constant:=    145;
+  Success_icon           : constant:=    147;
   Directory_select_button: constant:=   1000;
   File_name              : constant:=   1001;
   Setup_title            : constant:=   1001;
   Directory_edit         : constant:=   1002;
   Unpack_progress        : constant:=   1002;
   Installed_version      : constant:=   1003;
+  GNATCOM_check          : constant:=   1006;
   Installer_Version      : constant:=  40018;
   ANSI_choice            : constant:=  40019;
   UNICODE_choice         : constant:=  40021;
+  GWen_check             : constant:=  40023;
 
   -- ** Some helper utilities (spec).
 
@@ -184,6 +230,6 @@ package GW_Install_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 123
+  -- Last line of resource script file: 156
 
 end GW_Install_Resource_GUI;

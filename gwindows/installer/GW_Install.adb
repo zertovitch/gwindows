@@ -28,11 +28,12 @@ procedure GW_Install is
   type Character_mode is (ANSI, UNICODE);
   Mode: Character_mode:= ANSI;
   Proceed, OK: Boolean;
+  With_GWenerator: Boolean:= True;
+  No_Parent : Window_Type;
 
   procedure Main_install_dialog(Success: out Boolean) is
-    Main_Dlg  : GW_Install_Resource_GUI.Install_dialog_Type;
+    Main_Dlg  : GW_Install_Resource_GUI.Main_install_dialog_Type;
     Result    : Integer;
-    No_Parent : Window_Type;
 
     procedure Select_directory( Parent : in out GWindows.Base.Base_Window_Type'Class ) is
     begin
@@ -53,6 +54,7 @@ procedure GW_Install is
       else
         Mode:= UNICODE;
       end if;
+       With_GWenerator:= Main_Dlg.GWen_check.State = Checked;
     end Get_Data;
 
   begin -- Main_install_dialog
@@ -62,6 +64,10 @@ procedure GW_Install is
     Large_Icon (Main_Dlg, "AAA_Main_Icon");
     Main_Dlg.Directory_select_button.Hide;
     Main_Dlg.Directory_select_button_permanent.Show;
+    Main_Dlg.GNATCOM_check.State(Checked);
+    if With_GWenerator then
+      Main_Dlg.GWen_check.State(Checked);
+    end if;
     case Mode is
       when ANSI =>
         Main_Dlg.ANSI_choice.State(Checked);
@@ -114,37 +120,44 @@ procedure GW_Install is
         others              => null
       );
     mem: constant String:= Current_Directory;
+    --
+    procedure Extract_1_file( name: String ) is
+      gwen_dir: constant String:= "gwenerator";
+    begin
+      if With_GWenerator or
+        (name'Length < gwen_dir'Length or else
+         name(name'First .. name'First + gwen_dir'Length -1) /= gwen_dir)
+      then
+        Extract(
+          zi, name, null, null, Tell_Data'Unrestricted_Access, null,
+          file_system_routines => My_FS_routines
+        );
+      end if;
+    end Extract_1_file;
+    --
+    procedure Extract_all_files is new Zip.Traverse( Extract_1_file );
+    --
   begin
     Success:= False;
     Set_Directory(To_String(Install_dir));
     Create_Full_Dialog (Unpack_Dlg, No_Parent);
     Center(Unpack_Dlg);
     Show(Unpack_Dlg);
+    Unpack_Dlg.Redraw(Redraw_Now => True);
     begin
       Load(zi, Command_Name);
-      UnZip.Extract(
-        zi,
-        null,
-        null,
-        Tell_Data'Unrestricted_Access,
-        null,
-        file_system_routines => My_FS_routines
-        );
+      Extract_all_files(zi);
     exception
       when E:others =>
         Message_Box(
           "GWindows installation error",
-          "Archive extraction failed" &
-          ASCII.LF &
-          "Archive = " & Command_Name &
-          ASCII.LF &
-          Exception_Name(E) &
-          ASCII.LF &
-          Exception_Message(E),
+          "Archive extraction failed - maybe a broken download ?" & ASCII.LF &
+          "Archive = " & Command_Name & ASCII.LF &
+          Exception_Name(E) & ASCII.LF & Exception_Message(E),
           Icon => Error_Icon
         );
         Set_Directory(mem);
-        raise; -- !! return;
+        return;
     end;
     Set_Directory(mem);
     Success:= True;
@@ -152,30 +165,32 @@ procedure GW_Install is
 
   procedure Copy_encoding_dependent(base: String) is
     img: constant String:= Character_Mode'Image(Mode);
+    pfx1: constant String:= base & "coding\gwindows";
+    pfx2: constant String:= base & "gwindows";
   begin
     Copy_File(
-      base & "coding\gwindows_" & img & ".ads",
-      base & "gwindows.ads"
+      pfx1 & "_" & img & ".ads",
+      pfx2 & ".ads"
     );
     Copy_File(
-      base & "coding\gwindows-gstrings_" & img & ".adb",
-      base & "gwindows-gstrings.adb"
+      pfx1 & "-gstrings_" & img & ".adb",
+      pfx2 & "-gstrings.adb"
     );
     Copy_File(
-      base & "coding\gwindows-gstrings-handling_" & img & ".ads",
-      base & "gwindows-gstrings-handling.ads"
+      pfx1 & "-gstrings-handling_" & img & ".ads",
+      pfx2 & "-gstrings-handling.ads"
     );
     Copy_File(
-      base & "coding\gwindows-gstrings-maps_" & img & ".ads",
-      base & "gwindows-gstrings-maps.ads"
+      pfx1 & "-gstrings-maps_" & img & ".ads",
+      pfx2 & "-gstrings-maps.ads"
     );
     Copy_File(
-      base & "coding\gwindows-gstrings-maps_constants_" & img & ".ads",
-      base & "gwindows-gstrings-maps_constants.ads"
+      pfx1 & "-gstrings-maps_constants_" & img & ".ads",
+      pfx2 & "-gstrings-maps_constants.ads"
     );
     Copy_File(
-      base & "coding\gwindows-gstrings-unbounded_" & img & ".ads",
-      base & "gwindows-gstrings-unbounded.ads"
+      pfx1 & "-gstrings-unbounded_" & img & ".ads",
+      pfx2 & "-gstrings-unbounded.ads"
     );
   end Copy_encoding_dependent;
 
@@ -194,7 +209,7 @@ begin
     Main_install_dialog(OK);
     exit when not OK;
     Proceed:= True;
-    -- We check: 1) existing version 2) valid directory
+    -- We check: 1) existing version; 2) valid directory
     if Ada.Directories.Exists(To_String(Install_dir) &
        "\gwindows\framework\gwindows.ads")
     then
@@ -202,12 +217,12 @@ begin
       -- !! nicer box with side-by-side comparison and dates
       Result:=
         Message_Box(
-        "GWindows installation - possible version conflict",
-        "A version of GWindows is already installed there." & ASCII.LF &
-        "Do you want to replace it ?",
-        Yes_No_Box,
-        Question_Icon
-      );
+          "GWindows installation - possible version conflict",
+          "A version of GWindows is already installed there." & ASCII.LF &
+          "Do you want to replace it ?",
+          Yes_No_Box,
+          Question_Icon
+        );
       if Result = No then
         Proceed:= False;
       end if;
@@ -219,12 +234,10 @@ begin
         when Name_Error =>
           Proceed:= False;
           Message_Box(
-                      "Invalid directory for GWindows installation",
-                      "Directory """ &
-                      To_String(Install_dir) &
-                      """ cannot be created",
-                      Icon => Error_Icon
-                     );
+            "Invalid directory for GWindows installation",
+            "Directory """ & To_String(Install_dir) & """ cannot be created",
+            Icon => Error_Icon
+          );
       end;
       if Proceed then
         Self_extract(OK);
@@ -232,16 +245,15 @@ begin
           exit;
         end if;
         Copy_encoding_dependent(To_String(Install_dir) & "\gwindows\framework\");
-        -- Goodbye message
-        -- !! nicer box with useful URL's
-        Message_Box(
-                    "GWindows installation complete",
-                    "Installation successful." & ASCII.LF &
-                    "Note that you can choose at any time the ANSI or the " &
-                    "Unicode version by" &
-                    " running ansi.cmd or unicode.cmd in the gwindows folder.",
-                    Icon => Information_Icon
-                   );
+        declare
+          Ciao: Goodbye_dialog_type;
+        begin
+          Create_Full_Dialog (Ciao, No_Parent);
+          Center(Ciao);
+          Small_Icon (Ciao, "AAA_Main_Icon");
+          Large_Icon (Ciao, "AAA_Main_Icon");
+          GWindows.Application.Show_Dialog (Ciao);
+        end;
         exit;
       end if;
     end if;

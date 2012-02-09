@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/01/29  11:34:17
+-- Transcription time: 2012/02/09  16:37:49
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -116,9 +116,89 @@ package body GW_Install_Resource_GUI is
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
-     (Window      : in out Install_dialog_Type;
+     (Window      : in out Goodbye_dialog_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
-      Title       : in     GString := "GWindows installer";
+      Title       : in     GString := "GWindows installation complete";
+      Left        : in     Integer := Use_Default; -- Default = as designed
+      Top         : in     Integer := Use_Default; -- Default = as designed
+      Width       : in     Integer := Use_Default; -- Default = as designed
+      Height      : in     Integer := Use_Default; -- Default = as designed
+      Help_Button : in     Boolean := False;
+      Is_Dynamic  : in     Boolean := False)
+  is
+    x,y,w,h: Integer;
+  begin
+    Dlg_to_Scn(  0, 0, 321, 142, x,y,w,h);
+    if Left   /= Use_Default then x:= Left;   end if;
+    if Top    /= Use_Default then y:= Top;    end if;
+    if Width  /= Use_Default then w:= Width;  end if;
+    if Height /= Use_Default then h:= Height; end if;
+    Create_As_Dialog(
+      Window => Window_Type(Window),
+      Parent => Parent,
+      Title  => Title,
+      Left   => x,
+      Top    => y,
+      Width  => w,
+      Height => h,
+      Help_Button => Help_Button,
+      Is_Dynamic  => Is_Dynamic
+    );
+    if Width = Use_Default then Client_Area_Width(Window, w); end if;
+    if Height = Use_Default then Client_Area_Height(Window, h); end if;
+    Use_GUI_Font(Window);
+    Create_Contents(Window, True);
+  end Create_Full_Dialog; -- Goodbye_dialog_Type
+
+  --  b) Create all contents, not the window itself (must be
+  --      already created) -> can be used in/as any kind of window.
+  --
+  procedure Create_Contents
+     ( Window      : in out Goodbye_dialog_Type;
+       for_dialog  : in     Boolean; -- True: buttons do close the window
+       resize      : in     Boolean:= False -- optionnally resize Window as designed
+     )
+  is
+    x,y,w,h: Integer;
+  begin
+    if resize then
+    Dlg_to_Scn(  0, 0, 321, 142, x,y,w,h);
+      Move(Window, x,y);
+      Client_Area_Size(Window, w, h);
+    end if;
+    Use_GUI_Font(Window);
+    Dlg_to_Scn(  140, 116, 50, 14, x,y,w,h);
+    -- Both versions of the button are created.
+    -- The more meaningful one is made visible, but this choice
+    -- can be reversed, for instance on a "Browse" button.
+    Create( Window.IDOK, Window, "Close", x,y,w,h, IDOK);
+    Create( Window.IDOK_permanent, Window, "Close", x,y,w,h, IDOK);
+    if for_dialog then -- hide the non-closing button
+      Hide(Window.IDOK_permanent);
+    else -- hide the closing button
+      Hide(Window.IDOK);
+    end if;
+    Dlg_to_Scn(  73, 26, 106, 8, x,y,w,h);
+    Create_label( Window, "Installation successful!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  40, 57, 259, 8, x,y,w,h);
+    Create_label( Window, "Note that you can choose at any time the ANSI or the Unicode version", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  40, 68, 233, 8, x,y,w,h);
+    Create_label( Window, "by running ansi.cmd or unicode.cmd in the gwindows folder, or", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  40, 79, 223, 8, x,y,w,h);
+    Create_label( Window, "by re-running this installation program.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  21, 19, 32, 30, x,y,w,h);
+    Create( Window.Static_0005, Window, Num_resource(Success_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+  end Create_Contents; -- Goodbye_dialog_Type
+
+
+  -- Dialog at resource line 61
+
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
+  procedure Create_Full_Dialog
+     (Window      : in out Main_install_dialog_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Title       : in     GString := "GWindows installer, version ";
       Left        : in     Integer := Use_Default; -- Default = as designed
       Top         : in     Integer := Use_Default; -- Default = as designed
       Width       : in     Integer := Use_Default; -- Default = as designed
@@ -148,13 +228,13 @@ package body GW_Install_Resource_GUI is
     if Height = Use_Default then Client_Area_Height(Window, h); end if;
     Use_GUI_Font(Window);
     Create_Contents(Window, True);
-  end Create_Full_Dialog; -- Install_dialog_Type
+  end Create_Full_Dialog; -- Main_install_dialog_Type
 
   --  b) Create all contents, not the window itself (must be
   --      already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
-     ( Window      : in out Install_dialog_Type;
+     ( Window      : in out Main_install_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      )
@@ -167,35 +247,25 @@ package body GW_Install_Resource_GUI is
       Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
-    Dlg_to_Scn(  240, 192, 60, 17, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDOK, Window, "Install", x,y,w,h, IDOK);
-    Create( Window.IDOK_permanent, Window, "Install", x,y,w,h, IDOK);
-    if for_dialog then -- hide the non-closing button
-      Hide(Window.IDOK_permanent);
-    else -- hide the closing button
-      Hide(Window.IDOK);
-    end if;
-    Dlg_to_Scn(  240, 216, 60, 17, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDCANCEL, Window, "Cancel", x,y,w,h, IDCANCEL);
-    Create( Window.IDCANCEL_permanent, Window, "Cancel", x,y,w,h, IDCANCEL);
-    if for_dialog then -- hide the non-closing button
-      Hide(Window.IDCANCEL_permanent);
-    else -- hide the closing button
-      Hide(Window.IDCANCEL);
-    end if;
-    Dlg_to_Scn(  13, 72, 267, 8, x,y,w,h);
+    Dlg_to_Scn(  11, 0, 290, 43, x,y,w,h);
+    Create( Window.Static_0001, Window, "", x,y,w,h);
+    Dlg_to_Scn(  176, 6, 109, 8, x,y,w,h);
+    Create_label( Window, "Open Source Visual", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  176, 19, 109, 8, x,y,w,h);
+    Create_label( Window, "Rapid Application Development", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  176, 32, 109, 8, x,y,w,h);
+    Create_label( Window, "for Microsoft Windows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  9, 47, 284, 8, x,y,w,h);
+    Create( Window.Setup_title, Window, "This is the GWindows programming framework's setup, version ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Setup_title);
+    Dlg_to_Scn(  9, 60, 292, 52, x,y,w,h);
+    Create( Window.Static_0005, Window, "Location", x,y,w,h);
+    Dlg_to_Scn(  36, 72, 261, 8, x,y,w,h);
     Create_label( Window, "Please specify a directory where you want to install the GWindows framework.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  13, 87, 203, 8, x,y,w,h);
+    Dlg_to_Scn(  36, 99, 223, 8, x,y,w,h);
     Create_label( Window, "NB: you can install GWindows at several places.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  13, 102, 251, 17, x,y,w,h);
+    Dlg_to_Scn(  36, 83, 221, 14, x,y,w,h);
     Create( Window.Directory_edit, Window, "", x,y,w,h, TRUE, Directory_edit);
-    Dlg_to_Scn(  272, 102, 29, 17, x,y,w,h);
+    Dlg_to_Scn(  258, 83, 29, 14, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
@@ -206,28 +276,46 @@ package body GW_Install_Resource_GUI is
     else -- hide the closing button
       Hide(Window.Directory_select_button);
     end if;
-    Dlg_to_Scn(  24, 168, 265, 8, x,y,w,h);
+    Dlg_to_Scn(  25, 153, 265, 8, x,y,w,h);
     Create( Window.UNICODE_choice, Window, "Unicode (16-bit International characters), Ada: Wide_Character / Wide_String", x,y,w,h, UNICODE_choice);
-    Dlg_to_Scn(  24, 150, 212, 8, x,y,w,h);
+    Dlg_to_Scn(  25, 136, 212, 8, x,y,w,h);
     Create( Window.ANSI_choice, Window, "ANSI (8-bit Western characters), Ada: Character / String", x,y,w,h, ANSI_choice);
-    Dlg_to_Scn(  11, 134, 290, 52, x,y,w,h);
-    Create( Window.Static_0003, Window, "Character encoding - please choose:", x,y,w,h);
-    Dlg_to_Scn(  34, 12, 125, 33, x,y,w,h);
-    Create( Window.Static_0004, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
-    Dlg_to_Scn(  175, 12, 109, 8, x,y,w,h);
-    Create_label( Window, "Open Source Visual", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  175, 25, 109, 8, x,y,w,h);
-    Create_label( Window, "Rapid Application Development", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  175, 38, 109, 8, x,y,w,h);
-    Create_label( Window, "for Microsoft Windows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  13, 57, 216, 8, x,y,w,h);
-    Create( Window.Setup_title, Window, "Setup of the GWindows programming framework", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Setup_title);
-    Dlg_to_Scn(  11, 6, 290, 46, x,y,w,h);
-    Create( Window.Static_0008, Window, "", x,y,w,h);
-  end Create_Contents; -- Install_dialog_Type
+    Dlg_to_Scn(  9, 120, 293, 52, x,y,w,h);
+    Create( Window.Static_0008, Window, "Character and string encoding - please choose:", x,y,w,h);
+    Dlg_to_Scn(  36, 6, 125, 33, x,y,w,h);
+    Create( Window.Static_0009, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
+    Dlg_to_Scn(  9, 184, 224, 8, x,y,w,h);
+    Create( Window.GNATCOM_check, Window, "Install GNATCOM - mandatory for GWindows", x,y,w,h, GNATCOM_check);
+    Disable(Window.GNATCOM_check);
+    Disable(Window.GNATCOM_check);
+    Dlg_to_Scn(  9, 200, 214, 8, x,y,w,h);
+    Create( Window.GWen_check, Window, "Install the GWenerator Ada code generator (ANSI only)", x,y,w,h, GWen_check);
+    Dlg_to_Scn(  241, 194, 60, 17, x,y,w,h);
+    -- Both versions of the button are created.
+    -- The more meaningful one is made visible, but this choice
+    -- can be reversed, for instance on a "Browse" button.
+    Create( Window.IDOK, Window, "Install", x,y,w,h, IDOK);
+    Create( Window.IDOK_permanent, Window, "Install", x,y,w,h, IDOK);
+    if for_dialog then -- hide the non-closing button
+      Hide(Window.IDOK_permanent);
+    else -- hide the closing button
+      Hide(Window.IDOK);
+    end if;
+    Dlg_to_Scn(  241, 218, 60, 17, x,y,w,h);
+    -- Both versions of the button are created.
+    -- The more meaningful one is made visible, but this choice
+    -- can be reversed, for instance on a "Browse" button.
+    Create( Window.IDCANCEL, Window, "Cancel", x,y,w,h, IDCANCEL);
+    Create( Window.IDCANCEL_permanent, Window, "Cancel", x,y,w,h, IDCANCEL);
+    if for_dialog then -- hide the non-closing button
+      Hide(Window.IDCANCEL_permanent);
+    else -- hide the closing button
+      Hide(Window.IDCANCEL);
+    end if;
+  end Create_Contents; -- Main_install_dialog_Type
 
 
-  -- Dialog at resource line 70
+  -- Dialog at resource line 89
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -244,7 +332,7 @@ package body GW_Install_Resource_GUI is
   is
     x,y,w,h: Integer;
   begin
-    Dlg_to_Scn(  0, 0, 296, 97, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 296, 79, x,y,w,h);
     if Left   /= Use_Default then x:= Left;   end if;
     if Top    /= Use_Default then y:= Top;    end if;
     if Width  /= Use_Default then w:= Width;  end if;
@@ -278,15 +366,19 @@ package body GW_Install_Resource_GUI is
     x,y,w,h: Integer;
   begin
     if resize then
-    Dlg_to_Scn(  0, 0, 296, 97, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 296, 79, x,y,w,h);
       Move(Window, x,y);
       Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
-    Dlg_to_Scn(  8, 58, 279, 17, x,y,w,h);
+    Dlg_to_Scn(  51, 39, 183, 17, x,y,w,h);
     Create( Window.Unpack_progress, Window, x,y,w,h, HORIZONTAL, FALSE);
-    Dlg_to_Scn(  11, 11, 277, 19, x,y,w,h);
+    Dlg_to_Scn(  9, 7, 277, 12, x,y,w,h);
     Create( Window.File_name, Window, "(name)", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, File_name);
+    Dlg_to_Scn(  16, 38, 21, 20, x,y,w,h);
+    Create( Window.Static_0001, Window, Num_resource(Zip_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  251, 36, 21, 20, x,y,w,h);
+    Create( Window.Static_0002, Window, Num_resource(Ada_doc_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
   end Create_Contents; -- Unpack_dialog_Type
 
 
@@ -400,6 +492,6 @@ package body GW_Install_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 123
+  -- Last line of resource script file: 156
 
 end GW_Install_Resource_GUI;
