@@ -11,6 +11,7 @@ with GWindows.Base;
 with GWindows.Buttons;                  use GWindows.Buttons;
 with GWindows.Constants;                use GWindows.Constants;
 with GWindows.Common_Dialogs;           use GWindows.Common_Dialogs;
+with GWindows.Static_Controls.Web;      use GWindows.Static_Controls.Web;
 with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
 with GWindows.Windows;                  use GWindows.Windows;
 
@@ -141,9 +142,11 @@ procedure GW_Install is
     Success:= False;
     Set_Directory(To_String(Install_dir));
     Create_Full_Dialog (Unpack_Dlg, No_Parent);
+    Small_Icon (Unpack_Dlg, "AAA_Main_Icon");
+    Large_Icon (Unpack_Dlg, "AAA_Main_Icon");
     Center(Unpack_Dlg);
     Show(Unpack_Dlg);
-    Unpack_Dlg.Redraw(Redraw_Now => True);
+    Unpack_Dlg.Redraw(Redraw_Now => True); -- otherwise icons don't show up!
     begin
       Load(zi, Command_Name);
       Extract_all_files(zi);
@@ -247,11 +250,15 @@ begin
         Copy_encoding_dependent(To_String(Install_dir) & "\gwindows\framework\");
         declare
           Ciao: Goodbye_dialog_type;
+          GNAVI, GNAVI_SF, ResEdit: URL_Type;
         begin
           Create_Full_Dialog (Ciao, No_Parent);
           Center(Ciao);
           Small_Icon (Ciao, "AAA_Main_Icon");
           Large_Icon (Ciao, "AAA_Main_Icon");
+          Create_and_Swap(GNAVI, Ciao.GNAVI_URL, Ciao, "http://www.gnavi.org/");
+          Create_and_Swap(GNAVI_SF, Ciao.GNAVI_SF_URL, Ciao, "http://www.sf.net/projects/gnavi/");
+          Create_and_Swap(ResEdit, Ciao.ResEdit_URL, Ciao, "http://www.resedit.net/");
           GWindows.Application.Show_Dialog (Ciao);
         end;
         exit;

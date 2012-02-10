@@ -10,12 +10,16 @@
 #define Zip_icon                                143
 #define Ada_doc_icon                            145
 #define Success_icon                            147
+#define ResEdit_Logo                            149
 #define Directory_select_button                 1000
+#define GNAVI_URL                               1000
 #define File_name                               1001
 #define Setup_title                             1001
 #define Directory_edit                          1002
+#define GNAVI_SF_URL                            1002
 #define Unpack_progress                         1002
 #define Installed_version                       1003
+#define ResEdit_URL                             1003
 #define GNATCOM_check                           1006
 #define Installer_Version                       40018
 #define ANSI_choice                             40019

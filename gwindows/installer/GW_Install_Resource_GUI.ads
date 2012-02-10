@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/02/09  16:37:49
+-- Transcription time: 2012/02/10  14:44:50
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -41,7 +41,7 @@ package GW_Install_Resource_GUI is
     -- Label: IDC_STATIC
   end record; -- Conflict_dialog_Type
 
-  -- Dialog at resource line 36
+  -- Dialog at resource line 40
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -74,9 +74,17 @@ package GW_Install_Resource_GUI is
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
     Static_0005: Icon_Type;
+    -- Label: IDC_STATIC
+    Static_0007: Bitmap_Type;
+    GNAVI_URL: Label_Type;
+    GNAVI_SF_URL: Label_Type;
+    Static_0008: Bitmap_Type;
+    ResEdit_URL: Label_Type;
+    -- Label: IDC_STATIC
+    -- Label: IDC_STATIC
   end record; -- Goodbye_dialog_Type
 
-  -- Dialog at resource line 52
+  -- Dialog at resource line 64
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -125,7 +133,7 @@ package GW_Install_Resource_GUI is
     IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
   end record; -- Main_install_dialog_Type
 
-  -- Dialog at resource line 80
+  -- Dialog at resource line 92
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -157,7 +165,7 @@ package GW_Install_Resource_GUI is
     Static_0002: Icon_Type;
   end record; -- Unpack_dialog_Type
 
-  -- Dialog at resource line 94
+  -- Dialog at resource line 106
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -184,7 +192,7 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Installer for the GWindows programming framework";
-    FileVersion: constant String:= "09-Feb-2012";
+    FileVersion: constant String:= "11-Feb-2012";
     LegalCopyright: constant String:= "© 2012 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Installer";
     Translation: constant:= 1033;
@@ -207,12 +215,16 @@ package GW_Install_Resource_GUI is
   Zip_icon               : constant:=    143;
   Ada_doc_icon           : constant:=    145;
   Success_icon           : constant:=    147;
+  ResEdit_Logo           : constant:=    149;
   Directory_select_button: constant:=   1000;
+  GNAVI_URL              : constant:=   1000;
   File_name              : constant:=   1001;
   Setup_title            : constant:=   1001;
   Directory_edit         : constant:=   1002;
+  GNAVI_SF_URL           : constant:=   1002;
   Unpack_progress        : constant:=   1002;
   Installed_version      : constant:=   1003;
+  ResEdit_URL            : constant:=   1003;
   GNATCOM_check          : constant:=   1006;
   Installer_Version      : constant:=  40018;
   ANSI_choice            : constant:=  40019;
@@ -230,6 +242,6 @@ package GW_Install_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 156
+  -- Last line of resource script file: 168
 
 end GW_Install_Resource_GUI;

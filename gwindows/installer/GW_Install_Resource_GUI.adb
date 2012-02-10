@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/02/09  16:37:49
+-- Transcription time: 2012/02/10  14:44:50
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -20,7 +20,7 @@ package body GW_Install_Resource_GUI is
   -- ** Generated code begins here \/ \/ \/.
 
 
-  -- Dialog at resource line 28
+  -- Dialog at resource line 32
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -111,7 +111,7 @@ package body GW_Install_Resource_GUI is
   end Create_Contents; -- Conflict_dialog_Type
 
 
-  -- Dialog at resource line 45
+  -- Dialog at resource line 49
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -128,7 +128,7 @@ package body GW_Install_Resource_GUI is
   is
     x,y,w,h: Integer;
   begin
-    Dlg_to_Scn(  0, 0, 321, 142, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 321, 213, x,y,w,h);
     if Left   /= Use_Default then x:= Left;   end if;
     if Top    /= Use_Default then y:= Top;    end if;
     if Width  /= Use_Default then w:= Width;  end if;
@@ -162,12 +162,12 @@ package body GW_Install_Resource_GUI is
     x,y,w,h: Integer;
   begin
     if resize then
-    Dlg_to_Scn(  0, 0, 321, 142, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 321, 213, x,y,w,h);
       Move(Window, x,y);
       Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
-    Dlg_to_Scn(  140, 116, 50, 14, x,y,w,h);
+    Dlg_to_Scn(  139, 192, 50, 14, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
@@ -178,20 +178,36 @@ package body GW_Install_Resource_GUI is
     else -- hide the closing button
       Hide(Window.IDOK);
     end if;
-    Dlg_to_Scn(  73, 26, 106, 8, x,y,w,h);
+    Dlg_to_Scn(  74, 15, 106, 8, x,y,w,h);
     Create_label( Window, "Installation successful!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  40, 57, 259, 8, x,y,w,h);
+    Dlg_to_Scn(  14, 40, 259, 8, x,y,w,h);
     Create_label( Window, "Note that you can choose at any time the ANSI or the Unicode version", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  40, 68, 233, 8, x,y,w,h);
+    Dlg_to_Scn(  14, 51, 233, 8, x,y,w,h);
     Create_label( Window, "by running ansi.cmd or unicode.cmd in the gwindows folder, or", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  40, 79, 223, 8, x,y,w,h);
+    Dlg_to_Scn(  14, 62, 223, 8, x,y,w,h);
     Create_label( Window, "by re-running this installation program.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  21, 19, 32, 30, x,y,w,h);
+    Dlg_to_Scn(  19, 4, 32, 32, x,y,w,h);
     Create( Window.Static_0005, Window, Num_resource(Success_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  15, 84, 179, 8, x,y,w,h);
+    Create_label( Window, "You may want to visit the following web sites:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  18, 100, 124, 32, x,y,w,h);
+    Create( Window.Static_0007, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  151, 104, 50, 8, x,y,w,h);
+    Create( Window.GNAVI_URL, Window, "GNAVI.org", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_URL);
+    Dlg_to_Scn(  151, 119, 89, 8, x,y,w,h);
+    Create( Window.GNAVI_SF_URL, Window, "GNAVI at SourceForge", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_SF_URL);
+    Dlg_to_Scn(  17, 150, 70, 32, x,y,w,h);
+    Create( Window.Static_0008, Window, Num_resource(ResEdit_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  107, 149, 110, 8, x,y,w,h);
+    Create( Window.ResEdit_URL, Window, "ResEdit - a graphic resource editor", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ResEdit_URL);
+    Dlg_to_Scn(  120, 160, 199, 8, x,y,w,h);
+    Create_label( Window, "To be used with the GWenerator .RC to Ada translator", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  120, 171, 189, 8, x,y,w,h);
+    Create_label( Window, "and the GWindows framework.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
   end Create_Contents; -- Goodbye_dialog_Type
 
 
-  -- Dialog at resource line 61
+  -- Dialog at resource line 73
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -315,7 +331,7 @@ package body GW_Install_Resource_GUI is
   end Create_Contents; -- Main_install_dialog_Type
 
 
-  -- Dialog at resource line 89
+  -- Dialog at resource line 101
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -492,6 +508,6 @@ package body GW_Install_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 156
+  -- Last line of resource script file: 168
 
 end GW_Install_Resource_GUI;
