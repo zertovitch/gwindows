@@ -55,10 +55,10 @@ FONT 8, "Ms Shell Dlg"
     LTEXT           "by re-running this installation program.", IDC_STATIC, 14, 62, 223, 8, SS_LEFT
     ICON            Success_icon, IDC_STATIC, 19, 4, 32, 32, SS_ICON
     LTEXT           "You may want to visit the following web sites:", IDC_STATIC, 15, 84, 179, 8, SS_LEFT
-    CONTROL         GNAVI_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP, 18, 100, 124, 32
+    CONTROL         GNAVI_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 18, 100, 124, 32
     LTEXT           "GNAVI.org", GNAVI_URL, 151, 104, 50, 8, SS_LEFT
     LTEXT           "GNAVI at SourceForge", GNAVI_SF_URL, 151, 119, 89, 8, SS_LEFT
-    CONTROL         ResEdit_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP, 17, 150, 70, 32
+    CONTROL         ResEdit_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 17, 150, 70, 32
     LTEXT           "ResEdit - a graphic resource editor", ResEdit_URL, 107, 149, 110, 8, SS_LEFT
     LTEXT           "To be used with the GWenerator .RC to Ada translator", IDC_STATIC, 120, 160, 199, 8, SS_LEFT
     LTEXT           "and the GWindows framework.", IDC_STATIC, 120, 171, 189, 8, SS_LEFT

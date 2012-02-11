@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/02/10  14:44:50
+-- Transcription time: 2012/02/11  09:19:07
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -191,13 +191,13 @@ package body GW_Install_Resource_GUI is
     Dlg_to_Scn(  15, 84, 179, 8, x,y,w,h);
     Create_label( Window, "You may want to visit the following web sites:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  18, 100, 124, 32, x,y,w,h);
-    Create( Window.Static_0007, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0007, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  151, 104, 50, 8, x,y,w,h);
     Create( Window.GNAVI_URL, Window, "GNAVI.org", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_URL);
     Dlg_to_Scn(  151, 119, 89, 8, x,y,w,h);
     Create( Window.GNAVI_SF_URL, Window, "GNAVI at SourceForge", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_SF_URL);
     Dlg_to_Scn(  17, 150, 70, 32, x,y,w,h);
-    Create( Window.Static_0008, Window, Num_resource(ResEdit_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0008, Window, Num_resource(ResEdit_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  107, 149, 110, 8, x,y,w,h);
     Create( Window.ResEdit_URL, Window, "ResEdit - a graphic resource editor", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ResEdit_URL);
     Dlg_to_Scn(  120, 160, 199, 8, x,y,w,h);

@@ -75,14 +75,8 @@ procedure GW_Install is
       when UNICODE =>
         Main_Dlg.UNICODE_choice.State(Checked);
     end case;
-    Main_Dlg.Text(
-      Main_Dlg.Text & " version " &
-      Version_info.FileVersion
-    );
-    Main_Dlg.Setup_title.Text(
-      Main_Dlg.Setup_title.Text &
-      ", version " & Version_info.FileVersion
-    );
+    Main_Dlg.Text(Main_Dlg.Text & Version_info.FileVersion);
+    Main_Dlg.Setup_title.Text(Main_Dlg.Setup_title.Text & Version_info.FileVersion);
     Main_Dlg.Directory_edit.Text(To_String(Install_dir));
     On_Destroy_Handler (Main_Dlg, Get_Data'Unrestricted_Access);
     On_Click_Handler (
