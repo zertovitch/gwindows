@@ -114,7 +114,7 @@ procedure GW_Install is
         Compose_File_Name   => null,
         others              => null
       );
-    mem: constant String:= Current_Directory;
+    mem: constant String:= Current_Directory & '\';
     --
     procedure Extract_1_file( name: String ) is
       gwen_dir: constant String:= "gwenerator";

@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/02/12  18:05:06
+-- Transcription time: 2012/02/16  12:54:27
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -167,7 +167,7 @@ package body GW_Install_Resource_GUI is
       Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
-    Dlg_to_Scn(  138, 226, 50, 14, x,y,w,h);
+    Dlg_to_Scn(  129, 226, 69, 14, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
@@ -178,38 +178,38 @@ package body GW_Install_Resource_GUI is
     else -- hide the closing button
       Hide(Window.IDOK);
     end if;
-    Dlg_to_Scn(  74, 15, 106, 8, x,y,w,h);
+    Dlg_to_Scn(  46, 19, 106, 8, x,y,w,h);
     Create_label( Window, "Installation successful!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  14, 40, 259, 8, x,y,w,h);
+    Dlg_to_Scn(  27, 43, 259, 8, x,y,w,h);
     Create_label( Window, "Note that you can choose at any time the ANSI or the Unicode version", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  14, 51, 233, 8, x,y,w,h);
+    Dlg_to_Scn(  27, 54, 233, 8, x,y,w,h);
     Create_label( Window, "by running ansi.cmd or unicode.cmd in the gwindows folder, or", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  14, 62, 223, 8, x,y,w,h);
+    Dlg_to_Scn(  27, 65, 223, 8, x,y,w,h);
     Create_label( Window, "by re-running this installation program.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  19, 4, 32, 30, x,y,w,h);
+    Dlg_to_Scn(  15, 12, 21, 20, x,y,w,h);
     Create( Window.Static_0005, Window, Num_resource(Success_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  15, 84, 179, 8, x,y,w,h);
     Create_label( Window, "You may want to visit the following web sites:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  18, 136, 125, 33, x,y,w,h);
-    Create( Window.Static_0007, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
-    Dlg_to_Scn(  151, 160, 50, 8, x,y,w,h);
-    Create( Window.GNAVI_URL, Window, "GNAVI.org", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_URL);
-    Dlg_to_Scn(  151, 138, 89, 8, x,y,w,h);
-    Create( Window.GNAVI_SF_URL, Window, "GNAVI at SourceForge", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_SF_URL);
-    Dlg_to_Scn(  151, 149, 83, 8, x,y,w,h);
-    Create( Window.GNAVI_Discuss_URL, Window, "GNAVI Discuss mailing list", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_Discuss_URL);
-    Dlg_to_Scn(  17, 180, 71, 33, x,y,w,h);
-    Create( Window.Static_0008, Window, Num_resource(ResEdit_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
-    Dlg_to_Scn(  107, 179, 110, 8, x,y,w,h);
-    Create( Window.ResEdit_URL, Window, "ResEdit - a graphic resource editor", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ResEdit_URL);
-    Dlg_to_Scn(  120, 190, 199, 8, x,y,w,h);
-    Create_label( Window, "To be used with the GWenerator .RC to Ada translator", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  120, 201, 189, 8, x,y,w,h);
-    Create_label( Window, "and the GWindows framework.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  19, 100, 87, 28, x,y,w,h);
-    Create( Window.Static_0011, Window, Num_resource(GNAT_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
-    Dlg_to_Scn(  115, 105, 64, 8, x,y,w,h);
+    Dlg_to_Scn(  27, 100, 87, 28, x,y,w,h);
+    Create( Window.Static_0007, Window, Num_resource(GNAT_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
+    Dlg_to_Scn(  125, 105, 64, 8, x,y,w,h);
     Create( Window.GNAT_URL, Window, "GNAT Ada compiler", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAT_URL);
+    Dlg_to_Scn(  27, 136, 125, 33, x,y,w,h);
+    Create( Window.Static_0008, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
+    Dlg_to_Scn(  161, 160, 50, 8, x,y,w,h);
+    Create( Window.GNAVI_URL, Window, "GNAVI.org", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_URL);
+    Dlg_to_Scn(  161, 138, 89, 8, x,y,w,h);
+    Create( Window.GNAVI_SF_URL, Window, "GNAVI at SourceForge", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_SF_URL);
+    Dlg_to_Scn(  161, 149, 83, 8, x,y,w,h);
+    Create( Window.GNAVI_Discuss_URL, Window, "GNAVI Discuss mailing list", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_Discuss_URL);
+    Dlg_to_Scn(  27, 180, 71, 33, x,y,w,h);
+    Create( Window.Static_0009, Window, Num_resource(ResEdit_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
+    Dlg_to_Scn(  117, 179, 110, 8, x,y,w,h);
+    Create( Window.ResEdit_URL, Window, "ResEdit - a graphic resource editor", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ResEdit_URL);
+    Dlg_to_Scn(  130, 190, 179, 8, x,y,w,h);
+    Create_label( Window, "To be used with the GWenerator .RC to Ada translator", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  130, 201, 173, 8, x,y,w,h);
+    Create_label( Window, "and the GWindows framework.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
   end Create_Contents; -- Goodbye_dialog_Type
 
 

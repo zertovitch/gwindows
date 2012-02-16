@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/02/12  18:05:06
+-- Transcription time: 2012/02/16  12:54:27
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -76,15 +76,15 @@ package GW_Install_Resource_GUI is
     Static_0005: Icon_Type;
     -- Label: IDC_STATIC
     Static_0007: Bitmap_Type;
+    GNAT_URL: Label_Type;
+    Static_0008: Bitmap_Type;
     GNAVI_URL: Label_Type;
     GNAVI_SF_URL: Label_Type;
     GNAVI_Discuss_URL: Label_Type;
-    Static_0008: Bitmap_Type;
+    Static_0009: Bitmap_Type;
     ResEdit_URL: Label_Type;
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
-    Static_0011: Bitmap_Type;
-    GNAT_URL: Label_Type;
   end record; -- Goodbye_dialog_Type
 
   -- Dialog at resource line 71
@@ -195,7 +195,7 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Installer for the GWindows programming framework";
-    FileVersion: constant String:= "11-Feb-2012";
+    FileVersion: constant String:= "16-Feb-2012";
     LegalCopyright: constant String:= "© 2012 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Installer";
     Translation: constant:= 1033;
