@@ -33,6 +33,7 @@
 ------------------------------------------------------------------------------
 
 with GNATCOM.Errors;
+with Interfaces.C;
 
 package body GNATCOM.IEnumVARIANT_Interface is
 

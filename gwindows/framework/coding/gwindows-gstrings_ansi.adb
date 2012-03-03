@@ -132,8 +132,14 @@ package body GWindows.GStrings is
    function Image (Value : Integer) return GString
    is
    begin
-      return Value'Img;
+      return Integer'Image (Value);
    end Image;
+
+   function Enum_Image (Value : Enumeral_Type) return GString
+   is
+   begin
+      return Enumeral_Type'Image (Value);
+   end Enum_Image;
 
    -----------------------------
    -- To_GString_From_VARIANT --

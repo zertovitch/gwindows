@@ -144,6 +144,12 @@ package body GWindows.GStrings is
       return Integer'Wide_Image (Value);
    end Image;
 
+   function Enum_Image (Value : Enumeral_Type) return GString
+   is
+   begin
+      return Enumeral_Type'Wide_Image (Value);
+   end Enum_Image;
+
    --------------------------
    -- To_GString_From_BSTR --
    --------------------------

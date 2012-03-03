@@ -69,6 +69,11 @@ package GWindows.GStrings is
    function Image (Value : Integer) return GString;
    --  Returns a GString for the Image of an Integer
 
+   generic
+      type Enumeral_Type is (<>);
+   function Enum_Image (Value : Enumeral_Type) return GString;
+   --  Returns a GString for the Image of an Enumerated type
+
    function To_GString_From_BSTR (Value : GNATCOM.Types.BSTR;
                                   Free  : Boolean            := True)
                                  return GString;

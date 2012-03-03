@@ -137,8 +137,9 @@ package body GWindows.Combo_Boxes.Generic_Enumeral is
      (Combo : in Combo_Box_Type;
       Item  : in Enumeral_Type)
    is
+      function Img is new GWindows.GStrings.Enum_Image (Enumeral_Type);
       Index : constant Natural := Find
-        (Combo, Enumeral_Type'Wide_Image (Item));
+        (Combo, Img (Item));
    begin
       Current (Combo, Index);
    end Current;
