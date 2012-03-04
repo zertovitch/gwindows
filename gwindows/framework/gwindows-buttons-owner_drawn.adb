@@ -14,14 +14,15 @@ package body GWindows.Buttons.Owner_Drawn is
       Item_Data       : in     Integer;
       Control         : in     GWindows.Base.Pointer_To_Base_Window_Class)
    is
+   pragma Unreferenced (Control, Item_Data, Item_Action, Item_ID);
       use type Interfaces.C.unsigned;
 
       ODS_SELECTED               : constant := 1;
-      ODS_GRAYED                 : constant := 2;
-      ODS_DISABLED               : constant := 4;
-      ODS_CHECKED                : constant := 8;
+      --  ODS_GRAYED                 : constant := 2;
+      --  ODS_DISABLED               : constant := 4;
+      --  ODS_CHECKED                : constant := 8;
       ODS_FOCUS                  : constant := 16;
-      ODS_DEFAULT                : constant := 32;
+      --  ODS_DEFAULT                : constant := 32;
    begin
       On_Paint (Owner_Drawn_Button_Type'Class (Window),
                 Canvas,
@@ -88,6 +89,7 @@ package body GWindows.Buttons.Owner_Drawn is
       dwStyle   : in out Interfaces.C.unsigned;
       dwExStyle : in out Interfaces.C.unsigned)
    is
+   pragma Unreferenced (dwExStyle, Window);
       use type Interfaces.C.unsigned;
 
       BS_OWNERDRAW : constant := 11;

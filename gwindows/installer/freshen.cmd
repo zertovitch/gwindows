@@ -4,7 +4,12 @@ rem ==================================================
 
 cd ..\..
 copy /B gwindows\installer\gwin.zip gwindows\installer\gwin_ok.zip
-zip -f -9 -t 2012-01-31 gwindows\installer\gwin.zip
+zip -f -9 -t 2012-02-17 gwindows\installer\gwin.zip
 cd gwindows\installer
+
+pause
+
+rem Comparison old - new archive (comp_zip is a tool from Zip-Ada)
+comp_zip gwin_ok.zip gwin.zip 
 
 pause

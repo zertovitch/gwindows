@@ -32,32 +32,33 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
--- This package defines static controls, like labels, enhanced with an
--- interactive feature to access the Internet through the default browser
--- or an e-mail client.
--- For instance, when an URL_Type object is clicked, a browser or a mail
--- window will be opened with the programmed address.
+--  This package defines static controls, like labels, enhanced with an
+--  interactive feature to access the Internet through the default browser
+--  or an e-mail client.
+--  For instance, when an URL_Type object is clicked, a browser or a mail
+--  window will be opened with the programmed address.
 
 --  4-Jun-2009: GdM: Added Border (as GWindows.Static_Controls)
--- 15-Dec-2008: GdM: Created (some code previously in GWin_Util).
+--  15-Dec-2008: GdM: Created (some code previously in GWin_Util).
 
 package GWindows.Static_Controls.Web is
 
    --------------------------------------------------------------------------
-   -- For URL's there is a "pointing finger" cursor, like in Web browsers.
-   -- When the mouse pointer goes over the URL, the cursor becomes a hand
-   -- with a pointing finger. If the system (older Windows, or some other
-   -- cause) cannot find the standard hand, this URL code tries to find
-   -- in the resource a cursor with the name "Finger_cursor".
-   -- At bottom, there is a convenient finger.cur to associate with, uuencoded.
+   --  For URL's there is a "pointing finger" cursor, like in Web browsers.
+   --  When the mouse pointer goes over the URL, the cursor becomes a hand
+   --  with a pointing finger. If the system (older Windows, or some other
+   --  cause) cannot find the standard hand, this URL code tries to find
+   --  in the resource a cursor with the name "Finger_cursor".
+   --  At bottom, there is a convenient finger.cur to associate with,
+   --  uuencoded.
    --------------------------------------------------------------------------
 
    type URL_Type is new GWindows.Static_Controls.Label_Type with
      record
-       URL: GWindows.GString_Unbounded;
+       URL : GWindows.GString_Unbounded;
      end record;
 
-   -- This mimics GWindows.Static_Controls.Create(Label_Type,...)
+   --  This mimics GWindows.Static_Controls.Create(Label_Type,...)
    procedure Create
       (Static     : in out URL_Type;
        Parent     : in out GWindows.Base.Base_Window_Type'Class;
@@ -74,8 +75,8 @@ package GWindows.Static_Controls.Web is
        Show       : in     Boolean                              := True;
        Is_Dynamic : in     Boolean                              := False);
 
-   -- Overriden methods:
-   procedure On_Click ( Window: in out URL_Type );
+   --  Overriden methods:
+   procedure On_Click (Window : in out URL_Type);
 
    procedure On_Message
      (Window       : in out URL_Type;
@@ -84,7 +85,8 @@ package GWindows.Static_Controls.Web is
       lParam       : in     GWindows.Types.Lparam;
       Return_Value : in out GWindows.Types.Lresult);
 
-   -- This mimics GWindows.Static_Controls.Create_Label: Label without variable
+   --  This mimics GWindows.Static_Controls.Create_Label:
+   --  Label without variable
    procedure Create_URL
       (Parent     : in out GWindows.Base.Base_Window_Type'Class;
        Text       : in     GString;
@@ -99,15 +101,15 @@ package GWindows.Static_Controls.Web is
        ID         : in     Integer                              := 0;
        Show       : in     Boolean                              := True);
 
-   -- Swap a label against a new URL label, at the same place
+   --  Swap a label against a new URL label, at the same place
    procedure Create_and_Swap
       (To_Show    : in out URL_Type;
        To_Hide    : in out Label_Type;
        Parent     : in out GWindows.Base.Base_Window_Type'Class;
        URL        : in     GString;
-       Alignment  : in     Alignment_Type:= GWindows.Static_Controls.Left;
+       Alignment  : in     Alignment_Type := GWindows.Static_Controls.Left;
        Border     : in     Border_Type                          := None;
-       Is_Dynamic : in     Boolean:= False
+       Is_Dynamic : in     Boolean := False
       );
 
    --

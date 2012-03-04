@@ -1,5 +1,5 @@
 with GWindows.Cursors;                  use GWindows.Cursors;
--- with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
+--  with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
 with GWindows.GStrings;                 use GWindows.GStrings;
 with GWindows.Types;
 
@@ -11,20 +11,20 @@ package body GWindows.Static_Controls.Web is
   -- Start --
   -----------
 
-  procedure Start(
+  procedure Start (
     File       : in String;
     Parameter  : in String := "";
-    Minimized  : in Boolean:= False
+    Minimized  : in Boolean := False
   )
   is
 
-    C_Operation  : aliased Interfaces.C.Char_Array :=
-                           Interfaces.C.To_C("open");
-    C_Executable : aliased Interfaces.C.Char_Array :=
-                           Interfaces.C.To_C(File);
-    C_Parameter  : aliased Interfaces.C.Char_Array :=
-                           Interfaces.C.To_C(Parameter);
-    -- Parts from Win32Ada:
+    C_Operation  : aliased Interfaces.C.char_array :=
+                           Interfaces.C.To_C ("open");
+    C_Executable : aliased Interfaces.C.char_array :=
+                           Interfaces.C.To_C (File);
+    C_Parameter  : aliased Interfaces.C.char_array :=
+                           Interfaces.C.To_C (Parameter);
+    --  Parts from Win32Ada:
     subtype PVOID is System.Address;
     subtype HANDLE is PVOID;                    --  winnt.h :144
     subtype HWND is HANDLE;                     --  windef.h :178
@@ -32,12 +32,12 @@ package body GWindows.Static_Controls.Web is
     subtype INT is Interfaces.C.int;                  --  windef.h
     --
     Exe : HINSTANCE;
-    pragma Warnings(Off, Exe);
+    pragma Warnings (Off, Exe);
     SW_SHOWNORMAL    : constant := 1;
     SW_SHOWMINIMIZED : constant := 2;
-    sw: constant array( Boolean ) of INT:=
-      (SW_ShowNormal,
-       SW_ShowMinimized);
+    sw : constant array (Boolean) of INT :=
+      (SW_SHOWNORMAL,
+       SW_SHOWMINIMIZED);
     function GetFocus return HWND;              --  winuser.h:2939
     pragma Import (Stdcall, GetFocus, "GetFocus");
     subtype CHAR is Interfaces.C.char;
@@ -53,7 +53,7 @@ package body GWindows.Static_Controls.Web is
        lpDirectory : LPCSTR;
        nShowCmd : INT)
       return HINSTANCE;               --  shellapi.h:54
-    pragma Import (Stdcall, ShellExecuteA, "ShellExecuteA");   --  shellapi.h:54
+    pragma Import (Stdcall, ShellExecuteA, "ShellExecuteA"); --  shellapi.h:54
     function ShellExecute
       (hwnd0 : HWND;
        lpOperation : LPCSTR;
@@ -64,25 +64,25 @@ package body GWindows.Static_Controls.Web is
       return HINSTANCE
       renames ShellExecuteA;                       --  shellapi.h:54
   begin
-    Exe := Shellexecute
-     (Hwnd0        => Getfocus,
-      Lpoperation  => C_Operation (C_Operation'First)'Unchecked_Access,
-      Lpfile       => C_Executable(C_Executable'First)'Unchecked_Access,
-      Lpparameters => C_Parameter (C_Parameter'First)'Unchecked_Access,
-      Lpdirectory  => null,
-      Nshowcmd     => sw(minimized));
+    Exe := ShellExecute
+     (hwnd0        => GetFocus,
+      lpOperation  => C_Operation (C_Operation'First)'Unchecked_Access,
+      lpFile       => C_Executable (C_Executable'First)'Unchecked_Access,
+      lpParameters => C_Parameter (C_Parameter'First)'Unchecked_Access,
+      lpDirectory  => null,
+      nShowCmd     => sw (Minimized));
   end Start;
 
   type URL_Access is access all URL_Type;
 
   use Interfaces.C;
 
-  -- Overriden methods:
-  procedure On_Click ( Window: in out URL_Type ) is
+  --  Overriden methods:
+  procedure On_Click (Window : in out URL_Type) is
   begin
-    Start(
-      GWindows.GStrings.To_String(
-        GWindows.GStrings.To_Gstring_From_Unbounded(Window.URL)
+    Start (
+      GWindows.GStrings.To_String (
+        GWindows.GStrings.To_GString_From_Unbounded (Window.URL)
       )
     );
   end On_Click;
@@ -90,7 +90,7 @@ package body GWindows.Static_Controls.Web is
   ------------------------------
   -- "Pointing finger" cursor --
   ------------------------------
-  cur_finger: Cursor_Type:= 0;
+  cur_finger : Cursor_Type := 0;
 
   procedure On_Message
      (Window       : in out URL_Type;
@@ -100,27 +100,27 @@ package body GWindows.Static_Controls.Web is
       Return_Value : in out GWindows.Types.Lresult)
   is
     WM_MOUSEMOVE  : constant := 16#200#;
-    IDC_HAND: constant:= 32649;
+    IDC_HAND : constant := 32649;
   begin
     if message = WM_MOUSEMOVE then
       if cur_finger = 0 then
-        cur_finger:= Load_System_Cursor(IDC_HAND);
+        cur_finger := Load_System_Cursor (IDC_HAND);
         if cur_finger = 0 then
-          -- IDC_HAND not found: older system, wrong service pack,
-          -- bad moon phase, etc.
-          cur_finger:= Load_Cursor("Finger_cursor");
+          --  IDC_HAND not found: older system, wrong service pack,
+          --  bad moon phase, etc.
+          cur_finger := Load_Cursor ("Finger_cursor");
         end if;
       end if;
       if cur_finger /= 0 then
-        Set_Cursor(cur_finger);
+        Set_Cursor (cur_finger);
       end if;
     end if;
-    -- Call parent method
-    On_Message(
-      Label_Type(Window),
+    --  Call parent method
+    On_Message (
+      Label_Type (Window),
       message,
-      wPAram,
-      lPAram,
+      wParam,
+      lParam,
       Return_Value
     );
   end On_Message;
@@ -128,62 +128,63 @@ package body GWindows.Static_Controls.Web is
   --
   GUI_Font : GWindows.Drawing_Objects.Font_Type;
   URL_Font : GWindows.Drawing_Objects.Font_Type;
-  -- ^ These fonts are created once, at startup
-  --   it avoid GUI resource leak under Windows 95/98/ME
+  --  ^ These fonts are created once, at startup
+  --    it avoids GUI resource leak under Windows 95/98/ME
 
   procedure Create_Common_Fonts is
 
-   type Face_Name_Type is array(1..32) of GWindows.GChar_C;
+   type Face_Name_Type is array (1 .. 32) of GWindows.GChar_C;
 
    type LOGFONT is record
-     lfHeight: Interfaces.C.long;
-     lfWidth: Interfaces.C.long;
-     lfEscapement: Interfaces.C.long;
-     lfOrientation: Interfaces.C.long;
-     lfWeight: Interfaces.C.long;
-     lfItalic: Interfaces.C.char;
-     lfUnderline: Interfaces.C.char;
-     lfStrikeOut: Interfaces.C.char;
-     lfCharSet: Interfaces.C.char;
-     lfOutPrecision: Interfaces.C.char;
-     lfClipPrecision: Interfaces.C.char;
-     lfQuality: Interfaces.C.char;
-     lfPitchAndFamily: Interfaces.C.char;
-     lfFaceName: Face_Name_Type;
+     lfHeight : Interfaces.C.long;
+     lfWidth : Interfaces.C.long;
+     lfEscapement : Interfaces.C.long;
+     lfOrientation : Interfaces.C.long;
+     lfWeight : Interfaces.C.long;
+     lfItalic : Interfaces.C.char;
+     lfUnderline : Interfaces.C.char;
+     lfStrikeOut : Interfaces.C.char;
+     lfCharSet : Interfaces.C.char;
+     lfOutPrecision : Interfaces.C.char;
+     lfClipPrecision : Interfaces.C.char;
+     lfQuality : Interfaces.C.char;
+     lfPitchAndFamily : Interfaces.C.char;
+     lfFaceName : Face_Name_Type;
    end record;
 
-   Log_of_current_font: aliased LOGFONT;
+   Log_of_current_font : aliased LOGFONT;
 
    subtype PVOID   is System.Address;                      --  winnt.h
    subtype LPVOID  is PVOID;                               --  windef.h
 
    function GetObject
-     (hgdiobj  : GWindows.Types.Handle  := GWindows.Drawing_Objects.Handle(GUI_Font);
-      cbBufferl: Interfaces.C.int       := LOGFONT'Size / 8;
-      lpvObject: LPVOID                 := Log_of_Current_font'Address)
+     (hgdiobj   : GWindows.Types.Handle  :=
+                    GWindows.Drawing_Objects.Handle (GUI_Font);
+      cbBufferl : Interfaces.C.int       := LOGFONT'Size / 8;
+      lpvObject : LPVOID                 := Log_of_current_font'Address)
      return Interfaces.C.int;
    pragma Import (StdCall, GetObject,
                     "GetObject" & Character_Mode_Identifier);
 
    function CreateFontIndirect
-     (lpvObject: LPVOID                 := Log_of_Current_font'Address)
+     (lpvObject : LPVOID                 := Log_of_current_font'Address)
      return GWindows.Types.Handle;
    pragma Import (StdCall, CreateFontIndirect,
                     "CreateFontIndirect" & Character_Mode_Identifier);
 
   begin
-    GWindows.Drawing_Objects.Create_Stock_Font(
+    GWindows.Drawing_Objects.Create_Stock_Font (
       GUI_Font,
       GWindows.Drawing_Objects.Default_GUI
     );
     if GetObject = 0 then
-      GWindows.Drawing_Objects.Create_Font(URL_Font,
+      GWindows.Drawing_Objects.Create_Font (URL_Font,
         "MS Sans Serif",
         14, Underline => True);
-          -- !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
+          --  !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
     else
-      Log_of_Current_font.lfUnderline:= Interfaces.C.Char'Val(1);
-      GWindows.Drawing_Objects.Handle(URL_font, CreateFontIndirect);
+      Log_of_current_font.lfUnderline := Interfaces.C.char'Val (1);
+      GWindows.Drawing_Objects.Handle (URL_Font, CreateFontIndirect);
     end if;
   end Create_Common_Fonts;
 
@@ -213,8 +214,8 @@ package body GWindows.Static_Controls.Web is
               Alignment, Border,
               ID, Show,
               Is_Dynamic);
-      Set_Font(Static, URL_Font);
-      Static.URL:= To_GString_Unbounded(URL);
+      Set_Font (Static, URL_Font);
+      Static.URL := To_GString_Unbounded (URL);
    end Create;
 
    procedure Create_URL
@@ -245,27 +246,27 @@ package body GWindows.Static_Controls.Web is
        To_Hide    : in out Label_Type;
        Parent     : in out GWindows.Base.Base_Window_Type'Class;
        URL        : in     GString;
-       Alignment  : in     Alignment_Type:= GWindows.Static_Controls.Left;
+       Alignment  : in     Alignment_Type := GWindows.Static_Controls.Left;
        Border     : in     Border_Type                          := None;
-       Is_Dynamic : in     Boolean:= False
+       Is_Dynamic : in     Boolean := False
       )
    is
    begin
       Create (To_Show,
               Parent,
-              Text(To_Hide),
+              Text (To_Hide),
               URL,
-              Left(To_Hide),
-              Top(To_Hide),
-              Width(To_Hide),
-              Height(To_Hide),
+              Left (To_Hide),
+              Top (To_Hide),
+              Width (To_Hide),
+              Height (To_Hide),
               Alignment,
               Border,
-              ID(To_Hide),
+              ID (To_Hide),
               True,
               Is_Dynamic
       );
-      Hide(To_Hide);
+      Hide (To_Hide);
    end Create_and_Swap;
 
 begin

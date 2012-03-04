@@ -1,4 +1,4 @@
--- Owner Drawn Button GWindows Custom Control
+--  Owner Drawn Button GWindows Custom Control
 
 with Interfaces.C;
 
@@ -23,8 +23,8 @@ package GWindows.Buttons.Owner_Drawn is
      procedure (Window   : in out GWindows.Base.Base_Window_Type'Class;
                 Canvas   : in out GWindows.Drawing.Canvas_Type;
                 Area     : in     GWindows.Types.Rectangle_Type;
-		Selected : in     Boolean;
-		Focused  : in     Boolean);
+                Selected : in     Boolean;
+                Focused  : in     Boolean);
 
    -------------------------------------------------------------------------
    --  Owner_Drawn_Button_Type - Event Handlers
@@ -32,22 +32,22 @@ package GWindows.Buttons.Owner_Drawn is
    --  See Event Methods for details on each event
 
    procedure On_Paint_Handler (Window  : in out Owner_Drawn_Button_Type;
-			       Handler : in     Paint_Event);
+                               Handler : in     Paint_Event);
    procedure Fire_On_Paint (Window   : in out Owner_Drawn_Button_Type;
-			    Canvas   : in out GWindows.Drawing.Canvas_Type;
-			    Area     : in     GWindows.Types.Rectangle_Type;
-			    Selected : in     Boolean;
-			    Focused  : in     Boolean);
+                            Canvas   : in out GWindows.Drawing.Canvas_Type;
+                            Area     : in     GWindows.Types.Rectangle_Type;
+                            Selected : in     Boolean;
+                            Focused  : in     Boolean);
 
    -------------------------------------------------------------------------
    --  Owner_Drawn_Button_Type - Events
    -------------------------------------------------------------------------
 
-   procedure On_Paint (Window	: in out Owner_Drawn_Button_Type;
-		       Canvas	: in out GWindows.Drawing.Canvas_Type;
-		       Area	: in     GWindows.Types.Rectangle_Type;
-		       Selected	: in     Boolean;
-		       Focused	: in     Boolean);
+   procedure On_Paint (Window   : in out Owner_Drawn_Button_Type;
+                       Canvas   : in out GWindows.Drawing.Canvas_Type;
+                       Area     : in     GWindows.Types.Rectangle_Type;
+                       Selected : in     Boolean;
+                       Focused : in     Boolean);
    --  Called when application requests painting of the Button
 
    -------------------------------------------------------------------------

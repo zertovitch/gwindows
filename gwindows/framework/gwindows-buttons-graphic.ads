@@ -1,5 +1,5 @@
--- Inspired by Gwindows.Buttons.Ex_buttons, but with less features
--- especially: no tasking (and related stack issues in GNAT)
+--  Inspired by GWindows.Buttons.Ex_buttons, but with less features
+--  especially: no tasking (and related stack issues in GNAT)
 
 with GWindows.Drawing_Objects;
 
