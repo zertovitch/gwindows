@@ -1,12 +1,12 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                             G W I N D O W S                              --
 --                                                                          --
 --                               R E A D M E                                --
 --                                                                          --
---                  Copyright (C) 1999 - 2005 David Botton                  --
+--                  Copyright (C) 1999 - 2012 David Botton                  --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -27,7 +27,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -35,14 +38,16 @@
 Abstract
 ========
 
-GWindows is a full Win32 RAD GUI Framework with ADO database and
-Active X support for Ada 95.
+GWindows is a full Microsoft Windows Rapid Application Development
+framework for programming GUIs (Graphical User Interfaces) with Ada.
+The framework includes ADO database and Active X support.
 
 Status
 ======
 
 GWindows is sucessfuly being used by individuals and companies
-world wide for the development of professional Win32 products.
+world wide for the development of professional Windows (32 and 64 bit)
+products.
 
 Please joint the e-mail list gnavi-list@gnavi.org if you are experiencing
 any problems or have suggestions for improvements.
@@ -56,34 +61,14 @@ In the doc directory there is  a user_guide in Word format
 Installation
 ============
 
-For all platforms:
+All you have is to run the setup program (e.g. GWindows Setup 16-Feb-2012.exe
+downloaded from here http://sf.net/projects/gnavi/files/latest/download ).
+So normally, if you read this readme.txt document, that step already happened!
+The setup program offers you to choose either the ANSI or Unicode variant of
+GWindows. You can change that choice any time by running, in the gwindows folder,
+ansi.cmd or unicode.cmd. You can also install GWindows at two or more places.
 
-Install GNATCOM version 1.4 or greater.
-
-GNATCOM\Tools should be on the path and when building GBManager from
-the GWindows\Tools directory GNATCOM and GWindows should have the
-same parent directory. For example C:\GNATCOM and C:\GWindows
-
-
-Windows 2000/NT/XP:
-
-To build the UNICODE version of GWindows (usable and offering better
-performance and internationalization on Windows NT and 2000):
-
-make UNICODE=1 install
-
-To build the ANSI version of GWindows (usable on Windows 9X/ME/NT and
-2000, but with performance penalties on NT and 2000):
-
-
-Windows 9X/ME:
-
-Windows 9X/ME only supports ANSI APIs. Install using:
-
-make ANSI=1 install
-
-
-What's New in GWindows 1.3
-==========================
+What's New in GWindows 1.3 and later versions
+=============================================
 
 See changes.txt

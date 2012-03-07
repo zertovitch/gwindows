@@ -1,3 +1,37 @@
+Important changes from version 1.3 to March 2012
+================================================
+Numbers refer to source control revisions.
+Revision N can be currently seen at the following URL:
+http://gnavi.svn.sf.net/viewvc/gnavi?view=revision&revision=N
+
+-----------------------------
+New Features and major fixes:
+-----------------------------
+
+101: Added support for 64-bits Windows.
+109: Corrected (harmless) parameter bug in the GWindows framework
+
+----------------
+Minor additions:
+----------------
+
+28: GWindows.Clipboard: Added interfaces to use the Windows clipboard (only available through SVN checkout, win32ada dependency to be fixed).
+59: GWindows.Common_Controls: added Select_Item for the Tree_View_Control_Type
+60: GWindows-Image_lists.adb: flag to enable more than 16 colors
+62: GWindows.Common_Controls: improvements to Tree_View_Control_Type: + Text(treeview, node, text), + On_Selection_Change
+63: GWindows.Static_Controls: Label_Type.Create and Create_Label with a Border option
+64: GWindows.Static_Controls: Labl_Type and Borders: fixes
+68: GWindows.Common_Controls: made Size_Grip optional (irrelevant on unsizable windows)
+70: GWindows: added Direction and Smooth options to progress bar control
+74: GWindows.Common_Dialogs: Added options to extend the standard windows file dialog with a resource template and callback function.
+88: GWindows: added GWindows.Static_Controls.Web
+89: GWindows: added GWindows.Buttons.Owner_Drawn 
+92: GWindows: added GWindows.Buttons.Graphic (technically, buttons with BS_BITMAP or BS_ICON)
+108: Added a contributed package GWindows.Simple_sheet, a spreadsheet widget
+125: Updated main GWindows headers (comments only)
+
+
+
 Changes Since 1.2
 =================
 
