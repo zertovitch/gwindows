@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/03/07  15:08:11
+-- Transcription time: 2012/03/12  21:13:52
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -192,16 +192,18 @@ package body GW_Install_Resource_GUI is
     Create_label( Window, "You may want to visit the following web sites:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  27, 100, 87, 28, x,y,w,h);
     Create( Window.Static_0007, Window, Num_resource(GNAT_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
-    Dlg_to_Scn(  125, 105, 64, 8, x,y,w,h);
-    Create( Window.GNAT_URL, Window, "GNAT Ada compiler", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAT_URL);
+    Dlg_to_Scn(  125, 101, 154, 8, x,y,w,h);
+    Create( Window.GNAT_URL, Window, "GNAT Ada compiler (GNAT GPL and GNAT Pro)", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAT_URL);
+    Dlg_to_Scn(  125, 112, 78, 8, x,y,w,h);
+    Create( Window.MinGW_URL, Window, "GNAT FSF, with MinGW", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, MinGW_URL);
     Dlg_to_Scn(  27, 136, 125, 33, x,y,w,h);
     Create( Window.Static_0008, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
-    Dlg_to_Scn(  161, 160, 50, 8, x,y,w,h);
-    Create( Window.GNAVI_URL, Window, "GNAVI.org", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_URL);
-    Dlg_to_Scn(  161, 138, 89, 8, x,y,w,h);
+    Dlg_to_Scn(  161, 138, 74, 8, x,y,w,h);
     Create( Window.GNAVI_SF_URL, Window, "GNAVI at SourceForge", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_SF_URL);
     Dlg_to_Scn(  161, 149, 83, 8, x,y,w,h);
     Create( Window.GNAVI_Discuss_URL, Window, "GNAVI Discuss mailing list", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_Discuss_URL);
+    Dlg_to_Scn(  161, 160, 35, 8, x,y,w,h);
+    Create( Window.GNAVI_URL, Window, "GNAVI.org", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_URL);
     Dlg_to_Scn(  27, 180, 71, 33, x,y,w,h);
     Create( Window.Static_0009, Window, Num_resource(ResEdit_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  117, 179, 110, 8, x,y,w,h);
@@ -213,7 +215,7 @@ package body GW_Install_Resource_GUI is
   end Create_Contents; -- Goodbye_dialog_Type
 
 
-  -- Dialog at resource line 80
+  -- Dialog at resource line 81
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -337,7 +339,7 @@ package body GW_Install_Resource_GUI is
   end Create_Contents; -- Main_install_dialog_Type
 
 
-  -- Dialog at resource line 108
+  -- Dialog at resource line 109
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -514,6 +516,6 @@ package body GW_Install_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 175
+  -- Last line of resource script file: 176
 
 end GW_Install_Resource_GUI;

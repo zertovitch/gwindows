@@ -244,13 +244,14 @@ begin
         Copy_encoding_dependent(To_String(Install_dir) & "\gwindows\framework\");
         declare
           Ciao: Goodbye_dialog_type;
-          GNAT, GNAVI, GNAVI_SF, GNAVI_Dis, ResEdit: URL_Type;
+          GNAT, GNAVI, GNAVI_SF, GNAVI_Dis, MinGW, ResEdit: URL_Type;
         begin
           Create_Full_Dialog (Ciao, No_Parent);
           Center(Ciao);
           Small_Icon (Ciao, "AAA_Main_Icon");
           Large_Icon (Ciao, "AAA_Main_Icon");
           Create_and_Swap(GNAT, Ciao.GNAT_URL, Ciao, "http://libre.adacore.com/");
+          Create_and_Swap(MinGW, Ciao.MinGW_URL, Ciao, "http://mingw.org/");
           Create_and_Swap(GNAVI, Ciao.GNAVI_URL, Ciao, "http://www.gnavi.org/");
           Create_and_Swap(GNAVI_SF, Ciao.GNAVI_SF_URL, Ciao, "http://www.sf.net/projects/gnavi/");
           Create_and_Swap(GNAVI_Dis, Ciao.GNAVI_Discuss_URL, Ciao, "http://lists.sf.net/lists/listinfo/gnavi-discuss");

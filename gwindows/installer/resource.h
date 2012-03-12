@@ -24,6 +24,7 @@
 #define ResEdit_URL                             1003
 #define GNAVI_Discuss_URL                       1004
 #define GNATCOM_check                           1006
+#define MinGW_URL                               1006
 #define Installer_Version                       40018
 #define ANSI_choice                             40019
 #define UNICODE_choice                          40021

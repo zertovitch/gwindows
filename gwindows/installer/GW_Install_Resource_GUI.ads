@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/03/07  15:08:11
+-- Transcription time: 2012/03/12  21:13:52
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -77,17 +77,18 @@ package GW_Install_Resource_GUI is
     -- Label: IDC_STATIC
     Static_0007: Bitmap_Type;
     GNAT_URL: Label_Type;
+    MinGW_URL: Label_Type;
     Static_0008: Bitmap_Type;
-    GNAVI_URL: Label_Type;
     GNAVI_SF_URL: Label_Type;
     GNAVI_Discuss_URL: Label_Type;
+    GNAVI_URL: Label_Type;
     Static_0009: Bitmap_Type;
     ResEdit_URL: Label_Type;
     -- Label: IDC_STATIC
     -- Label: IDC_STATIC
   end record; -- Goodbye_dialog_Type
 
-  -- Dialog at resource line 71
+  -- Dialog at resource line 72
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -136,7 +137,7 @@ package GW_Install_Resource_GUI is
     IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
   end record; -- Main_install_dialog_Type
 
-  -- Dialog at resource line 99
+  -- Dialog at resource line 100
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -168,7 +169,7 @@ package GW_Install_Resource_GUI is
     Static_0002: Icon_Type;
   end record; -- Unpack_dialog_Type
 
-  -- Dialog at resource line 113
+  -- Dialog at resource line 114
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -232,6 +233,7 @@ package GW_Install_Resource_GUI is
   ResEdit_URL            : constant:=   1003;
   GNAVI_Discuss_URL      : constant:=   1004;
   GNATCOM_check          : constant:=   1006;
+  MinGW_URL              : constant:=   1006;
   Installer_Version      : constant:=  40018;
   ANSI_choice            : constant:=  40019;
   UNICODE_choice         : constant:=  40021;
@@ -248,6 +250,6 @@ package GW_Install_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 175
+  -- Last line of resource script file: 176
 
 end GW_Install_Resource_GUI;
