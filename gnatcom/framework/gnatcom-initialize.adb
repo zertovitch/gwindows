@@ -67,12 +67,14 @@ package body GNATCOM.Initialize is
 
    procedure InterlockedIncrement (Ref : access Integer) is
       Old : Integer;
+      pragma Unreferenced (Old);
    begin
       Old := sync_fetch_and_add (Ref, 1);
    end InterlockedIncrement;
 
    procedure InterlockedDecrement (Ref : access Integer) is
       Old : Integer;
+      pragma Unreferenced (Old);
    begin
       Old := sync_fetch_and_add (Ref, -1);
    end InterlockedDecrement;

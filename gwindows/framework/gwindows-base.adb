@@ -2638,6 +2638,7 @@ package body GWindows.Base is
                Control : constant Pointer_To_Base_Window_Class :=
                  Window_From_Handle (GWindows.Types.To_Handle (lParam));
                Temp : GWindows.Types.Lresult;
+               pragma Unreferenced (Temp);
                GoOn : Integer;
             begin
                On_Input (Win_Ptr.all, Integer (wParam),

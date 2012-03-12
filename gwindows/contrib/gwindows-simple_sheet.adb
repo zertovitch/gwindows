@@ -17,7 +17,9 @@ package body GWindows.Simple_Sheet is
         Rows           : in     Positive;
         Columns        : in     Positive;
         Column_Borders : in     Boolean                              := False;
-        Row_Borders    : in     Boolean                              := True                            ) is
+        Row_Borders    : in     Boolean                              := True                            )
+  is
+    pragma Unreferenced (Cclass);
 
     Column_Width : constant Integer := Width / Columns;
     Row_Height   : constant Integer := Height / Rows; -- GdM 2011 fix: was Columns !
