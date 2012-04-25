@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2010 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -908,7 +908,7 @@ package body GWindows.Base is
       Rect : GWindows.Types.Rectangle_Type;
    begin
       GetClientRect (Window.HWND, Rect);
-      return (abs Rect.Right - Rect.Left, abs Rect.Bottom - Rect.Top);
+      return (abs (Rect.Right - Rect.Left), abs (Rect.Bottom - Rect.Top));
    end Client_Area_Size;
 
    -------------------------------
@@ -924,6 +924,8 @@ package body GWindows.Base is
    begin
       return (Size (Window) - GWindows.Base.Client_Area_Size (Window)) +
         Client_Area_Size;
+      -- Returns the actual Margin plus the desired Client Area,
+      -- which is also equal to the actual Size plus the Delta in Client Area.
    end Calculate_New_Window_Size;
 
    ----------
@@ -956,7 +958,7 @@ package body GWindows.Base is
    begin
       GetWindowRect (Window.HWND, Rect);
       return (abs (Rect.Right - Rect.Left),
-              abs (Rect.Bottom) - abs (Rect.Top));
+              abs (Rect.Bottom - Rect.Top));
    end Size;
 
    ------------------------
