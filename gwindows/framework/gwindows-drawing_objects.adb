@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --              G W I N D O W S . D R A W I N G _ O B J E C T S             --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -280,7 +280,9 @@ package body GWindows.Drawing_Objects is
                           Italics    : in     Boolean          := False;
                           Underline  : in     Boolean          := False;
                           Strike_Out : in     Boolean          := False;
-                          Angle      : in     Integer          := 0)
+                          Angle      : in     Integer          := 0;
+                          Char_Set   : in     Integer          := ANSI_CHARSET
+                         )
    is
       C_Text : constant GString_C := GWindows.GStrings.To_GString_C (Name);
 
@@ -293,7 +295,7 @@ package body GWindows.Drawing_Objects is
          fdwItalid          : Boolean                 := Italics;
          fdwUnderline       : Boolean                 := Underline;
          fdwStrikeOut       : Boolean                 := Strike_Out;
-         fdwCharSet         : Integer                 := 0;
+         fdwCharSet         : Integer                 := Char_Set;
          fdwOutputPrecision : Integer                 := 0;
          fdwClipPrecision   : Integer                 := 0;
          fdwQuality         : Integer                 := 0;

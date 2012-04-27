@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --              G W I N D O W S . D R A W I N G _ O B J E C T S             --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -282,6 +282,28 @@ package GWindows.Drawing_Objects is
 
    subtype Font_Weight_Type is Natural range 0 .. 1000;
 
+   ANSI_CHARSET : constant := 0;
+   DEFAULT_CHARSET : constant := 1;
+   SYMBOL_CHARSET : constant := 2;
+   MAC_CHARSET : constant := 77;
+   SHIFTJIS_CHARSET : constant := 128;
+   HANGEUL_CHARSET : constant := 129;
+   HANGUL_CHARSET : constant := 129;
+   JOHAB_CHARSET : constant := 130;
+   GB2312_CHARSET : constant := 134;
+   CHINESEBIG5_CHARSET : constant := 136;
+   GREEK_CHARSET : constant := 161;
+   TURKISH_CHARSET : constant := 162;
+   VIETNAMESE_CHARSET : constant := 163;
+   HEBREW_CHARSET : constant := 177;
+   ARABIC_CHARSET : constant := 178;
+   BALTIC_CHARSET : constant := 186;
+   RUSSIAN_CHARSET : constant := 204;
+   THAI_CHARSET : constant := 222;
+   EASTEUROPE_CHARSET : constant := 238;
+   OEM_CHARSET : constant := 255;
+   --  Character Sets
+
    procedure Create_Font (Font       : in out Font_Type;
                           Name       : in     GString;
                           Size       : in     Integer;
@@ -289,7 +311,9 @@ package GWindows.Drawing_Objects is
                           Italics    : in     Boolean          := False;
                           Underline  : in     Boolean          := False;
                           Strike_Out : in     Boolean          := False;
-                          Angle      : in     Integer          := 0);
+                          Angle      : in     Integer          := 0;
+                          Char_Set   : in     Integer          := ANSI_CHARSET
+                         );
    --  Create a font from system
    --  Size = 0   -  Default Size
    --  Size > 0   -  Cell height
