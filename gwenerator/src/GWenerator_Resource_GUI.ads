@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2011/08/19  14:40:27
+-- Transcription time: 2012/05/23  14:16:36
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 24-Feb-2010
+-- RC Grammar version: 23-May-2012
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -206,8 +206,8 @@ package GWenerator_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "GWenerator - Resource script (.rc) to GWindows Ada code translator";
-    FileVersion: constant String:= "1.01";
-    LegalCopyright: constant String:= "© 2008..2011 G. de Montmollin (MIT license)";
+    FileVersion: constant String:= "1.02";
+    LegalCopyright: constant String:= "© 2008..2012 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWenerator";
     Translation: constant:= 1033;
   end Version_info;

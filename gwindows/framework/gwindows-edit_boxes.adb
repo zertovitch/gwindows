@@ -86,11 +86,12 @@ package body GWindows.Edit_Boxes is
      (Edit              : in out Edit_Box_Type;
       Parent            : in out GWindows.Base.Base_Window_Type'Class;
       Text              : in     GString;
-      Left              : in     Integer                              := 0;
-      Top               : in     Integer                              := 0;
-      Width             : in     Integer                              := 0;
-      Height            : in     Integer                              := 0;
+      Left              : in     Integer                            := 0;
+      Top               : in     Integer                            := 0;
+      Width             : in     Integer                            := 0;
+      Height            : in     Integer                            := 0;
       Horizontal_Scroll : in     Boolean                            := True;
+      Read_Only         : in     Boolean                            := False;
       ID                : in     Integer                            := 0;
       Show              : in     Boolean                            := True;
       Is_Dynamic        : in     Boolean                            := False)
@@ -99,6 +100,10 @@ package body GWindows.Edit_Boxes is
    begin
       if Horizontal_Scroll then
          Styles := Styles or ES_AUTOHSCROLL;
+      end if;
+
+      if Read_Only then
+         Styles := Styles or ES_READONLY;
       end if;
 
       Create_Control (Edit,

@@ -549,6 +549,9 @@ when 198 => -- #line 652
 when 202 => -- #line 657
  style_switch(single_expand):= True; 
 
+when 213 => -- #line 668
+ style_switch(read_only):= True; 
+
 when 222 => -- #line 695
  style_switch(fully_sunken):= True; 
 
@@ -576,6 +579,9 @@ when 257 => -- #line 754
 
 when 268 => -- #line 783
  style_switch(multi_line):= True; 
+
+when 269 => -- #line 784
+ style_switch(read_only):= True; 
 
 when 270 => -- #line 785
  style_switch(auto_h_scroll):= True; 

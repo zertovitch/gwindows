@@ -665,7 +665,7 @@ ctrl_style: ws_style
           | TCS_BUTTONS_t
           | TCS_MULTILINE_t
           | GS_COLUMNLABELS_t
-          | GS_READONLY_t
+          | GS_READONLY_t      { style_switch(read_only):= True; }
           | NUMBER
           ;
 
@@ -781,7 +781,7 @@ es_style  : es_style_only
 
 es_style_only :
             ES_MULTILINE_t   { style_switch(multi_line):= True; }
-          | ES_READONLY_t
+          | ES_READONLY_t    { style_switch(read_only):= True; }
           | ES_AUTOHSCROLL_t { style_switch(auto_h_scroll):= True; }
           | ES_AUTOVSCROLL_t { style_switch(auto_v_scroll):= True; }
           | ES_WANTRETURN_t

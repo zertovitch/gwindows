@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2011/08/19  14:40:27
+-- Transcription time: 2012/05/23  14:16:36
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 24-Feb-2010
+-- RC Grammar version: 23-May-2012
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -123,8 +123,8 @@ package body GWenerator_Resource_GUI is
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDOK, Window, "Close", x,y,w,h, IDOK);
-    Create( Window.IDOK_permanent, Window, "Close", x,y,w,h, IDOK);
+    Create( Window.IDOK, Window, "Close", x,y,w,h, ID => IDOK);
+    Create( Window.IDOK_permanent, Window, "Close", x,y,w,h, ID => IDOK);
     if for_dialog then -- hide the non-closing button
       Hide(Window.IDOK_permanent);
     else -- hide the closing button
@@ -135,25 +135,25 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  35, 10, 165, 8, x,y,w,h);
     Create_label( Window, "GWenerator: a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  35, 25, 151, 8, x,y,w,h);
-    Create_label( Window, "Copyright © Gautier de Montmollin 2008..2011", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_label( Window, "Copyright © Gautier de Montmollin 2008..2012", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  35, 40, 100, 8, x,y,w,h);
     Create_label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  11, 55, 30, 8, x,y,w,h);
     Create_label( Window, "Internet:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  70, 55, 120, 8, x,y,w,h);
-    Create( Window.URL, Window, "http://sf.net/projects/gnavi", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, URL);
+    Create( Window.URL, Window, "http://sf.net/projects/gnavi", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => URL);
     Dlg_to_Scn(  11, 70, 170, 8, x,y,w,h);
-    Create( Window.RC_gramm_ver, Window, "RC Grammar version: ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, RC_gramm_ver);
+    Create( Window.RC_gramm_ver, Window, "RC Grammar version: ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => RC_gramm_ver);
     Dlg_to_Scn(  11, 85, 170, 8, x,y,w,h);
-    Create( Window.GWen_ver, Window, "GWenerator version: ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GWen_ver);
+    Create( Window.GWen_ver, Window, "GWenerator version: ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GWen_ver);
     Dlg_to_Scn(  11, 100, 208, 8, x,y,w,h);
     Create_label( Window, "Software made with the following free open source components:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  11, 116, 170, 8, x,y,w,h);
-    Create( Window.GNAT_URL, Window, "GNAT", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAT_URL);
+    Create( Window.GNAT_URL, Window, "GNAT", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAT_URL);
     Dlg_to_Scn(  11, 131, 170, 8, x,y,w,h);
-    Create( Window.GNAVI_URL, Window, "GNAVI", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_URL);
+    Create( Window.GNAVI_URL, Window, "GNAVI", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAVI_URL);
     Dlg_to_Scn(  11, 146, 170, 8, x,y,w,h);
-    Create( Window.ResEdit_URL, Window, "ResEdit", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ResEdit_URL);
+    Create( Window.ResEdit_URL, Window, "ResEdit", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => ResEdit_URL);
   end Create_Contents; -- About_box_Type
 
 
@@ -217,8 +217,8 @@ package body GWenerator_Resource_GUI is
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDOK, Window, "OK", x,y,w,h, IDOK);
-    Create( Window.IDOK_permanent, Window, "OK", x,y,w,h, IDOK);
+    Create( Window.IDOK, Window, "OK", x,y,w,h, ID => IDOK);
+    Create( Window.IDOK_permanent, Window, "OK", x,y,w,h, ID => IDOK);
     if for_dialog then -- hide the non-closing button
       Hide(Window.IDOK_permanent);
     else -- hide the closing button
@@ -228,79 +228,79 @@ package body GWenerator_Resource_GUI is
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDCANCEL, Window, "Cancel", x,y,w,h, IDCANCEL);
-    Create( Window.IDCANCEL_permanent, Window, "Cancel", x,y,w,h, IDCANCEL);
+    Create( Window.IDCANCEL, Window, "Cancel", x,y,w,h, ID => IDCANCEL);
+    Create( Window.IDCANCEL_permanent, Window, "Cancel", x,y,w,h, ID => IDCANCEL);
     if for_dialog then -- hide the non-closing button
       Hide(Window.IDCANCEL_permanent);
     else -- hide the closing button
       Hide(Window.IDCANCEL);
     end if;
     Dlg_to_Scn(  83, 17, 168, 15, x,y,w,h);
-    Create( Window.Edit_RC_File_Name, Window, "", x,y,w,h, TRUE, Edit_RC_File_Name);
+    Create( Window.Edit_RC_File_Name, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Edit_RC_File_Name);
     Dlg_to_Scn(  20, 20, 60, 8, x,y,w,h);
     Create_label( Window, "File name", x,y,w,h, GWindows.Static_Controls.RIGHT, NONE);
     Dlg_to_Scn(  253, 17, 43, 14, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.Button_Browse_RC, Window, "Browse...", x,y,w,h, Button_Browse_RC);
-    Create( Window.Button_Browse_RC_permanent, Window, "Browse...", x,y,w,h, Button_Browse_RC);
+    Create( Window.Button_Browse_RC, Window, "Browse...", x,y,w,h, ID => Button_Browse_RC);
+    Create( Window.Button_Browse_RC_permanent, Window, "Browse...", x,y,w,h, ID => Button_Browse_RC);
     if for_dialog then -- hide the non-closing button
       Hide(Window.Button_Browse_RC_permanent);
     else -- hide the closing button
       Hide(Window.Button_Browse_RC);
     end if;
     Dlg_to_Scn(  20, 42, 93, 10, x,y,w,h);
-    Create( Window.Listen_RC, Window, "Listen for newer version", x,y,w,h, Listen_RC);
+    Create( Window.Listen_RC, Window, "Listen for newer version", x,y,w,h, ID => Listen_RC);
     Dlg_to_Scn(  130, 42, 131, 10, x,y,w,h);
-    Create( Window.Auto_translate, Window, "Automatically translate when newer", x,y,w,h, Auto_translate);
+    Create( Window.Auto_translate, Window, "Automatically translate when newer", x,y,w,h, ID => Auto_translate);
     Dlg_to_Scn(  10, 5, 290, 80, x,y,w,h);
     Create( Window.Static_0002, Window, "Resource file", x,y,w,h);
     Dlg_to_Scn(  130, 198, 131, 10, x,y,w,h);
-    Create( Window.Auto_build, Window, "Automatically build when GUI newer", x,y,w,h, Auto_build);
+    Create( Window.Auto_build, Window, "Automatically build when GUI newer", x,y,w,h, ID => Auto_build);
     Dlg_to_Scn(  83, 173, 168, 15, x,y,w,h);
-    Create( Window.Edit_Main_Ada_File_Name, Window, "", x,y,w,h, TRUE, Edit_Main_Ada_File_Name);
+    Create( Window.Edit_Main_Ada_File_Name, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Edit_Main_Ada_File_Name);
     Dlg_to_Scn(  253, 173, 43, 14, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.Button_Browse_Ada, Window, "Browse...", x,y,w,h, Button_Browse_Ada);
-    Create( Window.Button_Browse_Ada_permanent, Window, "Browse...", x,y,w,h, Button_Browse_Ada);
+    Create( Window.Button_Browse_Ada, Window, "Browse...", x,y,w,h, ID => Button_Browse_Ada);
+    Create( Window.Button_Browse_Ada_permanent, Window, "Browse...", x,y,w,h, ID => Button_Browse_Ada);
     if for_dialog then -- hide the non-closing button
       Hide(Window.Button_Browse_Ada_permanent);
     else -- hide the closing button
       Hide(Window.Button_Browse_Ada);
     end if;
     Dlg_to_Scn(  20, 198, 107, 10, x,y,w,h);
-    Create( Window.Listen_Ada, Window, "Listen for newer GUI version", x,y,w,h, Listen_Ada);
+    Create( Window.Listen_Ada, Window, "Listen for newer GUI version", x,y,w,h, ID => Listen_Ada);
     Dlg_to_Scn(  10, 161, 290, 55, x,y,w,h);
     Create( Window.Static_0003, Window, "Main application ( facultative )", x,y,w,h);
     Dlg_to_Scn(  23, 110, 270, 10, x,y,w,h);
-    Create( Window.Separate_items, Window, "Produce a separate package for each item", x,y,w,h, Separate_items);
+    Create( Window.Separate_items, Window, "Produce a separate package for each item", x,y,w,h, ID => Separate_items);
     Dlg_to_Scn(  63, 125, 20, 15, x,y,w,h);
-    Create( Window.Basx, Window, "", x,y,w,h, TRUE, Basx);
+    Create( Window.Basx, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Basx);
     Dlg_to_Scn(  23, 125, 39, 8, x,y,w,h);
     Create_label( Window, "Base unit x:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  100, 125, 20, 15, x,y,w,h);
-    Create( Window.Basy, Window, "", x,y,w,h, TRUE, Basy);
+    Create( Window.Basy, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Basy);
     Dlg_to_Scn(  88, 125, 10, 8, x,y,w,h);
     Create_label( Window, " y:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  128, 125, 55, 10, x,y,w,h);
-    Create( Window.Use_base_defs, Window, "use defaults", x,y,w,h, Use_base_defs);
+    Create( Window.Use_base_defs, Window, "use defaults", x,y,w,h, ID => Use_base_defs);
     Dlg_to_Scn(  10, 97, 290, 60, x,y,w,h);
     Create( Window.Static_0006, Window, "RC2GW - RC to GWindows transcription engine", x,y,w,h);
     Dlg_to_Scn(  10, 220, 288, 30, x,y,w,h);
     Create( Window.Static_0007, Window, "Ada builder command line ( facultative )", x,y,w,h);
     Dlg_to_Scn(  15, 230, 275, 14, x,y,w,h);
-    Create( Window.Ada_cmd, Window, "", x,y,w,h, TRUE, Ada_cmd);
+    Create( Window.Ada_cmd, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Ada_cmd);
     Dlg_to_Scn(  18, 178, 60, 8, x,y,w,h);
     Create_label( Window, "Executable", x,y,w,h, GWindows.Static_Controls.RIGHT, NONE);
     Dlg_to_Scn(  23, 140, 275, 10, x,y,w,h);
-    Create( Window.Initialize_controls, Window, "Initialize some controls with fake contents (analogy to pragma Initialize_Scalars)", x,y,w,h, Initialize_controls);
+    Create( Window.Initialize_controls, Window, "Initialize some controls with fake contents (analogy to pragma Initialize_Scalars)", x,y,w,h, ID => Initialize_controls);
     Dlg_to_Scn(  20, 65, 155, 8, x,y,w,h);
     Create_label( Window, "Invoking resource compiler from GWenerator...", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  180, 63, 110, 15, x,y,w,h);
-    Create( Window.RC_Compiler_list, Window, "", x,y,w,h, FALSE, RC_Compiler_list);
+    Create( Window.RC_Compiler_list, Window, "", x,y,w,h, FALSE, ID => RC_Compiler_list);
   end Create_Contents; -- GWen_properties_Type
 
 
@@ -363,19 +363,19 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  5, 105, 390, 135, x,y,w,h);
     Create( Window.Details_frame, Window, "Details", x,y,w,h);
     Dlg_to_Scn(  12, 132, 185, 105, x,y,w,h);
-    Create( Window.RC_to_GWindows_messages, Window, x,y,w,h, FALSE, RC_to_GWindows_messages);
+    Create( Window.RC_to_GWindows_messages, Window, x,y,w,h, FALSE, ID => RC_to_GWindows_messages);
     Dlg_to_Scn(  210, 132, 182, 105, x,y,w,h);
-    Create( Window.GNATMake_messages, Window, x,y,w,h, FALSE, GNATMake_messages);
+    Create( Window.GNATMake_messages, Window, x,y,w,h, FALSE, ID => GNATMake_messages);
     Dlg_to_Scn(  10, 117, 88, 8, x,y,w,h);
     Create_label( Window, "Resource to Ada messages", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  212, 117, 115, 8, x,y,w,h);
-    Create( Window.Ada_comp_label, Window, "Ada compilation and build messages", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Ada_comp_label);
+    Create( Window.Ada_comp_label, Window, "Ada compilation and build messages", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => Ada_comp_label);
     Dlg_to_Scn(  67, 37, 100, 20, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.Button_Translate, Window, "Translate now", x,y,w,h, Button_Translate);
-    Create( Window.Button_Translate_permanent, Window, "Translate now", x,y,w,h, Button_Translate);
+    Create( Window.Button_Translate, Window, "Translate now", x,y,w,h, ID => Button_Translate);
+    Create( Window.Button_Translate_permanent, Window, "Translate now", x,y,w,h, ID => Button_Translate);
     if for_dialog then -- hide the non-closing button
       Hide(Window.Button_Translate_permanent);
     else -- hide the closing button
@@ -385,8 +385,8 @@ package body GWenerator_Resource_GUI is
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.Button_Build, Window, "Build now", x,y,w,h, Button_Build);
-    Create( Window.Button_Build_permanent, Window, "Build now", x,y,w,h, Button_Build);
+    Create( Window.Button_Build, Window, "Build now", x,y,w,h, ID => Button_Build);
+    Create( Window.Button_Build_permanent, Window, "Build now", x,y,w,h, ID => Button_Build);
     if for_dialog then -- hide the non-closing button
       Hide(Window.Button_Build_permanent);
     else -- hide the closing button
@@ -401,11 +401,11 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  67, 12, 23, 21, x,y,w,h);
     Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  5, 80, 56, 10, x,y,w,h);
-    Create( Window.Show_Details, Window, "Show details", x,y,w,h, Show_Details);
+    Create( Window.Show_Details, Window, "Show details", x,y,w,h, ID => Show_Details);
     Dlg_to_Scn(  97, 12, 60, 15, x,y,w,h);
-    Create( Window.Newer_RC, Window, "Resource file is newer!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Newer_RC);
+    Create( Window.Newer_RC, Window, "Resource file is newer!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => Newer_RC);
     Dlg_to_Scn(  277, 12, 40, 20, x,y,w,h);
-    Create( Window.Newer_Ada, Window, "Ada files are newer!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Newer_Ada);
+    Create( Window.Newer_Ada, Window, "Ada files are newer!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => Newer_Ada);
     Dlg_to_Scn(  17, 37, 21, 20, x,y,w,h);
     Create( Window.Static_0002, Window, Num_resource(RC_file), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  197, 37, 21, 20, x,y,w,h);
@@ -413,9 +413,9 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  367, 37, 21, 20, x,y,w,h);
     Create( Window.Exe_file_icon, Window, Num_resource(Exe_file), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  180, 80, 45, 10, x,y,w,h);
-    Create( Window.Show_Ada_build, Window, "Ada build", x,y,w,h, Show_Ada_build);
+    Create( Window.Show_Ada_build, Window, "Ada build", x,y,w,h, ID => Show_Ada_build);
     Dlg_to_Scn(  275, 80, 120, 25, x,y,w,h);
-    Create( Window.Auto_build_lift_msg, Window, "Last build failed or was stopped. Auto build is temporarily disabled.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Auto_build_lift_msg);
+    Create( Window.Auto_build_lift_msg, Window, "Last build failed or was stopped. Auto build is temporarily disabled.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => Auto_build_lift_msg);
     Dlg_to_Scn(  250, 80, 11, 10, x,y,w,h);
     Create( Window.Auto_build_lift_ico, Window, Num_resource(Warning_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  40, 40, 21, 20, x,y,w,h);
@@ -427,9 +427,9 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  345, 40, 21, 20, x,y,w,h);
     Create( Window.Static_0005, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  5, 93, 10, 9, x,y,w,h);
-    Create( Window.More_less_details, Window, "", x,y,w,h, More_less_details);
+    Create( Window.More_less_details, Window, "", x,y,w,h, ID => More_less_details);
     Dlg_to_Scn(  215, 93, 10, 9, x,y,w,h);
-    Create( Window.More_less_build, Window, "", x,y,w,h, More_less_build);
+    Create( Window.More_less_build, Window, "", x,y,w,h, ID => More_less_build);
   end Create_Contents; -- Main_dialog_Type
 
 

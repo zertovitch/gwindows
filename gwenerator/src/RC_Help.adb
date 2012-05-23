@@ -655,7 +655,7 @@ package body RC_Help is
     function id_part return String is
     begin
       if with_id then
-        return ", " & S(last_Ada_constant);
+        return ", ID => " & S(last_Ada_constant);
       else
         return "";
       end if;
@@ -786,7 +786,8 @@ package body RC_Help is
       Ada_normal_control(
         "Edit_Box_Type",
         ", " & S(last_text),
-        ", " & Boolean'Image(style_switch(auto_h_scroll))
+        ", Horizontal_Scroll => " & Boolean'Image(style_switch(auto_h_scroll)) &
+        ", Read_Only => " & Boolean'Image(style_switch(read_only))
       );
     end if;
   end Ada_edit_control;

@@ -58,6 +58,7 @@ package GWindows.Edit_Boxes is
       Width             : in     Integer                            := 0;
       Height            : in     Integer                            := 0;
       Horizontal_Scroll : in     Boolean                            := True;
+      Read_Only         : in     Boolean                            := False;
       ID                : in     Integer                            := 0;
       Show              : in     Boolean                            := True;
       Is_Dynamic        : in     Boolean                            := False);

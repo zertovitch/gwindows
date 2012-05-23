@@ -4,7 +4,7 @@
 --  RC2GW translates a Resource Compiler script file (.rc or .dlg)
 --  into an Ada package for the GWindows GUI system.
 --
---  Copyright (c) Gautier de Montmollin 2008
+--  Copyright (c) Gautier de Montmollin 2008..2012
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
