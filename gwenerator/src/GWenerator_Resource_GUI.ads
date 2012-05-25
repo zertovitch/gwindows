@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2012/05/23  14:16:36
+-- Transcription time: 2012/05/25  14:24:08
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -52,13 +52,14 @@ package GWenerator_Resource_GUI is
     URL: Label_Type;
     RC_gramm_ver: Label_Type;
     GWen_ver: Label_Type;
-    -- Label: IDC_STATIC
     GNAT_URL: Label_Type;
     GNAVI_URL: Label_Type;
     ResEdit_URL: Label_Type;
+    Static_0006: Group_Box_Type;
+    GNAT_Version: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 100
+  -- Dialog at resource line 101
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -123,7 +124,7 @@ package GWenerator_Resource_GUI is
     RC_Compiler_list: Drop_Down_Combo_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 136
+  -- Dialog at resource line 137
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -179,7 +180,7 @@ package GWenerator_Resource_GUI is
     More_less_build: Bitmap_Button_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 172
+  -- Dialog at resource line 173
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -236,6 +237,7 @@ package GWenerator_Resource_GUI is
   Listen_RC              : constant:=   1000;
   URL                    : constant:=   1000;
   Exe_file_icon          : constant:=   1001;
+  GNAT_Version           : constant:=   1001;
   Initialize_controls    : constant:=   1001;
   Details_frame          : constant:=   1002;
   GWen_ver               : constant:=   1002;
@@ -303,6 +305,6 @@ package GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 263
+  -- Last line of resource script file: 264
 
 end GWenerator_Resource_GUI;

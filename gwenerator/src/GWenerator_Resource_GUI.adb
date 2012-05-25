@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2012/05/23  14:16:36
+-- Transcription time: 2012/05/25  14:24:08
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -80,7 +80,7 @@ package body GWenerator_Resource_GUI is
   is
     x,y,w,h: Integer;
   begin
-    Dlg_to_Scn(  0, 0, 229, 184, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 256, 196, x,y,w,h);
     if Left   /= Use_Default then x:= Left;   end if;
     if Top    /= Use_Default then y:= Top;    end if;
     if Width  /= Use_Default then w:= Width;  end if;
@@ -114,12 +114,12 @@ package body GWenerator_Resource_GUI is
     x,y,w,h: Integer;
   begin
     if resize then
-    Dlg_to_Scn(  0, 0, 229, 184, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 256, 196, x,y,w,h);
       Move(Window, x,y);
       Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
-    Dlg_to_Scn(  91, 162, 50, 14, x,y,w,h);
+    Dlg_to_Scn(  109, 174, 50, 14, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
@@ -132,32 +132,34 @@ package body GWenerator_Resource_GUI is
     end if;
     Dlg_to_Scn(  5, 5, 32, 30, x,y,w,h);
     Create( Window.Static_0001, Window, Num_resource(gwenerator_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  35, 10, 165, 8, x,y,w,h);
+    Dlg_to_Scn(  47, 10, 165, 8, x,y,w,h);
     Create_label( Window, "GWenerator: a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  35, 25, 151, 8, x,y,w,h);
+    Dlg_to_Scn(  47, 25, 151, 8, x,y,w,h);
     Create_label( Window, "Copyright © Gautier de Montmollin 2008..2012", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  35, 40, 100, 8, x,y,w,h);
+    Dlg_to_Scn(  47, 40, 100, 8, x,y,w,h);
     Create_label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  11, 55, 30, 8, x,y,w,h);
     Create_label( Window, "Internet:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  70, 55, 120, 8, x,y,w,h);
+    Dlg_to_Scn(  58, 55, 120, 8, x,y,w,h);
     Create( Window.URL, Window, "http://sf.net/projects/gnavi", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => URL);
     Dlg_to_Scn(  11, 70, 170, 8, x,y,w,h);
     Create( Window.RC_gramm_ver, Window, "RC Grammar version: ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => RC_gramm_ver);
     Dlg_to_Scn(  11, 85, 170, 8, x,y,w,h);
     Create( Window.GWen_ver, Window, "GWenerator version: ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GWen_ver);
-    Dlg_to_Scn(  11, 100, 208, 8, x,y,w,h);
-    Create_label( Window, "Software made with the following free open source components:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  11, 116, 170, 8, x,y,w,h);
-    Create( Window.GNAT_URL, Window, "GNAT", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAT_URL);
-    Dlg_to_Scn(  11, 131, 170, 8, x,y,w,h);
-    Create( Window.GNAVI_URL, Window, "GNAVI", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAVI_URL);
-    Dlg_to_Scn(  11, 146, 170, 8, x,y,w,h);
+    Dlg_to_Scn(  23, 119, 100, 8, x,y,w,h);
+    Create( Window.GNAT_URL, Window, "GNAT -  free Ada compiler", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAT_URL);
+    Dlg_to_Scn(  23, 134, 118, 8, x,y,w,h);
+    Create( Window.GNAVI_URL, Window, "GNAVI / GWindows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAVI_URL);
+    Dlg_to_Scn(  23, 149, 170, 8, x,y,w,h);
     Create( Window.ResEdit_URL, Window, "ResEdit", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => ResEdit_URL);
+    Dlg_to_Scn(  5, 105, 247, 62, x,y,w,h);
+    Create( Window.Static_0006, Window, "Software made with the following free open source components:", x,y,w,h);
+    Dlg_to_Scn(  133, 119, 113, 8, x,y,w,h);
+    Create( Window.GNAT_Version, Window, "GNAT_Version", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAT_Version);
   end Create_Contents; -- About_box_Type
 
 
-  -- Dialog at resource line 109
+  -- Dialog at resource line 110
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -304,7 +306,7 @@ package body GWenerator_Resource_GUI is
   end Create_Contents; -- GWen_properties_Type
 
 
-  -- Dialog at resource line 145
+  -- Dialog at resource line 146
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -543,6 +545,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 263
+  -- Last line of resource script file: 264
 
 end GWenerator_Resource_GUI;

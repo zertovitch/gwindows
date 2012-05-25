@@ -17,6 +17,7 @@
 #define Listen_RC                               1000
 #define URL                                     1000
 #define Exe_file_icon                           1001
+#define GNAT_Version                            1001
 #define Initialize_controls                     1001
 #define Details_frame                           1002
 #define GWen_ver                                1002

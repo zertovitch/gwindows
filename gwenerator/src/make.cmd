@@ -1,8 +1,8 @@
 @echo off
 echo.
-echo make: option -r   recreates rc2gw's and gwenerator's parser sources
-echo              -gen recreates gwenerator's own GUI Ada sources with rc2gw
-echo              -res recompiles the resource for getting bitmaps / icon actualized
+echo make: option -r   recreates RC2GW's and GWenerator's parser sources from RC.y and RC.l
+echo              -gen recreates GWenerator's own GUI Ada sources with rc2gw
+echo              -res recompiles the resource for getting bitmaps, icons,... actualized
 echo.
 
 if exist ..\..\gwenerator\windows_stuff\gwindows.ads goto stuff_ok
@@ -28,14 +28,16 @@ if "%1"=="-h" goto fin
 if "%1"=="--help" goto fin
 if not "%1"=="-r" goto comp
 
-rem
-echo ** Compile AFLEX (.l) file to Ada sources
+rem Build AFLEX
+gnatmake -j2 -gnato -gnatVa -aI..\aflex -D ..\obj\gnatdebg aflex
+echo ** Compile the AFLEX (RC.l) file to Ada sources
 aflex.exe -i -E rc.l
 echo.
 gnatchop -w *.a
 del *.a
-rem
-echo ** Compile AYACC (.y) file to Ada sources
+rem Build AYACC
+gnatmake -j2 -gnato -gnatVa -aI..\ayacc -D ..\obj\gnatdebg ayacc
+echo ** Compile the AYACC (RC.y) file to Ada sources
 ayacc.exe rc.y off off on on >ayacc.log
 type ayacc.log
 echo. >ayacc.log
