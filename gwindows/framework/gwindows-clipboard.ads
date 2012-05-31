@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                  G W I N D O W S . C L I P B O A R D                     --
 --                                                                          --
@@ -26,7 +26,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 

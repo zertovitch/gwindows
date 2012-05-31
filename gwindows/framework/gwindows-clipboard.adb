@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                  G W I N D O W S . C L I P B O A R D                     --
 --                                                                          --
@@ -26,12 +26,14 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
 with Ada.Unchecked_Conversion;
-with Win32;
 
 with GWindows.Base;
 with GWindows.Types;
@@ -39,6 +41,7 @@ with GWindows.Types;
 package body GWindows.Clipboard is
 
    subtype HGlobal is Interfaces.C.long;
+   subtype LPVOID is GWindows.Types.Handle;
 
    CF_TEXT        : constant :=  1;
 --   CF_OEMTEXT     : constant :=  7;
@@ -84,11 +87,11 @@ package body GWindows.Clipboard is
       return Global_Alloc_Ptr
    is
       function To_Ptr is new
-         Ada.Unchecked_Conversion (Win32.LPVOID, Global_Alloc_Ptr);
+         Ada.Unchecked_Conversion (LPVOID, Global_Alloc_Ptr);
 
       function GlobalLock
          (hMem   : Interfaces.C.long := Data)
-         return Win32.LPVOID;
+         return LPVOID;
       pragma Import (StdCall, GlobalLock, "GlobalLock");
 
    begin
@@ -151,14 +154,14 @@ package body GWindows.Clipboard is
       return Boolean
    is
       function To_Ptr is new
-         Ada.Unchecked_Conversion (Win32.LPVOID, Global_Alloc_Ptr);
+         Ada.Unchecked_Conversion (LPVOID, Global_Alloc_Ptr);
       function To_lpVoid is new
-         Ada.Unchecked_Conversion (Global_Alloc_Ptr, Win32.LPVOID);
+         Ada.Unchecked_Conversion (Global_Alloc_Ptr, LPVOID);
 
       function SetClipboardData
         (Frmt : Natural       := Format;
-         Dat  : Win32.LPVOID  := To_lpVoid (Data))
-        return Win32.LPVOID;
+         Dat  : LPVOID  := To_lpVoid (Data))
+        return LPVOID;
       pragma Import (StdCall, SetClipboardData, "SetClipboardData");
    begin
       return To_Ptr (SetClipboardData) /= null;
