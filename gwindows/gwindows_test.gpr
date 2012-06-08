@@ -1,20 +1,23 @@
-with "..\gnatcom\gnatcom.gpr";
+with "GWindows.gpr";
 
-project GWindows is
+project GWindows_Test is
 
    package Ide is
       for Vcs_Kind use "Subversion";
    end Ide;
 
-   for Source_Dirs use ("framework");
+   for Source_Dirs use ("test");
    for Object_Dir use "obj";
+   for Exec_Dir use "test";   
    
-   package Compiler is   
+   package Compiler is
       for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
    end Compiler;
+
+   for Main use ("test_clipboard.adb");
 
    package Builder is
       for Default_Switches ("ada") use ("-j2");
    end Builder;
    
-end GWindows;
+end GWindows_Test;

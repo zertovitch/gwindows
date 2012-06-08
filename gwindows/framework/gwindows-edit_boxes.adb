@@ -155,6 +155,7 @@ package body GWindows.Edit_Boxes is
       Width             : in     Integer                              := 0;
       Height            : in     Integer                              := 0;
       Horizontal_Scroll : in     Boolean                            := False;
+      Read_Only         : in     Boolean                            := False;
       ID                : in     Integer                            := 0;
       Show              : in     Boolean                            := True;
       Is_Dynamic        : in     Boolean                            := False)
@@ -162,7 +163,7 @@ package body GWindows.Edit_Boxes is
    begin
       Create_Multi_Line
         (Edit, Parent, Text, Left, Top, Width, Height, Horizontal_Scroll,
-         True, True, ID, Show, Is_Dynamic);
+         True, True, Read_Only, ID, Show, Is_Dynamic);
    end Create;
 
    -----------------------
@@ -180,6 +181,7 @@ package body GWindows.Edit_Boxes is
       Horizontal_Scroll : in     Boolean                            := False;
       Vertical_Scroll   : in     Boolean                            := True;
       Capture_Return    : in     Boolean                            := True;
+      Read_Only         : in     Boolean                            := False;
       ID                : in     Integer                            := 0;
       Show              : in     Boolean                            := True;
       Is_Dynamic        : in     Boolean                            := False)
@@ -196,6 +198,10 @@ package body GWindows.Edit_Boxes is
 
       if Horizontal_Scroll then
          Styles := Styles or ES_AUTOHSCROLL or WS_HSCROLL;
+      end if;
+
+      if Read_Only then
+         Styles := Styles or ES_READONLY;
       end if;
 
       Create_Control (Edit,
@@ -1179,6 +1185,7 @@ package body GWindows.Edit_Boxes is
       Horizontal_Scroll : in     Boolean;
       Vertical_Scroll   : in     Boolean;
       Capture_Return    : in     Boolean;
+      Read_Only         : in     Boolean                            := False;
       ID                : in     Integer;
       Show              : in     Boolean                            := True;
       Is_Dynamic        : in     Boolean                            := False)
@@ -1189,6 +1196,7 @@ package body GWindows.Edit_Boxes is
                          Horizontal_Scroll,
                          Vertical_Scroll,
                          Capture_Return,
+                         Read_Only,
                          ID, Show,
                          Is_Dynamic);
    end Create;

@@ -260,6 +260,7 @@ package GWindows.Edit_Boxes is
       Width             : in     Integer                            := 0;
       Height            : in     Integer                            := 0;
       Horizontal_Scroll : in     Boolean                            := False;
+      Read_Only         : in     Boolean                            := False;
       ID                : in     Integer                            := 0;
       Show              : in     Boolean                            := True;
       Is_Dynamic        : in     Boolean                            := False);
@@ -276,6 +277,7 @@ package GWindows.Edit_Boxes is
       Horizontal_Scroll : in     Boolean                            := False;
       Vertical_Scroll   : in     Boolean                            := True;
       Capture_Return    : in     Boolean                            := True;
+      Read_Only         : in     Boolean                            := False;
       ID                : in     Integer                            := 0;
       Show              : in     Boolean                            := True;
       Is_Dynamic        : in     Boolean                            := False);
@@ -292,6 +294,7 @@ package GWindows.Edit_Boxes is
       Horizontal_Scroll : in     Boolean;
       Vertical_Scroll   : in     Boolean;
       Capture_Return    : in     Boolean;
+      Read_Only         : in     Boolean                            := False;
       ID                : in     Integer;
       Show              : in     Boolean                            := True;
       Is_Dynamic        : in     Boolean                            := False);
