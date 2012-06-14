@@ -8,7 +8,7 @@ if "%1"=="-t" shift
 
 ..\rc2gw %rcopt72341251337% -c %1.rc
 
-set gnatopt928554631=-i -g -gnat95 -I../windows_stuff -aO..\obj\gnatdebg
+set gnatopt928554631=-i -g -gnat05 -I../windows_stuff -aO..\obj\gnatdebg
 
 gnatmake %1_Resource_GUI %gnatopt928554631% 
 if exist %1.adb gnatmake %1 %gnatopt928554631% 
