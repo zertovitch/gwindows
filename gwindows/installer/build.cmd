@@ -1,7 +1,7 @@
 @echo off
 
 rem Version should match the field VALUE "FileVersion" in GW_Install.rc
-set version=07-Mar-2012
+set version=23-Jun-2012
 
 if exist ..\..\gwenerator\windows_stuff\gwindows.ads goto stuff_ok
 
@@ -22,12 +22,18 @@ copy ..\..\gnatcom\framework\*.ad* ..\..\gwenerator\windows_stuff
 
 :stuff_ok
 
-if not "%1"=="-gen" goto no_gen
+if not exist GW_Install_Resource_GUI.ads goto gen
+if not exist GW_Install_Resource_GUI.adb goto gen
+if "%1"=="-gen" goto gen
+
+goto no_gen
+
+:gen
 cd ..\..\gwenerator\src
 call make
 cd ..\..\gwindows\installer
 ..\..\gwenerator\rc2gw GW_Install.rc
-shift
+if "%1"=="-gen" shift
 
 :no_gen
 

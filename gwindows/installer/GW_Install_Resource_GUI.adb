@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/03/12  21:13:52
+-- Transcription time: 2012/06/21  15:52:27
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 24-Feb-2010
+-- RC Grammar version: 23-May-2012
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -80,8 +80,8 @@ package body GW_Install_Resource_GUI is
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDOK, Window, "Continue", x,y,w,h, IDOK);
-    Create( Window.IDOK_permanent, Window, "Continue", x,y,w,h, IDOK);
+    Create( Window.IDOK, Window, "Continue", x,y,w,h, ID => IDOK);
+    Create( Window.IDOK_permanent, Window, "Continue", x,y,w,h, ID => IDOK);
     if for_dialog then -- hide the non-closing button
       Hide(Window.IDOK_permanent);
     else -- hide the closing button
@@ -91,8 +91,8 @@ package body GW_Install_Resource_GUI is
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDCANCEL, Window, "Cancel", x,y,w,h, IDCANCEL);
-    Create( Window.IDCANCEL_permanent, Window, "Cancel", x,y,w,h, IDCANCEL);
+    Create( Window.IDCANCEL, Window, "Cancel", x,y,w,h, ID => IDCANCEL);
+    Create( Window.IDCANCEL_permanent, Window, "Cancel", x,y,w,h, ID => IDCANCEL);
     if for_dialog then -- hide the non-closing button
       Hide(Window.IDCANCEL_permanent);
     else -- hide the closing button
@@ -101,9 +101,9 @@ package body GW_Install_Resource_GUI is
     Dlg_to_Scn(  7, 7, 342, 11, x,y,w,h);
     Create_label( Window, "The GWindows framework is already installed in that location. Please check the versions.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  13, 36, 159, 157, x,y,w,h);
-    Create( Window.Installed_version, Window, x,y,w,h, TRUE, Installed_version);
+    Create( Window.Installed_version, Window, x,y,w,h, TRUE, ID => Installed_version);
     Dlg_to_Scn(  185, 36, 159, 157, x,y,w,h);
-    Create( Window.Installer_Version, Window, x,y,w,h, TRUE, Installer_Version);
+    Create( Window.Installer_Version, Window, x,y,w,h, TRUE, ID => Installer_Version);
     Dlg_to_Scn(  14, 22, 105, 8, x,y,w,h);
     Create_label( Window, "Installed version:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  185, 23, 133, 8, x,y,w,h);
@@ -171,8 +171,8 @@ package body GW_Install_Resource_GUI is
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDOK, Window, "Close", x,y,w,h, IDOK);
-    Create( Window.IDOK_permanent, Window, "Close", x,y,w,h, IDOK);
+    Create( Window.IDOK, Window, "Close", x,y,w,h, ID => IDOK);
+    Create( Window.IDOK_permanent, Window, "Close", x,y,w,h, ID => IDOK);
     if for_dialog then -- hide the non-closing button
       Hide(Window.IDOK_permanent);
     else -- hide the closing button
@@ -193,21 +193,21 @@ package body GW_Install_Resource_GUI is
     Dlg_to_Scn(  27, 100, 87, 28, x,y,w,h);
     Create( Window.Static_0007, Window, Num_resource(GNAT_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  125, 101, 154, 8, x,y,w,h);
-    Create( Window.GNAT_URL, Window, "GNAT Ada compiler (GNAT GPL and GNAT Pro)", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAT_URL);
+    Create( Window.GNAT_URL, Window, "GNAT Ada compiler (GNAT GPL and GNAT Pro)", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAT_URL);
     Dlg_to_Scn(  125, 112, 78, 8, x,y,w,h);
-    Create( Window.MinGW_URL, Window, "GNAT FSF, with MinGW", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, MinGW_URL);
+    Create( Window.MinGW_URL, Window, "GNAT FSF, with MinGW", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => MinGW_URL);
     Dlg_to_Scn(  27, 136, 125, 33, x,y,w,h);
     Create( Window.Static_0008, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  161, 138, 74, 8, x,y,w,h);
-    Create( Window.GNAVI_SF_URL, Window, "GNAVI at SourceForge", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_SF_URL);
+    Create( Window.GNAVI_SF_URL, Window, "GNAVI at SourceForge", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAVI_SF_URL);
     Dlg_to_Scn(  161, 149, 83, 8, x,y,w,h);
-    Create( Window.GNAVI_Discuss_URL, Window, "GNAVI Discuss mailing list", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_Discuss_URL);
+    Create( Window.GNAVI_Discuss_URL, Window, "GNAVI Discuss mailing list", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAVI_Discuss_URL);
     Dlg_to_Scn(  161, 160, 35, 8, x,y,w,h);
-    Create( Window.GNAVI_URL, Window, "GNAVI.org", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, GNAVI_URL);
+    Create( Window.GNAVI_URL, Window, "GNAVI.org", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAVI_URL);
     Dlg_to_Scn(  27, 180, 71, 33, x,y,w,h);
     Create( Window.Static_0009, Window, Num_resource(ResEdit_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  117, 179, 110, 8, x,y,w,h);
-    Create( Window.ResEdit_URL, Window, "ResEdit - a graphic resource editor", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ResEdit_URL);
+    Create( Window.ResEdit_URL, Window, "ResEdit - a graphic resource editor", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => ResEdit_URL);
     Dlg_to_Scn(  130, 190, 179, 8, x,y,w,h);
     Create_label( Window, "To be used with the GWenerator .RC to Ada translator", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  130, 201, 173, 8, x,y,w,h);
@@ -280,7 +280,7 @@ package body GW_Install_Resource_GUI is
     Dlg_to_Scn(  176, 32, 109, 8, x,y,w,h);
     Create_label( Window, "for Microsoft Windows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  9, 47, 284, 8, x,y,w,h);
-    Create( Window.Setup_title, Window, "This is the GWindows programming framework's setup, version ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, Setup_title);
+    Create( Window.Setup_title, Window, "This is the GWindows programming framework's setup, version ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => Setup_title);
     Dlg_to_Scn(  9, 60, 292, 52, x,y,w,h);
     Create( Window.Static_0005, Window, "Location", x,y,w,h);
     Dlg_to_Scn(  36, 72, 261, 8, x,y,w,h);
@@ -288,38 +288,38 @@ package body GW_Install_Resource_GUI is
     Dlg_to_Scn(  36, 99, 223, 8, x,y,w,h);
     Create_label( Window, "NB: you can install GWindows at several places.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  36, 83, 221, 14, x,y,w,h);
-    Create( Window.Directory_edit, Window, "", x,y,w,h, TRUE, Directory_edit);
+    Create( Window.Directory_edit, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Directory_edit);
     Dlg_to_Scn(  258, 83, 29, 14, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.Directory_select_button, Window, "...", x,y,w,h, Directory_select_button);
-    Create( Window.Directory_select_button_permanent, Window, "...", x,y,w,h, Directory_select_button);
+    Create( Window.Directory_select_button, Window, "...", x,y,w,h, ID => Directory_select_button);
+    Create( Window.Directory_select_button_permanent, Window, "...", x,y,w,h, ID => Directory_select_button);
     if for_dialog then -- hide the non-closing button
       Hide(Window.Directory_select_button_permanent);
     else -- hide the closing button
       Hide(Window.Directory_select_button);
     end if;
     Dlg_to_Scn(  25, 153, 265, 8, x,y,w,h);
-    Create( Window.UNICODE_choice, Window, "Unicode (16-bit International characters), Ada: Wide_Character / Wide_String", x,y,w,h, UNICODE_choice);
+    Create( Window.UNICODE_choice, Window, "Unicode (16-bit International characters), Ada: Wide_Character / Wide_String", x,y,w,h, ID => UNICODE_choice);
     Dlg_to_Scn(  25, 136, 212, 8, x,y,w,h);
-    Create( Window.ANSI_choice, Window, "ANSI (8-bit Western characters), Ada: Character / String", x,y,w,h, ANSI_choice);
+    Create( Window.ANSI_choice, Window, "ANSI (8-bit Western characters), Ada: Character / String", x,y,w,h, ID => ANSI_choice);
     Dlg_to_Scn(  9, 120, 293, 52, x,y,w,h);
     Create( Window.Static_0008, Window, "Character and string encoding - please choose:", x,y,w,h);
     Dlg_to_Scn(  36, 6, 125, 33, x,y,w,h);
     Create( Window.Static_0009, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  9, 184, 224, 8, x,y,w,h);
-    Create( Window.GNATCOM_check, Window, "Install GNATCOM - mandatory for GWindows", x,y,w,h, GNATCOM_check);
+    Create( Window.GNATCOM_check, Window, "Install GNATCOM - mandatory for GWindows", x,y,w,h, ID => GNATCOM_check);
     Disable(Window.GNATCOM_check);
     Disable(Window.GNATCOM_check);
     Dlg_to_Scn(  9, 200, 214, 8, x,y,w,h);
-    Create( Window.GWen_check, Window, "Install the GWenerator Ada code generator (ANSI only)", x,y,w,h, GWen_check);
+    Create( Window.GWen_check, Window, "Install the GWenerator Ada code generator (ANSI only)", x,y,w,h, ID => GWen_check);
     Dlg_to_Scn(  241, 194, 60, 17, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDOK, Window, "Install", x,y,w,h, IDOK);
-    Create( Window.IDOK_permanent, Window, "Install", x,y,w,h, IDOK);
+    Create( Window.IDOK, Window, "Install", x,y,w,h, ID => IDOK);
+    Create( Window.IDOK_permanent, Window, "Install", x,y,w,h, ID => IDOK);
     if for_dialog then -- hide the non-closing button
       Hide(Window.IDOK_permanent);
     else -- hide the closing button
@@ -329,8 +329,8 @@ package body GW_Install_Resource_GUI is
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDCANCEL, Window, "Cancel", x,y,w,h, IDCANCEL);
-    Create( Window.IDCANCEL_permanent, Window, "Cancel", x,y,w,h, IDCANCEL);
+    Create( Window.IDCANCEL, Window, "Cancel", x,y,w,h, ID => IDCANCEL);
+    Create( Window.IDCANCEL_permanent, Window, "Cancel", x,y,w,h, ID => IDCANCEL);
     if for_dialog then -- hide the non-closing button
       Hide(Window.IDCANCEL_permanent);
     else -- hide the closing button
@@ -398,7 +398,7 @@ package body GW_Install_Resource_GUI is
     Dlg_to_Scn(  51, 39, 183, 17, x,y,w,h);
     Create( Window.Unpack_progress, Window, x,y,w,h, HORIZONTAL, FALSE);
     Dlg_to_Scn(  9, 7, 277, 12, x,y,w,h);
-    Create( Window.File_name, Window, "(name)", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, File_name);
+    Create( Window.File_name, Window, "(name)", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => File_name);
     Dlg_to_Scn(  16, 38, 21, 20, x,y,w,h);
     Create( Window.Static_0001, Window, Num_resource(Zip_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  251, 36, 21, 20, x,y,w,h);

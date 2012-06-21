@@ -1,5 +1,7 @@
 @echo off
 echo.
+echo Script for building RC2GW.exe and GWenerator.exe
+echo.
 echo make: option -r   recreates RC2GW's and GWenerator's parser sources from RC.y and RC.l
 echo              -gen recreates GWenerator's own GUI Ada sources with rc2gw
 echo              -res recompiles the resource for getting bitmaps, icons,... actualized
@@ -53,6 +55,8 @@ rem
 
 rem **** Here the GWenerator generates a part of itself!... ****
 
+if not exist GWenerator_Resource_GUI.ads rc2gw GWenerator.rc
+if not exist GWenerator_Resource_GUI.adb rc2gw GWenerator.rc
 if "%1"=="-gen" rc2gw GWenerator.rc
 if "%1"=="-gen" shift
 if "%1"=="-res" windres GWenerator.rc GWenerator.rbj

@@ -74,15 +74,16 @@ The advantage of having a tool like GWenerator instead of
 using the resource items directly
 is that once these resources are as GWindows code,
 they can be transformed dynamically (e.g. status of dialog items, recent
-file list menus), and benefit from the high-level, safe, and easy to program
+file list menus), and benefit from the high-level, object-oriented, safe, and easy to program
 framework of GWindows. Edit box contents can be set or read without
 needing interfacing C strings. You can program within the GWindows
-type system and don't need to mix GWindows and tricky, low-level Win32 as if you used
-the resources directly.
-It is perfectly possible to mix
-dialogs or menus from the GWenerator tool and other GWindows elements which are
+type system.
+You don't need to mix GWindows with tricky, low-level Win32 elements as when you are using
+the resources directly.<br>
+It is also perfectly possible to mix
+dialogs or menus from the GWenerator tool and other GWindows elements which have been
 programmed in a "non-visual" way. 
-After all, the compiler cannot distinguish what is automatically generated and what is type by hand.
+After all, the compiler cannot distinguish what is automatically generated and what is typed by hand.
 
 <p> Eventually, parts of the generated code
 can be reused for more profound transformation or automation, 
@@ -238,6 +239,9 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
 </a>
  <p>
   <ul>
+  <li><b>1.02</b>  (23-May-2012): added Read_Only to Edit_Box'es
+  <li><b>1.01</b>  (19-Aug-2011): added 'Compile resource only' action in GUI
+  <li><b>1.00a</b>  (2-May-2011): added main application starter
   <li><b>0.99</b>  (28-Feb-2010): 
     <ul>
       <li>Ada background build or on-demand build 

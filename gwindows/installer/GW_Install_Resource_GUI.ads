@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/03/12  21:13:52
+-- Transcription time: 2012/06/21  15:52:27
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 24-Feb-2010
+-- RC Grammar version: 23-May-2012
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
