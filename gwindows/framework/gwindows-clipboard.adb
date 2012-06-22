@@ -203,6 +203,7 @@ package body GWindows.Clipboard is
          Ada.Unchecked_Conversion (Character, Memory_Byte);
 
       Dmp  : Boolean;
+      pragma Unreferenced (Dmp);
       Mem  : HGlobal;
       Data : Global_Alloc_Ptr;
       Idx  : Natural := 0;
@@ -221,11 +222,20 @@ package body GWindows.Clipboard is
       Dmp := Close_Clipboard;
    end Set_Clipboard_Text;
 
+   procedure Set_Clipboard_Text
+      (Owner : in GWindows.Windows.Window_Type;
+       Text  : in Unbounded_String)
+   is
+   begin
+      Set_Clipboard_Text(Owner => Owner, Text => To_String(Text));
+   end Set_Clipboard_Text;
+
    function Get_Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type)
       return String
    is
       Dmp  : Boolean;
+      pragma Unreferenced (Dmp);
       Len  : Integer := 0;
       Mem  : HGlobal;
       Data : Global_Alloc_Ptr;

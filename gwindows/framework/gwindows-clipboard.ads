@@ -35,11 +35,17 @@
 
 with GWindows.Windows;
 
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
 package GWindows.Clipboard is
 
    procedure Set_Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type;
        Text  : in String);
+
+   procedure Set_Clipboard_Text
+      (Owner : in GWindows.Windows.Window_Type;
+       Text  : in Unbounded_String);
 
    function Get_Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type)
