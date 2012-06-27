@@ -227,7 +227,7 @@ package body GWindows.Clipboard is
        Text  : in Unbounded_String)
    is
    begin
-      Set_Clipboard_Text(Owner => Owner, Text => To_String(Text));
+      Set_Clipboard_Text (Owner => Owner, Text => To_String (Text));
    end Set_Clipboard_Text;
 
    function Get_Clipboard_Text
