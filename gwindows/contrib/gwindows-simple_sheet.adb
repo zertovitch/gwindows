@@ -350,7 +350,7 @@ package body GWindows.Simple_Sheet is
           end if;
           Feed_text;
           b1 := i + 1;
-          c := 1;
+          c := Column_Start;
           r := r + 1;
         elsif bi = CR then
           null; -- we could have CR & LF, or LF only...
