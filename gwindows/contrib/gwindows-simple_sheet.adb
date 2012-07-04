@@ -1,4 +1,12 @@
--- with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
+with GWindows.Clipboard;                use GWindows.Clipboard;
+with GWindows.GStrings;                 use GWindows.GStrings;
+with GWindows.Windows;
+
+--  with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
+
+with Ada.Characters.Handling;           use Ada.Characters.Handling;
+--  with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
+--  with Ada.Strings.Wide_Unbounded;        use Ada.Strings.Wide_Unbounded;
 
 package body GWindows.Simple_Sheet is
 
@@ -8,28 +16,31 @@ package body GWindows.Simple_Sheet is
 
   procedure Create (
         Sheet          : in out Simple_Sheet_Type;
-        Parent         : in out GWindows.Base.Base_Window_Type'Class; -- GdM 2011 fix: parent was first !
-        Left           : in     Integer                              := GWindows.Constants.Use_Default;
-        Top            : in     Integer                              := GWindows.Constants.Use_Default;
-        Width          : in     Integer                              := GWindows.Constants.Use_Default;
-        Height         : in     Integer                              := GWindows.Constants.Use_Default;
-        Cclass         : in     Gstring                              := "";
+        Parent         : in out GWindows.Base.Base_Window_Type'Class;
+        --  GdM 2011 fix: parent was first !
+        Left           : in     Integer    := GWindows.Constants.Use_Default;
+        Top            : in     Integer    := GWindows.Constants.Use_Default;
+        Width          : in     Integer    := GWindows.Constants.Use_Default;
+        Height         : in     Integer    := GWindows.Constants.Use_Default;
+        Cclass         : in     GString    := "";
         Rows           : in     Positive;
         Columns        : in     Positive;
-        Column_Borders : in     Boolean                              := False;
-        Row_Borders    : in     Boolean                              := True                            )
+        Column_Borders : in     Boolean    := False;
+        Row_Borders    : in     Boolean    := True
+  )
   is
     pragma Unreferenced (Cclass);
 
     Column_Width : constant Integer := Width / Columns;
-    Row_Height   : constant Integer := Height / Rows; -- GdM 2011 fix: was Columns !
+    Row_Height   : constant Integer := Height / Rows;
+    --  GdM 2011 fix: was Columns !
 
   begin
     --
-    -- Create a base window as a container to hold the
-    -- sheet
+    --  Create a base window as a container to hold the
+    --  sheet
     --
-    Create_As_Control(
+    Create_As_Control (
       Window     => Sheet,
       Parent     => Parent,
       Left       => Left,
@@ -38,23 +49,26 @@ package body GWindows.Simple_Sheet is
       Height     => Height,
       Is_Dynamic => False);
 
+    Sheet.Rows := Rows;
+    Sheet.Columns := Columns;
+
     --
-    -- Allocate an array of columns
+    --  Allocate an array of columns
     --
-    Sheet.Sheet_Array := new Sheet_Array_Type(1 .. Columns);
+    Sheet.Sheet_Array := new Sheet_Array_Type (1 .. Columns);
 
-    for Column in Sheet.Sheet_Array'range loop
+    for Column in Sheet.Sheet_Array'Range loop
       --
-      -- Allocate an array for the rows in this column
+      --  Allocate an array for the rows in this column
       --
-      Sheet.Sheet_Array(Column).Rows_In_Column := new
-        Rows_In_The_Column_Type(1 .. Rows);
+      Sheet.Sheet_Array (Column).Rows_In_Column := new
+        Rows_In_The_Column_Type (1 .. Rows);
 
       --
-      -- Create the container that is this column
+      --  Create the container that is this column
       --
 
-      GWindows.Panels.Create_As_Control(
+      GWindows.Panels.Create_As_Control (
         Window     => Sheet.Sheet_Array (Column).Column_Window,
         Parent     => Sheet.Panel,
         Top        => 0,
@@ -74,8 +88,6 @@ package body GWindows.Simple_Sheet is
           Panel  => Sheet.Sheet_Array (Column).Column_Window,
           Border => GWindows.Panels.Raised);
 
-
-
       else
         GWindows.Panels.Border_Type
           (
@@ -85,10 +97,10 @@ package body GWindows.Simple_Sheet is
       end if;
 
       --
-      -- Create the row containers inside this column
+      --  Create the row containers inside this column
       --
-      for Row in Sheet.Sheet_Array(Column).Rows_In_Column'range loop
-        GWindows.Panels.Create_As_Control(
+      for Row in Sheet.Sheet_Array (Column).Rows_In_Column'Range loop
+        GWindows.Panels.Create_As_Control (
           Window     => Sheet.Sheet_Array (Column).Rows_In_Column (Row).panel,
           Parent     => Sheet.Sheet_Array (Column).Column_Window,
           Top        => (Row - 1) * Row_Height,
@@ -108,8 +120,7 @@ package body GWindows.Simple_Sheet is
       end loop;
     end loop;
 
-
-    Panel_Size(
+    Panel_Size (
       Window => Sheet,
       Width  => Columns * Column_Width,
       Height => Rows * Row_Height);
@@ -118,10 +129,11 @@ package body GWindows.Simple_Sheet is
 
   procedure On_Destroy (Sheet : in out Simple_Sheet_Type) is
   begin
-    for Column in Sheet.Sheet_Array'range loop
-      for Row in Sheet.Sheet_Array(Column).Rows_In_Column'range loop
+    for Column in Sheet.Sheet_Array'Range loop
+      for Row in Sheet.Sheet_Array (Column).Rows_In_Column'Range loop
         declare
-          cell: Cell_type renames Sheet.Sheet_Array(Column).Rows_In_Column(Row);
+          cell : Cell_type
+            renames Sheet.Sheet_Array (Column).Rows_In_Column (Row);
         begin
           if cell.edit_created then
             cell.edit.Close;
@@ -131,17 +143,17 @@ package body GWindows.Simple_Sheet is
       end loop;
       Sheet.Sheet_Array (Column).Column_Window.Close;
     end loop;
-    -- message_box("Ciao", "Ciao");
+    --  message_box("Ciao", "Ciao");
   end On_Destroy;
-
 
   procedure Set_Cell_Text (
         Sheet     : in out Simple_Sheet_Type;
         Row       : in     Positive;
         Column    : in     Positive;
         Text      : in     GWindows.GString;
-        Read_Only : in     Boolean:= False ) is
-    cell: Cell_type renames Sheet.Sheet_Array(Column).Rows_In_Column(Row);
+        Read_Only : in     Boolean := False)
+  is
+    cell : Cell_type renames Sheet.Sheet_Array (Column).Rows_In_Column (Row);
   begin
     if not cell.edit_created then
       GWindows.Edit_Boxes.Create
@@ -152,66 +164,63 @@ package body GWindows.Simple_Sheet is
         Top    => 0,
         Width  => GWindows.Panels.Client_Area_Width (cell.panel),
         Height => GWindows.Panels.Client_Area_Height (cell.panel),
-        Horizontal_Scroll => False);
-      cell.edit_created:= True;
-      GWindows.Edit_Boxes.Read_Only(cell.edit, Read_Only);
-      if Read_Only then
-        GWindows.Edit_Boxes.Disable(cell.edit);
-      end if;
+        Horizontal_Scroll => False
+      );
+      cell.edit_created := True;
+    else
+      GWindows.Edit_Boxes.Text (cell.edit, Text);
     end if;
-
-    GWindows.Edit_Boxes.Read_Only(Window => Sheet.Sheet_Array (Column).Rows_In_Column (Row).edit,
-      State   => False);
-
+    GWindows.Edit_Boxes.Read_Only (cell.edit, Read_Only);
+    if Read_Only then
+      GWindows.Edit_Boxes.Disable (cell.edit);
+    else
+      GWindows.Edit_Boxes.Enable (cell.edit);
+    end if;
   end Set_Cell_Text;
 
   function Get_Cell_Text (
         Sheet  : in     Simple_Sheet_Type;
         Row    : in     Positive;
-        Column : in     Positive           )
-    return GWindows.Gstring is
+        Column : in     Positive)
+    return GWindows.GString is
     --
-    cell: Cell_type renames Sheet.Sheet_Array(Column).Rows_In_Column(Row);
+    cell : Cell_type renames Sheet.Sheet_Array (Column).Rows_In_Column (Row);
   begin
-    -- return GWindows.Base.Text(Window => Get_Cell(Sheet => Sheet, Row => Row , Column => Column).all);
+    --  return GWindows.Base.Text
+    --    (Window =>
+    --     Get_Cell(Sheet => Sheet, Row => Row , Column => Column).all);
      if cell.edit_created then
-       return GWindows.Edit_Boxes.Text(cell.edit);
+       return GWindows.Edit_Boxes.Text (cell.edit);
      else
        return "";
      end if;
   end Get_Cell_Text;
 
-
   --
-  -- Returns the child widget that lives within the cell
+  --  Returns the child widget that lives within the cell
   --
   function Get_Item_Within_Cell (
         Sheet  : in     Simple_Sheet_Type;
         Row    : in     Positive;
-        Column : in     Positive           )
+        Column : in     Positive)
     return GWindows.Base.Pointer_To_Base_Window_Class is
 
   begin
-    return Get_Cell(Sheet => Sheet, Row => Row , Column => Column);
+    return Get_Cell (Sheet => Sheet, Row => Row, Column => Column);
   end Get_Item_Within_Cell;
-
-
-
-
-
 
   function Get_Cell (
         Sheet  : in     Simple_Sheet_Type;
         Row    : in     Positive;
-        Column : in     Positive           )
+        Column : in     Positive)
     return GWindows.Base.Pointer_To_Base_Window_Class is
     --
-    -- This is totally wrong.. Somehow we have to keep cells from having multiple
-    -- children.. (I think?)
+    --  This is totally wrong..
+    --  Somehow we have to keep cells from having
+    --  multiple children.. (I think?)
   begin
-    return Sheet.Sheet_Array (Column).Rows_In_Column (Row).panel'access;
+    return Sheet.Sheet_Array (Column).Rows_In_Column (Row).panel'Access;
   end Get_Cell;
-
 
   ----------------------
   -- Set_Column_Width --
@@ -219,7 +228,7 @@ package body GWindows.Simple_Sheet is
 
   procedure Set_Column_Width (
         Sheet        : in out Simple_Sheet_Type;
-        Column_Width : in     Integer            ) is
+        Column_Width : in     Integer) is
   begin
 
     --    f
@@ -236,10 +245,121 @@ package body GWindows.Simple_Sheet is
 
   procedure Set_Row_Height (
         Sheet        : in out Simple_Sheet_Type;
-        Row_Height   : in     Integer            ) is
+        Row_Height   : in     Integer) is
   begin
     null;
   end Set_Row_Height;
 
-end GWindows.Simple_Sheet;
+  --
+  --  Copy entire sheet to the Clipboard
+  --
+  procedure Copy_to_Clipboard (Sheet : in Simple_Sheet_Type) is
+    blurb : GString_Unbounded;
+    use type GString_Unbounded;
+  begin
+    for r in 1 .. Sheet.Rows loop
+      for c in 1 .. Sheet.Columns loop
+        declare
+          current_cell : Cell_type
+            renames Sheet.Sheet_Array (c).Rows_In_Column (r);
+        begin
+          if current_cell.edit_created then
+            blurb := blurb & GWindows.Edit_Boxes.Text (current_cell.edit);
+          end if;
+        end;
+        if c < Sheet.Columns then
+          blurb := blurb & To_GString_From_String (ASCII.HT & "");
+        end if;
+      end loop;
+      blurb := blurb & To_GString_From_String (ASCII.CR & ASCII.LF);
+    end loop;
+    case Character_Mode is
+      when ANSI =>
+        Set_Clipboard_Text (GWindows.Windows.Window_Type (Sheet),
+          GWindows.GStrings.To_String (To_GString_From_Unbounded (blurb)));
+      when Unicode =>
+        Set_Clipboard_Text (GWindows.Windows.Window_Type (Sheet),
+          GWindows.GStrings.To_String (To_GString_From_Unbounded (blurb)));
+        --  !! should copy unicode text !!
+        --  !! better: gwindows.clipboard should have
+        --     a Set_Clipboard_GText too !!
+    end case;
+  end Copy_to_Clipboard;
 
+  --
+  --  Paste from the Clipboard. Hopefully sizes match
+  --
+  procedure Paste_from_Clipboard (
+        Sheet        : in out Simple_Sheet_Type;
+        Row_Start    : in     Positive := 1;
+        Column_Start : in     Positive := 1)
+ is
+    u_blurb : GString_Unbounded;
+  begin
+    case Character_Mode is
+      when ANSI =>
+        u_blurb := To_GString_Unbounded (
+          To_GString_From_String (
+            Get_Clipboard_Text (GWindows.Windows.Window_Type (Sheet))
+          )
+        );
+      when Unicode =>
+        u_blurb := To_GString_Unbounded (
+          To_GString_From_String (
+            Get_Clipboard_Text (GWindows.Windows.Window_Type (Sheet))
+          )
+        );
+        --  !! should paste unicode text !!
+        --  !! better: gwindows.clipboard should have
+        --     a Get_Clipboard_GText too !!
+    end case;
+    declare
+      --  A little headache to make all work in both Character_Mode's ...
+      blurb : constant GString := To_GString_From_Unbounded (u_blurb);
+      b1, b2 : Natural;
+      bis : Wide_String (1 .. 1);
+      bi, bi_old : Wide_Character;
+      r : Positive := Row_Start;
+      c : Positive := Column_Start;
+      Tab : constant Wide_Character := To_Wide_Character (ASCII.HT);
+      LF  : constant Wide_Character := To_Wide_Character (ASCII.LF);
+      CR  : constant Wide_Character := To_Wide_Character (ASCII.CR);
+      procedure Feed_text is
+      begin
+        if r <= Sheet.Rows and c <= Sheet.Columns then
+          Set_Cell_Text (Sheet, r, c, blurb (b1 .. b2));
+        end if;
+      end Feed_text;
+    begin
+      b1 := blurb'First;
+      b2 := b1 - 1;
+      bi_old := Tab; -- bogus, just remove warning!
+      --  blurb(b1 .. b2) is the cell's content
+      for i in blurb'Range loop
+        bis := GWindows.GStrings.To_Wide_String (blurb (i .. i));
+        bi := bis (1);
+        if bi = Tab then
+          b2 := i - 1;
+          Feed_text;
+          b1 := i + 1;
+          c := c + 1;
+        elsif bi = LF then
+          b2 := i - 1;
+          if b2 > blurb'First and then bi_old = CR then
+            b2 := i - 2; -- ignore the CR of CR & LF
+          end if;
+          Feed_text;
+          b1 := i + 1;
+          c := 1;
+          r := r + 1;
+        elsif bi = CR then
+          null; -- we could have CR & LF, or LF only...
+        else
+          null;
+        end if;
+        bi_old := bi;
+      end loop;
+    end;
+  end Paste_from_Clipboard;
+
+end GWindows.Simple_Sheet;

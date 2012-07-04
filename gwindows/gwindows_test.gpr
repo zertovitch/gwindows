@@ -1,3 +1,8 @@
+-- This is the GNAT / GNAT Programming Studio (GPS) project file for
+-- testing some components of the GWindows framework, or some contributed packages.
+--
+-- Build me with "gnatmake -P gwindows_test.gpr", or open me with GPS
+
 with "GWindows.gpr";
 
 project GWindows_Test is
@@ -6,7 +11,7 @@ project GWindows_Test is
       for Vcs_Kind use "Subversion";
    end Ide;
 
-   for Source_Dirs use ("test");
+   for Source_Dirs use ("test", "contrib");
    for Object_Dir use "obj";
    for Exec_Dir use "test";   
    
@@ -14,7 +19,10 @@ project GWindows_Test is
       for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
    end Compiler;
 
-   for Main use ("test_clipboard.adb");
+   for Main use (
+      "test_clipboard.adb",
+      "test_simple_sheet.adb"
+   );
 
    package Builder is
       for Default_Switches ("ada") use ("-j2");
