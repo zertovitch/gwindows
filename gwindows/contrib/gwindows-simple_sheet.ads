@@ -33,13 +33,18 @@
 -- however invalidate  any other reasons why  the executable file  might be --
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
--- More information about GWindows and the most current public version can  --
--- be located on the web at http://www.adapower.com/GWindows                --
+-- More information about GWindows and the latest current release can       --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
 --  Change log
 --
+--   5-Jul-2012 GdM: - Fixed Set_Cell_Text when cell alread existing
+--                   - Added Copy_to_Clipboard and Paste_from_Clipboard
 --  12-May-2011 GdM: - Set Read_only option to Set_Cell_Text
 --  11-May-2011 GdM: - Simple_Sheet_Type first in Create,
 --                      allows for writing in Ada 2005 style
@@ -150,12 +155,26 @@ package GWindows.Simple_Sheet is
   procedure Copy_to_Clipboard (Sheet : in Simple_Sheet_Type);
 
   --
-  --  Paste from the Clipboard. Hopefully sizes match
+  --  Copy a portion of a sheet to the Clipboard
+  --
+  procedure Copy_to_Clipboard (
+    Sheet        : in Simple_Sheet_Type;
+    Row_Start    : in Positive;
+    Row_End      : in Positive;
+    Column_Start : in Positive;
+    Column_End   : in Positive
+  );
+
+  Too_many_columns, Too_many_rows : exception;
+
+  --
+  --  Paste from the Clipboard.
   --
   procedure Paste_from_Clipboard (
-        Sheet        : in out Simple_Sheet_Type;
-        Row_Start    : in     Positive := 1;
-        Column_Start : in     Positive := 1);
+        Sheet                 : in out Simple_Sheet_Type;
+        Row_Start             : in     Positive := 1;
+        Column_Start          : in     Positive := 1;
+        Complain_if_too_large : in     Boolean := False);
 
 private
 

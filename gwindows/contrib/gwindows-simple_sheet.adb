@@ -2,11 +2,7 @@ with GWindows.Clipboard;                use GWindows.Clipboard;
 with GWindows.GStrings;                 use GWindows.GStrings;
 with GWindows.Windows;
 
---  with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
-
 with Ada.Characters.Handling;           use Ada.Characters.Handling;
---  with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
---  with Ada.Strings.Wide_Unbounded;        use Ada.Strings.Wide_Unbounded;
 
 package body GWindows.Simple_Sheet is
 
@@ -155,7 +151,9 @@ package body GWindows.Simple_Sheet is
   is
     cell : Cell_type renames Sheet.Sheet_Array (Column).Rows_In_Column (Row);
   begin
-    if not cell.edit_created then
+    if cell.edit_created then
+      GWindows.Edit_Boxes.Text (cell.edit, Text);
+    else
       GWindows.Edit_Boxes.Create
        (Edit   => cell.edit,
         Parent => cell.panel,
@@ -167,8 +165,6 @@ package body GWindows.Simple_Sheet is
         Horizontal_Scroll => False
       );
       cell.edit_created := True;
-    else
-      GWindows.Edit_Boxes.Text (cell.edit, Text);
     end if;
     GWindows.Edit_Boxes.Read_Only (cell.edit, Read_Only);
     if Read_Only then
@@ -254,11 +250,26 @@ package body GWindows.Simple_Sheet is
   --  Copy entire sheet to the Clipboard
   --
   procedure Copy_to_Clipboard (Sheet : in Simple_Sheet_Type) is
+  begin
+    Copy_to_Clipboard (Sheet, 1, Sheet.Rows, 1, Sheet.Columns);
+  end Copy_to_Clipboard;
+
+  --
+  --  Copy a portion of a sheet to the Clipboard
+  --
+  procedure Copy_to_Clipboard (
+    Sheet        : in Simple_Sheet_Type;
+    Row_Start    : in Positive;
+    Row_End      : in Positive;
+    Column_Start : in Positive;
+    Column_End   : in Positive
+  )
+  is
     blurb : GString_Unbounded;
     use type GString_Unbounded;
   begin
-    for r in 1 .. Sheet.Rows loop
-      for c in 1 .. Sheet.Columns loop
+    for r in Row_Start .. Row_End loop
+      for c in Column_Start .. Column_End loop
         declare
           current_cell : Cell_type
             renames Sheet.Sheet_Array (c).Rows_In_Column (r);
@@ -280,7 +291,7 @@ package body GWindows.Simple_Sheet is
       when Unicode =>
         Set_Clipboard_Text (GWindows.Windows.Window_Type (Sheet),
           GWindows.GStrings.To_String (To_GString_From_Unbounded (blurb)));
-        --  !! should copy unicode text !!
+        --  !! gwindows.clipboard should be able to copy unicode text !!
         --  !! better: gwindows.clipboard should have
         --     a Set_Clipboard_GText too !!
     end case;
@@ -290,9 +301,10 @@ package body GWindows.Simple_Sheet is
   --  Paste from the Clipboard. Hopefully sizes match
   --
   procedure Paste_from_Clipboard (
-        Sheet        : in out Simple_Sheet_Type;
-        Row_Start    : in     Positive := 1;
-        Column_Start : in     Positive := 1)
+        Sheet                 : in out Simple_Sheet_Type;
+        Row_Start             : in     Positive := 1;
+        Column_Start          : in     Positive := 1;
+        Complain_if_too_large : in     Boolean := False)
  is
     u_blurb : GString_Unbounded;
   begin
@@ -309,7 +321,7 @@ package body GWindows.Simple_Sheet is
             Get_Clipboard_Text (GWindows.Windows.Window_Type (Sheet))
           )
         );
-        --  !! should paste unicode text !!
+        --  !! gwindows.clipboard should be able to paste unicode text !!
         --  !! better: gwindows.clipboard should have
         --     a Get_Clipboard_GText too !!
     end case;
@@ -317,6 +329,8 @@ package body GWindows.Simple_Sheet is
       --  A little headache to make all work in both Character_Mode's ...
       blurb : constant GString := To_GString_From_Unbounded (u_blurb);
       b1, b2 : Natural;
+      --  For checking Tabs and line-ends, we convert to Wide_String,
+      --  whatever the mode.
       bis : Wide_String (1 .. 1);
       bi, bi_old : Wide_Character;
       r : Positive := Row_Start;
@@ -324,11 +338,24 @@ package body GWindows.Simple_Sheet is
       Tab : constant Wide_Character := To_Wide_Character (ASCII.HT);
       LF  : constant Wide_Character := To_Wide_Character (ASCII.LF);
       CR  : constant Wide_Character := To_Wide_Character (ASCII.CR);
+      --
       procedure Feed_text is
       begin
-        if r <= Sheet.Rows and c <= Sheet.Columns then
-          Set_Cell_Text (Sheet, r, c, blurb (b1 .. b2));
+        if r > Sheet.Rows then
+          if Complain_if_too_large then
+            raise Too_many_rows;
+          else
+            return;
+          end if;
         end if;
+        if c > Sheet.Columns then
+          if Complain_if_too_large then
+            raise Too_many_columns;
+          else
+            return;
+          end if;
+        end if;
+        Set_Cell_Text (Sheet, r, c, blurb (b1 .. b2));
       end Feed_text;
     begin
       b1 := blurb'First;
