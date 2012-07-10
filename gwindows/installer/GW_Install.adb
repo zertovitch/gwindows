@@ -6,6 +6,8 @@ with GW_Install_Resource_GUI;           use GW_Install_Resource_GUI;
 with Zip;                               use Zip;
 with UnZip;                             use UnZip;
 
+with GWin_Util;
+
 with GWindows.Application;
 with GWindows.Base;
 with GWindows.Buttons;                  use GWindows.Buttons;
@@ -25,6 +27,7 @@ with Ada_Directories_Extensions; -- Ada 201X items absent in Ada 2005...
 procedure GW_Install is
 
   Install_dir: Unbounded_String:= To_Unbounded_String("");
+  mem_cur_dir: constant String:= Current_Directory & '\';
 
   type Character_mode is (ANSI, UNICODE);
   Mode: Character_mode:= ANSI;
@@ -114,7 +117,6 @@ procedure GW_Install is
         Compose_File_Name   => null,
         others              => null
       );
-    mem: constant String:= Current_Directory & '\';
     --
     procedure Extract_1_file( name: String ) is
       gwen_dir: constant String:= "gwenerator";
@@ -153,10 +155,10 @@ procedure GW_Install is
           Exception_Name(E) & ASCII.LF & Exception_Message(E),
           Icon => Error_Icon
         );
-        Set_Directory(mem);
+        Set_Directory(mem_cur_dir);
         return;
     end;
-    Set_Directory(mem);
+    Set_Directory(mem_cur_dir);
     Success:= True;
   end Self_extract;
 
@@ -192,6 +194,66 @@ procedure GW_Install is
   end Copy_encoding_dependent;
 
   Result: Message_Box_Result;
+
+  procedure Quit is
+    Ciao: Goodbye_dialog_type;
+    Ciao_2: Goodbye_dialog_2_type;
+    GNAT, GNAVI, GNAVI_SF, GNAVI_Dis, MinGW, ResEdit: URL_Type;
+    procedure Get_Data ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
+      pragma Warnings(off, dummy);
+      id: constant String:= To_String(Install_dir);
+    begin
+      if Ciao_2.Open_folder.State = Checked then
+        GWin_Util.Start(id & "\gwindows");
+      end if;
+      if Ciao_2.Open_user_guide.State = Checked then
+        GWin_Util.Start(id & "\gwindows\docs\User_Guide.html");
+      end if;
+      if With_GWenerator then
+        if Ciao_2.Build_gwenerator.State = Checked then
+          Set_Directory(id & "\gwenerator");
+          GWin_Util.Start(id & "\gwenerator\build.cmd", Minimized => True);
+          Set_Directory(mem_cur_dir);
+        end if;
+        if Ciao_2.Open_gwenerator_folder.State = Checked then
+          GWin_Util.Start(id & "\gwenerator");
+        end if;
+        if Ciao_2.Open_gwenerator_doc.State = Checked then
+          GWin_Util.Start(id & "\gwenerator\gwenerator_info.html");
+        end if;
+      end if;
+    end Get_Data;
+  begin
+    Create_Full_Dialog (Ciao, No_Parent);
+    Center(Ciao);
+    Small_Icon (Ciao, "AAA_Main_Icon");
+    Large_Icon (Ciao, "AAA_Main_Icon");
+    Create_and_Swap(GNAT, Ciao.GNAT_URL, Ciao, "http://libre.adacore.com/");
+    Create_and_Swap(MinGW, Ciao.MinGW_URL, Ciao, "http://mingw.org/");
+    Create_and_Swap(GNAVI, Ciao.GNAVI_URL, Ciao, "http://www.gnavi.org/");
+    Create_and_Swap(GNAVI_SF, Ciao.GNAVI_SF_URL, Ciao, "http://www.sf.net/projects/gnavi/");
+    Create_and_Swap(GNAVI_Dis, Ciao.GNAVI_Discuss_URL, Ciao, "http://lists.sf.net/lists/listinfo/gnavi-discuss");
+    Create_and_Swap(ResEdit, Ciao.ResEdit_URL, Ciao, "http://www.resedit.net/");
+    GWindows.Application.Show_Dialog (Ciao);
+    --
+    Create_Full_Dialog (Ciao_2, No_Parent);
+    Center(Ciao_2);
+    Small_Icon (Ciao_2, "AAA_Main_Icon");
+    Large_Icon (Ciao_2, "AAA_Main_Icon");
+    Ciao_2.Open_folder.State(Checked);
+    Ciao_2.Open_user_guide.State(Checked);
+    if With_GWenerator then
+      Ciao_2.Build_gwenerator.State(Checked);
+      Ciao_2.Open_gwenerator_folder.State(Checked);
+      Ciao_2.Open_gwenerator_doc.State(Checked);
+    else
+      Ciao_2.Build_gwenerator.Disable;
+      Ciao_2.Open_gwenerator_folder.Disable;
+      Ciao_2.Open_gwenerator_doc.Disable;
+    end if;
+    On_Destroy_Handler (Ciao_2, Get_Data'Unrestricted_Access);
+    GWindows.Application.Show_Dialog (Ciao_2);
+  end Quit;
 
 begin
   if Argument_Count > 0 then
@@ -242,22 +304,7 @@ begin
           exit;
         end if;
         Copy_encoding_dependent(To_String(Install_dir) & "\gwindows\framework\");
-        declare
-          Ciao: Goodbye_dialog_type;
-          GNAT, GNAVI, GNAVI_SF, GNAVI_Dis, MinGW, ResEdit: URL_Type;
-        begin
-          Create_Full_Dialog (Ciao, No_Parent);
-          Center(Ciao);
-          Small_Icon (Ciao, "AAA_Main_Icon");
-          Large_Icon (Ciao, "AAA_Main_Icon");
-          Create_and_Swap(GNAT, Ciao.GNAT_URL, Ciao, "http://libre.adacore.com/");
-          Create_and_Swap(MinGW, Ciao.MinGW_URL, Ciao, "http://mingw.org/");
-          Create_and_Swap(GNAVI, Ciao.GNAVI_URL, Ciao, "http://www.gnavi.org/");
-          Create_and_Swap(GNAVI_SF, Ciao.GNAVI_SF_URL, Ciao, "http://www.sf.net/projects/gnavi/");
-          Create_and_Swap(GNAVI_Dis, Ciao.GNAVI_Discuss_URL, Ciao, "http://lists.sf.net/lists/listinfo/gnavi-discuss");
-          Create_and_Swap(ResEdit, Ciao.ResEdit_URL, Ciao, "http://www.resedit.net/");
-          GWindows.Application.Show_Dialog (Ciao);
-        end;
+        Quit;
         exit;
       end if;
     end if;

@@ -2,9 +2,11 @@
 echo.
 echo Script for building RC2GW.exe and GWenerator.exe
 echo.
-echo make: option -r   recreates RC2GW's and GWenerator's parser sources from RC.y and RC.l
+echo make: option -r   recreates RC2GW's and GWenerator's parser sources
+echo                      from RC.y and RC.l
 echo              -gen recreates GWenerator's own GUI Ada sources with rc2gw
-echo              -res recompiles the resource for getting bitmaps, icons,... actualized
+echo              -res recompiles the resource for getting bitmaps,
+echo                      icons, etc. actualized
 echo.
 
 if exist ..\..\gwenerator\windows_stuff\gwindows.ads goto stuff_ok

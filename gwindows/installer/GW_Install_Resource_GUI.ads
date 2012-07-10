@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/07/10  10:37:26
+-- Transcription time: 2012/07/10  23:51:13
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -112,6 +112,45 @@ package GW_Install_Resource_GUI is
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
 
+  type Goodbye_dialog_2_Type is new Window_type with record
+
+    IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
+    IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
+    Static_0001: Icon_Type;
+    -- Label: IDC_STATIC
+    Static_0003: Group_Box_Type;
+    Open_folder: Check_Box_Type;
+    Open_user_guide: Check_Box_Type;
+    Static_0004: Group_Box_Type;
+    Build_gwenerator: Check_Box_Type;
+    Open_gwenerator_folder: Check_Box_Type;
+    Open_gwenerator_doc: Check_Box_Type;
+  end record; -- Goodbye_dialog_2_Type
+
+  -- Dialog at resource line 92
+
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
+  procedure Create_Full_Dialog
+     (Window      : in out Goodbye_dialog_2_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Title       : in     GString := "GWindows installation complete";
+      Left        : in     Integer := Use_Default; -- Default = as designed
+      Top         : in     Integer := Use_Default; -- Default = as designed
+      Width       : in     Integer := Use_Default; -- Default = as designed
+      Height      : in     Integer := Use_Default; -- Default = as designed
+      Help_Button : in     Boolean := False;
+      Is_Dynamic  : in     Boolean := False);
+
+  --  b) Create all contents, not the window itself (must be
+  --      already created) -> can be used in/as any kind of window.
+  --
+  procedure Create_Contents
+     ( Window      : in out Goodbye_dialog_2_Type;
+       for_dialog  : in     Boolean; -- True: buttons do close the window
+       resize      : in     Boolean:= False -- optionnally resize Window as designed
+     );
+
   type Main_install_dialog_Type is new Window_type with record
 
     Static_0001: Group_Box_Type;
@@ -137,7 +176,7 @@ package GW_Install_Resource_GUI is
     IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
   end record; -- Main_install_dialog_Type
 
-  -- Dialog at resource line 100
+  -- Dialog at resource line 120
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -169,7 +208,7 @@ package GW_Install_Resource_GUI is
     Static_0002: Icon_Type;
   end record; -- Unpack_dialog_Type
 
-  -- Dialog at resource line 114
+  -- Dialog at resource line 134
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -196,7 +235,7 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Installer for the GWindows programming framework";
-    FileVersion: constant String:= "10-Jul-2012";
+    FileVersion: constant String:= "10-Jul-2012 b";
     LegalCopyright: constant String:= "© 2012 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Installer";
     Translation: constant:= 1033;
@@ -221,19 +260,25 @@ package GW_Install_Resource_GUI is
   Success_icon           : constant:=    147;
   ResEdit_Logo           : constant:=    149;
   GNAT_Logo              : constant:=    151;
+  Goodbye_dialog_2       : constant:=    153;
   Directory_select_button: constant:=   1000;
   GNAVI_URL              : constant:=   1000;
+  Open_gwenerator_folder : constant:=   1000;
+  Build_gwenerator       : constant:=   1001;
   File_name              : constant:=   1001;
   GNAT_URL               : constant:=   1001;
   Setup_title            : constant:=   1001;
   Directory_edit         : constant:=   1002;
   GNAVI_SF_URL           : constant:=   1002;
+  Open_folder            : constant:=   1002;
   Unpack_progress        : constant:=   1002;
   Installed_version      : constant:=   1003;
+  Open_user_guide        : constant:=   1003;
   ResEdit_URL            : constant:=   1003;
   GNAVI_Discuss_URL      : constant:=   1004;
   GNATCOM_check          : constant:=   1006;
   MinGW_URL              : constant:=   1006;
+  Open_gwenerator_doc    : constant:=   1006;
   Installer_Version      : constant:=  40018;
   ANSI_choice            : constant:=  40019;
   UNICODE_choice         : constant:=  40021;
@@ -250,6 +295,6 @@ package GW_Install_Resource_GUI is
   function Num_resource(id: Natural) return String;
 
 
-  -- Last line of resource script file: 176
+  -- Last line of resource script file: 196
 
 end GW_Install_Resource_GUI;

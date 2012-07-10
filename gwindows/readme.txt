@@ -55,7 +55,7 @@ any problems or have suggestions for improvements.
 Documentation
 =============
 
-In the doc directory there is  a user_guide in Word format
+In the "docs" directory there is a user_guide in Word format
 (html available on the web) and a quick reference text.
 
 Installation

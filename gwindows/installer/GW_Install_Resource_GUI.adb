@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/07/10  10:37:26
+-- Transcription time: 2012/07/10  23:51:13
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -167,12 +167,12 @@ package body GW_Install_Resource_GUI is
       Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
-    Dlg_to_Scn(  129, 226, 69, 14, x,y,w,h);
+    Dlg_to_Scn(  103, 220, 116, 20, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.IDOK, Window, "Close", x,y,w,h, ID => IDOK);
-    Create( Window.IDOK_permanent, Window, "Close", x,y,w,h, ID => IDOK);
+    Create( Window.IDOK, Window, "Almost done", x,y,w,h, ID => IDOK);
+    Create( Window.IDOK_permanent, Window, "Almost done", x,y,w,h, ID => IDOK);
     if for_dialog then -- hide the non-closing button
       Hide(Window.IDOK_permanent);
     else -- hide the closing button
@@ -216,6 +216,94 @@ package body GW_Install_Resource_GUI is
 
 
   -- Dialog at resource line 81
+
+  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --
+  procedure Create_Full_Dialog
+     (Window      : in out Goodbye_dialog_2_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Title       : in     GString := "GWindows installation complete";
+      Left        : in     Integer := Use_Default; -- Default = as designed
+      Top         : in     Integer := Use_Default; -- Default = as designed
+      Width       : in     Integer := Use_Default; -- Default = as designed
+      Height      : in     Integer := Use_Default; -- Default = as designed
+      Help_Button : in     Boolean := False;
+      Is_Dynamic  : in     Boolean := False)
+  is
+    x,y,w,h: Integer;
+  begin
+    Dlg_to_Scn(  0, 0, 303, 216, x,y,w,h);
+    if Left   /= Use_Default then x:= Left;   end if;
+    if Top    /= Use_Default then y:= Top;    end if;
+    if Width  /= Use_Default then w:= Width;  end if;
+    if Height /= Use_Default then h:= Height; end if;
+    Create_As_Dialog(
+      Window => Window_Type(Window),
+      Parent => Parent,
+      Title  => Title,
+      Left   => x,
+      Top    => y,
+      Width  => w,
+      Height => h,
+      Help_Button => Help_Button,
+      Is_Dynamic  => Is_Dynamic
+    );
+    if Width = Use_Default then Client_Area_Width(Window, w); end if;
+    if Height = Use_Default then Client_Area_Height(Window, h); end if;
+    Use_GUI_Font(Window);
+    Create_Contents(Window, True);
+  end Create_Full_Dialog; -- Goodbye_dialog_2_Type
+
+  --  b) Create all contents, not the window itself (must be
+  --      already created) -> can be used in/as any kind of window.
+  --
+  procedure Create_Contents
+     ( Window      : in out Goodbye_dialog_2_Type;
+       for_dialog  : in     Boolean; -- True: buttons do close the window
+       resize      : in     Boolean:= False -- optionnally resize Window as designed
+     )
+  is
+    x,y,w,h: Integer;
+  begin
+    if resize then
+    Dlg_to_Scn(  0, 0, 303, 216, x,y,w,h);
+      Move(Window, x,y);
+      Client_Area_Size(Window, w, h);
+    end if;
+    Use_GUI_Font(Window);
+    Dlg_to_Scn(  93, 188, 107, 20, x,y,w,h);
+    -- Both versions of the button are created.
+    -- The more meaningful one is made visible, but this choice
+    -- can be reversed, for instance on a "Browse" button.
+    Create( Window.IDOK, Window, "Done", x,y,w,h, ID => IDOK);
+    Create( Window.IDOK_permanent, Window, "Done", x,y,w,h, ID => IDOK);
+    if for_dialog then -- hide the non-closing button
+      Hide(Window.IDOK_permanent);
+    else -- hide the closing button
+      Hide(Window.IDOK);
+    end if;
+    Dlg_to_Scn(  15, 12, 21, 20, x,y,w,h);
+    Create( Window.Static_0001, Window, Num_resource(Success_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  50, 19, 145, 8, x,y,w,h);
+    Create_label( Window, "Ready for starting with GWindows.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Dlg_to_Scn(  39, 35, 254, 49, x,y,w,h);
+    Create( Window.Static_0003, Window, "GWindows", x,y,w,h);
+    Dlg_to_Scn(  49, 49, 156, 8, x,y,w,h);
+    Create( Window.Open_folder, Window, "Open the GWindows folder", x,y,w,h, ID => Open_folder);
+    Dlg_to_Scn(  49, 69, 200, 8, x,y,w,h);
+    Create( Window.Open_user_guide, Window, "Open the GWindows User Guide", x,y,w,h, ID => Open_user_guide);
+    Dlg_to_Scn(  39, 97, 254, 77, x,y,w,h);
+    Create( Window.Static_0004, Window, "GWenerator", x,y,w,h);
+    Dlg_to_Scn(  49, 111, 113, 8, x,y,w,h);
+    Create( Window.Build_gwenerator, Window, "Build the GWenerator tool now", x,y,w,h, ID => Build_gwenerator);
+    Dlg_to_Scn(  49, 131, 146, 8, x,y,w,h);
+    Create( Window.Open_gwenerator_folder, Window, "Open the GWenerator folder", x,y,w,h, ID => Open_gwenerator_folder);
+    Dlg_to_Scn(  49, 151, 174, 8, x,y,w,h);
+    Create( Window.Open_gwenerator_doc, Window, "Open the GWenerator documentation", x,y,w,h, ID => Open_gwenerator_doc);
+  end Create_Contents; -- Goodbye_dialog_2_Type
+
+
+  -- Dialog at resource line 101
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -339,7 +427,7 @@ package body GW_Install_Resource_GUI is
   end Create_Contents; -- Main_install_dialog_Type
 
 
-  -- Dialog at resource line 109
+  -- Dialog at resource line 129
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -516,6 +604,6 @@ package body GW_Install_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 176
+  -- Last line of resource script file: 196
 
 end GW_Install_Resource_GUI;
