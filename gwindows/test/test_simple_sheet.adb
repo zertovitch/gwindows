@@ -146,8 +146,8 @@ begin
   Common_Fonts.Create_Common_Fonts;
   Use_GUI_Font (Top);
   GWindows.Simple_Sheet.Create (
-    Parent         => Top,
     Sheet          => Sheet,
+    Parent         => Top,
     Top            => 0,
     Left           => 0,
     Width          => column_width * columns,
