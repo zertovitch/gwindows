@@ -1,3 +1,8 @@
+-- This is the GNAT / GNAT Programming Studio (GPS) project file for
+-- building the GWindows tutorials.
+--
+-- Build me with "gnatmake -P gwindows_tutorials.gpr", or open me with GPS
+
 with "GWindows.gpr";
 
 project GWindows_Tutorials is
@@ -6,7 +11,7 @@ project GWindows_Tutorials is
       for Vcs_Kind use "Subversion";
    end Ide;
 
-   for Source_Dirs use ("tutorials");
+   for Source_Dirs use ("tutorials", "tutorials/msie");
    for Object_Dir use "obj";
    for Exec_Dir use "tutorials";   
    
@@ -14,7 +19,8 @@ project GWindows_Tutorials is
       for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
    end Compiler;
 
-   for Main use ("tutorial1.adb",
+   for Main use (
+      "tutorial1.adb",
    	  "tutorial2.adb",
    	  "tutorial3.adb",
    	  "tutorial4.adb",

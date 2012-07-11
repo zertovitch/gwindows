@@ -12,13 +12,13 @@ package body Tutorial23_Handle_Events is
       pDisp : GNATCOM.Types.VARIANT;
       URL   : GNATCOM.Types.VARIANT)
    is
+      pragma Unreferenced (This, pDisp);
    begin
       Message_Box ("Tutorial23",
                    GWindows.GStrings.To_GString_From_VARIANT
-                     (URL, Clear => false) &
+                     (URL, Clear => False) &
                      " - Document has been loaded.");
       --  Do not clear or free parameters passed in from events
    end DocumentComplete;
 
 end Tutorial23_Handle_Events;
-

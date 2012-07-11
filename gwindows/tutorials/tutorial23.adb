@@ -8,6 +8,10 @@ with GNATCOM.Initialize;
 with GNATCOM.Create.COM_Interface;
 with GNATCOM.Events;
 
+--  The 57 files ie*.ad* are created through the command
+--  bindcom C:\windows\system32\shdocvw.dll IE
+--  See gnatcom/tools for bindcom
+--
 with IE;
 with IE.IWebBrowser_Interface;
 with IE.DWebBrowserEvents2_Events;
@@ -16,9 +20,8 @@ with Tutorial23_Handle_Events;
 
 procedure Tutorial23 is
    Main_Window : Main_Window_Type;
-   IE_Control  : Activex_Type;
+   IE_Control  : ActiveX_Type;
    IE_COM      : IE.IWebBrowser_Interface.IWebBrowser_Type;
-
 
    Handle_Event_Object : aliased Tutorial23_Handle_Events.Handle_Event_Type;
    --  Create event object
@@ -45,13 +48,12 @@ begin
 
    Visible (Main_Window);
 
-   IE.IWebBrowser_Interface.Query (IE_COM, Iinterface (IE_Control));
+   IE.IWebBrowser_Interface.Query (IE_COM, Interfac (IE_Control));
 
    IE.DWebBrowserEvents2_Events.Set_Events
      (Handle_Events_Connection_Point,
       For_Object      => IE_COM,
       Event_Interface => Handle_Event);
-
 
    IE.IWebBrowser_Interface.Navigate (IE_COM,
                                       GWindows.GStrings.To_BSTR_From_GString
