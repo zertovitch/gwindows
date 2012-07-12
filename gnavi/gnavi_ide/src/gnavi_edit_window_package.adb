@@ -542,12 +542,12 @@ package body GNAVI_Edit_Window_Package is
       StyleSetFont (This.Body_Edit_Box, SCE_ADA_DEFAULT, "Courier");
 
 
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_COMMENT, Red);
+      StyleSetFore (This.Body_Edit_Box, SCE_ADA_COMMENTLINE, Red);
       StyleSetFore (This.Body_Edit_Box, SCE_ADA_NUMBER, Blue);
       StyleSetFore (This.Body_Edit_Box, SCE_ADA_WORD, Dark_Green);
       StyleSetFore (This.Body_Edit_Box, SCE_ADA_STRING, Dark_Red);
       StyleSetFore (This.Body_Edit_Box, SCE_ADA_CHARACTER, Blue);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_OPERATOR, Black);
+      --  StyleSetFore (This.Body_Edit_Box, SCE_ADA_OPERATOR, Black);
       StyleSetFore (This.Body_Edit_Box, SCE_ADA_IDENTIFIER, Black);
 
       StyleSetFore (This.Body_Edit_Box, SCE_ADA_STRINGEOL, White);
@@ -576,12 +576,12 @@ package body GNAVI_Edit_Window_Package is
       StyleSetFont (This.Spec_Edit_Box, SCE_ADA_DEFAULT, "Courier");
 
 
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_COMMENT, Red);
+      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_COMMENTLINE, Red);
       StyleSetFore (This.Spec_Edit_Box, SCE_ADA_NUMBER, Blue);
       StyleSetFore (This.Spec_Edit_Box, SCE_ADA_WORD, Dark_Green);
       StyleSetFore (This.Spec_Edit_Box, SCE_ADA_STRING, Dark_Red);
       StyleSetFore (This.Spec_Edit_Box, SCE_ADA_CHARACTER, Blue);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_OPERATOR, Black);
+      --  StyleSetFore (This.Spec_Edit_Box, SCE_ADA_OPERATOR, Black);
       StyleSetFore (This.Spec_Edit_Box, SCE_ADA_IDENTIFIER, Black);
 
       StyleSetFore (This.Spec_Edit_Box, SCE_ADA_STRINGEOL, White);
@@ -840,8 +840,9 @@ package body GNAVI_Edit_Window_Package is
 
          Begin_Text : String := "begin" & Character'Val(0);
 
-         Find_Info : Find_Text_Type := (0, GetLength (This.Body_Edit_Box),
-                                        Search_Text(1)'Address, 0, 0);
+         Find_Info : aliased Find_Text_Type :=
+           (0, GetLength (This.Body_Edit_Box),
+            Search_Text(1)'Address, 0, 0);
 
          F_POS : Integer;
       begin
@@ -849,13 +850,13 @@ package body GNAVI_Edit_Window_Package is
          Show_View ("Body View", This.Body_Edit_Box);
          F_POS := FindText (This.Body_Edit_Box,
                             flags => 0,
-                            ft => Find_Info);
+                            ft => Find_Info'Unchecked_Access);
          Find_Info.Min := F_POS;
          Find_Info.Text := Begin_Text (1)'Address;
 
          F_POS := FindText (This.Body_Edit_Box,
                             flags => 0,
-                            ft => Find_Info);
+                            ft => Find_Info'Unchecked_Access);
          F_POS := LineFromPosition (This.Body_Edit_Box, Find_Info.TMax);
 
          GotoPos (This.Body_Edit_Box,
@@ -895,8 +896,9 @@ package body GNAVI_Edit_Window_Package is
                       Control_Name (Current_Control) & """" &
                       GWindows.GCharacter'Val(0));
 
-         Find_Info : Find_Text_Type := (0, GetLength (This.XML_Edit_Box),
-                                        Search_Text(1)'Address, 0, 0);
+         Find_Info : aliased Find_Text_Type :=
+           (0, GetLength (This.XML_Edit_Box),
+            Search_Text(1)'Address, 0, 0);
 
          F_POS : Integer;
       begin
@@ -904,7 +906,7 @@ package body GNAVI_Edit_Window_Package is
          Show_View ("XML View", This.XML_Edit_Box);
          F_POS := FindText (This.XML_Edit_Box,
                             flags => 0,
-                            ft => Find_Info);
+                            ft => Find_Info'Unchecked_Access);
 
          GotoPos (This.XML_Edit_Box, F_POS);
 

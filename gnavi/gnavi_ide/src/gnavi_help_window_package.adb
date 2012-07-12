@@ -57,7 +57,7 @@ package body GNAVI_Help_Window_Package is
       Show (GNAVI_Help_Window);
       Focus (GNAVI_Help_Window);
 
-      Query (Explorer, Interface (GNAVI_Help_Window.HTML_Browser));
+      Query (Explorer, Interfac (GNAVI_Help_Window.HTML_Browser));
 
       Invoke (Explorer, "navigate",
               (1 => To_VARIANT_From_GString (Page)));

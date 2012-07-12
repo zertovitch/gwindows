@@ -767,7 +767,7 @@ package body Templates_Parser is
          FS    : Filter.Set (1 .. Strings.Fixed.Count (Tag, ":"));
          K     : Positive := FS'First;
 
-         function Name_Parameter (Filter : in String) return Filter.Routine;
+         function Name_Parameter (Filter : in String) return Templates_Parser.Filter.Routine;
          --  Given a Filter description, returns the filter handle and
          --  parameter.
 
@@ -825,7 +825,7 @@ package body Templates_Parser is
          -- Name_Parameter --
          --------------------
 
-         function Name_Parameter (Filter : in String) return Filter.Routine is
+         function Name_Parameter (Filter : in String) return Templates_Parser.Filter.Routine is
             use Strings;
 
             package F renames Templates_Parser.Filter;

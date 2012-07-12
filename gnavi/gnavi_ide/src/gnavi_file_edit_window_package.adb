@@ -70,12 +70,12 @@ package body GNAVI_File_Edit_Window_Package is
       StyleSetFont (This.Edit_Box, SCE_ADA_DEFAULT, "Courier");
 
 
-      StyleSetFore (This.Edit_Box, SCE_ADA_COMMENT, Red);
+      StyleSetFore (This.Edit_Box, SCE_ADA_COMMENTLINE, Red);
       StyleSetFore (This.Edit_Box, SCE_ADA_NUMBER, Blue);
       StyleSetFore (This.Edit_Box, SCE_ADA_WORD, Dark_Green);
       StyleSetFore (This.Edit_Box, SCE_ADA_STRING, Dark_Red);
       StyleSetFore (This.Edit_Box, SCE_ADA_CHARACTER, Blue);
-      StyleSetFore (This.Edit_Box, SCE_ADA_OPERATOR, Black);
+      --  StyleSetFore (This.Edit_Box, SCE_ADA_OPERATOR, Black);
       StyleSetFore (This.Edit_Box, SCE_ADA_IDENTIFIER, Black);
 
       StyleSetFore (This.Edit_Box, SCE_ADA_STRINGEOL, White);
