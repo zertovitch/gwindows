@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                G W I N D O W S . P A C K I N G _ B O X E S               --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -143,6 +143,8 @@ package body GWindows.Packing_Boxes is
       procedure Count_Children (Child : Pointer_To_Base_Window_Class) is
       begin
          if
+           Child /= null and then
+           Parent (Child.all) /= null and then
            Handle (Parent (Child.all).all) = Handle (Window)
          then
             Child_Count := Child_Count + 1;

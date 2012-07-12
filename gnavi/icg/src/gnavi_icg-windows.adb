@@ -57,7 +57,7 @@ package body GNAVI_ICG.Windows is
       use DOM.Core;
       use Templates;
 
-      Indent        : String := "         ";
+      Indent        : constant String := "         ";
       Control_Num   : Natural := 0;
       Controls_Node : Element;
       Control_List  : Node_List;
@@ -66,20 +66,20 @@ package body GNAVI_ICG.Windows is
       --  Discover controls
 
       function Create_Block (S : String) return String is
-         Control_Node    : Element := Nodes.Item (Control_List, Control_Num);
+         Control_Node    : constant Element := Nodes.Item (Control_List, Control_Num);
 
-         Control_Name    : String := Elements.Get_Attribute (Control_Node,
+         Control_Name    : constant String := Elements.Get_Attribute (Control_Node,
                                                           "name");
-         Control_Type    : String := Elements.Get_Attribute (Control_Node,
+         Control_Type    : constant String := Elements.Get_Attribute (Control_Node,
                                                           "type");
-         Control_Package : String := With_Of (Control_Type);
+         Control_Package : constant String := With_Of (Control_Type);
       begin
          Templates.Check_For_With (File_Spec, Control_Package);
 
          Control_Num := Control_Num + 1;
 
          declare
-            Line : String := Indent & Control_Name & " : aliased " &
+            Line : constant String := Indent & Control_Name & " : aliased " &
               Control_Type & ";" & NL;
          begin
             if Control_Num = Nodes.Length (Control_List) then
@@ -110,21 +110,21 @@ package body GNAVI_ICG.Windows is
    is
       use DOM.Core;
 
-      NL : Node_List :=
+      NL : constant Node_List :=
         Elements.Get_Elements_By_Tag_Name (Project.Project_Root,
                                            "windows");
    begin
       if Nodes.Length (NL) > 0 then
          declare
-            Windows_Node : DOM.Core.Element := Nodes.Item (NL, 0);
-            NL : Node_List :=
+            Windows_Node : constant DOM.Core.Element := Nodes.Item (NL, 0);
+            NL : constant Node_List :=
               Elements.Get_Elements_By_Tag_Name (Windows_Node,
                                                  "window");
          begin
             for N in 0 .. Nodes.Length (NL) - 1 loop
                declare
-                  Window_Node : DOM.Core.Element := Nodes.Item (NL, N);
-                  File_Name   : String := Elements.Get_Attribute (Window_Node,
+                  Window_Node : constant DOM.Core.Element := Nodes.Item (NL, N);
+                  File_Name   : constant String := Elements.Get_Attribute (Window_Node,
                                                                   "file");
                   Window_File : Input_Sources.File.File_Input;
                   Window_Tree : DOM.Readers.Tree_Reader;
@@ -137,7 +137,7 @@ package body GNAVI_ICG.Windows is
                   Window_Root := Documents.Get_Element (Window_Doc);
 
                   declare
-                     NL : Node_List :=
+                     NL : constant Node_List :=
                        Elements.Get_Elements_By_Tag_Name (Window_Root,
                                                           "window");
                   begin
@@ -145,13 +145,13 @@ package body GNAVI_ICG.Windows is
                         declare
                            use Templates_Parser;
 
-                           Window_Node    : DOM.Core.Element :=
+                           Window_Node    : constant DOM.Core.Element :=
                              Nodes.Item (NL, 0);
 
-                           Window_Name    : String :=
+                           Window_Name    : constant String :=
                              Elements.Get_Attribute (Window_Node, "name");
 
-                           Window_Package : String :=
+                           Window_Package : constant String :=
                              Window_Name & "_Package";
 
                            Window_Spec    : String :=
@@ -160,14 +160,14 @@ package body GNAVI_ICG.Windows is
                            Window_Body    : String :=
                              Window_Package & ".adb";
 
-                           Window_Type    : String :=
+                           Window_Type    : constant String :=
                                      Elements.Get_Attribute (Window_Node,
                                                              "type");
 
-                           Window_Base    : String :=
+                           Window_Base    : constant String :=
                              Templates.With_Of (Window_Type);
 
-                           Controls_Node_List  : Node_List :=
+                           Controls_Node_List  : constant Node_List :=
                              Elements.Get_Elements_By_Tag_Name (Window_Node,
                                                                 "controls");
 

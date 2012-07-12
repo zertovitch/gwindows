@@ -37,6 +37,15 @@ package body GNAVI_Edit_Window_Package is
 
    procedure On_Create (Window : in out GNAVI_Edit_Window_Type) is separate;
 
+   -- On_Menu_Select added by GdM, July 2012
+   -- Probably should also be separate, like On_Create,
+   -- and generated GNAVI
+   procedure On_Menu_Select (Window : in out GNAVI_Edit_Window_Type;
+                             Item   : in     Integer) is
+   begin
+      Handle_Menu(Window, Item);
+   end On_Menu_Select;
+
    -------------------------------------------------------------------------
    --  Private Methods
    -------------------------------------------------------------------------
@@ -217,7 +226,7 @@ package body GNAVI_Edit_Window_Package is
       function Expand (S : GWindows.GString; L : Natural)
                       return GWindows.GString
       is
-         N : Natural := L - 1;
+         N : constant Natural := L - 1;
       begin
          if N = 0 then
             return S & S;
@@ -232,7 +241,7 @@ package body GNAVI_Edit_Window_Package is
       begin
          while N /= null loop
             declare
-               A : GWindows.GString :=
+               A : constant GWindows.GString :=
                  Expand (" ", IL) & "   " & Control_Name (N);
             begin
                Add (Window.Outline_View, A);
@@ -261,14 +270,14 @@ package body GNAVI_Edit_Window_Package is
       use GNAVI_Window;
       use GNAT.OS_Lib;
 
-      Win_Name  : GWindows.GString := Window_Name (Window.Win_XML);
-      Body_Name : GWindows.GString := Win_Name & "_package.adb";
-      Spec_Name : GWindows.GString := Win_Name & "_package.ads";
-      XML_Name  : GWindows.GString := Win_Name & ".gnw";
+      Win_Name  : constant GWindows.GString := Window_Name (Window.Win_XML);
+      Body_Name : constant GWindows.GString := Win_Name & "_package.adb";
+      Spec_Name : constant GWindows.GString := Win_Name & "_package.ads";
+      XML_Name  : constant GWindows.GString := Win_Name & ".gnw";
 
-      B_TS : Integer := To_Integer (File_Time_Stamp (To_String (Body_Name)));
-      S_TS : Integer := To_Integer (File_Time_Stamp (To_String (Spec_Name)));
-      X_TS : Integer := To_Integer (File_Time_Stamp (To_String (XML_Name)));
+      B_TS : constant Integer := To_Integer (File_Time_Stamp (To_String (Body_Name)));
+      S_TS : constant Integer := To_Integer (File_Time_Stamp (To_String (Spec_Name)));
+      X_TS : constant Integer := To_Integer (File_Time_Stamp (To_String (XML_Name)));
    begin
       if Window.Body_TS < B_TS then
          Load (Window.Body_Edit_Box, Body_Name);
@@ -298,12 +307,12 @@ package body GNAVI_Edit_Window_Package is
       use GWindows.GStrings;
       use GWindows.Scroll_Panels;
 
-      Win_Name  : GWindows.GString :=
+      Win_Name  : constant GWindows.GString :=
         GNAVI_Window.Window_Name (Window.Win_XML);
 
-      XML_Name  : GWindows.GString := Win_Name & ".gnw";
+      XML_Name  : constant GWindows.GString := Win_Name & ".gnw";
 
-      X_TS : Integer :=
+      X_TS : constant Integer :=
         To_Integer (GNAT.OS_Lib.File_Time_Stamp (To_String (XML_Name)));
    begin
       Save_All_Views (Window);
@@ -375,7 +384,7 @@ package body GNAVI_Edit_Window_Package is
       use GWindows.GStrings;
 
       C_Rec   : Window_Rec_Access := First_Window_Rec'Access;
-      N_Rec   : Window_Rec_Access := new Window_Rec;
+      N_Rec   : constant Window_Rec_Access := new Window_Rec;
    begin
       N_Rec.Name   := To_GString_Unbounded (Name);
       N_Rec.Window := Window;
@@ -430,7 +439,7 @@ package body GNAVI_Edit_Window_Package is
       use GWindows.List_Boxes;
       use GNAVI_Window;
 
-      Current_Index   : Natural := Current (This.Outline_View) - 1;
+      Current_Index   : constant Natural := Current (This.Outline_View) - 1;
       Current_Control : GNAVI_Window.Control_Element;
    begin
       if Current_Index = 0 then
@@ -467,10 +476,10 @@ package body GNAVI_Edit_Window_Package is
    begin
       if not In_Window_List (Name) then
          declare
-            New_Window : GNAVI_Edit_Window_Access :=
+            New_Window : constant GNAVI_Edit_Window_Access :=
               new GNAVI_Edit_Window_Type;
 
-            P : GWindows.Base.Pointer_To_Base_Window_Class :=
+            P : constant GWindows.Base.Pointer_To_Base_Window_Class :=
               GNAVI_Main_Package.MDI_Active_Window
               (GNAVI_Main_Package.GNAVI_Main);
 
@@ -514,7 +523,7 @@ package body GNAVI_Edit_Window_Package is
       This : GNAVI_Edit_Window_Type
         renames GNAVI_Edit_Window_Type (Window);
 
-      M : Base_Menus := Setup_Editor_Menus;
+      M : constant Base_Menus := Setup_Editor_Menus;
 
    begin
       MDI_Menu (This, M.Main_Menu, M.Windows_Menu);
@@ -631,7 +640,7 @@ package body GNAVI_Edit_Window_Package is
      (Window    : in out GWindows.Base.Base_Window_Type'Class;
       Can_Close :    out Boolean)
    is
-      This : GNAVI_Edit_Window_Access :=
+      This : constant GNAVI_Edit_Window_Access :=
         GNAVI_Edit_Window_Type (Window)'Unchecked_Access;
    begin
       Can_Close := True;
@@ -685,7 +694,7 @@ package body GNAVI_Edit_Window_Package is
       This : GNAVI_Edit_Window_Type
         renames GNAVI_Edit_Window_Type (Window);
 
-      M : Menu_Type := GWindows.Windows.Menu
+      M : constant Menu_Type := GWindows.Windows.Menu
         (GWindows.Windows.Window_Type (Controlling_Parent (This).all));
    begin
       if This.Edit_Box /= null then
@@ -822,7 +831,7 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index   : Natural := Current (This.Outline_View) - 1;
+      Current_Index   : constant Natural := Current (This.Outline_View) - 1;
       Current_Control : GNAVI_Window.Control_Element;
    begin
       if Current_Index = 0 then
@@ -844,7 +853,8 @@ package body GNAVI_Edit_Window_Package is
            (0, GetLength (This.Body_Edit_Box),
             Search_Text(1)'Address, 0, 0);
 
-         F_POS : Integer;
+         F_POS, F_POS_2 : Integer;
+         pragma Unreferenced (F_POS_2);
       begin
          This.Edit_Box := This.Body_Edit_Box'Access;
          Show_View ("Body View", This.Body_Edit_Box);
@@ -857,7 +867,7 @@ package body GNAVI_Edit_Window_Package is
          F_POS := FindText (This.Body_Edit_Box,
                             flags => 0,
                             ft => Find_Info'Unchecked_Access);
-         F_POS := LineFromPosition (This.Body_Edit_Box, Find_Info.TMax);
+         F_POS_2 := LineFromPosition (This.Body_Edit_Box, Find_Info.TMax);
 
          GotoPos (This.Body_Edit_Box,
                   PositionFromLine (This.Body_Edit_Box, F_POS + 1));
@@ -881,7 +891,7 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index   : Natural := Current (This.Outline_View) - 1;
+      Current_Index   : constant Natural := Current (This.Outline_View) - 1;
       Current_Control : GNAVI_Window.Control_Element;
    begin
       if Current_Index = 0 then
@@ -927,7 +937,7 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index   : Integer := Current (This.Outline_View);
+      Current_Index   : constant Integer := Current (This.Outline_View);
       Current_Control : GNAVI_Window.Control_Element;
    begin
       if Current_Index <= 1 then
@@ -954,7 +964,7 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index   : Integer := Current (This.Outline_View);
+      Current_Index   : constant Integer := Current (This.Outline_View);
       Current_Control : GNAVI_Window.Control_Element;
    begin
       if Current_Index <= 1 then
@@ -980,10 +990,10 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index    : Natural := Current (This.Outline_View) - 1;
+      Current_Index    : constant Natural := Current (This.Outline_View) - 1;
       Current_Control  : GNAVI_Window.Control_Element;
 
-      Current_Property : Natural := Current (This.Properties_View);
+      Current_Property : constant Natural := Current (This.Properties_View);
    begin
       if Current_Index = 0 then
          Current_Control := Window_Element (This.Win_XML);
@@ -1007,10 +1017,10 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index    : Natural := Current (This.Outline_View) - 1;
+      Current_Index    : constant Natural := Current (This.Outline_View) - 1;
       Current_Control  : GNAVI_Window.Control_Element;
 
-      Current_Property : Natural := Current (This.Properties_View);
+      Current_Property : constant Natural := Current (This.Properties_View);
    begin
       if Current_Index = 0 then
          Current_Control := Window_Element (This.Win_XML);
@@ -1019,7 +1029,7 @@ package body GNAVI_Edit_Window_Package is
       end if;
 
       declare
-         Prop_Name : GWindows.GString :=
+         Prop_Name : constant GWindows.GString :=
            All_Property_Name (Current_Control, Current_Property);
       begin
          Set_All_Property (This.Win_XML,
@@ -1050,10 +1060,10 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index    : Natural := Current (This.Outline_View) - 1;
+      Current_Index    : constant Natural := Current (This.Outline_View) - 1;
       Current_Control  : GNAVI_Window.Control_Element;
 
-      Current_Handler : Natural := Current (This.Handlers_View);
+      Current_Handler : constant Natural := Current (This.Handlers_View);
    begin
       if Current_Index = 0 then
          Current_Control := Window_Element (This.Win_XML);
@@ -1085,10 +1095,10 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index    : Natural := Current (This.Outline_View) - 1;
+      Current_Index    : constant Natural := Current (This.Outline_View) - 1;
       Current_Control  : GNAVI_Window.Control_Element;
 
-      Current_Handler : Natural := Current (This.Handlers_View);
+      Current_Handler : constant Natural := Current (This.Handlers_View);
    begin
       if Current_Index = 0 then
          Current_Control := Window_Element (This.Win_XML);
@@ -1115,7 +1125,7 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index    : Natural := Current (This.Outline_View) - 1;
+      Current_Index    : constant Natural := Current (This.Outline_View) - 1;
       Current_Control  : GNAVI_Window.Control_Element;
       Previous_Control : GNAVI_Window.Control_Element;
    begin
@@ -1153,7 +1163,7 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index    : Natural := Current (This.Outline_View) - 1;
+      Current_Index    : constant Natural := Current (This.Outline_View) - 1;
       Current_Control  : GNAVI_Window.Control_Element;
       Next_Control     : GNAVI_Window.Control_Element;
    begin
@@ -1191,7 +1201,7 @@ package body GNAVI_Edit_Window_Package is
       Text (This.Property_Edit_Box, "");
       Text (This.Handler_Edit_Box, "");
       Reload_Details (This);
-   End Do_Control_Down;
+   end Do_Control_Down;
 
    procedure Do_Control_Right
      (Window : in out GWindows.Base.Base_Window_Type'Class)
@@ -1205,7 +1215,7 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index    : Natural := Current (This.Outline_View) - 1;
+      Current_Index    : constant Natural := Current (This.Outline_View) - 1;
       Current_Control  : GNAVI_Window.Control_Element;
       Previous_Control : GNAVI_Window.Control_Element;
    begin

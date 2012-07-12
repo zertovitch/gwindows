@@ -157,8 +157,8 @@ package body GNAVI_Widget_Vehicle is
       use GWindows.Drawing;
       use GWindows.Drawing_Objects;
 
-      Mid_Y : Integer := Client_Area_Height (Window) / 2;
-      Mid_X : Integer := Client_Area_Width (Window) / 2;
+      Mid_Y : constant Integer := Client_Area_Height (Window) / 2;
+      Mid_X : constant Integer := Client_Area_Width (Window) / 2;
 
       Handle_Brush : Brush_Type;
    begin
@@ -306,7 +306,7 @@ package body GNAVI_Widget_Vehicle is
                Top (Window, Top (Window) - 1);
             else
                declare
-                  Fixed_Y : Integer := Height (Window) - 1;
+                  Fixed_Y : constant Integer := Height (Window) - 1;
                begin
                   Height (Window, Fixed_Y);
 
@@ -324,7 +324,7 @@ package body GNAVI_Widget_Vehicle is
                Top (Window, Top (Window) + 1);
             else
                declare
-                  Fixed_Y : Integer := Height (Window) + 1;
+                  Fixed_Y : constant Integer := Height (Window) + 1;
                begin
                   Height (Window, Fixed_Y);
 
@@ -342,7 +342,7 @@ package body GNAVI_Widget_Vehicle is
                Left (Window, Left (Window) - 1);
             else
                declare
-                  Fixed_X : Integer := Width (Window) - 1;
+                  Fixed_X : constant Integer := Width (Window) - 1;
                begin
                   Width (Window, Fixed_X);
                   GWindows.Base.Width (Window.Widget.all,
@@ -358,7 +358,7 @@ package body GNAVI_Widget_Vehicle is
                Left (Window, Left (Window) + 1);
             else
                declare
-                  Fixed_X : Integer := Width (Window) + 1;
+                  Fixed_X : constant Integer := Width (Window) + 1;
                begin
                   Width (Window, Fixed_X);
                   GWindows.Base.Width (Window.Widget.all,

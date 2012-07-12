@@ -29,6 +29,15 @@ package body GNAVI_File_Edit_Window_Package is
    procedure On_Create
      (Window : in out GNAVI_File_Edit_Window_Type) is separate;
 
+   -- On_Menu_Select added by GdM, July 2012
+   -- Probably should also be separate, like On_Create,
+   -- and generated GNAVI
+   procedure On_Menu_Select (Window : in out GNAVI_File_Edit_Window_Type;
+                             Item   : in     Integer) is
+   begin
+      Handle_Menu(Window, Item);
+   end On_Menu_Select;
+
    -------------------------------------------------------------------------
    --  Handlers
    -------------------------------------------------------------------------
@@ -86,13 +95,13 @@ package body GNAVI_File_Edit_Window_Package is
    is
       use type GWindows.Base.Pointer_To_Base_Window_Class;
 
-      P : GWindows.Base.Pointer_To_Base_Window_Class :=
+      P : constant GWindows.Base.Pointer_To_Base_Window_Class :=
         GNAVI_Main_Package.MDI_Active_Window
         (GNAVI_Main_Package.GNAVI_Main);
 
       Z : Boolean := False;
 
-      New_Window : GNAVI_File_Edit_Window_Access :=
+      New_Window : constant GNAVI_File_Edit_Window_Access :=
         new GNAVI_File_Edit_Window_Type;
    begin
       if P /= null then

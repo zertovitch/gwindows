@@ -24,6 +24,15 @@ package body GNAVI_Main_Package is
 
    procedure On_Create (Window : in out GNAVI_Main_Type) is separate;
 
+   -- On_Menu_Select added by GdM, July 2012
+   -- Probably should also be separate, like On_Create,
+   -- and generated GNAVI
+   procedure On_Menu_Select (Window : in out GNAVI_Main_Type;
+                             Item   : in     Integer) is
+   begin
+      Handle_Menu(Window, Item);
+   end On_Menu_Select;
+
    -------------------------------------------------------------------------
    --  Handlers
    -------------------------------------------------------------------------

@@ -127,7 +127,7 @@ package body Data is
    -- Release --
    -------------
 
-   procedure Release (D : in out Tree) is
+   procedure Release (D : in Tree) is
 
       procedure Free is new Ada.Unchecked_Deallocation (Node, Tree);
 

@@ -20,11 +20,8 @@ package body GNAVI_New_Project_Package is
       use GWindows.Packing_Boxes;
    begin
       Dock_Children (GNAVI_New_Project);
-
-      -- The following triggers:
-      --     gwindows-packing_boxes.adb:146 access check failed
-      --  Pack (GNAVI_New_Project.New_Project_Box);
-      --  Pack (GNAVI_New_Project.Button_Pack_Box);
+      Pack (GNAVI_New_Project.New_Project_Box);
+      Pack (GNAVI_New_Project.Button_Pack_Box);
 
       GNAVI_Project_Classes.Init;
 

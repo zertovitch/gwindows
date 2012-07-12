@@ -43,7 +43,7 @@ package body GNAVI_ICG.Application is
    is
       use DOM.Core;
 
-      NL : Node_List :=
+      NL : constant Node_List :=
         Elements.Get_Elements_By_Tag_Name (Project.Project_Root,
                                            "application");
    begin
@@ -53,9 +53,9 @@ package body GNAVI_ICG.Application is
          declare
             use Templates_Parser;
 
-            App_Node         : DOM.Core.Element := Nodes.Item (NL, 0);
+            App_Node         : constant DOM.Core.Element := Nodes.Item (NL, 0);
 
-            Application_Name : String :=
+            Application_Name : constant String :=
               Elements.Get_Attribute (App_Node, "name");
 
             App_File_Name    : String := Application_Name & ".adb";

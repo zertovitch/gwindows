@@ -76,6 +76,10 @@ package GNAVI_Edit_Window_Package is
 
    procedure On_Create (Window : in out GNAVI_Edit_Window_Type);
 
+   -- On_Menu_Select added by GdM, July 2012
+   procedure On_Menu_Select (Window : in out GNAVI_Edit_Window_Type;
+                             Item   : in     Integer);
+
    -------------------------------------------------------------------------
    --  Public Methods
    -------------------------------------------------------------------------

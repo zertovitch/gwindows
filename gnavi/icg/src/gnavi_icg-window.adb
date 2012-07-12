@@ -38,7 +38,7 @@ with Templates_Parser;
 package body GNAVI_ICG.Window is
    use Ada.Strings.Unbounded;
 
-   Indent : String := "   ";
+   Indent : constant String := "   ";
 
    procedure Process_Control
      (O_String     : in out Ada.Strings.Unbounded.Unbounded_String;
@@ -57,19 +57,19 @@ package body GNAVI_ICG.Window is
       use DOM.Core;
       use Templates;
 
-      Control_Name    : String := "Window." &
+      Control_Name    : constant String := "Window." &
         Elements.Get_Attribute (Control_Node, "name");
 
-      Control_Type    : String :=  Elements.Get_Attribute (Control_Node,
+      Control_Type    : constant String :=  Elements.Get_Attribute (Control_Node,
                                                            "type");
 
-      Control_Package : String := With_Of (Control_Type);
+      Control_Package : constant String := With_Of (Control_Type);
 
-      Window_Package  : String := Window_Name & "_Package";
+      Window_Package  : constant String := Window_Name & "_Package";
 
       NI              : Node := Nodes.First_Child (Control_Node);
 
-      Create_String   : String :=
+      Create_String   : constant String :=
         Indent & Control_Package & ".Create (" &
         Control_Name & "," & NL &
         Indent & Indent & "Parent => " & Parent_Name &
@@ -173,14 +173,14 @@ package body GNAVI_ICG.Window is
 
       O_String       : Ada.Strings.Unbounded.Unbounded_String;
 
-      Window_Name    : String := Elements.Get_Attribute (Window_Node,
+      Window_Name    : constant String := Elements.Get_Attribute (Window_Node,
                                                       "name");
-      Window_Type    : String :=  Elements.Get_Attribute (Window_Node,
+      Window_Type    : constant String :=  Elements.Get_Attribute (Window_Node,
                                                           "type");
 
-      Window_Base    : String := Templates.With_Of (Window_Type);
+      Window_Base    : constant String := Templates.With_Of (Window_Type);
 
-      Window_Package : String := Window_Name & "_Package";
+      Window_Package : constant String := Window_Name & "_Package";
 
       Create_File    : String := Window_Name & "_package-on_create.adb";
 

@@ -1094,7 +1094,7 @@ package body Templates_Parser is
       procedure Print_Tree (D : in Tree);
       --  Decend the text tree and print it to the standard output.
 
-      procedure Release (D : in out Tree);
+      procedure Release (D : in Tree);
       --  Release all memory used by the tree.
 
    end Data;
