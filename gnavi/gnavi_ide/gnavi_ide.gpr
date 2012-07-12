@@ -5,13 +5,45 @@ with "../../gwindows/gwindows.gpr";
 
 project GNAVI_IDE is
 
+   type Build_Mode_Type is
+      ("Debug", "Fast", "Small");
+   Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
+
    for Source_Dirs use ("src", "../xml", "../icg/src");
    for Main use ("gnavi_ide.adb");
-   for Object_Dir use "obj";
-   for Exec_Dir use ".";
+   for Exec_Dir use "src"; -- it is supposed to be so given the datastore path
+   
+   case Build_Mode is
+      when "Debug" =>
+         for Object_Dir use "obj/debug";
+      when "Fast" =>
+         for Object_Dir use "obj/fast";
+      when "Small" =>
+         for Object_Dir use "obj/small";
+   end case;
    
    package Builder is
       for Default_Switches ("ada") use ("-j2");
    end Builder;
+
+   package Compiler is
+      case Build_Mode is
+         when "Debug" =>
+            for Default_Switches ("ada") use ("-gnat05", "-gnato", "-fno-inline", "-fstack-check", "-gnatwkmpz", "-fno-strict-aliasing", "-g", "-gnatVa", "-gnatyhiknp");
+         when "Fast" =>
+            for Default_Switches ("ada") use ("-gnat05", "-O2", "-gnatpn", "-gnatp", "-gnatwkmpz", "-fno-strict-aliasing", "-funroll-loops", "-fpeel-loops", "-ftracer", "-funswitch-loops", "-fweb", "-frename-registers");
+         when "Small" =>
+            for Default_Switches ("ada") use ("-gnat05", "-Os", "-gnatp", "-gnatwkmpz", "-fno-strict-aliasing", "-fno-inline", "-march=i386", "-ffunction-sections", "-falign-jumps=0", "-falign-loops=0", "-falign-functions=0", "-mpreferred-stack-boundary=2");
+      end case;
+   end Compiler;
    
+   package Binder is
+      case Build_Mode is
+         when "Debug" =>
+            for Default_Switches ("ada") use ("-E");
+         when "Fast" =>
+         when "Small" =>
+      end case;
+   end Binder;
+
 end GNAVI_IDE;

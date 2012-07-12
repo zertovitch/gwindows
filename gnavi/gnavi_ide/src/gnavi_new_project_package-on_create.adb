@@ -12,6 +12,6 @@ separate (GNAVI_New_Project_Package)
 procedure On_Create (Window : in out GNAVI_New_Project_Type)
 is
 begin
-  null;
+   Do_Create(Window);  --  Guess-worked correct action
 end On_Create;
 

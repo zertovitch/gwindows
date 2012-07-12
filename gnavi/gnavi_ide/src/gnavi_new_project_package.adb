@@ -20,8 +20,11 @@ package body GNAVI_New_Project_Package is
       use GWindows.Packing_Boxes;
    begin
       Dock_Children (GNAVI_New_Project);
-      Pack (GNAVI_New_Project.New_Project_Box);
-      Pack (GNAVI_New_Project.Button_Pack_Box);
+
+      -- The following triggers:
+      --     gwindows-packing_boxes.adb:146 access check failed
+      --  Pack (GNAVI_New_Project.New_Project_Box);
+      --  Pack (GNAVI_New_Project.Button_Pack_Box);
 
       GNAVI_Project_Classes.Init;
 
@@ -35,7 +38,7 @@ package body GNAVI_New_Project_Package is
       GWindows.Edit_Boxes.Focus (GNAVI_New_Project.Project_Name_Box);
    end Do_Create;
 
-   Procedure Do_Close
+   procedure Do_Close
      (Window    : in out GWindows.Base.Base_Window_Type'Class;
       Can_Close :    out Boolean)
    is
@@ -68,7 +71,7 @@ package body GNAVI_New_Project_Package is
          use GNAT.Directory_Operations;
          use GWindows.Message_Boxes;
 
-         Prj_Dir : String :=
+         Prj_Dir : constant String :=
            To_String (GWindows.Edit_Boxes.Text
                       (GNAVI_New_Project.Project_Dir_Box)) &
            Dir_Separator &

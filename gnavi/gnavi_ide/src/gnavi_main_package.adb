@@ -44,7 +44,7 @@ package body GNAVI_Main_Package is
 
       This : GNAVI_Main_Type renames GNAVI_Main;
 
-      M : Base_Menus := Setup_Base_Menus;
+      M : constant Base_Menus := Setup_Base_Menus;
 
       Icon : Icon_Type;
    begin

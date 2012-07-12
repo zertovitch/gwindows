@@ -67,7 +67,7 @@ package body GNAVI_Project_Window_Package is
    procedure Delete_Window is
       use GWindows.List_Boxes;
 
-      Selected : Natural  :=
+      Selected : constant Natural  :=
         Current (GNAVI_Project_Window.Window_Type_List);
 
    begin
@@ -114,7 +114,7 @@ package body GNAVI_Project_Window_Package is
       use GNAVI_Project;
       use GWindows.List_Boxes;
 
-      Selected : Natural  :=
+      Selected : constant Natural  :=
         Current (GNAVI_Project_Window.Window_Type_List);
    begin
       if Selected > 0 then

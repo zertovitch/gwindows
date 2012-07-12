@@ -12,6 +12,6 @@ separate (GNAVI_Edit_Window_Package)
 procedure On_Create (Window : in out GNAVI_Edit_Window_Type)
 is
 begin
-  null;
+   Do_Create(Window);  --  Guess-worked correct action
 end On_Create;
 

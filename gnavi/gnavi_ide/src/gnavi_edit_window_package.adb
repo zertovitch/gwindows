@@ -24,7 +24,7 @@ package body GNAVI_Edit_Window_Package is
 
    TAB_WIDTH : constant := 3;
 
-   Key_Words : GWindows.GString :=
+   Key_Words : constant GWindows.GString :=
      "abort abstract accept access aliased all array at begin body case " &
      "constant declare delay delta digits do else elsif end entry exception " &
      "exit for function generic goto if in is limited loop new null of " &
@@ -72,7 +72,7 @@ package body GNAVI_Edit_Window_Package is
       use GNAT.OS_Lib;
 
       OFile       : File_Descriptor;
-      Doc_Length  : Integer := GetLength (Window);
+      Doc_Length  : constant Integer := GetLength (Window);
       Length      : Integer := 0;
       F_Exception : exception;
       Success     : Boolean;

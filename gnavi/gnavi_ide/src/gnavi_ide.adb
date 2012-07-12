@@ -47,6 +47,7 @@ begin
       GNAT.OS_Lib.OS_Exit (1);
    end if;
 
+   GNAVI_Main_Package.Show (GNAVI_Main_Package.GNAVI_Main);
    GNAVI_Main_Package.Focus (GNAVI_Main_Package.GNAVI_Main);
    GWindows.Application.Message_Loop;
 exception

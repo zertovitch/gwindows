@@ -15,7 +15,7 @@ package body GNAVI_File_Edit_Window_Package is
 
    TAB_WIDTH : constant := 3;
 
-   Key_Words : GWindows.GString :=
+   Key_Words : constant GWindows.GString :=
      "abort abstract accept access aliased all array at begin body case " &
      "constant declare delay delta digits do else elsif end entry exception " &
      "exit for function generic goto if in is limited loop new null of " &
@@ -43,7 +43,7 @@ package body GNAVI_File_Edit_Window_Package is
       This : GNAVI_File_Edit_Window_Type
         renames GNAVI_File_Edit_Window_Type (Window);
 
-      M : Base_Menus := Setup_Editor_Menus;
+      M : constant Base_Menus := Setup_Editor_Menus;
    begin
       MDI_Menu (This, M.Main_Menu, M.Windows_Menu);
 
@@ -123,7 +123,7 @@ package body GNAVI_File_Edit_Window_Package is
       This : GNAVI_File_Edit_Window_Type
         renames GNAVI_File_Edit_Window_Type (Window);
 
-      M : Menu_Type := GWindows.Windows.Menu
+      M : constant Menu_Type := GWindows.Windows.Menu
         (GWindows.Windows.Window_Type (Controlling_Parent (This).all));
    begin
       if Kind = GWindows.Windows.Menu then
