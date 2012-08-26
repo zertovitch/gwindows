@@ -36,7 +36,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "23-May-2012";
+  Grammar_Version: constant String:= "26-Aug-2012";
   Web: constant String:= "http://sf.net/projects/gnavi";
 
   function S(Source: Unbounded_String) return String
@@ -45,6 +45,7 @@ package RC_Help is
     renames Ada.Strings.Unbounded.To_Unbounded_String;
 
   function Ada_ify(s: String) return Unbounded_String;
+  function Replace_special_characters(str: String) return String;
 
   function RC_to_Package_name(
     rc_name     : String;

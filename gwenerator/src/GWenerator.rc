@@ -50,9 +50,9 @@ Main_Menu MENU
 {
     POPUP "&File"
     {
-        MENUITEM "&New...", New_GWen
-        MENUITEM "&Open...", Open_GWen
-        MENUITEM "&Save", Save_GWen
+        MENUITEM "&New...\tCtrl+N", New_GWen
+        MENUITEM "&Open...\tCtrl+O", Open_GWen
+        MENUITEM "&Save\tCtrl+S", Save_GWen
         MENUITEM "Save &as...", Save_GWen_as
         MENUITEM SEPARATOR
         MENUITEM "&Quit", Quit

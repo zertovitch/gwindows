@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2012/05/25  14:24:08
+-- Transcription time: 2012/08/26   09:37:37
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -28,9 +28,9 @@ package body GWenerator_Resource_GUI is
     Menu.Main:= Create_Menu;
     Menu.Popup_0001:= Create_Popup;
     Append_Menu(Menu.Main, "&File", Menu.Popup_0001);
-    Append_Item(Menu.Popup_0001, "&New...", New_GWen);
-    Append_Item(Menu.Popup_0001, "&Open...", Open_GWen);
-    Append_Item(Menu.Popup_0001, "&Save", Save_GWen);
+    Append_Item(Menu.Popup_0001, "&New..." & ASCII.HT & "Ctrl+N", New_GWen);
+    Append_Item(Menu.Popup_0001, "&Open..." & ASCII.HT & "Ctrl+O", Open_GWen);
+    Append_Item(Menu.Popup_0001, "&Save" & ASCII.HT & "Ctrl+S", Save_GWen);
     Append_Item(Menu.Popup_0001, "Save &as...", Save_GWen_as);
     Append_Separator(Menu.Popup_0001);
     Append_Item(Menu.Popup_0001, "&Quit", Quit);

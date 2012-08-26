@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008..2010
+--  Copyright (c) Gautier de Montmollin 2008..2012
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -49,6 +49,18 @@ package body RC_Help is
     end loop;
     return us;
   end Ada_ify;
+
+  function Replace_special_characters(str: String) return String is
+    us: Unbounded_String:= U(str);
+    i: Natural;
+  begin
+    loop
+      i:= Index(us, "\t");
+      exit when i = 0;
+      Replace_Slice(us, i, i+1, """ & ASCII.HT & """);
+    end loop;
+    return S(us);
+  end Replace_special_characters;
 
   function Combo_type_name(combo: Combo_type) return String is
   begin

@@ -862,7 +862,7 @@ when 410 => -- #line 1269
               Ada_Put(to_body,
                 "    Append_Item(Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
-                ", " & yytext
+                ", " & Replace_special_characters(yytext)
               );
             
 

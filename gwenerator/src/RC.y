@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script grammar file (AYACC)
 --
---  Copyright (c) Gautier de Montmollin 2008..2010
+--  Copyright (c) Gautier de Montmollin 2008..2012
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1271,7 +1271,7 @@ menu_entry :
               Ada_Put(to_body,
                 "    Append_Item(Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
-                ", " & yytext
+                ", " & Replace_special_characters(yytext)
               );
             }
             COMMA_t
