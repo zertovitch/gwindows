@@ -57,7 +57,7 @@ package body RC_Help is
     loop
       i:= Index(us, "\t");
       exit when i = 0;
-      Replace_Slice(us, i, i+1, """ & ASCII.HT & """);
+      Replace_Slice(us, i, i+1, """ & To_GString_from_String((1=>ASCII.HT)) & """);
     end loop;
     return S(us);
   end Replace_special_characters;
@@ -408,9 +408,7 @@ package body RC_Help is
     Ada_Put_Line(to_body, "with GWindows.Types;                    use GWindows.Types;");
     Ada_Put_Line(to_body, "with GWindows.Drawing;                  use GWindows.Drawing;");
     Ada_Put_Line(to_body, "with GWindows.Drawing_Objects;");
-    if initialize_controls then
-      Ada_Put_Line(to_body, "with GWindows.GStrings;                 use GWindows.GStrings;");
-    end if;
+    Ada_Put_Line(to_body, "with GWindows.GStrings;                 use GWindows.GStrings;");
 
     Ada_Put_Line(to_body, "with System;");
     Ada_New_Line(to_body);

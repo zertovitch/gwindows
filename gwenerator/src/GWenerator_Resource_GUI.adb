@@ -1,18 +1,19 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2012/08/26   09:37:37
+-- Transcription time: 2012/08/26   11:11:11
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 23-May-2012
+-- RC Grammar version: 26-Aug-2012
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
 with GWindows.Drawing;                  use GWindows.Drawing;
 with GWindows.Drawing_Objects;
+with GWindows.GStrings;                 use GWindows.GStrings;
 with System;
 
 package body GWenerator_Resource_GUI is
@@ -28,9 +29,9 @@ package body GWenerator_Resource_GUI is
     Menu.Main:= Create_Menu;
     Menu.Popup_0001:= Create_Popup;
     Append_Menu(Menu.Main, "&File", Menu.Popup_0001);
-    Append_Item(Menu.Popup_0001, "&New..." & ASCII.HT & "Ctrl+N", New_GWen);
-    Append_Item(Menu.Popup_0001, "&Open..." & ASCII.HT & "Ctrl+O", Open_GWen);
-    Append_Item(Menu.Popup_0001, "&Save" & ASCII.HT & "Ctrl+S", Save_GWen);
+    Append_Item(Menu.Popup_0001, "&New..." & To_GString_from_String((1=>ASCII.HT)) & "Ctrl+N", New_GWen);
+    Append_Item(Menu.Popup_0001, "&Open..." & To_GString_from_String((1=>ASCII.HT)) & "Ctrl+O", Open_GWen);
+    Append_Item(Menu.Popup_0001, "&Save" & To_GString_from_String((1=>ASCII.HT)) & "Ctrl+S", Save_GWen);
     Append_Item(Menu.Popup_0001, "Save &as...", Save_GWen_as);
     Append_Separator(Menu.Popup_0001);
     Append_Item(Menu.Popup_0001, "&Quit", Quit);

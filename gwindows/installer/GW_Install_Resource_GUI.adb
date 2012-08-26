@@ -1,18 +1,19 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/07/10  23:51:13
+-- Transcription time: 2012/08/26   11:14:42
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 23-May-2012
+-- RC Grammar version: 26-Aug-2012
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
 with GWindows.Drawing;                  use GWindows.Drawing;
 with GWindows.Drawing_Objects;
+with GWindows.GStrings;                 use GWindows.GStrings;
 with System;
 
 package body GW_Install_Resource_GUI is
@@ -400,8 +401,8 @@ package body GW_Install_Resource_GUI is
     Create( Window.GNATCOM_check, Window, "Install GNATCOM - mandatory for GWindows", x,y,w,h, ID => GNATCOM_check);
     Disable(Window.GNATCOM_check);
     Disable(Window.GNATCOM_check);
-    Dlg_to_Scn(  9, 200, 214, 8, x,y,w,h);
-    Create( Window.GWen_check, Window, "Install the GWenerator Ada code generator (ANSI only)", x,y,w,h, ID => GWen_check);
+    Dlg_to_Scn(  9, 200, 264, 8, x,y,w,h);
+    Create( Window.GWen_check, Window, "Install the GWenerator Ada code generator (ANSI resources only)", x,y,w,h, ID => GWen_check);
     Dlg_to_Scn(  241, 194, 60, 17, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice

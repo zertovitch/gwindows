@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2012/08/26   09:37:37
+-- Transcription time: 2012/08/26   11:11:11
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 23-May-2012
+-- RC Grammar version: 26-Aug-2012
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;

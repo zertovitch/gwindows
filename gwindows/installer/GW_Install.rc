@@ -115,7 +115,7 @@ FONT 8, "Ms Shell Dlg"
     GROUPBOX        "Character and string encoding - please choose:", IDC_STATIC, 9, 120, 293, 52
     CONTROL         GNAVI_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 36, 6, 125, 33
     AUTOCHECKBOX    "Install GNATCOM - mandatory for GWindows", GNATCOM_check, 9, 184, 224, 8, WS_DISABLED
-    AUTOCHECKBOX    "Install the GWenerator Ada code generator (ANSI only)", GWen_check, 9, 200, 214, 8
+    AUTOCHECKBOX    "Install the GWenerator Ada code generator (ANSI resources only)", GWen_check, 9, 200, 264, 8
     DEFPUSHBUTTON   "Install", IDOK, 241, 194, 60, 17
     PUSHBUTTON      "Cancel", IDCANCEL, 241, 218, 60, 17
 }
