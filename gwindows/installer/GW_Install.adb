@@ -93,6 +93,7 @@ procedure GW_Install is
   procedure Self_extract(Success: out Boolean) is
     zi: Zip_Info;
     n: Natural:= 0;
+    pct_old: Natural:= 0;
     No_Parent : Window_Type;
     Unpack_Dlg: GW_Install_Resource_GUI.Unpack_dialog_Type;
     --
@@ -107,6 +108,10 @@ procedure GW_Install is
     begin
       n:= n + 1;
       pct:= (100 * n) / Entries(zi);
+      if pct /= pct_old then
+        GWindows.Application.Message_Check;
+      end if;
+      pct_old:= pct;
       Unpack_Dlg.Unpack_progress.Position(pct);
       Unpack_Dlg.File_name.Text(name);
     end Tell_data;
