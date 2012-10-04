@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                   G W I N D O W S . S C I N T I L L A                    --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -2280,7 +2283,6 @@ package GWindows.Scintilla is
    --  These should be overiden with caution and only with a full
    --  understanding of the internals of the entire GWindows framework
 
-   overriding
    procedure On_Notify
      (Window       : in out Scintilla_Type;
       Message      : in     GWindows.Base.Pointer_To_Notification;
@@ -2288,7 +2290,6 @@ package GWindows.Scintilla is
       Return_Value : in out GWindows.Types.Lresult);
    --  Handles Notify Messages
 
-   overriding
    procedure On_Command (Window  : in out Scintilla_Type;
                          Code    : in     Integer;
                          ID      : in     Integer;

@@ -48,7 +48,6 @@ private
          FileName                  : Unbounded_String;
       end record;
 
-   overriding
    procedure On_Message
      (Html         : in out Html_Type;
       message      : Interfaces.C.unsigned;

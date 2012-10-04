@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                     G W I N D O W S . D R A W I N G                      --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2010 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -253,7 +256,7 @@ package body GWindows.Drawing is
          lprc      : GWindows.Types.Rectangle_Type := Clip_Area;
          Text      : GString_C                     := C_Text;
          Size      : Integer                       := C_Text'Length - 1;
-         lpDX      : access Integer                := null);
+         lpDX      : GWindows.Types.Lparam         := 0);
       pragma Import (StdCall, ExtTextOut,
                        "ExtTextOut" & Character_Mode_Identifier);
    begin
