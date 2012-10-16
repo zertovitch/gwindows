@@ -781,6 +781,12 @@ package GWindows.Common_Controls is
                            Index     : in     Integer;
                            Sub_Index : in     Integer);
 
+   procedure Insert_Item (Control      : in out List_View_Control_Type;
+                          Text         : in  GString;
+                          Index        : in  Integer;
+                          Sorted_Index : out Integer;
+                          Icon         : in  Integer := 0);
+
    procedure Insert_Item (Control : in out List_View_Control_Type;
                           Text    : in GString;
                           Index   : in Integer;

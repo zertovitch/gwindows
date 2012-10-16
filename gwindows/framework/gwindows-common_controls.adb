@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --      G W I N D O W S . W I N D O W S . C O M M O N _ C O N T R O L S     --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -2071,28 +2071,31 @@ package body GWindows.Common_Controls is
    -- Insert_Item --
    -----------------
 
-   procedure Insert_Item (Control : in out List_View_Control_Type;
-                          Text    : in GString;
-                          Index   : in Integer;
-                          Icon    : in Integer := 0)
+   procedure Insert_Item (Control      : in out List_View_Control_Type;
+                          Text         : in  GString;
+                          Index        : in  Integer;
+                          Sorted_Index : out Integer;
+                          Icon         : in  Integer := 0)
    is
       C_Text : GString_C := GWindows.GStrings.To_GString_C (Text);
 
       Item : LVITEM;
 
-      procedure SendMessageA
+      function SendMessageA
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := LVM_INSERTITEMA;
          wParam : GWindows.Types.Wparam := 0;
-         lParam : LVITEM                := Item);
+         lParam : LVITEM                := Item)
+      return GWindows.Types.Lparam;
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
 
-      procedure SendMessageW
+      function SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := LVM_INSERTITEMW;
          wParam : GWindows.Types.Wparam := 0;
-         lParam : LVITEM                := Item);
+         lParam : LVITEM                := Item)
+      return GWindows.Types.Lparam;
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -2103,10 +2106,26 @@ package body GWindows.Common_Controls is
 
       case Character_Mode is
          when Unicode =>
-            SendMessageW;
+            Sorted_Index:= Integer(SendMessageW);
          when ANSI =>
-            SendMessageA;
+            Sorted_Index:= Integer(SendMessageA);
       end case;
+   end Insert_Item;
+
+   procedure Insert_Item (Control : in out List_View_Control_Type;
+                          Text    : in GString;
+                          Index   : in Integer;
+                          Icon    : in Integer := 0)
+   is
+      Sorted_Index: Integer; -- will be ignored
+   begin
+      Insert_Item(
+         Control      => Control,
+         Text         => Text,
+         Index        => Index,
+         Sorted_Index => Sorted_Index,
+         Icon         => Icon
+      );
    end Insert_Item;
 
    ----------------
