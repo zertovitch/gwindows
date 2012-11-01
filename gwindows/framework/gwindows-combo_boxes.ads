@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                 G W I N D O W S . C O M B O _ B O X E S                  --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -163,21 +166,25 @@ package GWindows.Combo_Boxes is
    procedure Clear (Combo : in out Combo_Box_Type);
    --  Clear combo box
 
-   function Find (Combo      : Combo_Box_Type;
-                  Value      : GString;
-                  Start_Item : Natural        := 0)
+   function Find (Combo            : Combo_Box_Type;
+                  Value            : GString;
+                  Start_After_Item : Natural        := 0)
                  return Natural;
-   --  Find a string in the combo box, return its 1 based index. The
-   --  search starts with the item after Start_Item. If Start_Item = 0
-   --  all items are searched. Return 0 if not found
+   --  Find a string in the combo box, return its 1-based index.
+   --  Start_After_Item is the one-based index of the item preceding the first
+   --  item to be searched. When the search reaches the bottom of the combo
+   --  box, it continues from the top of the combo box back to the item
+   --  specified by the Start_After_Item parameter. If Start_After_Item is 0,
+   --  the entire combo box is searched from the beginning.
+   --  Return 0 if not found.
 
-   function Find_Exact (Combo      : in Combo_Box_Type;
-                        Value      : in GString;
-                        Start_Item : in Natural        := 0)
+   function Find_Exact (Combo            : in Combo_Box_Type;
+                        Value            : in GString;
+                        Start_After_Item : in Natural        := 0)
                        return Natural;
-   --  Find the exact string in the combo box.  The search starts with the
-   --  item after Start_Item. If Start_Item = 0 all items are searched.
-   --  Return 0 if not found
+   --  Find the exact string in the combo box.  The search starts with the item
+   --  after Start_After_Item. If Start_After_Item = 0 all items are searched.
+   --  Return 0 if not found.
 
    function Recommended_Size (Combo : in Combo_Box_Type)
                              return GWindows.Types.Size_Type;

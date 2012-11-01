@@ -28,7 +28,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -2106,9 +2109,9 @@ package body GWindows.Common_Controls is
 
       case Character_Mode is
          when Unicode =>
-            Sorted_Index:= Integer(SendMessageW);
+            Sorted_Index := Integer (SendMessageW);
          when ANSI =>
-            Sorted_Index:= Integer(SendMessageA);
+            Sorted_Index := Integer (SendMessageA);
       end case;
    end Insert_Item;
 
@@ -2117,9 +2120,9 @@ package body GWindows.Common_Controls is
                           Index   : in Integer;
                           Icon    : in Integer := 0)
    is
-      Sorted_Index: Integer; -- will be ignored
+      Sorted_Index : Integer; -- will be ignored
    begin
-      Insert_Item(
+      Insert_Item (
          Control      => Control,
          Text         => Text,
          Index        => Index,

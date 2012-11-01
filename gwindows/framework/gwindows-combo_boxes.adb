@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                 G W I N D O W S . C O M B O _ B O X E S                  --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -607,17 +610,18 @@ package body GWindows.Combo_Boxes is
    -- Find --
    ----------
 
-   function Find (Combo      : Combo_Box_Type;
-                  Value      : GString;
-                  Start_Item : Natural := 0) return Natural
+   function Find (Combo            : Combo_Box_Type;
+                  Value            : GString;
+                  Start_After_Item : Natural := 0) return Natural
    is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
+      use GWindows.Types;
 
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Combo);
          uMsg   : Interfaces.C.int      := CB_FINDSTRING;
          wParam : GWindows.Types.Wparam :=
-           GWindows.Types.Wparam (Start_Item - 1);
+           GWindows.Types.Wparam (Start_After_Item) - 1;
          lParam : access GChar_C        := C_Value (C_Value'First)'Access)
         return Integer;
       pragma Import (StdCall, SendMessage,
@@ -630,18 +634,19 @@ package body GWindows.Combo_Boxes is
    -- Find_Exact --
    ----------------
 
-   function Find_Exact (Combo      : Combo_Box_Type;
-                        Value      : GString;
-                        Start_Item : Natural        := 0)
+   function Find_Exact (Combo            : Combo_Box_Type;
+                        Value            : GString;
+                        Start_After_Item : Natural        := 0)
                        return Natural
    is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
+      use GWindows.Types;
 
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Combo);
          uMsg   : Interfaces.C.int      := CB_FINDSTRINGEXACT;
          wParam : GWindows.Types.Wparam :=
-           GWindows.Types.Wparam (Start_Item - 1);
+           GWindows.Types.Wparam (Start_After_Item) - 1;
          lParam : access GChar_C        := C_Value (C_Value'First)'Access)
         return Integer;
       pragma Import (StdCall, SendMessage,
