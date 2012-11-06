@@ -5,26 +5,27 @@
 
 with "GWindows.gpr";
 
-project GWindows_Test is
+project GWindows_Contrib is
 
    package Ide is
       for Vcs_Kind use "Subversion";
    end Ide;
 
-   for Source_Dirs use ("test");
+   for Source_Dirs use ("contrib/test", "contrib");
    for Object_Dir use "obj";
    for Exec_Dir use ".";   
    
    package Compiler is
-      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
+      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatwaKM");
    end Compiler;
 
    for Main use (
-      "test_clipboard.adb"
+      "test_simple_sheet.adb",
+      "demo_exlv1.adb", "demo_exlv2.adb", "demo_exlv3.adb"
    );
 
    package Builder is
       for Default_Switches ("ada") use ("-j2");
    end Builder;
    
-end GWindows_Test;
+end GWindows_Contrib;
