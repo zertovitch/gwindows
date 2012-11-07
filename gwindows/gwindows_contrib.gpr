@@ -20,9 +20,8 @@ project GWindows_Contrib is
    end Compiler;
 
    package Linker is
-
-      for Default_Switches ("ada") use ("../gwenerator/src/GWenerator.rbj"); -- just to get the Visual Styles through manifest.xml
-
+      for Default_Switches ("ada") use ("contrib/test/visual_styles.rbj"); 
+      -- Get the Windows Visual Styles through manifest.xml
    end Linker;
    
    for Main use (
