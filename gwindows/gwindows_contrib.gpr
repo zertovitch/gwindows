@@ -19,6 +19,12 @@ project GWindows_Contrib is
       for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatwaKM");
    end Compiler;
 
+   package Linker is
+
+      for Default_Switches ("ada") use ("../gwenerator/src/GWenerator.rbj"); -- just to get the Visual Styles through manifest.xml
+
+   end Linker;
+   
    for Main use (
       "test_simple_sheet.adb",
       "demo_exlv1.adb", "demo_exlv2.adb", "demo_exlv3.adb"

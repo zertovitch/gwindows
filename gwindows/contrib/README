@@ -17,7 +17,7 @@ controls.
 
 ----------------------------------------------------------
 -- Falk Maier, Frank Piron,
--- KonAd GmbH 2003/2004, ada@konad.de
+-- KonAd GmbH 2003..2012, ada@konad.de
 ----------------------------------------------------------
 
 1)
@@ -30,19 +30,18 @@ Moreover you may supply two images and start and stop a
 "flash task" which toggles between the two images.
 
 2)
-Gwindows.Common_Controls.Ex_Lv
-Gwindows.Common_Controls.Ex_Lv_Generic
+GWindows.Common_Controls.Ex_List_View
 
-These Packages provide an Extended List View Control
-which supports advanced Styles like Header-Drag-and-
-Drop, Grid Appearance and others.
+This packages provides an extended List View control
+which supports advanced styles like header drag-and-
+drop, Grid Appearance and others.
 
 Moreover you may sort the list according to a columns
 content. You may set Colors at cell (subitem) level.
 
 You can associate an icon with every item (row).
 
-With the generic you can store arbitrary data (generic
+Through genericity you can store arbitrary data (set as generic
 parameter) at cell (subitem) level.
 
 3)

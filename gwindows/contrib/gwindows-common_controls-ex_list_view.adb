@@ -68,8 +68,6 @@ package body Gwindows.Common_Controls.Ex_List_View is
    HDM_GETITEMCOUNT             : constant := HDM_FIRST;
    HDM_GETITEMRECT              : constant := HDM_FIRST + 7;
 
-   Null_Color: Color_Type := 17000000; -- out of RGB-range
-
    type Lvitem is
       Record
          Mask      : Interfaces.C.Unsigned := 0;
@@ -240,13 +238,13 @@ package body Gwindows.Common_Controls.Ex_List_View is
    -----------------------------------------------------------------------------------------
    function Create_Internal(Control: in Ex_List_View_Control_Type) return Internal_Access is
       Int: Internal_Access;
-      null_Colors: Internal_Color_Type := (Textcolor => Null_color,
-                                           Backcolor => Null_color);
+      nullColors: Internal_Color_Type := (Textcolor => Nullcolor,
+                                           Backcolor => Nullcolor);
    begin
       Int := new Internal_Type;
       if Column_Count(Control) > 0 then
          Int.Colors := new Internal_Color_Array_Type(0..Column_Count(Control)-1);
-         Int.Colors.all := (others => null_colors);
+         Int.Colors.all := (others => nullcolors);
       end if;
 
       return Int;
@@ -302,10 +300,9 @@ package body Gwindows.Common_Controls.Ex_List_View is
 
       Item : Lvitem;
       get_Umsg: Interfaces.C.Int;
-      set_Umsg: Interfaces.C.Int;
       internal: Internal_access := null;
-      Default_Colors: Internal_Color_Type := (Textcolor => Control.Control_textcolor,
-                                              Backcolor => Control.Control_Backcolor);
+      nullColors: Internal_Color_Type := (Textcolor => Nullcolor,
+                                          Backcolor => nullcolor);
       ret: Gwindows.Types.lparam;
    begin
       -- get the lparam
@@ -316,10 +313,8 @@ package body Gwindows.Common_Controls.Ex_List_View is
       case Character_Mode is
          when Unicode =>
             get_Umsg := Lvm_Getitemw;
-            set_Umsg := Lvm_Setitemw;
          when Ansi =>
             get_Umsg := Lvm_Getitema;
-            set_Umsg := Lvm_Setitema;
       end case;
 
       Ret := Sendmessage(hwnd => Handle(Control),
@@ -329,18 +324,12 @@ package body Gwindows.Common_Controls.Ex_List_View is
 
       Internal := Lparam_To_Internal(Item.Lparam);
 
-      -- color array available?
-      if Internal.Colors = null then
-         Internal.Colors := new Internal_Color_Array_Type(0..Column_Count(Control)-1);
-         Internal.Colors.all := (others => Default_colors);
-      end if;
-
       -- range?
       if Internal.Colors.all'Last < Sub_Index then
          declare
             Tmp_Colors: Internal_Color_Array_Access := new Internal_Color_Array_Type(0..Column_Count(Control)-1);
          begin
-            Tmp_Colors.all := (others => Default_colors);
+            Tmp_Colors.all := (others => nullcolors);
             Tmp_Colors(0..Internal.Colors.all'Last) := Internal.Colors.all;
             -- free the old array
             Free_Color_Array(Internal.Colors);
@@ -348,16 +337,8 @@ package body Gwindows.Common_Controls.Ex_List_View is
          end;
       end if;
 
-      -- set the lparam
-      internal.Colors(Sub_Index).Textcolor := colors.Textcolor;
-      internal.Colors(Sub_Index).backcolor := colors.backcolor;
+      Internal.Colors(Sub_Index)  := Colors;
 
-      Item.Lparam := Internal_To_Lparam(internal);
-
-      Ret := Sendmessage(hwnd => Handle(Control),
-                         Umsg => set_Umsg,
-                         Wparam => 0,
-                         Lparam => lvitem_To_Lparam(Item'Unrestricted_Access));
    end Set_Internal_color;
    -----------------------------------------------------------------------------------------
    procedure Set_Internal_payload (Control   : in     Ex_List_View_Control_Type;
@@ -366,7 +347,6 @@ package body Gwindows.Common_Controls.Ex_List_View is
 
       Item : Lvitem;
       get_Umsg: Interfaces.C.Int;
-      set_Umsg: Interfaces.C.Int;
       internal: Internal_access := null;
       ret: Gwindows.Types.lparam;
    begin
@@ -378,10 +358,8 @@ package body Gwindows.Common_Controls.Ex_List_View is
       case Character_Mode is
          when Unicode =>
             get_Umsg := Lvm_Getitemw;
-            set_Umsg := Lvm_Setitemw;
          when Ansi =>
             get_Umsg := Lvm_Getitema;
-            set_Umsg := Lvm_Setitema;
       end case;
 
       Ret := Sendmessage(hwnd => Handle(Control),
@@ -393,11 +371,6 @@ package body Gwindows.Common_Controls.Ex_List_View is
 
       -- set payload
       Internal.User_Data := Payload;
-
-      Ret := Sendmessage(hwnd => Handle(Control),
-                         Umsg => set_Umsg,
-                         Wparam => 0,
-                         Lparam => lvitem_To_Lparam(Item'Unrestricted_Access));
 
    end Set_Internal_payload;
    -----------------------------------------------------------------------------------------
@@ -546,11 +519,17 @@ package body Gwindows.Common_Controls.Ex_List_View is
                if Internal /= null and then
                  Internal.Colors /= null and then
                  Internal.Colors'Last >=  Integer(Lvcd_Ptr.Isubitem) and then
-                 Internal.colors(Integer(Lvcd_Ptr.Isubitem)).TextColor /= Null_Color then
+                 Internal.colors(Integer(Lvcd_Ptr.Isubitem)).TextColor /= NullColor then
                   Lvcd_Ptr.Clrtext := Internal.colors(Integer(Lvcd_Ptr.Isubitem)).TextColor;
-                  Lvcd_Ptr.Clrtextbk := Internal.colors(Integer(Lvcd_Ptr.Isubitem)).backColor;
                else
                   Lvcd_Ptr.Clrtext := Control.Control_TextColor;
+               end if;
+               if Internal /= null and then
+                 Internal.Colors /= null and then
+                 Internal.Colors'Last >=  Integer(Lvcd_Ptr.Isubitem) and then
+                 Internal.colors(Integer(Lvcd_Ptr.Isubitem)).backColor /= NullColor then
+                  Lvcd_Ptr.Clrtextbk := Internal.colors(Integer(Lvcd_Ptr.Isubitem)).backColor;
+               else
                   Lvcd_Ptr.Clrtextbk := Control.Control_Backcolor;
                end if;
             end;

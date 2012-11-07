@@ -180,10 +180,12 @@ package Gwindows.Common_Controls.Ex_List_View is
 
 private
 
+   NullColor: Color_Type := 17000000; -- out of RGB-range
+
    -- internal
    type Internal_Color_Type is record
-      Textcolor: Color_Type := black;
-      Backcolor: Color_Type := white;
+      Textcolor: Color_Type := nullcolor;
+      Backcolor: Color_Type := nullcolor;
    end record;
    type Internal_Color_Array_Type is array (natural range <>) of Internal_color_Type;
    type Internal_Color_Array_Access is access all Internal_Color_Array_Type;
