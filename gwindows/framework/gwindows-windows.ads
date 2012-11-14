@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                    G W I N D O W S . W I N D O W S                       --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -450,6 +453,7 @@ package GWindows.Windows is
 
    type Array_Of_File_Names is
      array (Natural range <>) of GWindows.GString_Unbounded;
+   Empty_Array_Of_File_Names : constant Array_Of_File_Names;
 
    type File_Drop_Event is access
      procedure (Window     : in out GWindows.Base.Base_Window_Type'Class;
@@ -1046,5 +1050,8 @@ private
          Background_Color     : GWindows.Colors.Color_Type;
          Background_Color_Sys : Boolean := True;
       end record;
+
+   Empty_Array_Of_File_Names : constant Array_Of_File_Names :=
+      (0 .. -1 => Null_GString_Unbounded);
 
 end GWindows.Windows;
