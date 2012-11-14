@@ -52,6 +52,8 @@ package GWindows is
    subtype GCharacter is Character;
    subtype GString is String;
    subtype GString_Unbounded is Ada.Strings.Unbounded.Unbounded_String;
+   Null_GString_Unbounded : constant GString_Unbounded :=
+      Ada.Strings.Unbounded.Null_Unbounded_String;
 
    subtype GChar_C is Interfaces.C.char;
    subtype GString_C is Interfaces.C.char_array;

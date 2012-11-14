@@ -714,7 +714,7 @@ package body GWindows.Common_Dialogs is
    begin
       Get_Directory (Dialog_Title, Result1, Result2);
       return GWindows.GStrings.To_GString_From_Unbounded (Result2);
-   end Get_Directoy;
+   end Get_Directory;
 
    procedure Get_Directory
      (Window       : in GWindows.Base.Base_Window_Type'Class;

@@ -52,7 +52,9 @@ package GWindows is
    subtype GCharacter is Wide_Character;
    subtype GString is Wide_String;
    subtype GString_Unbounded is
-     Ada.Strings.Wide_Unbounded.Unbounded_Wide_String;
+      Ada.Strings.Wide_Unbounded.Unbounded_Wide_String;
+   Null_GString_Unbounded : constant GString_Unbounded :=
+      Ada.Strings.Wide_Unbounded.Null_Unbounded_Wide_String;
 
    subtype GChar_C is Interfaces.C.wchar_t;
    subtype GString_C is Interfaces.C.wchar_array;
