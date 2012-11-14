@@ -2504,6 +2504,63 @@ package body GWindows.Common_Controls is
       Tab_Stop (Control);
    end On_Create;
 
+   ---------------------
+   -- On_Item_Changed --
+   ---------------------
+
+   procedure On_Item_Changed (Control : in out List_View_Control_Type) is
+   begin
+      Fire_On_Item_Changed (Control);
+   end On_Item_Changed;
+
+   -----------------------------
+   -- On_Item_Changed_Handler --
+   -----------------------------
+
+   procedure On_Item_Changed_Handler
+      (Control : in out List_View_Control_Type;
+       Handler : in     GWindows.Base.Action_Event)
+   is
+   begin
+      Control.On_Item_Changed_Event := Handler;
+   end On_Item_Changed_Handler;
+
+   ---------------------
+   -- On_Item_Changed --
+   ---------------------
+
+   procedure Fire_On_Item_Changed (Control : in out List_View_Control_Type)
+   is
+      use GWindows.Base;
+   begin
+      if Control.On_Item_Changed_Event /= null then
+         Control.On_Item_Changed_Event (Base_Window_Type'Class (Control));
+      end if;
+   end Fire_On_Item_Changed;
+
+   ---------------
+   -- On_Notify --
+   ---------------
+
+   procedure On_Notify
+     (Window       : in out List_View_Control_Type;
+      Message      : in     GWindows.Base.Pointer_To_Notification;
+      Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
+      Return_Value : in out GWindows.Types.Lresult)
+   is
+      LVN_FIRST       : constant := -100;
+      --  LVN_ITEMCHANGING : constant := LVN_FIRST - 0;
+      LVN_ITEMCHANGED : constant := LVN_FIRST - 1;
+   begin
+      case Message.Code is
+         when LVN_ITEMCHANGED =>
+            On_Item_Changed (List_View_Control_Type'Class (Window));
+         when others =>
+            On_Notify (Common_Control_Type (Window),
+                       Message, Control, Return_Value);
+      end case;
+   end On_Notify;
+
    --------------
    -- AnSp: Next List_View_Control_Type functions are added --
    --------------

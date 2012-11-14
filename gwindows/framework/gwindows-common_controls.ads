@@ -821,6 +821,20 @@ package GWindows.Common_Controls is
    procedure On_Create (Control : in out List_View_Control_Type);
    --  Sets control as a tab stop and with a border
 
+   procedure On_Item_Changed (Control : in out List_View_Control_Type);
+
+   procedure On_Item_Changed_Handler
+      (Control : in out List_View_Control_Type;
+       Handler : in     GWindows.Base.Action_Event);
+
+   procedure Fire_On_Item_Changed (Control : in out List_View_Control_Type);
+
+   procedure On_Notify
+     (Window       : in out List_View_Control_Type;
+      Message      : in     GWindows.Base.Pointer_To_Notification;
+      Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
+      Return_Value : in out GWindows.Types.Lresult);
+
    --------------
    -- AnSp: Next List_View_Control_Type functions are added --
    --------------
@@ -1472,7 +1486,10 @@ private
 
    type Progress_Control_Type is new Common_Control_Type with null record;
 
-   type List_View_Control_Type is new Common_Control_Type with null record;
+   type List_View_Control_Type is new Common_Control_Type with
+      record
+         On_Item_Changed_Event  : GWindows.Base.Action_Event := null;
+      end record;
 
    type Tree_View_Control_Type is new Common_Control_Type with
       record
