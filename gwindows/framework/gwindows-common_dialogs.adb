@@ -729,10 +729,12 @@ package body GWindows.Common_Dialogs is
         Interfaces.C.To_C (GWindows.GStrings.To_String (Dialog_Title));
       BInfo     : BROWSEINFO;
       Pidl      : Interfaces.C.long;
+      BIF_NEWDIALOGSTYLE : constant := 16#00000040#;
    begin
       BInfo.hwndOwner := GWindows.Base.Handle (Window);
       BInfo.pszDisplayName := Directory (Directory'First)'Unchecked_Access;
       BInfo.lpszTitle := Title (Title'First)'Unchecked_Access;
+      BInfo.ulFlags := BIF_NEWDIALOGSTYLE;
 
       Pidl :=  SHBrowseForFolder (BInfo);
 
