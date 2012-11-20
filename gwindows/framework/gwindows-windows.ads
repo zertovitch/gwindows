@@ -454,6 +454,7 @@ package GWindows.Windows is
    type Array_Of_File_Names is
      array (Natural range <>) of GWindows.GString_Unbounded;
    Empty_Array_Of_File_Names : constant Array_Of_File_Names;
+   type Array_Of_File_Names_Access is access Array_Of_File_Names;
 
    type File_Drop_Event is access
      procedure (Window     : in out GWindows.Base.Base_Window_Type'Class;

@@ -69,7 +69,7 @@ package body GWindows.Common_Dialogs is
    OFN_ENABLETEMPLATE       : constant := 64;                       --  * AnSp
 --     OFN_ENABLETEMPLATEHANDLE : constant := 128;
 --     OFN_NOVALIDATE           : constant := 256;
---     OFN_ALLOWMULTISELECT     : constant := 512;
+   OFN_ALLOWMULTISELECT     : constant := 512;
 --     OFN_EXTENSIONDIFFERENT   : constant := 1024;
 --     OFN_PATHMUSTEXIST        : constant := 2048;
 --     OFN_FILEMUSTEXIST        : constant := 4096;
@@ -409,6 +409,135 @@ package body GWindows.Common_Dialogs is
          File_Title := To_GString_Unbounded ("");
       end if;
    end Open_File;
+
+   ----------------
+   -- Open_Files --
+   ----------------
+
+   procedure Open_Files
+     (Window            : in     GWindows.Base.Base_Window_Type'Class;
+      Dialog_Title      : in     GString;
+      File_Names        :    out GWindows.Windows.Array_Of_File_Names_Access;
+      Filters           : in     Filter_Array;
+      Default_Extension : in     GString;
+      File_Title        :    out GString_Unbounded;
+      Success           :    out Boolean;
+      TemplateId        : in     Integer := 0;
+      UserProc          : in     OFNHookProc := null)
+   is
+      use Interfaces.C;
+      use GWindows.GStrings;
+      use GWindows.GStrings.Unbounded;
+
+      OFN         : OPENFILENAME;
+      Max_Size    : constant := 5120;
+      C_File_Name : char_array (0 .. Max_Size) :=
+        (others => nul);
+      C_File_Title  : char_array (0 .. Max_Size) :=
+        (others => nul);
+      Result      : Integer;
+      C_Default_Extension : char_array :=
+        To_C (GWindows.GStrings.To_String (Default_Extension));
+      C_Dialog_Title : char_array :=
+        To_C (GWindows.GStrings.To_String (Dialog_Title));
+      Filter_List : GString_Unbounded;
+   begin
+      for N in Filters'Range loop
+         Filter_List := Filter_List &
+           To_GString_Unbounded (To_GString_From_Unbounded
+                                   (Filters (N).Name) &
+                                 GCharacter'Val (0) &
+                                 To_GString_From_Unbounded
+                                   (Filters (N).Filter) &
+                                 GCharacter'Val (0));
+      end loop;
+
+      Filter_List := Filter_List & To_GString_Unbounded (GCharacter'Val (0) &
+                                                         GCharacter'Val (0));
+
+      declare
+         C_Filter_List : char_array :=
+           To_C (To_String (To_GString_From_Unbounded (Filter_List)));
+      begin
+         OFN.hwndOwner := GWindows.Base.Handle (Window);
+         OFN.lpstrFile := C_File_Name (0)'Unchecked_Access;
+         OFN.nMaxFile := Max_Size;
+         OFN.lpstrFileTitle := C_File_Title (0)'Unchecked_Access;
+         OFN.nMaxFileTitle := Max_Size;
+         OFN.lpstrFilter := C_Filter_List (0)'Unchecked_Access;
+         OFN.nFilterIndex := 1;
+         OFN.lpstrDefExt := C_Default_Extension (0)'Unchecked_Access;
+         OFN.lpstrTitle := C_Dialog_Title (0)'Unchecked_Access;
+         --  * AnSp: next if statements are new
+         if TemplateId /= 0 then
+            OFN.lpTemplateName := MAKEINTRESOURCE (TemplateId);
+            OFN.hInstance := GWindows.Application.hInstance;
+            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLETEMPLATE);
+         end if;
+         if UserProc /= null then
+            Hook := UserProc;
+            OFN.lpfnHook := Stdcallhook'Access;
+            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLEHOOK);
+         end if;
+         OFN.flags := OFN.flags +
+            Interfaces.C.long (OFN_EXPLORER + OFN_ALLOWMULTISELECT);
+         Result := GetOpenFileName (OFN);
+      end;
+      Success := Result /= 0;
+
+      if Success then
+         --  Now we suffer a bit...
+         --  MSDN: OFN_ALLOWMULTISELECT.
+         --  The directory and file name strings are NULL separated,
+         --  with an extra NULL character after the last file name.
+         declare
+            count : Integer := -1;
+            last : size_t := C_File_Name'Last;
+            dir : size_t;
+            last_sep : size_t := -1;
+         begin
+            for i in C_File_Name'Range loop
+               if C_File_Name (i) = char'Val (0) then
+                 count := count + 1;
+               end if;
+               if i < C_File_Name'Last then
+                  if C_File_Name (i .. i + 1) =
+                  char'Val (0) & char'Val (0) then
+                     last := i;
+                     exit;
+                  end if;
+               end if;
+            end loop;
+            File_Names :=
+               new GWindows.Windows.Array_Of_File_Names (1 .. count);
+            count := -1;
+            for i in 0 .. last loop
+               if C_File_Name (i) = char'Val (0) then
+                  count := count + 1;
+                  if count = 0 then
+                     dir := i - 1;
+                  else
+                     File_Names (count) :=
+                        To_GString_Unbounded
+                           (
+                             To_GString_From_String (To_Ada (
+                                C_File_Name (0 .. dir) & '\' &
+                                C_File_Name (last_sep + 1 .. i)
+                             ))
+                           );
+                  end if;
+                  last_sep := i;
+               end if;
+            end loop;
+         end;
+         File_Title :=
+           To_GString_Unbounded
+           (To_GString_From_String (To_Ada (C_File_Title)));
+      else
+         File_Names := null;
+         File_Title := To_GString_Unbounded ("");
+      end if;
+   end Open_Files;
 
    ---------------
    -- Save_File --

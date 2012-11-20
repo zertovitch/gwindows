@@ -40,6 +40,7 @@ with GWindows.Base;
 with GWindows.Drawing_Objects;
 with GWindows.Drawing;
 with GWindows.Types;                                                --  * AnSp
+with GWindows.Windows;
 
 package GWindows.Common_Dialogs is
 
@@ -108,6 +109,17 @@ package GWindows.Common_Dialogs is
      (Window            : in     GWindows.Base.Base_Window_Type'Class;
       Dialog_Title      : in     GString;
       File_Name         : in out GString_Unbounded;
+      Filters           : in     Filter_Array;
+      Default_Extension : in     GString;
+      File_Title        :    out GString_Unbounded;
+      Success           :    out Boolean;
+      TemplateId        : in     Integer := 0;
+      UserProc          : in     OFNHookProc := null);
+
+   procedure Open_Files
+     (Window            : in     GWindows.Base.Base_Window_Type'Class;
+      Dialog_Title      : in     GString;
+      File_Names        :    out GWindows.Windows.Array_Of_File_Names_Access;
       Filters           : in     Filter_Array;
       Default_Extension : in     GString;
       File_Title        :    out GString_Unbounded;
