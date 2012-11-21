@@ -609,7 +609,7 @@ package body RC_Help is
     Ada_New_Line(to);
     Ada_Put_Line(to, "  procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);");
     Ada_New_Line(to);
-    Ada_Put_Line(to, "  function Num_resource(id: Natural) return String;");
+    Ada_Put_Line(to, "  function Num_resource(id: Natural) return GString;");
     Ada_New_Line(to);
   end Ada_Helpers_spec;
 
@@ -752,9 +752,9 @@ package body RC_Help is
       -- Dialog_Button's close the window and Button don't .
       -- If we want a "real", permanent, window, then we want
       -- the latter sort.
-      --
-      -- "Dialog" version of the button
-      --
+      ------------------------------------
+      -- "Dialog" version of the button --
+      ------------------------------------
       Ada_Put(to_spec, "    " & S(last_Ada_ident) & ": ");
       if style_switch(default) then
         Ada_Put(to_spec, "Default_");
@@ -764,9 +764,9 @@ package body RC_Help is
       Ada_Put_Line(to_body, "    -- The more meaningful one is made visible, but this choice");
       Ada_Put_Line(to_body, "    -- can be reversed, for instance on a ""Browse"" button.");
       Ada_normal_control_create(", " & S(last_text));
-      --
-      -- "Window" version of the button
-      --
+      ------------------------------------
+      -- "Window" version of the button --
+      ------------------------------------
       temp_ustr:= last_Ada_ident;
       last_Ada_ident:= U(S(last_Ada_ident) & "_permanent");
       Ada_Put(to_spec, "    " & S(last_Ada_ident) & ": ");
@@ -780,6 +780,10 @@ package body RC_Help is
       Ada_Put_Line(to_body, "    else -- hide the closing button");
       Ada_Put_Line(to_body, "      Hide(Window." & S(temp_ustr) & ");");
       Ada_Put_Line(to_body, "    end if;");
+      if style_switch(disabled) then
+        Ada_Put_Line(to_body, "    Enabled(Window." & S(last_Ada_ident) & ", False);");
+        Ada_Put_Line(to_body, "    Enabled(Window." & S(temp_ustr) & ", False);");
+      end if;
     end if;
     Ada_optional_disabling;
   end Ada_button_control;
@@ -1131,10 +1135,10 @@ package body RC_Help is
     Ada_Put_Line(to_body, "    GWindows.Base.Set_Font (Window, Common_Fonts.GUI_Font);");
     Ada_Put_Line(to_body, "  end Use_GUI_Font;");
     Ada_New_Line(to_body);
-    Ada_Put_Line(to_body, "  function Num_resource(id: Natural) return String is");
+    Ada_Put_Line(to_body, "  function Num_resource(id: Natural) return GString is");
     Ada_Put_Line(to_body, "    img: constant String:= Integer'Image(id);");
     Ada_Put_Line(to_body, "  begin");
-    Ada_Put_Line(to_body, "    return '#' & img(img'first+1..img'Last);");
+    Ada_Put_Line(to_body, "    return To_GString_from_String('#' & img(img'first+1..img'Last));");
     Ada_Put_Line(to_body, "  end Num_resource;");
     Ada_New_Line(to_body);
     Ada_Put_Line(to_body, "  package body Common_Fonts is");
