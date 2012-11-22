@@ -810,6 +810,11 @@ package GWindows.Common_Controls is
       Index   : in     Integer;
       Width   : in     Integer);
 
+   function Column_Width
+     (Control : in List_View_Control_Type;
+      Index   : in Integer)
+     return Integer;
+
    procedure Clear (Control : in out List_View_Control_Type);
 
    -------------------------------------------------------------------------

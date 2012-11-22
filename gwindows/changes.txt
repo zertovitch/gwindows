@@ -6,6 +6,7 @@ GWindows release, xxxxxxxxxxx
 =============================
 Major changes - numbers below refer to svn repository revisions:
 
+173: GWindows.Common_Controls: List_View_Control_Type: added Column_Width function
 170: GWindows.Common_Dialogs: added Open_Files
 166: GWindows.Common_Controls: added method On_Item_Changed to List_View_Control_Type
 158: GWindows.Common_Controls: List_View_Control_Type: Insert_Item also with Sorted_Index as 'out' parameter

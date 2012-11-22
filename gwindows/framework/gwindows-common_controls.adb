@@ -2473,6 +2473,31 @@ package body GWindows.Common_Controls is
       end case;
    end Set_Column_Width;
 
+   ------------------
+   -- Column_Width --
+   ------------------
+
+   function Column_Width (
+      Control : in List_View_Control_Type;
+      Index   : in Integer
+   )
+   return Integer
+   is
+      LVM_FIRST               : constant := 16#1000#;
+      LVM_GETCOLUMNWIDTH      : constant := LVM_FIRST + 29;
+
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := LVM_GETCOLUMNWIDTH;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
+         lParam : GWindows.Types.Lparam := 0)
+        return Integer;
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      return SendMessage;
+   end Column_Width;
+
    -----------------
    -- Delete_Item --
    -----------------
