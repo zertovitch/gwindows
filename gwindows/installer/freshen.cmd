@@ -4,7 +4,7 @@ rem ==================================================
 
 cd ..\..
 copy /B gwindows\installer\gwin.zip gwindows\installer\gwin_ok.zip
-zip -f -9 -t 2012-07-04 gwindows\installer\gwin.zip
+zip -f -9 -t 2012-11-20 gwindows\installer\gwin.zip
 cd gwindows\installer
 
 pause

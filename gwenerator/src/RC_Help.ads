@@ -36,7 +36,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "21-Nov-2012";
+  Grammar_Version: constant String:= "25-Nov-2012";
   Web: constant String:= "http://sf.net/projects/gnavi";
 
   function S(Source: Unbounded_String) return String
@@ -110,7 +110,10 @@ package RC_Help is
       has_buttons, -- tree view
       has_lines,
       lines_at_root,
-      single_expand
+      single_expand,
+      real_size_image,
+      center_image,
+      right_justify
     );
 
   type Set_of_styles is array(Style_switch_type) of Boolean;

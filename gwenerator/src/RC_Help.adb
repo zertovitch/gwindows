@@ -839,16 +839,27 @@ package body RC_Help is
   end;
 
   procedure Ada_icon_control is
+    mem_alignment: GWindows.Static_Controls.Alignment_Type:= last_alignment;
   begin
     if S(last_control_text) = """""" then
       null; -- phantom icon...
     else
+      if style_switch(center_image) then
+        if style_switch(real_size_image) then
+          last_alignment:= GWindows.Static_Controls.Static_Size;
+        else
+          last_alignment:= GWindows.Static_Controls.Center;
+        end if;
+      elsif style_switch(right_justify) then
+        last_alignment:= GWindows.Static_Controls.Right;
+      end if;
       Ada_normal_control(
         "Icon_Type",
         ", Num_resource(" & S(last_control_text) & ')' ,
         Static_tail,
         with_id => False
       );
+      last_alignment:= mem_alignment;
     end if;
   end Ada_icon_control;
 

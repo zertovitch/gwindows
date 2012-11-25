@@ -121,7 +121,7 @@
        SS_LEFTNOWORDWRAP_t, SS_ENDELLIPSIS_t,
        SS_BLACKRECT_t, SS_GRAYRECT_t, SS_WHITERECT_t,
        SS_REALSIZEIMAGE_t, SS_GRAYFRAME_t
-       SS_LEFT_t, SS_RIGHT_t,
+       SS_LEFT_t, SS_RIGHT_t, SS_RIGHTJUST_t
        SS_NOTIFY_t, SS_ETCHEDHORZ_t, SS_ETCHEDVERT_t,
        SS_WORDELLIPSIS_t
 -- Edit styles
@@ -719,6 +719,7 @@ ss_style  : SS_NOPREFIX_t
             { style_switch(half_sunken):= True; }
           | SS_BLACKFRAME_t
           | SS_CENTERIMAGE_t
+            { style_switch(center_image):= True; }
           | SS_BITMAP_t
             { control:= bitmap; -- overrides the "control:= static;" of WC_STATIC
             }
@@ -726,10 +727,13 @@ ss_style  : SS_NOPREFIX_t
             { control:= icon;   -- overrides the "control:= static;" of WC_STATIC
             }
           | SS_REALSIZEIMAGE_t
+            { style_switch(real_size_image):= True; }
           | SS_SIMPLE_t
           | SS_LEFTNOWORDWRAP_t
           | SS_LEFT_t
           | SS_RIGHT_t
+          | SS_RIGHTJUST_t
+            { style_switch(right_justify):= True; }
           | SS_BLACKRECT_t
           | SS_GRAYRECT_t
           | SS_GRAYFRAME_t

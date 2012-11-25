@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script lexer file (AFLEX)
 --
---  Copyright (c) Gautier de Montmollin 2008..2010
+--  Copyright (c) Gautier de Montmollin 2008..2012
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -282,6 +282,7 @@ SS_NOPREFIX                    { return SS_NOPREFIX_t; }
 SS_NOTIFY                      { return SS_NOTIFY_t; }
 SS_REALSIZEIMAGE               { return SS_REALSIZEIMAGE_t; }
 SS_RIGHT                       { return SS_RIGHT_t; }
+SS_RIGHTJUST                   { return SS_RIGHTJUST_t; }
 SS_SIMPLE                      { return SS_SIMPLE_t; }
 SS_SUNKEN                      { return SS_SUNKEN_t; }
 SS_WHITERECT                   { return SS_WHITERECT_t; }
