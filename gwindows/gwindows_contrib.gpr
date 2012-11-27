@@ -16,7 +16,7 @@ project GWindows_Contrib is
    for Exec_Dir use ".";   
    
    package Compiler is
-      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatwaKM");
+      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatwaKM", "-gnatVa", "-gnato");
    end Compiler;
 
    package Linker is

@@ -40,10 +40,14 @@ with Gwindows.Drawing_Objects;
 with Ada.Finalization;
 with Ada.Exceptions;
 
+with Interfaces.C; use Interfaces.C;
+
 generic
    type Data is private;
 
-package Gwindows.Common_Controls.Ex_List_View is
+package GWindows.Common_Controls.Ex_List_View is
+   --pragma Linker_Options("visual_styles.rbj");
+   pragma Linker_Options("-luxtheme");
 
    type Data_Access is access all Data;
 
@@ -201,7 +205,7 @@ private
       record
          Sort_Column: Integer := -1;
          Sort_Direction: Integer := 0;
-         Show_Icon: Boolean := True;
+         Icon_visible: Boolean := True;
          Sort_Pen: Gwindows.Drawing_Objects.Pen_Type;
          Sort_brush: Gwindows.Drawing_Objects.brush_Type;
       end record;
@@ -213,6 +217,7 @@ private
       Control_backcolor: Color_Type := white;
       Alt_Color1: Color_Type;
       Alt_Color2: Color_Type;
+      Windowtheme: Interfaces.C.long := -1;
       -- events
       On_Free_Payload: Free_Payload_Event := null;
       On_Compare: Compare_Event := null;
@@ -232,4 +237,4 @@ private
                         Return_Value : in out gwindows.Types.lresult    );
    procedure On_Destroy (control : in out Ex_List_View_Control_Type);
 
-end Gwindows.Common_Controls.Ex_List_View;
+end GWindows.Common_Controls.Ex_List_View;
