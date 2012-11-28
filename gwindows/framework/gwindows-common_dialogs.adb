@@ -508,27 +508,39 @@ package body GWindows.Common_Dialogs is
                   end if;
                end if;
             end loop;
-            File_Names :=
-               new GWindows.Windows.Array_Of_File_Names (1 .. count);
-            count := -1;
-            for i in 0 .. last loop
-               if C_File_Name (i) = char'Val (0) then
-                  count := count + 1;
-                  if count = 0 then
-                     dir := i - 1;
-                  else
-                     File_Names (count) :=
-                        To_GString_Unbounded
-                           (
-                             To_GString_From_String (To_Ada (
-                                C_File_Name (0 .. dir) & '\' &
-                                C_File_Name (last_sep + 1 .. i)
-                             ))
-                           );
+            if count = 0 then
+               --  We suffer a little bit more: there is a special case. MSDN:
+               --  "If the user selects only one file, the lpstrFile string
+               --  does *not* have a separator between the path and file name."
+               File_Names :=
+                 new GWindows.Windows.Array_Of_File_Names '
+                   (1 =>
+                       To_GString_Unbounded
+                         (To_GString_From_String (To_Ada (C_File_Name)))
+                   );
+            else
+               File_Names :=
+                 new GWindows.Windows.Array_Of_File_Names (1 .. count);
+               count := -1;
+               for i in 0 .. last loop
+                  if C_File_Name (i) = char'Val (0) then
+                     count := count + 1;
+                     if count = 0 then
+                        dir := i - 1;
+                     else
+                        File_Names (count) :=
+                           To_GString_Unbounded
+                              (
+                                To_GString_From_String (To_Ada (
+                                   C_File_Name (0 .. dir) & '\' &
+                                   C_File_Name (last_sep + 1 .. i)
+                                ))
+                              );
+                     end if;
+                     last_sep := i;
                   end if;
-                  last_sep := i;
-               end if;
-            end loop;
+               end loop;
+            end if;
          end;
          File_Title :=
            To_GString_Unbounded
