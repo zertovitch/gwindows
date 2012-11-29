@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                    G W I N D O W S . W I N D O W S                       --
 --                                                                          --
---                                 S p e c                                  --
+--                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2012 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -1819,9 +1822,8 @@ package body GWindows.Windows is
       case message is
          when WM_DROPFILES =>
             declare
-               type Char_Buf is new Interfaces.C.char_array (0 .. 256);
-
-               File_Name : Char_Buf := (others => Interfaces.C.nul);
+               C_File_Name : GString_C (1 .. 4096) :=
+                 (others => GString_C_Null);
 
                function Number_Of_Files
                  (HDROP : GWindows.Types.Handle := To_Handle (wParam);
@@ -1829,17 +1831,19 @@ package body GWindows.Windows is
                   Lpsz  : Integer               := 0;
                   Cch   : Integer               := 0)
                return Natural;
-               pragma Import (StdCall, Number_Of_Files, "DragQueryFile");
+               pragma Import (StdCall, Number_Of_Files,
+                              "DragQueryFile" & Character_Mode_Identifier);
 
                File_Count : constant Natural := Number_Of_Files;
 
                procedure DragQueryFile
                  (HDROP : GWindows.Types.Handle := To_Handle (wParam);
                   Index : Natural;
-                  Lpsz  : access Interfaces.C.char :=
-                    File_Name (File_Name'First)'Access;
-                  Cch   : Integer           := 256);
-               pragma Import (StdCall, DragQueryFile, "DragQueryFile");
+                  Lpsz  : access GChar_C :=
+                    C_File_Name (C_File_Name'First)'Access;
+                  Cch   : Integer           := C_File_Name'Length);
+               pragma Import (StdCall, DragQueryFile,
+                              "DragQueryFile" & Character_Mode_Identifier);
 
                procedure DragFinish
                  (HDROP : GWindows.Types.Handle := To_Handle (wParam));
@@ -1855,8 +1859,9 @@ package body GWindows.Windows is
                      for N in 1 .. File_Count loop
                         DragQueryFile (Index => N - 1); -- Zero based index
                         Names (N) :=
-                          To_GString_Unbounded
-                             (To_GString_From_String (To_Ada (File_Name)));
+                          To_GString_Unbounded (
+                            To_GString_From_C (C_File_Name)
+                          );
                      end loop;
                      DragFinish;
 
