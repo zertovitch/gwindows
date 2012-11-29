@@ -101,6 +101,7 @@ package body GWindows.Common_Dialogs is
      return Integer;
    pragma Import (StdCall, ChooseColor, "ChooseColorA");
 
+   type gLPSTR is access all GChar_C;
    type LPSTR is access all Interfaces.C.char;
 
    type OFNHookProcStdcall is access
@@ -115,23 +116,23 @@ package body GWindows.Common_Dialogs is
          lStructSize     : Integer := OPENFILENAME'Size / 8;
          hwndOwner       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          hInstance       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         lpstrFilter       : LPSTR;
-         lpstrCustomFilter : LPSTR;
+         lpstrFilter       : gLPSTR; -- Pairs of filter strings
+         lpstrCustomFilter : gLPSTR; -- (out) Filter pattern chosen by the user
          nMaxCustFilter    : Interfaces.C.long := 0;
          nFilterIndex      : Interfaces.C.long := 0;
-         lpstrFile         : LPSTR;
+         lpstrFile         : gLPSTR; -- The file name used for initialization
          nMaxFile          : Interfaces.C.long;
-         lpstrFileTitle    : LPSTR;
+         lpstrFileTitle    : gLPSTR; -- (out) File name of the selected file
          nMaxFileTitle     : Interfaces.C.long := 0;
-         lpstrInitialDir   : LPSTR;
-         lpstrTitle        : LPSTR;
+         lpstrInitialDir   : gLPSTR; -- The initial directory
+         lpstrTitle        : gLPSTR; -- A string to be placed in the title bar
          flags             : Interfaces.C.long := OFN_HIDEREADONLY;
          nFileOffset       : Interfaces.C.short := 0;
          nFileExtension    : Interfaces.C.short := 0;
-         lpstrDefExt       : LPSTR;
+         lpstrDefExt       : gLPSTR; -- The default extension
          lCustData         : GWindows.Types.Lparam := 0;
          lpfnHook          : OFNHookProcStdcall;
-         lpTemplateName    : LPSTR;
+         lpTemplateName    : LPSTR; -- The name of dialog template resource
       end record;
 
    function GetOpenFileName
@@ -330,18 +331,14 @@ package body GWindows.Common_Dialogs is
       use GWindows.GStrings;
       use GWindows.GStrings.Unbounded;
 
-      OFN         : OPENFILENAME;
-      Max_Size    : constant := 5120;
-      C_File_Name : char_array (0 .. Max_Size) :=
-        (others => nul);
-      C_File_Title  : char_array (0 .. Max_Size) :=
-        (others => nul);
-      Result      : Integer;
-      C_Default_Extension : char_array :=
-        To_C (GWindows.GStrings.To_String (Default_Extension));
-      C_Dialog_Title : char_array :=
-        To_C (GWindows.GStrings.To_String (Dialog_Title));
-      Filter_List : GString_Unbounded;
+      OFN          : OPENFILENAME;
+      Max_Size     : constant := 5120;
+      C_File_Name  : GString_C (0 .. Max_Size) := (others => GString_C_Null);
+      C_File_Title : GString_C (0 .. Max_Size) := (others => GString_C_Null);
+      C_Default_Extension : GString_C := To_GString_C (Default_Extension);
+      C_Dialog_Title      : GString_C := To_GString_C (Dialog_Title);
+      Result       : Integer;
+      Filter_List  : GString_Unbounded;
    begin
       for N in Filters'Range loop
          Filter_List := Filter_List &
@@ -358,16 +355,16 @@ package body GWindows.Common_Dialogs is
 
       if File_Name /= "" then
          declare
-            SFile_Name  : constant char_array :=
-              To_C (To_String (To_GString_From_Unbounded (File_Name)));
+            SFile_Name  : constant GString_C :=
+              To_GString_C (To_GString_From_Unbounded (File_Name));
          begin
             C_File_Name (SFile_Name'Range) := SFile_Name;
          end;
       end if;
 
       declare
-         C_Filter_List : char_array :=
-           To_C (To_String (To_GString_From_Unbounded (Filter_List)));
+         C_Filter_List : GString_C :=
+           To_GString_C (To_GString_From_Unbounded (Filter_List));
       begin
          OFN.hwndOwner := GWindows.Base.Handle (Window);
          OFN.lpstrFile := C_File_Name (0)'Unchecked_Access;
@@ -399,11 +396,9 @@ package body GWindows.Common_Dialogs is
 
       if Success then
          File_Name :=
-           To_GString_Unbounded
-           (To_GString_From_String (To_Ada (C_File_Name)));
+           To_GString_Unbounded (To_GString_From_C (C_File_Name));
          File_Title :=
-           To_GString_Unbounded
-           (To_GString_From_String (To_Ada (C_File_Title)));
+           To_GString_Unbounded (To_GString_From_C (C_File_Title));
       else
          File_Name := To_GString_Unbounded ("");
          File_Title := To_GString_Unbounded ("");
@@ -429,18 +424,14 @@ package body GWindows.Common_Dialogs is
       use GWindows.GStrings;
       use GWindows.GStrings.Unbounded;
 
-      OFN         : OPENFILENAME;
-      Max_Size    : constant := 5120;
-      C_File_Name : char_array (0 .. Max_Size) :=
-        (others => nul);
-      C_File_Title  : char_array (0 .. Max_Size) :=
-        (others => nul);
-      Result      : Integer;
-      C_Default_Extension : char_array :=
-        To_C (GWindows.GStrings.To_String (Default_Extension));
-      C_Dialog_Title : char_array :=
-        To_C (GWindows.GStrings.To_String (Dialog_Title));
-      Filter_List : GString_Unbounded;
+      OFN          : OPENFILENAME;
+      Max_Size     : constant := 5120;
+      C_File_Name  : GString_C (0 .. Max_Size) := (others => GString_C_Null);
+      C_File_Title : GString_C (0 .. Max_Size) := (others => GString_C_Null);
+      C_Default_Extension : GString_C := To_GString_C (Default_Extension);
+      C_Dialog_Title      : GString_C := To_GString_C (Dialog_Title);
+      Result       : Integer;
+      Filter_List  : GString_Unbounded;
    begin
       for N in Filters'Range loop
          Filter_List := Filter_List &
@@ -456,8 +447,8 @@ package body GWindows.Common_Dialogs is
                                                          GCharacter'Val (0));
 
       declare
-         C_Filter_List : char_array :=
-           To_C (To_String (To_GString_From_Unbounded (Filter_List)));
+         C_Filter_List : GString_C :=
+           To_GString_C (To_GString_From_Unbounded (Filter_List));
       begin
          OFN.hwndOwner := GWindows.Base.Handle (Window);
          OFN.lpstrFile := C_File_Name (0)'Unchecked_Access;
@@ -497,12 +488,12 @@ package body GWindows.Common_Dialogs is
             last_sep : size_t := -1;
          begin
             for i in C_File_Name'Range loop
-               if C_File_Name (i) = char'Val (0) then
+               if C_File_Name (i) = GString_C_Null then
                  count := count + 1;
                end if;
                if i < C_File_Name'Last then
                   if C_File_Name (i .. i + 1) =
-                  char'Val (0) & char'Val (0) then
+                  GString_C_Null & GString_C_Null then
                      last := i;
                      exit;
                   end if;
@@ -516,14 +507,14 @@ package body GWindows.Common_Dialogs is
                  new GWindows.Windows.Array_Of_File_Names '
                    (1 =>
                        To_GString_Unbounded
-                         (To_GString_From_String (To_Ada (C_File_Name)))
+                         (To_GString_From_C (C_File_Name))
                    );
             else
                File_Names :=
                  new GWindows.Windows.Array_Of_File_Names (1 .. count);
                count := -1;
                for i in 0 .. last loop
-                  if C_File_Name (i) = char'Val (0) then
+                  if C_File_Name (i) = GString_C_Null then
                      count := count + 1;
                      if count = 0 then
                         dir := i - 1;
@@ -531,10 +522,10 @@ package body GWindows.Common_Dialogs is
                         File_Names (count) :=
                            To_GString_Unbounded
                               (
-                                To_GString_From_String (To_Ada (
+                                To_GString_From_C (
                                    C_File_Name (0 .. dir) & '\' &
                                    C_File_Name (last_sep + 1 .. i)
-                                ))
+                                )
                               );
                      end if;
                      last_sep := i;
@@ -543,8 +534,7 @@ package body GWindows.Common_Dialogs is
             end if;
          end;
          File_Title :=
-           To_GString_Unbounded
-           (To_GString_From_String (To_Ada (C_File_Title)));
+           To_GString_Unbounded (To_GString_From_C (C_File_Title));
       else
          File_Names := null;
          File_Title := To_GString_Unbounded ("");
@@ -570,18 +560,14 @@ package body GWindows.Common_Dialogs is
       use GWindows.GStrings;
       use GWindows.GStrings.Unbounded;
 
-      OFN         : OPENFILENAME;
-      Max_Size    : constant := 5120;
-      C_File_Name : char_array (0 .. Max_Size) :=
-        (others => nul);
-      C_File_Title  : char_array (0 .. Max_Size) :=
-        (others => nul);
-      Result      : Integer;
-      C_Default_Extension : char_array :=
-        To_C (GWindows.GStrings.To_String (Default_Extension));
-      C_Dialog_Title : char_array :=
-        To_C (GWindows.GStrings.To_String (Dialog_Title));
-      Filter_List : GString_Unbounded;
+      OFN          : OPENFILENAME;
+      Max_Size     : constant := 5120;
+      C_File_Name  : GString_C (0 .. Max_Size) := (others => GString_C_Null);
+      C_File_Title : GString_C (0 .. Max_Size) := (others => GString_C_Null);
+      C_Default_Extension : GString_C := To_GString_C (Default_Extension);
+      C_Dialog_Title      : GString_C := To_GString_C (Dialog_Title);
+      Result       : Integer;
+      Filter_List  : GString_Unbounded;
    begin
       for N in Filters'Range loop
          Filter_List := Filter_List &
@@ -598,16 +584,16 @@ package body GWindows.Common_Dialogs is
 
       if File_Name /= "" then
          declare
-            SFile_Name  : constant char_array :=
-              To_C (To_String (To_GString_From_Unbounded (File_Name)));
+            SFile_Name  : constant GString_C :=
+              To_GString_C (To_GString_From_Unbounded (File_Name));
          begin
             C_File_Name (SFile_Name'Range) := SFile_Name;
          end;
       end if;
 
       declare
-         C_Filter_List : char_array :=
-           To_C (To_String (To_GString_From_Unbounded (Filter_List)));
+         C_Filter_List : GString_C :=
+           To_GString_C (To_GString_From_Unbounded (Filter_List));
       begin
          OFN.hwndOwner := GWindows.Base.Handle (Window);
          OFN.lpstrFile := C_File_Name (0)'Unchecked_Access;
@@ -641,10 +627,10 @@ package body GWindows.Common_Dialogs is
       if Success then
          File_Name :=
            To_GString_Unbounded
-           (To_GString_From_String (To_Ada (C_File_Name)));
+           (To_GString_From_C (C_File_Name));
          File_Title :=
            To_GString_Unbounded
-           (To_GString_From_String (To_Ada (C_File_Title)));
+           (To_GString_From_C (C_File_Title));
       else
          File_Name := To_GString_Unbounded ("");
          File_Title := To_GString_Unbounded ("");
