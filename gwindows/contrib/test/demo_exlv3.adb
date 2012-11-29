@@ -9,6 +9,7 @@ with Gwindows.Buttons;
 with Gwindows.Base;
 
 with Ada.Text_Io;
+with Ada.Command_Line;
 
 -- demonstrates the sorting and autosize of columns
 procedure Demo_Exlv3 is
@@ -103,7 +104,7 @@ begin
    Gwindows.Drawing_Objects.Create_Stock_Font(Font, Gwindows.Drawing_objects.ANSI_Variable_Width);
 
    -- main
-   Create(Main, "Test ex_list_view", 0, 0, 680, 500);
+   Create(Main, "Test ex_list_view - sorting - " & To_GString_From_String(Ada.Command_Line.Command_Name), 0, 0, 680, 500);
    Center(Main);
    Set_Font(Main, Font);
 

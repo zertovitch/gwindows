@@ -206,9 +206,6 @@ package body Gwindows.Common_Controls.Ex_List_View is
    procedure Free_internal is new Ada.Unchecked_Deallocation(internal_Type,
                                                              Internal_Access);
 
-   function Get_Window_Theme(Hwnd: in Gwindows.Types.Handle) return Interfaces.C.Long;
-   pragma Import(Stdcall, Get_Window_Theme, "GetWindowTheme");
-
    function Sendmessage (Hwnd   : Gwindows.Types.handle;
                          Umsg   : Interfaces.C.Int;
                          Wparam : Gwindows.Types.Wparam := 0;
@@ -251,6 +248,53 @@ package body Gwindows.Common_Controls.Ex_List_View is
                            Direction: in integer);
 
    -----------------------------------------------------------------------------------------
+   function Get_Comctl_Version return natural is
+
+      function Getmodulehandle(LpModulname: in Lptstr) return Gwindows.Types.Handle;
+      pragma Import(Stdcall, Getmodulehandle, "GetModuleHandle" & Character_Mode_Identifier);
+
+      type Dllversioninfo is
+         record
+            Cbsize: Interfaces.C.Long := 0;
+            majorversion: Interfaces.C.long := 0;
+            minorversion: Interfaces.C.long := 0;
+            buildnumber: Interfaces.C.long := 0;
+            platformid: Interfaces.C.long := 0;
+         end record;
+      type Dllversioninfo_Pointer is access all Dllversioninfo;
+
+      type Dll_Get_Version_func is access
+        function (Versioninfo: in dllversioninfo_pointer) return Interfaces.C.Unsigned_long;
+      pragma Convention(C, Dll_Get_Version_func);
+
+      function getprocaddress(hmodule: in Gwindows.Types.Handle;
+                              Lpprocname: in Char_array)
+                             return dll_get_version_func;
+      pragma Import(Stdcall, getprocaddress, "GetProcAddress");
+
+      libname: Gstring_C := Gwindows.Gstrings.To_Gstring_C("comctl32");
+      Procname: aliased Char_Array := To_C("DllGetVersion");
+      dllInfo: aliased dllversioninfo;
+      ModHandle: Gwindows.Types.Handle;
+      FuncPtr: Dll_Get_Version_Func;
+      Info: aliased Dllversioninfo;
+      Ret_Func: Interfaces.C.Unsigned_long;
+
+   begin
+      -- get dll
+      modhandle := Getmodulehandle(Lpmodulname => Libname(0)'Unchecked_Access);
+      -- get dllgetversion
+      funcPtr := Getprocaddress(Hmodule => Modhandle,
+                                Lpprocname => procname);
+      -- call dllgetversion
+      Info.Cbsize := Info'Size / 8;
+      Ret_Func := FuncPtr(Info'unchecked_access) ;
+      return Natural(Info.MajorVersion);
+   exception
+      when others =>
+         return 0;
+   end get_comctl_version;
+   -----------------------------------------------------------------------------------------
    function Create_Internal(Control: in Ex_List_View_Control_Type) return Internal_Access is
       Int: Internal_Access;
       nullColors: Internal_Color_Type := (Textcolor => Nullcolor,
@@ -266,7 +310,6 @@ package body Gwindows.Common_Controls.Ex_List_View is
    end Create_Internal;
    -----------------------------------------------------------------------------------------
    procedure On_Create(Control: in out Ex_List_View_Control_Type)is
-      Header: Gwindows.Types.Handle;
    begin
       Gwindows.Common_Controls.On_Create(Control => List_View_Control_Type(Control));
       -- pen for sort
@@ -278,11 +321,9 @@ package body Gwindows.Common_Controls.Ex_List_View is
       Gwindows.Drawing_Objects.Create_Solid_Brush (Brush => Control.Sort_Object.Sort_Brush,
                                                    Color => Sort_Icon_Brush_color);
 
-      -- window theme (for sorticon)?
-      Header := Gwindows.Types.To_Handle(Sendmessage(Hwnd => Handle(Control),
-                                                     Umsg => Lvm_Getheader));
+      -- comctlversion for drawing sorticons
+      Control.Comctl_Version := Get_Comctl_Version;
 
-      Control.Windowtheme := get_Window_Theme(header);
    end On_Create;
    -----------------------------------------------------------------------------------------
    function Get_internal (Control   : in     Ex_List_View_Control_Type;
@@ -420,6 +461,7 @@ package body Gwindows.Common_Controls.Ex_List_View is
          when others =>
             Gwindows.Common_Controls.On_Message(List_View_Control_Type(control),Message,Wparam, Lparam, Return_Value);
       end case;
+
    end On_Message;
    --------------------------------------------------------------------------------------------
    procedure On_Notify (Window       : in out Ex_List_View_Control_Type;
@@ -614,6 +656,7 @@ package body Gwindows.Common_Controls.Ex_List_View is
       end if;
 
       Max_Width := Drawitem.rcitem.Right - Drawitem.rcitem.Left - (4 * Icon_width);
+
       if Max_Width < 0 then
          return;
       end if;
@@ -869,7 +912,7 @@ package body Gwindows.Common_Controls.Ex_List_View is
       Ret := Sendmessage(Hwnd => Header,
                          Umsg => L_setUmsg,
                          Wparam => Gwindows.Types.To_Wparam(Column),
-                            Lparam => Hditem_To_Lparam(hd'Unchecked_Access));
+                         Lparam => Hditem_To_Lparam(hd'Unchecked_Access));
 
    end Header_sorticon;
 
@@ -1168,7 +1211,7 @@ package body Gwindows.Common_Controls.Ex_List_View is
             else
                if Control.sort_Object.Sort_Column >= 0 then
                   --reset the Icon
-                  if Control.Windowtheme = 0 then
+                  if Control.Comctl_version <= 5 then
                      Ownerdraw_flag(Control, Control.Sort_Object.Sort_Column, False);
                   else
                      Header_sorticon(Control, Control.Sort_Object.Sort_Column, 0, False);
@@ -1197,7 +1240,7 @@ package body Gwindows.Common_Controls.Ex_List_View is
 
       -- draw the sort icon
       if Show_Icon then
-         if Control.Windowtheme = 0 then
+         if Control.Comctl_Version <= 5 then
             Ownerdraw_flag(Control, Column, true);
          else
             Header_sorticon(Control, Column, Control.Sort_Object.Sort_Direction, True);

@@ -45,8 +45,7 @@ with Interfaces.C; use Interfaces.C;
 generic
    type Data is private;
 
-package GWindows.Common_Controls.Ex_List_View is
-   --pragma Linker_Options("visual_styles.rbj");
+package Gwindows.Common_Controls.Ex_List_View is
    pragma Linker_Options("-luxtheme");
 
    type Data_Access is access all Data;
@@ -217,7 +216,7 @@ private
       Control_backcolor: Color_Type := white;
       Alt_Color1: Color_Type;
       Alt_Color2: Color_Type;
-      Windowtheme: Interfaces.C.long := -1;
+      Comctl_Version: Natural := 0;
       -- events
       On_Free_Payload: Free_Payload_Event := null;
       On_Compare: Compare_Event := null;
@@ -237,4 +236,4 @@ private
                         Return_Value : in out gwindows.Types.lresult    );
    procedure On_Destroy (control : in out Ex_List_View_Control_Type);
 
-end GWindows.Common_Controls.Ex_List_View;
+end Gwindows.Common_Controls.Ex_List_View;
