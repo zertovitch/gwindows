@@ -45,7 +45,7 @@ begin
    Gwindows.Drawing_Objects.Create_Stock_Font(Font, Gwindows.Drawing_objects.ANSI_Variable_Width);
 
    -- main
-   Create(Main, "Test ex_list_view", 0, 0, 590, 500);
+   Create(Main, "Test ex_list_view - color modes (Color_Mode_Type)", 0, 0, 590, 500);
    Center(Main);
    Set_Font(Main, Font);
 

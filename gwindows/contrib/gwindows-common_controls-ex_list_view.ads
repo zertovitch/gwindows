@@ -37,10 +37,8 @@
 
 with Gwindows.Colors; use gwindows.Colors;
 with Gwindows.Drawing_Objects;
-with Ada.Finalization;
-with Ada.Exceptions;
 
-with Interfaces.C; use Interfaces.C;
+with Interfaces.C;
 
 generic
    type Data is private;
