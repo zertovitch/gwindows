@@ -40,7 +40,6 @@ with Interfaces.C;
 with GWindows.Application;
 with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
-with GNATCOM.Types;
 
 package body GWindows.Common_Dialogs is
    pragma Linker_Options ("-lcomdlg32");
@@ -102,7 +101,6 @@ package body GWindows.Common_Dialogs is
    pragma Import (StdCall, ChooseColor, "ChooseColorA");
 
    type gLPSTR is access all GChar_C;
-   type LPSTR is access all Interfaces.C.char;
 
    type OFNHookProcStdcall is access
       function (hWnd    : GWindows.Types.Handle;
@@ -132,18 +130,20 @@ package body GWindows.Common_Dialogs is
          lpstrDefExt       : gLPSTR; -- The default extension
          lCustData         : GWindows.Types.Lparam := 0;
          lpfnHook          : OFNHookProcStdcall;
-         lpTemplateName    : LPSTR; -- The name of dialog template resource
+         lpTemplateName    : gLPSTR; -- The name of dialog template resource
       end record;
 
    function GetOpenFileName
      (lpOFN : in OPENFILENAME)
      return Integer;
-   pragma Import (StdCall, GetOpenFileName, "GetOpenFileNameA");
+   pragma Import (StdCall, GetOpenFileName,
+                           "GetOpenFileName" & Character_Mode_Identifier);
 
    function GetSaveFileName
      (lpOFN : in OPENFILENAME)
      return Integer;
-   pragma Import (StdCall, GetSaveFileName, "GetSaveFileNameA");
+   pragma Import (StdCall, GetSaveFileName,
+                           "GetSaveFileName" & Character_Mode_Identifier);
 
    type Face_Name_Type is new Interfaces.C.char_array (0 .. 32);
    type Pointer_To_Face_Name_Type is access all Face_Name_Type;
@@ -237,8 +237,8 @@ package body GWindows.Common_Dialogs is
       record
          hwndOwner      : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          pidlRoot       : Interfaces.C.long := 0;
-         pszDisplayName : GNATCOM.Types.LPSTR;
-         lpszTitle      : GNATCOM.Types.LPSTR;
+         pszDisplayName : gLPSTR;
+         lpszTitle      : gLPSTR;
          ulFlags        : Interfaces.C.unsigned := 0;
          lpfn           : Interfaces.C.long := 0;
          lParam         : Interfaces.C.long := 0;
@@ -248,12 +248,14 @@ package body GWindows.Common_Dialogs is
    function SHBrowseForFolder
      (lpbi : BROWSEINFO)
      return Interfaces.C.long;
-   pragma Import (StdCall, SHBrowseForFolder, "SHBrowseForFolder");
+   pragma Import (StdCall, SHBrowseForFolder,
+                           "SHBrowseForFolder" & Character_Mode_Identifier);
 
    procedure  SHGetPathFromIDList
      (pidl    : Interfaces.C.long;
-      pszpath : Interfaces.C.char_array);
-   pragma Import (StdCall, SHGetPathFromIDList, "SHGetPathFromIDList");
+      pszpath : GString_C);
+   pragma Import (StdCall, SHGetPathFromIDList,
+                           "SHGetPathFromIDList" & Character_Mode_Identifier);
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -304,10 +306,10 @@ package body GWindows.Common_Dialogs is
       return Hook (hWnd, uiMsg, wParam, lParam);
    end Stdcallhook;
 
-   function MAKEINTRESOURCE (Id : Integer) return LPSTR is
+   function MAKEINTRESOURCE (Id : Integer) return gLPSTR is
       type Int is range -(2 ** (Standard'Address_Size - 1)) ..
                          (2 ** (Standard'Address_Size - 1) - 1);
-      function To_LPSTR is new Ada.Unchecked_Conversion (Int, LPSTR);
+      function To_LPSTR is new Ada.Unchecked_Conversion (Int, gLPSTR);
    begin
       return To_LPSTR (Int (Id));
    end MAKEINTRESOURCE;
@@ -400,8 +402,8 @@ package body GWindows.Common_Dialogs is
          File_Title :=
            To_GString_Unbounded (To_GString_From_C (C_File_Title));
       else
-         File_Name := To_GString_Unbounded ("");
-         File_Title := To_GString_Unbounded ("");
+         File_Name := Null_GString_Unbounded;
+         File_Title := Null_GString_Unbounded;
       end if;
    end Open_File;
 
@@ -537,7 +539,7 @@ package body GWindows.Common_Dialogs is
            To_GString_Unbounded (To_GString_From_C (C_File_Title));
       else
          File_Names := null;
-         File_Title := To_GString_Unbounded ("");
+         File_Title := Null_GString_Unbounded;
       end if;
    end Open_Files;
 
@@ -632,8 +634,8 @@ package body GWindows.Common_Dialogs is
            To_GString_Unbounded
            (To_GString_From_C (C_File_Title));
       else
-         File_Name := To_GString_Unbounded ("");
-         File_Title := To_GString_Unbounded ("");
+         File_Name := Null_GString_Unbounded;
+         File_Title := Null_GString_Unbounded;
       end if;
    end Save_File;
 
@@ -850,33 +852,30 @@ package body GWindows.Common_Dialogs is
       Directory_Path : out GString_Unbounded)
    is
       use type Interfaces.C.long;
+      use GWindows.GStrings;
 
-      Directory : Interfaces.C.char_array (1 .. 1024);
-      Title     : Interfaces.C.char_array :=
-        Interfaces.C.To_C (GWindows.GStrings.To_String (Dialog_Title));
+      C_Directory : GString_C (1 .. 1024);
+      C_Title     : GString_C := To_GString_C (Dialog_Title);
       BInfo     : BROWSEINFO;
       Pidl      : Interfaces.C.long;
       BIF_NEWDIALOGSTYLE : constant := 16#00000040#;
    begin
       BInfo.hwndOwner := GWindows.Base.Handle (Window);
-      BInfo.pszDisplayName := Directory (Directory'First)'Unchecked_Access;
-      BInfo.lpszTitle := Title (Title'First)'Unchecked_Access;
+      BInfo.pszDisplayName := C_Directory (C_Directory'First)'Unchecked_Access;
+      BInfo.lpszTitle := C_Title (C_Title'First)'Unchecked_Access;
       BInfo.ulFlags := BIF_NEWDIALOGSTYLE;
 
       Pidl :=  SHBrowseForFolder (BInfo);
 
       if Pidl /= 0 then
-         Directory_Display_Name := GWindows.GStrings.To_GString_Unbounded
-           (GWindows.GStrings.To_GString_From_String
-            (Interfaces.C.To_Ada (Directory)));
-
-         SHGetPathFromIDList (Pidl, Directory);
-         Directory_Path := GWindows.GStrings.To_GString_Unbounded
-           (GWindows.GStrings.To_GString_From_String
-            (Interfaces.C.To_Ada (Directory)));
+         Directory_Display_Name := To_GString_Unbounded (
+           To_GString_From_C (C_Directory));
+         SHGetPathFromIDList (Pidl, C_Directory);
+         Directory_Path := To_GString_Unbounded (
+           To_GString_From_C (C_Directory));
       else
-         Directory_Display_Name := GWindows.GStrings.To_GString_Unbounded ("");
-         Directory_Path := GWindows.GStrings.To_GString_Unbounded ("");
+         Directory_Display_Name := Null_GString_Unbounded;
+         Directory_Path := Null_GString_Unbounded;
       end if;
    end Get_Directory;
 
