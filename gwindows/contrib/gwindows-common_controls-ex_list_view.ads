@@ -177,7 +177,7 @@ package GWindows.Common_Controls.Ex_List_View is
 
    -- Alternatively, you can dynamically set a handler.
    type Compare_event is access
-     function (Control: in Ex_List_View_Control_Type;
+     function (Control: in Ex_List_View_Control_Type'Class;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer;
