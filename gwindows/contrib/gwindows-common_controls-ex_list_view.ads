@@ -165,6 +165,15 @@ package GWindows.Common_Controls.Ex_List_View is
    -- if value1 = value2 then return 0
    -- if value1 < value2 then return -1
 
+   -- You can override On_Compare for a derived type, and define there your
+   -- custom sorting.
+   function On_Compare(
+               Control: in Ex_List_View_Control_Type;
+               Column : in Natural;
+               Value1 : in GString;
+               Value2 : in GString) return Integer;
+
+   -- Alternatively, you can dynamically set a handler.
    type Compare_event is access
      function (Control: in Ex_List_View_Control_Type;
                Column : in Natural;
@@ -173,6 +182,14 @@ package GWindows.Common_Controls.Ex_List_View is
 
    procedure On_Compare_Handler(Control: in out Ex_List_View_Control_Type;
                                 Event  : in Compare_Event);
+
+   -- Use the handler, if available.
+   -- If not available, it defaults to alphabetical sorting.
+   function Fire_On_Compare(
+               Control: in Ex_List_View_Control_Type;
+               Column : in Natural;
+               Value1 : in GString;
+               Value2 : in GString) return Integer;
 
    type Sort_Direction_Type is (Up, Down, Auto);
    -- Start the sort by procedure call
