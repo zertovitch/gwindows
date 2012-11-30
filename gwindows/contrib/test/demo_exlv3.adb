@@ -8,7 +8,7 @@ with Gwindows.Drawing_Objects;
 with Gwindows.Buttons;
 with Gwindows.Base;
 
-with Ada.Text_Io;
+-- with Ada.Text_IO;
 with Ada.Command_Line;
 
 -- demonstrates the sorting and autosize of columns
@@ -17,7 +17,7 @@ procedure Demo_Exlv3 is
    use Gwindows.Gstrings;
    use Gwindows.Buttons;
 
-   Font, font2: Gwindows.Drawing_Objects.Font_Type;
+   Font: Gwindows.Drawing_Objects.Font_Type;
    Main: Main_Window_Type;
    List: my_List_View_Type;
    my_Gen: my_Random_Pkg.Generator;
@@ -46,12 +46,16 @@ procedure Demo_Exlv3 is
       return To_Gstring_From_String(S_Day & "." & S_Month & "." & S_Year);
    end Random_Date;
 
-   function My_compare(Control: in My_List_View_Pkg.Ex_List_View_Control_Type;
-                       Column: in Natural;
-                       Value1: in Gwindows.Gstring;
-                       Value2: in Gwindows.Gstring) return Integer is
+   function My_compare(Control : in My_List_View_Pkg.Ex_List_View_Control_Type'Class;
+                       Column : in Natural;
+                       Value1a: in Gwindows.Gstring;
+                       Value2a: in Gwindows.Gstring) return Integer is
+   pragma Unreferenced (Control);
+      Value1: GWindows.GString(1..Value1a'Length):= Value1a;
+      Value2: GWindows.GString(1..Value2a'Length):= Value2a;
+      -- ^ Ensure the string indices begin with 1
    begin
-      if Column in 0..1 then
+      if Column <= 1 then
          if Value1 > Value2 then
             return 1;
          elsif Value1 < Value2 then
@@ -92,6 +96,7 @@ procedure Demo_Exlv3 is
    end Do_On_check;
 
    procedure Do_On_Button_click(Window: in out Gwindows.Base.Base_Window_Type'Class)is
+   pragma Unreferenced (Window);
    begin
       for I in 0..Column_Count(List)-1 loop
          Autosize(Control => List,
@@ -121,8 +126,8 @@ begin
 
    -- styles
    Set_Extended_Style(Control => List, Style => My_List_View_pkg.Grid);
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.fullrowselect);
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.headerdragdrop);
+   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Full_Row_Select);
+   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Header_Drag_Drop);
 
    -- columns
    Insert_Column (Control => List,
