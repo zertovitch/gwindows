@@ -1,3 +1,5 @@
+-- with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
+
 with System;
 with Ada.unchecked_conversion;
 with Ada.Unchecked_Deallocation;
@@ -230,14 +232,6 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    procedure On_Header_Click (Control : in out Ex_List_View_Control_Type;
                               Column  : in     Integer                    );
-
-   function On_compare_internal
-                      (Lparam1    : in     Gwindows.Types.lparam;
-                       Lparam2    : in     Gwindows.Types.lparam;
-                       Lparamsort : in     Gwindows.Types.handle)
-                      return Interfaces.C.Int;
-   pragma Export (Stdcall, On_Compare_internal, "On_Compare");
-
 
    function Column_text(Control: in Ex_List_View_Control_Type;
                         Column: in Natural) Return Gstring;
@@ -723,65 +717,6 @@ package body GWindows.Common_Controls.Ex_List_View is
       end;
 
    end Draw_sorticon;
-   ------------------------------------------------------------------------------------------------------------
-   function On_compare_internal
-     (Lparam1    : in     Gwindows.Types.lparam;
-      Lparam2    : in     Gwindows.Types.lparam;
-      Lparamsort : in     Gwindows.Types.handle)
-      return Interfaces.C.Int
-    is
-
-      use Gwindows.Types;
-      control: Ex_List_View_Control_access;
-      Findinfo  : Findinfo_Type;
-      Index1, Index2: Natural;
-      L_Umsg: Interfaces.C.Int;
-   begin
-      control := Ex_List_View_Control_Access(Gwindows.Base.Window_From_Handle(Lparamsort));
-
-      -- get the index from lparam
-      case Character_Mode is
-         when Unicode =>
-            l_Umsg := Lvm_FindItemW;
-         when Ansi =>
-            l_Umsg := Lvm_FindItemA;
-      end case;
-      Findinfo.Lparam := Lparam1;
-      Index1 := Integer(Sendmessage(Hwnd => Lparamsort,
-                                    Umsg => L_Umsg,
-                                    Wparam => -1,
-                                    Lparam => Address_To_Lparam(Findinfo'Address)));
-
-      Findinfo.Lparam := Lparam2;
-      Index2 := Integer(Sendmessage(Hwnd => Lparamsort,
-                                    Umsg => L_Umsg,
-                                    Wparam => -1,
-                                    Lparam => Address_To_Lparam(Findinfo'Address)));
-      -- values
-      declare
-         Value1: constant Gstring := Text(Control => Control.all,
-                                          item => Index1,
-                                          Subitem => Control.Sort_Object.Sort_Column);
-         Value2: constant Gstring := Text(Control => Control.all,
-                                          item => Index2,
-                                          Subitem => Control.Sort_Object.Sort_Column);
-      begin
-         -- We call the method, which is either overriden, or calls
-         -- Fire_On_Compare which in turn calls the handler, if available, or
-         -- applies a default alphabetical sorting.
-         return Interfaces.C.Int(
-            On_Compare(
-               Control => Control.all,
-               Column  => Control.Sort_Object.Sort_column,
-               Value1  => Value1,
-               Value2  => Value2)
-            * Control.Sort_Object.Sort_Direction
-          );
-      end;
-   exception
-      when E:others =>
-         Raise_Exception(Elv_Exception'Identity, "error on on_compare: " & Exception_Information(E));
-   end On_compare_internal;
    ----------------------------------------------------------------------------------------------------
    procedure Column_text(Control: in out Ex_List_View_Control_Type;
                          Column: in Natural;
@@ -1189,6 +1124,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                Value2 : in GString) return Integer
    is
    begin
+     --  Message_Box("", "On_Compare not overriden");
      return Fire_On_Compare(Control, Column, Value1, Value2);
    end On_Compare;
    --
@@ -1207,7 +1143,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    begin
       if Control.On_Compare_Event /= null then
          return Control.On_Compare_Event(
-            Ex_List_View_Control_Type'Class(Control), Column, Value1, Value2
+            Control, Column, Value1, Value2
          );
       end if;
       if Value1 = Value2 then
@@ -1222,7 +1158,73 @@ package body GWindows.Common_Controls.Ex_List_View is
    procedure Sort(Control: in out Ex_List_View_Control_Type;
                   Column: in Natural;
                   Direction: in Sort_Direction_Type;
-                  Show_Icon: in Boolean := true)is
+                  Show_Icon: in Boolean := true)
+   is
+     -- GdM: moved here the internal comparison function
+     -- Otherwise inheritance is not working!
+      function On_compare_internal
+        (Lparam1    : in     Gwindows.Types.lparam;
+         Lparam2    : in     Gwindows.Types.lparam;
+         Lparamsort : in     Gwindows.Types.handle)
+      return Interfaces.C.Int;
+      pragma Convention (Stdcall, On_Compare_internal);
+      function On_compare_internal
+        (Lparam1    : in     Gwindows.Types.lparam;
+         Lparam2    : in     Gwindows.Types.lparam;
+         Lparamsort : in     Gwindows.Types.handle)
+      return Interfaces.C.Int
+      is
+         use Gwindows.Types;
+         Findinfo  : Findinfo_Type;
+         Index1, Index2: Natural;
+         L_Umsg: Interfaces.C.Int;
+      begin
+         -- Get the index from lparam
+         case Character_Mode is
+            when Unicode =>
+               l_Umsg := Lvm_FindItemW;
+            when Ansi =>
+               l_Umsg := Lvm_FindItemA;
+         end case;
+         Findinfo.Lparam := Lparam1;
+         Index1 := Integer(Sendmessage(Hwnd => Lparamsort,
+                                       Umsg => L_Umsg,
+                                       Wparam => -1,
+                                       Lparam => Address_To_Lparam(Findinfo'Address)));
+
+         Findinfo.Lparam := Lparam2;
+         Index2 := Integer(Sendmessage(Hwnd => Lparamsort,
+                                       Umsg => L_Umsg,
+                                       Wparam => -1,
+                                       Lparam => Address_To_Lparam(Findinfo'Address)));
+         -- values
+         declare
+            Value1: constant Gstring := Text(Control => Control,
+                                             item => Index1,
+                                             Subitem => Control.Sort_Object.Sort_Column);
+            Value2: constant Gstring := Text(Control => Control,
+                                             item => Index2,
+                                             Subitem => Control.Sort_Object.Sort_Column);
+         begin
+            -- Message_Box("","Compare internal");
+            --
+            -- We call the method, which is either overriden, or calls
+            -- Fire_On_Compare which in turn calls the handler, if available, or
+            -- applies a default alphabetical sorting.
+            return Interfaces.C.Int(
+               On_Compare(
+                  Control => Control,
+                  Column  => Control.Sort_Object.Sort_column,
+                  Value1  => Value1,
+                  Value2  => Value2)
+               * Control.Sort_Object.Sort_Direction
+             );
+         end;
+      exception
+         when E:others =>
+            Raise_Exception(Elv_Exception'Identity, "error on on_compare: " & Exception_Information(E));
+      end On_compare_internal;
+   --
    begin
       -- same column, reverse sort direction
       case Direction is

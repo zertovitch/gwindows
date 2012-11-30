@@ -167,6 +167,8 @@ package GWindows.Common_Controls.Ex_List_View is
 
    -- You can override On_Compare for a derived type, and define there your
    -- custom sorting.
+   --
+   -- ** CAUTION: currently overriding of this doesn't work on sorting! **
    function On_Compare(
                Control: in Ex_List_View_Control_Type;
                Column : in Natural;
@@ -175,7 +177,7 @@ package GWindows.Common_Controls.Ex_List_View is
 
    -- Alternatively, you can dynamically set a handler.
    type Compare_event is access
-     function (Control: in Ex_List_View_Control_Type'Class;
+     function (Control: in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer;
