@@ -46,7 +46,7 @@ procedure Demo_Exlv3 is
       return To_Gstring_From_String(S_Day & "." & S_Month & "." & S_Year);
    end Random_Date;
 
-   function My_compare(Control : in My_List_View_Pkg.Ex_List_View_Control_Type'Class;
+   function My_compare(Control : in My_List_View_Pkg.Ex_List_View_Control_Type;
                        Column : in Natural;
                        Value1a: in Gwindows.Gstring;
                        Value2a: in Gwindows.Gstring) return Integer is
