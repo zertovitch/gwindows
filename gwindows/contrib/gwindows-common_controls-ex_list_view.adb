@@ -766,25 +766,17 @@ package body GWindows.Common_Controls.Ex_List_View is
                                           item => Index2,
                                           Subitem => Control.Sort_Object.Sort_Column);
       begin
-         -- on_compare-handler available?
-         if Control.On_Compare_Event /= null then
-            return Interfaces.C.Int(
-            Control.On_Compare_Event
-            (Control => Control.all,
-             Column  => Control.Sort_Object.Sort_column,
-             Value1  => value1,
-             Value2  => value2)
-           * Control.Sort_Object.Sort_Direction);
-         end if;
-
-         -- comparison
-         if Value1 = Value2 then
-            return 0;
-         elsif Value1 > Value2 then
-            return Interfaces.C.Int(1 * Control.Sort_Object.Sort_Direction);
-         else
-            return Interfaces.C.Int(-1 * Control.Sort_Object.Sort_Direction);
-         end if;
+         -- We call the method, which is either overriden, or calls
+         -- Fire_On_Compare which in turn calls the handler, if available, or
+         -- applies a default alphabetical sorting.
+         return Interfaces.C.Int(
+            On_Compare(
+               Control => Control.all,
+               Column  => Control.Sort_Object.Sort_column,
+               Value1  => Value1,
+               Value2  => Value2)
+            * Control.Sort_Object.Sort_Direction
+          );
       end;
    exception
       when E:others =>
@@ -1213,16 +1205,18 @@ package body GWindows.Common_Controls.Ex_List_View is
                Value2 : in GString) return Integer
    is
    begin
-     if Control.On_Compare_Event /= null then
-       return Control.On_Compare_Event(Control, Column, Value1, Value2);
-     end if;
-    if Value1 = Value2 then
-      return 0;
-    elsif Value1 > Value2 then
-      return  1 * Control.Sort_Object.Sort_Direction;
-    else
-      return -1 * Control.Sort_Object.Sort_Direction;
-    end if;
+      if Control.On_Compare_Event /= null then
+         return Control.On_Compare_Event(
+            Ex_List_View_Control_Type'Class(Control), Column, Value1, Value2
+         );
+      end if;
+      if Value1 = Value2 then
+         return 0;
+      elsif Value1 > Value2 then
+         return 1;
+      else
+         return -1;
+      end if;
    end Fire_On_Compare;
    ----------------------------------------------------------------------------------------------------
    procedure Sort(Control: in out Ex_List_View_Control_Type;
