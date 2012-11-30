@@ -28,7 +28,7 @@ procedure Demo_Exlv1 is
       case Id(Radio_Button_Type(Window)) is
          when 1 =>
             Color_Mode(Control => List,
-                       Mode => My_List_View_Pkg.Allitems);
+                       Mode => My_List_View_Pkg.All_Items);
          when 2 =>
             Color_mode(Control => List,
                        Mode => My_List_View_Pkg.Item_Alternately);
@@ -60,8 +60,8 @@ begin
 
    -- styles
    Set_Extended_Style(Control => List, Style => My_List_View_pkg.Grid);
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.fullrowselect);
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.headerdragdrop);
+   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Full_Row_Select);
+   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Header_Drag_Drop);
 
    -- columns
    Insert_Column (Control => List,
@@ -162,7 +162,7 @@ begin
    -- set color_mode = AllItems on start
    State(Button => Radio1, State => Checked);
    Color_Mode(Control => List,
-              Mode => My_List_View_pkg.Allitems);
+              Mode => My_List_View_pkg.All_Items);
 
    Show(Main);
    Gwindows.Application.Message_Loop;

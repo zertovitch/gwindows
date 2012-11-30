@@ -6,7 +6,6 @@ with Gwindows.Common_Controls;
 with Gwindows.Gstrings;
 with Gwindows.Colors;
 with Gwindows.Static_Controls;
-with Gwindows.Buttons;
 with Gwindows.Base;
 with Gwindows.Cursors;
 with Gwindows.Types;
@@ -18,15 +17,13 @@ procedure Demo_Exlv2 is
    use Gwindows.Gstrings;
    use Gwindows.Colors;
    use Gwindows.Static_Controls;
-   use Gwindows.Buttons;
 
    Font: Gwindows.Drawing_Objects.Font_Type;
    Main: Main_Window_Type;
    List: my_List_View_Type;
    Labelr,
    Labelg,
-   Labelb,
-   labelt: Gwindows.Static_Controls.Label_Type;
+   Labelb: Gwindows.Static_Controls.Label_Type;
 
    procedure Do_On_List_Click(Window: in out Gwindows.Base.Base_Window_Type'Class)is
       use My_List_View_Pkg;
@@ -92,8 +89,8 @@ begin
 
    -- styles
    Set_Extended_Style(Control => List, Style => My_List_View_pkg.Grid);
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.fullrowselect);
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.headerdragdrop);
+   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Full_Row_Select);
+   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Header_Drag_Drop);
 
    -- columns
    Insert_Column (Control => List,
