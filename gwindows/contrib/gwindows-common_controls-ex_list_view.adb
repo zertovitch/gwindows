@@ -1117,23 +1117,6 @@ package body GWindows.Common_Controls.Ex_List_View is
       Control.On_Free_Payload := Event;
    end On_Free_Payload_Handler;
    ----------------------------------------------------------------------------------------------------
-   function On_Compare(
-               Control: in Ex_List_View_Control_Type;
-               Column : in Natural;
-               Value1 : in GString;
-               Value2 : in GString) return Integer
-   is
-   begin
-     --  Message_Box("", "On_Compare not overriden");
-     return Fire_On_Compare(Control, Column, Value1, Value2);
-   end On_Compare;
-   --
-   procedure On_Compare_Handler(Control: in out Ex_List_View_Control_Type;
-                                Event: in Compare_Event)is
-   begin
-      Control.On_Compare_Event := Event;
-   end On_Compare_Handler;
-   --
    function Fire_On_Compare(
                Control: in Ex_List_View_Control_Type;
                Column : in Natural;
@@ -1146,6 +1129,7 @@ package body GWindows.Common_Controls.Ex_List_View is
             Control, Column, Value1, Value2
          );
       end if;
+      -- Default behaviour:
       if Value1 = Value2 then
          return 0;
       elsif Value1 > Value2 then
@@ -1154,14 +1138,29 @@ package body GWindows.Common_Controls.Ex_List_View is
          return -1;
       end if;
    end Fire_On_Compare;
+   --
+   function On_Compare(
+               Control: in Ex_List_View_Control_Type;
+               Column : in Natural;
+               Value1 : in GString;
+               Value2 : in GString) return Integer
+   is
+   begin
+     return Fire_On_Compare(Control, Column, Value1, Value2);
+   end On_Compare;
+   --
+   procedure On_Compare_Handler(Control: in out Ex_List_View_Control_Type;
+                                Event: in Compare_Event)is
+   begin
+      Control.On_Compare_Event := Event;
+   end On_Compare_Handler;
    ----------------------------------------------------------------------------------------------------
    procedure Sort(Control: in out Ex_List_View_Control_Type;
                   Column: in Natural;
                   Direction: in Sort_Direction_Type;
                   Show_Icon: in Boolean := true)
    is
-     -- GdM: moved here the internal comparison function
-     -- Otherwise inheritance is not working!
+     -- GdM: moved here the internal comparison function.
       function On_compare_internal
         (Lparam1    : in     Gwindows.Types.lparam;
          Lparam2    : in     Gwindows.Types.lparam;
@@ -1206,11 +1205,8 @@ package body GWindows.Common_Controls.Ex_List_View is
                                              item => Index2,
                                              Subitem => Control.Sort_Object.Sort_Column);
          begin
-            -- Message_Box("","Compare internal");
-            --
-            -- We call the method, which is either overriden, or calls
-            -- Fire_On_Compare which in turn calls the handler, if available, or
-            -- applies a default alphabetical sorting.
+            -- NB: if On_Compare was a method, it could be overriden.
+            --     But overriding proves ineffective (with GNAT GPL 2012).
             return Interfaces.C.Int(
                On_Compare(
                   Control => Control,
