@@ -26,8 +26,8 @@ package body GWindows.Common_Controls.Ex_List_View is
    Lvm_Finditemw                : constant := Lvm_First + 83;
    LVM_GETCOLUMNA               : constant := LVM_FIRST + 25;
    LVM_GETCOLUMNW               : constant := LVM_FIRST + 95;
-   LVM_SETCOLUMNA               : constant := LVM_FIRST + 26;
-   LVM_SETCOLUMNW               : constant := LVM_FIRST + 96;
+   --LVM_SETCOLUMNA               : constant := LVM_FIRST + 26;
+   --LVM_SETCOLUMNW               : constant := LVM_FIRST + 96;
    --  LVM_GETSUBITEMRECT           : constant := LVM_FIRST + 56;
    LVM_SETCOLUMNWIDTH           : constant := LVM_FIRST + 30;
    LVN_FIRST                    : constant := -100;
@@ -716,46 +716,46 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    end Draw_sorticon;
    ----------------------------------------------------------------------------------------------------
-   procedure Column_text(Control: in out Ex_List_View_Control_Type;
-                         Column: in Natural;
-                         Text: in gstring)
-   is
-      C_Text : Buffer;
-      Lv: LvColumn_type;
-      Get_Umsg: Interfaces.C.Int;
-      Set_Umsg: Interfaces.C.int;
-   begin
-      case Character_Mode is
-         when Unicode =>
-            get_Umsg := LVM_GETCOLUMNW;
-            set_Umsg := LVM_SETCOLUMNW;
-         when Ansi =>
-            get_Umsg := LVM_GETCOLUMNA;
-            set_Umsg := LVM_SETCOLUMNA;
-      end case;
+--     procedure Column_text(Control: in out Ex_List_View_Control_Type;
+--                           Column: in Natural;
+--                           Text: in gstring)
+--     is
+--        C_Text : Buffer;
+--        Lv: LvColumn_type;
+--        Get_Umsg: Interfaces.C.Int;
+--        Set_Umsg: Interfaces.C.int;
+--     begin
+--        case Character_Mode is
+--           when Unicode =>
+--              get_Umsg := LVM_GETCOLUMNW;
+--              set_Umsg := LVM_SETCOLUMNW;
+--           when Ansi =>
+--              get_Umsg := LVM_GETCOLUMNA;
+--              set_Umsg := LVM_SETCOLUMNA;
+--        end case;
 
-      Lv.Mask := Lvcf_Text;
-      Lv.Text := C_Text (0)'Unchecked_Access;
-      Lv.Textmax := 255;
+--        Lv.Mask := Lvcf_Text;
+--        Lv.Text := C_Text (0)'Unchecked_Access;
+--        Lv.Textmax := 255;
 
-      -- get the lvcolumn
-      Sendmessage_proc(Hwnd => Handle(Control),
-                       Umsg => Get_uMsg,
-                       Wparam => Gwindows.Types.To_Wparam(Column),
-                       Lparam => Lvcolumn_To_Lparam(Lv'unrestricted_access));
-      -- set the new text
-      declare
-         New_C_Text: Gstring_c := Gwindows.Gstrings.To_Gstring_C (Text);
-      begin
-         -- set the lvcolumn
-         Lv.Text := New_C_Text(0)'Unchecked_Access;
-         Sendmessage_proc(Hwnd => Handle(Control),
-                          Umsg => set_uMsg,
-                          Wparam => Gwindows.Types.To_Wparam(Column),
-                          Lparam => Lvcolumn_To_Lparam(Lv'unrestricted_access));
-      end;
+--        -- get the lvcolumn
+--        Sendmessage_proc(Hwnd => Handle(Control),
+--                         Umsg => Get_uMsg,
+--                         Wparam => Gwindows.Types.To_Wparam(Column),
+--                         Lparam => Lvcolumn_To_Lparam(Lv'unrestricted_access));
+--        -- set the new text
+--        declare
+--           New_C_Text: Gstring_c := Gwindows.Gstrings.To_Gstring_C (Text);
+--        begin
+--           -- set the lvcolumn
+--           Lv.Text := New_C_Text(0)'Unchecked_Access;
+--           Sendmessage_proc(Hwnd => Handle(Control),
+--                            Umsg => set_uMsg,
+--                            Wparam => Gwindows.Types.To_Wparam(Column),
+--                            Lparam => Lvcolumn_To_Lparam(Lv'unrestricted_access));
+--        end;
 
-   end Column_Text;
+--     end Column_Text;
    ----------------------------------------------------------------------------------------------------
    function Column_text(Control: in Ex_List_View_Control_Type;
                         Column: in Natural) Return Gstring is
@@ -830,9 +830,9 @@ package body GWindows.Common_Controls.Ex_List_View is
 
       -- set the new icon flag
       if Enable then
-         if Control.Sort_Object.Sort_Direction = 1 then -- up
+         if Direction = 1 then -- up
             Hd.Fmt := Hd.Fmt + Hdf_Sortup;
-         elsif Control.Sort_Object.Sort_Direction = -1 then -- down
+         elsif Direction = -1 then -- down
             Hd.Fmt := Hd.Fmt + Hdf_sortdown;
          end if;
       end if;
@@ -1264,5 +1264,20 @@ package body GWindows.Common_Controls.Ex_List_View is
       end if;
 
    end Sort;
+
+   procedure Sort_Info(Control   : in Ex_List_View_Control_Type;
+                       Column    : out Integer;
+                       Direction : out Sort_Direction_Type)is
+   begin
+      Column := Control.Sort_Object.Sort_Column;
+      case Control.Sort_Object.Sort_Direction is
+         when 1 =>
+            Direction := Up;
+         when -1 =>
+            Direction := Down;
+         when others =>
+            Direction := Up;
+      end case;
+   end Sort_Info;
 
 end GWindows.Common_Controls.Ex_List_View;

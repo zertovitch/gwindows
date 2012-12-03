@@ -198,6 +198,12 @@ package GWindows.Common_Controls.Ex_List_View is
                   Direction : in Sort_Direction_Type;
                   Show_Icon : in Boolean := True);
 
+   -- Get the information of actually sorting
+   -- If sorting is inactive -> OUT-Parameter column = -1
+   procedure Sort_Info(Control   : in Ex_List_View_Control_Type;
+                       Column    : out Integer;
+                       Direction : out Sort_Direction_Type);
+
 private
 
    NullColor: Color_Type := 17000000; -- out of RGB-range

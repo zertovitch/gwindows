@@ -58,6 +58,7 @@ procedure Demo_Exlv2 is
 
    procedure Do_On_Free_Payload(Control: in out My_List_View_pkg.Ex_List_View_Control_Type;
                                 Payload: out My_List_View_Pkg.Data_access)is
+                                pragma Unreferenced (Control);
    begin
       Demo_exlv_Pkg.Free_Payload(Payload);
    end Do_On_Free_Payload;
