@@ -69,23 +69,27 @@ package GWindows.Common_Dialogs is
    --        using the Directory Chooser
 
    function Get_Directory
-     (Window       : in GWindows.Base.Base_Window_Type'Class;
-      Dialog_Title : in GString)
+     (Window            : in GWindows.Base.Base_Window_Type'Class;
+      Dialog_Title      : in GString;
+      Initial_Directory : in GString := "")
      return GWindows.GString;
    function Get_Directory
-     (Dialog_Title : in GString)
+     (Dialog_Title      : in GString;
+      Initial_Directory : in GString := "")
      return GWindows.GString;
    --  Returns the path for the user selected directory
 
    procedure Get_Directory
-     (Window       : in GWindows.Base.Base_Window_Type'Class;
-      Dialog_Title : in GString;
+     (Window                 : in GWindows.Base.Base_Window_Type'Class;
+      Dialog_Title           : in GString;
       Directory_Display_Name : out GString_Unbounded;
-      Directory_Path : out GString_Unbounded);
+      Directory_Path         : out GString_Unbounded;
+      Initial_Directory      : in GString := "");
    procedure Get_Directory
-     (Dialog_Title : in GString;
+     (Dialog_Title           : in GString;
       Directory_Display_Name : out GString_Unbounded;
-      Directory_Path : out GString_Unbounded);
+      Directory_Path         : out GString_Unbounded;
+      Initial_Directory      : in GString := "");
 
    -------------------------------------------------------------------------
    --  File Chooser

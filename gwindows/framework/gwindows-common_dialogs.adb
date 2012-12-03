@@ -240,8 +240,8 @@ package body GWindows.Common_Dialogs is
          pszDisplayName : gLPSTR;
          lpszTitle      : gLPSTR;
          ulFlags        : Interfaces.C.unsigned := 0;
-         lpfn           : Interfaces.C.long := 0;
-         lParam         : Interfaces.C.long := 0;
+         lpfn           : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         lParam         : gLPSTR;
          iImage         : Interfaces.C.int;
       end record;
 
@@ -824,24 +824,28 @@ package body GWindows.Common_Dialogs is
 
    function Get_Directory
      (Window       : in GWindows.Base.Base_Window_Type'Class;
-      Dialog_Title : in GString)
+      Dialog_Title : in GString;
+      Initial_Directory : in GString := "")
      return GWindows.GString
    is
       Result1 : GWindows.GString_Unbounded;
       Result2 : GWindows.GString_Unbounded;
    begin
-      Get_Directory (Window, Dialog_Title, Result1, Result2);
+      Get_Directory (
+         Window, Dialog_Title, Result1, Result2, Initial_Directory
+      );
       return GWindows.GStrings.To_GString_From_Unbounded (Result2);
    end Get_Directory;
 
    function Get_Directory
-     (Dialog_Title : in GString)
+     (Dialog_Title : in GString;
+      Initial_Directory : in GString := "")
      return GWindows.GString
    is
       Result1 : GWindows.GString_Unbounded;
       Result2 : GWindows.GString_Unbounded;
    begin
-      Get_Directory (Dialog_Title, Result1, Result2);
+      Get_Directory (Dialog_Title, Result1, Result2, Initial_Directory);
       return GWindows.GStrings.To_GString_From_Unbounded (Result2);
    end Get_Directory;
 
@@ -849,21 +853,93 @@ package body GWindows.Common_Dialogs is
      (Window       : in GWindows.Base.Base_Window_Type'Class;
       Dialog_Title : in GString;
       Directory_Display_Name : out GString_Unbounded;
-      Directory_Path : out GString_Unbounded)
+      Directory_Path : out GString_Unbounded;
+      Initial_Directory : in GString := "")
    is
       use type Interfaces.C.long;
       use GWindows.GStrings;
 
       C_Directory : GString_C (1 .. 1024);
       C_Title     : GString_C := To_GString_C (Dialog_Title);
-      BInfo     : BROWSEINFO;
-      Pidl      : Interfaces.C.long;
-      BIF_NEWDIALOGSTYLE : constant := 16#00000040#;
+      C_Initial   : GString_C := To_GString_C (Initial_Directory);
+      BInfo       : BROWSEINFO;
+      Pidl        : Interfaces.C.long;
+      BIF_NEWDIALOGSTYLE   : constant := 16#00000040#;
+      BIF_EDITBOX          : constant := 16#00000010#;
+      --
+      type Callback_access is access
+      function (
+         handle_bpc : GWindows.Types.Handle;
+         uMsg       : Interfaces.C.unsigned;
+         lParam     : GWindows.Types.Lparam;
+         lpData     : GWindows.Types.Handle
+      )
+      return Interfaces.C.int;
+      pragma Convention (StdCall, Callback_access);
+
+      function Browse_Callback (
+         handle_bpc : GWindows.Types.Handle;
+         uMsg_bpc   : Interfaces.C.unsigned;
+         lParam     : GWindows.Types.Lparam;
+         lpData     : GWindows.Types.Handle
+      )
+      return Interfaces.C.int;
+      pragma Convention (StdCall, Browse_Callback);
+      function Browse_Callback (
+         handle_bpc : GWindows.Types.Handle;
+         uMsg_bpc   : Interfaces.C.unsigned;
+         lParam     : GWindows.Types.Lparam;
+         lpData     : GWindows.Types.Handle
+      )
+      return Interfaces.C.int
+      is
+         pragma Unreferenced (lParam, lpData);
+         ini : constant gLPSTR := C_Initial (C_Initial'First)'Unchecked_Access;
+         function Cvt is
+            new Ada.Unchecked_Conversion (gLPSTR, GWindows.Types.Lparam);
+
+         WM_USER : constant := 1024;
+         BFFM_SETSELECTIONA : constant := WM_USER + 102;
+         BFFM_SETSELECTIONW : constant := WM_USER + 103;
+         BFFM_SETSELECTION  : constant array (Character_Mode_Type) of
+            Interfaces.C.unsigned :=
+            (ANSI    => BFFM_SETSELECTIONA,
+             Unicode => BFFM_SETSELECTIONW);
+         BFFM_INITIALIZED : constant := 1;
+         BFFM_SELCHANGED  : constant := 2;
+         procedure SendMessage
+            (hwnd   : GWindows.Types.Handle := handle_bpc;
+             uMsg   : Interfaces.C.unsigned :=
+                         BFFM_SETSELECTION (Character_Mode);
+             wParam : GWindows.Types.Wparam := 1; -- (windef's TRUE)
+             lParam : GWindows.Types.Lparam := Cvt (ini));
+         pragma Import (StdCall, SendMessage,
+                        "SendMessage" & Character_Mode_Identifier);
+         use GWindows.Types;
+      begin
+         --  If the BFFM_INITIALIZED message is received,
+         --  set the path to the start path.
+         case uMsg_bpc is
+            when BFFM_INITIALIZED =>
+               if Initial_Directory /= "" then
+                  SendMessage;
+               end if;
+            when BFFM_SELCHANGED =>
+               null;
+            when others =>
+               null;
+         end case;
+         return 0; -- The function should always return 0.
+      end Browse_Callback;
+      function Access_To_Handle is
+         new Ada.Unchecked_Conversion (Callback_access, GWindows.Types.Handle);
    begin
       BInfo.hwndOwner := GWindows.Base.Handle (Window);
       BInfo.pszDisplayName := C_Directory (C_Directory'First)'Unchecked_Access;
       BInfo.lpszTitle := C_Title (C_Title'First)'Unchecked_Access;
-      BInfo.ulFlags := BIF_NEWDIALOGSTYLE;
+      BInfo.ulFlags := BIF_NEWDIALOGSTYLE or BIF_EDITBOX;
+      BInfo.lpfn := Access_To_Handle (Browse_Callback'Access);
+      BInfo.lParam := null;
 
       Pidl :=  SHBrowseForFolder (BInfo);
 
@@ -882,14 +958,16 @@ package body GWindows.Common_Dialogs is
    procedure Get_Directory
      (Dialog_Title : in GString;
       Directory_Display_Name : out GString_Unbounded;
-      Directory_Path : out GString_Unbounded)
+      Directory_Path : out GString_Unbounded;
+      Initial_Directory : in GString := "")
    is
       Temp : GWindows.Base.Base_Window_Type;
    begin
       Get_Directory (Temp,
                      Dialog_Title,
                      Directory_Display_Name,
-                     Directory_Path);
+                     Directory_Path,
+                     Initial_Directory);
    end Get_Directory;
 
 end GWindows.Common_Dialogs;
