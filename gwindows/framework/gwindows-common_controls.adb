@@ -4217,11 +4217,17 @@ package body GWindows.Common_Controls is
      (Control     : in out Toolbar_Control_Type;
       Text        : in     GString)
    is
+      use GWindows.GStrings;
+      TB_ADDSTRINGA : constant := WM_USER + 28;
       TB_ADDSTRINGW : constant := WM_USER + 77;
-      C_Text : GString := Text & GCharacter'Val (0) & GCharacter'Val (0);
+      TB_ADDSTRING: constant array (Character_Mode_Type) of
+         Interfaces.C.int :=
+            (ANSI    => TB_ADDSTRINGA,
+             Unicode => TB_ADDSTRINGW);
+      C_Text : GString_C := To_GString_C(Text);
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := TB_ADDSTRINGW;
+         uMsg   : Interfaces.C.int      := TB_ADDSTRING (Character_Mode);
          wParam : GWindows.Types.Lparam := 0;
          lParam : System.Address        := C_Text'Address);
       pragma Import (StdCall, SendMessage,
