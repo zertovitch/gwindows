@@ -4763,9 +4763,12 @@ package body GWindows.Common_Controls is
          lParam : TOOLINFO              := Info);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      use GWindows.Base;
    begin
       Info.Flags := TTF_IDISHWND or TTF_SUBCLASS;
-      Info.HWND := GWindows.Base.Handle (Parent (Control).all);
+      if Parent (Control) /= null then
+         Info.HWND := GWindows.Base.Handle (Parent (Control).all);
+      end if;
       Info.UID := GWindows.Base.Handle (Window);
       Info.Text := C_Text (0)'Unchecked_Access;
 
