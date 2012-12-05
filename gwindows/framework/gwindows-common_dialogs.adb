@@ -825,43 +825,43 @@ package body GWindows.Common_Dialogs is
    function Get_Directory
      (Window       : in GWindows.Base.Base_Window_Type'Class;
       Dialog_Title : in GString;
-      Initial_Directory : in GString := "")
+      Initial_Path : in GString := "")
      return GWindows.GString
    is
       Result1 : GWindows.GString_Unbounded;
       Result2 : GWindows.GString_Unbounded;
    begin
       Get_Directory (
-         Window, Dialog_Title, Result1, Result2, Initial_Directory
+         Window, Dialog_Title, Result1, Result2, Initial_Path
       );
       return GWindows.GStrings.To_GString_From_Unbounded (Result2);
    end Get_Directory;
 
    function Get_Directory
      (Dialog_Title : in GString;
-      Initial_Directory : in GString := "")
+      Initial_Path : in GString := "")
      return GWindows.GString
    is
       Result1 : GWindows.GString_Unbounded;
       Result2 : GWindows.GString_Unbounded;
    begin
-      Get_Directory (Dialog_Title, Result1, Result2, Initial_Directory);
+      Get_Directory (Dialog_Title, Result1, Result2, Initial_Path);
       return GWindows.GStrings.To_GString_From_Unbounded (Result2);
    end Get_Directory;
 
    procedure Get_Directory
-     (Window       : in GWindows.Base.Base_Window_Type'Class;
-      Dialog_Title : in GString;
+     (Window                 : in GWindows.Base.Base_Window_Type'Class;
+      Dialog_Title           : in GString;
       Directory_Display_Name : out GString_Unbounded;
-      Directory_Path : out GString_Unbounded;
-      Initial_Directory : in GString := "")
+      Directory_Path         : out GString_Unbounded;
+      Initial_Path           : in GString := "")
    is
       use type Interfaces.C.long;
       use GWindows.GStrings;
 
       C_Directory : GString_C (1 .. 1024);
       C_Title     : GString_C := To_GString_C (Dialog_Title);
-      C_Initial   : GString_C := To_GString_C (Initial_Directory);
+      C_Initial   : GString_C := To_GString_C (Initial_Path);
       BInfo       : BROWSEINFO;
       Pidl        : Interfaces.C.long;
       BIF_NEWDIALOGSTYLE   : constant := 16#00000040#;
@@ -921,7 +921,7 @@ package body GWindows.Common_Dialogs is
          --  set the path to the start path.
          case uMsg_bpc is
             when BFFM_INITIALIZED =>
-               if Initial_Directory /= "" then
+               if Initial_Path /= "" then
                   SendMessage;
                end if;
             when BFFM_SELCHANGED =>
@@ -956,10 +956,10 @@ package body GWindows.Common_Dialogs is
    end Get_Directory;
 
    procedure Get_Directory
-     (Dialog_Title : in GString;
+     (Dialog_Title           : in GString;
       Directory_Display_Name : out GString_Unbounded;
-      Directory_Path : out GString_Unbounded;
-      Initial_Directory : in GString := "")
+      Directory_Path         : out GString_Unbounded;
+      Initial_Path           : in GString := "")
    is
       Temp : GWindows.Base.Base_Window_Type;
    begin
@@ -967,7 +967,7 @@ package body GWindows.Common_Dialogs is
                      Dialog_Title,
                      Directory_Display_Name,
                      Directory_Path,
-                     Initial_Directory);
+                     Initial_Path);
    end Get_Directory;
 
 end GWindows.Common_Dialogs;
