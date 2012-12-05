@@ -317,6 +317,8 @@ package body GWindows.Common_Controls is
    TB_GETSTATE         : constant := (WM_USER + 18);
    TB_SETSTYLE         : constant := 1080;
    TB_GETSTYLE         : constant := 1081;
+   TB_SETEXTENDEDSTYLE : constant := (WM_USER + 84);
+
    --  * AnSp: Styles now defined in ads
    --  * AnSp   TBSTATE_ENABLED     : constant := 16#4#;
    --  * AnSp   TBSTATE_HIDDEN        : constant := 16#8#;
@@ -4224,7 +4226,10 @@ package body GWindows.Common_Controls is
          Interfaces.C.int :=
             (ANSI    => TB_ADDSTRINGA,
              Unicode => TB_ADDSTRINGW);
-      C_Text : GString_C := To_GString_C (Text);
+      C_Text : GString_C := To_GString_C (Text & GCharacter'Val (0));
+      --  C_Text has to have a double NUL at the end, since it is a list
+      --  of NUL-separated C strings.
+
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := TB_ADDSTRING (Character_Mode);
@@ -4499,6 +4504,21 @@ package body GWindows.Common_Controls is
    begin
       SendMessage;
    end Set_Style;
+
+   procedure Set_Extended_Style
+     (Control    : in out Toolbar_Control_Type;
+      Style      : in     Interfaces.C.unsigned)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := TB_SETEXTENDEDSTYLE;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Style));
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Set_Extended_Style;
 
    --  * AnSp: Added a new record, 2 helper functions and 2 public functions
    ----------------------

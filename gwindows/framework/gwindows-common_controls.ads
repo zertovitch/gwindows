@@ -1251,6 +1251,9 @@ package GWindows.Common_Controls is
       Index     :    out Integer);
 
    --  AlKe: added
+   --  Text can be a series of strings seperated by GCharacter'Val (0),
+   --  e.g. to be used for button labels or tooltips.
+   --  See Add_Button below with IString.
    procedure Add_String
      (Control     : in out Toolbar_Control_Type;
       Text        : in     GString);
@@ -1309,6 +1312,10 @@ package GWindows.Common_Controls is
      return Interfaces.C.unsigned;
 
    procedure Set_Style
+     (Control    : in out Toolbar_Control_Type;
+      Style      : in     Interfaces.C.unsigned);
+
+   procedure Set_Extended_Style
      (Control    : in out Toolbar_Control_Type;
       Style      : in     Interfaces.C.unsigned);
 
