@@ -4220,11 +4220,11 @@ package body GWindows.Common_Controls is
       use GWindows.GStrings;
       TB_ADDSTRINGA : constant := WM_USER + 28;
       TB_ADDSTRINGW : constant := WM_USER + 77;
-      TB_ADDSTRING: constant array (Character_Mode_Type) of
+      TB_ADDSTRING : constant array (Character_Mode_Type) of
          Interfaces.C.int :=
             (ANSI    => TB_ADDSTRINGA,
              Unicode => TB_ADDSTRINGW);
-      C_Text : GString_C := To_GString_C(Text);
+      C_Text : GString_C := To_GString_C (Text);
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := TB_ADDSTRING (Character_Mode);
@@ -4232,7 +4232,6 @@ package body GWindows.Common_Controls is
          lParam : System.Address        := C_Text'Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
-      use Interfaces.C;
    begin
       SendMessage;
    end Add_String;
