@@ -2,10 +2,13 @@ Numbers refer to source control revisions.
 Revision N can be currently seen at the following URL:
 http://gnavi.svn.sf.net/viewvc/gnavi?view=revision&revision=N
 
-GWindows release, xxxxxxxxxxx
+GWindows release, xx-Dec-2012
 =============================
 Major changes - numbers below refer to svn repository revisions:
 
+195: GWindows.Common_Dialogs: Get_Directory with optional initial path
+180: GWindows.Windows: Drop Files support Unicode names
+179: GWindows.Common_Dialogs: Open_File, Open_Files, Save_File, Get_Directory support Unicode names
 173: GWindows.Common_Controls: List_View_Control_Type: added Column_Width function
 170: GWindows.Common_Dialogs: added Open_Files
 166: GWindows.Common_Controls: added method On_Item_Changed to List_View_Control_Type
