@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/08/26   11:14:42
+-- Transcription time: 2012/12/21   03:21:25
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 26-Aug-2012
+-- RC Grammar version: 25-Nov-2012
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -378,7 +378,7 @@ package body GW_Install_Resource_GUI is
     Create_label( Window, "NB: you can install GWindows at several places.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  36, 83, 221, 14, x,y,w,h);
     Create( Window.Directory_edit, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Directory_edit);
-    Dlg_to_Scn(  258, 83, 29, 14, x,y,w,h);
+    Dlg_to_Scn(  258, 82, 35, 16, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
@@ -401,9 +401,9 @@ package body GW_Install_Resource_GUI is
     Create( Window.GNATCOM_check, Window, "Install GNATCOM - mandatory for GWindows", x,y,w,h, ID => GNATCOM_check);
     Disable(Window.GNATCOM_check);
     Disable(Window.GNATCOM_check);
-    Dlg_to_Scn(  9, 200, 264, 8, x,y,w,h);
+    Dlg_to_Scn(  9, 200, 228, 8, x,y,w,h);
     Create( Window.GWen_check, Window, "Install the GWenerator Ada code generator (ANSI resources only)", x,y,w,h, ID => GWen_check);
-    Dlg_to_Scn(  241, 194, 60, 17, x,y,w,h);
+    Dlg_to_Scn(  245, 192, 60, 19, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
@@ -414,7 +414,7 @@ package body GW_Install_Resource_GUI is
     else -- hide the closing button
       Hide(Window.IDOK);
     end if;
-    Dlg_to_Scn(  241, 218, 60, 17, x,y,w,h);
+    Dlg_to_Scn(  245, 216, 60, 19, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
@@ -536,10 +536,10 @@ package body GW_Install_Resource_GUI is
     GWindows.Base.Set_Font (Window, Common_Fonts.GUI_Font);
   end Use_GUI_Font;
 
-  function Num_resource(id: Natural) return String is
+  function Num_resource(id: Natural) return GString is
     img: constant String:= Integer'Image(id);
   begin
-    return '#' & img(img'first+1..img'Last);
+    return To_GString_from_String('#' & img(img'first+1..img'Last));
   end Num_resource;
 
   package body Common_Fonts is

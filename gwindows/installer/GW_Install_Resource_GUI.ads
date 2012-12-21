@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/08/26   11:14:42
+-- Transcription time: 2012/12/21   03:21:25
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 26-Aug-2012
+-- RC Grammar version: 25-Nov-2012
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -235,7 +235,7 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Installer for the GWindows programming framework";
-    FileVersion: constant String:= "10-Jul-2012 b";
+    FileVersion: constant String:= "22-Dec-2012";
     LegalCopyright: constant String:= "© 2012 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Installer";
     Translation: constant:= 1033;
@@ -292,7 +292,7 @@ package GW_Install_Resource_GUI is
 
   procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
 
-  function Num_resource(id: Natural) return String;
+  function Num_resource(id: Natural) return GString;
 
 
   -- Last line of resource script file: 196
