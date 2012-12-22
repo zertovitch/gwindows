@@ -2,7 +2,7 @@ Numbers refer to source control revisions.
 Revision N can be currently seen at the following URL:
 http://gnavi.svn.sf.net/viewvc/gnavi?view=revision&revision=N
 
-GWindows release, xx-Dec-2012
+GWindows release, 22-Dec-2012
 =============================
 Major changes - numbers below refer to svn repository revisions:
 
