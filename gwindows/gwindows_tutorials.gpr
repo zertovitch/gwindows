@@ -1,15 +1,11 @@
 -- This is the GNAT / GNAT Programming Studio (GPS) project file for
 -- building the GWindows tutorials.
 --
--- Build me with "gnatmake -P gwindows_tutorials.gpr", or open me with GPS
+-- Build me with "gnatmake -P gwindows_tutorials", or open me with GPS
 
 with "GWindows.gpr";
 
 project GWindows_Tutorials is
-
-   package Ide is
-      for Vcs_Kind use "Subversion";
-   end Ide;
 
    for Source_Dirs use ("tutorials", "tutorials/msie");
    for Object_Dir use "obj";

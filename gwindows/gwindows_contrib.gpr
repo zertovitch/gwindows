@@ -1,19 +1,15 @@
 -- This is the GNAT / GNAT Programming Studio (GPS) project file for
 -- testing some components of the GWindows framework, or some contributed packages.
 --
--- Build me with "gnatmake -P gwindows_test.gpr", or open me with GPS
+-- Build me with "gnatmake -P gwindows_contrib", or open me with GPS
 
 with "GWindows.gpr";
 
 project GWindows_Contrib is
 
-   package Ide is
-      for Vcs_Kind use "Subversion";
-   end Ide;
-
    for Source_Dirs use ("contrib/test", "contrib");
    for Object_Dir use "obj";
-   for Exec_Dir use ".";   
+   for Exec_Dir use "contrib";   
    
    package Compiler is
       for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatwaKM", "-gnatVa", "-gnato");
@@ -21,7 +17,7 @@ project GWindows_Contrib is
 
    package Linker is
       for Default_Switches ("ada") use ("contrib/test/visual_styles.rbj"); 
-      -- Get the Windows Visual Styles through manifest.xml
+      -- Get the Windows Visual Styles switched on through manifest.xml
    end Linker;
    
    for Main use (
