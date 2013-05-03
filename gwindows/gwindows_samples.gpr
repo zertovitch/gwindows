@@ -1,0 +1,24 @@
+-- This is the GNAT / GNAT Programming Studio (GPS) project file for
+-- building the GWindows tutorials.
+--
+-- Build me with "gnatmake -P gwindows_samples", or open me with GPS
+
+with "GWindows.gpr";
+
+project GWindows_Samples is
+
+   for Source_Dirs use ("samples\**");
+   for Object_Dir use "obj";
+   for Exec_Dir use "samples";
+   for Main use ("splitters.adb");
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatwa");
+   end Compiler;
+
+   package Builder is
+      for Default_Switches ("ada") use ("-j2");
+   end Builder;
+
+end GWindows_Samples;
+

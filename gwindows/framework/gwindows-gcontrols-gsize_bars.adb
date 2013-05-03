@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---                   GWINDOWS - Ada 95 RAD GUI Framework                    --
+--         GWINDOWS - Ada 95 Framework for Windows GUI Development          --
 --                                                                          --
 --          G W I N D O W S . G C O N T R O L S . S I Z E _ B A R S         --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2013 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -170,7 +173,8 @@ package body GWindows.GControls.GSize_Bars is
       use GWindows.Base;
       use GWindows.Types;
 
-      P  : Pointer_To_Base_Window_Class := Controlling_Parent (Window);
+      P  : constant Pointer_To_Base_Window_Class :=
+        Controlling_Parent (Window);
       G  : constant Pointer_To_Base_Window_Class :=
         Parent (Parent (Window).all);
       W  : constant Point_Type := Point_To_Desktop (Window, (Left (Window),
@@ -276,7 +280,8 @@ package body GWindows.GControls.GSize_Bars is
             W   : constant Natural := Width (P);
             H   : constant Natural := Height (P);
             NS  : Integer;
-            PC  : Pointer_To_Base_Window_Class := Controlling_Parent (Window);
+            PC  : constant Pointer_To_Base_Window_Class :=
+              Controlling_Parent (Window);
             WC  : constant Point_Type := Point_To_Desktop (Window, (X, Y));
             OC  : Point_Type := Point_To_Client (PC.all, WC);
          begin

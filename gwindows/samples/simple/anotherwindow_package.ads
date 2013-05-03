@@ -4,9 +4,7 @@ with GWindows.Packing_Boxes;
 with GWindows.GControls.GSize_Bars;
 with GWindows.Panels;
 with GWindows.Edit_Boxes;
-with GWindows.Buttons;
 with GWindows.Windows.Main;
-with GWindows.Base;
 
 package AnotherWindow_Package is
 

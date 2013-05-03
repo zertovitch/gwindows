@@ -1,5 +1,6 @@
-with GWindows.Application;
+-- with GWindows.Application;
 with GWindows.Colors;
+with GWindows.Base;
 
 package body AnotherWindow_Package is
 
@@ -15,7 +16,7 @@ package body AnotherWindow_Package is
                                   top => 0,
                                   width => 1,
                                   height => 1,
-                                  text => "1");
+                                  text => "Edit_Box1, inside Window");
       GWindows.Edit_Boxes.Dock (Window.Edit_Box1, GWindows.Base.Fill);
 
       GWindows.Panels.Create (Window.Split1,
@@ -26,6 +27,7 @@ package body AnotherWindow_Package is
                               height => 50);
       GWindows.Panels.Dock (Window.Split1, GWindows.Base.At_Bottom);
 
+      -- The broad horizontal split bar, blue when moving
       GWindows.GControls.GSize_Bars.Create (Window.Split_Bar1,
                                             Parent => Window.Split1,
                                             location => GWindows.Base.At_Top);
@@ -40,7 +42,7 @@ package body AnotherWindow_Package is
                                   top => 0,
                                   width => 1,
                                   height => 1,
-                                  text => "3");
+                                  text => "Edit_Box2, inside panel Split1 (like Split_Bar1)");
       GWindows.Edit_Boxes.Dock (Window.Edit_Box2, GWindows.Base.Fill);
 
       GWindows.Panels.Create (Window.Split2,
@@ -53,7 +55,7 @@ package body AnotherWindow_Package is
 
       GWindows.GControls.GSize_Bars.Create (Window.Split_Bar2,
                                             Parent   => Window.Split2,
-                                            Text     => "Tools Tray",
+                                            Text     => "Tools Tray    (inside panel Split2)",
                                             Width    => 25,
                                             Location => GWindows.Base.At_Left);
       GWindows.GControls.GSize_Bars.Live_Resize (Window.Split_Bar2, True);
@@ -64,8 +66,8 @@ package body AnotherWindow_Package is
       GWindows.GControls.GSize_Bars.Text_Color (Window.Split_Bar2,
                                                 GWindows.Colors.White);
       GWindows.Drawing_Objects.Create_Font (Window.Label_Font,
-                                            Name => "Times New Roman",
-                                            Size => 16,
+                                            Name => "Calibri",
+                                            Size => 18,
                                             Weight => 900);
       GWindows.GControls.GSize_Bars.Set_Font (Window.Split_Bar2,
                                               Window.Label_Font);
@@ -87,7 +89,7 @@ package body AnotherWindow_Package is
                                   top => 0,
                                   width => 1,
                                   height => 100,
-                                  text => "3");
+                                  text => "Edit_Box3, inside Pack_Box1, inside panel Split2");
 
       GWindows.Panels.Create (Window.Split3,
                               Parent => Window.Pack_Box1,
@@ -111,7 +113,7 @@ package body AnotherWindow_Package is
          width => 1,
          height => 1,
          alignment => GWindows.Static_Controls.Center,
-         text => "=====");
+         text => "- - - = = = ====");
       GWindows.Static_Controls.Dock (Window.Split_Text, GWindows.Base.Fill);
       GWindows.Static_Controls.Enabled (Window.Split_Text, False);
 
@@ -121,7 +123,7 @@ package body AnotherWindow_Package is
                                   top => 0,
                                   width => 1,
                                   height => 1,
-                                  text => "4");
+                                  text => "Edit_Box4, inside panel Split3 (like Split_Bar3), inside Pack_Box1, inside panel Split2");
       GWindows.Edit_Boxes.Dock (Window.Edit_Box4, GWindows.Base.Fill);
 
       GWindows.Edit_Boxes.Create (Window.Edit_Box5,
