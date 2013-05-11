@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2013 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -1923,7 +1923,7 @@ package body GWindows.Common_Controls is
       LVS_LIST                : constant := 16#0003#;
       --  LVS_TYPEMASK            : constant := 16#0003#;
       LVS_SINGLESEL           : constant := 16#0004#;
-      --  LVS_SHOWSELALWAYS       : constant := 16#0008#;
+      LVS_SHOWSELALWAYS       : constant := 16#0008#;
       LVS_SORTASCENDING       : constant := 16#0010#;
       LVS_SORTDESCENDING      : constant := 16#0020#;
       --  LVS_SHAREIMAGELISTS     : constant := 16#0040#;
@@ -1938,7 +1938,7 @@ package body GWindows.Common_Controls is
       --  LVS_NOCOLUMNHEADER      : constant := 16#4000#;
       LVS_NOSORTHEADER        : constant := 16#8000#;
 
-      Styles     : Interfaces.C.unsigned := 0;
+      Styles     : Interfaces.C.unsigned := LVS_SHOWSELALWAYS;
    begin
       if Selection = Single then
          Styles := Styles or LVS_SINGLESEL;
@@ -2639,7 +2639,7 @@ package body GWindows.Common_Controls is
       TVS_LINESATROOT         : constant := 16#0004#;
       --  TVS_EDITLABELS          : constant := 16#0008#;
       --  TVS_DISABLEDRAGDROP     : constant := 16#0010#;
-      --  TVS_SHOWSELALWAYS       : constant := 16#0020#;
+      TVS_SHOWSELALWAYS       : constant := 16#0020#;
       --  TVS_RTLREADING          : constant := 16#0040#;
       --  TVS_NOTOOLTIPS          : constant := 16#0080#;
       --  TVS_CHECKBOXES          : constant := 16#0100#;
@@ -2650,7 +2650,7 @@ package body GWindows.Common_Controls is
       --  TVS_NOSCROLL            : constant := 16#2000#;
       --  TVS_NONEVENHEIGHT       : constant := 16#4000#;
 
-      Styles     : Interfaces.C.unsigned := 0;
+      Styles     : Interfaces.C.unsigned := TVS_SHOWSELALWAYS;
    begin
       if Lines then
          Styles := Styles or TVS_HASLINES;

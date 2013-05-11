@@ -313,7 +313,7 @@ package body GWindows.GControls.GSize_Bars is
                   Left (Window.Bar.all, OC.X);
                end if;
 
-            elsif Dock (Window) = At_Left and X /= 0 then
+            elsif Dock (Window) = At_Left then
                NS := W - X;
 
                if Window.Live_Resize then
@@ -340,7 +340,7 @@ package body GWindows.GControls.GSize_Bars is
 
                   Left (Window.Bar.all, OC.X);
                end if;
-            elsif Dock (Window) = At_Bottom and Y /= 0 then
+            elsif Dock (Window) = At_Bottom then
                NS := H + Y;
 
                if Window.Live_Resize then
@@ -368,7 +368,7 @@ package body GWindows.GControls.GSize_Bars is
                   Top (Window.Bar.all, OC.Y);
                end if;
 
-            elsif Dock (Window) = At_Top and Y /= 0 then
+            elsif Dock (Window) = At_Top then
                NS := H - Y;
 
                if Window.Live_Resize then
