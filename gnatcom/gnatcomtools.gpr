@@ -6,7 +6,7 @@ project Gnatcomtools is
    end Ide;
 
    for Source_Dirs use ("tools");
-   for Object_Dir use "tools";
+   for Object_Dir use "obj";
    package Compiler is   
       for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
    end Compiler;
