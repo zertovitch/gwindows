@@ -38,7 +38,8 @@ project GWindows_Tutorials is
    	  "tutorial20.adb",
    	  "tutorial21.adb",
    	  "tutorial22.adb",
-   	  "tutorial23.adb");
+   	  "tutorial23.adb",
+   	  "tutorial24.adb");
 
    package Builder is
       for Default_Switches ("ada") use ("-j2");
