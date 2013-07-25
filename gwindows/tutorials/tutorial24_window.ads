@@ -6,6 +6,10 @@ with GWindows.Types;
 
 package Tutorial24_Window is
 
+   -------------------------------------------
+   --  List View with some Drag capability  --
+   -------------------------------------------
+
    type LV_with_Drag is new List_View_Control_Type with private;
 
    overriding
@@ -16,7 +20,23 @@ package Tutorial24_Window is
       Return_Value : in out GWindows.Types.Lresult
    );
 
-   type TV_with_Drag is new List_View_Control_Type with private;
+   -------------------------------------------
+   --  Tree View with some Drag capability  --
+   -------------------------------------------
+
+   type TV_with_Drag is new Tree_View_Control_Type with private;
+
+   overriding
+   procedure On_Notify (
+      Window       : in out TV_with_Drag;
+      Message      : in     GWindows.Base.Pointer_To_Notification;
+      Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
+      Return_Value : in out GWindows.Types.Lresult
+   );
+
+   -------------------
+   --  Demo window  --
+   -------------------
 
    type My_Window_Type is
      new GWindows.Windows.Main.Main_Window_Type with record
@@ -41,6 +61,6 @@ package Tutorial24_Window is
 private
 
    type LV_with_Drag is new List_View_Control_Type with null record;
-   type TV_with_Drag is new List_View_Control_Type with null record;
+   type TV_with_Drag is new Tree_View_Control_Type with null record;
 
 end Tutorial24_Window;

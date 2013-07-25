@@ -242,6 +242,7 @@ package body GWindows.Common_Controls is
    TVM_SETITEMW            : constant := TV_FIRST + 63;  --  AnSp
    TVM_SETIMAGELIST        : constant := TV_FIRST + 9;  --  AnSp
    TVM_SELECTITEM          : constant := TV_FIRST + 11; -- GdM
+   TVM_HITTEST             : constant := TV_FIRST + 17;
 
    TVGN_ROOT               : constant := 16#0000#;
    TVGN_NEXT               : constant := 16#0001#;
@@ -2899,6 +2900,44 @@ package body GWindows.Common_Controls is
    begin
       return SendMessage;
    end Get_Previous_Item;
+
+   --  GdM 25-Jul-2013: added similar as for List_View.
+   --  Code from Ex_TV, under the name Tree_Hit_Test.
+   function Item_At_Position
+     (Control  : in     Tree_View_Control_Type;
+      Position : in     GWindows.Types.Point_Type)
+   return Tree_Item_Node
+   is
+      type Tv_Hit_Test_Info_Type is
+         record
+            Point : GWindows.Types.Point_Type     := Position;
+            Flags : Integer;
+            Hitem : Tree_Item_Node;
+         end record;
+
+      Hit_Test_Structure : Tv_Hit_Test_Info_Type;
+
+      procedure Sendmessage
+        (Hwnd   : GWindows.Types.Handle := Handle (Control);
+         Umsg   : Interfaces.C.int  := TVM_HITTEST;
+         Wparam : Integer           := 0;
+         Lparam : System.Address    := Hit_Test_Structure'Address);
+      pragma Import (Stdcall, Sendmessage,
+                       "SendMessage" & Character_Mode_Identifier);
+
+   begin
+      Sendmessage;
+      return Hit_Test_Structure.Hitem;
+   end Item_At_Position;
+
+   procedure Item_At_Position
+     (Control  : in     Tree_View_Control_Type;
+      Position : in     GWindows.Types.Point_Type;
+      Item     :    out Tree_Item_Node)
+   is
+   begin
+     Item := Item_At_Position (Control, Position);
+   end Item_At_Position;
 
    ----------
    -- Text --

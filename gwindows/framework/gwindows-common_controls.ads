@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2013 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -758,7 +758,7 @@ package GWindows.Common_Controls is
       Position : in     GWindows.Types.Point_Type;
       Item     : in out Integer;
       SubItem  : in out Integer);
-   --  Item under position (position is in client coordinates)
+   --  Item under screen position, in client coordinates
 
    function Text
      (Control : in List_View_Control_Type;
@@ -905,11 +905,22 @@ package GWindows.Common_Controls is
    function Selected_Item (Control : in Tree_View_Control_Type)
                           return Tree_Item_Node;
 
+   procedure Item_At_Position
+     (Control  : in     Tree_View_Control_Type;
+      Position : in     GWindows.Types.Point_Type;
+      Item     :    out Tree_Item_Node);
+   --  Item under screen position, in client coordinates
+
+   function Item_At_Position
+     (Control  : in     Tree_View_Control_Type;
+      Position : in     GWindows.Types.Point_Type)
+   return Tree_Item_Node;
+   --  Item under screen position, in client coordinates
+
    function Text (Control : in Tree_View_Control_Type;
                   Where   : in Tree_Item_Node)
                  return GString;
 
-   --  GdM: procedure Text (with node) added 2-Jun-2009, uses AnSp's Set_Item
    procedure Text (Control : in out Tree_View_Control_Type;
                    Where   : in     Tree_Item_Node;
                    Text    : in     GString);
