@@ -1,7 +1,7 @@
 @echo off
 
 rem Version should match the field VALUE "FileVersion" in GW_Install.rc
-set version=22-Dec-2012
+set version=xx-yyy-2013
 
 if exist ..\..\gwenerator\windows_stuff\gwindows.ads goto stuff_ok
 
@@ -44,4 +44,4 @@ gnatmake -P GW_Install.gpr -XBuild_Mode=Small
 upx --ultra-brute gw_install.exe
 if exist *.upx del *.upx
 
-copy /B gw_install.exe + gwin.zip "GWindows Setup %version%.exe"
+copy /B gw_install.exe + ..\..\gwin.zip "GWindows Setup %version%.exe"
