@@ -1,5 +1,4 @@
 with Ada.Exceptions;
-with Ada.Command_Line;
 with GNAT.OS_Lib;
 
 with GWindows.Application; use GWindows.Application;
@@ -16,7 +15,7 @@ with GWindows.Drawing; use GWindows.Drawing;
 with GWindows.Colors;
 with GWindows.Types;
 
---  Drawing using a draw panel
+--  Drawing using a drawing panel
 
 procedure Scribble is
    pragma Linker_Options ("-mwindows");
@@ -34,6 +33,7 @@ procedure Scribble is
       Y      : in     Integer;
       Keys   : in     Mouse_Key_States)
    is
+   pragma Unreferenced (Window);
    begin
       if Keys (Left_Button) then
          Ellipse (Drawing_Area, X, Y, X + 50, Y + 50);

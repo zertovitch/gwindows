@@ -1,3 +1,6 @@
+--  This demo is drawing a text at regular time intervals
+--  using an Ada task.
+
 with GWindows.Windows; use GWindows.Windows;
 with GWindows.Drawing; use GWindows.Drawing;
 with GWindows.Drawing_Objects; use GWindows.Drawing_Objects;
@@ -48,12 +51,11 @@ procedure Text_Spin is
 
    procedure Do_Close (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
    begin
       Spin_It.Stop;
       GWindows.Application.End_Loop;
    end Do_Close;
-
-
 
 begin
    On_Destroy_Handler (Main, Do_Close'Unrestricted_Access);
