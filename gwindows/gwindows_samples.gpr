@@ -10,7 +10,10 @@ project GWindows_Samples is
    for Source_Dirs use ("samples\**");
    for Object_Dir use "obj";
    for Exec_Dir use "samples";
-   for Main use ("splitters.adb");
+   for Main use (
+     "splitters.adb", 
+     "scribble.adb", "scribble2.adb" -- drawing
+   );
 
    package Compiler is
       for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatwa");
