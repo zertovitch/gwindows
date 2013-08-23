@@ -68,6 +68,8 @@ package GWindows.Cursors is
    --  Standard cursor: Size all
    IDC_NO                     : constant := 32648;
    --  Standard cursor: Slashed circle
+   IDC_HAND                   : constant := 32649;
+   --  Standard cursor: Hand with pointing finger
    IDC_APPSTARTING            : constant := 32650;
    --  Standard cursor: App starting
    IDC_HELP                   : constant := 32651;

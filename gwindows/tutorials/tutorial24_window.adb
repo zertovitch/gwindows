@@ -17,7 +17,6 @@ package body Tutorial24_Window is
       Font, Mem_Font : Font_Type;
       --  Font is needed to create drag image, otherwise drag image
       --  is invisible - Windows bug since Vista!
-      IDC_HAND : constant := 32649;
       Cursor : Cursor_Type := Load_System_Cursor (IDC_HAND);
       --  Cursor_Pos : Point_Type := Get_Cursor_Position;
       use GWindows;

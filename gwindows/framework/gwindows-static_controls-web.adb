@@ -100,7 +100,6 @@ package body GWindows.Static_Controls.Web is
       Return_Value : in out GWindows.Types.Lresult)
   is
     WM_MOUSEMOVE  : constant := 16#200#;
-    IDC_HAND : constant := 32649;
   begin
     if message = WM_MOUSEMOVE then
       if cur_finger = 0 then
