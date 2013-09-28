@@ -2,9 +2,15 @@ Numbers refer to source control revisions.
 Revision N can be currently seen at the following URL:
 http://gnavi.svn.sf.net/viewvc/gnavi?view=revision&revision=N
 
-GWindows release, 22-Dec-2012
+GWindows release, 28-Sep-2013
 =============================
 Major changes - numbers below refer to svn repository revisions:
+
+206: GWindows.Common_Controls: added Item_At_Position method for Tree_View_Control_Type
+205: Beginning of a new tutorial #24 about Drag & Drop
+
+GWindows release, 22-Dec-2012
+=============================
 
 195: GWindows.Common_Dialogs: Get_Directory with optional initial path
 180: GWindows.Windows: Drop Files support Unicode names

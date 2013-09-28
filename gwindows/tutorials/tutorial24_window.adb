@@ -1,10 +1,12 @@
-with GWindows.Types; use GWindows.Types;
-with GWindows.Cursors; use GWindows.Cursors;
+with GWindows.Types;                    use GWindows.Types;
+with GWindows.Cursors;                  use GWindows.Cursors;
+with GWindows.Base;                     use GWindows.Base;
+with GWindows.Image_Lists;              use GWindows.Image_Lists;
+with GWindows.Drawing_Objects;          use GWindows.Drawing_Objects;
+with GWindows.Static_Controls;          use GWindows.Static_Controls;
+with GWindows.GStrings;                 use GWindows.GStrings;
+
 with Interfaces.C;
-with GWindows.Base; use GWindows.Base;
-with GWindows.Image_Lists; use GWindows.Image_Lists;
-with GWindows.Drawing_Objects; use GWindows.Drawing_Objects;
-with GWindows.Static_Controls; use GWindows.Static_Controls;
 
 package body Tutorial24_Window is
 
@@ -46,7 +48,7 @@ package body Tutorial24_Window is
       Item_At_Position (Window, Point, Clicked_item, Clicked_subitem);
       Text (My_Window_Type (Parent (Window).all).Status,
             "Drag starting from List View, Item Nr" &
-            Integer'Wide_Image (Clicked_item + 1) &
+            Image (Clicked_item + 1) &
             " and perhaps some more...");
       Capture_Mouse (My_Window_Type (Parent (Window).all));
       --  ^ This is needed, otherwise dropping outside of parent window
