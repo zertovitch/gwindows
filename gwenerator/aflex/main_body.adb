@@ -271,6 +271,8 @@ package nat_io is new integer_io(natural); use nat_io; -- CvdL: gnat/gnarl
 
     SAWCMPFLAG := FALSE; 
     USE_STDOUT := FALSE; 
+    
+    Prefix_all:= False;
 
     -- read flags
     COMMAND_LINE_INTERFACE.INITIALIZE_COMMAND_LINE; 
@@ -330,6 +332,8 @@ package nat_io is new integer_io(natural); use nat_io; -- CvdL: gnat/gnarl
 	  when 'E' =>
 	    Ayacc_Extension_Flag := TRUE;
 -- END OF UMASS CODES.
+      when 'x' => -- GdM, added 20-Nov-2013
+        Prefix_all:= True;
 	  when others => 
 	    MISC.AFLEXERROR("unknown flag " & CHAR(ARG, FLAG_POS)); 
 	end case; 

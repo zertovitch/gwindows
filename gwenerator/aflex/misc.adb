@@ -22,7 +22,7 @@
 -- NOTES contains functions used in various places throughout aflex.
 -- $Header: /dc/uc/self/tmp/gnat_aflex/orig/RCS/misc.adb,v 1.1 1995/02/19 01:38:51 self Exp self $ 
 
-with MISC, MAIN_BODY, INT_IO, CALENDAR; 
+with MISC, INT_IO, CALENDAR; 
 
 package body MISC is 
 
@@ -233,20 +233,22 @@ package body MISC is
       & MINUTE_STRING & ":" & SECOND_STRING & INTEGER'IMAGE(CURRENT_YEAR); 
   end AFLEX_GETTIME; 
 
+  AFLEX_End: exception;
+  
   -- aflexerror - report an error message and terminate
   -- overloaded function, one for vstring, one for string.
   procedure AFLEXERROR(MSG : in VSTRING) is 
   begin
     TSTRING.PUT(STANDARD_ERROR, "aflex: " & MSG); 
     TEXT_IO.NEW_LINE(STANDARD_ERROR); 
-    MAIN_BODY.AFLEXEND(1); 
+    raise AFLEX_End; -- MAIN_BODY.AFLEXEND(1); 
   end AFLEXERROR; 
 
   procedure AFLEXERROR(MSG : in STRING) is 
   begin
     TEXT_IO.PUT(STANDARD_ERROR, "aflex: " & MSG); 
     TEXT_IO.NEW_LINE(STANDARD_ERROR); 
-    MAIN_BODY.AFLEXEND(1); 
+    raise AFLEX_End; -- MAIN_BODY.AFLEXEND(1); 
   end AFLEXERROR; 
 
   -- aflexfatal - report a fatal error message and terminate
@@ -255,14 +257,14 @@ package body MISC is
   begin
     TSTRING.PUT(STANDARD_ERROR, "aflex: fatal internal error " & MSG); 
     TEXT_IO.NEW_LINE(STANDARD_ERROR); 
-    MAIN_BODY.AFLEXEND(1); 
+    raise AFLEX_End; -- MAIN_BODY.AFLEXEND(1); 
   end AFLEXFATAL; 
 
   procedure AFLEXFATAL(MSG : in STRING) is 
   begin
     TEXT_IO.PUT(STANDARD_ERROR, "aflex: fatal internal error " & MSG); 
     TEXT_IO.NEW_LINE(STANDARD_ERROR); 
-    MAIN_BODY.AFLEXEND(1); 
+    raise AFLEX_End; -- MAIN_BODY.AFLEXEND(1); 
   end AFLEXFATAL; 
 
   -- basename - find the basename of a file
@@ -298,6 +300,11 @@ package body MISC is
       return INFILENAME; 
     end if; 
   end BASENAME; 
+
+  function BASENAME_String return String is
+  begin
+    return STR(BASENAME);
+  end BASENAME_String;
 
   -- line_directive_out - spit out a "# line" statement
 

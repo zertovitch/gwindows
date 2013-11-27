@@ -193,6 +193,17 @@ package body Output_File is
           Put_Line (Outfile, "      " & t(t'First..t'Last-6) & "IO" & ';');
         end;
 
+        if Options.Prefix_all then
+          Put_Line (Outfile, "    procedure YYError (s: in String) renames -- (+GdM 2013, option Prefix_All)");
+          declare
+            t: constant String:= Tokens_Unit_Name;
+          begin
+            Put_Line (Outfile, "      " & t(t'First..t'Last-6) & "Error" & ';');
+            Put_Line (Outfile, "    package yy_sizes renames ");
+            Put_Line (Outfile, "      " & t(t'First..t'Last-6) & "Sizes" & ';');
+          end;
+        end if;
+
 -- UMASS CODES :
         if Options.Error_Recovery_Extension then
           Put_Line (OutFile, "    -- UMASS CODES :" );

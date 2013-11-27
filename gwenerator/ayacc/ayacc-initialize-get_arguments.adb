@@ -11,7 +11,9 @@ procedure Get_Arguments (File           : out String_Type;
 -- UMASS CODES :
                          Error_Recovery : out Switch;
 -- END OF UMASS CODES.
-			 Extension      : out String_Type) is 
+               Extension      : out String_Type;
+               Prefix_All     : out Switch
+               ) is 
 
   C_Lex_Argument   : String_Type;
   Debug_Argument   : String_Type;
@@ -20,6 +22,7 @@ procedure Get_Arguments (File           : out String_Type;
 -- UMASS CODES :
   Error_Recovery_Argument : String_Type;
 -- END OF UMASS CODES.
+  Prefix_All_Argument : String_Type; -- GdM, added 20-Nov-2013
 
   Positional     : Natural := 0; 
 
@@ -27,7 +30,7 @@ procedure Get_Arguments (File           : out String_Type;
   Total          : Natural := 0; 
 
   -- Total number of parameters
-  Max_Parameters : constant := 7;
+  Max_Parameters : constant := 8;
 
   Incorrect_Call : exception; 
 
@@ -107,6 +110,7 @@ begin
   Error_Recovery_Argument := Named_Arg_Value ("Error_Recovery",   "Off");
 -- END OF UMASS CODES.
   Extension        := Named_Arg_Value ("Extension", ".a");
+  Prefix_All_Argument:= Named_Arg_Value ("Prefix_All",   "Off");
 
   -- Get any positional associations
   if Positional >= 1 then 
@@ -121,11 +125,14 @@ begin
             Verbose_Argument := Positional_Arg_Value (5);
 -- UMASS CODES :
             if Positional >= 6 then
-              Error_Recovery_Argument := Positional_Arg_Value (5);
+              Error_Recovery_Argument := Positional_Arg_Value (6);
 -- END OF UMASS CODES.
-              if Positional = Max_Parameters then
-                Extension := Positional_Arg_Value (Max_Parameters); 
-	      end if;
+              if Positional >= 7 then
+                Extension := Positional_Arg_Value (7); 
+                if Positional >= 8 then
+                  Prefix_All_Argument := Positional_Arg_Value (8); 
+                end if;
+	          end if;
 -- UMASS CODES :
             end if;
 -- END OF UMASS CODES.
@@ -144,6 +151,7 @@ begin
 -- UMASS CODES :
   Error_Recovery := Convert_Switch (Value (Error_Recovery_Argument));
 -- END OF UMASS CODES.
+  Prefix_All := Convert_Switch (Value (Prefix_All_Argument));
 
 exception
 

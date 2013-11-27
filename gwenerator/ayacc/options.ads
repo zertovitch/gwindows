@@ -86,6 +86,10 @@ package Options is
     -- be generated.
 -- END OF UMASS CODES.
 
+    function Prefix_all return Boolean;
+    -- return True if we want to have everything prefixed: [BASENAME]_YYParse, etc.
+    -- GdM, added 20-Nov-2013
+
     Illegal_Option: exception;
 
 end Options;

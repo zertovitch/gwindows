@@ -64,4 +64,5 @@ package MISC is
   function ISDIGIT(C : in CHARACTER) return BOOLEAN; 
   function TOLOWER(C : in INTEGER) return INTEGER; 
   function BASENAME return VSTRING; 
+  function BASENAME_String return String; 
 end MISC; 

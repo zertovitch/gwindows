@@ -13,6 +13,7 @@ package body Options is
 -- UMASS CODES :
     Error_Recovery_Extension_Option : Boolean := False;
 -- END OF UMASS CODES.
+    Prefix_all_Option : Boolean:= False;
 
     procedure Set_Options(S: in String) is
     begin
@@ -34,6 +35,8 @@ package body Options is
                 when 'e' | 'E' =>
                     Error_Recovery_Extension_Option := True;
 -- END OF UMASS CODES.
+        when 'x' | 'X' =>
+            Prefix_all_Option := True;
 		when others =>
 		    raise Illegal_Option;
 	    end case;
@@ -76,4 +79,10 @@ package body Options is
         return Error_Recovery_Extension_Option;
     end;
 -- END OF UMASS CODES.
+
+    function Prefix_all return Boolean is
+    begin
+        return Prefix_all_Option;
+    end;
+
 end Options;

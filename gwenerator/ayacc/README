@@ -1,0 +1,61 @@
+                              AYACC
+
+## AYACC
+
+Ada Automatic Construction of Parser
+
+## BUILD
+
+     - get ayacc from http://sourceforge.net/projects/p2ada
+     - go to ayacc directory
+     - run "gnatmake ayacc"
+     - move the executable in a reachable directory
+
+## USAGE
+
+$ ayacc file.y
+
+Generated files: file.a pascal_tokens.ads pascal_shift_reduce.ads pascal_goto.ads
+and file_error_report.a if error recovery is on
+Use .a files in GNAT with gnatchop
+
+## OPTIONS
+
+   C_Lex   (On, Off) Specifies the Generation of a 'C' Lex Interface.
+   Debug   (On, Off) Specifies the Production of Debugging Output by the Generated Parser.
+   Summary (On, Off) Specifies the Printing of Statistics About the Generated Parser.
+   Verbose (On, Off) Specifies the Production of a Human Readable Report of States in the Generated Parser.
+   Error_Recovery (On, Off) Specifies the Generation of extension of error recovery.
+   Extension         Specifies the file extension to be used for generated Ada files (.a by default).
+   Prefix_All (On, Off) Specifies that [Basename]_Parse, [Basename]_Error and [Basename]_Sizes are
+                        used instead of YYParse, YYError and YY_Sizes. It allows using multiple parsers
+                        in the same main procedure. See equivalent option in AFlex (-x).
+
+Example of command-line options, given by position: 
+ayacc gt.y Off Off On Off Off .a On
+                        
+## DOC
+
+See ayacc_user_man.pdf
+Get help from http://sourceforge.net/projects/p2ada
+
+## REALEASE NOTES
+
+version 1.1
+
+## LICENCE
+
+ Copyright (c) 1990 Regents of the University of California.
+ All rights reserved.
+ Redistribution and use in source and binary forms are permitted
+ provided that the above copyright notice and this paragraph are
+ duplicated in all such forms and that any documentation,
+ advertising materials, and other materials related to such
+ distribution and use acknowledge that the software was developed
+ by the University of California, Irvine.  The name of the
+ University may not be used to endorse or promote products derived
+ from this software without specific prior written permission.
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
