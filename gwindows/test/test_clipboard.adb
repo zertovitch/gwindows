@@ -10,7 +10,7 @@ procedure Test_Clipboard is
    function GS (Value : String) return GString
      renames To_GString_From_String;
    some_text : constant String :=
-      "first line" &
+      "GWindows' Test_Clipboard - first line" &
       ASCII.CR & -- <- only needed by a few apps like Notepad...
       ASCII.LF &
       "second line";
@@ -20,7 +20,7 @@ begin
    --  Test 1: Get text (CF_TEXT) from the Windows clipboard
    --
    Message_Box (
-      GS ("Test 1"),
+      "Test 1",
       GS ("Test 1: getting a text from the Windows clipboard." &
          ASCII.LF &
          ASCII.LF &
@@ -29,7 +29,7 @@ begin
    );
    Message_Box (
       some_window,
-      GS ("Contents of the clipboard"),
+      "Contents of the clipboard",
       GS (GWindows.Clipboard.Get_Clipboard_Text (some_window))
    );
    --
@@ -37,7 +37,7 @@ begin
    --
    GWindows.Clipboard.Set_Clipboard_Text (some_window, some_text);
    Message_Box (
-      GS ("Test 2"),
+      "Test 2",
       GS ("Test 2: putting a text to the Windows clipboard." &
          ASCII.LF &
          ASCII.LF &

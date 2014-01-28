@@ -16,7 +16,8 @@ project GWindows_Test is
    end Compiler;
 
    for Main use (
-      "test_clipboard.adb"
+      "test_clipboard.adb",
+      "test_locale.adb"
    );
 
    package Builder is
