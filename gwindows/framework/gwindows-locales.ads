@@ -2,7 +2,7 @@
 --                                                                          --
 --            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
---                       G W I N D O W S . L O C A L E                      --
+--                      G W I N D O W S . L O C A L E S                     --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
@@ -40,9 +40,13 @@
 --  in the "Region and Language" control panel.
 --  The locale is also known as the "regional settings".
 --
+--  Note that language and country informations are in Ada.Locales (Ada 2012+).
+--
 --  Thanks to Nicolas Brunot for advice and pointers on MSDN.
 
-package GWindows.Locale is
+package GWindows.Locales is
+
+   --  Get some default locale informations for current user
 
    function Get_Decimal_Separator return GString;
    function Get_Thousands_Separator return GString;
@@ -54,4 +58,4 @@ package GWindows.Locale is
    --  Locale_Info_Code: a value of one of the MS Locale Information Constants:
    --  http://msdn.microsoft.com/en-us/library/dd464799(v=vs.85).aspx
 
-end GWindows.Locale;
+end GWindows.Locales;

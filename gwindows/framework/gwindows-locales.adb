@@ -2,7 +2,7 @@
 --                                                                          --
 --            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
---                       G W I N D O W S . L O C A L E                      --
+--                      G W I N D O W S . L O C A L E S                     --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
@@ -37,7 +37,7 @@
 
 with GWindows.GStrings;
 
-package body GWindows.Locale is
+package body GWindows.Locales is
 
    --  Full list of the MS Locale Information Constants:
    --  http://msdn.microsoft.com/en-us/library/dd464799(v=vs.85).aspx
@@ -81,4 +81,4 @@ package body GWindows.Locale is
      return GWindows.GStrings.To_GString_From_C (Buffer);
    end Get_Locale_Info;
 
-end GWindows.Locale;
+end GWindows.Locales;

@@ -1,4 +1,4 @@
-with GWindows.Locale;
+with GWindows.Locales;
 
 with GWindows;                    use GWindows;
 with GWindows.Message_Boxes;      use GWindows.Message_Boxes;
@@ -9,9 +9,9 @@ begin
    Message_Box (
       "Some locale (regional settings)",
       "Decimal separator is [" &
-         GWindows.Locale.Get_Decimal_Separator & ']' &
+         GWindows.Locales.Get_Decimal_Separator & ']' &
       NL &
       "Thousands separator is [" &
-         GWindows.Locale.Get_Thousands_Separator & ']'
+         GWindows.Locales.Get_Thousands_Separator & ']'
    );
 end Test_Locale;
