@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2014 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -59,7 +59,7 @@ package GWindows.Drawing_Objects is
                      HOBJECT : in     GWindows.Types.Handle);
    function Handle (Object : in Drawing_Object_Type)
                    return GWindows.Types.Handle;
-   --  Win32 Handle to Drawing Object
+   --  Windows Handle to Drawing Object
 
    procedure Protected_Object (Object : in out Drawing_Object_Type;
                                Value  : in     Boolean := True);
@@ -338,7 +338,7 @@ package GWindows.Drawing_Objects is
    IDI_INFORMATION            : constant := 32516;
    --  Stock icons
 
-   procedure Load_Stock_Icon (Icon       : in out Bitmap_Type;
+   procedure Load_Stock_Icon (Icon       : in out Icon_Type;
                               Icon_Const : in     Integer);
    --  Load stock icon
 
@@ -360,7 +360,8 @@ private
    type Drawing_Object_Type is
      new Ada.Finalization.Limited_Controlled with
       record
-         HOBJECT         : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         HOBJECT          : GWindows.Types.Handle
+                               := GWindows.Types.Null_Handle;
          Protected_Object : Boolean := False;
       end record;
 

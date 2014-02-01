@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2014 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -668,7 +668,7 @@ package body GWindows.Drawing_Objects is
    -- Load_Stock_Icon --
    ---------------------
 
-   procedure Load_Stock_Icon (Icon       : in out Bitmap_Type;
+   procedure Load_Stock_Icon (Icon       : in out Icon_Type;
                               Icon_Const : in     Integer)
    is
       function LoadIcon

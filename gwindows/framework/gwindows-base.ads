@@ -618,14 +618,14 @@ package GWindows.Base is
    --  Called for all unhandled messages
 
    -------------------------------------------------------------------------
-   --  Base_Window_Type - Win32 Interface Members
+   --  Base_Window_Type - Windows Interface Members
    -------------------------------------------------------------------------
    --  These should be used with caution and only with a full understanding
    --  of the internals of the entire GWindows framework
 
    function Handle (Window : in Base_Window_Type)
                    return GWindows.Types.Handle;
-   --  Win32 Handle
+   --  Windows Handle
 
    function Window_From_Handle (Handle : GWindows.Types.Handle)
                                return Pointer_To_Base_Window_Class;
