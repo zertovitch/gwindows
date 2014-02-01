@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008..2012
+--  Copyright (c) Gautier de Montmollin 2008..2014
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -621,6 +621,7 @@ package body RC_Help is
       Ada_Put_Line(to_spec, "with GWindows.Base;");
       Ada_New_Line(to_spec);
       Ada_Put_Line(to_spec, "package " & pkg & ".Helpers is");
+      Ada_Put_Line(to_spec, "  use GWindows;");
       Ada_Helpers_spec(to_spec);
       Ada_Put_Line(to_spec, "end " & pkg & ".Helpers;");
       Close(Ada_files(to_spec));
@@ -1092,11 +1093,11 @@ package body RC_Help is
       Create(to_body, pkg(as_file_name => True) & "-Helpers.adb");
       Ada_Put_Line(to_body, "with GWindows.Types;              use GWindows.Types;");
       Ada_Put_Line(to_body, "with GWindows.Drawing_Objects;");
+      Ada_Put_Line(to_body, "with GWindows.GStrings;                 use GWindows.GStrings;");
       Ada_Put_Line(to_body, "with Interfaces.C;                      use Interfaces.C;");
       Ada_Put_Line(to_body, "with System;");
       Ada_New_Line(to_body);
       Ada_Put_Line(to_body, "package body " & pkg & ".Helpers is");
-      Ada_Put_Line(to_body, "  use GWindows;");
     else
       Ada_New_Line(to_spec);
       Output_symbols;
