@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---         GWINDOWS - Ada 95 Framework for Windows GUI Development          --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                   G W I N D O W S . G S T R I N G S                      --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2014 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -77,6 +77,26 @@ package body GWindows.GStrings is
    function To_GString_C (Value : GString) return GString_C is
    begin
       return To_C (Value);
+   end To_GString_C;
+
+   procedure To_GString_C (Value : GString; Destination : in out GString_C)
+   is
+      i : size_t := Destination'First;
+   begin
+      if Destination'Length = 0 then
+         return;
+      elsif Destination'Length = 1 then
+         Destination (Destination'Last) := GString_C_Null;
+         --  No other choice than just return an "empty" C string
+      else
+         for j in Value'Range loop
+            Destination (i) := To_C (Value (j));
+            i := i + 1;
+            exit when i = Destination'Last;
+            --  Truncate if source longer than destination
+         end loop;
+         Destination (i) := GString_C_Null;
+      end if;
    end To_GString_C;
 
    --------------------------

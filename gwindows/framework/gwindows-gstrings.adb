@@ -93,10 +93,10 @@ package body GWindows.GStrings is
       i : size_t := Destination'First;
    begin
       if Destination'Length = 0 then
-        return;
+         return;
       elsif Destination'Length = 1 then
-        Destination (Destination'Last) := GString_C_Null;
-        --  No other choice than just return an "empty" C string
+         Destination (Destination'Last) := GString_C_Null;
+         --  No other choice than just return an "empty" C string
       else
          for j in Value'Range loop
             Destination (i) := To_C (Value (j));
