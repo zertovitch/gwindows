@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                    Copyright (C) 2014 Gautier de Montmollin              --
+--                  Copyright (C) 2014 Gautier de Montmollin                --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -35,37 +35,17 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  with GWindows.GStrings;
+with GWindows.GStrings;                 use GWindows.GStrings;
 
 package body GWindows.System_Tray  is
-
-   procedure Set_Window (
-     Data   : in out Notify_Icon_Data;
-     Window : GWindows.Base.Base_Window_Type'Class
-   )
-   is
-     use GWindows.Base;
-   begin
-     Data.C_data.hWnd := Handle (Window);
-   end Set_Window;
-
-   procedure Set_Icon (
-     Data   : in out Notify_Icon_Data;
-     Icon   : GWindows.Drawing_Objects.Icon_Type
-   )
-   is
-     use GWindows.Drawing_Objects;
-   begin
-     Data.C_data.hIcon := Handle (Icon);
-   end Set_Icon;
 
    --  Flags
 
    --  NIF_MESSAGE  : constant := 16#01#;  --  uCallbackMessage is valid.
-   --  NIF_ICON     : constant := 16#02#;  --  The hIcon member is valid.
-   --  NIF_TIP      : constant := 16#04#;  --  The szTip member is valid.
+   NIF_ICON     : constant := 16#02#;  --  The hIcon member is valid.
+   NIF_TIP      : constant := 16#04#;  --  The szTip member is valid.
    --  NIF_STATE    : constant := 16#08#;  --  dwState and dwStateMask valid.
-   --  NIF_INFO     : constant := 16#10#;  --  Display a balloon notification.
+   NIF_INFO     : constant := 16#10#;  --  Display a balloon notification.
    --  NIF_GUID     : constant := 16#20#;
          --  Windows 7 and later: The guidItem is valid;
          --  Windows Vista and earlier: Reserved.
@@ -79,6 +59,16 @@ package body GWindows.System_Tray  is
    --  NIS_HIDDEN       : constant := 1; -- The icon is hidden.
    --  NIS_SHAREDICON   : constant := 2;
          --  The icon resource is shared between multiple icons.
+
+   procedure Set_Window (
+     Data   : in out Notify_Icon_Data;
+     Window : GWindows.Base.Base_Window_Type'Class
+   )
+   is
+     use GWindows.Base;
+   begin
+     Data.C_data.hWnd := Handle (Window);
+   end Set_Window;
 
    --  Info Flags
 
@@ -99,6 +89,54 @@ package body GWindows.System_Tray  is
       --  current user is in "quiet time"
    --  NIIF_ICON_MASK          : constant := 16#0F#;
 
+   procedure Set_Icon (
+     Data   : in out Notify_Icon_Data;
+     Icon   : GWindows.Drawing_Objects.Icon_Type;
+     ID     : Natural  --  Application-defined identifier of the taskbar icon.
+   )
+   is
+     use GWindows.Drawing_Objects;
+   begin
+     Data.C_data.hIcon  := Handle (Icon);
+     Data.C_data.uID    := Interfaces.C.unsigned (ID);
+     Data.C_data.uFlags := Data.C_data.uFlags or NIF_ICON;
+   end Set_Icon;
+
+   procedure Set_Tool_Tip (
+     Data   : in out Notify_Icon_Data;
+     Text   : GString
+   )
+   is
+   begin
+     To_GString_C (Text, Data.C_data.szTip);
+     Data.C_data.uFlags := Data.C_data.uFlags or NIF_TIP;
+   end Set_Tool_Tip;
+
+   procedure Set_Balloon_Icon (
+      Data   : in out Notify_Icon_Data;
+      Icon   : GWindows.Drawing_Objects.Icon_Type
+   )
+   is
+     use GWindows.Drawing_Objects;
+   begin
+     Data.C_data.hBalloonIcon := Handle (Icon);
+   end Set_Balloon_Icon;
+
+   procedure Set_Balloon (
+      Data   : in out Notify_Icon_Data;
+      Text   : GString;
+      Title  : GString := "";
+      Icon   : Notify_Balloon_Icon_Type := No_Icon
+   )
+   is
+   begin
+     To_GString_C (Text, Data.C_data.szInfo);
+     To_GString_C (Title, Data.C_data.szInfoTitle);
+     Data.C_data.uTimeout_Version := 4;
+     Data.C_data.dwInfoFlags := Notify_Balloon_Icon_Type'Pos (Icon);
+     Data.C_data.uFlags := Data.C_data.uFlags or NIF_INFO;
+   end Set_Balloon;
+
    procedure Notify_Icon (
      Data   : Notify_Icon_Data;
      Action : Notify_Icon_Action
@@ -115,8 +153,7 @@ package body GWindows.System_Tray  is
 
       function Shell_NotifyIcon
         (dwMessage        : GWindows.Types.Lparam :=
-                               GWindows.Types.Lparam
-                                  (Notify_Icon_Action'Pos (Action));
+                               Notify_Icon_Action'Pos (Action);
          PNOTIFYICONDATA  : LP := Data_Copy.C_data'Access)
       return Interfaces.C.int;
 

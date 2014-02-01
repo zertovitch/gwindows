@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                   G W I N D O W S . G S T R I N G S                      --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2014 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -48,6 +48,10 @@ package GWindows.GStrings is
 
    function To_GString_C (Value : GString) return GString_C;
    --  Convert from a GString in to a C GString
+
+   procedure To_GString_C (Value : GString; Destination : in out GString_C);
+   --  Convert from a GString in to a C GString of determined
+   --  length. If Value is too long, it will be truncated.
 
    function To_GString_Unbounded (Value : GString) return GString_Unbounded;
    --  Convert from a GString to an unbounded GString

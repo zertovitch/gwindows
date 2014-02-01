@@ -336,6 +336,7 @@ package GWindows.Drawing_Objects is
    IDI_WARNING                : constant := 32515;
    IDI_ERROR                  : constant := 32513;
    IDI_INFORMATION            : constant := 32516;
+   IDI_SHIELD                 : constant := 32518;
    --  Stock icons
 
    procedure Load_Stock_Icon (Icon       : in out Icon_Type;
