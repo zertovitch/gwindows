@@ -160,10 +160,11 @@ package body GWindows.System_Tray  is
       pragma Import (StdCall, Shell_NotifyIcon,
                      "Shell_NotifyIcon" & Character_Mode_Identifier);
 
-      dummy : Interfaces.C.int;
-
+      use type Interfaces.C.int;
    begin
-     dummy := Shell_NotifyIcon;
+      if Shell_NotifyIcon = 0 then
+         raise Notify_Action_Failed;
+      end if;
    end Notify_Icon;
 
 end GWindows.System_Tray;

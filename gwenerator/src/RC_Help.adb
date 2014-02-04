@@ -609,7 +609,7 @@ package body RC_Help is
     Ada_New_Line(to);
     Ada_Put_Line(to, "  procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);");
     Ada_New_Line(to);
-    Ada_Put_Line(to, "  function Num_resource(id: Natural) return GString;");
+    Ada_Put_Line(to, "  function Num_resource(id: Natural) return GString;  --  Just turn 123 into ""#123"".");
     Ada_New_Line(to);
   end Ada_Helpers_spec;
 

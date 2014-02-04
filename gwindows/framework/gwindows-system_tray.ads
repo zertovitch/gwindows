@@ -38,8 +38,9 @@
 --  This package enables applications to add, modify and delete a system tray
 --  icon. The system tray is the portion usually visible on the bottom right
 --  of the Windows desktop, with the clock, loudspeaker icon and LAN icon.
---  The system tray is documented in Windows as notification area and is
---  sometimes also called the status area.
+--  The "system tray" is originally documented in Windows as
+--  "notification area", is abbreviated as "systray" and is
+--  sometimes also called the "status area".
 
 with GWindows.Types, GNATCOM.Types;
 with GWindows.Base;
@@ -99,6 +100,8 @@ package GWindows.System_Tray is
       Data   : Notify_Icon_Data;
       Action : Notify_Icon_Action
    );
+
+   Notify_Action_Failed : exception;
 
 private
 

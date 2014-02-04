@@ -58,4 +58,6 @@ package GWindows.Locales is
    --  Locale_Info_Code: a value of one of the MS Locale Information Constants:
    --  http://msdn.microsoft.com/en-us/library/dd464799(v=vs.85).aspx
 
+   Get_Locale_Info_Failed : exception;
+
 end GWindows.Locales;

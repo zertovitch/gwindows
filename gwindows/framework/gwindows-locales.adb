@@ -69,16 +69,18 @@ package body GWindows.Locales is
          LCType   : Interfaces.C.long  := Interfaces.C.long (Locale_Info_Code);
          lpLCData : LPTSTR             := Buffer (0)'Access;
          cchData  : Interfaces.C.int   := Max_Text)
-     return Interfaces.C.int;
+      return Interfaces.C.int;
 
-     pragma Import (StdCall, GetLocaleInfo,
+      pragma Import (StdCall, GetLocaleInfo,
                     "GetLocaleInfo" & Character_Mode_Identifier);
 
-     dummy : Interfaces.C.int;
-
+      use type Interfaces.C.int;
    begin
-     dummy := GetLocaleInfo;
-     return GWindows.GStrings.To_GString_From_C (Buffer);
+      if GetLocaleInfo /= 0 then
+         return GWindows.GStrings.To_GString_From_C (Buffer);
+      else
+         raise Get_Locale_Info_Failed;
+      end if;
    end Get_Locale_Info;
 
 end GWindows.Locales;
