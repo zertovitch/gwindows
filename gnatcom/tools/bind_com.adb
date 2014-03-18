@@ -1885,7 +1885,14 @@ package body Bind_COM is
 
       end loop;
 
-      ReleaseTypeAttr (Type_Info, Attribs);
+      begin
+         ReleaseTypeAttr (Type_Info, Attribs);
+      exception
+         when GNATCOM.Errors.COM_ERROR =>
+            null; --  2014-03-18 GdM: Workaround for
+                  --  Element # 21, IShellFolderViewDual3, Command:
+                  --  bindcom shell32.dll Shell
+      end;
 
       Clear (Pre_Buffer);
    end Bind_Thin_Elements;

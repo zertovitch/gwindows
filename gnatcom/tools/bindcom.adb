@@ -28,6 +28,8 @@ with Ada.Command_Line;
 with Ada.Exceptions;
 with Ada.Text_IO; use Ada.Text_IO;
 
+with GNAT.Traceback.Symbolic;
+
 with Bind_COM;
 
 procedure BindCOM is
@@ -45,7 +47,8 @@ begin
    else
          Put_Line ("BindCOM");
          Put_Line ("(c) 1999-2004 David Botton");
-         Put_Line ("For more information see http://www.gnavi.org/gnatcom");
+         Put_Line ("For more information see http://www.gnavi.org/gnatcom " &
+                   "or http://sf.net/projects/gnavi/");
          New_Line;
          Put_Line ("This is free software;  you can  redistribute it  " &
                    "and/or modify it under");
@@ -77,6 +80,11 @@ begin
 
 exception
    when E : others =>
-      Put_Line (Ada.Exceptions.Exception_Name (E));
-      Put_Line (Ada.Exceptions.Exception_Message (E));
+      Put_Line ("---------------[ Unhandled exception ]---------------");
+      Put_Line (" > Name of exception . . . . .: " &
+                Ada.Exceptions.Exception_Name (E));
+      Put_Line (" > Message for exception . . .: " &
+                Ada.Exceptions.Exception_Message (E));
+      Put_Line (" > Trace-back of call stack: ");
+      Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
 end BindCOM;
