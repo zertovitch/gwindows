@@ -214,6 +214,14 @@ procedure GW_Install is
       if Ciao_2.Open_user_guide.State = Checked then
         GWin_Util.Start(id & "\gwindows\docs\User_Guide.html");
       end if;
+      if Ciao_2.Open_gnatcom_folder.State = Checked then
+        GWin_Util.Start(id & "\gnatcom");
+      end if;
+      if Ciao_2.Build_gnatcom.State = Checked then
+        Set_Directory(id & "\gnatcom");
+        GWin_Util.Start(id & "\gnatcom\build_tools.cmd", Minimized => True);
+        Set_Directory(mem_cur_dir);
+      end if;
       if With_GWenerator then
         if Ciao_2.Build_gwenerator.State = Checked then
           Set_Directory(id & "\gwenerator");
@@ -246,6 +254,8 @@ procedure GW_Install is
     Small_Icon (Ciao_2, "AAA_Main_Icon");
     Large_Icon (Ciao_2, "AAA_Main_Icon");
     Ciao_2.Open_folder.State(Checked);
+    Ciao_2.Open_gnatcom_folder.State(Checked);
+    Ciao_2.Build_gnatcom.State(Checked);
     Ciao_2.Open_user_guide.State(Checked);
     if With_GWenerator then
       Ciao_2.Build_gwenerator.State(Checked);

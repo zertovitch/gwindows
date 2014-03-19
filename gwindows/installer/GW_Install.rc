@@ -81,15 +81,18 @@ CAPTION "GWindows installation complete"
 FONT 8, "Ms Shell Dlg"
 {
     DEFPUSHBUTTON   "Done", IDOK, 93, 188, 107, 20
-    ICON            Success_icon, IDC_STATIC, 15, 12, 21, 20, SS_ICON
-    LTEXT           "Ready for starting with GWindows.", IDC_STATIC, 50, 19, 145, 8, SS_LEFT
-    GROUPBOX        "GWindows", IDC_STATIC, 39, 35, 254, 49
+    ICON            Success_icon, IDC_STATIC, 17, 9, 21, 20, SS_ICON
+    LTEXT           "Ready for starting with GWindows.", IDC_STATIC, 58, 14, 145, 8, SS_LEFT
+    GROUPBOX        "GWindows", IDC_STATIC, 39, 35, 254, 41
     AUTOCHECKBOX    "Open the GWindows folder", Open_folder, 49, 49, 156, 8
-    AUTOCHECKBOX    "Open the GWindows User Guide", Open_user_guide, 49, 69, 200, 8
-    GROUPBOX        "GWenerator", IDC_STATIC, 39, 97, 254, 77
-    AUTOCHECKBOX    "Build the GWenerator tool now", Build_gwenerator, 49, 111, 113, 8
-    AUTOCHECKBOX    "Open the GWenerator folder", Open_gwenerator_folder, 49, 131, 146, 8
-    AUTOCHECKBOX    "Open the GWenerator documentation", Open_gwenerator_doc, 49, 151, 174, 8
+    AUTOCHECKBOX    "Open the GWindows User Guide", Open_user_guide, 49, 63, 200, 8
+    GROUPBOX        "GWenerator", IDC_STATIC, 39, 79, 254, 54
+    AUTOCHECKBOX    "Build the GWenerator tools now", Build_gwenerator, 49, 93, 212, 8
+    AUTOCHECKBOX    "Open the GWenerator folder", Open_gwenerator_folder, 49, 106, 146, 8
+    AUTOCHECKBOX    "Open the GWenerator documentation", Open_gwenerator_doc, 49, 120, 174, 8
+    GROUPBOX        "GNATCOM", IDC_STATIC, 38, 137, 254, 41
+    AUTOCHECKBOX    "Build the GNATCOM tools now", Build_gnatcom, 49, 150, 220, 8
+    AUTOCHECKBOX    "Open the GNATCOM folder", Open_gnatcom_folder, 49, 164, 228, 8
 }
 
 

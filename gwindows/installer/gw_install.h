@@ -15,7 +15,6 @@
 #define Goodbye_dialog_2                        153
 #define Directory_select_button                 1000
 #define GNAVI_URL                               1000
-#define Open_gwenerator_folder                  1000
 #define Build_gwenerator                        1001
 #define File_name                               1001
 #define GNAT_URL                                1001
@@ -35,3 +34,6 @@
 #define ANSI_choice                             40019
 #define UNICODE_choice                          40021
 #define GWen_check                              40023
+#define Open_gwenerator_folder                  40023
+#define Open_gnatcom_folder                     40025
+#define Build_gnatcom                           40026

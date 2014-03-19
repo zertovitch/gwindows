@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/12/21   03:21:25
+-- Transcription time: 2014/03/19  01:50:48
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -283,28 +283,34 @@ package body GW_Install_Resource_GUI is
     else -- hide the closing button
       Hide(Window.IDOK);
     end if;
-    Dlg_to_Scn(  15, 12, 21, 20, x,y,w,h);
+    Dlg_to_Scn(  17, 9, 21, 20, x,y,w,h);
     Create( Window.Static_0001, Window, Num_resource(Success_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  50, 19, 145, 8, x,y,w,h);
+    Dlg_to_Scn(  58, 14, 145, 8, x,y,w,h);
     Create_label( Window, "Ready for starting with GWindows.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  39, 35, 254, 49, x,y,w,h);
+    Dlg_to_Scn(  39, 35, 254, 41, x,y,w,h);
     Create( Window.Static_0003, Window, "GWindows", x,y,w,h);
     Dlg_to_Scn(  49, 49, 156, 8, x,y,w,h);
     Create( Window.Open_folder, Window, "Open the GWindows folder", x,y,w,h, ID => Open_folder);
-    Dlg_to_Scn(  49, 69, 200, 8, x,y,w,h);
+    Dlg_to_Scn(  49, 63, 200, 8, x,y,w,h);
     Create( Window.Open_user_guide, Window, "Open the GWindows User Guide", x,y,w,h, ID => Open_user_guide);
-    Dlg_to_Scn(  39, 97, 254, 77, x,y,w,h);
+    Dlg_to_Scn(  39, 79, 254, 54, x,y,w,h);
     Create( Window.Static_0004, Window, "GWenerator", x,y,w,h);
-    Dlg_to_Scn(  49, 111, 113, 8, x,y,w,h);
-    Create( Window.Build_gwenerator, Window, "Build the GWenerator tool now", x,y,w,h, ID => Build_gwenerator);
-    Dlg_to_Scn(  49, 131, 146, 8, x,y,w,h);
+    Dlg_to_Scn(  49, 93, 212, 8, x,y,w,h);
+    Create( Window.Build_gwenerator, Window, "Build the GWenerator tools now", x,y,w,h, ID => Build_gwenerator);
+    Dlg_to_Scn(  49, 106, 146, 8, x,y,w,h);
     Create( Window.Open_gwenerator_folder, Window, "Open the GWenerator folder", x,y,w,h, ID => Open_gwenerator_folder);
-    Dlg_to_Scn(  49, 151, 174, 8, x,y,w,h);
+    Dlg_to_Scn(  49, 120, 174, 8, x,y,w,h);
     Create( Window.Open_gwenerator_doc, Window, "Open the GWenerator documentation", x,y,w,h, ID => Open_gwenerator_doc);
+    Dlg_to_Scn(  38, 137, 254, 41, x,y,w,h);
+    Create( Window.Static_0005, Window, "GNATCOM", x,y,w,h);
+    Dlg_to_Scn(  49, 150, 220, 8, x,y,w,h);
+    Create( Window.Build_gnatcom, Window, "Build the GNATCOM tools now", x,y,w,h, ID => Build_gnatcom);
+    Dlg_to_Scn(  49, 164, 228, 8, x,y,w,h);
+    Create( Window.Open_gnatcom_folder, Window, "Open the GNATCOM folder", x,y,w,h, ID => Open_gnatcom_folder);
   end Create_Contents; -- Goodbye_dialog_2_Type
 
 
-  -- Dialog at resource line 101
+  -- Dialog at resource line 104
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -428,7 +434,7 @@ package body GW_Install_Resource_GUI is
   end Create_Contents; -- Main_install_dialog_Type
 
 
-  -- Dialog at resource line 129
+  -- Dialog at resource line 132
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -605,6 +611,6 @@ package body GW_Install_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 196
+  -- Last line of resource script file: 199
 
 end GW_Install_Resource_GUI;

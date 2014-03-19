@@ -62,11 +62,14 @@ Installation
 ============
 
 All you have is to run the setup program (e.g. GWindows Setup 16-Feb-2012.exe
-downloaded from here http://sf.net/projects/gnavi/files/latest/download ).
-So normally, if you read this readme.txt document, that step already happened!
+downloaded from here http://sf.net/projects/gnavi/files/latest/download ) which
+unpacks a copy of the framework with samples, tutorials and other goodies.
+Alternatively you can retrieve a copy of the SVN repository from
+http://sf.net/p/gnavi/code/ .
+So normally, if you read this readme.txt document, installation already happened!
 The setup program offers you to choose either the ANSI or Unicode variant of
 GWindows. You can change that choice any time by running, in the gwindows folder,
-ansi.cmd or unicode.cmd. You can also install GWindows at two or more places.
+ansi.cmd or unicode.cmd. You can also install GWindows at one, two or more places.
 
 What's New in GWindows 1.3 and later versions
 =============================================

@@ -1,5 +1,6 @@
 with "Gnatcom.gpr";
-project Gnatcomtools is
+
+project Gnatcom_tools is
 
    package Ide is
       for Vcs_Kind use "Subversion";
@@ -7,6 +8,7 @@ project Gnatcomtools is
 
    for Source_Dirs use ("tools");
    for Object_Dir use "obj";
+   for Exec_Dir use "tools";
 
    for Main use ("bindcom.adb", "comscope.adb", "createcom.adb", "makeguid.adb");
    
@@ -17,4 +19,4 @@ project Gnatcomtools is
       for Default_Switches ("ada") use ("-E");
    end Binder;
    
-end Gnatcomtools;
+end Gnatcom_tools;

@@ -19,7 +19,10 @@
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
 -- More information about GNATCOM and the most current public version can   --
--- be located on the web at http://www.gnavi.org/gnatcom                    --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gnatcom                                           --
+--   http://www.adapower.com/gnatcom                                        --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -30,14 +33,17 @@ Type Libraries, COM+/COM/DCOM Objects, ActiveX, Automation and OLE.
 Installation
 ============
 
-Run:
+All you have is to run the setup program (e.g. GWindows Setup 16-Feb-2012.exe
+downloaded from here http://sf.net/projects/gnavi/files/latest/download ) which
+unpacks a copy of the framework with samples, tutorials and other goodies.
+Alternatively you can retrieve a copy of the SVN repository from
+http://sf.net/p/gnavi/code/ .
+So normally, if you read this readme.txt document, most of the installation
+already happened!
 
-   make install
-
-In the root GNATCOM directory. This will build and install the GNATCOM
-bindings as a standard set of bindings for GNAT. It will also build
-the samples and tools directories. For ease of use, it may
-be advisable to place the tools directory on the path.
+By running build_tools.cmd it will you will obtain executables for the
+GNATCOM tools. For ease of use, it may be advisable to place the tools
+directory on the path or to copy the executables into a directory on the path.
 
 
 Documentation

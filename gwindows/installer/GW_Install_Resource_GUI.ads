@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2012/12/21   03:21:25
+-- Transcription time: 2014/03/19  01:50:48
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -125,9 +125,12 @@ package GW_Install_Resource_GUI is
     Build_gwenerator: Check_Box_Type;
     Open_gwenerator_folder: Check_Box_Type;
     Open_gwenerator_doc: Check_Box_Type;
+    Static_0005: Group_Box_Type;
+    Build_gnatcom: Check_Box_Type;
+    Open_gnatcom_folder: Check_Box_Type;
   end record; -- Goodbye_dialog_2_Type
 
-  -- Dialog at resource line 92
+  -- Dialog at resource line 95
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -176,7 +179,7 @@ package GW_Install_Resource_GUI is
     IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
   end record; -- Main_install_dialog_Type
 
-  -- Dialog at resource line 120
+  -- Dialog at resource line 123
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -208,7 +211,7 @@ package GW_Install_Resource_GUI is
     Static_0002: Icon_Type;
   end record; -- Unpack_dialog_Type
 
-  -- Dialog at resource line 134
+  -- Dialog at resource line 137
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -263,7 +266,6 @@ package GW_Install_Resource_GUI is
   Goodbye_dialog_2       : constant:=    153;
   Directory_select_button: constant:=   1000;
   GNAVI_URL              : constant:=   1000;
-  Open_gwenerator_folder : constant:=   1000;
   Build_gwenerator       : constant:=   1001;
   File_name              : constant:=   1001;
   GNAT_URL               : constant:=   1001;
@@ -283,6 +285,9 @@ package GW_Install_Resource_GUI is
   ANSI_choice            : constant:=  40019;
   UNICODE_choice         : constant:=  40021;
   GWen_check             : constant:=  40023;
+  Open_gwenerator_folder : constant:=  40023;
+  Open_gnatcom_folder    : constant:=  40025;
+  Build_gnatcom          : constant:=  40026;
 
   -- ** Some helper utilities (spec).
 
@@ -292,9 +297,9 @@ package GW_Install_Resource_GUI is
 
   procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
 
-  function Num_resource(id: Natural) return GString;
+  function Num_resource(id: Natural) return GString;  --  Just turn 123 into "#123".
 
 
-  -- Last line of resource script file: 196
+  -- Last line of resource script file: 199
 
 end GW_Install_Resource_GUI;

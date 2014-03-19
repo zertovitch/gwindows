@@ -1,0 +1,1 @@
+gnatmake -P gnatcom_tools

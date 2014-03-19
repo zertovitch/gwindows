@@ -38,7 +38,7 @@ if "%1"=="-gen" shift
 :no_gen
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Debug
-copy /B gw_inst_tb.exe + gwin.zip "Setup_Test.exe"
+copy /B gw_inst_tb.exe + ..\..\gwin.zip "Setup_Test.exe"
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Small
 upx --ultra-brute gw_install.exe
