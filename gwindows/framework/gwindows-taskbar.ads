@@ -65,12 +65,15 @@ package GWindows.Taskbar is
       Total     : Natural
    );
 
+   Taskbar_Operation_Failed : exception;
+   --  Possible cause: Windows version is prior to 7
+
 private
 
    type Taskbar_List is new
       TaskbarLib.ITaskbarList3_Interface.ITaskbarList3_Type with
    record
-      initialized : Boolean := False;
+      Initialized : Boolean := False;
    end record;
 
 end GWindows.Taskbar;

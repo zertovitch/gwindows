@@ -18,7 +18,8 @@ project GWindows_Test is
    for Main use (
       "test_clipboard.adb",
       "test_locale.adb",
-      "test_system_tray.adb"
+      "test_system_tray.adb",
+      "test_taskbar.adb"
    );
 
    package Builder is

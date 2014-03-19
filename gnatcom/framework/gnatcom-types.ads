@@ -48,6 +48,8 @@ package GNATCOM.Types is
    --  HRESULTs are used to return the success or failure of Interface
    --  methods and COM APIs. See GNATCOM.Errors
 
+   Size_Of_Pointers : constant := Standard'Address_Size;
+
    type Void is null record;
    subtype Pointer_To_Void is System.Address;
    type Pointer_To_Pointer_To_Void is access all Pointer_To_Void;

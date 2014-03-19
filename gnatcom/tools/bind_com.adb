@@ -749,12 +749,12 @@ package body Bind_COM is
          end if;
 
          Put_Line (Bind_Buffer,
-                   "for " & Bind_Name & "'size use Size_Of_" &
+                   "for " & Bind_Name & "'Size use Size_Of_" &
                    Bind_Name & ";");
 
          if Attribs.cbAlignment < 8 then
             Put_Line (Bind_Buffer,
-                      "for " & Bind_Name & "'alignment use" &
+                      "for " & Bind_Name & "'Alignment use" &
                       Attribs.cbAlignment'Img & ";");
          end if;
 

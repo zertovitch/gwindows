@@ -37,17 +37,19 @@
 
 --  This package deals with the taskbar.
 
-with GWindows.Types, GNATCOM.Initialize, Interfaces.C;
+with GWindows.Types, GNATCOM.Initialize, GNATCOM.Errors, Interfaces.C;
 
 package body GWindows.Taskbar is
 
+   --  Internal
    procedure Init_if_needed (List : in out Taskbar_List) is
    begin
-     if List.initialized then
+     if List.Initialized then
        return;
      end if;
      Create (List, TaskbarLib.CLSID_TaskbarList);
      HrInit (List);
+     List.Initialized := True;
    end Init_if_needed;
 
    procedure Set_Progress_State (
@@ -57,13 +59,13 @@ package body GWindows.Taskbar is
    )
    is
       hwnd : constant Interfaces.C.long :=
-               Interfaces.C.long (GWindows.Types.To_Lresult
-                 (GWindows.Base.Handle (Window)));
-      TBPF_NOPROGRESS    : constant := 16#00000000#;
-      TBPF_INDETERMINATE : constant := 16#00000001#;
-      TBPF_NORMAL        : constant := 16#00000002#;
-      TBPF_ERROR         : constant := 16#00000004#;
-      TBPF_PAUSED        : constant := 16#00000008#;
+                Interfaces.C.long (GWindows.Types.To_Lresult
+                   (GWindows.Base.Handle (Window)));
+      TBPF_NOPROGRESS    : constant := 16#0000_0000#;
+      TBPF_INDETERMINATE : constant := 16#0000_0001#;
+      TBPF_NORMAL        : constant := 16#0000_0002#;
+      TBPF_ERROR         : constant := 16#0000_0004#;
+      TBPF_PAUSED        : constant := 16#0000_0008#;
    begin
       Init_if_needed (List);
       case State is
@@ -78,6 +80,9 @@ package body GWindows.Taskbar is
          when Paused =>
             SetProgressState (List, hwnd, TBPF_PAUSED);
       end case;
+   exception
+      when GNATCOM.Errors.COM_ERROR =>
+         raise Taskbar_Operation_Failed;
    end Set_Progress_State;
 
    procedure Set_Progress_Value (
@@ -88,14 +93,17 @@ package body GWindows.Taskbar is
    )
    is
       hwnd : constant Interfaces.C.long :=
-               Interfaces.C.long (GWindows.Types.To_Lresult
-                 (GWindows.Base.Handle (Window)));
+                Interfaces.C.long (GWindows.Types.To_Lresult
+                   (GWindows.Base.Handle (Window)));
    begin
       Init_if_needed (List);
       SetProgressValue (List, hwnd,
         (Interfaces.C.unsigned (Completed), 0),
         (Interfaces.C.unsigned (Total), 0)
       );
+   exception
+      when GNATCOM.Errors.COM_ERROR =>
+         raise Taskbar_Operation_Failed;
    end Set_Progress_Value;
 
 begin

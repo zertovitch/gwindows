@@ -5,7 +5,7 @@ http://gnavi.svn.sf.net/viewvc/gnavi?view=revision&revision=N
 Major changes - numbers below refer to svn repository revisions:
 
 216: Added GWindows.System_Tray and Test_System_Tray
-213: Added GWindows.Locale and Test_Locale
+213: Added GWindows.Locales and Test_Locales
 
 GWindows release, 28-Sep-2013
 =============================
