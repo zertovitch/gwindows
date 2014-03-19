@@ -28,8 +28,9 @@ Use .a files in GNAT with gnatchop
    Error_Recovery (On, Off) Specifies the Generation of extension of error recovery.
    Extension         Specifies the file extension to be used for generated Ada files (.a by default).
    Prefix_All (On, Off) Specifies that [Basename]_Parse, [Basename]_Error and [Basename]_Sizes are
-                        used instead of YYParse, YYError and YY_Sizes. It allows using multiple parsers
-                        in the same main procedure. See equivalent option in AFlex (-x).
+                        used instead of YYParse, YYError and YY_Sizes as package names.
+                        It allows using multiple parsers in the same main procedure.
+                        See equivalent option in AFlex (-x).
 
 Example of command-line options, given by position: 
 ayacc gt.y Off Off On Off Off .a On

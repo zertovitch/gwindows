@@ -301,7 +301,7 @@ package body GW_Install_Resource_GUI is
     Create( Window.Open_gwenerator_folder, Window, "Open the GWenerator folder", x,y,w,h, ID => Open_gwenerator_folder);
     Dlg_to_Scn(  49, 120, 174, 8, x,y,w,h);
     Create( Window.Open_gwenerator_doc, Window, "Open the GWenerator documentation", x,y,w,h, ID => Open_gwenerator_doc);
-    Dlg_to_Scn(  38, 137, 254, 41, x,y,w,h);
+    Dlg_to_Scn(  39, 137, 254, 41, x,y,w,h);
     Create( Window.Static_0005, Window, "GNATCOM", x,y,w,h);
     Dlg_to_Scn(  49, 150, 220, 8, x,y,w,h);
     Create( Window.Build_gnatcom, Window, "Build the GNATCOM tools now", x,y,w,h, ID => Build_gnatcom);

@@ -41,9 +41,9 @@ http://sf.net/p/gnavi/code/ .
 So normally, if you read this readme.txt document, most of the installation
 already happened!
 
-By running build_tools.cmd it will you will obtain executables for the
-GNATCOM tools. For ease of use, it may be advisable to place the tools
-directory on the path or to copy the executables into a directory on the path.
+By running build_tools.cmd you will obtain executables for the GNATCOM tools.
+For ease of use, it may be advisable to place the tools directory on the path
+or to copy the executables into a directory on the path.
 
 
 Documentation

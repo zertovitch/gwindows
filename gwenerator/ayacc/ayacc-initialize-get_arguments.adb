@@ -67,6 +67,7 @@ procedure Get_Arguments (File           : out String_Type;
     Put_Line ("                   Error_Recovery : in Switch := Off;");
 -- END OF UMASS CODES.
     Put_Line ("                   Extension      : in String := "".adb"");"); 
+    Put_Line ("                   Prefix_All     : in Switch := Off);"); 
     New_Line; 
     Put_Line ("  -- File       Specifies the Ayacc Input Source File."); 
     Put_Line ("  -- C_Lex      Specifies the Generation of a 'C' Lex Interface.");
@@ -82,6 +83,14 @@ procedure Get_Arguments (File           : out String_Type;
 -- END OF UMASS CODES.
     Put_Line ("  -- Extension  Specifies the file extension to be used for");
     Put_Line ("                  generated Ada files.");
+    Put_Line ("  -- Prefix_All Specifies that [Basename]_Parse, [Basename]_Error");
+    Put_Line ("                  and [Basename]_Sizes are used instead of YYParse,");
+    Put_Line ("                  YYError and YY_Sizes as package names. It allows");
+    Put_Line ("                  using multiple parsers in the same main procedure.");
+    Put_Line ("                  See equivalent option in AFlex (-x).");
+    New_Line;
+    Put_Line ("  Example of command-line options, given by position:");
+    Put_Line ("  ayacc gt.y Off Off On Off Off .a On");
     New_Line;
   end Put_Help_Message; 
 

@@ -90,7 +90,7 @@ FONT 8, "Ms Shell Dlg"
     AUTOCHECKBOX    "Build the GWenerator tools now", Build_gwenerator, 49, 93, 212, 8
     AUTOCHECKBOX    "Open the GWenerator folder", Open_gwenerator_folder, 49, 106, 146, 8
     AUTOCHECKBOX    "Open the GWenerator documentation", Open_gwenerator_doc, 49, 120, 174, 8
-    GROUPBOX        "GNATCOM", IDC_STATIC, 38, 137, 254, 41
+    GROUPBOX        "GNATCOM", IDC_STATIC, 39, 137, 254, 41
     AUTOCHECKBOX    "Build the GNATCOM tools now", Build_gnatcom, 49, 150, 220, 8
     AUTOCHECKBOX    "Open the GNATCOM folder", Open_gnatcom_folder, 49, 164, 228, 8
 }

@@ -34,9 +34,11 @@ Use .a files in GNAT with gnatchop
   -b  generate "lex.backtrack" file listing backtracking states
   -E  indicate whether or not the aflex generated codes will be used by Ayacc extension.
       Ayacc extension has more power in error recovery.
-  -x  prefix all: prefix function YYLex as well: [BASENAME]_YYLex.
+  -x  prefix all: prefix function YYLex: [BASENAME]_YYLex
+      (packages [BASENAME]_IO and [BASENAME]_DFA already are by default).
       It allows using multiple parsers in the same main procedure.
       See equivalant Prefix_All option in AYACC.
+      This allows using several parsers in the same main project.
 
 ## DOC
 
