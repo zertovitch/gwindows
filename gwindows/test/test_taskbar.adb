@@ -1,6 +1,7 @@
 with GWindows.Windows.Main; use GWindows.Windows.Main;
 with GWindows.Application; use GWindows.Application;
 with GWindows.Taskbar; use GWindows.Taskbar;
+with GWindows.Message_Boxes; use GWindows.Message_Boxes;
 
 procedure Test_Taskbar is
    pragma Linker_Options ("-mwindows");
@@ -23,4 +24,12 @@ begin
    delay 1.0;
    TL.Set_Progress_State (Main_Window, Indeterminate);
    Message_Loop; -- Just wait till the window is closed
+exception
+   when Taskbar_Interface_Not_Supported =>
+      Message_Box (
+         "Taskbar interface",
+         "Cannot reach the taskbar." &
+         "Probably the Windows version is prior to Windows 7",
+         Icon => Error_Icon
+      );
 end Test_Taskbar;

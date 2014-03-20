@@ -37,7 +37,7 @@
 
 --  This package deals with the taskbar.
 
-with GWindows.Types, GNATCOM.Initialize, GNATCOM.Errors, Interfaces.C;
+with GWindows.Types, GNATCOM.Initialize, Interfaces.C;
 
 package body GWindows.Taskbar is
 
@@ -80,9 +80,6 @@ package body GWindows.Taskbar is
          when Paused =>
             SetProgressState (List, hwnd, TBPF_PAUSED);
       end case;
-   exception
-      when GNATCOM.Errors.COM_ERROR =>
-         raise Taskbar_Operation_Failed;
    end Set_Progress_State;
 
    procedure Set_Progress_Value (
@@ -101,9 +98,6 @@ package body GWindows.Taskbar is
         (Interfaces.C.unsigned (Completed), 0),
         (Interfaces.C.unsigned (Total), 0)
       );
-   exception
-      when GNATCOM.Errors.COM_ERROR =>
-         raise Taskbar_Operation_Failed;
    end Set_Progress_Value;
 
 begin

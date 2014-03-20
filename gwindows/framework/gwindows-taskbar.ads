@@ -44,6 +44,7 @@
 with TaskbarLib.ITaskbarList3_Interface;
 
 with GWindows.Base;
+with GNATCOM.Errors;
 
 package GWindows.Taskbar is
 
@@ -65,8 +66,11 @@ package GWindows.Taskbar is
       Total     : Natural
    );
 
-   Taskbar_Operation_Failed : exception;
-   --  Possible cause: Windows version is prior to 7
+   Taskbar_Interface_Not_Supported : exception
+      renames
+      GNATCOM.Errors.NO_INTERFACE_ERROR;
+
+   --  Possible cause: Windows version is prior to Windows 7
 
 private
 
