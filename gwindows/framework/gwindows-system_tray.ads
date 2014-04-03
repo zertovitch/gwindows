@@ -50,9 +50,9 @@ package GWindows.System_Tray is
 
    type Notify_Icon_Data is tagged private;
 
-   ---------------------------
-   --  The data setup part  --
-   ---------------------------
+   ----------------------------------------------------------------
+   --  The data setup part. No action so far, just preparation.  --
+   ----------------------------------------------------------------
 
    procedure Set_Window (
       Data   : in out Notify_Icon_Data;
@@ -64,6 +64,8 @@ package GWindows.System_Tray is
       Icon   : GWindows.Drawing_Objects.Icon_Type;
       ID     : Natural  --  Application-defined identifier of the taskbar icon.
    );
+
+   procedure Clear_Icon (Data : in out Notify_Icon_Data);
 
    procedure Set_Tool_Tip (
       Data   : in out Notify_Icon_Data;
@@ -89,6 +91,17 @@ package GWindows.System_Tray is
    );
 
    --  NB: User_Icon not working so far.
+
+   procedure Set_Windows_Messaging (
+      Data   : in out Notify_Icon_Data
+   );
+
+   procedure Clear_Windows_Messaging (
+      Data   : in out Notify_Icon_Data
+   );
+
+   WM_TRAY_MESSAGE : constant Integer;
+   --  This is the message sent to the window indicated at Set_Window
 
    ---------------------------------------------------------------
    --  The action part: add, modify, delete a system tray icon  --
@@ -123,12 +136,17 @@ private
 
    use type Interfaces.C.unsigned;
 
+   WM_USER : constant := 16#400#;
+   WM_TRAY_MESSAGE : constant Integer := WM_USER + 140;
+   --  ^ the value added is just happening to be larger than elsewhere GWindows
+
    type NOTIFYICONDATA is record
       cbSize           : Interfaces.C.unsigned := NOTIFYICONDATA'Size / 8;
       hWnd             : GWindows.Types.Handle := GWindows.Types.Null_Handle;
       uID              : Interfaces.C.unsigned;
       uFlags           : Interfaces.C.unsigned := 0;
-      uCallbackMessage : Interfaces.C.unsigned := 0;
+      uCallbackMessage : Interfaces.C.unsigned :=
+                            Interfaces.C.unsigned (WM_TRAY_MESSAGE);
       hIcon            : GWindows.Types.Handle := GWindows.Types.Null_Handle;
       szTip            : Tip_Text              := (others => GString_C_Null);
       dwState          : GWindows.Types.Lparam := 0;

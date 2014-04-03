@@ -41,7 +41,7 @@ package body GWindows.System_Tray  is
 
    --  Flags
 
-   --  NIF_MESSAGE  : constant := 16#01#;  --  uCallbackMessage is valid.
+   NIF_MESSAGE  : constant := 16#01#;  --  uCallbackMessage is valid.
    NIF_ICON     : constant := 16#02#;  --  The hIcon member is valid.
    NIF_TIP      : constant := 16#04#;  --  The szTip member is valid.
    --  NIF_STATE    : constant := 16#08#;  --  dwState and dwStateMask valid.
@@ -102,6 +102,11 @@ package body GWindows.System_Tray  is
      Data.C_data.uFlags := Data.C_data.uFlags or NIF_ICON;
    end Set_Icon;
 
+   procedure Clear_Icon (Data : in out Notify_Icon_Data) is
+   begin
+     Data.C_data.uFlags := Data.C_data.uFlags and not NIF_ICON;
+   end Clear_Icon;
+
    procedure Set_Tool_Tip (
      Data   : in out Notify_Icon_Data;
      Text   : GString
@@ -136,6 +141,22 @@ package body GWindows.System_Tray  is
      Data.C_data.dwInfoFlags := Notify_Balloon_Icon_Type'Pos (Icon);
      Data.C_data.uFlags := Data.C_data.uFlags or NIF_INFO;
    end Set_Balloon;
+
+   procedure Set_Windows_Messaging (
+      Data   : in out Notify_Icon_Data
+   )
+   is
+   begin
+     Data.C_data.uFlags := Data.C_data.uFlags or NIF_MESSAGE;
+   end Set_Windows_Messaging;
+
+   procedure Clear_Windows_Messaging (
+      Data   : in out Notify_Icon_Data
+   )
+   is
+   begin
+     Data.C_data.uFlags := Data.C_data.uFlags and not NIF_MESSAGE;
+   end Clear_Windows_Messaging;
 
    procedure Notify_Icon (
      Data   : Notify_Icon_Data;
