@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                        G W I N D O W S . M E N U S                       --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2014 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,12 +28,16 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
 with GWindows.GStrings;
 with GWindows.Internal;
+with System;
 
 package body GWindows.Menus is
    use type Interfaces.C.unsigned;
@@ -768,5 +772,41 @@ package body GWindows.Menus is
                              fuFlags => MF_BYCOMMAND);
       end if;
    end Radio_Check;
+
+   procedure Immediate_Popup_Menu (
+      Menu     : Menu_Type;
+      Window   : GWindows.Base.Base_Window_Type'Class;
+      Location : GWindows.Types.Point_Type :=
+                    GWindows.Cursors.Get_Cursor_Position
+   )
+   is
+      cmd : GWindows.Types.Wparam;
+
+      WM_COMMAND : constant := 273;
+
+      procedure SendMessage
+         (hwnd   : GWindows.Types.Handle := GWindows.Base.Handle (Window);
+          uMsg   : Interfaces.C.int      := WM_COMMAND;
+          wParam : GWindows.Types.Wparam := cmd;
+          lParam : System.Address        := System.Null_Address);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+
+      function TrackPopupMenu
+         (hMenu    : Menu_Type             := Menu;
+          uFlags   : Interfaces.C.unsigned := 0;
+          x        : Interfaces.C.int      := Interfaces.C.int (Location.X);
+          y        : Interfaces.C.int      := Interfaces.C.int (Location.Y);
+          reserved : Interfaces.C.int      := 0;
+          hwnd     : GWindows.Types.Handle := GWindows.Base.Handle (Window);
+          rect     : System.Address        := System.Null_Address
+         )
+      return GWindows.Types.Wparam;
+      pragma Import (StdCall, TrackPopupMenu,
+                     "TrackPopupMenu");
+   begin
+      cmd := TrackPopupMenu;
+      SendMessage;
+   end Immediate_Popup_Menu;
 
 end GWindows.Menus;

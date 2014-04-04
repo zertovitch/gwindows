@@ -92,16 +92,19 @@ package GWindows.System_Tray is
 
    --  NB: User_Icon not working so far.
 
+   WM_TRAY_MESSAGE : constant Integer;
+   --  This is the default message sent to the window indicated at Set_Window
+   --  If you want a distinct message per icon, pass
+   --  WM_TRAY_MESSAGE + i with i = 0,1,2,... to the following procedure.
+
    procedure Set_Windows_Messaging (
-      Data   : in out Notify_Icon_Data
+      Data    : in out Notify_Icon_Data;
+      Message :        Integer := WM_TRAY_MESSAGE
    );
 
    procedure Clear_Windows_Messaging (
       Data   : in out Notify_Icon_Data
    );
-
-   WM_TRAY_MESSAGE : constant Integer;
-   --  This is the message sent to the window indicated at Set_Window
 
    ---------------------------------------------------------------
    --  The action part: add, modify, delete a system tray icon  --

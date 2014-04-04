@@ -143,11 +143,13 @@ package body GWindows.System_Tray  is
    end Set_Balloon;
 
    procedure Set_Windows_Messaging (
-      Data   : in out Notify_Icon_Data
+      Data    : in out Notify_Icon_Data;
+      Message :        Integer := WM_TRAY_MESSAGE
    )
    is
    begin
      Data.C_data.uFlags := Data.C_data.uFlags or NIF_MESSAGE;
+     Data.C_data.uCallbackMessage := Interfaces.C.unsigned (Message);
    end Set_Windows_Messaging;
 
    procedure Clear_Windows_Messaging (
