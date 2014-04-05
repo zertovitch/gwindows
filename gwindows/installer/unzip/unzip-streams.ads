@@ -12,11 +12,14 @@
 
 with Zip, Zip_Streams;
 
-with Ada.Streams.Stream_IO, Ada.IO_Exceptions;
+with Ada.Streams, Ada.IO_Exceptions;
 
 package UnZip.Streams is
 
-   subtype Stream_Access is Ada.Streams.Stream_IO.Stream_Access;
+   ----------------------------------------------------------------------------
+   -- ** Input Stream **     The workflow is: open z: Zipped_File_Type, then --
+   -- do something with Stream(z), for instance read the data, then close z. --
+   ----------------------------------------------------------------------------
 
    type Zipped_File_Type is private;
 
@@ -36,7 +39,7 @@ package UnZip.Streams is
    -- Version: Zip as a stream
    procedure Open
      (File           : in out Zipped_File_Type; -- File-in-archive handle
-      Archive_Stream : in Zip_Streams.Zipstream_Class; -- Archive's stream
+      Archive_Stream : in out Zip_Streams.Root_Zipstream_Type'Class; -- Archive's stream
       Name           : in String;               -- Name of zipped entry
       Password       : in String := "";         -- Decryption password
       Case_sensitive : in Boolean:= False
@@ -52,8 +55,7 @@ package UnZip.Streams is
      (File           : in out Zipped_File_Type; -- File-in-archive handle
       Archive_Info   : in Zip.Zip_info;         -- Archive's Zip_info
       Name           : in String;               -- Name of zipped entry
-      Password       : in String := "";         -- Decryption password
-      Case_sensitive : in Boolean:= False
+      Password       : in String := ""          -- Decryption password
      );
 
    procedure Close (File : in out Zipped_File_Type);
@@ -61,10 +63,27 @@ package UnZip.Streams is
    function Is_Open     (File : in Zipped_File_Type) return Boolean;
    function End_Of_File (File : in Zipped_File_Type) return Boolean;
 
+   type Stream_Access is access all Ada.Streams.Root_Stream_Type'Class;
+
+   ------------------------------------------------------------------------
+   -- The function Stream gives access to the uncompressed data as input --
+   ------------------------------------------------------------------------
    function Stream (File : Zipped_File_Type) return Stream_Access;
 
    Use_Error    : exception renames Ada.IO_Exceptions.Use_Error;
    End_Error    : exception renames Ada.IO_Exceptions.End_Error;
+
+   ----------------------------------------------------------------
+   -- ** Output Stream **                                        --
+   -- Extract a Zip archive entry to an available output stream. --
+   ----------------------------------------------------------------
+
+   procedure Extract(
+     Destination    : in out Ada.Streams.Root_Stream_Type'Class;
+     Archive_Info   : in Zip.Zip_info;  -- Archive's Zip_info
+     Name           : in String;        -- Name of zipped entry
+     Password       : in String := ""   -- Decryption password
+   );
 
 private
 
@@ -86,7 +105,6 @@ private
       uncompressed : p_Stream_Element_Array; -- whole uncompressed data
       index        : Ada.Streams.Stream_Element_Offset;
    end record;
-
 
    procedure Read
      (Stream : in out UnZip_Stream_Type;

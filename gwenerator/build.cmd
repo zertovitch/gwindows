@@ -10,9 +10,15 @@ cd src
 call make
 cd..
 
-echo ====================================
-echo Test the code generator
-echo ====================================
+echo ========================================
+echo GWenerator and RC2GW should be built now
+echo ========================================
+dir *.exe
+
+echo ================================================
+echo Test the code generator - Crtl-Break to stop now
+echo ================================================
+pause
 
 cd test
 call make_all

@@ -1,4 +1,3 @@
-with Ada.Streams; use Ada.Streams;
 package body Zip.Headers is
 
   -----------------------------------------------------------
@@ -51,7 +50,8 @@ package body Zip.Headers is
 
   function PK_signature( buf: Byte_Buffer; code: Unsigned_8 ) return Boolean is
   begin
-    return buf(1..4) = (16#50#, 16#4B#, code, code+1); -- PK12, PK34, ...
+    return buf(buf'First .. buf'First+3) = (16#50#, 16#4B#, code, code+1);
+    -- PK12, PK34, ...
   end PK_signature;
 
   procedure PK_signature( buf: in out Byte_Buffer; code: Unsigned_8 ) is
@@ -63,8 +63,8 @@ package body Zip.Headers is
   -- PKZIP file header, as in central directory - PK12 --
   -------------------------------------------------------
   procedure Read_and_check(
-    stream : in  Zipstream_Class;
-    header : out Central_File_Header
+    stream : in out Root_Zipstream_Type'Class;
+    header :    out Central_File_Header
   )
   is
     chb: Byte_Buffer( 1..46 );
@@ -95,7 +95,7 @@ package body Zip.Headers is
   end Read_and_check;
 
   procedure Write(
-    stream : in     Zipstream_Class;
+    stream : in out Root_Zipstream_Type'Class;
     header : in     Central_File_Header
   )
   is
@@ -121,14 +121,14 @@ package body Zip.Headers is
     chb(39..42):= Intel_bf( header.external_attributes );
     chb(43..46):= Intel_bf( header.local_header_offset );
 
-    BlockWrite(stream.all, chb);
+    BlockWrite(stream, chb);
   end Write;
 
   -----------------------------------------------------------------------
   -- PKZIP local file header, in front of every file in archive - PK34 --
   -----------------------------------------------------------------------
   procedure Read_and_check(
-    stream : in     Zipstream_Class;
+    stream : in out Root_Zipstream_Type'Class;
     header :    out Local_File_Header
   )
   is
@@ -155,9 +155,9 @@ package body Zip.Headers is
   end Read_and_check;
 
   procedure Write(
-                  stream : in     Zipstream_Class;
-                  header : in     Local_File_Header
-                 )
+    stream : in out Root_Zipstream_Type'Class;
+    header : in     Local_File_Header
+  )
   is
     lhb: Byte_Buffer( 1..30 );
   begin
@@ -173,7 +173,7 @@ package body Zip.Headers is
     lhb(27..28):= Intel_bf( header.filename_length );
     lhb(29..30):= Intel_bf( header.extra_field_length );
 
-    BlockWrite(stream.all, lhb);
+    BlockWrite(stream, lhb);
   end Write;
 
   -------------------------------------------
@@ -184,23 +184,24 @@ package body Zip.Headers is
     the_end :    out End_of_Central_Dir
   )
   is
+    o: constant Integer:= buffer'First - 1;
   begin
     if not PK_signature(buffer, 5) then
       raise bad_end;
     end if;
 
-    the_end.disknum:=              Intel_nb( buffer( 5.. 6) );
-    the_end.disknum_with_start:=   Intel_nb( buffer( 7.. 8) );
-    the_end.disk_total_entries:=   Intel_nb( buffer( 9..10) );
-    the_end.total_entries:=        Intel_nb( buffer(11..12) );
-    the_end.central_dir_size:=     Intel_nb( buffer(13..16) );
-    the_end.central_dir_offset:=   Intel_nb( buffer(17..20) );
-    the_end.main_comment_length:=  Intel_nb( buffer(21..22) );
+    the_end.disknum:=              Intel_nb( buffer(o+ 5..o+ 6) );
+    the_end.disknum_with_start:=   Intel_nb( buffer(o+ 7..o+ 8) );
+    the_end.disk_total_entries:=   Intel_nb( buffer(o+ 9..o+10) );
+    the_end.total_entries:=        Intel_nb( buffer(o+11..o+12) );
+    the_end.central_dir_size:=     Intel_nb( buffer(o+13..o+16) );
+    the_end.central_dir_offset:=   Intel_nb( buffer(o+17..o+20) );
+    the_end.main_comment_length:=  Intel_nb( buffer(o+21..o+22) );
 
   end Copy_and_check;
 
   procedure Read_and_check(
-    stream  : in     Zipstream_Class;
+    stream  : in out Root_Zipstream_Type'Class;
     the_end :    out End_of_Central_Dir
   )
   is
@@ -210,77 +211,59 @@ package body Zip.Headers is
     Copy_and_check(eb, the_end);
   end Read_and_check;
 
-  -- Some explanations - GdM 2001
-
-  -- The idea is that the .ZIP can be appended to an .EXE, for
-  -- self-extracting purposes. So, the most general infos are
-  -- at the end, and we crawl back for more precise infos:
-  --  1) end-of-central directory
-  --  2) central directory
-  --  3) zipped files
-
   procedure Load(
-    stream : in     Zipstream_Class;
-    the_end:    out End_of_Central_Dir
-    )
+    stream  : in out Root_Zipstream_Type'Class;
+    the_end :    out End_of_Central_Dir
+  )
   is
-    end_buffer: Byte_Buffer( 1..22 );
-    min_end_start: Ada.Streams.Stream_IO.Count;
-    use Ada.Streams.Stream_IO;
+    min_end_start: ZS_Size_Type;
     max_comment: constant:= 65_535;
+    -- In appnote.txt :
+    -- .ZIP file comment length        2 bytes
   begin
-    -- 20-Jun-2001: abandon search below min_end_start
-    --              - read about max comment length in appnote
-
+    -- 20-Jun-2001: abandon search below min_end_start.
     if Size(stream) <= max_comment then
       min_end_start:= 1;
     else
-      min_end_start:= Ada.Streams.Stream_IO.Count(Size(stream)) - max_comment;
+      min_end_start:= Size(stream) - max_comment;
     end if;
-
-    -- Yes, we must _search_ for it...
-    -- because PKWARE put a variable-size comment _after_ it 8-(
-
-    for i in reverse min_end_start .. Ada.Streams.Stream_IO.Count(Size(stream)) - 21 loop
-      Zip_Streams.Set_Index(stream, Positive(i));
-      begin
-        for j in end_buffer'Range loop
-          Byte'Read(stream, end_buffer(j));
-          -- 20-Jun-2001: useless to read more if 1st character is not 'P'
-          if j=end_buffer'First and then
-             end_buffer(j)/=Character'Pos('P') then
-            raise bad_end;
-          end if;
-        end loop;
-        Copy_and_check( end_buffer, the_end );
-        -- at this point, the buffer was successfully read
-        -- (no exception raised).
-        the_end.offset_shifting:=
-        -- This is the real position of the end-of-central-directory block.
-        Unsigned_32(Zip_Streams.Index(stream)-22)
-        -
-        -- This is the theoretical position of the end-of-central-directory,
-        -- block. Should coincide with the real position if the zip file
-        -- is not appended.
-        (
-          1 +
-          the_end.central_dir_offset +
-          the_end.central_dir_size
-        );
-        return; -- the_end found and filled -> exit
-      exception
-        when bad_end =>
-          if i > min_end_start then
-            null;  -- we will try 1 index before...
-          else
-            raise; -- definitely no "end-of-central-directory" here
-          end if;
-      end;
-    end loop;
+    Set_Index(stream, ZS_Index_Type(min_end_start));
+    declare
+      -- We copy a large chunk of the zip stream's tail into a buffer.
+      large_buffer: Byte_Buffer(0 .. Natural(Size(stream) - min_end_start));
+      ilb: Integer;
+    begin
+      BlockRead(stream, large_buffer);
+      for i in reverse min_end_start .. Size(stream) - 21 loop
+        -- Yes, we must _search_ for the header...
+        -- because PKWARE put a variable-size comment _after_ it 8-(
+        ilb:= Integer(i - min_end_start);
+        if PK_signature(large_buffer(ilb .. ilb + 3), 5) then
+          Copy_and_check( large_buffer(ilb .. ilb + 21), the_end );
+          -- At this point, the buffer was successfully read, the_end is
+          -- is set with its standard contents.
+          the_end.offset_shifting:=
+          -- This is the real position of the end-of-central-directory block.
+          Unsigned_32(i)
+          -
+          -- This is the theoretical position of the end-of-central-directory,
+          -- block. Should coincide with the real position if the zip file
+          -- is not appended.
+          (
+            1 +
+            the_end.central_dir_offset +
+            the_end.central_dir_size
+          );
+          Set_Index(stream, i + 22);
+          return; -- the_end found and filled -> exit
+        end if;
+      end loop;
+      raise bad_end; -- Definitely no "end-of-central-directory" in this stream
+    end;
   end Load;
 
   procedure Write(
-    stream  : in     Zipstream_Class;
+    stream  : in out Root_Zipstream_Type'Class;
     the_end : in     End_of_Central_Dir
   )
   is
@@ -296,7 +279,7 @@ package body Zip.Headers is
     eb(17..20):= Intel_bf( the_end.central_dir_offset );
     eb(21..22):= Intel_bf( the_end.main_comment_length );
 
-    BlockWrite(stream.all, eb);
+    BlockWrite(stream, eb);
   end Write;
 
   ------------------------------------------------------------------
@@ -319,7 +302,7 @@ package body Zip.Headers is
   end Copy_and_check;
 
   procedure Read_and_check(
-    stream        : in     Zipstream_Class;
+    stream        : in out Root_Zipstream_Type'Class;
     the_data_desc :    out Data_descriptor
   )
   is
@@ -330,8 +313,8 @@ package body Zip.Headers is
   end Read_and_check;
 
   procedure Write(
-    stream        : in Zipstream_Class;
-    the_data_desc : in Data_descriptor
+    stream        : in out Root_Zipstream_Type'Class;
+    the_data_desc : in     Data_descriptor
   )
   is
     ddb: Byte_Buffer( 1..16 );
@@ -342,7 +325,7 @@ package body Zip.Headers is
     ddb( 9..12):= Intel_bf( the_data_desc.compressed_size );
     ddb(13..16):= Intel_bf( the_data_desc.uncompressed_size );
 
-    BlockWrite(stream.all, ddb);
+    BlockWrite(stream, ddb);
   end Write;
 
 end Zip.Headers;

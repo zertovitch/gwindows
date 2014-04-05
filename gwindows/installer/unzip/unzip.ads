@@ -23,7 +23,7 @@
 
 -- Legal licensing note:
 
---  Copyright (c) 1999..2010 Gautier de Montmollin
+--  Copyright (c) 1999..2013 Gautier de Montmollin
 
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
 --  of this software and associated documentation files (the "Software"), to deal
@@ -81,7 +81,11 @@ package UnZip is
 
   -- This is for modifying output file names (e.g. adding a
   -- work directory, modifying the archived path, etc.)
-  type Compose_func is access function (File_Name : String) return String;
+  type Compose_func is access function (
+    File_Name     : String;
+    Name_encoding : Zip.Zip_name_encoding
+  )
+  return String;
 
   -- File System dependent settings
   type FS_routines_type is record
@@ -180,6 +184,7 @@ package UnZip is
 
   type Resolve_conflict_proc is access
     procedure ( name            :  in String;
+                name_encoding   :  in Zip.Zip_name_encoding;
                 action          : out Name_conflict_intervention;
                 new_name        : out String;
                 new_name_length : out Natural );
@@ -292,8 +297,10 @@ package UnZip is
   User_abort,
   Not_supported,
   Unsupported_method,
-  Wrong_or_no_password,
   Internal_Error : exception;
+
+  tolerance_wrong_password: constant:= 4;
+  -- If password is wrong at the Nth attempt, Wrong_password is raised
 
 private
 
@@ -301,11 +308,14 @@ private
     ( write_to_binary_file,
       write_to_text_file,
       write_to_memory,
+      write_to_stream,
       just_test
     );
 
   subtype Write_to_file is Write_mode
     range write_to_binary_file..write_to_text_file;
+
+  type p_Stream is access all Ada.Streams.Root_Stream_Type'Class;
 
   type p_Stream_Element_Array is access all Ada.Streams.Stream_Element_Array;
 

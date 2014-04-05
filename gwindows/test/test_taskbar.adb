@@ -10,7 +10,7 @@ procedure Test_Taskbar is
    TL : Taskbar_List;
 
 begin
-   Create (Main_Window, "Some Window...");
+   Create (Main_Window, "Look at the taskbar (Windows 7)");
    Visible (Main_Window, True);
    TL.Set_Progress_State (Main_Window, Normal);
    for i in 1 .. 100 loop

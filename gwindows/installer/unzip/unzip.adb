@@ -1,11 +1,15 @@
-with Ada.Streams.Stream_IO;
-with Interfaces;                        use Interfaces;
 with Zip.Headers, UnZip.Decompress;
 with Zip_Streams;
+
+with Ada.Exceptions;
+with Interfaces;                        use Interfaces;
 
 package body UnZip is
 
   use Ada.Streams, Ada.Strings.Unbounded;
+
+  boolean_to_encoding: constant array(Boolean) of Zip.Zip_name_encoding:=
+    (False => Zip.IBM_437, True => Zip.UTF_8);
 
   --------------------------------------------------
   -- *The* internal 1-file unzipping procedure.   --
@@ -13,11 +17,13 @@ package body UnZip is
   --------------------------------------------------
 
   procedure UnZipFile (
-    zip_file                 : Zip_Streams.Zipstream_Class;
+    zip_file                 : in out Zip_Streams.Root_Zipstream_Type'Class;
     out_name                 : String;
+    out_name_encoding        : Zip.Zip_name_encoding;
     name_from_header         : Boolean;
-    header_index             : in out Positive;
+    header_index             : in out Zip_Streams.ZS_Index_Type;
     hint_comp_size           : File_size_type; -- Added 2007 for .ODS files
+    hint_crc_32              : Unsigned_32;    -- Added 2012 for decryption
     feedback                 : Zip.Feedback_proc;
     help_the_file_exists     : Resolve_conflict_proc;
     tell_data                : Tell_data_proc;
@@ -27,7 +33,7 @@ package body UnZip is
     file_system_routines     : FS_routines_type
   )
   is
-    work_index: Positive := header_index;
+    work_index: Zip_Streams.ZS_Index_Type := header_index;
     local_header: Zip.Headers.Local_File_Header;
     data_descriptor_after_data: Boolean;
     method: PKZip_method;
@@ -92,7 +98,13 @@ package body UnZip is
               path(i):= Directory_Separator;
             end if;
           end loop;
-          file_system_routines.Create_Path( path );
+          if path = "" then
+            null;
+          elsif path(path'Last) = ':' then
+            null; -- We are on Windows and cannot create drives (like "D:")
+          else
+            file_system_routines.Create_Path( path );
+          end if;
         end;
       end if;
       -- Now we can create the file itself.
@@ -102,29 +114,42 @@ package body UnZip is
         To_Unbounded_String(composed_name( first_in_name .. composed_name'Last ));
     end Set_definitively_named_outfile;
 
-    function Full_Path_Name (Archive_File_Name : String) return String is
+    function Full_Path_Name (
+      file_name_in_archive : String;
+      encoding             : Zip.Zip_name_encoding)
+    return String
+    is
     begin
        if file_system_routines.Compose_File_Name = null then
-          return Archive_File_Name;
+          return file_name_in_archive;
        else
-          return file_system_routines.Compose_File_Name.all (Archive_File_Name);
+          return file_system_routines.Compose_File_Name(file_name_in_archive, encoding);
        end if;
     end Full_Path_Name;
 
-    procedure Set_outfile( long_not_composed_name: String ) is
+    procedure Set_outfile(
+      long_not_composed_name: String;
+      encoding              : Zip.Zip_name_encoding
+    )
+    is
       -- Eventually trash the archived directory structure, then
       -- eventually add/modify/... another one:
       name: constant String:=
-        Full_Path_Name( Maybe_trash_dir( long_not_composed_name ) );
+        Full_Path_Name( Maybe_trash_dir( long_not_composed_name ), encoding );
     begin
       Set_definitively_named_outfile(name);
     end Set_outfile;
 
-    procedure Set_outfile_interactive( long_not_composed_possible_name: String ) is
+    procedure Set_outfile_interactive(
+      long_not_composed_possible_name: String;
+      encoding                       : Zip.Zip_name_encoding
+    )
+    is
       -- Eventually trash the archived directory structure, then
       -- eventually add/modify/... another one:
       possible_name: constant String:=
-        Full_Path_Name( Maybe_trash_dir( long_not_composed_possible_name ) );
+        Full_Path_Name( Maybe_trash_dir( long_not_composed_possible_name ), encoding );
+      -- possible_name may have a different encoding depending on Compose_File_Name...
       new_name : String( 1..1024 );
       new_name_length : Natural;
     begin
@@ -133,7 +158,7 @@ package body UnZip is
           case current_user_attitude is
             when yes | no | rename_it => -- then ask for this name too
               help_the_file_exists(
-                possible_name,
+                long_not_composed_possible_name, encoding,
                 current_user_attitude,
                 new_name, new_name_length
               );
@@ -184,17 +209,14 @@ package body UnZip is
 
     actual_feedback: Zip.Feedback_proc;
 
-    dummy: p_Stream_Element_Array;
+    dummy_memory: p_Stream_Element_Array;
+    dummy_stream: constant p_Stream:= null;
     encrypted, dummy_bool: Boolean;
 
   begin
     begin
-         Set_Index ( zip_file, work_index);
-         declare
-            TempStream : constant Zipstream_Class := zip_file;
-         begin
-            Zip.Headers.Read_and_check(TempStream, local_header );
-         end;
+      Set_Index ( zip_file, work_index);
+      Zip.Headers.Read_and_check(zip_file, local_header );
     exception
       when Zip.Headers.bad_local_header =>
         raise;
@@ -204,16 +226,20 @@ package body UnZip is
 
     method:= Zip.Method_from_code(local_header.zip_type);
     if method = unknown then
-      raise Unsupported_method;
+      Ada.Exceptions.Raise_Exception
+        (Unsupported_method'Identity,
+         "Format (method) #" & Unsigned_16'Image(local_header.zip_type) &
+         " is unknown");
     end if;
 
     -- calculate offset of data
 
     work_index :=
-       work_index + Positive (Ada.Streams.Stream_IO.Count(
+       work_index +
+       ZS_Size_Type(
               local_header.filename_length    +
               local_header.extra_field_length +
-              Zip.Headers.local_header_length)
+              Zip.Headers.local_header_length
        );
 
     data_descriptor_after_data:= (local_header.bit_flag and 8) /= 0;
@@ -221,7 +247,7 @@ package body UnZip is
     if data_descriptor_after_data then
       -- Sizes and CRC are stored after the data
       -- We set size to avoid getting a sudden Zip_EOF !
-      local_header.dd.crc_32            := 0;
+      local_header.dd.crc_32            := hint_crc_32;
       local_header.dd.compressed_size   := hint_comp_size;
       local_header.dd.uncompressed_size := File_size_type'Last;
       actual_feedback := null; -- no feedback possible: unknown sizes
@@ -240,7 +266,7 @@ package body UnZip is
 
     if name_from_header then -- Name from local header is used as output name
       the_name_len:= Natural(local_header.filename_length);
-      String'Read(zip_file, the_name(1..the_name_len));
+      String'Read(zip_file'Access, the_name(1..the_name_len));
       if not data_descriptor_after_data then
         Inform_User(
           the_name(1..the_name_len),
@@ -255,9 +281,16 @@ package body UnZip is
         -- This is a directory name (12-feb-2000)
         skip_this_file:= True;
       elsif actual_mode in Write_to_file then
-        Set_outfile_interactive( the_name(1..the_name_len));
+        Set_outfile_interactive(
+          the_name(1..the_name_len),
+          boolean_to_encoding((local_header.bit_flag and
+           Zip.Headers.Language_Encoding_Flag_Bit) /= 0)
+        );
       else -- only informational, no need for interaction
-        Set_outfile(the_name(1..the_name_len));
+        Set_outfile(the_name(1..the_name_len),
+          boolean_to_encoding((local_header.bit_flag and
+           Zip.Headers.Language_Encoding_Flag_Bit) /= 0)
+        );
       end if;
     else -- Output name is given: out_name
       if not data_descriptor_after_data then
@@ -274,9 +307,9 @@ package body UnZip is
         -- This is a directory name, so do not write anything (30-Jan-2012).
         skip_this_file:= True;
       elsif actual_mode in Write_to_file then
-        Set_outfile_interactive(out_name);
+        Set_outfile_interactive(out_name, out_name_encoding);
       else -- only informational, no need for interaction
-        Set_outfile(out_name);
+        Set_outfile(out_name, out_name_encoding);
       end if;
     end if;
 
@@ -300,33 +333,39 @@ package body UnZip is
         when others => raise Read_Error;
       end;
       UnZip.Decompress.Decompress_data(
-        zip_file             => zip_file,
-        format               => method,
-        mode                 => actual_mode,
-        output_file_name     => To_String(the_output_name),
-        output_memory_access => dummy,
-        feedback             => actual_feedback,
-        explode_literal_tree => (local_header.bit_flag and 4) /= 0,
-        explode_slide_8KB    => (local_header.bit_flag and 2) /= 0,
-        end_data_descriptor  => data_descriptor_after_data,
-        encrypted            => encrypted,
-        password             => password,
-        get_new_password     => get_pwd,
-        hint                 => local_header.dd
+        zip_file                   => zip_file,
+        format                     => method,
+        mode                       => actual_mode,
+        output_file_name           => To_String(the_output_name),
+        output_memory_access       => dummy_memory,
+        output_stream_access       => dummy_stream,
+        feedback                   => actual_feedback,
+        explode_literal_tree       => (local_header.bit_flag and 4) /= 0,
+        explode_slide_8KB          => (local_header.bit_flag and 2) /= 0,
+        data_descriptor_after_data => data_descriptor_after_data,
+        encrypted                  => encrypted,
+        password                   => password,
+        get_new_password           => get_pwd,
+        hint                       => local_header
       );
 
       if actual_mode /= just_test then
-        if file_system_routines.Set_Time_Stamp /= null then
-          file_system_routines.Set_Time_Stamp(
-            To_String(the_output_name),
-            Convert(local_header.file_timedate)
-          );
-        elsif file_system_routines.Set_ZTime_Stamp /= null then
-          file_system_routines.Set_ZTime_Stamp(
-            To_String(the_output_name),
-            local_header.file_timedate
-          );
-        end if;
+        begin
+          if file_system_routines.Set_Time_Stamp /= null then
+            file_system_routines.Set_Time_Stamp(
+              To_String(the_output_name),
+              Convert(local_header.file_timedate)
+            );
+          elsif file_system_routines.Set_ZTime_Stamp /= null then
+            file_system_routines.Set_ZTime_Stamp(
+              To_String(the_output_name),
+              local_header.file_timedate
+            );
+          end if;
+        exception
+          when Zip_Streams.Calendar.Time_Error =>
+            null; -- invalid time, we give up setting the time stamp
+        end;
       end if;
 
       if data_descriptor_after_data then -- Sizes and CRC at the end
@@ -341,20 +380,17 @@ package body UnZip is
     end if; -- not ( skip_this_file and not data_descriptor )
 
     -- Set the offset on the next zipped file
-    header_index:= header_index + Positive (
-      Ada.Streams.Stream_IO.Count(
-        File_size_type(
+    header_index:= header_index +
+        ZS_Size_Type(
               local_header.filename_length    +
               local_header.extra_field_length +
               Zip.Headers.local_header_length
         ) +
-        local_header.dd.compressed_size
-      ));
+        ZS_Size_Type(local_header.dd.compressed_size);
 
     if data_descriptor_after_data then
       header_index:=
-        header_index + Positive (
-        Ada.Streams.Stream_IO.Count(Zip.Headers.data_descriptor_length));
+        header_index + ZS_Size_Type(Zip.Headers.data_descriptor_length);
     end if;
 
   end UnZipFile;
@@ -437,8 +473,6 @@ package body UnZip is
   -- All previous extraction procedures, for user interface --
   ------------------------------------------------------------
 
-  use Ada.Streams.Stream_IO;
-
   -- Extract one precise file (what) from an archive (from)
 
   procedure Extract( from                 : String;
@@ -453,37 +487,45 @@ package body UnZip is
                 )
    is
     use Zip, Zip_Streams;
-    MyStream     : aliased File_Zipstream;
+    zip_file     : File_Zipstream;
                    -- was Unbounded_Stream & file->buffer copy in v.26
-    zip_file     : constant Zipstream_Class := MyStream'Unchecked_Access;
-    header_index : Positive;
+    header_index : ZS_Index_Type;
     comp_size    : File_size_type;
     uncomp_size  : File_size_type;
+    crc_32       : Unsigned_32;
     work_password: Unbounded_String:= To_Unbounded_String(password);
   begin
     if feedback = null then
       current_user_attitude:= yes_to_all; -- non-interactive
     end if;
     Set_Name (zip_file, from);
-    Open (MyStream, In_File);
+    Open (zip_file, In_File);
     Zip.Find_offset(
-      zip_file,
-      what,options( case_sensitive_match ),
-      header_index,
-      comp_size,
-      uncomp_size
+      file           => zip_file,
+      name           => what,
+      case_sensitive => options( case_sensitive_match ),
+      file_index     => header_index,
+      comp_size      => comp_size,
+      uncomp_size    => uncomp_size,
+      crc_32         => crc_32
     );
     UnZipFile(
-      zip_file,
-      what, False,
-      header_index,
-      comp_size,
-      feedback, help_the_file_exists, tell_data, get_pwd,
-      options,
-      work_password,
-      file_system_routines
+      zip_file             => zip_file,
+      out_name             => what,
+      out_name_encoding    => IBM_437, -- assumption...
+      name_from_header     => False,
+      header_index         => header_index,
+      hint_comp_size       => comp_size,
+      hint_crc_32          => crc_32,
+      feedback             => feedback,
+      help_the_file_exists => help_the_file_exists,
+      tell_data            => tell_data,
+      get_pwd              => get_pwd,
+      options              => options,
+      password             => work_password,
+      file_system_routines => file_system_routines
     );
-    Close(MyStream);
+    Close(zip_file);
   end Extract;
 
   -- Extract one precise file (what) from an archive (from),
@@ -501,37 +543,45 @@ package body UnZip is
                 )
   is
     use Zip, Zip_Streams;
-    MyStream     : aliased File_Zipstream;
+    zip_file     : aliased File_Zipstream;
                    -- was Unbounded_Stream & file->buffer copy in v.26
-    zip_file     : constant Zipstream_Class := MyStream'Unchecked_Access;
-    header_index : Positive;
+    header_index : Zip_Streams.ZS_Index_Type;
     comp_size    : File_size_type;
     uncomp_size  : File_size_type;
+    crc_32       : Unsigned_32;
     work_password: Unbounded_String:= To_Unbounded_String(password);
   begin
     if feedback = null then
       current_user_attitude:= yes_to_all; -- non-interactive
     end if;
     Set_Name (zip_file, from);
-    Open (MyStream, In_File);
+    Open (zip_file, In_File);
     Zip.Find_offset(
-      zip_file,
-      what,options( case_sensitive_match ),
-      header_index,
-      comp_size,
-      uncomp_size
+      file           => zip_file,
+      name           => what,
+      case_sensitive => options( case_sensitive_match ),
+      file_index     => header_index,
+      comp_size      => comp_size,
+      uncomp_size    => uncomp_size,
+      crc_32         => crc_32
     );
     UnZipFile(
-      zip_file,
-      rename, False,
-      header_index,
-      comp_size,
-      feedback, null, tell_data, get_pwd,
-      options,
-      work_password,
-      file_system_routines
+      zip_file             => zip_file,
+      out_name             => rename,
+      out_name_encoding    => IBM_437, -- assumption...
+      name_from_header     => False,
+      header_index         => header_index,
+      hint_comp_size       => comp_size,
+      hint_crc_32          => crc_32,
+      feedback             => feedback,
+      help_the_file_exists => null,
+      tell_data            => tell_data,
+      get_pwd              => get_pwd,
+      options              => options,
+      password             => work_password,
+      file_system_routines => file_system_routines
     );
-    Close(MyStream);
+    Close(zip_file);
   end Extract;
 
   -- Extract all files from an archive (from)
@@ -547,39 +597,44 @@ package body UnZip is
                 )
   is
     use Zip, Zip_Streams;
-    MyStream     : aliased File_Zipstream;
+    zip_file     : File_Zipstream;
                    -- was Unbounded_Stream & file->buffer copy in v.26
-    zip_file     : constant Zipstream_Class := MyStream'Unchecked_Access;
-    header_index : Positive;
+    header_index : Zip_Streams.ZS_Index_Type;
     work_password: Unbounded_String:= To_Unbounded_String(password);
   begin
     if feedback = null then
       current_user_attitude:= yes_to_all; -- non-interactive
     end if;
     Set_Name (zip_file, from);
-    Open (MyStream, In_File);
+    Open (zip_file, In_File);
     Zip.Find_first_offset(zip_file, header_index); -- >= 13-May-2001
     -- We simply unzip everything sequentially, until the end:
     all_files: loop
       UnZipFile(
-        zip_file,
-        "", True,
-        header_index,
-        File_size_type'Last,
-        -- ^ no better hint available if comp_size is 0 in local header
-        feedback, help_the_file_exists, tell_data, get_pwd,
-        options,
-        work_password,
-        file_system_routines
+        zip_file             => zip_file,
+        out_name             => "",
+        out_name_encoding    => IBM_437, -- ignored
+        name_from_header     => True,
+        header_index         => header_index,
+        hint_comp_size       => File_size_type'Last,
+        --                      ^ no better hint available if comp_size is 0 in local header
+        hint_crc_32          => 0, -- 2.0 decryption can fail if data descriptor after data
+        feedback             => feedback,
+        help_the_file_exists => help_the_file_exists,
+        tell_data            => tell_data,
+        get_pwd              => get_pwd,
+        options              => options,
+        password             => work_password,
+        file_system_routines => file_system_routines
       );
     end loop all_files;
   exception
     when Zip.Headers.bad_local_header =>
-      Close(MyStream); -- normal case: end was hit
+      Close(zip_file); -- normal case: end was hit
     when Zip.Zip_file_open_Error =>
       raise;    -- couldn't open zip file
     when others =>
-      Close(MyStream);
+      Close(zip_file);
       raise;    -- something else wrong
   end Extract;
 
@@ -630,19 +685,21 @@ package body UnZip is
                      file_system_routines : FS_routines_type:= null_routines
                 ) is
 
-    header_index : Positive;
+    header_index : Zip_Streams.ZS_Index_Type;
     comp_size    : File_size_type;
     uncomp_size  : File_size_type;
+    crc_32       : Unsigned_32;
     work_password: Unbounded_String:= To_Unbounded_String(password);
     use Zip, Zip_Streams;
-    MyStream     : aliased File_Zipstream;
-    input_stream : Zipstream_Class;
+    zip_file     : aliased File_Zipstream;
+    input_stream : Zipstream_Class_Access;
     use_a_file   : constant Boolean:= Zip.Zip_stream(from) = null;
+    name_encoding: Zip.Zip_name_encoding;
   begin
     if use_a_file then
-      input_stream:= MyStream'Unchecked_Access;
-      Set_Name (input_stream , Zip.Zip_name(from));
-      Open (MyStream, Ada.Streams.Stream_IO.In_File);
+      input_stream:= zip_file'Unchecked_Access;
+      Set_Name (zip_file , Zip.Zip_name(from));
+      Open (zip_file, In_File);
     else -- use the given stream
       input_stream:= Zip.Zip_stream(from);
     end if;
@@ -650,24 +707,39 @@ package body UnZip is
       current_user_attitude:= yes_to_all; -- non-interactive
     end if;
     Zip.Find_offset(
-      from,what,options( case_sensitive_match ),
-      Ada.Streams.Stream_IO.Positive_Count(header_index),
-      comp_size,
-      uncomp_size
+      info          => from,
+      name          => what,
+      name_encoding => name_encoding,
+      file_index    => header_index,
+      comp_size     => comp_size,
+      uncomp_size   => uncomp_size,
+      crc_32        => crc_32
     );
     UnZipFile(
-      input_stream,
-      what, False,
-      header_index,
-      comp_size,
-      feedback, help_the_file_exists, tell_data, get_pwd,
-      options,
-      work_password,
-      file_system_routines
+      zip_file              => input_stream.all,
+      out_name              => what,
+      out_name_encoding     => name_encoding,
+      name_from_header      => False,
+      header_index          => header_index,
+      hint_comp_size        => comp_size,
+      hint_crc_32           => crc_32,
+      feedback              => feedback,
+      help_the_file_exists  => help_the_file_exists,
+      tell_data             => tell_data,
+      get_pwd               => get_pwd,
+      options               => options,
+      password              => work_password,
+      file_system_routines  => file_system_routines
     );
     if use_a_file then
-      Close (MyStream);
+      Close (zip_file);
     end if;
+  exception
+    when others =>
+      if use_a_file and then Is_Open(zip_file) then
+        Close (zip_file);
+      end if;
+      raise;
   end Extract;
 
   -- Extract one precise file (what) from an archive (from)
@@ -685,19 +757,21 @@ package body UnZip is
                      file_system_routines : FS_routines_type:= null_routines
                 ) is
 
-    header_index : Positive;
+    header_index : Zip_Streams.ZS_Index_Type;
     comp_size    : File_size_type;
     uncomp_size  : File_size_type;
+    crc_32       : Unsigned_32;
     work_password: Unbounded_String:= To_Unbounded_String(password);
     use Zip, Zip_Streams;
-    MyStream     : aliased File_Zipstream;
-    input_stream : Zipstream_Class;
+    zip_file     : aliased File_Zipstream;
+    input_stream : Zipstream_Class_Access;
     use_a_file   : constant Boolean:= Zip.Zip_stream(from) = null;
+    name_encoding: Zip.Zip_name_encoding;
   begin
     if use_a_file then
-      input_stream:= MyStream'Unchecked_Access;
-      Set_Name (input_stream , Zip.Zip_name(from));
-      Open (MyStream, Ada.Streams.Stream_IO.In_File);
+      input_stream:= zip_file'Unchecked_Access;
+      Set_Name (zip_file , Zip.Zip_name(from));
+      Open (zip_file, In_File);
     else -- use the given stream
       input_stream:= Zip.Zip_stream(from);
     end if;
@@ -705,25 +779,39 @@ package body UnZip is
       current_user_attitude:= yes_to_all; -- non-interactive
     end if;
     Zip.Find_offset(
-      from,what,options( case_sensitive_match ),
-      Ada.Streams.Stream_IO.Positive_Count(header_index),
-      comp_size,
-      uncomp_size
+      info          => from,
+      name          => what,
+      name_encoding => name_encoding,
+      file_index    => header_index,
+      comp_size     => comp_size,
+      uncomp_size   => uncomp_size,
+      crc_32        => crc_32
     );
     UnZipFile(
-      input_stream,
-      rename,
-      False,
-      header_index,
-      comp_size,
-      feedback, null, tell_data, get_pwd,
-      options,
-      work_password,
-      file_system_routines
+      zip_file             => input_stream.all,
+      out_name             => rename,
+      out_name_encoding    => name_encoding, -- assumption: encoding same as name
+      name_from_header     => False,
+      header_index         => header_index,
+      hint_comp_size       => comp_size,
+      hint_crc_32          => crc_32,
+      feedback             => feedback,
+      help_the_file_exists => null,
+      tell_data            => tell_data,
+      get_pwd              => get_pwd,
+      options              => options,
+      password             => work_password,
+      file_system_routines => file_system_routines
     );
     if use_a_file then
-      Close (MyStream);
+      Close (zip_file);
     end if;
+  exception
+    when others =>
+      if use_a_file and then Is_Open(zip_file) then
+        Close (zip_file);
+      end if;
+      raise;
   end Extract;
 
 end UnZip;
