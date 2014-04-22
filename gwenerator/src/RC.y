@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script grammar file (AYACC)
 --
---  Copyright (c) Gautier de Montmollin 2008..2012
+--  Copyright (c) Gautier de Montmollin 2008..2014
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,7 +28,7 @@
 -- http://www.opensource.org/licenses/mit-license.php
 ----------------------------------------------------------------------------
 --
--- Change log:
+-- Change log (important changes only):
 --
 -- 15-May-2009 GdM: - constants generated for VersionInfo items
 --                  - some additions for matching ResEdit 1.4.4.19 suppl. tags
@@ -184,7 +184,7 @@
 %token WS_EX_CLIENTEDGE_t, WS_EX_STATICEDGE_t, WS_EX_ACCEPTFILES_t,
        WS_EX_APPWINDOW_t, WS_EX_TOOLWINDOW_t,
        WS_EX_CONTROLPARENT_t, WS_EX_NOPARENTNOTIFY_t,
-       WS_EX_CONTEXTHELP_t, WS_EX_RIGHT_t, WS_EX_TRANSPARENT_t,
+       WS_EX_CONTEXTHELP_t, WS_EX_LEFT_t, WS_EX_RIGHT_t, WS_EX_TRANSPARENT_t,
        WS_EX_TOPMOST_t, WS_EX_DLGMODALFRAME_t,
        WS_EX_WINDOWEDGE_t, WS_EX_LEFTSCROLLBAR_t, WS_EX_RTLREADING_t
 
@@ -702,8 +702,9 @@ ex_style_only
           | WS_EX_TOOLWINDOW_t
           | WS_EX_NOPARENTNOTIFY_t
           | WS_EX_CONTEXTHELP_t
-          | WS_EX_LEFTSCROLLBAR_t
+          | WS_EX_LEFT_t   -- exported everywhere by ResEdit 1.6.x (2014)
           | WS_EX_RIGHT_t
+          | WS_EX_LEFTSCROLLBAR_t
           | WS_EX_TOPMOST_t
           | WS_EX_TRANSPARENT_t
           | WS_EX_DLGMODALFRAME_t

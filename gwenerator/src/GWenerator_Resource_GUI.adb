@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2012/08/26   11:11:11
+-- Transcription time: 2014/04/22  19:58:59
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 26-Aug-2012
+-- RC Grammar version: 22-Apr-2014
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -136,7 +136,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  47, 10, 165, 8, x,y,w,h);
     Create_label( Window, "GWenerator: a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  47, 25, 151, 8, x,y,w,h);
-    Create_label( Window, "Copyright © Gautier de Montmollin 2008..2012", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_label( Window, "Copyright © Gautier de Montmollin 2008..2014", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  47, 40, 100, 8, x,y,w,h);
     Create_label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  11, 55, 30, 8, x,y,w,h);
@@ -477,10 +477,10 @@ package body GWenerator_Resource_GUI is
     GWindows.Base.Set_Font (Window, Common_Fonts.GUI_Font);
   end Use_GUI_Font;
 
-  function Num_resource(id: Natural) return String is
+  function Num_resource(id: Natural) return GString is
     img: constant String:= Integer'Image(id);
   begin
-    return '#' & img(img'first+1..img'Last);
+    return To_GString_from_String('#' & img(img'first+1..img'Last));
   end Num_resource;
 
   package body Common_Fonts is

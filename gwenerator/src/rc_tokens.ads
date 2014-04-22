@@ -118,11 +118,11 @@ package Rc_Tokens is
          Gs_Readonly_T, Ws_Ex_Clientedge_T, Ws_Ex_Staticedge_T,
          Ws_Ex_Acceptfiles_T, Ws_Ex_Appwindow_T, Ws_Ex_Toolwindow_T,
          Ws_Ex_Controlparent_T, Ws_Ex_Noparentnotify_T, Ws_Ex_Contexthelp_T,
-         Ws_Ex_Right_T, Ws_Ex_Transparent_T, Ws_Ex_Topmost_T,
-         Ws_Ex_Dlgmodalframe_T, Ws_Ex_Windowedge_T, Ws_Ex_Leftscrollbar_T,
-         Ws_Ex_Rtlreading_T, Idc_Static_T, Hidc_Static_T,
-         Ident_T, Stringtable_T, Rcstring,
-         Incstring, Consume_Eol_T );
+         Ws_Ex_Left_T, Ws_Ex_Right_T, Ws_Ex_Transparent_T,
+         Ws_Ex_Topmost_T, Ws_Ex_Dlgmodalframe_T, Ws_Ex_Windowedge_T,
+         Ws_Ex_Leftscrollbar_T, Ws_Ex_Rtlreading_T, Idc_Static_T,
+         Hidc_Static_T, Ident_T, Stringtable_T,
+         Rcstring, Incstring, Consume_Eol_T );
 
     Syntax_Error : exception;
 

@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2012/08/26   11:11:11
+-- Transcription time: 2014/04/22  19:58:59
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 26-Aug-2012
+-- RC Grammar version: 22-Apr-2014
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -208,7 +208,7 @@ package GWenerator_Resource_GUI is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "GWenerator - Resource script (.rc) to GWindows Ada code translator";
     FileVersion: constant String:= "1.02";
-    LegalCopyright: constant String:= "© 2008..2012 G. de Montmollin (MIT license)";
+    LegalCopyright: constant String:= "© 2008..2014 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWenerator";
     Translation: constant:= 1033;
   end Version_info;
@@ -302,7 +302,7 @@ package GWenerator_Resource_GUI is
 
   procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
 
-  function Num_resource(id: Natural) return String;
+  function Num_resource(id: Natural) return GString;  --  Just turn 123 into "#123".
 
 
   -- Last line of resource script file: 264
