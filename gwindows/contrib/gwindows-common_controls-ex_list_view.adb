@@ -388,7 +388,8 @@ package body GWindows.Common_Controls.Ex_List_View is
       -- range?
       if Internal.Colors.all'Last < Sub_Index then
          declare
-            Tmp_Colors: Internal_Color_Array_Access := new Internal_Color_Array_Type(0..Column_Count(Control)-1);
+            Tmp_Colors: constant Internal_Color_Array_Access :=
+               new Internal_Color_Array_Type(0..Column_Count(Control)-1);
          begin
             Tmp_Colors.all := (others => nullcolors);
             Tmp_Colors(0..Internal.Colors.all'Last) := Internal.Colors.all;
