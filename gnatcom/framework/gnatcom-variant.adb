@@ -572,12 +572,12 @@ package body GNATCOM.VARIANT is
 
       Seconds := Ada.Calendar.Seconds (From);
 
-      Temp := Seconds / (60*60);
+      Temp := Seconds / (60 * 60);
       C_Time.wHour   :=
         Interfaces.C.short (Float'Floor (Float (Temp)));
 
       Temp := (Seconds - (Ada.Calendar.Day_Duration
-                          (C_Time.wHour) * (60*60))) / 60;
+                          (C_Time.wHour) * (60 * 60))) / 60;
       C_Time.wMinute :=
         Interfaces.C.short (Float'Floor (Float (Temp)));
 
