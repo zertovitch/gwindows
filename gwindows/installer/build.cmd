@@ -1,7 +1,7 @@
 @echo off
 
 rem Version should match the field VALUE "FileVersion" in GW_Install.rc
-set version=5-Apr-2014
+set version=23-Jul-2014
 
 if exist ..\..\gwenerator\windows_stuff\gwindows.ads goto stuff_ok
 
@@ -38,7 +38,7 @@ if "%1"=="-gen" shift
 :no_gen
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Debug
-copy /B gw_inst_tb.exe + ..\..\gwin.zip "Setup_Test.exe"
+copy /B gw_inst_tb.exe + ..\..\gwin.zip "Setup Test (Debug mode).exe"
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Small
 upx --ultra-brute gw_install.exe

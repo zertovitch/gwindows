@@ -6,9 +6,9 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                            $Revision: 1.3 $
+--                            $Revision: 1.3 $                              --
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                  Copyright (C) 1999-2014 David Botton                    --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -525,7 +525,7 @@ package body Create_COM is
                 Base_Name &
                 "\0""");
       Put_Line (Work_File,
-                "            VALUE ""ProductName"", """ & Base_Name &"\0""");
+                "            VALUE ""ProductName"", """ & Base_Name & "\0""");
       Put_Line (Work_File,
                 "            VALUE ""ProductVersion"", ""1, 0, 0, 1\0""");
       Put_Line (Work_File,

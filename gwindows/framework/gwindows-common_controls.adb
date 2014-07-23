@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2013 David Botton                   --
+--                 Copyright (C) 1999 - 2014 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -1582,12 +1582,12 @@ package body GWindows.Common_Controls is
 
       Seconds := Ada.Calendar.Seconds (Time);
 
-      Temp := Seconds / (60*60);
+      Temp := Seconds / (60 * 60);
       C_Time.wHour   :=
         Interfaces.C.short (Float'Floor (Float (Temp)));
 
       Temp := (Seconds - (Ada.Calendar.Day_Duration
-                          (C_Time.wHour) * (60*60))) / 60;
+                          (C_Time.wHour) * (60 * 60))) / 60;
       C_Time.wMinute :=
         Interfaces.C.short (Float'Floor (Float (Temp)));
 

@@ -4,8 +4,10 @@ rem ==================================================
 
 cd ..\..
 copy /B gwin.zip gwin_ok.zip
-zip -f -9 -t 2014-03-01 gwin.zip
+zip -f -9 -t 2014-07-22 gwin.zip
 cd gwindows\installer
+
+rem Zip is fooled by DST time stamps, should use AZip instead
 
 pause
 

@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2014 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -494,8 +494,8 @@ package body GWindows.Common_Dialogs is
                  count := count + 1;
                end if;
                if i < C_File_Name'Last then
-                  if C_File_Name (i .. i + 1) =
-                  GString_C_Null & GString_C_Null then
+                  if C_File_Name (i .. i + 1) = GString_C_Null & GString_C_Null
+                  then
                      last := i;
                      exit;
                   end if;

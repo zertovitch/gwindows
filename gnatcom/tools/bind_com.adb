@@ -6,9 +6,9 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                            $Revision: 1.4 $
+--                            $Revision: 1.4 $                              --
 --                                                                          --
---                  Copyright (C) 1999-2004, 2006 David Botton                    --
+--                  Copyright (C) 1999-2014 David Botton                    --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --

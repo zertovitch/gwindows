@@ -15,7 +15,7 @@
 
 -- Legal licensing note:
 
---  Copyright (c) 1999..2013 Gautier de Montmollin
+--  Copyright (c) 1999..2014 Gautier de Montmollin
 
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
 --  of this software and associated documentation files (the "Software"), to deal
@@ -98,8 +98,8 @@ package Zip is
 
   -- Compression methods or formats in the "official" PKWARE Zip format.
   -- Details in appnote.txt, part V.J
-  --   C: supported for compressing
-  --   D: supported for decompressing
+  --   C: supported by Zip-Ada for compressing
+  --   D: supported by Zip-Ada for decompressing
 
   type PKZip_method is
    ( store,     -- C,D
@@ -110,10 +110,10 @@ package Zip is
      reduce_4,  -- C,D
      implode,   --   D
      tokenize,
-     deflate,   --   D
+     deflate,   -- C,D
      deflate_e, --   D - Enhanced deflate
      bzip2,     --   D
-     lzma,
+     lzma,      --   D
      ppmd,
      unknown
    );
@@ -347,8 +347,8 @@ package Zip is
   -- Information about this package - e.g. for an "about" box --
   --------------------------------------------------------------
 
-  version   : constant String:= "46";
-  reference : constant String:= "14-Sep-2013";
+  version   : constant String:= "48";
+  reference : constant String:= "20-Jul-2014";
   web       : constant String:= "http://unzip-ada.sf.net/";
   -- hopefully the latest version is at that URL...  ---^
 

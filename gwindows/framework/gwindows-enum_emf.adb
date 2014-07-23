@@ -170,14 +170,16 @@ package body GWindows.Enum_EMF is
       case Emr.iType is
          when EMR_EXTTEXTOUTA =>
             if Emr.offString >= 76 and
-               (Emr.offString + Emr.nChars) <= Emr.nSize then
+               (Emr.offString + Emr.nChars) <= Emr.nSize
+            then
                First := Emr.offString - 76 + 1;
                return To_GString_From_String
                  (Emr.str (First .. First + Emr.nChars - 1));
             end if;
          when EMR_EXTTEXTOUTW =>
             if Emr.offString >= 76 and
-               (Emr.offString + Emr.nChars * 2) <= Emr.nSize then
+               (Emr.offString + Emr.nChars * 2) <= Emr.nSize
+            then
                First := (Emr.offString - 76) / 2 + 1;
                return Emr.gstr (First .. First + Emr.nChars - 1);
             end if;

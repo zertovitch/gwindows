@@ -28,7 +28,8 @@ package body GWindows.DIBitmaps is
    begin
       Bitmap.Bitmap_Info_Header.Private_Info.Header_Size := 40;
       if (Bitmap.Bitmap_Info_Header.Private_Info.Width + 3) / 4 /=
-        Bitmap.Width / 4 then
+        Bitmap.Width / 4
+      then
          Bitmap.Bitmap_Info_Header.Private_Info.Width := Bitmap.Width;
       end if;
       Bitmap.Bitmap_Info_Header.Private_Info.Height      := Bitmap.Height;
@@ -46,7 +47,8 @@ package body GWindows.DIBitmaps is
       --  if Bitmap.Width mod 4 /= 0 then raise Claw.Not_Valid_Error;end if;
       Bitmap.Bitmap_Info_Header.Private_Info.Header_Size := 40;
       if (Bitmap.Bitmap_Info_Header.Private_Info.Width + 3) / 4 /=
-        Bitmap.Width / 4 then
+        Bitmap.Width / 4
+      then
          Bitmap.Bitmap_Info_Header.Private_Info.Width := Bitmap.Width;
       end if;
       Bitmap.Bitmap_Info_Header.Private_Info.Height      := Bitmap.Height;
