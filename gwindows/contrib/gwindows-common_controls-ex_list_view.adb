@@ -543,23 +543,45 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    end On_Notify;
    -----------------------------------------------------------------------------------------
-   procedure On_Destroy (control : in out Ex_List_View_Control_Type)is
-      Int: Internal_Access;
+   procedure Destroy_Row (control : in out Ex_List_View_Control_Type; index: Integer) is
+      Int: Internal_Access := Get_Internal(Control, Index);
+   begin
+      if Int /= null then
+         if Int.Colors /= null then
+            Free_Color_Array(Int.Colors);
+         end if;
+         -- free the payload-data
+         On_Free_Payload(Control => Control,
+                         Payload => Int.User_Data);
+      end if;
+      Free_Internal(Int);
+   end Destroy_Row;
+
+   procedure Destroy_All_Rows (control : in out Ex_List_View_Control_Type) is
    begin
       for Index in 0..Item_Count(Control)-1 loop
-         Int := Get_Internal(Control, Index);
-         if Int /= null then
-            if Int.Colors /= null then
-               Free_Color_Array(Int.Colors);
-            end if;
-            -- free the payload-data
-            On_Free_Payload(Control => Control,
-                            Payload => Int.User_Data);
-         end if;
-         Free_Internal(Int);
+         Destroy_Row (control, Index);
       end loop;
-      On_Destroy(List_View_Control_Type(control));
+   end Destroy_All_Rows;
+
+   procedure On_Destroy (control : in out Ex_List_View_Control_Type)is
+   begin
+      Destroy_All_Rows (control);
+      On_Destroy(List_View_Control_Type(control));  --  Call parent method
    end On_Destroy;
+
+   procedure Delete_Item (Control : in out Ex_List_View_Control_Type;
+                          Index   : in     Integer) is
+   begin
+      Destroy_Row(Control, Index);
+      Delete_Item (List_View_Control_Type(Control), Index);  --  Call parent method
+   end Delete_Item;
+
+   procedure Clear (Control : in out Ex_List_View_Control_Type) is
+   begin
+      Destroy_All_Rows (Control);
+      Clear (List_View_Control_Type(Control));  --  Call parent method
+    end Clear;
    -----------------------------------------------------------------------------------------
    procedure Redraw_subitem (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                              Control      : in out Ex_List_View_Control_Type;

@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 2007 - 2012 Falk Maier                     --
+--                 Copyright (C) 2007 - 2014 Falk Maier                     --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -259,5 +259,8 @@ private
                         Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
                         Return_Value : in out GWindows.Types.lresult    );
    procedure On_Destroy (control : in out Ex_List_View_Control_Type);
+   procedure Delete_Item (Control : in out Ex_List_View_Control_Type;
+                          Index   : in     Integer);
+   procedure Clear (Control : in out Ex_List_View_Control_Type);
 
 end GWindows.Common_Controls.Ex_List_View;
