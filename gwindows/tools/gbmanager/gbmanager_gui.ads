@@ -30,4 +30,3 @@ package GBManager_GUI is
    procedure Start_GUI;
 
 end GBManager_GUI;
-

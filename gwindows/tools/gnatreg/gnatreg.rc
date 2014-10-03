@@ -1,3 +1,7 @@
+#include <windows.h>
+#include <commctrl.h>
+#include <richedit.h>
+
 #define ID_APP_EXIT 100
 
 Main_Icon	ICON DISCARDABLE	"gnatreg.ico"
@@ -14,3 +18,8 @@ Main_Menu ACCELERATORS PRELOAD MOVEABLE PURE
 BEGIN
 	"X",            ID_APP_EXIT,            VIRTKEY,CONTROL
 END
+
+//
+// Manifest resources
+//
+1                  RT_MANIFEST    ".\\manifest.xml"

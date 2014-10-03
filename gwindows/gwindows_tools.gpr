@@ -1,0 +1,24 @@
+-- This is the GNAT / GNAT Programming Studio (GPS) project file for
+-- testing some components of the GWindows framework, or some contributed packages.
+--
+-- Build me with "gnatmake -P gwindows_tools", or open me with GPS
+
+with "GWindows.gpr", "../gnatcom/gnatcom_tools.gpr";
+
+project GWindows_Tools is
+
+   for Source_Dirs use ("tools/gnatreg", "tools/gbmanager");
+   for Object_Dir use "obj";
+   for Exec_Dir use ".";
+   
+   package Compiler is
+      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
+   end Compiler;
+
+   for Main use ( "gnatreg.adb", "gbmanager.adb" );
+
+   package Builder is
+      for Default_Switches ("ada") use ("-j2");
+   end Builder;
+   
+end GWindows_Tools;

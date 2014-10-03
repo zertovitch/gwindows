@@ -30,7 +30,6 @@ with Ada.Command_Line;
 with GWindows.Registry;
 with GWindows.GStrings; use GWindows.GStrings;
 with GWindows.GStrings.IO; use GWindows.GStrings.IO;
-with GWindows.Registry;
 
 with GBManager_Lib;
 with GBManager_GUI;
