@@ -407,11 +407,12 @@ package GWindows.Drawing is
    --  Paint width and height of bitmap at X, Y on Canvas
 
    procedure Paint_Bitmap
-     (Canvas                      : in out Canvas_Type;
-      Bitmap                      : in out GWindows.Drawing_Objects.Bitmap_Type;
-      X, Y, Width, Height         : in     Integer;
-      Source_Width, Source_Height : in     Integer;
-      Raster_Operation_Code       :
+     (Canvas                : in out Canvas_Type;
+      Bitmap                : in out GWindows.Drawing_Objects.Bitmap_Type;
+      X, Y, Width, Height   : in     Integer;
+      Source_Width,
+      Source_Height         : in     Integer;
+      Raster_Operation_Code :
         in     Interfaces.C.unsigned              := SRCCOPY);
    --  Paint bitmap on a rectangle determined by X, Y, Width, Height on Canvas,
    --  taking Source_Width, Source_Height from bitmap

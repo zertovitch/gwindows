@@ -921,15 +921,16 @@ package body GWindows.Drawing is
    ------------------
 
    procedure Paint_Bitmap
-     (Canvas                      : in out Canvas_Type;
-      Bitmap                      : in out GWindows.Drawing_Objects.Bitmap_Type;
-      X, Y, Width, Height         : in     Integer;
-      Source_Width, Source_Height : in     Integer;
-      Raster_Operation_Code       :
+     (Canvas                : in out Canvas_Type;
+      Bitmap                : in out GWindows.Drawing_Objects.Bitmap_Type;
+      X, Y, Width, Height   : in     Integer;
+      Source_Width,
+      Source_Height         : in     Integer;
+      Raster_Operation_Code :
         in     Interfaces.C.unsigned              := SRCCOPY)
    is
       MDC : Memory_Canvas_Type;
-      HALFTONE: constant := 4;
+      HALFTONE : constant := 4;
       procedure GDI_SetStretchBltMode
         (hdc          : GWindows.Types.Handle := Handle (Canvas);
          iStretchMode : Integer               := HALFTONE);

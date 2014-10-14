@@ -171,6 +171,10 @@ package GWindows.Drawing_Objects is
    --  Bits is a pointer to a buffer. For example:
    --  Type X is Array (1 .. 24) of Integer;
    --  You would pass in X(1)'Address for Bits
+   --  After a bitmap is created, it can be selected into a device context
+   --  by calling the Select_Object function. However, the bitmap can only
+   --  be selected into a device context if the bitmap and the DC have the
+   --  same format. E.g. they must have the same amount ot bits per pixel.
 
    -------------------------------------------------------------------------
    --  Brush_Type
