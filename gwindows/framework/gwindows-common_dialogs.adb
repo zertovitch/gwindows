@@ -822,6 +822,48 @@ package body GWindows.Common_Dialogs is
       end if;
    end Choose_Default_Printer;
 
+   procedure Choose_Named_Printer
+     (Canvas       :    out GWindows.Drawing.Printer_Canvas_Type'Class;
+      Printer_Name : in     GString;
+      Settings     :    out DEVMODE;
+      Success      :    out Boolean)
+   is
+      type Pointer_To_DEVMODE is access all DEVMODE;
+      type Pointer_To_char is access constant Interfaces.C.char;
+
+      function CreateDC
+         (lpszDriver : access GChar_C;
+          lpszDevice : access GChar_C;
+          lpszOutput : Pointer_To_char;
+          lpInitData : Pointer_To_DEVMODE)
+      return GWindows.Types.Handle;
+      pragma Import (StdCall, CreateDC, "CreateDC" &
+                     Character_Mode_Identifier);
+
+      HDC : GWindows.Types.Handle;
+      Driver_Name_C : GString_C := GWindows.GStrings.To_GString_C ("WINSPOOL");
+      Printer_Name_C : GString_C :=
+      GWindows.GStrings.To_GString_C (Printer_Name);
+      Local_Settings : aliased DEVMODE;
+      Pointer_to_Local_Settings : constant Pointer_To_DEVMODE :=
+         Local_Settings'Access;
+      use GWindows.Types;
+   begin
+      Local_Settings.dmReserved1 := 0;
+      Local_Settings.dmReserved2 := 0;
+      Local_Settings.dmPanningWidth := 0;
+      Local_Settings.dmPanningHeight := 0;
+      HDC := CreateDC (Driver_Name_C (Driver_Name_C'First)'Access,
+      Printer_Name_C (Printer_Name_C'First)'Access, null,
+      Pointer_to_Local_Settings);
+      Success := HDC /= Null_Handle;
+
+      if Success then
+         GWindows.Drawing.Capture (Canvas, Null_Handle, HDC);
+         Settings := Local_Settings;
+      end if;
+   end Choose_Named_Printer;
+
    function Get_Directory
      (Window       : in GWindows.Base.Base_Window_Type'Class;
       Dialog_Title : in GString;
