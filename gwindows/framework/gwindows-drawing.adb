@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2014 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -914,6 +914,32 @@ package body GWindows.Drawing is
       Create_Memory_Canvas (MDC, Canvas);
       Select_Object (MDC, Bitmap);
       BitBlt (Canvas, X, Y, Width, Height, MDC, 0, 0, Raster_Operation_Code);
+   end Paint_Bitmap;
+
+   ------------------
+   -- Paint_Bitmap --
+   ------------------
+
+   procedure Paint_Bitmap
+     (Canvas                      : in out Canvas_Type;
+      Bitmap                      : in out GWindows.Drawing_Objects.Bitmap_Type;
+      X, Y, Width, Height         : in     Integer;
+      Source_Width, Source_Height : in     Integer;
+      Raster_Operation_Code       :
+        in     Interfaces.C.unsigned              := SRCCOPY)
+   is
+      MDC : Memory_Canvas_Type;
+      HALFTONE: constant := 4;
+      procedure GDI_SetStretchBltMode
+        (hdc          : GWindows.Types.Handle := Handle (Canvas);
+         iStretchMode : Integer               := HALFTONE);
+      pragma Import (StdCall, GDI_SetStretchBltMode, "SetStretchBltMode");
+   begin
+      Create_Memory_Canvas (MDC, Canvas);
+      Select_Object (MDC, Bitmap);
+      GDI_SetStretchBltMode;
+      StretchBlt (Canvas, X, Y, Width, Height, MDC, 0, 0,
+         Source_Width, Source_Height, Raster_Operation_Code);
    end Paint_Bitmap;
 
    ----------------

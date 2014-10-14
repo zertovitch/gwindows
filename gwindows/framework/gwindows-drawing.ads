@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2014 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -405,6 +405,16 @@ package GWindows.Drawing is
       Raster_Operation_Code :
         in     Interfaces.C.unsigned              := SRCCOPY);
    --  Paint width and height of bitmap at X, Y on Canvas
+
+   procedure Paint_Bitmap
+     (Canvas                      : in out Canvas_Type;
+      Bitmap                      : in out GWindows.Drawing_Objects.Bitmap_Type;
+      X, Y, Width, Height         : in     Integer;
+      Source_Width, Source_Height : in     Integer;
+      Raster_Operation_Code       :
+        in     Interfaces.C.unsigned              := SRCCOPY);
+   --  Paint bitmap on a rectangle determined by X, Y, Width, Height on Canvas,
+   --  taking Source_Width, Source_Height from bitmap
 
    procedure Paint_Icon (Canvas : in out Canvas_Type;
                          Icon   : in out GWindows.Drawing_Objects.Icon_Type;
