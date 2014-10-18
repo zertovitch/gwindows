@@ -184,7 +184,7 @@ package GWindows.DIBitmaps is
    --  This routine is intended to be used only by Claw.
    --
    procedure Create_DIB_Section
-     (Canvas   : Canvas_Type;
+     (Canvas   : Canvas_Type'Class;
       Bminfo   : DIB_Info_Header_Type;
       Bitmap   : in out GWindows.Drawing_Objects.Bitmap_Type;
       Pxls     : out System.Address);

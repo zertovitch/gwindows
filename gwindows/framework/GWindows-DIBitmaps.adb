@@ -64,7 +64,7 @@ package body GWindows.DIBitmaps is
    ------------------------
 
    procedure Create_DIB_Section
-     (Canvas   : Canvas_Type;
+     (Canvas   : Canvas_Type'Class;
       Bminfo   : DIB_Info_Header_Type;
       Bitmap   : in out GWindows.Drawing_Objects.Bitmap_Type;
       Pxls     : out System.Address) is
@@ -90,7 +90,7 @@ package body GWindows.DIBitmaps is
       --  This routine is intended to be used only by Claw.
       --
       --
-      Image_Ptr : VGA_Color_Index_Ptr_Type
+      Image_Ptr : constant VGA_Color_Index_Ptr_Type
         := Bitmap.Image (Bitmap.Image'First (1),
                          Bitmap.Image'First (2))'Unchecked_Access;
    begin
@@ -104,7 +104,7 @@ package body GWindows.DIBitmaps is
       --  This routine is intended to be used only by Claw.
       --
       --
-      Image_Ptr : PDIB_Color_Type
+      Image_Ptr : constant PDIB_Color_Type
         := Bitmap.Image (Bitmap.Image'First (1),
                          Bitmap.Image'First (2))'Unchecked_Access;
    begin
@@ -132,7 +132,7 @@ package body GWindows.DIBitmaps is
       --  colors in specified DIB. (Note that the DIB's size was specified when
       --  it was created).
       Result    : Interfaces.C.int;
-      Info_Ptr  : DIB_Info_Header_Ptr_Type
+      Info_Ptr  : constant DIB_Info_Header_Ptr_Type
         := Target.Bitmap_Info_Header'Unchecked_Access;
      Image_Ptr : Pixel_Byte_Ptr_Type;
    begin
@@ -165,7 +165,7 @@ package body GWindows.DIBitmaps is
       --  specified DIB.  (Note that the DIB's size was specified when it
       --  was created).
       Result    : Interfaces.C.int;
-      Info_Ptr  : DIB_Info_Header_Ptr_Type
+      Info_Ptr  : constant DIB_Info_Header_Ptr_Type
         := Target.Bitmap_Info_Header'Unchecked_Access;
       Image_Ptr : Pixel_Byte_Ptr_Type;
    begin
@@ -219,7 +219,7 @@ package body GWindows.DIBitmaps is
       use type Interfaces.C.long;
       use type Interfaces.C.int;
       Result    : Interfaces.C.int;
-      Info_Ptr  : DIB_Info_Header_Ptr_Type
+      Info_Ptr  : constant DIB_Info_Header_Ptr_Type
         := DIBitmap.Bitmap_Info_Header'Unchecked_Access;
       Image_Ptr : Pixel_Byte_Ptr_Type;
    begin
