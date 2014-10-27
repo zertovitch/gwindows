@@ -1,7 +1,7 @@
 @echo off
 
 rem Version should match the field VALUE "FileVersion" in GW_Install.rc
-set version=23-Jul-2014
+set version=27-Oct-2014
 
 if exist ..\..\gwenerator\windows_stuff\gwindows.ads goto stuff_ok
 

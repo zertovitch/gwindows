@@ -4,6 +4,16 @@ http://gnavi.svn.sf.net/viewvc/gnavi?view=revision&revision=N
 
 Major changes - numbers below refer to svn repository revisions:
 
+GWindows release, 27-Oct-2014
+=============================
+
+242: Added Paint_Transparent_Bitmap in GWindows.Drawing
+241: GWindows.Common_Dialogs: added Choose_Named_Printer
+239: GWindows.Drawing: added a version of Paint_Bitmap with image stretching
+
+GWindows release,  5-Apr-2014
+=============================
+
 228: Added GWindows.Menus.Immediate_Popup_Menu
 225: Added GWindows.Taskbar and Test_Taskbar
 216: Added GWindows.System_Tray and Test_System_Tray
