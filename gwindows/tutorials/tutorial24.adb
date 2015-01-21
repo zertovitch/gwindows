@@ -1,3 +1,6 @@
+--  This tutorial is about doing a simple Drag & Drop
+--  within an application window. No OLE so far.
+
 with Tutorial24_Window; use Tutorial24_Window;
 
 with GWindows.Application;
@@ -9,9 +12,10 @@ procedure Tutorial24 is
    root, n1, n11, n2, n21, n22 : Tree_Item_Node;
 begin
    Create (My_Window, "Drag test - tutorial 24");
-   --  Put some fuzzy contents
+   --  Put some fuzzy contents in the list
    Insert_Item (My_Window.Some_list, "List item Nr 1", 0);
    Insert_Item (My_Window.Some_list, "List item Nr 2", 1);
+   --  Put some fuzzy contents in the tree
    Insert_Item (My_Window.Some_tree, "Tree root", 0, root, As_A_Root);
    Insert_Item (My_Window.Some_tree, "Tree node 1", root, n1);
    Insert_Item (My_Window.Some_tree, "Tree node 1-1", n1, n11);

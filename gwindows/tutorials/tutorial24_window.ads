@@ -49,6 +49,9 @@ package Tutorial24_Window is
    overriding
    procedure On_Create (Window : in out My_Window_Type);
 
+   --  The On_Left_Mouse_Button_Up method is not defined (thus cannot
+   --  be overriden) for the controls LV_with_Drag and TV_with_Drag.
+
    overriding
    procedure On_Left_Mouse_Button_Up (Window : in out My_Window_Type;
                                       X      : in     Integer;

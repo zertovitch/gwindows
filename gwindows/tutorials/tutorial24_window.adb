@@ -49,7 +49,7 @@ package body Tutorial24_Window is
       Text (My_Window_Type (Parent (Window).all).Status,
             "Drag starting from List View, Item Nr" &
             Image (Clicked_item + 1) &
-            " and perhaps some more...");
+            " and perhaps some more items...");
       Capture_Mouse (My_Window_Type (Parent (Window).all));
       --  ^ This is needed, otherwise dropping outside of parent window
       --    is not captured via On_Left_Mouse_Button_Up.
@@ -248,8 +248,8 @@ package body Tutorial24_Window is
       --  Flags: Hittest_Flag_Type;
       --  Target_In_Tree: Boolean;
    begin
-     --          Gwindows.Image_Lists.Drag_Leave(main);
-     --         Gwindows.Image_Lists.End_Drag;
+     --         GWindows.Image_Lists.Drag_Leave(main);
+     --         GWindows.Image_Lists.End_Drag;
      Text (Window.Status, "Drag stopped (button up)");
      Release_Mouse;
    end On_Left_Mouse_Button_Up;
