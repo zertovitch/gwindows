@@ -19,7 +19,8 @@ project GWindows_Test is
       "test_clipboard.adb",
       "test_locale.adb",
       "test_system_tray.adb",
-      "test_taskbar.adb"
+      "test_taskbar.adb",
+      "drag_drop_ole.adb"
    );
 
    package Builder is
