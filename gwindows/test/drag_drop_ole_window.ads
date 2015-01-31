@@ -3,6 +3,7 @@ with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;
 with GWindows.Windows.Main; use GWindows.Windows;
 with GWindows.Base;
 with GWindows.Types;
+with GWindows; use GWindows;
 
 package Drag_Drop_OLE_Window is
 
@@ -63,7 +64,11 @@ package Drag_Drop_OLE_Window is
 
 private
 
-   type LV_with_Drag is new List_View_Control_Type with null record;
-   type TV_with_Drag is new Tree_View_Control_Type with null record;
+   type LV_with_Drag is new List_View_Control_Type with record
+      Drop_target_path : GString_Unbounded;
+   end record;
+   type TV_with_Drag is new Tree_View_Control_Type with record
+      Drop_target_path : GString_Unbounded;
+   end record;
 
 end Drag_Drop_OLE_Window;

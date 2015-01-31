@@ -7,8 +7,94 @@ with GWindows.Static_Controls;          use GWindows.Static_Controls;
 with GWindows.GStrings;                 use GWindows.GStrings;
 
 with Interfaces.C;
+with GNATOCX;
+with GNATCOM.Types;
 
 package body Drag_Drop_OLE_Window is
+
+   --  Ingredients (randomly picked from MSDN, examples, etc. will be in
+   --  a specific package)
+
+   --  CF_HDROP
+
+   --  DataObject := [ideally: empty list!]
+   --  GetFileListDataObject(DirectoryListBox1.Directory, SelFileList);
+
+   --  Effect := DROPEFFECT_NONE;
+   --  DoDragDrop(DataObject, Self, DROPEFFECT_COPY, Effect);
+
+   --  MSDN: "You also need to call the DoDragDrop, RegisterDragDrop,
+   --  and RevokeDragDrop functions in drag-and-drop operations."
+   --
+   --  RegisterDragDrop: Registers the specified window as one that
+   --  can be the *target* of an OLE drag-and-drop operation
+   --
+   --  HRESULT RegisterDragDrop(
+   --  _In_  HWND hwnd,
+   --  _In_  LPDROPTARGET pDropTarget
+   --  );
+   --  HRESULT RevokeDragDrop(
+   --  _In_  HWND hwnd
+   --  );
+
+   --  We mimick IDataObject for IDropSource ...
+
+   type IDropSourceVtbl;
+   type Pointer_To_IDropSourceVtbl is access all IDropSourceVtbl;
+
+   type IDropSource is
+      record
+         Vtbl : Pointer_To_IDropSourceVtbl;
+      end record;
+   pragma Convention (C_Pass_By_Copy, IDropSource);
+
+   type af_IDropSource_GiveFeedback is access
+     function (Effect : GNATCOM.Types.DWORD)
+     return GNATCOM.Types.HRESULT;
+   pragma Convention (StdCall, af_IDropSource_GiveFeedback);
+
+   type af_IDropSource_QueryContinueDrag is access
+     function (
+        EscapePressed : GNATCOM.Types.bool;
+        grfKeyState   : GNATCOM.Types.DWORD)
+     return GNATCOM.Types.HRESULT;
+   pragma Convention (StdCall, af_IDropSource_QueryContinueDrag);
+
+   type IDropSourceVtbl is
+      record
+         GiveFeedback        : af_IDropSource_GiveFeedback;
+         QueryContinueDrag   : af_IDropSource_QueryContinueDrag;
+      end record;
+   pragma Convention (C_Pass_By_Copy, IDropSourceVtbl);
+
+   type Pointer_To_IDropSource is access all IDropSource;
+
+   function DoDragDrop
+         (pDataObj    : GNATOCX.Pointer_To_IDataObject;
+          pDropSource : Pointer_To_IDropSource;
+          OKEffects   : GNATCOM.Types.DWORD;
+          Effect      : GNATCOM.Types.Pointer_To_DWORD
+         )
+   return GNATCOM.Types.HRESULT;
+   pragma Import (Stdcall, DoDragDrop, "DoDragDrop");
+
+   function Drop_to_Explorer return GString is
+   --
+   --  Captures the Drag & Drop operations initiated by LVN_BEGINDRAG
+   --  and gives back the path of an Explorer window or of the desktop
+   --  if the dropping happened on thoses areas. An empty string is
+   --  returned in any other case.
+      res : GNATCOM.Types.HRESULT;
+      pDataObj    : GNATOCX.Pointer_To_IDataObject := null; --  !!
+      pDropSource : Pointer_To_IDropSource := null; --  !!
+      OKEffects   : GNATCOM.Types.DWORD := 0; --  !!
+      Effect      : GNATCOM.Types.Pointer_To_DWORD   := null;  -- !!
+   begin
+      res := DoDragDrop (pDataObj, pDropSource, OKEffects, Effect);
+      return ""; -- !!
+   end Drop_to_Explorer;
+   --  DRAGDROP_S_DROP   : constant := 16#00040100#;
+   --  DRAGDROP_S_CANCEL : constant := 16#00040101#;
 
    -------------------------------------------
    --  List View with some Drag capability  --
@@ -21,7 +107,6 @@ package body Drag_Drop_OLE_Window is
       --  is invisible - Windows bug since Vista!
       Cursor : Cursor_Type := Load_System_Cursor (IDC_HAND);
       --  Cursor_Pos : Point_Type := Get_Cursor_Position;
-      use GWindows;
       type Point_Access is access all Point_Type;
       LVM_FIRST                    : constant := 16#1000#;
       LVM_CREATEDRAGIMAGE          : constant := LVM_FIRST + 33;
@@ -74,6 +159,7 @@ package body Drag_Drop_OLE_Window is
       Begin_Drag (Drag_Image_List, 0, -10, 0);
       --  First position for dragging image
       Drag_Enter (Window, Point.X, Point.Y);
+      Window.Drop_target_path := To_GString_Unbounded (Drop_to_Explorer);
    end Start_Drag;
 
    procedure On_Notify (
@@ -110,7 +196,6 @@ package body Drag_Drop_OLE_Window is
       IDC_HAND : constant := 32649;
       Cursor : Cursor_Type := Load_System_Cursor (IDC_HAND);
       --  Cursor_Pos : Point_Type := Get_Cursor_Position;
-      use GWindows;
       --  type Point_Access is access all Point_Type;
       TVM_FIRST           : constant := 16#1100#;
       TVM_CREATEDRAGIMAGE : constant := TVM_FIRST + 18;
@@ -166,6 +251,7 @@ package body Drag_Drop_OLE_Window is
       Begin_Drag (Drag_Image_List, 0, -10, 0);
       --  First position for dragging image
       Drag_Enter (Window, Point.X, Point.Y);
+      Window.Drop_target_path := To_GString_Unbounded (Drop_to_Explorer);
    end Start_Drag;
 
    procedure On_Notify (
