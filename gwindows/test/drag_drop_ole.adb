@@ -12,7 +12,7 @@ procedure Drag_Drop_OLE is
    My_Window   : Drag_Drop_OLE_Window.My_Window_Type;
    root, n1, n11, n2, n21, n22 : Tree_Item_Node;
 begin
-   Create (My_Window, "Drag test - tutorial 24");
+   Create (My_Window, "Drop to explorer test");
    --  Put some fuzzy contents in the list
    Insert_Item (My_Window.Some_list, "List item Nr 1", 0);
    Insert_Item (My_Window.Some_list, "List item Nr 2", 1);

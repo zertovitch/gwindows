@@ -3,12 +3,16 @@ with GWindows.Cursors;                  use GWindows.Cursors;
 with GWindows.Base;                     use GWindows.Base;
 with GWindows.Image_Lists;              use GWindows.Image_Lists;
 with GWindows.Drawing_Objects;          use GWindows.Drawing_Objects;
+with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
 with GWindows.Static_Controls;          use GWindows.Static_Controls;
 with GWindows.GStrings;                 use GWindows.GStrings;
 
 with Interfaces.C;
 with GNATOCX;
+--  with GNATOCX.IDataObject_Interface;
 with GNATCOM.Types;
+with GNATCOM;
+use GNATCOM.Types;
 
 package body Drag_Drop_OLE_Window is
 
@@ -36,6 +40,11 @@ package body Drag_Drop_OLE_Window is
    --  HRESULT RevokeDragDrop(
    --  _In_  HWND hwnd
    --  );
+
+   subtype LPVOID is GWindows.Types.Handle;
+   function OleInitialize (pvReserved : LPVOID := Null_Handle)
+   return GNATCOM.Types.HRESULT;
+   pragma Import (Stdcall, OleInitialize, "OleInitialize");
 
    --  We mimick IDataObject for IDropSource ...
 
@@ -78,6 +87,16 @@ package body Drag_Drop_OLE_Window is
    return GNATCOM.Types.HRESULT;
    pragma Import (Stdcall, DoDragDrop, "DoDragDrop");
 
+   --  DROPEFFECT_NONE   : constant := 0;
+   DROPEFFECT_COPY   : constant := 1;
+   --  DROPEFFECT_MOVE   : constant := 2;
+   --  DROPEFFECT_LINK   : constant := 4;
+   --  DROPEFFECT_SCROLL : constant := 16#8000_0000#;
+
+   DRAGDROP_S_DROP   : constant := 16#00040100#;
+   DRAGDROP_S_CANCEL : constant := 16#00040101#;
+   E_UNSPEC          : constant GNATCOM.Types.HRESULT := -1;
+
    function Drop_to_Explorer return GString is
    --
    --  Captures the Drag & Drop operations initiated by LVN_BEGINDRAG
@@ -85,16 +104,30 @@ package body Drag_Drop_OLE_Window is
    --  if the dropping happened on thoses areas. An empty string is
    --  returned in any other case.
       res : GNATCOM.Types.HRESULT;
-      pDataObj    : GNATOCX.Pointer_To_IDataObject := null; --  !!
-      pDropSource : Pointer_To_IDropSource := null; --  !!
-      OKEffects   : GNATCOM.Types.DWORD := 0; --  !!
-      Effect      : GNATCOM.Types.Pointer_To_DWORD   := null;  -- !!
+      DataObj     : aliased GNATOCX.IDataObject := (others => null);
+      pDataObj    : GNATOCX.Pointer_To_IDataObject := DataObj'Unchecked_Access;
+      --  DropSource  : aliased IDropSource := (others => null);
+      pDropSource : Pointer_To_IDropSource := null;
+      --  !! DropSource'Unchecked_Access;
+      OKEffects   : GNATCOM.Types.DWORD := DROPEFFECT_COPY;
+      Effect      : aliased GNATCOM.Types.DWORD;
+      p_Effect    : GNATCOM.Types.Pointer_To_DWORD := Effect'Unchecked_Access;
    begin
-      res := DoDragDrop (pDataObj, pDropSource, OKEffects, Effect);
-      return ""; -- !!
+      --  GNATOCX.IDataObject_Interface.Initialize (DataObj);
+      res := DoDragDrop (pDataObj, pDropSource, OKEffects, p_Effect);
+      case res is
+         when DRAGDROP_S_DROP =>
+            return "Success"; -- !!
+         when DRAGDROP_S_CANCEL =>
+            return "Cancelled"; -- !!
+         when E_UNSPEC =>
+            return "Drop error: E_UNSPEC";
+            --  !! raise exception here
+         when others =>
+            return "Drop error:" & GNATCOM.Types.HRESULT'Wide_Image (res);
+            --  !! raise exception here
+      end case;
    end Drop_to_Explorer;
-   --  DRAGDROP_S_DROP   : constant := 16#00040100#;
-   --  DRAGDROP_S_CANCEL : constant := 16#00040101#;
 
    -------------------------------------------
    --  List View with some Drag capability  --
@@ -102,31 +135,30 @@ package body Drag_Drop_OLE_Window is
 
    procedure Start_Drag (Window : in out LV_with_Drag)
    is
-      Font, Mem_Font : Font_Type;
+      --  Font, Mem_Font : Font_Type;
       --  Font is needed to create drag image, otherwise drag image
       --  is invisible - Windows bug since Vista!
-      Cursor : Cursor_Type := Load_System_Cursor (IDC_HAND);
+      --  Cursor : Cursor_Type := Load_System_Cursor (IDC_HAND);
       --  Cursor_Pos : Point_Type := Get_Cursor_Position;
-      type Point_Access is access all Point_Type;
-      LVM_FIRST                    : constant := 16#1000#;
-      LVM_CREATEDRAGIMAGE          : constant := LVM_FIRST + 33;
+      --  type Point_Access is access all Point_Type;
+      --  LVM_FIRST                    : constant := 16#1000#;
+      --  LVM_CREATEDRAGIMAGE          : constant := LVM_FIRST + 33;
 
-      Image_List_Handle : GWindows.Types.Handle;
-      Drag_Image_List : Image_List_Type;
+      --  Image_List_Handle : GWindows.Types.Handle;
+      --  Drag_Image_List : Image_List_Type;
       Point : aliased GWindows.Types.Point_Type := Get_Cursor_Position;
 
       Clicked_item, Clicked_subitem : Integer := 0;
 
-      function Sendmessage_list
-         (Hwnd   : GWindows.Types.Handle;
-          Umsg   : Interfaces.C.int  := LVM_CREATEDRAGIMAGE;
-          Wparam : Integer;     --  The index of the item
-          Lparam : Point_Access --  Initial location of the upper-left corner
-                                --  of the image, in view coordinates.
-         )
-      return GWindows.Types.Handle;
-      pragma Import (Stdcall, Sendmessage_list,
-                       "SendMessage" & Character_Mode_Identifier);
+--        function Sendmessage_list
+--           (Hwnd   : GWindows.Types.Handle;
+--            Umsg   : Interfaces.C.int  := LVM_CREATEDRAGIMAGE;
+--            Wparam : Integer;     --  The index of the item
+--            Lparam : Point_Access
+--           )
+--        return GWindows.Types.Handle;
+--        pragma Import (Stdcall, Sendmessage_list,
+--                         "SendMessage" & Character_Mode_Identifier);
    begin
       Point := Get_Cursor_Position;
       Point := Point_To_Client (Window, Point);
@@ -135,31 +167,33 @@ package body Drag_Drop_OLE_Window is
             "Drag starting from List View, Item Nr" &
             Image (Clicked_item + 1) &
             " and perhaps some more items...");
-      Capture_Mouse (My_Window_Type (Parent (Window).all));
+      --  Capture_Mouse (My_Window_Type (Parent (Window).all));
       --  ^ This is needed, otherwise dropping outside of parent window
       --    is not captured via On_Left_Mouse_Button_Up.
-      if Cursor /= 0 then
-        Set_Cursor (Cursor);
-      end if;
+      --  if Cursor /= 0 then
+      --    Set_Cursor (Cursor);
+      --  end if;
       --  Image associated with dragging
       --  Unselect clicked item
-      Selected (Window, Clicked_item, False);
-      --  Set a provisory font
-      Get_Font (Window, Mem_Font);
-      Create_Stock_Font (Font, System);
-      Set_Font (Window, Font);
-      Point := (0, 0);
-      Image_List_Handle := Sendmessage_list (Hwnd => Handle (Window),
-                           Wparam => Clicked_item,
-                           Lparam => Point'Access
-      );
-      Selected (Window, Clicked_item, True);
-      Set_Font (Window, Mem_Font);
-      Handle (Drag_Image_List, Image_List_Handle);
-      Begin_Drag (Drag_Image_List, 0, -10, 0);
-      --  First position for dragging image
-      Drag_Enter (Window, Point.X, Point.Y);
+--        Selected (Window, Clicked_item, False);
+--        --  Set a provisory font
+--        Get_Font (Window, Mem_Font);
+--        Create_Stock_Font (Font, System);
+--        Set_Font (Window, Font);
+--        Point := (0, 0);
+--        Image_List_Handle := Sendmessage_list (Hwnd => Handle (Window),
+--                             Wparam => Clicked_item,
+--                             Lparam => Point'Access
+--        );
+--        Selected (Window, Clicked_item, True);
+--        Set_Font (Window, Mem_Font);
+--        Handle (Drag_Image_List, Image_List_Handle);
+--        Begin_Drag (Drag_Image_List, 0, -10, 0);
+--        --  First position for dragging image
+--        Drag_Enter (Window, Point.X, Point.Y);
       Window.Drop_target_path := To_GString_Unbounded (Drop_to_Explorer);
+      Text (My_Window_Type (Parent (Window).all).Status,
+            To_GString_From_Unbounded (Window.Drop_target_path));
    end Start_Drag;
 
    procedure On_Notify (
@@ -341,5 +375,9 @@ package body Drag_Drop_OLE_Window is
    end On_Left_Mouse_Button_Up;
 
 begin
+   if OleInitialize not in GNATCOM.S_OK .. GNATCOM.S_FALSE then
+      Message_Box ("", "Error with OleInitialize");
+      --  !! raise exception here instead of msgbox
+   end if;
    Create_Stock_Font (GUI_Font, Default_GUI);
 end Drag_Drop_OLE_Window;
