@@ -95,7 +95,6 @@ package body Drag_Drop_OLE_Window is
 
    DRAGDROP_S_DROP   : constant := 16#00040100#;
    DRAGDROP_S_CANCEL : constant := 16#00040101#;
-   E_UNSPEC          : constant GNATCOM.Types.HRESULT := -1;
 
    function Drop_to_Explorer return GString is
    --
@@ -104,7 +103,24 @@ package body Drag_Drop_OLE_Window is
    --  if the dropping happened on thoses areas. An empty string is
    --  returned in any other case.
       res : GNATCOM.Types.HRESULT;
-      DataObj     : aliased GNATOCX.IDataObject := (others => null);
+      DataObjVtbl : aliased GNATOCX.IDataObjectVtbl :=
+      (
+         QueryInterface        => null,  -- !!
+         AddRef                => null,  -- !!
+         Release               => null,  -- !!
+         RemoteGetData         => null,  -- !!
+         RemoteGetDataHere     => null,  -- !!
+         QueryGetData          => null,  -- !!
+         GetCanonicalFormatEtc => null,  -- !!
+         RemoteSetData         => null,  -- !!
+         EnumFormatEtc         => null,  -- !!
+         DAdvise               => null,  -- !!
+         DUnadvise             => null,  -- !!
+         EnumDAdvise           => null   -- !!
+      );
+
+      DataObj     : aliased GNATOCX.IDataObject :=
+                       (Vtbl => DataObjVtbl'Unchecked_Access);
       pDataObj    : GNATOCX.Pointer_To_IDataObject := DataObj'Unchecked_Access;
       --  DropSource  : aliased IDropSource := (others => null);
       pDropSource : Pointer_To_IDropSource := null;
@@ -120,9 +136,6 @@ package body Drag_Drop_OLE_Window is
             return "Success"; -- !!
          when DRAGDROP_S_CANCEL =>
             return "Cancelled"; -- !!
-         when E_UNSPEC =>
-            return "Drop error: E_UNSPEC";
-            --  !! raise exception here
          when others =>
             return "Drop error:" & GNATCOM.Types.HRESULT'Wide_Image (res);
             --  !! raise exception here
