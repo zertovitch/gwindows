@@ -490,7 +490,12 @@ package body DFA is
         NSET(NUMSTATES) := NFA.MKBRANCH(SCBOL(CNT/2), SCSET(CNT/2));
       end if;
 
-      DFA.EPSCLOSURE(NSET, NUMSTATES, ACCSET, NACC, HASHVAL, NSET);
+      declare
+        result: INT_PTR;
+      begin
+        DFA.EPSCLOSURE(NSET, NUMSTATES, ACCSET, NACC, HASHVAL, result);
+        NSET:= result;
+      end;
 
       SNSTODS(NSET, NUMSTATES, ACCSET, NACC, HASHVAL, DS, SNSRESULT);
       if SNSRESULT then
@@ -542,7 +547,12 @@ package body DFA is
           if (DUPLIST(SYM) = NIL) then
           -- symbol has unique out-transitions
             NUMSTATES := SYMFOLLOWSET(DSET, DSIZE, SYM, NSET);
-            DFA.EPSCLOSURE(NSET, NUMSTATES, ACCSET, NACC, HASHVAL, NSET);
+            declare
+              result: INT_PTR;
+            begin
+              DFA.EPSCLOSURE(NSET, NUMSTATES, ACCSET, NACC, HASHVAL, result);
+              NSET:= result;
+            end;
 
             SNSTODS(NSET, NUMSTATES, ACCSET, NACC, HASHVAL, NEWDS, SNSRESULT);
             if SNSRESULT then

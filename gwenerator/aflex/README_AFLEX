@@ -8,7 +8,7 @@ Ada Lexical Analyser Generator
 
      - get aflex from http://sourceforge.net/projects/p2ada
      - go to aflex directory
-     - run "gnatmake aflex"
+     - run "gnatmake aflex" (alternatively, using the aflex.gpr project file: "gprbuild -P aflex", "gnatmake -P aflex")
      - move the executable in a reachable directory
 
 ## USAGE

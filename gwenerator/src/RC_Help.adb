@@ -700,9 +700,9 @@ package body RC_Help is
     if style_switch(simple_border) then
       border:= simple;
     elsif style_switch(half_sunken) then
-      border:= Half_Sunken;
+      border:= Half_Sunken; -- Window style: Static Edge (WS_EX_STATICEDGE)
     elsif style_switch(fully_sunken) then
-      null; -- border:= Fully_Sunken;
+      null; -- border:= Fully_Sunken; -- Window style: Client Edge (WS_EX_CLIENTEDGE)
     end if;
     return
       ", GWindows.Static_Controls." &

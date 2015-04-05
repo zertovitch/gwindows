@@ -1,0 +1,10 @@
+-- This is the GNAT / GNAT Programming Studio (GPS) project file.
+-- Build me with "gprbuild -P aflex", "gnatmake -P aflex", or open me with GPS
+
+project AFlex is
+
+   for Object_Dir use "obj";
+   for Main use ("aflex.adb");
+   for Exec_Dir use ".";   
+   
+end AFLex;
