@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008..2014
+--  Copyright (c) Gautier de Montmollin 2008..2015
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -36,7 +36,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "22-Apr-2014";
+  Grammar_Version: constant String:= "05-Apr-2015";
   Web: constant String:= "http://sf.net/projects/gnavi";
 
   function S(Source: Unbounded_String) return String
@@ -79,6 +79,7 @@ package RC_Help is
   type Style_switch_type is
     ( auto,
       disabled,
+      hidden,       -- = not visible (not ws_visible)
       radio,        -- buttons
       state3,
       checkbox,

@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008..2014
+--  Copyright (c) Gautier de Montmollin 2008..2015
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -837,10 +837,10 @@ package body RC_Help is
       );
       Ada_Put_Line(to_body, "    end loop;");
     end if;
-  end;
+  end Ada_combo_control;
 
   procedure Ada_icon_control is
-    mem_alignment: GWindows.Static_Controls.Alignment_Type:= last_alignment;
+    mem_alignment: constant GWindows.Static_Controls.Alignment_Type:= last_alignment;
   begin
     if S(last_control_text) = """""" then
       null; -- phantom icon...
@@ -1022,6 +1022,9 @@ package body RC_Help is
   begin
     if style_switch(disabled) then
       Ada_Put_Line(to_body, "    Disable(Window." & S(last_Ada_ident) & ");");
+    end if;
+    if style_switch(hidden) then
+      Ada_Put_Line(to_body, "    Hide(Window." & S(last_Ada_ident) & ");");
     end if;
   end;
 

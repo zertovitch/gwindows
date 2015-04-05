@@ -262,7 +262,9 @@ ws_style  :
             { style_switch(simple_border):= True; }
           | NOT_t WS_BORDER_t
           |       WS_VISIBLE_t
+            { style_switch(hidden):= False; }
           | NOT_t WS_VISIBLE_t
+            { style_switch(hidden):= True; }
           |       WS_CAPTION_t
           |       WS_DLGFRAME_t
           |       WS_POPUP_t
