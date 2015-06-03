@@ -12,6 +12,9 @@ begin
          GWindows.Locales.Get_Decimal_Separator & ']' &
       NL &
       "Thousands separator is [" &
-         GWindows.Locales.Get_Thousands_Separator & ']'
+         GWindows.Locales.Get_Thousands_Separator & ']' &
+      NL &
+      "List separator (for CSV files) is [" &
+         GWindows.Locales.Get_List_Separator & ']'
    );
 end Test_Locale;

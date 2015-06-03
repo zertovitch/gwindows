@@ -48,6 +48,10 @@ package GWindows.Locales is
 
    --  Get some default locale informations for current user
 
+   function Get_List_Separator return GString;
+   --  Typically ',' or ';' (used as such by Excel for
+   --  Input-Output of CSV files (unfortunately))
+
    function Get_Decimal_Separator return GString;
    function Get_Thousands_Separator return GString;
 

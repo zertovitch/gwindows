@@ -42,8 +42,14 @@ package body GWindows.Locales is
    --  Full list of the MS Locale Information Constants:
    --  http://msdn.microsoft.com/en-us/library/dd464799(v=vs.85).aspx
 
+   LOCALE_SLIST      : constant := 16#0000_000C#;
    LOCALE_SDECIMAL   : constant := 16#0000_000E#;
    LOCALE_STHOUSAND  : constant := 16#0000_000F#;
+
+   function Get_List_Separator return GString is
+   begin
+      return Get_Locale_Info (LOCALE_SLIST);
+   end Get_List_Separator;
 
    function Get_Decimal_Separator return GString is
    begin
