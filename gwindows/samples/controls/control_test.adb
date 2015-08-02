@@ -3,7 +3,7 @@ with Ada.Calendar;
 with GWindows.Windows.Main; use GWindows.Windows.Main;
 with GWindows.Windows; use GWindows.Windows;
 with GWindows.Base; use GWindows.Base;
-with GWindows.Buttons; use GWindows.Buttons;
+--  with GWindows.Buttons; use GWindows.Buttons;
 with GWindows.Edit_Boxes; use GWindows.Edit_Boxes;
 with GWindows.Common_Controls; use GWindows.Common_Controls;
 with GWindows.Image_Lists; use GWindows.Image_Lists;
@@ -13,6 +13,8 @@ with GWindows.Application;
 
 procedure Control_Test is
    pragma Linker_Options ("control_test.coff");
+   --  Resource with the toolbar bitmap. File obtained with:
+   --  windres -i control_test.rc -o ..\..\obj\control_test.coff
 
    Top_Window   : Main_Window_Type;
    Window       : Window_Type;
@@ -41,6 +43,7 @@ procedure Control_Test is
                             Position       : in     Integer;
                             Delta_Position : in     Integer)
    is
+   pragma Unreferenced (Window);
    begin
       Text (Top_Window, To_GString_From_String
             (Integer'Image (Position + Delta_Position)));
@@ -49,6 +52,7 @@ procedure Control_Test is
    procedure Do_Track_Change (Window  : in out Base_Window_Type'Class;
                               Request : in     Scroll_Request_Type)
    is
+   pragma Unreferenced (Window, Request);
    begin
       Text (Top_Window,
             To_GString_From_String (Integer'Image (Position (Bar_Control))));
@@ -56,6 +60,7 @@ procedure Control_Test is
 
    procedure Do_Tree_Pick (Window : in out Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
    begin
       GWindows.Message_Boxes.Message_Box
         ("Your Pick", Selected_Item (Tree_Control));
@@ -64,13 +69,14 @@ procedure Control_Test is
    procedure Do_Menu_Select (Window : in out Base_Window_Type'Class;
                              Item   : in     Integer)
    is
+   pragma Unreferenced (Window);
    begin
       GWindows.Message_Boxes.Message_Box
         ("Command Sent", To_GString_From_String (Item'Img));
    end Do_Menu_Select;
 
-   Start_Date : Ada.Calendar.Time := Ada.Calendar.Clock;
-   End_Date   : Ada.Calendar.Time := Ada.Calendar.Time_Of (2001, 3, 22);
+   Start_Date : constant Ada.Calendar.Time := Ada.Calendar.Clock;
+   End_Date   : constant Ada.Calendar.Time := Ada.Calendar.Time_Of (2030, 3, 22);
 
 begin
    Create (Top_Window, "Control Test");
@@ -89,11 +95,15 @@ begin
    On_Button_Select_Handler (Toolbar, Do_Menu_Select'Unrestricted_Access);
    Dock (Toolbar, At_Top);
 
+   ----------------------------------
+   --  Date_Time_Picker_Type demo  --
+   ----------------------------------
+
    Create (Date_Control, Window, 0, 0, 400, 25);
    On_Focus_Handler (Date_Control, Do_Change'Unrestricted_Access);
 
    Date_Time_Format
-     (Date_Control, "'Today is: 'HH':'m':'s dddd MMM dd', 'yyyy");
+      (Date_Control, "'Today is: 'HH':'m':'s dddd MMM dd', 'yyyy");
 
    Set_Range (Date_Control,
               Start_Date,

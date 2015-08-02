@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2013 David Botton                   --
+--                 Copyright (C) 1999 - 2015 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -314,7 +314,8 @@ package GWindows.Common_Controls is
 
    procedure Date_Time_Format (Control : in out Date_Time_Picker_Type;
                                Format  : in     GString);
-   --  Allows for a custom date/time format
+   --  Allows for a custom date/time format.
+   --  This custom format replaces the Format parameter set by Create.
    --
    --  Element Description
    --   "d"     The one- or two-digit day.

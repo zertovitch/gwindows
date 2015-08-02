@@ -12,7 +12,8 @@ project GWindows_Samples is
    for Exec_Dir use "samples";
    for Main use (
      "splitters.adb", 
-     "scribble.adb", "scribble2.adb", "text_spin.adb" -- drawing
+     "scribble.adb", "scribble2.adb", "text_spin.adb",  --  drawing
+     "control_test.adb"  --  controls
    );
 
    package Compiler is

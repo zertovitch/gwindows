@@ -1,1 +1,15 @@
+//  Resource with the toolbar bitmap. File obtained with:
+//  windres -i control_test.rc -o ..\..\obj\control_test.coff
+
+#include <windows.h>
+#include <commctrl.h>
+#include <richedit.h>
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 101		 BITMAP DISCARDABLE	"toolbar.bmp"
+
+//
+// Manifest resources (for Windows XP+ nicer looking controls)
+//
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+1                  RT_MANIFEST    ".\\manifest.xml"
