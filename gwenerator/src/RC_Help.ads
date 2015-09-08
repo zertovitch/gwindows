@@ -70,6 +70,8 @@ package RC_Help is
 
   type Pkg_output is (to_spec, to_body);
 
+  GWen_proj: Unbounded_String;
+
   ------------------------
   -- Style combinations --
   ------------------------

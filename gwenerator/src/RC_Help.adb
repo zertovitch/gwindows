@@ -370,6 +370,9 @@ package body RC_Help is
     Ada_Put_Line(to, "---------------------------------------------------------------------------");
     Ada_Put_Line(to, "-- GUI contents of resource script file: " & S(source_name));
     Ada_Put_Line(to, "-- Transcription time: " & Time_display);
+    if GWen_proj /= "" then
+      Ada_Put_Line(to, "-- GWenerator project file: " & S(GWen_proj));
+    end if;
     Ada_Put_Line(to, "--");
     Ada_Put_Line(to, "-- Translated by the RC2GW or by the GWenerator tool.");
     Ada_Put_Line(to, "-- URL: " & Web);
@@ -789,20 +792,30 @@ package body RC_Help is
     Ada_optional_disabling;
   end Ada_button_control;
 
+  --  Correct casing for Boolean'Image
+  function Img(b: Boolean) return String is
+  begin
+    if b then
+      return "True";
+    else
+      return "False";
+    end if;
+  end Img;
+
   procedure Ada_edit_control is
   begin
     if style_switch(multi_line) then
       Ada_normal_control(
         "Multi_Line_Edit_Box_Type",
         ", " & S(last_text),
-        ", " & Boolean'Image(style_switch(auto_h_scroll))
+        ", " & Img(style_switch(auto_h_scroll))
       );
     else
       Ada_normal_control(
         "Edit_Box_Type",
         ", " & S(last_text),
-        ", Horizontal_Scroll => " & Boolean'Image(style_switch(auto_h_scroll)) &
-        ", Read_Only => " & Boolean'Image(style_switch(read_only))
+        ", Horizontal_Scroll => " & Img(style_switch(auto_h_scroll)) &
+        ", Read_Only => " & Img(style_switch(read_only))
       );
     end if;
   end Ada_edit_control;
@@ -812,7 +825,7 @@ package body RC_Help is
     Ada_normal_control(
       "List_Box_Type",
       "",
-      ", " & Boolean'Image(style_switch(sort))
+      ", " & Img(style_switch(sort))
     );
     if initialize_controls then
       Ada_Put_Line(to_body, "    for N in 0 .. 5 loop");
@@ -828,7 +841,7 @@ package body RC_Help is
     Ada_normal_control(
       Combo_type_name(combo),
       ", " & S(last_text),
-      ", " & Boolean'Image(style_switch(sort))
+      ", " & Img(style_switch(sort))
     );
     if initialize_controls then
       Ada_Put_Line(to_body, "    for N in 0 .. 5 loop");
@@ -917,18 +930,18 @@ package body RC_Help is
            "",
            ", " & Trackbar_Control_Ticks_Type'Image(Trackbar_Control_Ticks) &
            ", " & Control_Direction_Type'Image(Control_Direction) &
-           ", Tips => " & Boolean'Image(style_switch(tips)),
+           ", Tips => " & Img(style_switch(tips)),
            with_id => False
         );
       when up_down =>
         Ada_normal_control(
           "Up_Down_Control_Type",
            "",
-           ", " & Boolean'Image(style_switch(keys)) &
+           ", " & Img(style_switch(keys)) &
            ", " & Control_Direction_Type'Image(Control_Direction) &
-           ", " & Boolean'Image(style_switch(wrap)) &
+           ", " & Img(style_switch(wrap)) &
 						 ", Auto_Buddy => False" &
-           ", Thousands => " & Boolean'Image(not style_switch(no_1000)),
+           ", Thousands => " & Img(not style_switch(no_1000)),
            with_id => False
         );
       when progress =>
@@ -936,7 +949,7 @@ package body RC_Help is
           "Progress_Control_Type",
            "",
            ", " & Control_Direction_Type'Image(Control_Direction) &
-           ", " & Boolean'Image(style_switch(smooth)),
+           ", " & Img(style_switch(smooth)),
           with_id => False
         );
         if initialize_controls then
@@ -951,7 +964,7 @@ package body RC_Help is
           ", " & GWindows.Common_Controls.List_View_Control_Select_Type'Image(lv_select) &
           ", " & GWindows.Common_Controls.List_View_Control_View_Type'Image(lv_type) &
           ", " & GWindows.Common_Controls.List_View_Control_Sort_Type'Image(lv_sort) &
-          ", " & Boolean'Image(lv_auto_arrange) &
+          ", " & Img(lv_auto_arrange) &
           ", " & GWindows.Common_Controls.List_View_Control_Alignment_Type'Image(lv_align),
           with_id => False
        );
@@ -975,10 +988,10 @@ package body RC_Help is
         Ada_normal_control(
           "Tree_View_Control_Type",
           "",
-          ", Buttons=> " & Boolean'Image(style_switch(has_buttons)) &
-          ", Lines => " & Boolean'Image(style_switch(has_lines)) &
-          ", Lines_At_Root => " & Boolean'Image(style_switch(lines_at_root)) &
-          ", Single_Expand => " & Boolean'Image(style_switch(single_expand)),
+          ", Buttons=> " & Img(style_switch(has_buttons)) &
+          ", Lines => " & Img(style_switch(has_lines)) &
+          ", Lines_At_Root => " & Img(style_switch(lines_at_root)) &
+          ", Single_Expand => " & Img(style_switch(single_expand)),
           with_id => False
         );
         if initialize_controls then
@@ -1257,6 +1270,7 @@ package body RC_Help is
   begin
     has_input:= False;
     source_name:= U("");
+    GWen_proj:= U("");
     linenum:= 0;
     --
     base_unit_x:= 6;  -- usual value, overriden with option -x

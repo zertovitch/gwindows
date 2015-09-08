@@ -251,7 +251,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
         {
             VALUE "Authors", "Gautier de Montmollin"
             VALUE "FileDescription", "GWenerator - Resource script (.rc) to GWindows Ada code translator"
-            VALUE "FileVersion", "1.02"
+            VALUE "FileVersion", "1.03"
             VALUE "LegalCopyright", "© 2008..2015 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWenerator"
         }

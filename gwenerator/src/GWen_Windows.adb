@@ -560,6 +560,7 @@ package body GWen_Windows is
       -- Copy the translation options to RC_Help's globals variables.
       -- These variables are used by the code generated into yyparse.adb from RC.y.
       RC_Help.Reset_globals;
+      RC_Help.GWen_proj:= gw.short_name;
       RC_Help.separate_items:= gw.proj.separate_items;
       RC_Help.generate_test:= generate_test;
       if not gw.proj.base_defaults then
