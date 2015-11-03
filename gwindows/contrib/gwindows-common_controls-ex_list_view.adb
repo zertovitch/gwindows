@@ -2,7 +2,6 @@ with System;
 with Ada.unchecked_conversion;
 with Ada.Unchecked_Deallocation;
 with Ada.Exceptions; use Ada.Exceptions;
---with Ada.Text_Io; use Ada.Text_Io;
 
 with GWindows.GStrings;
 with GWindows.Drawing;
@@ -276,6 +275,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       Procname: aliased constant Char_Array := To_C("DllGetVersion");
       ModHandle: Gwindows.Types.Handle;
       FuncPtr: Dll_Get_Version_Func;
+      pragma Unreferenced (FuncPtr);
       Info: aliased Dllversioninfo;
       Ret_Func: Interfaces.C.Unsigned_long;
       pragma Unreferenced (Ret_Func);
@@ -288,8 +288,13 @@ package body GWindows.Common_Controls.Ex_List_View is
                                 Lpprocname => procname);
       -- call dllgetversion
       Info.Cbsize := Info'Size / 8;
-      Ret_Func := FuncPtr(Info'unchecked_access) ;
-      return Natural(Info.MajorVersion);
+      return 6;
+      --  Ret_Func := FuncPtr(Info'unchecked_access) ;  --  ** This hangs GNAT GPL 2015 **
+      --  Put_Line("Major version...." & Info.majorversion'Img);
+      --  Put_Line("Minor version...." & Info.minorversion'Img);
+      --  Put_Line("Build............" & Info.buildnumber'Img);
+      --  Put_Line("Platform........." & Info.platformid'Img);
+      --  return Natural(Info.MajorVersion);
    exception
       when others =>
          return 0;
