@@ -1,13 +1,14 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2014/10/27  15:46:27
+-- Transcription time: 2016/04/02  07:45:24
+-- GWenerator project file: GW_Install.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 22-Apr-2014
+-- RC Grammar version: 05-Apr-2015
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -238,8 +239,8 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Installer for the GWindows programming framework";
-    FileVersion: constant String:= "27-Oct-2014";
-    LegalCopyright: constant String:= "© 2012..2014 G. de Montmollin (MIT license)";
+    FileVersion: constant String:= "31-Dec-2015";
+    LegalCopyright: constant String:= "© 2012 .. 2015 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Installer";
     Translation: constant:= 1033;
   end Version_info;

@@ -1,13 +1,14 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2014/10/27  15:46:27
+-- Transcription time: 2016/04/02  07:45:24
+-- GWenerator project file: GW_Install.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 22-Apr-2014
+-- RC Grammar version: 05-Apr-2015
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -102,9 +103,9 @@ package body GW_Install_Resource_GUI is
     Dlg_to_Scn(  7, 7, 342, 11, x,y,w,h);
     Create_label( Window, "The GWindows framework is already installed in that location. Please check the versions.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  13, 36, 159, 157, x,y,w,h);
-    Create( Window.Installed_version, Window, x,y,w,h, TRUE, ID => Installed_version);
+    Create( Window.Installed_version, Window, x,y,w,h, True, ID => Installed_version);
     Dlg_to_Scn(  185, 36, 159, 157, x,y,w,h);
-    Create( Window.Installer_Version, Window, x,y,w,h, TRUE, ID => Installer_Version);
+    Create( Window.Installer_Version, Window, x,y,w,h, True, ID => Installer_Version);
     Dlg_to_Scn(  14, 22, 105, 8, x,y,w,h);
     Create_label( Window, "Installed version:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  185, 23, 133, 8, x,y,w,h);
@@ -383,7 +384,7 @@ package body GW_Install_Resource_GUI is
     Dlg_to_Scn(  36, 99, 223, 8, x,y,w,h);
     Create_label( Window, "NB: you can install GWindows at several places.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  36, 83, 221, 14, x,y,w,h);
-    Create( Window.Directory_edit, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Directory_edit);
+    Create( Window.Directory_edit, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Directory_edit);
     Dlg_to_Scn(  258, 82, 35, 16, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
@@ -491,7 +492,7 @@ package body GW_Install_Resource_GUI is
     end if;
     Use_GUI_Font(Window);
     Dlg_to_Scn(  51, 39, 183, 17, x,y,w,h);
-    Create( Window.Unpack_progress, Window, x,y,w,h, HORIZONTAL, FALSE);
+    Create( Window.Unpack_progress, Window, x,y,w,h, HORIZONTAL, False);
     Dlg_to_Scn(  9, 7, 277, 12, x,y,w,h);
     Create( Window.File_name, Window, "(name)", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => File_name);
     Dlg_to_Scn(  16, 38, 21, 20, x,y,w,h);
