@@ -17,6 +17,4 @@ package Windows_Timers is
 
   error: exception;
 
-
-
 end Windows_Timers;

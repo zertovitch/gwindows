@@ -207,7 +207,7 @@ package RC_Help is
   procedure Insert_last_symbol;
   procedure Treat_include(fn: String);
 
-  Ada_files: array(pkg_output) of Ada.Text_IO.File_type;
+  Ada_files: array(Pkg_output) of Ada.Text_IO.File_Type;
   Syntax_Error : exception;
   procedure Ada_Begin;
 

@@ -14,7 +14,7 @@ package GWen_Windows is
   type GWen_Window_Type is new GWenerator_Resource_GUI.Main_dialog_Type with record
     proj               : GWens.GWen;
     short_name         : GString_Unbounded;
-    menus              : GWenerator_Resource_GUI.Main_menu_Type;
+    menus              : GWenerator_Resource_GUI.Main_Menu_Type;
     RC_new             : Boolean:= False;
     Ada_new            : Boolean:= False;
     last_save_success  : Boolean;

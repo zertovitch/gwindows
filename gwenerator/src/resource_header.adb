@@ -14,7 +14,7 @@ package body Resource_Header is
     Input_Line_Nr : Integer := 0;
     Line : String (1..1024);
     Len : Integer;
-    Was_Comment : boolean;
+    Was_Comment : Boolean;
     Comment : String (1..256);
     Comment_Len : Integer;
 
@@ -26,7 +26,7 @@ package body Resource_Header is
       procedure Skip_Comment (s : in out String; l : in out Integer) is
         p : Integer := 0;
         str : String (1..s'Last);
-        In_Comment : boolean := false;
+        In_Comment : Boolean := False;
         Comment_Start : Integer;
         Comm_Len : Integer;
       begin
@@ -34,8 +34,7 @@ package body Resource_Header is
 
         if l < 2 then return; end if;
 
-        for i in 1 .. l - 1
-        loop
+        for i in 1 .. l - 1 loop
           if s (i..i+1) ="//"
           then
             Was_Comment := True;
@@ -49,23 +48,19 @@ package body Resource_Header is
           end if;
         end loop;
 
-        for i in 1 .. l
-        loop
-          if (i < l) and then (s (i..i+1) = "/*")
-          then
-            In_Comment := true;
+        for i in 1 .. l loop
+          if (i < l) and then (s (i..i+1) = "/*") then
+            In_Comment := True;
             Comment_Start := i + 2;
           end if;
 
-          if not In_Comment
-          then
+          if not In_Comment then
             p := p + 1;
             str (p) := s (i);
           end if;
 
-          if (i > 1) and then (s (i-1..i) = "*/")
-          then
-            In_Comment := false;
+          if (i > 1) and then (s (i-1..i) = "*/") then
+            In_Comment := False;
 
             Was_Comment := True;
             Comm_Len := i - 1 - Comment_Start;
@@ -78,29 +73,24 @@ package body Resource_Header is
         l := p;
       end Skip_Comment;
     begin
-      for i in s'range
-      loop
-        if S (i) = Character'Val (09)
-        then
+      for i in S'Range loop
+        if S (i) = Character'Val (09) then
           S (i) := ' ';
         end if;
       end loop;
 
-      Was_Comment := false;
+      Was_Comment := False;
       Skip_Comment (S, l);
 
-      while (l > 0) and then (S (l) = ' ')
-      loop
+      while (l > 0) and then (S (l) = ' ') loop
         l := l - 1;
       end loop;
 
-      while (j < l) and then (s (j) = ' ')
-      loop
+      while (j < l) and then (S (j) = ' ') loop
         j := j + 1;
       end loop;
 
-      while (j <= l) and then (s (j) /= ' ')
-      loop
+      while (j <= l) and then (S (j) /= ' ') loop
         pos := pos + 1;
         so (pos) := S (j);
         j := j + 1;
@@ -111,39 +101,32 @@ package body Resource_Header is
         pos := pos + 1;
         so (pos) := ',';
 
-        while (j < l) and then (s (j) = ' ')
-        loop
+        while (j < l) and then (S (j) = ' ') loop
           j := j + 1;
         end loop;
 
-        while (j <= l) and then (s (j) /= ' ')
-        loop
+        while (j <= l) and then (S (j) /= ' ') loop
           pos := pos + 1;
           so (pos) := S (j);
           j := j + 1;
         end loop;
 
-        if j < l
-        then
+        if j < l then
           pos := pos + 1;
           so (pos) := ',';
 
-          while (j < l) and then (s (j) = ' ')
-          loop
+          while (j < l) and then (S (j) = ' ') loop
             j := j + 1;
           end loop;
 
-          if j <= l
-          then
-            while (j <= l) and then (s (j) /= ' ')
-            loop
+          if j <= l then
+            while (j <= l) and then (S (j) /= ' ') loop
               pos := pos + 1;
               so (pos) := S (j);
               j := j + 1;
             end loop;
 
-            if j >= l
-            then
+            if j >= l then
               pos := pos + 1;
               so (pos) := ';';
             end if;
@@ -182,18 +165,15 @@ package body Resource_Header is
         return;
       end if;
 
-      if s (l) /= ';'
-      then
+      if s (l) /= ';' then
         raise Unexpected_Syntax;
       end if;
 
-      if s (f..f+7) /= "#define,"
-      then
+      if s (f..f+7) /= "#define," then
         raise No_Define;
       end if;
 
-      for i in f+8 .. l
-      loop
+      for i in f+8 .. l loop
         if s(i) = ','
         then
           c := i;
@@ -209,14 +189,11 @@ package body Resource_Header is
           if s (d+1) = '(' then d := d+1; end if;
           if s (l-1) = 'L' then l := l-1; end if;
 
-          if s (d+1 .. d+2) = "0x"
-          then
+          if s (d+1 .. d+2) = "0x" then
             dummy := Integer'Value ("16#" & s (d+3..l-1) & "#");
-          elsif s (d+1) = '0'
-          then
+          elsif s (d+1) = '0' then
             dummy := Integer'Value ("8#" & s (d+1..l-1) & "#");
-          elsif s (d+1) = '-' or s (d+1) in '1' .. '9'
-          then
+          elsif s (d+1) = '-' or s (d+1) in '1' .. '9' then
             dummy := Integer'Value (s (d+1..l-1));
           else
             raise Illegal_Number;
@@ -260,13 +237,13 @@ package body Resource_Header is
   exception
     when Unexpected_Syntax  =>
       Close (H_File);
-      raise Unexpected_Syntax with Integer'Image (Input_Line_NR);
+      raise Unexpected_Syntax with Integer'Image (Input_Line_Nr);
 --    when Illegal_Number =>
 --      Close (H_File);
---      raise Illegal_Number with Integer'Image (Input_Line_NR);
+--      raise Illegal_Number with Integer'Image (Input_Line_Nr);
     when No_Define =>
       Close (H_File);
-      raise No_Define with Integer'Image (Input_Line_NR);
+      raise No_Define with Integer'Image (Input_Line_Nr);
   end Convert_Header_File;
 
 end Resource_Header;

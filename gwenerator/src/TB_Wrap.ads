@@ -6,5 +6,5 @@
 generic
 
   with procedure My_main_procedure;
-  
+
 procedure TB_Wrap;

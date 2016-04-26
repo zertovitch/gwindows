@@ -30,16 +30,16 @@ package body GWens.IO is
     proj:= fresh_gwen;
     Open(f, In_File, file_name);
     Skip_Line(f);
-    while not End_of_File(f) loop
+    while not End_Of_File(f) loop
       begin
         Get(f, k);
         case k is
           when RC_name =>
             Get(f, dummy); -- absorb the first separating ' '
-            Get_Line(f, proj.RC_Name);
+            Get_Line(f, proj.RC_name);
             is_gwen_file:= True;
           when RC_listen =>
-            Get(f, proj.RC_Listen);
+            Get(f, proj.RC_listen);
           when RC_auto_trans =>
             Get(f, proj.RC_auto_trans);
           when RC_compile =>
@@ -58,7 +58,7 @@ package body GWens.IO is
           --
           when Ada_main =>
             Get(f, dummy); -- absorb the first separating ' '
-            Get_Line(f, proj.Ada_Main);
+            Get_Line(f, proj.Ada_main);
           when Ada_listen =>
             Get(f, proj.Ada_listen);
           when Ada_auto_build =>
@@ -103,9 +103,9 @@ package body GWens.IO is
       Put(f, ' ');
       case k is
         when RC_name =>
-          Put_Line(f, proj.RC_Name);
+          Put_Line(f, proj.RC_name);
         when RC_listen =>
-          Put(f, proj.RC_Listen);
+          Put(f, proj.RC_listen);
           New_Line(f);
         when RC_auto_trans =>
           Put(f, proj.RC_auto_trans);
@@ -130,11 +130,11 @@ package body GWens.IO is
           Put(f, proj.initialize_controls);
           New_Line(f);
         --
-        when show_ada_Build =>
+        when show_ada_build =>
           Put(f, proj.show_ada_build);
           Put_Line(f, " -- in the UI, show the right part with ada build");
         when Ada_main =>
-          Put_Line(f, proj.Ada_Main);
+          Put_Line(f, proj.Ada_main);
         when Ada_listen =>
           Put(f, proj.Ada_listen);
           New_Line(f);

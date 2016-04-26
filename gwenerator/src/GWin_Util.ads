@@ -31,7 +31,6 @@ package GWin_Util is
 
   procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
 
-
   function Exist(Name : String) return Boolean;
 
   -----------------------------------------

@@ -41,7 +41,7 @@ with Ada.Command_Line;                  use Ada.Command_Line;
 with Ada.Characters.Handling;           use Ada.Characters.Handling;
 with Ada.Text_IO;                       use Ada.Text_IO;
 
-with RC_IO, RC_Help, YYParse;
+with rc_io, RC_Help, YYParse;
 
 procedure RC2GW is
   Inp_Opened  : Boolean := False;
@@ -68,8 +68,9 @@ begin
       arg: constant String:= Argument(i);
       u_arg: constant String:= To_Upper( arg );
     begin
-      if u_arg'length > 1 and then
-        (u_arg(1) = '-' or u_arg(1) = '/') then
+      if u_arg'Length > 1 and then
+        (u_arg(1) = '-' or u_arg(1) = '/')
+      then
         case u_arg(2) is
           when 'X' =>
             RC_Help.base_unit_x:= Positive'Value(u_arg(3..u_arg'Last));
@@ -78,7 +79,7 @@ begin
           when 'S' =>
             RC_Help.separate_items:= True;
           when 'T' =>
-            RC_Help.generate_Test:= True;
+            RC_Help.generate_test:= True;
           when 'C' =>
             RC_Help.initialize_controls:= True;
           when others =>  -- includes "-h", "/?" etc.
@@ -87,15 +88,15 @@ begin
         end case;
       else -- no option
         if Inp_Opened then          -- Two inputs ?!
-          RC_IO.Close_Input;
+          rc_io.Close_Input;
           Syntax;
           return;
         else
           RC_Help.source_name:= RC_Help.U(arg);
           begin
-            RC_IO.Open_Input (fname => arg);
+            rc_io.Open_Input (fname => arg);
             Inp_Opened := True;
-            Put_Line(Standard_error,
+            Put_Line(Standard_Error,
               "RC2GW: transcripting '" & arg &
               "' to GWindows Ada sources." );
           exception
@@ -110,20 +111,20 @@ begin
     end;
   end loop;
 
-  if not Inp_opened then
-    Put_Line(Standard_error,"Missing input file!");
+  if not Inp_Opened then
+    Put_Line(Standard_Error,"Missing input file!");
     Syntax;
     return;
   end if;
 
-  RC_Help.has_input:= inp_opened;
+  RC_Help.has_input:= Inp_Opened;
 
   RC_Help.Ada_Begin;
 
   YYParse;
 
   if Inp_Opened then
-    RC_IO.Close_Input;
+    rc_io.Close_Input;
   end if;
 
 end RC2GW;

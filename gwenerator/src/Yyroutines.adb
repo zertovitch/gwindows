@@ -1,7 +1,6 @@
-with RC_YYlex, RC_tokens;
+with RC_yylex;
 
 package body yyroutines is
-  use RC_tokens;
 
   Lookahead : Token;
   HaveLookahead : Boolean := False;
@@ -13,7 +12,7 @@ package body yyroutines is
       HaveLookahead := False;
       return Lookahead;
     else
-      return RC_YYlex;
+      return RC_yylex;
     end if;
   end YYLex;
 

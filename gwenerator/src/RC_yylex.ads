@@ -1,4 +1,4 @@
-with RC_tokens; use RC_tokens;
-with yylex;
+with Rc_Tokens; use Rc_Tokens;
+with YYLex;
 
-function RC_yylex return token renames yylex;
+function RC_yylex return Token renames YYLex;

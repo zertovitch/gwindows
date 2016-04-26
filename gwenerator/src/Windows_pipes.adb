@@ -96,8 +96,8 @@ package body Windows_pipes is
     Process_Buffer : array (command'First..command'Last+1) of aliased CHAR;
     Start_Path     : array (path'First..path'Last+1) of aliased CHAR;
     --
-    STARTF_USESHOWWINDOW : constant :=   16#1#;
-    STARTF_USESTDHANDLES : constant :=   16#100#;
+    Startf_UseShowWindow : constant :=   16#1#;
+    Startf_UseStdHandles : constant :=   16#100#;
     Startf_flags: constant:= Startf_UseShowWindow + Startf_UseStdHandles;
     SW_HIDE : constant := 0;
     use System;
@@ -106,31 +106,31 @@ package body Windows_pipes is
       raise Output_is_null;
     end if;
     p.text_output := text_output;
-    p.SA.NLength := DWORD(p.SA'Size/8);
-    p.SA.LpSecurityDescriptor := System.Null_Address;
-    p.SA.BInheritHandle := 1; -- BOOL(TRUE)
+    p.SA.nLength := DWORD(p.SA'Size/8);
+    p.SA.lpSecurityDescriptor := System.Null_Address;
+    p.SA.bInheritHandle := 1; -- BOOL(TRUE)
     Created :=
       CreatePipe(
-        p.PipeRead'unrestricted_access,
-        p.PipeWrite'unrestricted_access,
-        p.SA'unrestricted_access,
+        p.PipeRead'Unrestricted_Access,
+        p.PipeWrite'Unrestricted_Access,
+        p.SA'Unrestricted_Access,
         1024
       );
     if Created = 0 then
       raise Cannot_create_pipe;
     end if;
     --
-    p.SI.Cb := DWORD(p.SI'Size/8);
-    p.SI.LpReserved := null;
-    p.SI.LpDesktop := null;
-    p.SI.LpTitle := null;
-    p.SI.DwFlags := Startf_flags;
-    p.SI.WShowWindow := SW_HIDE;
-    p.SI.CbReserved2 := 0;
-    p.SI.LpReserved2 := null;
-    p.SI.HStdInput  := System.Null_Address;
-    p.SI.HStdOutput := p.PipeWrite;
-    p.SI.HStdError  := p.PipeWrite;
+    p.SI.cb := DWORD(p.SI'Size/8);
+    p.SI.lpReserved := null;
+    p.SI.lpDesktop := null;
+    p.SI.lpTitle := null;
+    p.SI.dwFlags := Startf_flags;
+    p.SI.wShowWindow := SW_HIDE;
+    p.SI.cbReserved2 := 0;
+    p.SI.lpReserved2 := null;
+    p.SI.hStdInput  := System.Null_Address;
+    p.SI.hStdOutput := p.PipeWrite;
+    p.SI.hStdError  := p.PipeWrite;
     -- Copy command
     for i in command'Range loop
       Process_Buffer(i) := CHAR(command(i));
@@ -138,31 +138,31 @@ package body Windows_pipes is
     Process_Buffer(Process_Buffer'Last) := CHAR'First;
     -- Copy path
     for i in path'Range loop
-      Start_path(i) := CHAR(path(i));
+      Start_Path(i) := CHAR(path(i));
     end loop;
-    Start_path(Start_path'Last) := CHAR'First;
+    Start_Path(Start_Path'Last) := CHAR'First;
     --
     -- http://msdn.microsoft.com/en-us/library/ms682425(VS.85).aspx
     --
     Created :=
       CreateProcess(
         null,
-        Process_Buffer(Process_Buffer'First)'unchecked_access,
+        Process_Buffer(Process_Buffer'First)'Unchecked_Access,
         null,
         null,
         BOOL(1),  -- inherit handles
         DWORD(0), -- flags
         System.Null_Address,
-        Start_Path(Start_path'First)'unrestricted_access,
-        p.SI'unrestricted_access,
-        p.PI'unrestricted_access
+        Start_Path(Start_Path'First)'Unrestricted_Access,
+        p.SI'Unrestricted_Access,
+        p.PI'Unrestricted_Access
       );
 
-    if Created = 0 or p.Pi.Hprocess = System.Null_Address then
+    if Created = 0 or p.PI.hProcess = System.Null_Address then
       raise Cannot_start;
     end if;
 
-    p.ProcessObject := p.Pi.HProcess;
+    p.ProcessObject := p.PI.hProcess;
     IgnoreBool := CloseHandle(p.PipeWrite);
     p.part_of_line:= Ada.Strings.Unbounded.Null_Unbounded_String;
   end Start;
@@ -229,12 +229,12 @@ package body Windows_pipes is
     begin
       IgnoreBool:= ReadFile(
          p.PipeRead,
-         Buffer(1)'address,
+         Buffer(1)'Address,
          HowManyBytes,
-         NumRead'unrestricted_access,
+         NumRead'Unrestricted_Access,
          null
        );
-       for i in 1..Integer(Numread) loop
+       for i in 1..Integer(NumRead) loop
          case Character(Buffer(i)) is
            when ASCII.CR =>
              Memorize_chunk(mark,i-1);
@@ -247,7 +247,7 @@ package body Windows_pipes is
          end case;
        end loop;
        -- We may have still an incomplete line:
-       Memorize_chunk(mark, Integer(Numread));
+       Memorize_chunk(mark, Integer(NumRead));
     end;
 
   end Read_pipe;
@@ -270,12 +270,12 @@ package body Windows_pipes is
       GetExitCodeProcess(p.ProcessObject, DwExitCode'Unchecked_Access);
     --
     if func_exit_code_result = 0 then -- should never happen
-      p.Processobject := System.Null_Address;
+      p.ProcessObject := System.Null_Address;
       p.exit_code:= 666;
       return;
     end if;
     if DwExitCode /= STILL_ACTIVE_W then -- died
-      p.Processobject := System.Null_Address;
+      p.ProcessObject := System.Null_Address;
       p.exit_code:= Integer(DwExitCode);
       return;
     end if;

@@ -25,7 +25,7 @@ with Ada.Text_IO;                       use Ada.Text_IO;
 with Ada.Text_IO.Unbounded_IO;          use Ada.Text_IO.Unbounded_IO;
 with Ada.Calendar;
 
-with RC_IO, RC_Help, YYParse, Resource_Header;
+with rc_io, RC_Help, YYParse, Resource_Header;
 
 with GWens.IO;
 with Time_display;
@@ -156,7 +156,7 @@ package body GWen_Windows is
   procedure On_Build_Button_Click (Window : in out GWindows.Base.Base_Window_Type'Class) is
     gw: GWen_Window_Type renames GWen_Window_Type(Parent(Window).all);
   begin
-    gw.Show_Ada_Build.State(not gw.Show_Ada_Build.State);
+    gw.Show_Ada_build.State(not gw.Show_Ada_build.State);
     On_Build_Check_Box_Click(Window);
   end On_Build_Button_Click;
 
@@ -170,7 +170,7 @@ package body GWen_Windows is
 
     procedure Update_base_units ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
       pragma Warnings(off, dummy);
-      use_defaults_checked: constant Boolean:= dlg.Use_Base_defs.State = Checked;
+      use_defaults_checked: constant Boolean:= dlg.Use_base_defs.State = Checked;
     begin
       Enabled(dlg.Basx, not use_defaults_checked);
       Enabled(dlg.Basy, not use_defaults_checked);
@@ -234,7 +234,7 @@ package body GWen_Windows is
     procedure Get_Data ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
       pragma Warnings(off, dummy);
     begin
-      candidate.RC_Name       := U(dlg.Edit_RC_File_Name.Text);
+      candidate.RC_name       := U(dlg.Edit_RC_File_Name.Text);
       candidate.RC_listen     := dlg.Listen_RC.State = Checked;
       candidate.RC_auto_trans := dlg.Auto_translate.State = Checked;
       for ch in GWens.RC_compiler_choice loop
@@ -246,10 +246,10 @@ package body GWen_Windows is
       candidate.separate_items      := dlg.Separate_items.State = Checked;
       candidate.base_x              := Integer'Value(dlg.Basx.Text);
       candidate.base_y              := Integer'Value(dlg.Basy.Text);
-      candidate.base_defaults       := dlg.Use_Base_defs.State = Checked;
+      candidate.base_defaults       := dlg.Use_base_defs.State = Checked;
       candidate.initialize_controls := dlg.Initialize_controls.State = Checked;
       --
-      candidate.Ada_Main      := U(dlg.Edit_Main_Ada_File_Name.Text);
+      candidate.Ada_main      := U(dlg.Edit_Main_Ada_File_Name.Text);
       candidate.Ada_listen    := dlg.Listen_Ada.State = Checked;
       candidate.Ada_auto_build:= dlg.Auto_build.State = Checked;
       --
@@ -286,7 +286,7 @@ package body GWen_Windows is
     dlg.Separate_items.State(Bool_to_Check(candidate.separate_items));
     dlg.Basx.Text(Integer'Image(candidate.base_x));
     dlg.Basy.Text(Integer'Image(candidate.base_y));
-    dlg.Use_Base_defs.State(Bool_to_Check(candidate.base_defaults));
+    dlg.Use_base_defs.State(Bool_to_Check(candidate.base_defaults));
     dlg.Initialize_controls.State(Bool_to_Check(candidate.initialize_controls));
     --
     -- - Ada background compilation box:
@@ -300,7 +300,7 @@ package body GWen_Windows is
     dlg.Center;
     --
     On_Destroy_Handler (dlg, Get_Data'Unrestricted_Access);
-    On_Click_Handler (dlg.Use_Base_defs, Update_base_units'Unrestricted_Access);
+    On_Click_Handler (dlg.Use_base_defs, Update_base_units'Unrestricted_Access);
     On_Click_Handler (dlg.Button_Browse_RC_permanent, Select_RC'Unrestricted_Access);
     On_Click_Handler (dlg.Button_Browse_Ada_permanent, Select_Ada'Unrestricted_Access);
     Update_base_units(Window);
@@ -445,7 +445,7 @@ package body GWen_Windows is
       then
         return;
       end if;
-      Window.Short_Name:= File_Title;
+      Window.short_name:= File_Title;
       Window.proj.name := New_File_Name;
       Window.proj.titled:= True;
       GWens.IO.Save (Window.proj);
@@ -455,7 +455,7 @@ package body GWen_Windows is
   end On_Save_As;
 
   procedure On_About (Window : in out GWen_Window_Type) is
-    box: About_Box_Type;
+    box: About_box_Type;
     url_gnat, url_gnavi_1, url_gnavi_2, url_resedit: URL_Type;
     package CVer is new GNAT.Compiler_Version;
   begin
@@ -571,7 +571,7 @@ package body GWen_Windows is
       RC_Help.source_name:= gw.proj.RC_name;
       gw.Bar_RC.Position(15);
       --
-      RC_IO.Open_Input(S(gw.proj.RC_name));
+      rc_io.Open_Input(S(gw.proj.RC_name));
       Create(fe, Out_File, ""); -- temp file
       Create(fo, Out_File, ""); -- temp file
       declare
@@ -581,9 +581,9 @@ package body GWen_Windows is
       begin
         Set_Error(fe);
         Set_Output(fo);
-        Put_Line(Current_error, "GWenerator - RC to GWindows" );
-        Put_Line(Current_error, "Transcripting '" & S(gw.proj.RC_name) & "'." );
-        Put_Line(Current_error, "Time now: " & Time_display );
+        Put_Line(Current_Error, "GWenerator - RC to GWindows" );
+        Put_Line(Current_Error, "Transcripting '" & S(gw.proj.RC_name) & "'." );
+        Put_Line(Current_Error, "Time now: " & Time_display );
         RC_Help.has_input:= True;
         RC_Help.Ada_Begin;
         begin
@@ -595,7 +595,7 @@ package body GWen_Windows is
                Resource_Header.Illegal_Number    =>
             null; --!!
         end;
-        RC_IO.Close_Input;
+        rc_io.Close_Input;
         Set_Error(Standard_Error);
         Set_Error(Standard_Output);
         Close(fe);
@@ -607,7 +607,7 @@ package body GWen_Windows is
         -- Output the rc2gw messages into the box
         Open(fe, In_File, se);
         Clear(gw.RC_to_GWindows_messages);
-        while not End_of_File(fe) loop
+        while not End_Of_File(fe) loop
           Get_Line(fe, line);
           Add(gw.RC_to_GWindows_messages, S(line));
         end loop;
@@ -749,10 +749,10 @@ package body GWen_Windows is
     Small_Icon (Window, "AAA_Main_Icon");
     Large_Icon (Window, "AAA_Main_Icon");
     Window.Create_Contents(for_dialog => False);
-    Window.menus.Create_Full_menu;
-    Window.Menu(Window.menus.main);
+    Window.menus.Create_Full_Menu;
+    Window.Menu(Window.menus.Main);
     Window.Accelerator_Table('#' & Trim(Integer'Image(Main_Menu),Left));
-    if Argument_count=0 then
+    if Argument_Count=0 then
       Window.On_New;
     else
       GWens.IO.Load(
@@ -928,10 +928,10 @@ package body GWen_Windows is
     end if;
     -- Call parent method
     On_Message(
-      Window_type(Window),
+      Window_Type(Window),
       message,
-      wPAram,
-      lPAram,
+      wParam,
+      lParam,
       Return_Value
     );
   end On_Message;
@@ -955,14 +955,14 @@ package body GWen_Windows is
       -- Action menu:
       when Generate_test_app =>
         Translation(Window, generate_test => True);
-      when Start_Main_App =>
+      when Start_main_app =>
         GWin_Util.Start(
           File      => S(Window.proj.Ada_main) ,
           Parameter => "",
           Minimized => False
         );
       when Compile_resource_only =>
-         Resource_compilation(window, optional => False);
+         Resource_compilation(Window, optional => False);
       -- Options menu:
       when GWen_Options =>
         Window.On_Options;

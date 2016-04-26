@@ -95,11 +95,11 @@ private
          hStdOutput : HANDLE;
          hStdError  : HANDLE;
       end record;
-   subtype STARTUPINFO is STARTUPINFOA;
+   subtype StartupInfo is STARTUPINFOA;
 
    type LPSTARTUPINFOA is access all STARTUPINFOA;
 
-   type PROCESS_INFORMATION is
+   type Process_Information is
       record
          hProcess : HANDLE;
          hThread  : HANDLE;
@@ -107,17 +107,17 @@ private
          dwThreadId  : DWORD;
       end record;
 
-   type PPROCESS_INFORMATION is access all PROCESS_INFORMATION;
+   type PPROCESS_INFORMATION is access all Process_Information;
    subtype LPPROCESS_INFORMATION is PPROCESS_INFORMATION;
 
-   type SECURITY_ATTRIBUTES is
+   type Security_Attributes is
       record
          nLength : DWORD;
          lpSecurityDescriptor : LPVOID;
          bInheritHandle : BOOL;
       end record;
 
-   type PSECURITY_ATTRIBUTES is access all SECURITY_ATTRIBUTES;
+   type PSECURITY_ATTRIBUTES is access all Security_Attributes;
    subtype LPSECURITY_ATTRIBUTES is PSECURITY_ATTRIBUTES;
 
    type Piped_process is record

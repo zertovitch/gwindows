@@ -65,13 +65,13 @@ package body GWin_Util is
      function GetObject
        (hgdiobj  : GWindows.Types.Handle  := GWindows.Drawing_Objects.Handle(GUI_Font);
         cbBufferl: Interfaces.C.int       := LOGFONT'Size / 8;
-        lpvObject: LPVOID                 := Log_of_Current_font'Address)
+        lpvObject: LPVOID                 := Log_of_current_font'Address)
        return Interfaces.C.int;
      pragma Import (StdCall, GetObject,
                       "GetObject" & Character_Mode_Identifier);
 
      function CreateFontIndirect
-       (lpvObject: LPVOID                 := Log_of_Current_font'Address)
+       (lpvObject: LPVOID                 := Log_of_current_font'Address)
        return GWindows.Types.Handle;
      pragma Import (StdCall, CreateFontIndirect,
                       "CreateFontIndirect" & Character_Mode_Identifier);
@@ -87,8 +87,8 @@ package body GWin_Util is
           14, Underline => True);
             -- !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
       else
-        Log_of_Current_font.lfUnderline:= Interfaces.C.Char'Val(1);
-        GWindows.Drawing_Objects.Handle(URL_font, CreateFontIndirect);
+        Log_of_current_font.lfUnderline:= Interfaces.C.char'Val(1);
+        GWindows.Drawing_Objects.Handle(URL_Font, CreateFontIndirect);
       end if;
     end Create_Common_Fonts;
 
@@ -100,7 +100,6 @@ package body GWin_Util is
     --  Use Standard Windows GUI font instead of system font
     GWindows.Base.Set_Font (Window, Common_Fonts.GUI_Font);
   end Use_GUI_Font;
-
 
   function To_URL_Encoding( s: String ) return String is
     p: Integer;
@@ -137,11 +136,11 @@ package body GWin_Util is
   )
   is
 
-    C_Operation  : aliased Interfaces.C.Char_Array :=
+    C_Operation  : aliased Interfaces.C.char_array :=
                            Interfaces.C.To_C("open");
-    C_Executable : aliased Interfaces.C.Char_Array :=
+    C_Executable : aliased Interfaces.C.char_array :=
                            Interfaces.C.To_C(File);
-    C_Parameter  : aliased Interfaces.C.Char_Array :=
+    C_Parameter  : aliased Interfaces.C.char_array :=
                            Interfaces.C.To_C(Parameter);
     -- Parts from Win32Ada:
     subtype PVOID is System.Address;
@@ -152,8 +151,8 @@ package body GWin_Util is
     --
     Exe : HINSTANCE;
     pragma Warnings(Off, Exe);
-    SW_SHOWNORMAL    : constant := 1;
-    SW_SHOWMINIMIZED : constant := 2;
+    SW_ShowNormal    : constant := 1;
+    SW_ShowMinimized : constant := 2;
     sw: constant array( Boolean ) of INT:=
       (SW_ShowNormal,
        SW_ShowMinimized);
@@ -183,20 +182,20 @@ package body GWin_Util is
       return HINSTANCE
       renames ShellExecuteA;                       --  shellapi.h:54
   begin
-    Exe := Shellexecute
-     (Hwnd0        => Getfocus,
-      Lpoperation  => C_Operation (C_Operation'First)'Unchecked_Access,
-      Lpfile       => C_Executable(C_Executable'First)'Unchecked_Access,
-      Lpparameters => C_Parameter (C_Parameter'First)'Unchecked_Access,
-      Lpdirectory  => null,
-      Nshowcmd     => sw(minimized));
+    Exe := ShellExecute
+     (hwnd0        => GetFocus,
+      lpOperation  => C_Operation (C_Operation'First)'Unchecked_Access,
+      lpFile       => C_Executable(C_Executable'First)'Unchecked_Access,
+      lpParameters => C_Parameter (C_Parameter'First)'Unchecked_Access,
+      lpDirectory  => null,
+      nShowCmd     => sw(Minimized));
   end Start;
 
   -- EXEC improved by :
   --  Martin C. Carlisle, Asst Prof of Comp Sci,
   --  US Air Force Academy, mcc@cs.usafa.af.mil
 
-  procedure EXEC(name: String; param:String:="") is
+  procedure Exec(name: String; param:String:="") is
     num_params : Integer := 1;
     use GNAT.OS_Lib;
   begin
@@ -222,21 +221,21 @@ package body GWin_Util is
         new String'(param(last_start..param'Last));
       Spawn(name, a_param_list, ok);
       if not ok then
-        raise_exception(Exec_failed'Identity, name & " " & param);
+        Raise_Exception(Exec_failed'Identity, name & " " & param);
       end if;
     end;
-  end EXEC;
+  end Exec;
 
   function GET_ENV_INFO(name:String) return String is
   begin
-    return GNAT.OS_Lib.getenv(name).all;
+    return GNAT.OS_Lib.Getenv(name).all;
   end GET_ENV_INFO;
 
-  procedure EXEC_COMMAND(the_command:String) is
+  procedure Exec_Command(the_command:String) is
   begin
-    EXEC( GET_ENV_INFO("COMSPEC")     -- i.e."C:\COMMAND.COM" ou equiv.
+    Exec( GET_ENV_INFO("COMSPEC")     -- i.e."C:\COMMAND.COM" ou equiv.
           , "/C " & the_command);
-  end EXEC_COMMAND;
+  end Exec_Command;
 
   -- ** Moved to new GWindows.Static_Controls.Web
 

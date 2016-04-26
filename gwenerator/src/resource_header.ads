@@ -7,7 +7,6 @@ package Resource_Header is
   -- This procedure converts a resource header file (containing only #defines for resource ids)
   -- into an equivalent Ada spec file
 
-
   Unexpected_Syntax : exception;
   No_Define         : exception;
   Illegal_Number    : exception;
