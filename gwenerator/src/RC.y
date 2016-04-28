@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script grammar file (AYACC)
 --
---  Copyright (c) Gautier de Montmollin 2008..2014
+--  Copyright (c) Gautier de Montmollin 2008 .. 2016
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -261,6 +261,7 @@ ws_style  :
           |       WS_BORDER_t
             { style_switch(simple_border):= True; }
           | NOT_t WS_BORDER_t
+            { style_switch(simple_border):= False; }
           |       WS_VISIBLE_t
             { style_switch(hidden):= False; }
           | NOT_t WS_VISIBLE_t
@@ -755,6 +756,10 @@ ss_style  : SS_NOPREFIX_t
 ----------------
 
 edittext  : EDITTEXT_t
+            { style_switch(simple_border):= True;  
+              --  By default in GWindows (and elsewhere), edit boxes have borders.
+              --  ResEdit adds the style NOT WS_BORDER to hide the border
+            }
             edit_text
             ctrl_properties_notext
             es_styles_optional -- also with optional extended styles

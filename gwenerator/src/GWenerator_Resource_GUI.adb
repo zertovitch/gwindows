@@ -1,14 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2015/09/08  14:42:27
--- GWenerator project file: GWenerator.gwen
+-- Transcription time: 2016/04/28  15:21:28
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 05-Apr-2015
+-- RC Grammar version: 28-Apr-2016
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -137,7 +136,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  47, 10, 165, 8, x,y,w,h);
     Create_label( Window, "GWenerator: a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  47, 25, 196, 8, x,y,w,h);
-    Create_label( Window, "Copyright © Gautier de Montmollin 2008..2015", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_label( Window, "Copyright © Gautier de Montmollin 2008 .. 2016", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  47, 40, 100, 8, x,y,w,h);
     Create_label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  11, 55, 30, 8, x,y,w,h);
@@ -240,7 +239,7 @@ package body GWenerator_Resource_GUI is
       Hide(Window.IDCANCEL);
     end if;
     Dlg_to_Scn(  83, 17, 168, 15, x,y,w,h);
-    Create( Window.Edit_RC_File_Name, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Edit_RC_File_Name);
+    Create( Window.Edit_RC_File_Name, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Edit_RC_File_Name);
     Dlg_to_Scn(  20, 20, 60, 8, x,y,w,h);
     Create_label( Window, "File name", x,y,w,h, GWindows.Static_Controls.RIGHT, NONE);
     Dlg_to_Scn(  253, 17, 43, 14, x,y,w,h);
@@ -263,7 +262,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  130, 198, 131, 10, x,y,w,h);
     Create( Window.Auto_build, Window, "Automatically build when GUI newer", x,y,w,h, ID => Auto_build);
     Dlg_to_Scn(  83, 173, 168, 15, x,y,w,h);
-    Create( Window.Edit_Main_Ada_File_Name, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Edit_Main_Ada_File_Name);
+    Create( Window.Edit_Main_Ada_File_Name, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Edit_Main_Ada_File_Name);
     Dlg_to_Scn(  253, 173, 43, 14, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
@@ -282,11 +281,11 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  23, 110, 270, 10, x,y,w,h);
     Create( Window.Separate_items, Window, "Produce a separate package for each item", x,y,w,h, ID => Separate_items);
     Dlg_to_Scn(  63, 125, 20, 15, x,y,w,h);
-    Create( Window.Basx, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Basx);
+    Create( Window.Basx, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Basx);
     Dlg_to_Scn(  23, 125, 39, 8, x,y,w,h);
     Create_label( Window, "Base unit x:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  100, 125, 20, 15, x,y,w,h);
-    Create( Window.Basy, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Basy);
+    Create( Window.Basy, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Basy);
     Dlg_to_Scn(  88, 125, 10, 8, x,y,w,h);
     Create_label( Window, " y:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  128, 125, 55, 10, x,y,w,h);
@@ -296,7 +295,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  10, 220, 288, 30, x,y,w,h);
     Create( Window.Static_0007, Window, "Ada builder command line ( facultative )", x,y,w,h);
     Dlg_to_Scn(  15, 230, 275, 14, x,y,w,h);
-    Create( Window.Ada_cmd, Window, "", x,y,w,h, Horizontal_Scroll => TRUE, Read_Only => FALSE, ID => Ada_cmd);
+    Create( Window.Ada_cmd, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Ada_cmd);
     Dlg_to_Scn(  18, 178, 60, 8, x,y,w,h);
     Create_label( Window, "Executable", x,y,w,h, GWindows.Static_Controls.RIGHT, NONE);
     Dlg_to_Scn(  23, 140, 275, 10, x,y,w,h);
@@ -304,7 +303,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  20, 65, 155, 8, x,y,w,h);
     Create_label( Window, "Invoking resource compiler from GWenerator...", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  180, 63, 110, 15, x,y,w,h);
-    Create( Window.RC_Compiler_list, Window, "", x,y,w,h, FALSE, ID => RC_Compiler_list);
+    Create( Window.RC_Compiler_list, Window, "", x,y,w,h, False, ID => RC_Compiler_list);
   end Create_Contents; -- GWen_properties_Type
 
 
@@ -367,9 +366,9 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  5, 105, 390, 135, x,y,w,h);
     Create( Window.Details_frame, Window, "Details", x,y,w,h);
     Dlg_to_Scn(  12, 132, 185, 105, x,y,w,h);
-    Create( Window.RC_to_GWindows_messages, Window, x,y,w,h, FALSE, ID => RC_to_GWindows_messages);
+    Create( Window.RC_to_GWindows_messages, Window, x,y,w,h, False, ID => RC_to_GWindows_messages);
     Dlg_to_Scn(  210, 132, 182, 105, x,y,w,h);
-    Create( Window.GNATMake_messages, Window, x,y,w,h, FALSE, ID => GNATMake_messages);
+    Create( Window.GNATMake_messages, Window, x,y,w,h, False, ID => GNATMake_messages);
     Dlg_to_Scn(  10, 117, 88, 8, x,y,w,h);
     Create_label( Window, "Resource to Ada messages", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
     Dlg_to_Scn(  212, 117, 115, 8, x,y,w,h);
@@ -397,9 +396,9 @@ package body GWenerator_Resource_GUI is
       Hide(Window.Button_Build);
     end if;
     Dlg_to_Scn(  67, 62, 100, 10, x,y,w,h);
-    Create( Window.Bar_RC, Window, x,y,w,h, HORIZONTAL, TRUE);
+    Create( Window.Bar_RC, Window, x,y,w,h, HORIZONTAL, True);
     Dlg_to_Scn(  245, 62, 100, 10, x,y,w,h);
-    Create( Window.Bar_Ada, Window, x,y,w,h, HORIZONTAL, TRUE);
+    Create( Window.Bar_Ada, Window, x,y,w,h, HORIZONTAL, True);
     Dlg_to_Scn(  245, 12, 23, 21, x,y,w,h);
     Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
     Dlg_to_Scn(  67, 12, 23, 21, x,y,w,h);

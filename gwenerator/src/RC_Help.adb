@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008..2015
+--  Copyright (c) Gautier de Montmollin 2008 .. 2016
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -816,6 +816,9 @@ package body RC_Help is
         ", Horizontal_Scroll => " & Img(style_switch(auto_h_scroll)) &
         ", Read_Only => " & Img(style_switch(read_only))
       );
+    end if;
+    if not style_switch(simple_border) then
+      Ada_Put_Line(to_body, "    Border (Window." & S(last_Ada_ident) & ", False);");
     end if;
   end Ada_edit_control;
 
