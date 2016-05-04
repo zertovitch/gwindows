@@ -1,55 +1,55 @@
-with Demo_Exlv_Pkg; use Demo_Exlv_Pkg;
+with Demo_exlv_Pkg; use Demo_exlv_Pkg;
 
-with Gwindows.Windows.Main;
-with Gwindows.Application;
-with Gwindows.Common_Controls;
-with Gwindows.Gstrings;
-with Gwindows.Drawing_Objects;
-with Gwindows.Buttons;
-with Gwindows.Base;
+with GWindows.Windows.Main;
+with GWindows.Application;
+with GWindows.Common_Controls;
+with GWindows.GStrings;
+with GWindows.Drawing_Objects;
+with GWindows.Buttons;
+with GWindows.Base;
 
 -- with Ada.Text_IO;
 with Ada.Command_Line;
 
 -- demonstrates the sorting and autosize of columns
 procedure Demo_Exlv3 is
-   use Gwindows.Windows.Main;
-   use Gwindows.Gstrings;
-   use Gwindows.Buttons;
+   use GWindows.Windows.Main;
+   use GWindows.GStrings;
+   use GWindows.Buttons;
 
-   Font: Gwindows.Drawing_Objects.Font_Type;
+   Font: GWindows.Drawing_Objects.Font_Type;
    Main: Main_Window_Type;
-   List: my_List_View_Type;
-   my_Gen: my_Random_Pkg.Generator;
+   List: My_List_View_Type;
+   my_Gen: My_Random_Pkg.Generator;
    Check: Check_Box_Type;
    Button: Button_Type;
 
-   function Random_Date return Gwindows.Gstring is
-      Day: Positive := my_Random_Pkg.Random(my_Gen) * 2;
-      month: Positive := my_Random_Pkg.Random(my_Gen);
-      year: Positive := my_Random_Pkg.Random(my_Gen) * 6 + 1940;
+   function Random_Date return GWindows.GString is
+      Day: Positive := My_Random_Pkg.Random(my_Gen) * 2;
+      month: Positive := My_Random_Pkg.Random(my_Gen);
+      year: Positive := My_Random_Pkg.Random(my_Gen) * 6 + 1940;
       S_Day, S_Month: String(1..2);
       S_Year: String(1..4);
    begin
       if Day > 9 then
          S_Day := Integer'Image(Day)(2..3);
       else
-         S_Day := '0' & integer'Image(Day)(2);
+         S_Day := '0' & Integer'Image(Day)(2);
       end if;
       if month > 9 then
-         S_month := Integer'Image(month)(2..3);
+         S_Month := Integer'Image(month)(2..3);
       else
-         S_month := '0' & integer'Image(month)(2);
+         S_Month := '0' & Integer'Image(month)(2);
       end if;
-      S_year := Integer'Image(year)(2..5);
+      S_Year := Integer'Image(year)(2..5);
 
-      return To_Gstring_From_String(S_Day & "." & S_Month & "." & S_Year);
+      return To_GString_From_String(S_Day & "." & S_Month & "." & S_Year);
    end Random_Date;
 
-   function My_compare(Control : in My_List_View_Pkg.Ex_List_View_Control_Type;
+   function My_Compare(Control : in My_List_View_Pkg.Ex_List_View_Control_Type;
                        Column : in Natural;
-                       Value1a: in Gwindows.Gstring;
-                       Value2a: in Gwindows.Gstring) return Integer is
+                       Value1a: in GWindows.GString;
+                       Value2a: in GWindows.GString) return Integer is
    pragma Unreferenced (Control);
       Value1: GWindows.GString(1..Value1a'Length):= Value1a;
       Value2: GWindows.GString(1..Value2a'Length):= Value2a;
@@ -66,8 +66,8 @@ procedure Demo_Exlv3 is
       else
          -- date (format is DD.MM.YYYY)
          declare -- new format is YYYYMMDD
-            New_Value1: Gwindows.GString(1..8) := Value1(7..10) & Value1(4..5) & Value1(1..2);
-            New_Value2: Gwindows.GString(1..8) := Value2(7..10) & Value2(4..5) & Value2(1..2);
+            New_Value1: GWindows.GString(1..8) := Value1(7..10) & Value1(4..5) & Value1(1..2);
+            New_Value2: GWindows.GString(1..8) := Value2(7..10) & Value2(4..5) & Value2(1..2);
          begin
             -- compare
             if New_Value1 > New_Value2 then
@@ -81,7 +81,7 @@ procedure Demo_Exlv3 is
       end if;
    end My_Compare;
 
-   procedure Do_On_check(Window: in out Gwindows.Base.Base_Window_Type'Class)is
+   procedure Do_On_Check(Window: in out GWindows.Base.Base_Window_Type'Class)is
    begin
       if State(Check_Box_Type(Window)) = Checked then
          -- set the compare event
@@ -93,20 +93,20 @@ procedure Demo_Exlv3 is
                             Event => null);
       end if;
 
-   end Do_On_check;
+   end Do_On_Check;
 
-   procedure Do_On_Button_click(Window: in out Gwindows.Base.Base_Window_Type'Class)is
+   procedure Do_On_Button_Click(Window: in out GWindows.Base.Base_Window_Type'Class)is
    pragma Unreferenced (Window);
    begin
       for I in 0..Column_Count(List)-1 loop
          Autosize(Control => List,
                   Column => I);
       end loop;
-   end do_on_button_click;
+   end Do_On_Button_Click;
 
 begin
    -- font
-   Gwindows.Drawing_Objects.Create_Stock_Font(Font, Gwindows.Drawing_objects.ANSI_Variable_Width);
+   GWindows.Drawing_Objects.Create_Stock_Font(Font, GWindows.Drawing_Objects.ANSI_Variable_Width);
 
    -- main
    Create(Main, "Test ex_list_view - sorting - " & To_GString_From_String(Ada.Command_Line.Command_Name), 0, 0, 680, 500);
@@ -121,13 +121,13 @@ begin
           Top     => 20,
           Width   => 400,
           Height  => 400,
-          Sort => Gwindows.Common_Controls.Sort_custom,
-          View => Gwindows.Common_Controls.Report_View);
+          Sort => GWindows.Common_Controls.Sort_Custom,
+          View => GWindows.Common_Controls.Report_View);
 
    -- styles
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Grid);
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Full_Row_Select);
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Header_Drag_Drop);
+   Set_Extended_Style(Control => List, Style => My_List_View_Pkg.Grid);
+   Set_Extended_Style(Control => List, Style => My_List_View_Pkg.Full_Row_Select);
+   Set_Extended_Style(Control => List, Style => My_List_View_Pkg.Header_Drag_Drop);
 
    -- columns
    Insert_Column (Control => List,
@@ -152,11 +152,11 @@ begin
       for I in 0..99 loop
          L_Index := I;
          Insert_Item (Control => List,
-                      Text => To_Gstring_From_String("Item" & natural'Image(I) & "/0"),
+                      Text => To_GString_From_String("Item" & Natural'Image(I) & "/0"),
                       Index => L_Index,
-                      Sorted_Index => L_Sorted_index);
+                      Sorted_Index => L_Sorted_Index);
          Set_Sub_Item (Control => List,
-                       Text    => To_Gstring_From_String(natural'Image(I) & "/1"),
+                       Text    => To_GString_From_String(Natural'Image(I) & "/1"),
                        Index => L_Sorted_Index,
                        Sub_Index => 1);
 
@@ -179,20 +179,20 @@ begin
           Height => 25);
    On_Click_Handler(Check, Do_On_Check'Unrestricted_Access);
 
-   Create(Button => button,
+   Create(Button => Button,
           Parent => Main,
           Text => "autosize columns",
           Left => 450,
           Top => 100,
           Width => 130,
           Height => 22);
-   On_Click_Handler(button, Do_On_Button_click'Unrestricted_Access);
+   On_Click_Handler(Button, Do_On_Button_Click'Unrestricted_Access);
 
    -- start with sort on column 1
-   Sort(List, 1, My_List_View_Pkg.down, true);
+   Sort(List, 1, My_List_View_Pkg.Down, True);
 
    Show(Main);
-   Gwindows.Application.Message_Loop;
+   GWindows.Application.Message_Loop;
 
 end Demo_Exlv3;
 

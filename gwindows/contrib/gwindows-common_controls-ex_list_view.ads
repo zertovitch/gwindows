@@ -136,15 +136,15 @@ package GWindows.Common_Controls.Ex_List_View is
    -- the control manages the pointer only!
    procedure Item_Data(Control : in Ex_List_View_Control_Type;
                        Index   : in Natural;
-                       Payload : in Data_access);
+                       Payload : in Data_Access);
    -- returns a pointer to payload data
    function Item_Data(Control : in Ex_List_View_Control_Type;
-                      Index   : in Natural) return Data_access;
+                      Index   : in Natural) return Data_Access;
 
    -- event to free the payload by the user of the library
-   type Free_Payload_event is access
+   type Free_Payload_Event is access
      procedure (Control: in out Ex_List_View_Control_Type;
-                Payload: out Data_access);
+                Payload: out Data_Access);
 
    -- event-handler for free payload
    procedure On_Free_Payload_Handler(Control: in out Ex_List_View_Control_Type;
@@ -157,7 +157,7 @@ package GWindows.Common_Controls.Ex_List_View is
 
    -- colors for paint the sort icon
    Sort_Icon_Pen_Color: Color_Type := To_Color(100,100,100);
-   Sort_Icon_brush_Color: Color_Type := To_Color(100,100,100);
+   Sort_Icon_Brush_Color: Color_Type := To_Color(100,100,100);
 
    -- The control use an alphabetical sorting by default.
    -- if you want another sorting then your own sorting routine can be set here
@@ -174,7 +174,7 @@ package GWindows.Common_Controls.Ex_List_View is
                Value2 : in GString) return Integer;
 
    -- Alternatively, you can dynamically set a handler.
-   type Compare_event is access
+   type Compare_Event is access
      function (Control: in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
@@ -210,10 +210,10 @@ private
 
    -- internal
    type Internal_Color_Type is record
-      Textcolor: Color_Type := nullcolor;
-      Backcolor: Color_Type := nullcolor;
+      Textcolor: Color_Type := NullColor;
+      Backcolor: Color_Type := NullColor;
    end record;
-   type Internal_Color_Array_Type is array (natural range <>) of Internal_color_Type;
+   type Internal_Color_Array_Type is array (Natural range <>) of Internal_Color_Type;
    type Internal_Color_Array_Access is access all Internal_Color_Array_Type;
    type Internal_Type is
       record
@@ -228,9 +228,9 @@ private
       record
          Sort_Column: Integer := -1;
          Sort_Direction: Integer := 0;
-         Icon_visible: Boolean := True;
+         Icon_Visible: Boolean := True;
          Sort_Pen: GWindows.Drawing_Objects.Pen_Type;
-         Sort_brush: GWindows.Drawing_Objects.brush_Type;
+         Sort_Brush: GWindows.Drawing_Objects.Brush_Type;
       end record;
 
    -- control_type
@@ -251,13 +251,13 @@ private
    procedure On_Create(Control: in out Ex_List_View_Control_Type);
    procedure On_Message(control       : in out Ex_List_View_Control_Type;
                         message      : in     Interfaces.C.unsigned;
-                        wParam       : in     GWindows.Types.wparam;
-                        lParam       : in     GWindows.Types.lparam;
-                        Return_Value : in out GWindows.Types.lresult);
+                        wParam       : in     GWindows.Types.Wparam;
+                        lParam       : in     GWindows.Types.Lparam;
+                        Return_Value : in out GWindows.Types.Lresult);
    procedure On_Notify (Window       : in out Ex_List_View_Control_Type;
                         Message      : in     GWindows.Base.Pointer_To_Notification;
                         Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out GWindows.Types.lresult    );
+                        Return_Value : in out GWindows.Types.Lresult    );
    procedure On_Destroy (control : in out Ex_List_View_Control_Type);
    procedure Delete_Item (Control : in out Ex_List_View_Control_Type;
                           Index   : in     Integer);

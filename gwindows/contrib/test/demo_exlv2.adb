@@ -1,38 +1,38 @@
-with Demo_Exlv_Pkg; use Demo_Exlv_Pkg;
+with Demo_exlv_Pkg; use Demo_exlv_Pkg;
 
-with Gwindows.Windows.Main;
-with Gwindows.Application;
-with Gwindows.Common_Controls;
-with Gwindows.Gstrings;
-with Gwindows.Colors;
-with Gwindows.Static_Controls;
-with Gwindows.Base;
-with Gwindows.Cursors;
-with Gwindows.Types;
-with Gwindows.Drawing_Objects;
+with GWindows.Windows.Main;
+with GWindows.Application;
+with GWindows.Common_Controls;
+with GWindows.GStrings;
+with GWindows.Colors;
+with GWindows.Static_Controls;
+with GWindows.Base;
+with GWindows.Cursors;
+with GWindows.Types;
+with GWindows.Drawing_Objects;
 
 -- demonstrates the handling of payload
 procedure Demo_Exlv2 is
-   use Gwindows.Windows.Main;
-   use Gwindows.Gstrings;
-   use Gwindows.Colors;
-   use Gwindows.Static_Controls;
+   use GWindows.Windows.Main;
+   use GWindows.GStrings;
+   use GWindows.Colors;
+   use GWindows.Static_Controls;
 
-   Font: Gwindows.Drawing_Objects.Font_Type;
+   Font: GWindows.Drawing_Objects.Font_Type;
    Main: Main_Window_Type;
-   List: my_List_View_Type;
+   List: My_List_View_Type;
    Labelr,
    Labelg,
-   Labelb: Gwindows.Static_Controls.Label_Type;
+   Labelb: GWindows.Static_Controls.Label_Type;
 
-   procedure Do_On_List_Click(Window: in out Gwindows.Base.Base_Window_Type'Class)is
+   procedure Do_On_List_Click(Window: in out GWindows.Base.Base_Window_Type'Class)is
       use My_List_View_Pkg;
       L_Item, L_Subitem: Integer := -1;
-      Position: Gwindows.Types.Point_Type := Gwindows.Cursors.Get_Cursor_Position;
+      Position: GWindows.Types.Point_Type := GWindows.Cursors.Get_Cursor_Position;
       Payload: My_List_View_Pkg.Data_Access;
    begin
       Item_At_Position(Control => My_List_View_Type(Window),
-                       Position => Gwindows.Base.Point_To_Client(Window, Position),
+                       Position => GWindows.Base.Point_To_Client(Window, Position),
                        Item     => L_Item,
                        SubItem  => L_Subitem);
       if L_Item = -1 or L_Subitem = -1 then
@@ -44,28 +44,28 @@ procedure Demo_Exlv2 is
                            Index => L_Item);
       if Payload /= null then
          if L_Subitem = 0 then
-            Text(Labelr, To_Gstring_From_String("RGB red =" & Color_Range'Image(Payload.Rgb0.Red)));
-            Text(Labelg, To_Gstring_From_String("RGB green =" & Color_Range'Image(Payload.Rgb0.green)));
-            Text(Labelb, To_Gstring_From_String("RGB blue =" & Color_Range'Image(Payload.Rgb0.Blue)));
+            Text(Labelr, To_GString_From_String("RGB red =" & Color_Range'Image(Payload.Rgb0.Red)));
+            Text(Labelg, To_GString_From_String("RGB green =" & Color_Range'Image(Payload.Rgb0.Green)));
+            Text(Labelb, To_GString_From_String("RGB blue =" & Color_Range'Image(Payload.Rgb0.Blue)));
          elsif L_Subitem = 1 then
-            Text(Labelr, To_Gstring_From_String("RGB red =" & Color_Range'Image(Payload.Rgb1.Red)));
-            Text(Labelg, To_Gstring_From_String("RGB green =" & Color_Range'Image(Payload.Rgb1.green)));
-            Text(Labelb, To_Gstring_From_String("RGB blue =" & Color_Range'Image(Payload.Rgb1.Blue)));
+            Text(Labelr, To_GString_From_String("RGB red =" & Color_Range'Image(Payload.Rgb1.Red)));
+            Text(Labelg, To_GString_From_String("RGB green =" & Color_Range'Image(Payload.Rgb1.Green)));
+            Text(Labelb, To_GString_From_String("RGB blue =" & Color_Range'Image(Payload.Rgb1.Blue)));
          end if;
       end if;
 
    end Do_On_List_Click;
 
-   procedure Do_On_Free_Payload(Control: in out My_List_View_pkg.Ex_List_View_Control_Type;
-                                Payload: out My_List_View_Pkg.Data_access)is
+   procedure Do_On_Free_Payload(Control: in out My_List_View_Pkg.Ex_List_View_Control_Type;
+                                Payload: out My_List_View_Pkg.Data_Access)is
                                 pragma Unreferenced (Control);
    begin
-      Demo_exlv_Pkg.Free_Payload(Payload);
+      Demo_exlv_Pkg.Free_payload(Payload);
    end Do_On_Free_Payload;
 
 begin
    -- font
-   Gwindows.Drawing_Objects.Create_Stock_Font(Font, Gwindows.Drawing_objects.ANSI_Variable_Width);
+   GWindows.Drawing_Objects.Create_Stock_Font(Font, GWindows.Drawing_Objects.ANSI_Variable_Width);
 
    -- main
    Create(Main, "Test ex_list_view - Payload", 0, 0, 600, 500);
@@ -79,7 +79,7 @@ begin
           Top     => 20,
           Width   => 330,
           Height  => 400,
-          View => Gwindows.Common_Controls.Report_View);
+          View => GWindows.Common_Controls.Report_View);
 
    -- handler
    On_Click_Handler(List, Do_On_List_Click'Unrestricted_Access);
@@ -89,9 +89,9 @@ begin
                            Event => Do_On_Free_Payload'Unrestricted_Access);
 
    -- styles
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Grid);
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Full_Row_Select);
-   Set_Extended_Style(Control => List, Style => My_List_View_pkg.Header_Drag_Drop);
+   Set_Extended_Style(Control => List, Style => My_List_View_Pkg.Grid);
+   Set_Extended_Style(Control => List, Style => My_List_View_Pkg.Full_Row_Select);
+   Set_Extended_Style(Control => List, Style => My_List_View_Pkg.Header_Drag_Drop);
 
    -- columns
    Insert_Column (Control => List,
@@ -111,11 +111,11 @@ begin
       for I in 0..99 loop
          L_Index := I;
          Insert_Item (Control => List,
-                      Text => To_Gstring_From_String("Item" & natural'Image(I)),
+                      Text => To_GString_From_String("Item" & Natural'Image(I)),
                       Index => L_Index,
-                      Sorted_Index => L_Sorted_index);
+                      Sorted_Index => L_Sorted_Index);
          Set_Sub_Item (Control => List,
-                       Text    => To_Gstring_From_String("SubItem" & natural'Image(I) & "/1"),
+                       Text    => To_GString_From_String("SubItem" & Natural'Image(I) & "/1"),
                        Index => L_Sorted_Index,
                        Sub_Index => 1);
       end loop;
@@ -123,30 +123,30 @@ begin
 
    -- set colors for color_mode=SubItem and payload
    declare
-      L_Rgb: Rgb_Type;
+      L_Rgb: RGB_Type;
       Payload: My_List_View_Pkg.Data_Access;
    begin
-      for I in 0..item_Count(Control => List)-1 loop
-         L_Rgb.green := 200;
+      for I in 0..Item_Count(Control => List)-1 loop
+         L_Rgb.Green := 200;
          L_Rgb.Blue := Color_Range(I*2);
-         L_Rgb.red := Color_Range(255 - I*2);
+         L_Rgb.Red := Color_Range(255 - I*2);
          Subitem_Color(Control => List,
-                       Text_Color => black,
+                       Text_Color => Black,
                        Back_Color => To_Color(L_Rgb),
-                       Index => i,
+                       Index => I,
                        Sub_Index => 0);
          -- payload
          Payload := new Payload_Data_Type;
          Payload.Rgb0 := L_Rgb;
 
 
-         L_Rgb.blue := 250;
-         L_Rgb.green := Color_Range(I*2);
-         L_Rgb.red := Color_Range(255 - I*2);
+         L_Rgb.Blue := 250;
+         L_Rgb.Green := Color_Range(I*2);
+         L_Rgb.Red := Color_Range(255 - I*2);
          Subitem_Color(Control => List,
-                       Text_Color => black,
+                       Text_Color => Black,
                        Back_Color => To_Color(L_Rgb),
-                       Index => i,
+                       Index => I,
                        Sub_Index => 1);
 
          -- set payload
@@ -164,7 +164,7 @@ begin
                 Top => 50,
                 Width => 200,
                 Height => 50);
-   Create(static => Labelr,
+   Create(Static => Labelr,
           Parent => Main,
           Text => "RGB red = ?",
           Left => 380,
@@ -188,7 +188,7 @@ begin
 
 
    Show(Main);
-   Gwindows.Application.Message_Loop;
+   GWindows.Application.Message_Loop;
 
 end Demo_Exlv2;
 
