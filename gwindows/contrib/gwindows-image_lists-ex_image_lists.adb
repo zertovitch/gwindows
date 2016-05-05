@@ -76,7 +76,7 @@ package body GWindows.Image_Lists.Ex_Image_Lists is
         Interfaces.C.To_C (GWindows.GStrings.To_String (Name));
 
       function ImageList_LoadImage
-        (HINST : Interfaces.C.long      := GWindows.Internal.Current_hInstance;
+        (HINST : GWindows.Types.Handle   := GWindows.Internal.Current_hInstance;
          Name  : Interfaces.C.char_array := C_Text;
          CX    : Positive                := Width;
          Grow  : Natural                 := Grow_By;
@@ -112,8 +112,6 @@ package body GWindows.Image_Lists.Ex_Image_Lists is
             return ILC_COLOR24;
          when Depth_32 =>
             return ILC_COLOR32;
-         when others =>
-            return 0;
       end case;
    end Get_Color_Flag;
 

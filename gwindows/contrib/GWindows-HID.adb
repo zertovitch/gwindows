@@ -6,10 +6,10 @@ with Interfaces;                        use Interfaces;
 
 with System;                            use System;
 
-with Win32;                             use Win32;
-with Win32.Winbase;                     use Win32.Winbase;
-with Win32.Winnt;
-with Win32.Windef;
+--  with Win32;                             use Win32;
+--  with Win32.Winbase;                     use Win32.Winbase;
+--  with Win32.Winnt;
+--  with Win32.Windef;
 
 --  Include GNAVI specification file(s)
 with GWindows.GStrings;                 use GWindows.GStrings;
@@ -165,7 +165,7 @@ package body GWindows.HID is
 --    pragma Import (StdCall, DefRawInputProc, "DefRawInputProc");
 
    --  All pointers to dynamicly load the functions
-   Dll                     : Win32.Winnt.HANDLE;
+   Dll                     : GWindows.Types.Handle;
    GetRawInputDeviceList   : GetRawInputDeviceListPtr   := null;
    GetRawInputDeviceInfoW  : GetRawInputDeviceInfoWPtr  := null;
    GetRawInputDeviceInfoA  : GetRawInputDeviceInfoAPtr  := null;
@@ -505,28 +505,30 @@ package body GWindows.HID is
       end;
    end Def_Raw_Input_Proc;
 
+   subtype HINSTANCE is GWindows.Types.Handle;
+
    function GetProcAddress
-      (HModule    : Win32.Windef.HINSTANCE;
+      (HModule    : HINSTANCE;
        LpProcName : System.Address)
       return GetRawInputDeviceListPtr;
    function GetProcAddress
-      (HModule    : Win32.Windef.HINSTANCE;
+      (HModule    : HINSTANCE;
        LpProcName : System.Address)
       return GetRawInputDeviceInfoWPtr;
    function GetProcAddress
-      (HModule    : Win32.Windef.HINSTANCE;
+      (HModule    : HINSTANCE;
        LpProcName : System.Address)
       return GetRawInputDeviceInfoAPtr;
    function GetProcAddress
-      (HModule    : Win32.Windef.HINSTANCE;
+      (HModule    : HINSTANCE;
        LpProcName : System.Address)
       return RegisterRawInputDevicesPtr;
    function GetProcAddress
-      (HModule    : Win32.Windef.HINSTANCE;
+      (HModule    : HINSTANCE;
        LpProcName : System.Address)
       return GetRawInputDataPtr;
    function GetProcAddress
-      (HModule    : Win32.Windef.HINSTANCE;
+      (HModule    : HINSTANCE;
        LpProcName : System.Address)
       return DefRawInputProcPtr;
 
@@ -545,8 +547,15 @@ package body GWindows.HID is
    Name_DefRawInputProc         : constant String :=
       "DefRawInputProc" & ASCII.NUL;
 
+   function LoadLibrary
+     (lpLibFileName : System.Address)
+      return HINSTANCE;
+   pragma Import (Stdcall, LoadLibrary, "LoadLibrary" & Character_Mode_Identifier);
+
+   user: GString_C:= To_GString_C("user32.dll");
+
 begin
-   Dll := LoadLibrary (Addr ("user32.dll" & ASCII.NUL));
+   Dll:= LoadLibrary (user'Address);
    GetRawInputDeviceList   := GetProcAddress (Dll,
       Name_GetRawInputDeviceList'Address);
    GetRawInputDeviceInfoW  := GetProcAddress (Dll,

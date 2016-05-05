@@ -43,18 +43,18 @@
 --            with it.
 ------------------------------------------------------------------------------
 
-with Gwindows.Types;
-with Gwindows.Image_Lists.Ex_Image_lists; use Gwindows.Image_Lists.Ex_Image_lists;
-with Gwindows.Colors; use Gwindows.Colors;
-with System.Address_To_Access_conversions;
+with GWindows.Types;
+with GWindows.Image_Lists.Ex_Image_Lists; use GWindows.Image_Lists.Ex_Image_Lists;
+with GWindows.Colors; use GWindows.Colors;
+with System.Address_To_Access_Conversions;
 
 generic
    type T is private;
-package Gwindows.Common_Controls.Ex_TV_Generic is
+package GWindows.Common_Controls.Ex_TV_Generic is
 
    type Ex_Tree_View_Control_Type is new Tree_View_Control_Type with private;
-   type Ex_tree_View_control_Access is access all Ex_tree_View_Control_Type;
-   type Pointer_To_Ex_tree_View_control_Class is access all Ex_tree_View_control_Type'Class;
+   type Ex_tree_View_control_Access is access all Ex_Tree_View_Control_Type;
+   type Pointer_To_Ex_tree_View_control_Class is access all Ex_Tree_View_Control_Type'Class;
 
    procedure CreateEx
      (Control       : in out Ex_Tree_View_Control_Type;
@@ -76,12 +76,12 @@ package Gwindows.Common_Controls.Ex_TV_Generic is
    -- sets imagelist
 
    procedure Insert_Item (Control     : in out Ex_Tree_View_Control_Type;
-                          Text        : in     Gstring;
+                          Text        : in     GString;
                           Parent_Node : in     Tree_Item_Node;
                           New_Node    :    out Tree_Item_Node;
                           Where       : in     Tree_Item_Node          );
    procedure Insert_Item (Control     : in out Ex_Tree_View_Control_Type;
-                          Text        : in     Gstring;
+                          Text        : in     GString;
                           Parent_Node : in     Tree_Item_Node;
                           New_Node    :    out Tree_Item_Node;
                           Where       : in     Tree_View_List_Location_Type := Sort );
@@ -96,16 +96,16 @@ package Gwindows.Common_Controls.Ex_TV_Generic is
 
    function Select_Item (Control : in Ex_Tree_View_Control_Type;
                          Item :  in Tree_Item_Node)
-                        return boolean;
+                        return Boolean;
    -- select a node, returns true if success
 
    procedure Set_Image(Control : in Ex_Tree_View_Control_Type;
                        Item : in Tree_Item_Node;
-                       Image_List_Index : in natural);
+                       Image_List_Index : in Natural);
    -- sets a image for a node
 
    function Tree_Hit_Test(Control : in Ex_Tree_View_Control_Type;
-                          pt : in Gwindows.Types.Point_Type)
+                          pt : in GWindows.Types.Point_Type)
                          return Tree_Item_Node;
    -- returns the node under point
 
@@ -124,16 +124,16 @@ package Gwindows.Common_Controls.Ex_TV_Generic is
    procedure Set_Item_Color(Control: in out Ex_Tree_View_Control_Type;
                             Text_Color : in Color_Type;
                             Bk_Color : in Color_Type;
-                            Item : in Tree_Item_node);
+                            Item : in Tree_Item_Node);
    -- set colors for an item
 
    procedure Set_Item_Data (Control   : in out Ex_Tree_View_Control_Type;
                             Data      : in     T;
                             Node      : in     Tree_Item_Node;
-                            Redraw    : in     Boolean                   :=false);
+                            Redraw    : in     Boolean                   :=False);
    -- sets the payload data individually for an Node
 
-   function Get_Item_data (Control   : in Ex_Tree_View_Control_Type;
+   function Get_Item_Data (Control   : in Ex_Tree_View_Control_Type;
                            Node      : in Tree_Item_Node)
                           return T;
    -- returns payload data acossiated with item
@@ -142,21 +142,21 @@ package Gwindows.Common_Controls.Ex_TV_Generic is
    -- fires, if node-selection changes
    type Change_Event is access procedure
      (Window    : in out Ex_Tree_View_Control_Type'Class;
-      Node : in Tree_Item_node);
+      Node : in Tree_Item_Node);
 
    procedure On_change_Handler (Control : in out Ex_Tree_View_Control_Type'Class;
-                                Handler : in     change_Event         );
-   procedure Fire_On_change (Control : in out Ex_Tree_View_Control_Type'Class;
-                             Node : in Tree_Item_node);
-   procedure On_change (Control : in out Ex_Tree_View_Control_Type'Class;
-                        Node : in Tree_Item_node);
+                                Handler : in     Change_Event         );
+   procedure Fire_On_Change (Control : in out Ex_Tree_View_Control_Type'Class;
+                             Node : in Tree_Item_Node);
+   procedure On_Change (Control : in out Ex_Tree_View_Control_Type'Class;
+                        Node : in Tree_Item_Node);
 
-   procedure On_Notify (Window       : in out Ex_Tree_View_Control_type;
-                        Message      : in     Gwindows.Base.Pointer_To_Notification;
-                        Control      : in     Gwindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out Interfaces.C.Long                           );
+   procedure On_Notify (Window       : in out Ex_Tree_View_Control_Type;
+                        Message      : in     GWindows.Base.Pointer_To_Notification;
+                        Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
+                        Return_Value : in out GWindows.Types.Lresult                      );
 
-   procedure On_Destroy (Window : in out Ex_Tree_View_control_Type);
+   procedure On_Destroy (Window : in out Ex_Tree_View_Control_Type);
 
 private
 
@@ -175,7 +175,7 @@ private
 
    type Ex_Tree_View_Control_Type is new Tree_View_Control_Type with
       record
-         On_change_Event : change_Event      := null;
+         On_Change_Event : Change_Event      := null;
       end record;
 
-end Gwindows.Common_Controls.Ex_TV_generic;
+end GWindows.Common_Controls.Ex_TV_Generic;

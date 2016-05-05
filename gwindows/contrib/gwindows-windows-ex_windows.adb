@@ -89,9 +89,9 @@ package body GWindows.Windows.Ex_Windows is
    begin
       if Message.Code = -520 then
          To_C (Item   => To_String (Get_Tooltip (Window.Toolbar.all,
-                                                 Dispinfo_Ptr.hdr.ID)),
+                                                 Integer(Dispinfo_Ptr.hdr.ID))),
                Target => Dispinfo_Ptr.SzText,
-               count => Last);
+               Count => Last);
       end if;
    exception
       when others =>

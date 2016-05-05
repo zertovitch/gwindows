@@ -132,7 +132,7 @@ package body GWindows.Common_Controls.Ex_TV is
    procedure Do_On_Redraw_Items
      (Tvcd_Ptr     : in     Pointer_To_NMTVCUSTOMDRAW_Type;
       control      : in     Ex_Tree_View_Control_Type;
-      Return_Value :    out Interfaces.C.long);
+      Return_Value :    out GWindows.Types.Lresult);
 
    function Get_Lparam (Control : in Ex_Tree_View_Control_Type;
                         Item    : in Tree_Item_Node)
@@ -218,10 +218,10 @@ package body GWindows.Common_Controls.Ex_TV is
       Image_List : in Ex_Image_List_Type)
    is
       procedure Sendmessage
-        (Hwnd   : Interfaces.C.long := Handle (Control);
+        (Hwnd   : GWindows.Types.Handle := Handle (Control);
          Umsg   : Interfaces.C.int  := Tvm_Setimagelist;
          Wparam : Integer           := TVSIL_NORMAL;
-         Lparam : Interfaces.C.long := Handle (Image_List));
+         Lparam : GWindows.Types.Handle := Handle (Image_List));
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -252,7 +252,7 @@ package body GWindows.Common_Controls.Ex_TV is
 
       Ts : TVINSERTSTRUCT;
 
-      function Sendmessagea (Hwnd   : Interfaces.C.long := Handle (Control);
+      function Sendmessagea (Hwnd   : GWindows.Types.Handle := Handle (Control);
                              Umsg   : Interfaces.C.int  := TVM_INSERTITEMA;
                              Wparam : Integer           := 0;
                              Lparam : TVINSERTSTRUCT    := Ts)
@@ -260,7 +260,7 @@ package body GWindows.Common_Controls.Ex_TV is
       pragma Import (Stdcall, Sendmessagea,
                        "SendMessage" & Character_Mode_Identifier);
 
-      function Sendmessagew (Hwnd   : Interfaces.C.long := Handle (Control);
+      function Sendmessagew (Hwnd   : GWindows.Types.Handle := Handle (Control);
                              Umsg   : Interfaces.C.int  := TVM_INSERTITEMW;
                              Wparam : Integer           := 0;
                              Lparam : TVINSERTSTRUCT    := Ts)
@@ -344,7 +344,7 @@ package body GWindows.Common_Controls.Ex_TV is
                         return Boolean
    is
 
-      function Sendmessage (Hwnd   : Interfaces.C.long := Handle (Control);
+      function Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
                             Umsg   : Interfaces.C.int  := TV_SELECTITEM;
                             Wparam : Integer           := TVGN_CARET;
                             Lparam : Tree_Item_Node    := Item)
@@ -365,14 +365,14 @@ package body GWindows.Common_Controls.Ex_TV is
    is
       use Interfaces.C;
 
-      procedure Sendmessagea (Hwnd   : Interfaces.C.long := Handle (Control);
+      procedure Sendmessagea (Hwnd   : GWindows.Types.Handle := Handle (Control);
                               Umsg   : Interfaces.C.int  := TVM_SETITEMA;
                               Wparam : Integer           := 0;
                               Lparam : System.Address);
       pragma Import (Stdcall, Sendmessagea,
                        "SendMessage" & Character_Mode_Identifier);
 
-      procedure Sendmessagew (Hwnd   : Interfaces.C.long := Handle (Control);
+      procedure Sendmessagew (Hwnd   : GWindows.Types.Handle := Handle (Control);
                               Umsg   : Interfaces.C.int  := TVM_SETITEMW;
                               Wparam : Integer           := 0;
                               Lparam : System.Address);
@@ -414,7 +414,7 @@ package body GWindows.Common_Controls.Ex_TV is
       Hit_Test_Structur : Tv_Hit_Test_Info_Type;
 
       procedure Sendmessage
-        (Hwnd   : Interfaces.C.long := Handle (Control);
+        (Hwnd   : GWindows.Types.Handle := Handle (Control);
          Umsg   : Interfaces.C.int  := TVM_HITTEST;
          Wparam : Integer           := 0;
          Lparam : System.Address    := Hit_Test_Structur'Address);
@@ -433,7 +433,7 @@ package body GWindows.Common_Controls.Ex_TV is
    procedure Set_Line_Color (Control    : in Ex_Tree_View_Control_Type;
                              Line_Color : in Color_Type)
    is
-      procedure Sendmessage (Hwnd   : Interfaces.C.long := Handle (Control);
+      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
                              Umsg   : Interfaces.C.int  := TVM_SETLINECOLOR;
                              Wparam : Integer           := 0;
                              Lparam : Color_Type        := Line_Color);
@@ -450,7 +450,7 @@ package body GWindows.Common_Controls.Ex_TV is
    procedure Set_Text_Color (Control : in Ex_Tree_View_Control_Type;
                              Color   : in Color_Type)
    is
-      procedure Sendmessage (Hwnd   : Interfaces.C.long := Handle (Control);
+      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
                              Umsg   : Interfaces.C.int  := TVM_SETTEXTCOLOR;
                              Wparam : Integer           := 0;
                              Lparam : Color_Type        := Color);
@@ -467,7 +467,7 @@ package body GWindows.Common_Controls.Ex_TV is
    procedure Set_Bk_Color (Control : in Ex_Tree_View_Control_Type;
                            Color   : in Color_Type)
    is
-      procedure Sendmessage (Hwnd   : Interfaces.C.long := Handle (Control);
+      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
                              Umsg   : Interfaces.C.int  := TVM_SETBKCOLOR;
                              Wparam : Integer           := 0;
                              Lparam : Color_Type        := Color);
@@ -517,7 +517,6 @@ package body GWindows.Common_Controls.Ex_TV is
    procedure Fire_On_Change (Control : in out Ex_Tree_View_Control_Type'Class;
                              Node    : in     Tree_Item_Node)
    is
-      use GWindows.Base;
    begin
       if Control.On_Change_Event /= null then
          Control.On_Change_Event (Control, Node);
@@ -543,7 +542,7 @@ package body GWindows.Common_Controls.Ex_TV is
      (Window       : in out Ex_Tree_View_Control_Type;
       Message      : in     GWindows.Base.Pointer_To_Notification;
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-      Return_Value : in out Interfaces.C.long)
+      Return_Value : in out GWindows.Types.Lresult)
    is
       pragma Warnings (Off, Control);
       pragma Warnings (Off, Return_Value);
@@ -624,14 +623,14 @@ package body GWindows.Common_Controls.Ex_TV is
                         Item    : in Tree_Item_Node)
                       return System.Address
    is
-      procedure Sendmessagea (Hwnd   : Interfaces.C.long := Handle (Control);
+      procedure Sendmessagea (Hwnd   : GWindows.Types.Handle := Handle (Control);
                               Umsg   : Interfaces.C.int  := TVM_GETITEMA;
                               Wparam : Integer           := 0;
                               Lparam : System.Address);
       pragma Import (Stdcall, Sendmessagea,
                        "SendMessage" & Character_Mode_Identifier);
 
-      procedure Sendmessagew (Hwnd   : Interfaces.C.long := Handle (Control);
+      procedure Sendmessagew (Hwnd   : GWindows.Types.Handle := Handle (Control);
                               Umsg   : Interfaces.C.int  := TVM_GETITEMW;
                               Wparam : Integer           := 0;
                               Lparam : System.Address);
@@ -660,7 +659,7 @@ package body GWindows.Common_Controls.Ex_TV is
    procedure Do_On_Redraw_Items
      (Tvcd_Ptr     : in Pointer_To_NMTVCUSTOMDRAW_Type;
       control      : in Ex_Tree_View_Control_Type;
-      Return_Value : out Interfaces.C.long)
+      Return_Value : out GWindows.Types.Lresult)
    is
       pragma Warnings (Off, control);
    begin

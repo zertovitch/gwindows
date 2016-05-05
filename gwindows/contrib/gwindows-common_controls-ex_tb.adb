@@ -76,7 +76,7 @@ package body GWindows.Common_Controls.Ex_Tb is
       Width         : in     Integer;
       Height        : in     Integer;
       Max_Buttons   : in     Positive                             := 100;
-      Text_Position : in     Text_Position_Type                   := right;
+      Text_Position : in     Text_Position_Type                   := Right;
       Is_Flat       : in     Boolean                              := True;
       Show          : in     Boolean                              := True;
       Is_Dynamic    : in     Boolean                              := False) is
@@ -86,7 +86,7 @@ package body GWindows.Common_Controls.Ex_Tb is
       Styles : Interfaces.C.unsigned := CCS_NORESIZE + TBSTYLE_TOOLTIPS;
 
       procedure Sendmessage_Buttonstructsize
-        (Hwnd   : Interfaces.C.long := Handle (Control);
+        (Hwnd   : GWindows.Types.Handle := Handle (Control);
          Umsg   : Interfaces.C.int  := TB_BUTTONSTRUCTSIZE;
          Wparam : Integer           := 20;
          Lparam : Integer           := 0);
@@ -149,7 +149,7 @@ package body GWindows.Common_Controls.Ex_Tb is
       Tb : Button_Array;
 
       procedure Sendmessage_Addbutton
-        (Hwnd   : Interfaces.C.long := Handle (Control);
+        (Hwnd   : GWindows.Types.Handle := Handle (Control);
          Umsg   : Interfaces.C.int  := TB_ADDBUTTONS;
          Wparam : Integer           := 1;
          Lparam : Button_Array      := Tb);

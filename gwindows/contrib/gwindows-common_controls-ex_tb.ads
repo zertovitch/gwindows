@@ -59,7 +59,7 @@ package GWindows.Common_Controls.Ex_Tb is
       Width         : in     Integer;
       Height        : in     Integer;
       Max_Buttons   : in     Positive                             := 100;
-      Text_Position : in     Text_Position_Type                   := right;
+      Text_Position : in     Text_Position_Type                   := Right;
       Is_Flat       : in     Boolean                              := True;
       Show          : in     Boolean                              := True;
       Is_Dynamic    : in     Boolean                              := False);

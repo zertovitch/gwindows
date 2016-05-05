@@ -32,32 +32,29 @@
 ------------------------------------------------------------------------------
 
 with System;
-with Gwindows.Types;
-use Gwindows.Types;
-with Ada.Text_Io; use Ada;
-with Gwindows.Base;
-use Gwindows.Base;
-with Gwindows.Message_Boxes; use Gwindows.Message_Boxes;
+with GWindows.Types;
+use GWindows.Types;
+with GWindows.Base;
+use GWindows.Base;
 with Ada.Unchecked_Conversion;
-with Ada.Unchecked_deallocation;
-with Gwindows.Gstrings; use Gwindows.Gstrings;
-with Ada.Text_Io; use Ada;
+with Ada.Unchecked_Deallocation;
+with GWindows.GStrings; use GWindows.GStrings;
 
-package body Gwindows.Common_Controls.Ex_TV_generic is
+package body GWindows.Common_Controls.Ex_TV_Generic is
 
    Tv_First           : constant := 16#1100#;
    Tvgn_Caret         : constant := 16#0009#;
    Tv_Selectitem      : constant := Tv_First + 11;
    Tvm_Hittest        : constant := Tv_First + 17;
    Tvm_Setimagelist   : constant := Tv_First + 9;
-   TVM_SETLINECOLOR   : Constant := TV_FIRST + 40;
-   TVM_SETTEXTCOLOR   : constant := TV_FIRST + 30;
-   TVM_SETBKCOLOR     : constant := TV_FIRST + 29;
-   TVM_GETITEMA       : constant := TV_FIRST + 12;
-   TVM_GETITEMW        : constant := TV_FIRST + 62;
+   TVM_SETLINECOLOR   : constant := Tv_First + 40;
+   TVM_SETTEXTCOLOR   : constant := Tv_First + 30;
+   TVM_SETBKCOLOR     : constant := Tv_First + 29;
+   TVM_GETITEMA       : constant := Tv_First + 12;
+   TVM_GETITEMW        : constant := Tv_First + 62;
    Tvsil_Normal       : constant := 0;
-   TVM_INSERTITEMA    : constant := TV_FIRST + 0;
-   TVM_INSERTITEMW    : constant := TV_FIRST + 50;
+   TVM_INSERTITEMA    : constant := Tv_First + 0;
+   TVM_INSERTITEMW    : constant := Tv_First + 50;
    Tvm_Setitema       : constant := Tv_First + 13;
    Tvm_Setitemw       : constant := Tv_First + 63;
    Tvif_Image         : constant := 16#0002#;
@@ -71,75 +68,75 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    Cdds_Prepaint                : constant := 16#0001#;
    Cdds_Item                    : constant := 16#00010000#;
    Cdds_Itemprepaint            : constant := Cdds_Item + Cdds_Prepaint;
-   Cdds_Subitem                 : constant := 16#00020000#;
+   --  Cdds_Subitem                 : constant := 16#00020000#;
    Cdrf_Notifyitemdraw          : constant := 16#00000020#;
    Cdrf_Newfont                 : constant := 2;
-   Cdrf_Dodefault               : constant := 0;
-   Cdrf_Skipdefault             : constant := 4;
+   --  Cdrf_Dodefault               : constant := 0;
+   --  Cdrf_Skipdefault             : constant := 4;
 
-   type Lptstr is access all Gchar_C;
+   type Lptstr is access all GChar_C;
 
    type Tvitem is
       record
-         Mask           : Interfaces.C.Unsigned := 0;
+         Mask           : Interfaces.C.unsigned := 0;
          Hitem          : Tree_Item_Node        := 0;
-         State          : Interfaces.C.Unsigned := 0;
-         State_Mask     : Interfaces.C.Unsigned := 0;
+         State          : Interfaces.C.unsigned := 0;
+         State_Mask     : Interfaces.C.unsigned := 0;
          Text           : Lptstr                := null;
          Textmax        : Integer               := 0;
          Image          : Integer               := 0;
          Selected_Image : Integer               := 0;
          Children       : Integer               := 0;
-         Lparam         : System.address;
+         Lparam         : System.Address;
       end record;
 
    type Nmtreeview is
       record
          Hdr : Notification;
-         Action : Interfaces.C.Unsigned;
-         ItemOld : TVITEM;
-         ItemNew : TVITEM;
-         PtDrag : Gwindows.Types.Point_Type;
+         Action : Interfaces.C.unsigned;
+         ItemOld : Tvitem;
+         ItemNew : Tvitem;
+         PtDrag : GWindows.Types.Point_Type;
       end record;
 
-   type Pointer_To_NmTreeView_type is access all NmTreeView;
+   type Pointer_To_NmTreeView_type is access all Nmtreeview;
 
    type Nmcustomdraw_Type is
       record
          Hdr         : Notification;
-         Dwdrawstage : Interfaces.C.Long;
-         Hdc         : Gwindows.Types.Handle;
-         Rect        : Gwindows.Types.Rectangle_Type;
-         Dwitemspec  : Interfaces.C.Long;
-         Uitemstate  : Interfaces.C.Unsigned;
-         Litemlparam : System.address;
+         Dwdrawstage : Interfaces.C.long;
+         Hdc         : GWindows.Types.Handle;
+         Rect        : GWindows.Types.Rectangle_Type;
+         Dwitemspec  : Interfaces.C.long;
+         Uitemstate  : Interfaces.C.unsigned;
+         Litemlparam : System.Address;
       end record;
 
-   type Pointer_To_Nmcustomdraw_Type is access all Nmcustomdraw_Type;
+   --  type Pointer_To_Nmcustomdraw_Type is access all Nmcustomdraw_Type;
 
    type NMTVCUSTOMDRAW_type is
      record
-        Nmcd : NMCUSTOMDRAW_Type;
+        Nmcd : Nmcustomdraw_Type;
         ClrText : Color_Type;
-        ClrTextBk : Color_type;
+        ClrTextBk : Color_Type;
         ILevel : Interfaces.C.int;
      end record;
 
-   type Pointer_To_NmTvcustomdraw_Type is access all NmTvcustomdraw_Type;
+   type Pointer_To_NmTvcustomdraw_Type is access all NMTVCUSTOMDRAW_type;
 
    function Message_To_NmtreeView_Pointer is
-      new Unchecked_Conversion(Gwindows.Base.Pointer_To_Notification,
-                               Pointer_To_NmtreeView_Type);
+      new Ada.Unchecked_Conversion(GWindows.Base.Pointer_To_Notification,
+                               Pointer_To_NmTreeView_type);
 
    function Message_To_NmTvCustomdraw_Pointer is
-      new Unchecked_Conversion(Gwindows.Base.Pointer_To_Notification,
-                               Pointer_To_NmTvCustomDraw_Type);
+      new Ada.Unchecked_Conversion(GWindows.Base.Pointer_To_Notification,
+                               Pointer_To_NmTvcustomdraw_Type);
 
-   procedure Do_On_Redraw_Items(Tvcd_Ptr : in Pointer_To_NmTvCustomDraw_type;
-                                control : in ex_tree_view_control_type;
-                                Return_Value : out Interfaces.C.long);
+   procedure Do_On_Redraw_Items(Tvcd_Ptr : in Pointer_To_NmTvcustomdraw_Type;
+                                control : in Ex_Tree_View_Control_Type;
+                                Return_Value : out GWindows.Types.Lresult);
    function Get_Lparam(Control : in Ex_Tree_View_Control_Type;
-                       Item : in Tree_Item_Node) return System.address;
+                       Item : in Tree_Item_Node) return System.Address;
 
    procedure Free is new Ada.Unchecked_Deallocation(Extended_Data_Type,
                                                     Extended_Data_Access);
@@ -151,7 +148,7 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    --------------
 
    procedure CreateEx (Control       : in out Ex_Tree_View_Control_Type;
-                       Parent        : in out Gwindows.Base.Base_Window_Type'Class;
+                       Parent        : in out GWindows.Base.Base_Window_Type'Class;
                        Left          : in     Integer;
                        Top           : in     Integer;
                        Width         : in     Integer;
@@ -162,7 +159,7 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
                        Single_Expand : in     Boolean                              := False;
                        Show          : in     Boolean                              := True;
                        Is_Dynamic    : in     Boolean                              := False  ) is
-      use type Interfaces.C.Unsigned;
+      use type Interfaces.C.unsigned;
 
       Tvs_Hasbuttons  : constant := 16#0001#;
       Tvs_Haslines    : constant := 16#0002#;
@@ -172,14 +169,14 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
         TVS_SHOWSELALWAYS       : constant := 16#0020#;
       --  TVS_RTLREADING          : constant := 16#0040#;
       --  TVS_NOTOOLTIPS          : constant := 16#0080#;
-        TVS_CHECKBOXES          : constant := 16#0100#;
+      --  TVS_CHECKBOXES          : constant := 16#0100#;
       --  TVS_TRACKSELECT         : constant := 16#0200#;
       Tvs_Singleexpand : constant := 16#0400#;
       --  TVS_INFOTIP             : constant := 16#0800#;
       --  TVS_FULLROWSELECT       : constant := 16#1000#;
       --  TVS_NOSCROLL            : constant := 16#2000#;
       --  TVS_NONEVENHEIGHT       : constant := 16#4000#;
-      Styles : Interfaces.C.Unsigned := TVS_ShowSelAlways;
+      Styles : Interfaces.C.unsigned := TVS_SHOWSELALWAYS;
    begin
       if Lines then
          Styles := Styles or Tvs_Haslines;
@@ -205,7 +202,7 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
          Is_Dynamic => Is_Dynamic);
 
       if Show then
-         Gwindows.Common_Controls.Show (Common_Control_Type(Control));
+         GWindows.Common_Controls.Show (Common_Control_Type(Control));
       end if;
    end CreateEx;
 
@@ -215,10 +212,10 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
 
    procedure Set_Image_List (Control    : in     Ex_Tree_View_Control_Type;
                              Image_List : in     Ex_Image_List_Type      ) is
-      procedure Sendmessage (Hwnd   : Interfaces.C.Long := Handle (Control);
-                             Umsg   : Interfaces.C.Int  := Tvm_Setimagelist;
+      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                             Umsg   : Interfaces.C.int  := Tvm_Setimagelist;
                              Wparam : Integer           := Tvsil_Normal;
-                             Lparam : Interfaces.C.Long := Handle (Image_List) );
+                             Lparam : GWindows.Types.Handle := Handle (Image_List) );
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -230,12 +227,12 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    -----------------
 
    procedure Insert_Item (Control     : in out Ex_Tree_View_Control_Type;
-                          Text        : in     Gstring;
+                          Text        : in     GString;
                           Parent_Node : in     Tree_Item_Node;
                           New_Node    :    out Tree_Item_Node;
                           Where       : in     Tree_Item_Node          ) is
       use Interfaces.C;
-      C_Text : Gstring_C := Gwindows.Gstrings.To_Gstring_C (Text);
+      C_Text : GString_C := GWindows.GStrings.To_GString_C (Text);
       type Tvinsertstruct is
          record
             Hparent : Tree_Item_Node := Parent_Node;
@@ -245,36 +242,37 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
 
       Ts : Tvinsertstruct;
 
-      function Sendmessagea (Hwnd   : Interfaces.C.Long := Handle (Control);
-                             Umsg   : Interfaces.C.Int  := Tvm_Insertitema;
+      function Sendmessagea (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                             Umsg   : Interfaces.C.int  := TVM_INSERTITEMA;
                              Wparam : Integer           := 0;
                              Lparam : Tvinsertstruct    := Ts                )
                             return Tree_Item_Node;
       pragma Import (Stdcall, Sendmessagea,
                        "SendMessage" & Character_Mode_Identifier);
 
-      function Sendmessagew (Hwnd   : Interfaces.C.Long := Handle (Control);
-                             Umsg   : Interfaces.C.Int  := Tvm_Insertitemw;
+      function Sendmessagew (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                             Umsg   : Interfaces.C.int  := TVM_INSERTITEMW;
                              Wparam : Integer           := 0;
                              Lparam : Tvinsertstruct    := Ts                )
                             return Tree_Item_Node;
       pragma Import (Stdcall, Sendmessagew,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Ts.Item.Mask := Tvif_Text or Tvif_param;
+      Ts.Item.Mask := TVIF_TEXT or TVIF_PARAM;
       Ts.Item.Text := C_Text (0)'Unchecked_Access;
-      Ts.Item.Lparam := Address_Conversion.To_Address(New Extended_Data_Type);
+      Ts.Item.Lparam := Address_Conversion.To_Address(new Extended_Data_Type);
 
-      if Character_Mode = Unicode then
-         New_Node := Sendmessagew;
-      else
-         New_Node := Sendmessagea;
-      end if;
+      case Character_Mode is
+         when Unicode =>
+           New_Node := Sendmessagew;
+         when ANSI =>
+           New_Node := Sendmessagea;
+      end case;
    end Insert_Item;
 
 
    procedure Insert_Item (Control     : in out Ex_Tree_View_Control_Type;
-                          Text        : in     Gstring;
+                          Text        : in     GString;
                           Parent_Node : in     Tree_Item_Node;
                           New_Node    :    out Tree_Item_Node;
                           Where       : in     Tree_View_List_Location_Type := Sort ) is
@@ -302,7 +300,7 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
       Data_access : Extended_Data_Access;
    begin
       Data_access := Address_Conversion.To_Pointer(Get_Lparam(Control, Node));
-      Data_access.Id := Id;
+      Data_access.ID := Id;
    end Set_Item_Id;
 
    -----------------
@@ -314,7 +312,7 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
       Data_access : Extended_Data_Access;
    begin
       Data_access := Address_Conversion.To_Pointer(Get_Lparam(Control, Node));
-      return Data_access.id;
+      return Data_access.ID;
    end Get_Item_Id;
 
    -----------------
@@ -325,8 +323,8 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
                          Item    : in     Tree_Item_Node          )
                         return Boolean is
 
-      function Sendmessage (Hwnd   : Interfaces.C.Long := Handle (Control);
-                            Umsg   : Interfaces.C.Int  := Tv_Selectitem;
+      function Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                            Umsg   : Interfaces.C.int  := Tv_Selectitem;
                             Wparam : Integer           := Tvgn_Caret;
                             Lparam : Tree_Item_Node    := Item              )
                            return Boolean;
@@ -340,19 +338,19 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    -- set_image --
    ---------------
 
-   procedure Set_Image (Control          : in     Ex_tree_View_Control_Type;
+   procedure Set_Image (Control          : in     Ex_Tree_View_Control_Type;
                         Item             : in     Tree_Item_Node;
                         Image_List_Index : in     Natural                 ) is
       use Interfaces.C;
-      procedure Sendmessagea (Hwnd   : Interfaces.C.Long := Handle (Control);
-                              Umsg   : Interfaces.C.Int  := Tvm_Setitema;
+      procedure Sendmessagea (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                              Umsg   : Interfaces.C.int  := Tvm_Setitema;
                               Wparam : Integer           := 0;
                               Lparam : System.Address                         );
       pragma Import (Stdcall, Sendmessagea,
                        "SendMessage" & Character_Mode_Identifier);
 
-      procedure Sendmessagew (Hwnd   : Interfaces.C.Long := Handle (Control);
-                              Umsg   : Interfaces.C.Int  := Tvm_Setitemw;
+      procedure Sendmessagew (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                              Umsg   : Interfaces.C.int  := Tvm_Setitemw;
                               Wparam : Integer           := 0;
                               Lparam : System.Address                         );
       pragma Import (Stdcall, Sendmessagew,
@@ -365,11 +363,13 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
       Tv.Image := Image_List_Index;
       Tv.Selected_Image := Image_List_Index;
 
-      if Character_Mode = Unicode then
-         Sendmessagew (Lparam => Tv'Address);
-      else
-         Sendmessagea (Lparam => Tv'Address);
-      end if;
+      case Character_Mode is
+         when Unicode =>
+            Sendmessagew (Lparam => Tv'Address);
+         when ANSI =>
+            Sendmessagea (Lparam => Tv'Address);
+      end case;
+
    end Set_Image;
 
    -------------------
@@ -377,12 +377,12 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    -------------------
 
    function Tree_Hit_Test (Control : in     Ex_Tree_View_Control_Type;
-                           Pt      : in     Point_Type              )
+                           pt      : in     Point_Type              )
                           return Tree_Item_Node is
 
       type Tv_Hit_Test_Info_Type is
          record
-            Point : Point_Type     := Pt;
+            Point : Point_Type     := pt;
             Flags : Integer;
             Hitem : Tree_Item_Node;
          end record;
@@ -390,8 +390,8 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
       Hit_Test_Structur : Tv_Hit_Test_Info_Type;
 
       procedure Sendmessage (
-                             Hwnd   : Interfaces.C.Long := Handle (Control);
-                             Umsg   : Interfaces.C.Int  := Tvm_Hittest;
+                             Hwnd   : GWindows.Types.Handle := Handle (Control);
+                             Umsg   : Interfaces.C.int  := Tvm_Hittest;
                              Wparam : Integer           := 0;
                              Lparam : System.Address    := Hit_Test_Structur'Address );
       pragma Import (Stdcall, Sendmessage,
@@ -408,10 +408,10 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
 
    procedure Set_Line_Color(Control: in Ex_Tree_View_Control_Type;
                             Line_Color : in Color_Type)is
-      procedure Sendmessage (Hwnd   : Interfaces.C.Long := Handle (Control);
-                             Umsg   : Interfaces.C.Int  := Tvm_SetLineColor;
+      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                             Umsg   : Interfaces.C.int  := TVM_SETLINECOLOR;
                              Wparam : Integer           := 0;
-                             Lparam : Color_Type        := Line_color );
+                             Lparam : Color_Type        := Line_Color );
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -424,10 +424,10 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
 
    procedure Set_Text_Color(Control: in Ex_Tree_View_Control_Type;
                             Color : in Color_Type)is
-      procedure Sendmessage (Hwnd   : Interfaces.C.Long := Handle (Control);
-                             Umsg   : Interfaces.C.Int  := Tvm_SetTextColor;
+      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                             Umsg   : Interfaces.C.int  := TVM_SETTEXTCOLOR;
                              Wparam : Integer           := 0;
-                             Lparam : Color_Type        := color );
+                             Lparam : Color_Type        := Color );
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -440,15 +440,15 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
 
    procedure Set_Bk_Color(Control: in Ex_Tree_View_Control_Type;
                               Color : in Color_Type)is
-      procedure Sendmessage (Hwnd   : Interfaces.C.Long := Handle (Control);
-                             Umsg   : Interfaces.C.Int  := Tvm_SetBkColor;
+      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                             Umsg   : Interfaces.C.int  := TVM_SETBKCOLOR;
                              Wparam : Integer           := 0;
-                             Lparam : Color_Type        := color );
+                             Lparam : Color_Type        := Color );
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
       Sendmessage;
-   end Set_bk_Color;
+   end Set_Bk_Color;
 
    --------------------
    -- set_item_color --
@@ -457,12 +457,12 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    procedure Set_Item_Color(Control: in out Ex_Tree_View_Control_Type;
                             Text_Color : in Color_Type;
                             Bk_Color : in Color_Type;
-                            Item : in Tree_Item_node)is
-      Data_access : Extended_Data_access;
+                            Item : in Tree_Item_Node)is
+      Data_access : Extended_Data_Access;
    begin
       Data_access := Address_Conversion.To_Pointer(Get_Lparam(Control, Item));
       Data_access.Text_Color := Text_Color;
-      Data_access.back_Color := bk_Color;
+      Data_access.Back_Color := Bk_Color;
    end Set_Item_Color;
 
    -------------------
@@ -474,12 +474,12 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
                             Node      : in     Tree_Item_Node;
                             Redraw    : in     Boolean                   :=False)
    is
-      Data_access : Extended_Data_access;
+      Data_access : Extended_Data_Access;
    begin
       Data_access := Address_Conversion.To_Pointer(Get_Lparam(Control, Node));
-      Data_access.More_data := Data;
+      Data_access.More_Data := Data;
       if Redraw then
-         Gwindows.Common_Controls.Redraw(Tree_View_Control_Type(Control));
+         GWindows.Common_Controls.Redraw(Tree_View_Control_Type(Control));
       end if;
 
    exception
@@ -491,10 +491,10 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    -- get_Item_data --
    -------------------
 
-   function Get_Item_data (Control   : in Ex_Tree_View_Control_Type;
+   function Get_Item_Data (Control   : in Ex_Tree_View_Control_Type;
                            Node: in Tree_Item_Node)
                           return T is
-      Data_access : Extended_Data_access;
+      Data_access : Extended_Data_Access;
    begin
       Data_access := Address_Conversion.To_Pointer(Get_Lparam(Control, Node));
       return Data_access.More_Data;
@@ -510,76 +510,76 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    -----------------------
 
    procedure On_change_Handler (Control : in out Ex_Tree_View_Control_Type'Class;
-                                Handler : in     change_Event         ) is
+                                Handler : in     Change_Event         ) is
    begin
-      Control.On_change_Event := Handler;
+      Control.On_Change_Event := Handler;
    end On_change_Handler;
 
    --------------------
    -- Fire_On_change --
    --------------------
 
-   procedure Fire_On_change (Control : in out Ex_Tree_View_Control_Type'Class;
-                             Node : in Tree_Item_node) is
-      use Gwindows.Base;
+   procedure Fire_On_Change (Control : in out Ex_Tree_View_Control_Type'Class;
+                             Node : in Tree_Item_Node) is
    begin
-      if Control.On_change_Event /= null then
-         Control.On_change_Event (Ex_Tree_View_Control_Type'Class(Control),
-                                  node);
+      if Control.On_Change_Event /= null then
+         Control.On_Change_Event (Control, Node);
       end if;
-   end Fire_On_change;
+   end Fire_On_Change;
 
    --------------
    -- on_change--
    --------------
 
-   procedure On_change (Control : in out Ex_Tree_View_Control_Type'Class;
-                        Node : in Tree_Item_node)is
+   procedure On_Change (Control : in out Ex_Tree_View_Control_Type'Class;
+                        Node : in Tree_Item_Node)is
    begin
-      Fire_On_change (Control, node);
-   end On_change;
+      Fire_On_Change (Control, Node);
+   end On_Change;
 
    ---------------
    -- On_Notify --
    ---------------
 
-   procedure On_Notify (Window       : in out Ex_Tree_View_Control_type;
-                        Message      : in     Gwindows.Base.Pointer_To_Notification;
-                        Control      : in     Gwindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out Interfaces.C.Long                           ) is
+   procedure On_Notify (Window       : in out Ex_Tree_View_Control_Type;
+                        Message      : in     GWindows.Base.Pointer_To_Notification;
+                        Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
+                        Return_Value : in out GWindows.Types.Lresult                      ) is
       pragma Warnings (Off, Control);
       pragma Warnings (Off, Return_Value);
 
-      Nm_ChangedA    : Constant := TVN_Selchangeda;
-      Nm_Changedw    : Constant := TVN_Selchangedw;
+      Nm_ChangedA    : constant := TVN_SELCHANGEDA;
+      Nm_Changedw    : constant := TVN_SELCHANGEDW;
       Nm_CustomDraw  : constant := -12;
    begin
       case Message.Code is
          when Nm_ChangedA =>
             declare
-               Nmtv_Ptr : Pointer_To_Nmtreeview_Type :=
-                 Message_To_Nmtreeview_Pointer(Message);
+               Nmtv_Ptr : Pointer_To_NmTreeView_type :=
+                 Message_To_NmtreeView_Pointer(Message);
             begin
                On_Change(Ex_Tree_View_Control_Type'Class (Window),
-                         Nmtv_Ptr.ItemNew.hItem);
+                         Nmtv_Ptr.ItemNew.Hitem);
             end;
          when Nm_Changedw =>
             declare
-               Nmtv_Ptr : Pointer_To_Nmtreeview_Type :=
-                 Message_To_Nmtreeview_Pointer(Message);
+               Nmtv_Ptr : Pointer_To_NmTreeView_type :=
+                 Message_To_NmtreeView_Pointer(Message);
             begin
                On_Change(Ex_Tree_View_Control_Type'Class (Window),
-                         Nmtv_Ptr.ItemNew.hItem);
+                         Nmtv_Ptr.ItemNew.Hitem);
             end;
          when Nm_CustomDraw =>
                declare
-                  Tvcd_Ptr : Pointer_To_NmTvCustomDraw_Type :=
+                  Tvcd_Ptr : Pointer_To_NmTvcustomdraw_Type :=
                     Message_To_NmTvCustomdraw_Pointer(Message);
                begin
                   Do_On_Redraw_Items(Tvcd_Ptr, Window, Return_Value);
                end;
          when others =>
-            On_Notify(Tree_View_Control_Type(Window), Message, Control, Return_Value);
+            GWindows.Common_Controls.On_Notify(
+               Tree_View_Control_Type(Window), Message, Control, Return_Value
+            );
       end case;
 
    end On_Notify;
@@ -588,7 +588,7 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    -- on_destroy --
    ----------------
 
-   procedure On_Destroy (Window : in out Ex_Tree_View_control_Type)is
+   procedure On_Destroy (Window : in out Ex_Tree_View_Control_Type)is
    begin
       Make_Free(Window, Get_Root_Item(Window));
    end On_Destroy;
@@ -610,7 +610,7 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
 
       while New_Node /= 0 loop
          Make_Free(Tree, New_Node);
-         New_Node := Get_next_Item(Tree, New_Node);
+         New_Node := Get_Next_Item(Tree, New_Node);
       end loop;
 
       Data_Access := Address_Conversion.To_Pointer(Get_Lparam(Tree, Node));
@@ -622,16 +622,16 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    ----------------
 
    function Get_Lparam(Control : in Ex_Tree_View_Control_Type;
-                       Item : in Tree_Item_Node) return System.address is
-      procedure Sendmessagea (Hwnd   : Interfaces.C.Long := Handle (Control);
-                              Umsg   : Interfaces.C.Int  := Tvm_GetItema;
+                       Item : in Tree_Item_Node) return System.Address is
+      procedure Sendmessagea (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                              Umsg   : Interfaces.C.int  := TVM_GETITEMA;
                               Wparam : Integer           := 0;
                               Lparam : System.Address                         );
       pragma Import (Stdcall, Sendmessagea,
                        "SendMessage" & Character_Mode_Identifier);
 
-      procedure Sendmessagew (Hwnd   : Interfaces.C.Long := Handle (Control);
-                              Umsg   : Interfaces.C.Int  := Tvm_GetItemw;
+      procedure Sendmessagew (Hwnd   : GWindows.Types.Handle := Handle (Control);
+                              Umsg   : Interfaces.C.int  := TVM_GETITEMW;
                               Wparam : Integer           := 0;
                               Lparam : System.Address                         );
       pragma Import (Stdcall, Sendmessagew,
@@ -640,13 +640,14 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
       Tv : Tvitem;
    begin
       Tv.Hitem := Item;
-      Tv.Mask := Tvif_Handle;
+      Tv.Mask := TVIF_HANDLE;
 
-      if Character_Mode = Unicode then
-         Sendmessagew (Lparam => Tv'Address);
-      else
-         Sendmessagea (Lparam => Tv'Address);
-      end if;
+      case Character_Mode is
+         when Unicode =>
+            Sendmessagew (Lparam => Tv'Address);
+         when ANSI =>
+            Sendmessagea (Lparam => Tv'Address);
+      end case;
 
       return Tv.Lparam;
    end Get_Lparam;
@@ -655,20 +656,21 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
    -- do_on_redraw_Items --
    ------------------------
 
-   procedure Do_On_Redraw_Items(Tvcd_Ptr : in Pointer_To_NmTvCustomDraw_type;
-                                control : in ex_tree_view_control_type;
-                                Return_Value : out Interfaces.C.long)is
+procedure Do_On_Redraw_Items (Tvcd_Ptr : in Pointer_To_NmTvcustomdraw_Type;
+                                control : in Ex_Tree_View_Control_Type;
+                                Return_Value : out GWindows.Types.Lresult) is
+   pragma Unreferenced (control);
    begin
       case Tvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
                Return_Value := Cdrf_Notifyitemdraw;
-         when Interfaces.C.Long(Cdds_Itemprepaint) =>
+         when Interfaces.C.long(Cdds_Itemprepaint) =>
             declare
                Data_Access: Extended_Data_Access;
             begin
                Data_Access := Address_Conversion.To_Pointer(Tvcd_Ptr.Nmcd.Litemlparam);
-               Tvcd_Ptr.Clrtext := Data_Access.Text_Color;
-               Tvcd_Ptr.Clrtextbk := Data_access.Back_Color;
+               Tvcd_Ptr.ClrText := Data_Access.Text_Color;
+               Tvcd_Ptr.ClrTextBk := Data_Access.Back_Color;
             end;
                Return_Value := Cdrf_Newfont;
          when others =>
@@ -676,4 +678,4 @@ package body Gwindows.Common_Controls.Ex_TV_generic is
       end case;
    end Do_On_Redraw_Items;
 
-end Gwindows.Common_Controls.Ex_TV_generic;
+end GWindows.Common_Controls.Ex_TV_Generic;

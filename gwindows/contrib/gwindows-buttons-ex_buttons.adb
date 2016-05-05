@@ -60,7 +60,7 @@ package body GWindows.Buttons.Ex_buttons is
    -- SetWindowLong --
    -------------------
 
-   procedure SetWindowLong (hwnd    : Interfaces.C.long;
+   procedure SetWindowLong (hwnd    : GWindows.Types.Handle;
                             nIndex  : Interfaces.C.int := GWL_STYLE;
                             newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong,
@@ -70,7 +70,7 @@ package body GWindows.Buttons.Ex_buttons is
    -- GetWindowLong --
    -------------------
 
-   function GetWindowLong (hwnd   : Interfaces.C.long;
+   function GetWindowLong (hwnd   : GWindows.Types.Handle;
                            nIndex : Interfaces.C.int   := GWL_STYLE)
                           return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong,
@@ -250,10 +250,10 @@ package body GWindows.Buttons.Ex_buttons is
    procedure Set_Image (Button : in Extended_Button_Type;
                         Image  : in Bitmap_Type)
    is
-      procedure Sendmessage (Hwnd   : Interfaces.C.long := Handle (Button);
+      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Button);
                              Umsg   : Interfaces.C.int  := BM_SETIMAGE;
                              Wparam : Integer           := IMAGE_BITMAP;
-                             Lparam : Interfaces.C.long := Handle (Image));
+                             Lparam : GWindows.Types.Handle := Handle (Image));
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin

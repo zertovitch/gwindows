@@ -218,8 +218,8 @@ package body GWindows.Logging is
       Curr_Time : Time := Clock;
       Secs_100  : Long_Long_Integer :=
          Long_Long_Integer'Max
-          (Long_Long_Integer (Duration (Seconds (Curr_Time) * 100 -
-             Duration (0.5))), 0);
+          (Long_Long_Integer (Seconds (Curr_Time) * 100 -
+             Duration (0.5)), 0);
       Hour      : Integer;
       Minute    : Integer;
       Second    : Integer;

@@ -150,7 +150,7 @@ package GWindows.Common_Controls.Ex_TV is
      (Window       : in out Ex_Tree_View_Control_Type;
       Message      : in     GWindows.Base.Pointer_To_Notification;
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-      Return_Value : in out Interfaces.C.long);
+      Return_Value : in out GWindows.Types.Lresult);
 
    procedure On_Destroy (Window : in out Ex_Tree_View_Control_Type);
 
