@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2016/04/28  15:21:28
+-- Transcription time: 2016/05/10  09:43:50
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 28-Apr-2016
+-- RC Grammar version: 10-May-2016
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -15,7 +15,7 @@ with GWindows.Constants;                use GWindows.Constants;
 with GWindows.Windows;                  use GWindows.Windows;
 with GWindows.Buttons;                  use GWindows.Buttons;
 with GWindows.Buttons.Graphic;          use GWindows.Buttons.Graphic;
-with GWindows.Buttons.Owner_drawn;      use GWindows.Buttons.Owner_drawn;
+with GWindows.Buttons.Owner_Drawn;      use GWindows.Buttons.Owner_Drawn;
 with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;
 with GWindows.List_Boxes;               use GWindows.List_Boxes;
 with GWindows.Combo_Boxes;              use GWindows.Combo_Boxes;
@@ -40,7 +40,7 @@ package GWenerator_Resource_GUI is
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
-  type About_box_Type is new Window_type with record
+  type About_box_Type is new Window_Type with record
 
     IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
     IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
@@ -90,7 +90,7 @@ package GWenerator_Resource_GUI is
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
 
-  type GWen_properties_Type is new Window_type with record
+  type GWen_properties_Type is new Window_Type with record
 
     IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
     IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
@@ -148,7 +148,7 @@ package GWenerator_Resource_GUI is
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
 
-  type Main_dialog_Type is new Window_type with record
+  type Main_dialog_Type is new Window_Type with record
 
     Details_frame: Group_Box_Type;
     RC_to_GWindows_messages: List_Box_Type;

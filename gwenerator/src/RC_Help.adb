@@ -57,7 +57,7 @@ package body RC_Help is
     loop
       i:= Index(us, "\t");
       exit when i = 0;
-      Replace_Slice(us, i, i+1, """ & To_GString_from_String((1=>ASCII.HT)) & """);
+      Replace_Slice(us, i, i+1, """ & To_GString_From_String((1=>ASCII.HT)) & """);
     end loop;
     return S(us);
   end Replace_special_characters;
@@ -393,7 +393,7 @@ package body RC_Help is
     Ada_Put_Line(to_spec, "with GWindows.Windows;                  use GWindows.Windows;");
     Ada_Put_Line(to_spec, "with GWindows.Buttons;                  use GWindows.Buttons;");
     Ada_Put_Line(to_spec, "with GWindows.Buttons.Graphic;          use GWindows.Buttons.Graphic;");
-    Ada_Put_Line(to_spec, "with GWindows.Buttons.Owner_drawn;      use GWindows.Buttons.Owner_drawn;");
+    Ada_Put_Line(to_spec, "with GWindows.Buttons.Owner_Drawn;      use GWindows.Buttons.Owner_Drawn;");
     Ada_Put_Line(to_spec, "with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;");
     Ada_Put_Line(to_spec, "with GWindows.List_Boxes;               use GWindows.List_Boxes;");
     Ada_Put_Line(to_spec, "with GWindows.Combo_Boxes;              use GWindows.Combo_Boxes;");
@@ -458,6 +458,34 @@ package body RC_Help is
       end loop;
     end if;
   end Close_if_separate;
+
+  --  "Correct" casing for <Enum>'Image
+  generic
+    type Enum is (<>);
+  function Enum_Img_Mixed(e: Enum) return String;
+
+  function Enum_Img_Mixed(e: Enum) return String is
+    s: String:= Enum'Image(e);
+    low: Boolean:= False;
+  begin
+    for i in s'Range loop
+      if low then
+        s(i):= To_Lower(s(i));
+      end if;
+      low:= s(i) /= '_';
+    end loop;
+    return s;
+  end Enum_Img_Mixed;
+
+  function Img is new Enum_Img_Mixed(Boolean);
+  function Img is new Enum_Img_Mixed(GWindows.Static_Controls.Alignment_Type);
+  function Img is new Enum_Img_Mixed(GWindows.Static_Controls.Border_Type);
+  function Img is new Enum_Img_Mixed(Control_Direction_Type);
+  function Img is new Enum_Img_Mixed(GWindows.Common_Controls.List_View_Control_Select_Type);
+  function Img is new Enum_Img_Mixed(GWindows.Common_Controls.List_View_Control_View_Type);
+  function Img is new Enum_Img_Mixed(GWindows.Common_Controls.List_View_Control_Sort_Type);
+  function Img is new Enum_Img_Mixed(GWindows.Common_Controls.List_View_Control_Alignment_Type);
+  function Img is new Enum_Img_Mixed(Trackbar_Control_Ticks_Type);
 
   -- Add or remove specific Windows styles that are not in GWindows Create parameters
   --
@@ -706,11 +734,7 @@ package body RC_Help is
     elsif style_switch(fully_sunken) then
       null; -- border:= Fully_Sunken; -- Window style: Client Edge (WS_EX_CLIENTEDGE)
     end if;
-    return
-      ", GWindows.Static_Controls." &
-      Alignment_Type'Image(last_alignment) &
-      ", " &
-      Border_Type'Image(border);
+    return ", GWindows.Static_Controls." & Img(last_alignment) & ", " & Img(border);
   end Static_tail;
 
   procedure Ada_label_control is -- Static text
@@ -719,7 +743,7 @@ package body RC_Help is
       Ada_Coord_conv(last_rect);
       Ada_Put_Line(to_spec, "    -- Label: " & S(last_ident) );
       Ada_Put_Line(to_body,
-        "    Create_label( Window, " &
+        "    Create_Label( Window, " &
         S(last_text) &
         ", x,y,w,h" &
         Static_tail
@@ -790,16 +814,6 @@ package body RC_Help is
     end if;
     Ada_optional_disabling;
   end Ada_button_control;
-
-  --  Correct casing for Boolean'Image
-  function Img(b: Boolean) return String is
-  begin
-    if b then
-      return "True";
-    else
-      return "False";
-    end if;
-  end Img;
 
   procedure Ada_edit_control is
   begin
@@ -930,8 +944,8 @@ package body RC_Help is
         Ada_normal_control(
           "Trackbar_Control_Type",
            "",
-           ", " & Trackbar_Control_Ticks_Type'Image(Trackbar_Control_Ticks) &
-           ", " & Control_Direction_Type'Image(Control_Direction) &
+           ", " & Img(Trackbar_Control_Ticks) &
+           ", " & Img(Control_Direction) &
            ", Tips => " & Img(style_switch(tips)),
            with_id => False
         );
@@ -940,7 +954,7 @@ package body RC_Help is
           "Up_Down_Control_Type",
            "",
            ", " & Img(style_switch(keys)) &
-           ", " & Control_Direction_Type'Image(Control_Direction) &
+           ", " & Img(Control_Direction) &
            ", " & Img(style_switch(wrap)) &
            ", Auto_Buddy => False" &
            ", Thousands => " & Img(not style_switch(no_1000)),
@@ -950,7 +964,7 @@ package body RC_Help is
         Ada_normal_control(
           "Progress_Control_Type",
            "",
-           ", " & Control_Direction_Type'Image(Control_Direction) &
+           ", " & Img(Control_Direction) &
            ", " & Img(style_switch(smooth)),
           with_id => False
         );
@@ -963,11 +977,11 @@ package body RC_Help is
         Ada_normal_control(
           "List_View_Control_Type",
           "",
-          ", " & GWindows.Common_Controls.List_View_Control_Select_Type'Image(lv_select) &
-          ", " & GWindows.Common_Controls.List_View_Control_View_Type'Image(lv_type) &
-          ", " & GWindows.Common_Controls.List_View_Control_Sort_Type'Image(lv_sort) &
+          ", " & Img(lv_select) &
+          ", " & Img(lv_type) &
+          ", " & Img(lv_sort) &
           ", " & Img(lv_auto_arrange) &
-          ", " & GWindows.Common_Controls.List_View_Control_Alignment_Type'Image(lv_align),
+          ", " & Img(lv_align),
           with_id => False
        );
         if initialize_controls then
@@ -1168,7 +1182,7 @@ package body RC_Help is
     Ada_Put_Line(to_body, "  function Num_resource(id: Natural) return GString is");
     Ada_Put_Line(to_body, "    img: constant String:= Integer'Image(id);");
     Ada_Put_Line(to_body, "  begin");
-    Ada_Put_Line(to_body, "    return To_GString_from_String('#' & img(img'first+1..img'Last));");
+    Ada_Put_Line(to_body, "    return To_GString_From_String('#' & img(img'First+1..img'Last));");
     Ada_Put_Line(to_body, "  end Num_resource;");
     Ada_New_Line(to_body);
     Ada_Put_Line(to_body, "  package body Common_Fonts is");
@@ -1202,13 +1216,13 @@ package body RC_Help is
     Ada_Put_Line(to_body, "     function GetObject");
     Ada_Put_Line(to_body, "       (hgdiobj  : GWindows.Types.Handle  := GWindows.Drawing_Objects.Handle(GUI_Font);");
     Ada_Put_Line(to_body, "        cbBufferl: Interfaces.C.int       := LOGFONT'Size / 8;");
-    Ada_Put_Line(to_body, "        lpvObject: LPVOID                 := Log_of_Current_font'Address)");
+    Ada_Put_Line(to_body, "        lpvObject: LPVOID                 := Log_of_current_font'Address)");
     Ada_Put_Line(to_body, "       return Interfaces.C.int;");
     Ada_Put_Line(to_body, "     pragma Import (StdCall, GetObject,");
     Ada_Put_Line(to_body, "                      ""GetObject"" & Character_Mode_Identifier);");
     Ada_New_Line(to_body);
     Ada_Put_Line(to_body, "     function CreateFontIndirect");
-    Ada_Put_Line(to_body, "       (lpvObject: LPVOID                 := Log_of_Current_font'Address)");
+    Ada_Put_Line(to_body, "       (lpvObject: LPVOID                 := Log_of_current_font'Address)");
     Ada_Put_Line(to_body, "       return GWindows.Types.Handle;");
     Ada_Put_Line(to_body, "     pragma Import (StdCall, CreateFontIndirect,");
     Ada_Put_Line(to_body, "                      ""CreateFontIndirect"" & Character_Mode_Identifier);");
@@ -1224,8 +1238,8 @@ package body RC_Help is
     Ada_Put_Line(to_body, "          14, Underline => True);");
     Ada_Put_Line(to_body, "            -- !! ^ Not so nice (non-unsharpened font, size ~..., color ?)");
     Ada_Put_Line(to_body, "      else");
-    Ada_Put_Line(to_body, "        Log_of_Current_font.lfUnderline:= Interfaces.C.Char'Val(1);");
-    Ada_Put_Line(to_body, "        GWindows.Drawing_Objects.Handle(URL_font, CreateFontIndirect);");
+    Ada_Put_Line(to_body, "        Log_of_current_font.lfUnderline:= Interfaces.C.char'Val(1);");
+    Ada_Put_Line(to_body, "        GWindows.Drawing_Objects.Handle(URL_Font, CreateFontIndirect);");
     Ada_Put_Line(to_body, "      end if;");
     Ada_Put_Line(to_body, "    end Create_Common_Fonts;");
     Ada_New_Line(to_body);

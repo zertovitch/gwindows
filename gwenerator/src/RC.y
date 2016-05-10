@@ -308,7 +308,7 @@ dialog    :    RC_Ident
                  Open_if_separate(S(last_dialog_ident));
                  Ada_Put_Line(to_spec,
                    "  type " & S(last_dialog_ident) &
-                   "_Type is new Window_type with record"
+                   "_Type is new Window_Type with record"
                  );
                  Ada_New_Line(to_spec);
                  Ada_New_Line(to_body);

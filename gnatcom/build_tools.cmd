@@ -1,1 +1,1 @@
-gnatmake -P gnatcom_tools
+gprbuild -P gnatcom_tools

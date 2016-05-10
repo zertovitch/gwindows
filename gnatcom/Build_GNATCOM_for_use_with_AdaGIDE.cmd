@@ -6,6 +6,6 @@ ECHO Installing GNATCOM.....
 rem copy obsolete\mak* .
 rem make install
 
-gnatmake -P gnatcom
+gprbuild -P gnatcom
 
 ECHO Install Completed

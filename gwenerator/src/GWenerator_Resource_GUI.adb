@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2016/04/28  15:21:28
+-- Transcription time: 2016/05/10  09:43:50
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 28-Apr-2016
+-- RC Grammar version: 10-May-2016
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -29,9 +29,9 @@ package body GWenerator_Resource_GUI is
     Menu.Main:= Create_Menu;
     Menu.Popup_0001:= Create_Popup;
     Append_Menu(Menu.Main, "&File", Menu.Popup_0001);
-    Append_Item(Menu.Popup_0001, "&New..." & To_GString_from_String((1=>ASCII.HT)) & "Ctrl+N", New_GWen);
-    Append_Item(Menu.Popup_0001, "&Open..." & To_GString_from_String((1=>ASCII.HT)) & "Ctrl+O", Open_GWen);
-    Append_Item(Menu.Popup_0001, "&Save" & To_GString_from_String((1=>ASCII.HT)) & "Ctrl+S", Save_GWen);
+    Append_Item(Menu.Popup_0001, "&New..." & To_GString_From_String((1=>ASCII.HT)) & "Ctrl+N", New_GWen);
+    Append_Item(Menu.Popup_0001, "&Open..." & To_GString_From_String((1=>ASCII.HT)) & "Ctrl+O", Open_GWen);
+    Append_Item(Menu.Popup_0001, "&Save" & To_GString_From_String((1=>ASCII.HT)) & "Ctrl+S", Save_GWen);
     Append_Item(Menu.Popup_0001, "Save &as...", Save_GWen_as);
     Append_Separator(Menu.Popup_0001);
     Append_Item(Menu.Popup_0001, "&Quit", Quit);
@@ -132,31 +132,31 @@ package body GWenerator_Resource_GUI is
       Hide(Window.IDOK);
     end if;
     Dlg_to_Scn(  5, 5, 32, 30, x,y,w,h);
-    Create( Window.Static_0001, Window, Num_resource(gwenerator_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0001, Window, Num_resource(gwenerator_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  47, 10, 165, 8, x,y,w,h);
-    Create_label( Window, "GWenerator: a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "GWenerator: a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  47, 25, 196, 8, x,y,w,h);
-    Create_label( Window, "Copyright © Gautier de Montmollin 2008 .. 2016", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Copyright © Gautier de Montmollin 2008 .. 2016", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  47, 40, 100, 8, x,y,w,h);
-    Create_label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  11, 55, 30, 8, x,y,w,h);
-    Create_label( Window, "Internet:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Internet:", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  58, 55, 120, 8, x,y,w,h);
-    Create( Window.URL, Window, "http://sf.net/projects/gnavi", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => URL);
+    Create( Window.URL, Window, "http://sf.net/projects/gnavi", x,y,w,h, GWindows.Static_Controls.Left, None, ID => URL);
     Dlg_to_Scn(  11, 70, 170, 8, x,y,w,h);
-    Create( Window.RC_gramm_ver, Window, "RC Grammar version: ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => RC_gramm_ver);
+    Create( Window.RC_gramm_ver, Window, "RC Grammar version: ", x,y,w,h, GWindows.Static_Controls.Left, None, ID => RC_gramm_ver);
     Dlg_to_Scn(  11, 85, 170, 8, x,y,w,h);
-    Create( Window.GWen_ver, Window, "GWenerator version: ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GWen_ver);
+    Create( Window.GWen_ver, Window, "GWenerator version: ", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GWen_ver);
     Dlg_to_Scn(  23, 119, 100, 8, x,y,w,h);
-    Create( Window.GNAT_URL, Window, "GNAT -  free Ada compiler", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAT_URL);
+    Create( Window.GNAT_URL, Window, "GNAT -  free Ada compiler", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAT_URL);
     Dlg_to_Scn(  23, 134, 118, 8, x,y,w,h);
-    Create( Window.GNAVI_URL, Window, "GNAVI / GWindows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAVI_URL);
+    Create( Window.GNAVI_URL, Window, "GNAVI / GWindows", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAVI_URL);
     Dlg_to_Scn(  23, 149, 170, 8, x,y,w,h);
-    Create( Window.ResEdit_URL, Window, "ResEdit", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => ResEdit_URL);
+    Create( Window.ResEdit_URL, Window, "ResEdit", x,y,w,h, GWindows.Static_Controls.Left, None, ID => ResEdit_URL);
     Dlg_to_Scn(  5, 105, 247, 62, x,y,w,h);
     Create( Window.Static_0006, Window, "Software made with the following free open source components:", x,y,w,h);
     Dlg_to_Scn(  133, 119, 113, 8, x,y,w,h);
-    Create( Window.GNAT_Version, Window, "GNAT_Version", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAT_Version);
+    Create( Window.GNAT_Version, Window, "GNAT_Version", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAT_Version);
   end Create_Contents; -- About_box_Type
 
 
@@ -241,7 +241,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  83, 17, 168, 15, x,y,w,h);
     Create( Window.Edit_RC_File_Name, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Edit_RC_File_Name);
     Dlg_to_Scn(  20, 20, 60, 8, x,y,w,h);
-    Create_label( Window, "File name", x,y,w,h, GWindows.Static_Controls.RIGHT, NONE);
+    Create_Label( Window, "File name", x,y,w,h, GWindows.Static_Controls.Right, None);
     Dlg_to_Scn(  253, 17, 43, 14, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
@@ -283,11 +283,11 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  63, 125, 20, 15, x,y,w,h);
     Create( Window.Basx, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Basx);
     Dlg_to_Scn(  23, 125, 39, 8, x,y,w,h);
-    Create_label( Window, "Base unit x:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Base unit x:", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  100, 125, 20, 15, x,y,w,h);
     Create( Window.Basy, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Basy);
     Dlg_to_Scn(  88, 125, 10, 8, x,y,w,h);
-    Create_label( Window, " y:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, " y:", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  128, 125, 55, 10, x,y,w,h);
     Create( Window.Use_base_defs, Window, "use defaults", x,y,w,h, ID => Use_base_defs);
     Dlg_to_Scn(  10, 97, 290, 60, x,y,w,h);
@@ -297,11 +297,11 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  15, 230, 275, 14, x,y,w,h);
     Create( Window.Ada_cmd, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Ada_cmd);
     Dlg_to_Scn(  18, 178, 60, 8, x,y,w,h);
-    Create_label( Window, "Executable", x,y,w,h, GWindows.Static_Controls.RIGHT, NONE);
+    Create_Label( Window, "Executable", x,y,w,h, GWindows.Static_Controls.Right, None);
     Dlg_to_Scn(  23, 140, 275, 10, x,y,w,h);
     Create( Window.Initialize_controls, Window, "Initialize some controls with fake contents (analogy to pragma Initialize_Scalars)", x,y,w,h, ID => Initialize_controls);
     Dlg_to_Scn(  20, 65, 155, 8, x,y,w,h);
-    Create_label( Window, "Invoking resource compiler from GWenerator...", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Invoking resource compiler from GWenerator...", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  180, 63, 110, 15, x,y,w,h);
     Create( Window.RC_Compiler_list, Window, "", x,y,w,h, False, ID => RC_Compiler_list);
   end Create_Contents; -- GWen_properties_Type
@@ -370,9 +370,9 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  210, 132, 182, 105, x,y,w,h);
     Create( Window.GNATMake_messages, Window, x,y,w,h, False, ID => GNATMake_messages);
     Dlg_to_Scn(  10, 117, 88, 8, x,y,w,h);
-    Create_label( Window, "Resource to Ada messages", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Resource to Ada messages", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  212, 117, 115, 8, x,y,w,h);
-    Create( Window.Ada_comp_label, Window, "Ada compilation and build messages", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => Ada_comp_label);
+    Create( Window.Ada_comp_label, Window, "Ada compilation and build messages", x,y,w,h, GWindows.Static_Controls.Left, None, ID => Ada_comp_label);
     Dlg_to_Scn(  67, 37, 100, 20, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
@@ -396,39 +396,39 @@ package body GWenerator_Resource_GUI is
       Hide(Window.Button_Build);
     end if;
     Dlg_to_Scn(  67, 62, 100, 10, x,y,w,h);
-    Create( Window.Bar_RC, Window, x,y,w,h, HORIZONTAL, True);
+    Create( Window.Bar_RC, Window, x,y,w,h, Horizontal, True);
     Dlg_to_Scn(  245, 62, 100, 10, x,y,w,h);
-    Create( Window.Bar_Ada, Window, x,y,w,h, HORIZONTAL, True);
+    Create( Window.Bar_Ada, Window, x,y,w,h, Horizontal, True);
     Dlg_to_Scn(  245, 12, 23, 21, x,y,w,h);
-    Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
+    Create( Window.Ear_Ada, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.Left, Half_Sunken);
     Dlg_to_Scn(  67, 12, 23, 21, x,y,w,h);
-    Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
+    Create( Window.Ear_RC, Window, Num_resource(Listen_32x32), x,y,w,h, GWindows.Static_Controls.Left, Half_Sunken);
     Dlg_to_Scn(  5, 80, 56, 10, x,y,w,h);
     Create( Window.Show_Details, Window, "Show details", x,y,w,h, ID => Show_Details);
     Dlg_to_Scn(  97, 12, 60, 15, x,y,w,h);
-    Create( Window.Newer_RC, Window, "Resource file is newer!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => Newer_RC);
+    Create( Window.Newer_RC, Window, "Resource file is newer!", x,y,w,h, GWindows.Static_Controls.Left, None, ID => Newer_RC);
     Dlg_to_Scn(  277, 12, 40, 20, x,y,w,h);
-    Create( Window.Newer_Ada, Window, "Ada files are newer!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => Newer_Ada);
+    Create( Window.Newer_Ada, Window, "Ada files are newer!", x,y,w,h, GWindows.Static_Controls.Left, None, ID => Newer_Ada);
     Dlg_to_Scn(  17, 37, 21, 20, x,y,w,h);
-    Create( Window.Static_0002, Window, Num_resource(RC_file), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0002, Window, Num_resource(RC_file), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  197, 37, 21, 20, x,y,w,h);
-    Create( Window.Ada_file_icon, Window, Num_resource(Ada_file), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Ada_file_icon, Window, Num_resource(Ada_file), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  367, 37, 21, 20, x,y,w,h);
-    Create( Window.Exe_file_icon, Window, Num_resource(Exe_file), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Exe_file_icon, Window, Num_resource(Exe_file), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  180, 80, 45, 10, x,y,w,h);
     Create( Window.Show_Ada_build, Window, "Ada build", x,y,w,h, ID => Show_Ada_build);
     Dlg_to_Scn(  275, 80, 120, 25, x,y,w,h);
-    Create( Window.Auto_build_lift_msg, Window, "Last build failed or was stopped. Auto build is temporarily disabled.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => Auto_build_lift_msg);
+    Create( Window.Auto_build_lift_msg, Window, "Last build failed or was stopped. Auto build is temporarily disabled.", x,y,w,h, GWindows.Static_Controls.Left, None, ID => Auto_build_lift_msg);
     Dlg_to_Scn(  250, 80, 11, 10, x,y,w,h);
-    Create( Window.Auto_build_lift_ico, Window, Num_resource(Warning_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Auto_build_lift_ico, Window, Num_resource(Warning_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  40, 40, 21, 20, x,y,w,h);
-    Create( Window.Static_0003, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0003, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  170, 40, 21, 20, x,y,w,h);
-    Create( Window.Static_0004, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0004, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  220, 40, 21, 20, x,y,w,h);
-    Create( Window.Ada_blue_3, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Ada_blue_3, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  345, 40, 21, 20, x,y,w,h);
-    Create( Window.Static_0005, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0005, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  5, 93, 10, 9, x,y,w,h);
     Create( Window.More_less_details, Window, "", x,y,w,h, ID => More_less_details);
     Dlg_to_Scn(  215, 93, 10, 9, x,y,w,h);
@@ -480,7 +480,7 @@ package body GWenerator_Resource_GUI is
   function Num_resource(id: Natural) return GString is
     img: constant String:= Integer'Image(id);
   begin
-    return To_GString_from_String('#' & img(img'first+1..img'Last));
+    return To_GString_From_String('#' & img(img'First+1..img'Last));
   end Num_resource;
 
   package body Common_Fonts is
@@ -514,13 +514,13 @@ package body GWenerator_Resource_GUI is
      function GetObject
        (hgdiobj  : GWindows.Types.Handle  := GWindows.Drawing_Objects.Handle(GUI_Font);
         cbBufferl: Interfaces.C.int       := LOGFONT'Size / 8;
-        lpvObject: LPVOID                 := Log_of_Current_font'Address)
+        lpvObject: LPVOID                 := Log_of_current_font'Address)
        return Interfaces.C.int;
      pragma Import (StdCall, GetObject,
                       "GetObject" & Character_Mode_Identifier);
 
      function CreateFontIndirect
-       (lpvObject: LPVOID                 := Log_of_Current_font'Address)
+       (lpvObject: LPVOID                 := Log_of_current_font'Address)
        return GWindows.Types.Handle;
      pragma Import (StdCall, CreateFontIndirect,
                       "CreateFontIndirect" & Character_Mode_Identifier);
@@ -536,8 +536,8 @@ package body GWenerator_Resource_GUI is
           14, Underline => True);
             -- !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
       else
-        Log_of_Current_font.lfUnderline:= Interfaces.C.Char'Val(1);
-        GWindows.Drawing_Objects.Handle(URL_font, CreateFontIndirect);
+        Log_of_current_font.lfUnderline:= Interfaces.C.char'Val(1);
+        GWindows.Drawing_Objects.Handle(URL_Font, CreateFontIndirect);
       end if;
     end Create_Common_Fonts;
 

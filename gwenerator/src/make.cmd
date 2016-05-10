@@ -29,7 +29,11 @@ copy ..\..\gnatcom\framework\*.ad* ..\windows_stuff
 :stuff_ok
 
 if "%1"=="-h" goto fin
+if "%1"=="-H" goto fin
 if "%1"=="--help" goto fin
+if "%1"=="-?" goto fin
+if "%1"=="/?" goto fin
+
 if not "%1"=="-r" goto comp
 
 rem Build AFLEX
@@ -61,6 +65,7 @@ if not exist GWenerator_Resource_GUI.ads rc2gw GWenerator.rc
 if not exist GWenerator_Resource_GUI.adb rc2gw GWenerator.rc
 if "%1"=="-gen" rc2gw GWenerator.rc
 if "%1"=="-gen" shift
+
 if "%1"=="-res" windres GWenerator.rc GWenerator.rbj
 if "%1"=="-res" shift
 if not exist GWenerator.rbj windres GWenerator.rc GWenerator.rbj
