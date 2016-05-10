@@ -30,6 +30,7 @@ procedure Task_Dialogs is
    procedure Start_Dialogs
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
    begin
       T1.Start;
       T2.Start;

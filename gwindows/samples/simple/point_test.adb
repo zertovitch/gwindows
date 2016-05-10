@@ -1,4 +1,4 @@
-with GWindows.Message_Boxes;
+--  with GWindows.Message_Boxes;
 with GWindows.Windows.Main;
 with GWindows.Application;
 with GWindows.Types;
@@ -18,6 +18,7 @@ procedure Point_Test is
       Y      : in     Integer;
       Keys   : in     GWindows.Windows.Mouse_Key_States)
    is
+   pragma Unreferenced (Keys);
       New_Point : GWindows.Types.Point_Type := (X, Y);
    begin
       Put_Line ("Click relative to window :" &

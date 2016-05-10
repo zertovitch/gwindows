@@ -1,7 +1,7 @@
 -- This is the GNAT / GNAT Programming Studio (GPS) project file for
 -- building the GWindows tutorials.
 --
--- Build me with "gnatmake -P gwindows_samples", or open me with GPS
+-- Build me with "gprbuild -P gwindows_samples", or open me with GPS
 
 with "GWindows.gpr";
 
@@ -14,10 +14,13 @@ project GWindows_Samples is
      "splitters.adb", 
      "scribble.adb", "scribble2.adb", "text_spin.adb",  --  drawing
      "control_test.adb"  --  controls
+     --  "tcl_example.adb"
    );
 
    package Compiler is
-      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatwa");
+      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", 
+         "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
+         "-gnatwa");
    end Compiler;
 
    package Builder is

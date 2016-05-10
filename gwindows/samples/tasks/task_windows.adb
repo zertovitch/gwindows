@@ -10,7 +10,7 @@
 with GWindows.Windows; use GWindows.Windows;
 with GWindows.Windows.Main; use GWindows.Windows.Main;
 with GWindows.Application;
-with GWindows.Events;
+--  with GWindows.Events;
 with GWindows.GStrings; use GWindows.GStrings;
 with GWindows.Message_Boxes;
 
@@ -70,7 +70,7 @@ procedure Task_Windows is
    end Window_Builder_Task;
 
    task body Window_Builder_Task is
-      Window : Window_Access := new Window_Type;
+      Window : constant Window_Access := new Window_Type;
    begin
       accept Title (Name : GWindows.GString) do
          Window_Factory_Task.Create (Pointer_To_Window_Class (Window));

@@ -114,7 +114,7 @@ begin
    Text (IP_Control, "128.0.0.1");
 
    Create (Tool_Tip, Window);
-   Add_Tool_Tip (Tool_Tip, Ip_Control, "I am a tool tip on the IP Control");
+   Add_Tool_Tip (Tool_Tip, IP_Control, "I am a tool tip on the IP Control");
    Maximum_Width (Tool_Tip, 150);
 
    Create (Prog_Control, Top_Window, 0, 0, 10, 25);

@@ -57,7 +57,7 @@ procedure Scribble2 is
 
 begin
    Create (Main, "Test Input",
-           Width => 300, HEIGHT => 300);
+           Width => 300, Height => 300);
 
    Keyboard_Support (Main, True); --  Allow ESC key for Done_Button
 
@@ -94,7 +94,7 @@ begin
 
    Create (Done_Button, Main, "Done Scribblin'",
            0,0,60,25,
-           Id => IDCANCEL);
+           ID => IDCANCEL);
 
    --  Use Standard Windows GUI font instead of system font
    Create_Stock_Font (Window_Font, Default_GUI);

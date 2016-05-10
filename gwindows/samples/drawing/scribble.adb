@@ -54,7 +54,7 @@ procedure Scribble is
 
 begin
    Create (Main, "Test Input",
-           Width => 300, HEIGHT => 300);
+           Width => 300, Height => 300);
    On_Erase_Background_Handler
      (Main, Do_Erase_Background'Unrestricted_Access);
 
@@ -70,7 +70,7 @@ begin
 
    Create (Done_Button, Main, "Done Scribblin'",
            0, 0, 60, 25,
-           Id => IDCANCEL);
+           ID => IDCANCEL);
 
    --  Use Standard Windows GUI font instead of system font
    Create_Stock_Font (Window_Font, Default_GUI);

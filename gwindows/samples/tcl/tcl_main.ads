@@ -1,7 +1,11 @@
 with GNATCOM.Types;
 
+--  The package tree TclControl is obtained by running
+--    bindcom tclcontrol83.dll TclControl
+--  in the gwindows\redist directory (see readme.txt in this directory).
+--
 with TclControl.ITclControl_Interface;
-with TclControl.UITclControlEvents_Events;
+with TclControl.uITclControlEvents_Events;
 
 package Tcl_Main is
 
@@ -10,7 +14,7 @@ package Tcl_Main is
    procedure Go;
 
    type TCL_Event_Type is
-     new TclControl.UITclControlEvents_Events.uITclControlEvents_Event
+     new TclControl.uITclControlEvents_Events.uITclControlEvents_Event
      with null record;
 
    procedure OnTraceVar

@@ -5,12 +5,12 @@ with GWindows.Drawing; use GWindows.Drawing;
 with GWindows.Drawing_Objects; use GWindows.Drawing_Objects;
 
 with GWindows.Application;
-with GWindows.Events;
+--  with GWindows.Events;
 with GWindows.Colors;
 
 procedure Thread_Test is
    Main_Window  : Main_Window_Type;
-   Title_String : GWindows.GString := "Thread_Test";
+   Title_String : constant GWindows.GString := "Thread_Test";
 
    task Title_Animation is
       entry Start;

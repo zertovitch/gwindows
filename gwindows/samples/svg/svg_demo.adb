@@ -101,7 +101,7 @@ begin
 
    Show (Main);
 
-   Query (SVG_Ctl, Interface (Contain));
+   Query (SVG_Ctl, Interfac (Contain));
 
    Message_Loop;
 
