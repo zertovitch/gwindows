@@ -20,7 +20,8 @@ RC2GW.adb, RC_Help.ads, RC_Help.adb, RC.l, RC.y.
 <li><a href=#changes>List of <b>changes</b></a>
 <li><a href=#thanks>Thanks</a>
 <li><a href=#contact>Contact</a>
-<li><a href=#reseditconfig>Annex 1: Configuring the resource editor, <b>ResEdit</b>, for GNAT</a>
+<li><b>Annex 1</b>: <a href=#reseditconfig>Configuring the resource editor, <b>ResEdit</b>, for GNAT</a>
+<li><b>Annex 2</b>: <a href=#goodies>Goodies: open-source packages that may be useful for your GWindows application.</a>
 </ol>
 <hr>
 
@@ -223,11 +224,16 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
        <a target=_blank href=http://adagide.martincarlisle.com/>here</a>.
     </ul><br>&nbsp;<br>
     <li> <b>ResEdit</b>, a very cool and free resource editor
-          <a target=_blank href=http://www.resedit.net/>here</a>.
-         The installer has unfortunately an "adware" which is blocked by
-         some antivrus programs. The good news is that a copy (in two versions: 32 bits, 64 bits) of ResEdit is
-         provided with the GWindows installer, and has been scanned by AVG, Avira, and
-         VirusTotal, an online meta-virus scanner using more than 50 commercial scanners.
+          <a target=_blank href=http://www.resedit.net/>here</a>.<br>
+         The ResEdit installer has unfortunately an "adware" which is, fortunately, blocked by
+         some antivirus programs. Moreover, that installer is useless: ResEdit doesn't need it.<br>
+         The good news are that a copy (in two versions: 32 bits, 64 bits) of the
+         ResEdit executable (without its useless and problematic installer)
+         is now provided with the GWindows installer.<br>
+         The files have been
+         checked by AVG, Avira, and VirusTotal, an online meta-virus
+         scanner using more than 50 commercial scanners.<br>
+         You find in <a href=#reseditconfig>Annex 1</a> a guide for configuring ResEdit.
    </ul>
  </p>
 <li> 
@@ -328,27 +334,45 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
   </a>
   <p>
     Upon the first start of ResEdit, you may get the following message:<br>
-      <img align=top border=1 width=499 height=196 alt="Message" src="img/re_01.png">
+      <img align=top border=1 width=483 height=179 alt="Message" src="img/re_01.png">
     <br><br>
-    This means ResEdit has no access to files such as "windows.h", that are needed.
-    Go to Preferences,<br>
+    This means ResEdit has no access to files such as "windows.h", that are needed.<br>
+    Just say "No". Then, go to Preferences,<br>
       <img align=top border=1 width=331 height=93 alt="Preferences" src="img/re_02.png">
     <br><br>
-    then General/Include paths:<br>
-      <img align=top border=1 width=688 height=511 alt="Include paths" src="img/re_03.png">
+    then General &rarr; Include paths:<br>
+      <img align=top border=1 width=624 height=462 alt="Include paths" src="img/re_03.png">
     <br><br>
     We assume here GNAT is installed in the directory "C:\GNAT\2015", just for example.<br>
     You can see the actual installation directory in the PATH (command "path" in the command-line interface, cmd.exe)<br>
     Then the include directory required for ResEdit will be "C:\GNAT\2015\i686-pc-mingw32\include".
   </p>
-    <b><font face="Arial, Tahoma">Advice</font></b>
+    <b><font face="Arial, Tahoma">Advices about using ResEdit</font></b>
   <p>
-    It is recommanded to have a proper naming convention for the ".h" file containing the resource constants.<br>
+    <ol>
+    <li>It is recommanded to have a proper naming convention for the ".h" file containing the resource constants.<br>
     It may be useful if you have several resource scripts in the same location.<br>
     For instance the interface with "GWenerator.rc" has "GWenerator.h" instead of the default "resource.h".<br>
     To that aim, in the preferences, put "%barefilename%.h" instead of "resource.h" as Header file name.<br>
-      <img align=top border=1 width=637 height=476 alt="Header file name" src="img/re_04.png">
+      <img align=top border=1 width=624 height=459 alt="Header file name" src="img/re_04.png">
+    <br>
+    <li>Sometimes, the auto-resize feature of ResEdit is too narrow and the last word of some labels are cut out
+    when rendered by GWindows. The solution is to switch off the auto-resize feature:<br>
+    Preferences &rarr; Dialog Editor &rarr; Control preferences &rarr; Auto resize controls: Never.
+    </ol>
   </p>
-
+<li>
+  <a name=goodies>
+    <b><font face="Arial, Tahoma">Goodies: open-source packages that may be useful for your GWindows application.</font></b>
+  </a>
+  <p>
+    <ul>
+      <li><a target=_blank href="http://apdf.sourceforge.net">Ada PDF Writer</a>                  - pure Ada, standalone
+      <li><a target=_blank href="http://excel-writer.sourceforge.net">Excel Writer</a>            - pure Ada, standalone
+      <li><a target=_blank href="http://gen-img-dec.sourceforge.net">Generic Image Decoder</a>    - pure Ada, standalone
+      <li><a target=_blank href="http://ini-files.sourceforge.net">Ini file manager </a>          - pure Ada, standalone
+      <li><a target=_blank href="http://unzip-ada.sourceforge.net">Zip-Ada </a>                   - pure Ada, standalone
+    </ul>
+  </p>
 </ol>
 </body>
