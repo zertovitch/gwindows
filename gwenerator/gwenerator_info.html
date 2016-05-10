@@ -20,6 +20,7 @@ RC2GW.adb, RC_Help.ads, RC_Help.adb, RC.l, RC.y.
 <li><a href=#changes>List of <b>changes</b></a>
 <li><a href=#thanks>Thanks</a>
 <li><a href=#contact>Contact</a>
+<li><a href=#reseditconfig>Annex 1: Configuring the resource editor, <b>ResEdit</b>, for GNAT</a>
 </ol>
 <hr>
 
@@ -221,8 +222,12 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
           e.g. to separately build tools in parallel to a GPS session:
        <a target=_blank href=http://adagide.martincarlisle.com/>here</a>.
     </ul><br>&nbsp;<br>
-    <li> <b>ResEdit</b>, a very cool resource editor
+    <li> <b>ResEdit</b>, a very cool and free resource editor
           <a target=_blank href=http://www.resedit.net/>here</a>.
+         The installer has unfortunately an "adware" which is blocked by
+         some antivrus programs. The good news is that a copy (in two versions: 32 bits, 64 bits) of ResEdit is
+         provided with the GWindows installer, and has been scanned by AVG, Avira, and
+         VirusTotal, an online meta-virus scanner using more than 50 commercial scanners.
    </ul>
  </p>
 <li> 
@@ -241,6 +246,12 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
 </a>
  <p>
   <ul>
+  <li><b>1.04</b>  (10-May-2016): 
+    <ul>
+      <li>support for NOT WS_BORDER in edit boxes (with ES_READONLY, it emulates labels from
+          which you can copy & paste text, as in Explorer's properties boxes)
+      <li>proper casing in generated Ada sources (passes GNAT's -gnatyaknpr style checks)
+    </ul>
   <li><b>1.03</b>   (5-Apr-2015): support for IDC_HAND, WS_VISIBLE and NOT WS_VISIBLE
   <li><b>1.02</b>  (23-May-2012): added Read_Only to Edit_Box'es
   <li><b>1.01</b>  (19-Aug-2011): added 'Compile resource only' action in GUI
@@ -248,7 +259,7 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
   <li><b>0.99</b>  (28-Feb-2010): 
     <ul>
       <li>Ada background build or on-demand build 
-      <li>A few improvements on supported controls   
+      <li>a few improvements on supported controls   
     </ul>
   <li><b>0.98</b>  (10-Aug-2009): 
     <ul>
@@ -305,10 +316,39 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
   </a>
   <p>
   <ul>
-   <li>Main author and GWenerator project coordinator: Gautier de Montmollin, Switzerland
-       click <a target=_blank href=http://unzip-ada.sourceforge.net/gmgm.png>here</a>
+   <li>Main author and GWenerator project coordinator: Gautier de Montmollin, Switzerland.<br>
+       Click <a target=_blank href=http://unzip-ada.sourceforge.net/gmgm.png>here</a>
        or <a target=_blank href=http://sourceforge.net/users/gdemont/>here</a>.
   </ul>
  </p>
+
+<li>
+  <a name=reseditconfig>
+    <b><font face="Arial, Tahoma">Annex 1: Configuring ResEdit for GNAT (Windows)</font></b>
+  </a>
+  <p>
+    Upon the first start of ResEdit, you may get the following message:<br>
+      <img align=top border=1 width=499 height=196 alt="Message" src="img/re_01.png">
+    <br><br>
+    This means ResEdit has no access to files such as "windows.h", that are needed.
+    Go to Preferences,<br>
+      <img align=top border=1 width=331 height=93 alt="Preferences" src="img/re_02.png">
+    <br><br>
+    then General/Include paths:<br>
+      <img align=top border=1 width=688 height=511 alt="Include paths" src="img/re_03.png">
+    <br><br>
+    We assume here GNAT is installed in the directory "C:\GNAT\2015", just for example.<br>
+    You can see the actual installation directory in the PATH (command "path" in the command-line interface, cmd.exe)<br>
+    Then the include directory required for ResEdit will be "C:\GNAT\2015\i686-pc-mingw32\include".
+  </p>
+    <b><font face="Arial, Tahoma">Advice</font></b>
+  <p>
+    It is recommanded to have a proper naming convention for the ".h" file containing the resource constants.<br>
+    It may be useful if you have several resource scripts in the same location.<br>
+    For instance the interface with "GWenerator.rc" has "GWenerator.h" instead of the default "resource.h".<br>
+    To that aim, in the preferences, put "%barefilename%.h" instead of "resource.h" as Header file name.<br>
+      <img align=top border=1 width=637 height=476 alt="Header file name" src="img/re_04.png">
+  </p>
+
 </ol>
 </body>

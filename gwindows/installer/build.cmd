@@ -1,7 +1,7 @@
 @echo off
 
 rem Version should match the field VALUE "FileVersion" in GW_Install.rc
-set version=31-Dec-2015
+set version=10-May-2016
 
 if exist ..\..\gwenerator\windows_stuff\gwindows.ads goto stuff_ok
 
@@ -53,5 +53,9 @@ if not exist obj\small\libwin32ada.a copy /B obj\debug\libwin32ada.a obj\small\l
 gnatmake -P GW_Install.gpr -XBuild_Mode=Small
 upx --ultra-brute gw_install.exe
 if exist *.upx del *.upx
+if exist *.000 del *.000
+if exist *.001 del *.001
 
 copy /B gw_install.exe + ..\..\gwin.zip "GWindows Setup %version%.exe"
+copy /B                  ..\..\gwin.zip "GWindows Archive %version%.zip"
+

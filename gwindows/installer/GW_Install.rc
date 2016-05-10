@@ -59,17 +59,17 @@ FONT 8, "Ms Shell Dlg"
     LTEXT           "by re-running this installation program.", IDC_STATIC, 27, 65, 223, 8, SS_LEFT, WS_EX_LEFT
     ICON            Success_icon, IDC_STATIC, 15, 12, 21, 20, SS_ICON, WS_EX_LEFT
     LTEXT           "You may want to visit the following web sites:", IDC_STATIC, 15, 84, 179, 8, SS_LEFT, WS_EX_LEFT
-    CONTROL         GNAT_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 27, 100, 87, 28, WS_EX_LEFT
+    CONTROL         GNAT_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 23, 100, 87, 28, WS_EX_LEFT
     LTEXT           "GNAT Ada compiler (GNAT GPL and GNAT Pro)", GNAT_URL, 125, 101, 154, 8, SS_LEFT, WS_EX_LEFT
     LTEXT           "GNAT FSF, with MinGW", MinGW_URL, 125, 112, 78, 8, SS_LEFT, WS_EX_LEFT
-    CONTROL         GNAVI_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 27, 136, 125, 33, WS_EX_LEFT
+    CONTROL         GNAVI_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 23, 136, 125, 33, WS_EX_LEFT
     LTEXT           "GNAVI at SourceForge", GNAVI_SF_URL, 161, 138, 74, 8, SS_LEFT, WS_EX_LEFT
     LTEXT           "GNAVI Discuss mailing list", GNAVI_Discuss_URL, 161, 149, 83, 8, SS_LEFT, WS_EX_LEFT
     LTEXT           "GNAVI.org", GNAVI_URL, 161, 160, 35, 8, SS_LEFT, WS_EX_LEFT
-    CONTROL         ResEdit_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 27, 180, 71, 33, WS_EX_LEFT
-    LTEXT           "ResEdit - a graphic resource editor", ResEdit_URL, 117, 179, 110, 8, SS_LEFT, WS_EX_LEFT
-    LTEXT           "To be used with the GWenerator .RC to Ada translator", IDC_STATIC, 130, 190, 179, 8, SS_LEFT, WS_EX_LEFT
-    LTEXT           "and the GWindows framework.", IDC_STATIC, 130, 201, 173, 8, SS_LEFT, WS_EX_LEFT
+    CONTROL         ResEdit_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 23, 180, 71, 33, WS_EX_LEFT
+    LTEXT           "ResEdit - a free graphic resource editor", ResEdit_URL, 103, 178, 190, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "To be used with the .RC to Ada translator (GWenerator) and", IDC_STATIC, 105, 190, 214, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           " the GWindows framework. A version is included with GWenerator", IDC_STATIC, 105, 201, 214, 9, SS_LEFT, WS_EX_LEFT
 }
 
 
@@ -115,7 +115,7 @@ FONT 8, "Ms Shell Dlg"
     PUSHBUTTON      "...", Directory_select_button, 258, 82, 35, 16, 0, WS_EX_LEFT
     AUTORADIOBUTTON "Unicode (16-bit International characters), Ada: Wide_Character / Wide_String", UNICODE_choice, 25, 153, 265, 8, 0, WS_EX_LEFT
     AUTORADIOBUTTON "ANSI (8-bit Western characters), Ada: Character / String", ANSI_choice, 25, 136, 212, 8, 0, WS_EX_LEFT
-    GROUPBOX        "Character and string encoding - please choose:", IDC_STATIC, 9, 120, 293, 52, 0, WS_EX_LEFT
+    GROUPBOX        "Character and string encoding. Please choose (choice can be reversed later):", IDC_STATIC, 9, 120, 293, 52, 0, WS_EX_LEFT
     CONTROL         GNAVI_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 36, 6, 125, 33, WS_EX_LEFT
     AUTOCHECKBOX    "Install GNATCOM - mandatory for GWindows", GNATCOM_check, 9, 184, 224, 8, WS_DISABLED, WS_EX_LEFT
     AUTOCHECKBOX    "Install the GWenerator Ada code generator (ANSI resources only)", GWen_check, 9, 200, 228, 8, 0, WS_EX_LEFT
@@ -128,7 +128,7 @@ FONT 8, "Ms Shell Dlg"
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 Unpack_dialog DIALOG 0, 0, 296, 79
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "Unpacking"
+CAPTION "Unpacking by Zip-Ada"
 FONT 8, "Ms Shell Dlg"
 {
     CONTROL         "", Unpack_progress, PROGRESS_CLASS, 0, 51, 39, 183, 17, WS_EX_LEFT
@@ -186,8 +186,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
         {
             VALUE "Authors", "Gautier de Montmollin"
             VALUE "FileDescription", "Installer for the GWindows programming framework"
-            VALUE "FileVersion", "31-Dec-2015"
-            VALUE "LegalCopyright", "© 2012 .. 2015 G. de Montmollin (MIT license)"
+            VALUE "FileVersion", "10-May-2016"
+            VALUE "LegalCopyright", "© 2012 .. 2016 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWindows Installer"
         }
     }

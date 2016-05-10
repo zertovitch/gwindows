@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2016/04/02  07:45:24
+-- Transcription time: 2016/05/10  13:15:21
 -- GWenerator project file: GW_Install.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -8,7 +8,7 @@
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 05-Apr-2015
+-- RC Grammar version: 10-May-2016
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -16,7 +16,7 @@ with GWindows.Constants;                use GWindows.Constants;
 with GWindows.Windows;                  use GWindows.Windows;
 with GWindows.Buttons;                  use GWindows.Buttons;
 with GWindows.Buttons.Graphic;          use GWindows.Buttons.Graphic;
-with GWindows.Buttons.Owner_drawn;      use GWindows.Buttons.Owner_drawn;
+with GWindows.Buttons.Owner_Drawn;      use GWindows.Buttons.Owner_Drawn;
 with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;
 with GWindows.List_Boxes;               use GWindows.List_Boxes;
 with GWindows.Combo_Boxes;              use GWindows.Combo_Boxes;
@@ -29,7 +29,7 @@ with Interfaces.C;                      use Interfaces.C;
 
 package GW_Install_Resource_GUI is
 
-  type Conflict_dialog_Type is new Window_type with record
+  type Conflict_dialog_Type is new Window_Type with record
 
     IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
     IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
@@ -66,7 +66,7 @@ package GW_Install_Resource_GUI is
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
 
-  type Goodbye_dialog_Type is new Window_type with record
+  type Goodbye_dialog_Type is new Window_Type with record
 
     IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
     IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
@@ -113,7 +113,7 @@ package GW_Install_Resource_GUI is
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
 
-  type Goodbye_dialog_2_Type is new Window_type with record
+  type Goodbye_dialog_2_Type is new Window_Type with record
 
     IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
     IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
@@ -155,7 +155,7 @@ package GW_Install_Resource_GUI is
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
 
-  type Main_install_dialog_Type is new Window_type with record
+  type Main_install_dialog_Type is new Window_Type with record
 
     Static_0001: Group_Box_Type;
     -- Label: IDC_STATIC
@@ -204,7 +204,7 @@ package GW_Install_Resource_GUI is
        resize      : in     Boolean:= False -- optionnally resize Window as designed
      );
 
-  type Unpack_dialog_Type is new Window_type with record
+  type Unpack_dialog_Type is new Window_Type with record
 
     Unpack_progress: Progress_Control_Type;
     File_name: Label_Type;
@@ -219,7 +219,7 @@ package GW_Install_Resource_GUI is
   procedure Create_Full_Dialog
      (Window      : in out Unpack_dialog_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
-      Title       : in     GString := "Unpacking";
+      Title       : in     GString := "Unpacking by Zip-Ada";
       Left        : in     Integer := Use_Default; -- Default = as designed
       Top         : in     Integer := Use_Default; -- Default = as designed
       Width       : in     Integer := Use_Default; -- Default = as designed
@@ -239,8 +239,8 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Installer for the GWindows programming framework";
-    FileVersion: constant String:= "31-Dec-2015";
-    LegalCopyright: constant String:= "© 2012 .. 2015 G. de Montmollin (MIT license)";
+    FileVersion: constant String:= "10-May-2016";
+    LegalCopyright: constant String:= "© 2012 .. 2016 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Installer";
     Translation: constant:= 1033;
   end Version_info;

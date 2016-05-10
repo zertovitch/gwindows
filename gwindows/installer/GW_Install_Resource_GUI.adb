@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2016/04/02  07:45:24
+-- Transcription time: 2016/05/10  13:15:21
 -- GWenerator project file: GW_Install.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -8,7 +8,7 @@
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 05-Apr-2015
+-- RC Grammar version: 10-May-2016
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -101,15 +101,15 @@ package body GW_Install_Resource_GUI is
       Hide(Window.IDCANCEL);
     end if;
     Dlg_to_Scn(  7, 7, 342, 11, x,y,w,h);
-    Create_label( Window, "The GWindows framework is already installed in that location. Please check the versions.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "The GWindows framework is already installed in that location. Please check the versions.", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  13, 36, 159, 157, x,y,w,h);
     Create( Window.Installed_version, Window, x,y,w,h, True, ID => Installed_version);
     Dlg_to_Scn(  185, 36, 159, 157, x,y,w,h);
     Create( Window.Installer_Version, Window, x,y,w,h, True, ID => Installer_Version);
     Dlg_to_Scn(  14, 22, 105, 8, x,y,w,h);
-    Create_label( Window, "Installed version:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Installed version:", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  185, 23, 133, 8, x,y,w,h);
-    Create_label( Window, "Version to be installed:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Version to be installed:", x,y,w,h, GWindows.Static_Controls.Left, None);
   end Create_Contents; -- Conflict_dialog_Type
 
 
@@ -181,39 +181,39 @@ package body GW_Install_Resource_GUI is
       Hide(Window.IDOK);
     end if;
     Dlg_to_Scn(  46, 19, 106, 8, x,y,w,h);
-    Create_label( Window, "Installation successful!", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Installation successful!", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  27, 43, 259, 8, x,y,w,h);
-    Create_label( Window, "Note that you can choose at any time the ANSI or the Unicode version", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Note that you can choose at any time the ANSI or the Unicode version", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  27, 54, 233, 8, x,y,w,h);
-    Create_label( Window, "by running ansi.cmd or unicode.cmd in the gwindows folder, or", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "by running ansi.cmd or unicode.cmd in the gwindows folder, or", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  27, 65, 223, 8, x,y,w,h);
-    Create_label( Window, "by re-running this installation program.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "by re-running this installation program.", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  15, 12, 21, 20, x,y,w,h);
-    Create( Window.Static_0005, Window, Num_resource(Success_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0005, Window, Num_resource(Success_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  15, 84, 179, 8, x,y,w,h);
-    Create_label( Window, "You may want to visit the following web sites:", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  27, 100, 87, 28, x,y,w,h);
-    Create( Window.Static_0007, Window, Num_resource(GNAT_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
+    Create_Label( Window, "You may want to visit the following web sites:", x,y,w,h, GWindows.Static_Controls.Left, None);
+    Dlg_to_Scn(  23, 100, 87, 28, x,y,w,h);
+    Create( Window.Static_0007, Window, Num_resource(GNAT_Logo), x,y,w,h, GWindows.Static_Controls.Left, Half_Sunken);
     Dlg_to_Scn(  125, 101, 154, 8, x,y,w,h);
-    Create( Window.GNAT_URL, Window, "GNAT Ada compiler (GNAT GPL and GNAT Pro)", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAT_URL);
+    Create( Window.GNAT_URL, Window, "GNAT Ada compiler (GNAT GPL and GNAT Pro)", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAT_URL);
     Dlg_to_Scn(  125, 112, 78, 8, x,y,w,h);
-    Create( Window.MinGW_URL, Window, "GNAT FSF, with MinGW", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => MinGW_URL);
-    Dlg_to_Scn(  27, 136, 125, 33, x,y,w,h);
-    Create( Window.Static_0008, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
+    Create( Window.MinGW_URL, Window, "GNAT FSF, with MinGW", x,y,w,h, GWindows.Static_Controls.Left, None, ID => MinGW_URL);
+    Dlg_to_Scn(  23, 136, 125, 33, x,y,w,h);
+    Create( Window.Static_0008, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.Left, Half_Sunken);
     Dlg_to_Scn(  161, 138, 74, 8, x,y,w,h);
-    Create( Window.GNAVI_SF_URL, Window, "GNAVI at SourceForge", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAVI_SF_URL);
+    Create( Window.GNAVI_SF_URL, Window, "GNAVI at SourceForge", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAVI_SF_URL);
     Dlg_to_Scn(  161, 149, 83, 8, x,y,w,h);
-    Create( Window.GNAVI_Discuss_URL, Window, "GNAVI Discuss mailing list", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAVI_Discuss_URL);
+    Create( Window.GNAVI_Discuss_URL, Window, "GNAVI Discuss mailing list", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAVI_Discuss_URL);
     Dlg_to_Scn(  161, 160, 35, 8, x,y,w,h);
-    Create( Window.GNAVI_URL, Window, "GNAVI.org", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => GNAVI_URL);
-    Dlg_to_Scn(  27, 180, 71, 33, x,y,w,h);
-    Create( Window.Static_0009, Window, Num_resource(ResEdit_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
-    Dlg_to_Scn(  117, 179, 110, 8, x,y,w,h);
-    Create( Window.ResEdit_URL, Window, "ResEdit - a graphic resource editor", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => ResEdit_URL);
-    Dlg_to_Scn(  130, 190, 179, 8, x,y,w,h);
-    Create_label( Window, "To be used with the GWenerator .RC to Ada translator", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
-    Dlg_to_Scn(  130, 201, 173, 8, x,y,w,h);
-    Create_label( Window, "and the GWindows framework.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.GNAVI_URL, Window, "GNAVI.org", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAVI_URL);
+    Dlg_to_Scn(  23, 180, 71, 33, x,y,w,h);
+    Create( Window.Static_0009, Window, Num_resource(ResEdit_Logo), x,y,w,h, GWindows.Static_Controls.Left, Half_Sunken);
+    Dlg_to_Scn(  103, 178, 190, 9, x,y,w,h);
+    Create( Window.ResEdit_URL, Window, "ResEdit - a free graphic resource editor", x,y,w,h, GWindows.Static_Controls.Left, None, ID => ResEdit_URL);
+    Dlg_to_Scn(  105, 190, 214, 9, x,y,w,h);
+    Create_Label( Window, "To be used with the .RC to Ada translator (GWenerator) and", x,y,w,h, GWindows.Static_Controls.Left, None);
+    Dlg_to_Scn(  105, 201, 214, 9, x,y,w,h);
+    Create_Label( Window, " the GWindows framework. A version is included with GWenerator", x,y,w,h, GWindows.Static_Controls.Left, None);
   end Create_Contents; -- Goodbye_dialog_Type
 
 
@@ -285,9 +285,9 @@ package body GW_Install_Resource_GUI is
       Hide(Window.IDOK);
     end if;
     Dlg_to_Scn(  17, 9, 21, 20, x,y,w,h);
-    Create( Window.Static_0001, Window, Num_resource(Success_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0001, Window, Num_resource(Success_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  58, 14, 145, 8, x,y,w,h);
-    Create_label( Window, "Ready for starting with GWindows.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Ready for starting with GWindows.", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  39, 35, 254, 41, x,y,w,h);
     Create( Window.Static_0003, Window, "GWindows", x,y,w,h);
     Dlg_to_Scn(  49, 49, 156, 8, x,y,w,h);
@@ -370,19 +370,19 @@ package body GW_Install_Resource_GUI is
     Dlg_to_Scn(  11, 0, 290, 43, x,y,w,h);
     Create( Window.Static_0001, Window, "", x,y,w,h);
     Dlg_to_Scn(  176, 6, 109, 8, x,y,w,h);
-    Create_label( Window, "Open Source Visual", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Open Source Visual", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  176, 19, 109, 8, x,y,w,h);
-    Create_label( Window, "Rapid Application Development", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Rapid Application Development", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  176, 32, 109, 8, x,y,w,h);
-    Create_label( Window, "for Microsoft Windows", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "for Microsoft Windows", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  9, 47, 284, 8, x,y,w,h);
-    Create( Window.Setup_title, Window, "This is the GWindows programming framework's setup, version ", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => Setup_title);
+    Create( Window.Setup_title, Window, "This is the GWindows programming framework's setup, version ", x,y,w,h, GWindows.Static_Controls.Left, None, ID => Setup_title);
     Dlg_to_Scn(  9, 60, 292, 52, x,y,w,h);
     Create( Window.Static_0005, Window, "Location", x,y,w,h);
     Dlg_to_Scn(  36, 72, 261, 8, x,y,w,h);
-    Create_label( Window, "Please specify a directory where you want to install the GWindows framework.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "Please specify a directory where you want to install the GWindows framework.", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  36, 99, 223, 8, x,y,w,h);
-    Create_label( Window, "NB: you can install GWindows at several places.", x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create_Label( Window, "NB: you can install GWindows at several places.", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  36, 83, 221, 14, x,y,w,h);
     Create( Window.Directory_edit, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Directory_edit);
     Dlg_to_Scn(  258, 82, 35, 16, x,y,w,h);
@@ -401,9 +401,9 @@ package body GW_Install_Resource_GUI is
     Dlg_to_Scn(  25, 136, 212, 8, x,y,w,h);
     Create( Window.ANSI_choice, Window, "ANSI (8-bit Western characters), Ada: Character / String", x,y,w,h, ID => ANSI_choice);
     Dlg_to_Scn(  9, 120, 293, 52, x,y,w,h);
-    Create( Window.Static_0008, Window, "Character and string encoding - please choose:", x,y,w,h);
+    Create( Window.Static_0008, Window, "Character and string encoding. Please choose (choice can be reversed later):", x,y,w,h);
     Dlg_to_Scn(  36, 6, 125, 33, x,y,w,h);
-    Create( Window.Static_0009, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.LEFT, HALF_SUNKEN);
+    Create( Window.Static_0009, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.Left, Half_Sunken);
     Dlg_to_Scn(  9, 184, 224, 8, x,y,w,h);
     Create( Window.GNATCOM_check, Window, "Install GNATCOM - mandatory for GWindows", x,y,w,h, ID => GNATCOM_check);
     Disable(Window.GNATCOM_check);
@@ -442,7 +442,7 @@ package body GW_Install_Resource_GUI is
   procedure Create_Full_Dialog
      (Window      : in out Unpack_dialog_Type;
       Parent      : in out GWindows.Base.Base_Window_Type'Class;
-      Title       : in     GString := "Unpacking";
+      Title       : in     GString := "Unpacking by Zip-Ada";
       Left        : in     Integer := Use_Default; -- Default = as designed
       Top         : in     Integer := Use_Default; -- Default = as designed
       Width       : in     Integer := Use_Default; -- Default = as designed
@@ -492,13 +492,13 @@ package body GW_Install_Resource_GUI is
     end if;
     Use_GUI_Font(Window);
     Dlg_to_Scn(  51, 39, 183, 17, x,y,w,h);
-    Create( Window.Unpack_progress, Window, x,y,w,h, HORIZONTAL, False);
+    Create( Window.Unpack_progress, Window, x,y,w,h, Horizontal, False);
     Dlg_to_Scn(  9, 7, 277, 12, x,y,w,h);
-    Create( Window.File_name, Window, "(name)", x,y,w,h, GWindows.Static_Controls.LEFT, NONE, ID => File_name);
+    Create( Window.File_name, Window, "(name)", x,y,w,h, GWindows.Static_Controls.Left, None, ID => File_name);
     Dlg_to_Scn(  16, 38, 21, 20, x,y,w,h);
-    Create( Window.Static_0001, Window, Num_resource(Zip_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0001, Window, Num_resource(Zip_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  251, 36, 21, 20, x,y,w,h);
-    Create( Window.Static_0002, Window, Num_resource(Ada_doc_icon), x,y,w,h, GWindows.Static_Controls.LEFT, NONE);
+    Create( Window.Static_0002, Window, Num_resource(Ada_doc_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
   end Create_Contents; -- Unpack_dialog_Type
 
 
@@ -546,7 +546,7 @@ package body GW_Install_Resource_GUI is
   function Num_resource(id: Natural) return GString is
     img: constant String:= Integer'Image(id);
   begin
-    return To_GString_from_String('#' & img(img'first+1..img'Last));
+    return To_GString_From_String('#' & img(img'First+1..img'Last));
   end Num_resource;
 
   package body Common_Fonts is
@@ -580,13 +580,13 @@ package body GW_Install_Resource_GUI is
      function GetObject
        (hgdiobj  : GWindows.Types.Handle  := GWindows.Drawing_Objects.Handle(GUI_Font);
         cbBufferl: Interfaces.C.int       := LOGFONT'Size / 8;
-        lpvObject: LPVOID                 := Log_of_Current_font'Address)
+        lpvObject: LPVOID                 := Log_of_current_font'Address)
        return Interfaces.C.int;
      pragma Import (StdCall, GetObject,
                       "GetObject" & Character_Mode_Identifier);
 
      function CreateFontIndirect
-       (lpvObject: LPVOID                 := Log_of_Current_font'Address)
+       (lpvObject: LPVOID                 := Log_of_current_font'Address)
        return GWindows.Types.Handle;
      pragma Import (StdCall, CreateFontIndirect,
                       "CreateFontIndirect" & Character_Mode_Identifier);
@@ -602,8 +602,8 @@ package body GW_Install_Resource_GUI is
           14, Underline => True);
             -- !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
       else
-        Log_of_Current_font.lfUnderline:= Interfaces.C.Char'Val(1);
-        GWindows.Drawing_Objects.Handle(URL_font, CreateFontIndirect);
+        Log_of_current_font.lfUnderline:= Interfaces.C.char'Val(1);
+        GWindows.Drawing_Objects.Handle(URL_Font, CreateFontIndirect);
       end if;
     end Create_Common_Fonts;
 
