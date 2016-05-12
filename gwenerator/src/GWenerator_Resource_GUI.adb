@@ -1,14 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2016/05/10  22:47:41
--- GWenerator project file: GWenerator.gwen
+-- Transcription time: 2016/05/12  11:26:43
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 10-May-2016
+-- RC Grammar version: > 10-May-2016
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -110,7 +109,7 @@ package body GWenerator_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out About_box_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      )
   is
     x,y,w,h: Integer;
@@ -206,7 +205,7 @@ package body GWenerator_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out GWen_properties_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      )
   is
     x,y,w,h: Integer;
@@ -353,7 +352,7 @@ package body GWenerator_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Main_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      )
   is
     x,y,w,h: Integer;

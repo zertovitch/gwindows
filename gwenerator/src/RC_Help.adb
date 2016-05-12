@@ -601,7 +601,7 @@ package body RC_Help is
     Ada_Put_Line(to, "  procedure Create_Contents");
     Ada_Put_Line(to, "     ( Window      : in out " & type_name & ";");
     Ada_Put_Line(to, "       for_dialog  : in     Boolean; -- True: buttons do close the window");
-    Ada_Put_Line(to, "       resize      : in     Boolean:= False -- optionnally resize Window as designed");
+    Ada_Put_Line(to, "       resize      : in     Boolean:= False -- optionally resize Window as designed");
     Ada_Put(to,      "     )");
     if to = to_body then
       Ada_New_Line(to);

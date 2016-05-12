@@ -237,13 +237,13 @@ package body Resource_Header is
   exception
     when Unexpected_Syntax  =>
       Close (H_File);
-      raise Unexpected_Syntax with Integer'Image (Input_Line_Nr);
+      raise Unexpected_Syntax with "Line" & Integer'Image (Input_Line_Nr);
 --    when Illegal_Number =>
 --      Close (H_File);
 --      raise Illegal_Number with Integer'Image (Input_Line_Nr);
     when No_Define =>
       Close (H_File);
-      raise No_Define with Integer'Image (Input_Line_Nr);
+      raise No_Define with "Line" & Integer'Image (Input_Line_Nr);
   end Convert_Header_File;
 
 end Resource_Header;

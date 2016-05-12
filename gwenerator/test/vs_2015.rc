@@ -1,0 +1,233 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "vs_2015.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_VS_2015             ICON                    "vs_2015.ico"
+
+IDI_SMALL               ICON                    "small.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDC_VS_2015 MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open",                       ID_FILE_OPEN
+        MENUITEM "&Zamba",                      ID_FILE_ZAMBA
+        MENUITEM "E&xit",                       IDM_EXIT
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About ...",                  IDM_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_VS_2015 ACCELERATORS
+BEGIN
+    "?",            IDM_ABOUT,              ASCII,  ALT
+    "/",            IDM_ABOUT,              ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About vs_2015"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
+    LTEXT           "vs_2015, Version 1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2016",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "OK",IDOK,113,41,50,14,WS_GROUP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "vs_2015.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "vs_2015"
+    IDC_VS_2015             "VS_2015"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// French (Switzerland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRS)
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH_SWISS
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_My_nice_dialog DIALOGEX 85, 62, 358, 267
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "That's a title"
+FONT 10, "Microsoft Sans Serif", 400, 0, 0x0
+BEGIN
+    CTEXT           "Text, centered",102,26,12,90,12,SS_NOPREFIX
+    EDITTEXT        ID_Edit_Single,31,70,87,14
+    GROUPBOX        "Group me!",101,7,45,134,89
+    DEFPUSHBUTTON   "Push me plenty!",ID_Push_Me,154,107,77,18
+    CONTROL         "Radio, auto",ID_Radio_auto,"Button",BS_AUTORADIOBUTTON | BS_LEFTTEXT | WS_TABSTOP,262,26,67,12
+    SCROLLBAR       109,268,52,48,8,WS_TABSTOP
+    SCROLLBAR       110,343,11,9,40,SBS_VERT | WS_GROUP
+    RTEXT           "Text, right",111,96,15,90,26,SS_NOPREFIX | SS_SUNKEN | WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "Text !",112,204,12,48,12,SS_NOPREFIX
+    CONTROL         "Check me!",ID_Check_Box,"Button",BS_3STATE | WS_TABSTOP,171,61,62,10
+    RADIOBUTTON     "Radio, NON auto",ID_Radio_1,261,7,67,12,BS_LEFTTEXT | WS_TABSTOP
+    CONTROL         "",IDC_STATIC,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,257,92,95,40
+    LTEXT           "List box here:",IDC_STATIC,3,134,48,11
+    CONTROL         "",ID_ListView_Control,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,145,134,194,42
+    CONTROL         "",IDC_STATIC,"SysDateTimePick32",DTS_RIGHTALIGN | WS_TABSTOP,243,64,70,13
+    LTEXT           "Edit single line:",IDC_STATIC,19,60,46,8
+    CONTROL         "",IDC_STATIC,"msctls_progress32",PBS_SMOOTH | PBS_VERTICAL | WS_BORDER,337,176,15,53
+    LTEXT           "Drop down list (combo)",IDC_STATIC,188,234,79,11
+    LISTBOX         116,7,149,84,43,LBS_SORT | LBS_MULTIPLESEL | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Combo here",IDC_STATIC,22,238,48,8
+    COMBOBOX        255,103,252,48,259
+    LTEXT           "Drop down combo",IDC_STATIC,100,238,67,11
+    COMBOBOX        173,22,251,48,258,CBS_DROPDOWN
+    CONTROL         "",IDC_TAB1,"SysTabControl32",0x0,7,195,145,33
+    CONTROL         "<a>SysLink1</a>",IDC_SYSLINK1,"SysLink",WS_TABSTOP,232,186,31,14
+    CONTROL         "Split Button",IDC_Split_Button,"Button",BS_SPLITBUTTON | WS_TABSTOP,230,203,47,14
+    EDITTEXT        ID_Edit_Multi,31,100,87,27,ES_MULTILINE
+    LTEXT           "Edit multi-line:",IDC_STATIC,19,91,42,8
+    COMBOBOX        256,190,251,48,259,CBS_DROPDOWNLIST
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_My_nice_dialog, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 352
+        TOPMARGIN, 7
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // French (Switzerland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

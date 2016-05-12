@@ -313,6 +313,7 @@ BS_BOTTOM                      { return BS_BOTTOM_t; }
 BS_CENTER                      { return BS_CENTER_t; }
 BS_CHECKBOX                    { return BS_CHECKBOX_t; }
 BS_DEFPUSHBUTTON               { return BS_DEFPUSHBUTTON_t; }
+BS_DEFSPLITBUTTON              { return BS_DEFSPLITBUTTON_t; }
 BS_ICON                        { return BS_ICON_t; }
 BS_FLAT                        { return BS_FLAT_t; }
 BS_LEFT                        { return BS_LEFT_t; }
@@ -325,6 +326,7 @@ BS_PUSHLIKE                    { return BS_PUSHLIKE_t; }
 BS_RADIOBUTTON                 { return BS_RADIOBUTTON_t; }
 BS_RIGHT                       { return BS_RIGHT_t; }
 BS_RIGHTBUTTON                 { return BS_RIGHTBUTTON_t; }
+BS_SPLITBUTTON                 { return BS_SPLITBUTTON_t; }
 BS_TEXT                        { return BS_TEXT_t; }
 BS_TOP                         { return BS_TOP_t; }
 BS_VCENTER                     { return BS_VCENTER_t; }
