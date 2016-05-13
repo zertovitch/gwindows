@@ -27,6 +27,7 @@
 #define IDC_Split_Button                1002
 #define ID_List_Control                 1003
 #define ID_ListView_Control             1003
+#define IDC_COMMAND1                    1004
 #define ID_FILE_OPEN                    32771
 #define ID_FILE_ZAMBA                   32772
 #define IDC_STATIC                      -1
@@ -38,7 +39,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        130
 #define _APS_NEXT_COMMAND_VALUE         32773
-#define _APS_NEXT_CONTROL_VALUE         1004
+#define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

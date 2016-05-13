@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script lexer file (AFLEX)
 --
---  Copyright (c) Gautier de Montmollin 2008..2014
+--  Copyright (c) Gautier de Montmollin 2008 .. 2016
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -312,8 +312,10 @@ BS_BITMAP                      { return BS_BITMAP_t; }
 BS_BOTTOM                      { return BS_BOTTOM_t; }
 BS_CENTER                      { return BS_CENTER_t; }
 BS_CHECKBOX                    { return BS_CHECKBOX_t; }
+BS_COMMANDLINK                 { return BS_COMMANDLINK_t; }
 BS_DEFPUSHBUTTON               { return BS_DEFPUSHBUTTON_t; }
 BS_DEFSPLITBUTTON              { return BS_DEFSPLITBUTTON_t; }
+BS_DEFCOMMANDLINK              { return BS_DEFCOMMANDLINK_t; }
 BS_ICON                        { return BS_ICON_t; }
 BS_FLAT                        { return BS_FLAT_t; }
 BS_LEFT                        { return BS_LEFT_t; }

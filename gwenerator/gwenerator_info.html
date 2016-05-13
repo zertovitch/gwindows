@@ -22,7 +22,8 @@ RC2GW.adb, RC_Help.ads, RC_Help.adb, RC.l, RC.y.
 <li><a href=#contact>Contact</a>
 <li><b>Annex 1</b>: <a href=#reseditconfig>Configuring the resource editor, <b>ResEdit</b>, for GNAT</a>
 <li><b>Annex 2</b>: <a href=#goodies>Goodies: open-source packages that may be useful for your GWindows application</a>
-<li><b>Annex 3</b>: <a href=#apps>Examples of applications developped using GWindows and GWenerator</a>
+<li><b>Annex 3</b>: <a href=#apps>Examples of applications developed using GWindows and GWenerator</a>
+<li><b>Annex 4</b>: <a href=#vs>Configuring a resource within Visual Studio for the GWenerator</a>
 </ol>
 <hr>
 
@@ -48,9 +49,9 @@ Fortunately, there is a way, though not perfect, nor complete,
 nor interactive, to
 separate the GUI design and the code generation.
 This way is the Resource! There are many Resource Editors
-for Windows, for more than 20 years (in 2009). It ranges from
-the antique DlgEdit to Visual Studio 2008 for the editors provided
-by Microsoft. In the free or open-source world, there are
+for Windows, for more than 27 years (in 2016). It ranges from
+the antique DlgEdit to Visual Studio 2015 for the editors provided
+by Microsoft. In the freeware or open-source world, there are
 also some, e.g. ResEdit. What was missing, to benefit 
 from that source
 of GUI design, was a parser for the resource script files.
@@ -351,7 +352,7 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
     <b><font face="Arial, Tahoma">Advices about using ResEdit</font></b>
   <p>
     <ol>
-    <li>It is recommanded to have a proper naming convention for the ".h" file containing the resource constants.<br>
+    <li>It is recommended to have a proper naming convention for the ".h" file containing the resource constants.<br>
     It may be useful if you have several resource scripts in the same location.<br>
     For instance the interface with "GWenerator.rc" has "GWenerator.h" instead of the default "resource.h".<br>
     To that aim, in the preferences, put "%barefilename%.h" instead of "resource.h" as Header file name.<br>
@@ -413,6 +414,24 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
               <br>
         </ul>
     </ol>
+  </p>
+<li>
+  <a name=vs>
+    <b><font face="Arial, Tahoma">Annex 4:   Configuring a resource within Visual Studio for the GWenerator</font></b>
+  </a>
+  <p>
+    The following are observations with Visual Studio Community 2015, for Win32 C++ projects.
+    This is a way to design user interfaces for GWindows. Just ignore the ".cpp" and many other files, they do nothing.
+    <ul>
+      <li>
+        As the GWenerator understands (so far) only 8-bit characters, you need VS to write the ".rc" and ".h" files with this encoding.
+        In the project properties, choose "Configuration Properties" &rarr; "General" &rarr; "Character Set" &rarr; "No Set".<br>
+        You may need to convert (once) the ".rc" and ".h" files to 8-bit (ANSI) encoding, for instance via Notepad++.<br>
+        Then VS remembers the encoding choice.
+      <li>
+        It is recommended to have a proper naming convention for the ".h" file
+        containing the resource constants instead of the default "resource.h" (same remark as for ResEdit).<br>
+        In the Resource View, right-click on the resource name, choose "Resource Includes..." and use a proper name.
   </p>
 </ol>
 </body>

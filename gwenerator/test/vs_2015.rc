@@ -31,9 +31,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_VS_2015             ICON                    "vs_2015.ico"
+IDI_VS_2015             ICON                    "..\\src\\gwenerator.ico"
 
-IDI_SMALL               ICON                    "small.ico"
+IDI_SMALL               ICON                    "..\\src\\gwenerator.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -184,18 +184,19 @@ BEGIN
     CONTROL         "",IDC_STATIC,"SysDateTimePick32",DTS_RIGHTALIGN | WS_TABSTOP,243,64,70,13
     LTEXT           "Edit single line:",IDC_STATIC,19,60,46,8
     CONTROL         "",IDC_STATIC,"msctls_progress32",PBS_SMOOTH | PBS_VERTICAL | WS_BORDER,337,176,15,53
-    LTEXT           "Drop down list (combo)",IDC_STATIC,188,234,79,11
+    LTEXT           "Drop list (combo):",IDC_STATIC,159,237,56,11
     LISTBOX         116,7,149,84,43,LBS_SORT | LBS_MULTIPLESEL | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Combo here",IDC_STATIC,22,238,48,8
-    COMBOBOX        255,103,252,48,259
-    LTEXT           "Drop down combo",IDC_STATIC,100,238,67,11
-    COMBOBOX        173,22,251,48,258,CBS_DROPDOWN
+    LTEXT           "Combo here:",IDC_STATIC,22,238,45,8
+    COMBOBOX        255,21,250,48,259
+    LTEXT           "Drop down (combo):",IDC_STATIC,85,237,67,11
+    COMBOBOX        173,87,251,48,258,CBS_DROPDOWN
     CONTROL         "",IDC_TAB1,"SysTabControl32",0x0,7,195,145,33
     CONTROL         "<a>SysLink1</a>",IDC_SYSLINK1,"SysLink",WS_TABSTOP,232,186,31,14
-    CONTROL         "Split Button",IDC_Split_Button,"Button",BS_SPLITBUTTON | WS_TABSTOP,230,203,47,14
+    CONTROL         "A Split Button",IDC_Split_Button,"Button",BS_SPLITBUTTON | WS_TABSTOP,202,203,75,14
     EDITTEXT        ID_Edit_Multi,31,100,87,27,ES_MULTILINE
     LTEXT           "Edit multi-line:",IDC_STATIC,19,91,42,8
-    COMBOBOX        256,190,251,48,259,CBS_DROPDOWNLIST
+    COMBOBOX        256,156,252,48,259,CBS_DROPDOWNLIST
+    CONTROL         "Some Command",IDC_COMMAND1,"Button",BS_DEFCOMMANDLINK | WS_TABSTOP,253,233,99,21
 END
 
 

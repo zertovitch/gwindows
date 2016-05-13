@@ -138,7 +138,9 @@
        BS_PUSHLIKE_t, BS_TOP_t, BS_MULTILINE_t,
        BS_DEFPUSHBUTTON_t, BS_PUSHBUTTON_t, BS_RADIOBUTTON_t, BS_AUTO3STATE_t,
        BS_TEXT_t, BS_RIGHTBUTTON_t, BS_ICON_t,
-       BS_NOTIFY_t, BS_SPLITBUTTON_t, BS_DEFSPLITBUTTON_t
+       BS_NOTIFY_t, 
+       BS_SPLITBUTTON_t, BS_DEFSPLITBUTTON_t,
+       BS_COMMANDLINK_t, BS_DEFCOMMANDLINK_t
 -- Combo-box styles
 %token CBS_SIMPLE_t, CBS_DROPDOWN_t, CBS_DROPDOWNLIST_t,
        CBS_SORT_t, CBS_HASSTRINGS_t, CBS_AUTOHSCROLL_t,
@@ -1075,6 +1077,9 @@ bs_style_only :
           | BS_RIGHTBUTTON_t
           | BS_SPLITBUTTON_t
           | BS_DEFSPLITBUTTON_t
+            { style_switch(default):= True; }
+          | BS_COMMANDLINK_t
+          | BS_DEFCOMMANDLINK_t
             { style_switch(default):= True; }
           ;
 
