@@ -65,7 +65,6 @@ package body GWindows.Image_Lists.Ex_Image_Lists is
       Handle (List, ImageList_Create (FLAGS => Get_Color_Flag (Color_Depth)));
    end CreateEx;
 
-
    procedure CreateEx (List    : in out Ex_Image_List_Type;
                        Name    : in     GString;
                        Width   : in     Positive;

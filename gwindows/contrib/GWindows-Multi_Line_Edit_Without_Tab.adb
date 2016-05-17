@@ -22,7 +22,8 @@ package body GWindows.Multi_Line_Edit_Without_Tab is
       Next_Window : Pointer_To_Base_Window_Class;
    begin
       if message = WM_KEYDOWN and then
-         wParam = VK_TAB then
+         wParam = VK_TAB
+      then
          if GetAsyncKeyState (VK_SHIFT) < 0 then
             Next_Window := Previous_Tab_Stop (Parent_Window.all, Window);
             if Next_Window /= null then

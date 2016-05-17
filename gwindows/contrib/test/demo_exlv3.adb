@@ -143,7 +143,6 @@ begin
                   Index   => 2,
                   Width   => 120);
 
-
    -- test data
    declare
       L_Index: Natural;
@@ -167,7 +166,6 @@ begin
                        Sub_Index => 2);
       end loop;
    end;
-
 
    -- buttons
    Create(Button => Check,
@@ -195,5 +193,3 @@ begin
    GWindows.Application.Message_Loop;
 
 end Demo_Exlv3;
-
-

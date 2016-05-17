@@ -15,6 +15,7 @@ project GWindows_Contrib is
       for Default_Switches ("ada") use (
          "-Os", "-g", "-gnat05", 
          "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
+         "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
          "-gnatwaKM", "-gnatVa", "-gnato");
    end Compiler;
 

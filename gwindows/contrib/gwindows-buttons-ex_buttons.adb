@@ -76,7 +76,6 @@ package body GWindows.Buttons.Ex_buttons is
    pragma Import (StdCall, GetWindowLong,
                     "GetWindowLong" & Character_Mode_Identifier);
 
-
    ----------------------
    -- public functions --
    ----------------------

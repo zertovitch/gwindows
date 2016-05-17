@@ -138,7 +138,6 @@ package GWindows.Common_Controls.Ex_TV_Generic is
                           return T;
    -- returns payload data acossiated with item
 
-
    -- fires, if node-selection changes
    type Change_Event is access procedure
      (Window    : in out Ex_Tree_View_Control_Type'Class;

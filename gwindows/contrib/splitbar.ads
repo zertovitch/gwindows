@@ -32,7 +32,6 @@
 
 --  A splitbar is a pair of windows with a draggable bar between them.
 
-
 with GWindows.Windows; use GWindows.Windows;
 with GWindows.Types;
 with GWindows.Drawing;

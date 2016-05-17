@@ -129,8 +129,6 @@ package GWindows.Common_Controls.Ex_TV is
                              Item       : in     Tree_Item_Node);
    --  set colors for an item
 
-
-
    type Change_Event is access
      procedure (Window : in out Ex_Tree_View_Control_Type'Class;
                 Node   : in     Tree_Item_Node);

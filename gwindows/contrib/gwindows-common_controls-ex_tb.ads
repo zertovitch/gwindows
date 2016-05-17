@@ -50,7 +50,6 @@ package GWindows.Common_Controls.Ex_Tb is
    --  Text_position: text at right or at bottom with respect to the
    --  buttons icon is_flat: "flat" Buttons
 
-
    procedure CreateEx
      (Control       : in out Ex_Toolbar_Control_Type;
       Parent        : in out GWindows.Base.Base_Window_Type'Class;
@@ -65,7 +64,6 @@ package GWindows.Common_Controls.Ex_Tb is
       Is_Dynamic    : in     Boolean                              := False);
    --  create ex_toolbar
    --  max_buttons: max number of buttons
-
 
    procedure Set_Image_List (Control : in out Ex_Toolbar_Control_Type;
                              List    : in     Ex_Image_List_Type);
@@ -86,7 +84,6 @@ package GWindows.Common_Controls.Ex_Tb is
    --  None_Image:
    --    if the button does not carry an image set none_image := true ->
    --    no space for an empty image is reserved.
-
 
    function Get_Tooltip (Control : in Ex_Toolbar_Control_Type;
                          command : in Integer)

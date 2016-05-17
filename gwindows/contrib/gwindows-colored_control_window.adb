@@ -37,7 +37,8 @@ package body GWindows.Colored_Control_Window is
          if Handle (Window.Bitmap) /= Null_Handle then
             if Handle (Window.Stretched) = Null_Handle or
               Window.Width /= Area.Right - Area.Left or
-              Window.Height /= Area.Bottom - Area.Top then
+              Window.Height /= Area.Bottom - Area.Top
+            then
                Delete (Window.Stretched);
                Handle (Window.Stretched,
                        CopyImage (Handle (Window.Bitmap), IMAGE_BITMAP,
@@ -57,11 +58,13 @@ package body GWindows.Colored_Control_Window is
          Return_Value := 1;
       elsif Control /= null then
          if message = WM_CTLCOLORSCROLLBAR and then
-           Control.all in Colored_Scroll_Bar_Type'Class then
+           Control.all in Colored_Scroll_Bar_Type'Class
+         then
             Return_Value := To_Lresult
               (Handle (Colored_Scroll_Bar_Type (Control.all).Brush));
          elsif message = WM_CTLCOLORSTATIC and then
-           Control.all in Colored_Label_Type'Class then
+           Control.all in Colored_Label_Type'Class
+         then
             Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color (Canvas, Colored_Label_Type (Control.all).Color);
             Text_Color (Canvas, Colored_Label_Type (Control.all).Text);
@@ -70,7 +73,8 @@ package body GWindows.Colored_Control_Window is
               (Handle (Colored_Label_Type (Control.all).Brush));
          elsif (message = WM_CTLCOLORSTATIC or
                 message = WM_CTLCOLOREDIT) and then
-           Control.all in Colored_Edit_Box_Type'Class then
+           Control.all in Colored_Edit_Box_Type'Class
+         then
             Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color
                (Canvas, Colored_Edit_Box_Type (Control.all).Color);
@@ -80,7 +84,8 @@ package body GWindows.Colored_Control_Window is
               (Handle (Colored_Edit_Box_Type (Control.all).Brush));
          elsif (message = WM_CTLCOLORSTATIC or
                 message = WM_CTLCOLOREDIT) and then
-           Control.all in Colored_Multi_Line_Edit_Box_Type'Class then
+           Control.all in Colored_Multi_Line_Edit_Box_Type'Class
+         then
             Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color
               (Canvas, Colored_Multi_Line_Edit_Box_Type (Control.all).Color);
@@ -91,7 +96,8 @@ package body GWindows.Colored_Control_Window is
               (Handle (Colored_Multi_Line_Edit_Box_Type (Control.all).Brush));
          elsif (message = WM_CTLCOLORSTATIC or
                 message = WM_CTLCOLOREDIT) and then
-           Control.all in Colored_Combo_Box_Type'Class then
+           Control.all in Colored_Combo_Box_Type'Class
+         then
             Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color
               (Canvas, Colored_Combo_Box_Type (Control.all).Color);
@@ -101,7 +107,8 @@ package body GWindows.Colored_Control_Window is
               (Handle (Colored_Combo_Box_Type (Control.all).Brush));
          elsif (message = WM_CTLCOLORSTATIC or
                 message = WM_CTLCOLOREDIT) and then
-           Control.all in Colored_Drop_Down_Combo_Box_Type'Class then
+           Control.all in Colored_Drop_Down_Combo_Box_Type'Class
+         then
             Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color
               (Canvas, Colored_Drop_Down_Combo_Box_Type (Control.all).Color);
@@ -113,7 +120,8 @@ package body GWindows.Colored_Control_Window is
          elsif (message = WM_CTLCOLORSTATIC or
                 message = WM_CTLCOLOREDIT or
                 message = WM_CTLCOLORBTN) and then
-               Control.all in Colored_Check_Box_Type'Class then
+               Control.all in Colored_Check_Box_Type'Class
+         then
             Handle (Canvas, GWindows.Types.To_Handle (wParam));
             Background_Color
               (Canvas, Colored_Check_Box_Type (Control.all).Color);

@@ -66,7 +66,6 @@ package body GWindows.Windows.Ex_Windows is
       Window.Toolbar := Toolbar'Unchecked_Access;
    end Activate_Tooltip;
 
-
    --------------------
    -- event-handling --
    --------------------

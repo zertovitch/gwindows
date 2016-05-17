@@ -481,7 +481,8 @@ package body GWindows.Common_Controls.Ex_List_View is
    begin
       -- customdraw subitem
       if Message.Code = Nm_Customdraw and then
-        Window.Color_Mode = Subitem then
+        Window.Color_Mode = Subitem
+      then
          declare
             Lvcd_Ptr : constant Pointer_To_Nmlvcustomdraw_Type :=
               Message_To_Nmlvcustomdraw_Pointer (Message);
@@ -490,7 +491,8 @@ package body GWindows.Common_Controls.Ex_List_View is
          end;
          -- customdraw item
       elsif Message.Code = Nm_Customdraw and then
-        Window.Color_Mode = Item_Alternately then
+        Window.Color_Mode = Item_Alternately
+      then
          declare
             Lvcd_Ptr : constant Pointer_To_Nmlvcustomdraw_Type :=
               Message_To_Nmlvcustomdraw_Pointer (Message);
@@ -608,7 +610,8 @@ package body GWindows.Common_Controls.Ex_List_View is
                if internal /= null and then
                  internal.Colors /= null and then
                  internal.Colors'Last >=  Integer(Lvcd_Ptr.Isubitem) and then
-                 internal.Colors(Integer(Lvcd_Ptr.Isubitem)).Textcolor /= NullColor then
+                 internal.Colors(Integer(Lvcd_Ptr.Isubitem)).Textcolor /= NullColor
+               then
                   Lvcd_Ptr.Clrtext := internal.Colors(Integer(Lvcd_Ptr.Isubitem)).Textcolor;
                else
                   Lvcd_Ptr.Clrtext := Control.Control_Textcolor;
@@ -616,7 +619,8 @@ package body GWindows.Common_Controls.Ex_List_View is
                if internal /= null and then
                  internal.Colors /= null and then
                  internal.Colors'Last >=  Integer(Lvcd_Ptr.Isubitem) and then
-                 internal.Colors(Integer(Lvcd_Ptr.Isubitem)).Backcolor /= NullColor then
+                 internal.Colors(Integer(Lvcd_Ptr.Isubitem)).Backcolor /= NullColor
+               then
                   Lvcd_Ptr.Clrtextbk := internal.Colors(Integer(Lvcd_Ptr.Isubitem)).Backcolor;
                else
                   Lvcd_Ptr.Clrtextbk := Control.Control_Backcolor;
@@ -668,7 +672,6 @@ package body GWindows.Common_Controls.Ex_List_View is
       Icon_Width, Icon_Height: Natural;
    begin
       GWindows.Drawing.Handle(Canvas, Drawitem.Hdc);
-
 
       -- get left for paint
       Paint_Left := Drawitem.RcItem.Left + 1;
@@ -942,7 +945,8 @@ package body GWindows.Common_Controls.Ex_List_View is
                               Lparam  => GWindows.Types.To_Lparam(LVSCW_AUTOSIZE));
          when Headersize =>
             if Control.Sort_Object.Sort_Column = Column and then
-              Control.Sort_Object.Icon_Visible then
+              Control.Sort_Object.Icon_Visible
+            then
                -- width manually calculate
                declare
                   Canvas: GWindows.Drawing.Canvas_Type;

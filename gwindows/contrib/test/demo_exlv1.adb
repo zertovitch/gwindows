@@ -168,5 +168,3 @@ begin
    GWindows.Application.Message_Loop;
 
 end Demo_Exlv1;
-
-

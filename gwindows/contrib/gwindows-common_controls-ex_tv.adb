@@ -281,7 +281,6 @@ package body GWindows.Common_Controls.Ex_TV is
 
    end Insert_Item;
 
-
    procedure Insert_Item
      (Control     : in out Ex_Tree_View_Control_Type;
       Text        : in     GString;

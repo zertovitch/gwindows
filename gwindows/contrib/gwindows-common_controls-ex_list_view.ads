@@ -74,7 +74,6 @@ package GWindows.Common_Controls.Ex_List_View is
    procedure Remove_Extended_Style (Control : in     Ex_List_View_Control_Type;
                                     Style   : in     Extended_Style_Type );
 
-
    -- Coloring ---------------------
    --
    --   Allitems = all items/subitems have the same text/backcolor
@@ -101,7 +100,6 @@ package GWindows.Common_Controls.Ex_List_View is
    procedure Control_Back_Color (Control : in  out  Ex_List_View_Control_Type;
                                  Color   : in       Color_Type               );
 
-
    -- Set the backcolors for color_mode = item_alternately
    -- is another color_mode active, it automatically switches to color_mode = item_alternately
    procedure Set_Alternately_Colors(Control : in out Ex_List_View_Control_Type;
@@ -126,7 +124,6 @@ package GWindows.Common_Controls.Ex_List_View is
    procedure Color_Mode(Control : in out Ex_List_View_Control_Type;
                         Mode    : in Color_Mode_Type;
                         Redraw  : in Boolean := True);
-
 
    -- Payload ----------------------------
    --

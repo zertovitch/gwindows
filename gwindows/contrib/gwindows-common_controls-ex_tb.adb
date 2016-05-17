@@ -63,7 +63,6 @@ package body GWindows.Common_Controls.Ex_Tb is
          Istring : chars_ptr;
       end record;
 
-
    --------------
    -- CreateEx --
    --------------

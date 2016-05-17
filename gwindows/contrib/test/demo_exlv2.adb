@@ -139,7 +139,6 @@ begin
          Payload := new Payload_Data_Type;
          Payload.Rgb0 := L_Rgb;
 
-
          L_Rgb.Blue := 250;
          L_Rgb.Green := Color_Range(I*2);
          L_Rgb.Red := Color_Range(255 - I*2);
@@ -186,10 +185,7 @@ begin
           Width => 250,
           Height => 22);
 
-
    Show(Main);
    GWindows.Application.Message_Loop;
 
 end Demo_Exlv2;
-
-

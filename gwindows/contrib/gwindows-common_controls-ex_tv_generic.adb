@@ -270,7 +270,6 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
       end case;
    end Insert_Item;
 
-
    procedure Insert_Item (Control     : in out Ex_Tree_View_Control_Type;
                           Text        : in     GString;
                           Parent_Node : in     Tree_Item_Node;
@@ -499,7 +498,6 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
       Data_access := Address_Conversion.To_Pointer(Get_Lparam(Control, Node));
       return Data_access.More_Data;
    end Get_Item_Data;
-
 
    --------------------
    -- event-handling --
