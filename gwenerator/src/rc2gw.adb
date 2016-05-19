@@ -4,7 +4,7 @@
 --  RC2GW translates a Resource Compiler script file (.rc or .dlg)
 --  into an Ada package for the GWindows GUI system.
 --
---  Copyright (c) Gautier de Montmollin 2008..2012
+--  Copyright (c) Gautier de Montmollin 2008 .. 2016
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -58,6 +58,8 @@ procedure RC2GW is
     Put_Line( Standard_Error, "          -s  : put each item (dialog, menu) in a separate package");
     Put_Line( Standard_Error, "          -t  : generate test procedure");
     Put_Line( Standard_Error, "          -c  : initialize some controls with fake contents, for test/debug");
+    New_Line( Standard_Error );
+    Put_Line( Standard_Error, "RC Grammar version: " & RC_Help.Grammar_Version);
   end Syntax;
 
 begin

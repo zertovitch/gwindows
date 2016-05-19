@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2016/05/19  04:55:10
+-- Transcription time: 2016/05/19  09:20:01
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: > 10-May-2016
+-- RC Grammar version: >= 19-May-2016
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -19,7 +19,6 @@ with System;
 package body GWenerator_Resource_GUI is
 
   -- ** Generated code begins here \/ \/ \/.
-
 
   -- Menu at line 49
   procedure Create_Full_Menu
@@ -47,8 +46,7 @@ package body GWenerator_Resource_GUI is
     Menu.Popup_0004:= Create_Popup;
     Append_Menu(Menu.Main, "&Help", Menu.Popup_0004);
     Append_Item(Menu.Popup_0004, "&About", About);
-  end Create_Full_Menu; -- Main_Menu_Type
-
+  end Create_Full_Menu;  --  Main_Menu_Type
 
   -- Dialog at resource line 86
 
@@ -157,8 +155,7 @@ package body GWenerator_Resource_GUI is
     Create( Window.Static_0006, Window, "Software made with the following free open source components:", x,y,w,h);
     Dlg_to_Scn(  133, 119, 113, 8, x,y,w,h);
     Create( Window.GNAT_Version, Window, "GNAT_Version", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAT_Version);
-  end Create_Contents; -- About_box_Type
-
+  end Create_Contents;  --  About_box_Type
 
   -- Dialog at resource line 110
 
@@ -304,8 +301,7 @@ package body GWenerator_Resource_GUI is
     Create_Label( Window, "Invoking resource compiler from GWenerator...", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  180, 63, 110, 15, x,y,w,h);
     Create( Window.RC_Compiler_list, Window, "", x,y,w,h, False, ID => RC_Compiler_list);
-  end Create_Contents; -- GWen_properties_Type
-
+  end Create_Contents;  --  GWen_properties_Type
 
   -- Dialog at resource line 146
 
@@ -433,8 +429,7 @@ package body GWenerator_Resource_GUI is
     Create( Window.More_less_details, Window, "", x,y,w,h, ID => More_less_details);
     Dlg_to_Scn(  215, 93, 10, 9, x,y,w,h);
     Create( Window.More_less_build, Window, "", x,y,w,h, ID => More_less_build);
-  end Create_Contents; -- Main_dialog_Type
-
+  end Create_Contents;  --  Main_dialog_Type
 
   -- ** Generated code ends here /\ /\ /\.
 

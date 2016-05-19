@@ -1,13 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2016/05/19  04:55:10
+-- Transcription time: 2016/05/19  09:20:01
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: > 10-May-2016
+-- RC Grammar version: >= 19-May-2016
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -34,7 +34,7 @@ package GWenerator_Resource_GUI is
     Popup_0002: Menu_Type;  -- level 1; title: "&Actions"
     Popup_0003: Menu_Type;  -- level 1; title: "&Options"
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
-  end record; -- Main_Menu_Type
+  end record;  --  Main_Menu_Type
 
   -- Menu at line 74
   procedure Create_Full_Menu
@@ -213,7 +213,6 @@ package GWenerator_Resource_GUI is
     Translation: constant:= 1033;
   end Version_info;
 
-
   ------------------------------------------------
   -- Defined resource symbols --> Ada constants --
   ------------------------------------------------
@@ -303,7 +302,6 @@ package GWenerator_Resource_GUI is
   procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
 
   function Num_resource(id: Natural) return GString;  --  Just turn 123 into "#123".
-
 
   -- Last line of resource script file: 264
 
