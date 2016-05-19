@@ -346,9 +346,8 @@ dialog    :    RC_Ident
                  Ada_Put_Line(to_spec, ";");
                  Ada_New_Line(to_spec);
                  Ada_Put_Line(to_body,
-                   "  end Create_Contents; -- " &
+                   "  end Create_Contents;  --  " &
                    S(last_dialog_ident) & "_Type" );
-                 Ada_New_Line(to_body);
                  Close_if_separate(S(last_dialog_ident));
                }
           ;
@@ -1208,10 +1207,10 @@ menu : RC_Ident
        menu_items_optional
        END_block
        { if empty_dialog_record then
-           Ada_Put_Line(to_spec, "    null; -- empty!");
+           Ada_Put_Line(to_spec, "    null;  --  empty!");
          end if;
          Ada_Put_Line(to_spec,
-           "  end record; -- " & S(last_dialog_ident) & "_Type"
+           "  end record;  --  " & S(last_dialog_ident) & "_Type"
          );
          Ada_New_Line(to_spec);
          Ada_Proc_Menu(
@@ -1221,9 +1220,8 @@ menu : RC_Ident
          Ada_Put_Line(to_spec, ";");
          Ada_New_Line(to_spec);
          Ada_Put_Line(to_body,
-           "  end Create_Full_Menu; -- " &
+           "  end Create_Full_Menu;  --  " &
            S(last_dialog_ident) & "_Type" );
-         Ada_New_Line(to_body);
          Close_if_separate(S(last_dialog_ident));
        }
      ;
@@ -1444,7 +1442,6 @@ version_info :
                version_block_contents
                { if not separate_items then
                    Ada_Put_Line(to_spec, "  end Version_info;");
-                   Ada_New_Line(to_spec);
                  end if;
                  Close_if_separate("Version_info", with_body => False);
                }
