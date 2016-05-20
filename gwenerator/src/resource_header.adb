@@ -5,6 +5,8 @@
 with Text_IO; use Text_IO;
 with RC_Help;
 
+with Ada.Exceptions; use Ada.Exceptions;
+
 package body Resource_Header is
 
   procedure Convert_Header_File  (Name : String; Done : out Boolean) is
@@ -214,7 +216,7 @@ package body Resource_Header is
       Open (H_File, In_File, Name);
     exception
       when Name_Error =>
-        return; -- just not done...
+        return;  --  Header file not found, perhaps "#include <windows.h>". Not done, try next one.
     end;
 
     while not End_Of_File (H_File) loop
@@ -235,15 +237,12 @@ package body Resource_Header is
     Done := True;
 
   exception
-    when Unexpected_Syntax  =>
+    when E: No_Define | Illegal_Number | Unexpected_Syntax =>
       Close (H_File);
-      raise Unexpected_Syntax with "Line" & Integer'Image (Input_Line_Nr);
---    when Illegal_Number =>
---      Close (H_File);
---      raise Illegal_Number with Integer'Image (Input_Line_Nr);
-    when No_Define =>
-      Close (H_File);
-      raise No_Define with "Line" & Integer'Image (Input_Line_Nr);
+      Raise_Exception(
+        Exception_Identity(E),
+        "File: " & Name & "; line:" & Integer'Image (Input_Line_Nr)
+      );
   end Convert_Header_File;
 
 end Resource_Header;

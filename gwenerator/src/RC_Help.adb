@@ -307,6 +307,7 @@ package body RC_Help is
     if first_include then
       Convert_Header_File (fn, done);
       if done then
+        Put_Line(Current_Error, "Processed main header file: " & fn & '.');
         first_include:= False; -- otherwise, we try with the next one, if any...
       end if;
     end if;
