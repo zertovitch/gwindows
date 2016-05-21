@@ -51,7 +51,7 @@ package body Resource_Header is
         end loop;
 
         for i in 1 .. l loop
-          if (i < l) and then (s (i..i+1) = "/*") then
+          if i < l and then s (i..i+1) = "/*" then
             In_Comment := True;
             Comment_Start := i + 2;
           end if;
@@ -61,7 +61,7 @@ package body Resource_Header is
             str (p) := s (i);
           end if;
 
-          if (i > 1) and then (s (i-1..i) = "*/") then
+          if i > 1 and then s (i-1..i) = "*/" then
             In_Comment := False;
 
             Was_Comment := True;
@@ -84,30 +84,29 @@ package body Resource_Header is
       Was_Comment := False;
       Skip_Comment (S, l);
 
-      while (l > 0) and then (S (l) = ' ') loop
+      while l > 0 and then S (l) = ' ' loop
         l := l - 1;
       end loop;
 
-      while (j < l) and then (S (j) = ' ') loop
+      while j < l and then S (j) = ' ' loop
         j := j + 1;
       end loop;
 
-      while (j <= l) and then (S (j) /= ' ') loop
+      while j <= l and then S (j) /= ' ' loop
         pos := pos + 1;
         so (pos) := S (j);
         j := j + 1;
       end loop;
 
-      if j < l
-      then
+      if j < l then
         pos := pos + 1;
         so (pos) := ',';
 
-        while (j < l) and then (S (j) = ' ') loop
+        while j < l and then S (j) = ' ' loop
           j := j + 1;
         end loop;
 
-        while (j <= l) and then (S (j) /= ' ') loop
+        while j <= l and then S (j) /= ' ' loop
           pos := pos + 1;
           so (pos) := S (j);
           j := j + 1;
@@ -117,12 +116,12 @@ package body Resource_Header is
           pos := pos + 1;
           so (pos) := ',';
 
-          while (j < l) and then (S (j) = ' ') loop
+          while j < l and then S (j) = ' ' loop
             j := j + 1;
           end loop;
 
           if j <= l then
-            while (j <= l) and then (S (j) /= ' ') loop
+            while j <= l and then S (j) /= ' ' loop
               pos := pos + 1;
               so (pos) := S (j);
               j := j + 1;
@@ -144,16 +143,18 @@ package body Resource_Header is
       f : constant Integer := s'First;
       l : Integer := s'Last;
       c,d : Integer := 0;
-      dummy : Integer;
+      symbol_value : Integer;
 
       procedure Insert(s: String) is
       begin
-        if s(s'First)= '_' then
-          RC_Help.Insert_symbol(s(s'First+1..s'Last), dummy);
+        if s'Length >= 2 and then s(s'First..s'First+1) = "__" then
+          null;
+        elsif s'Length >= 1 and then s(s'First) = '_' then
+          RC_Help.Insert_symbol(s(s'First+1..s'Last), symbol_value);
         else
-          RC_Help.Insert_symbol(s, dummy);
+          RC_Help.Insert_symbol(s, symbol_value);
         end if;
-      end;
+      end Insert;
 
     begin
       -- put_line("@..." & s & "@");
@@ -176,15 +177,13 @@ package body Resource_Header is
       end if;
 
       for i in f+8 .. l loop
-        if s(i) = ','
-        then
+        if s(i) = ',' then
           c := i;
           exit;
         end if;
       end loop;
 
-      if c > 0
-      then
+      if c > 0 then
         begin
           d:= c;
           if s (l-1) = ')' then l := l-1; end if;
@@ -192,11 +191,11 @@ package body Resource_Header is
           if s (l-1) = 'L' then l := l-1; end if;
 
           if s (d+1 .. d+2) = "0x" then
-            dummy := Integer'Value ("16#" & s (d+3..l-1) & "#");
+            symbol_value := Integer'Value ("16#" & s (d+3..l-1) & "#");
           elsif s (d+1) = '0' then
-            dummy := Integer'Value ("8#" & s (d+1..l-1) & "#");
+            symbol_value := Integer'Value ("8#" & s (d+1..l-1) & "#");
           elsif s (d+1) = '-' or s (d+1) in '1' .. '9' then
-            dummy := Integer'Value (s (d+1..l-1));
+            symbol_value := Integer'Value (s (d+1..l-1));
           else
             raise Illegal_Number;
           end if;
@@ -204,7 +203,7 @@ package body Resource_Header is
           when others =>
             raise Illegal_Number with s (d+1..l-1);
         end;
-        Insert(s (f+8..c-1));
+        Insert(s (f+8..c-1));  --  Insert new constant identifier
       end if;
 
     end Generate_Output;
