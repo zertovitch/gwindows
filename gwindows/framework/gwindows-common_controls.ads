@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2015 David Botton                   --
+--                 Copyright (C) 1999 - 2017 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -492,7 +492,7 @@ package GWindows.Common_Controls is
       Top        : in     Integer;
       Width      : in     Integer;
       Height     : in     Integer;
-      Direction  : in     Progress_Control_Direction_Type      := Vertical;
+      Direction  : in     Progress_Control_Direction_Type      := Horizontal;
       Smooth     : in     Boolean                              := False;
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False);
