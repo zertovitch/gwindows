@@ -91,7 +91,7 @@ package body GWindows.Common_Controls is
    UDM_SETRANGE                 : constant := (WM_USER + 101);
 --     UDM_GETRANGE                 : constant := (WM_USER + 102);
    UDM_SETPOS                   : constant := (WM_USER + 103);
---     UDM_GETPOS                   : constant := (WM_USER + 104);
+   UDM_GETPOS                   : constant := (WM_USER + 104);
 --     UDM_SETBUDDY                 : constant := (WM_USER + 105);
 --     UDM_GETBUDDY                 : constant := (WM_USER + 106);
 --     UDM_SETACCEL                 : constant := (WM_USER + 107);
@@ -3499,14 +3499,15 @@ package body GWindows.Common_Controls is
    is
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := UDM_SETPOS;
+         uMsg   : Interfaces.C.int      := UDM_GETPOS;
          wParam : GWindows.Types.Wparam := 0;
          lParam : GWindows.Types.Lparam := 0)
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return SendMessage;
+      --  mod: filter eventual error flag on HIWORD (see MSDN doc for details)
+      return SendMessage mod 65536;
    end Position;
 
    ---------------
@@ -3522,7 +3523,8 @@ package body GWindows.Common_Controls is
          uMsg   : Interfaces.C.int      := UDM_SETRANGE;
          wParam : GWindows.Types.Wparam := 0;
          lParam : GWindows.Types.Lparam := GWindows.Utilities.Make_Long
-           (Interfaces.C.short (Min), Interfaces.C.short (Max)));
+           (High => Interfaces.C.short (Min),
+            Low  => Interfaces.C.short (Max)));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin

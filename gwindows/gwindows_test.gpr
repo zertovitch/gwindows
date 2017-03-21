@@ -20,6 +20,7 @@ project GWindows_Test is
       "test_locale.adb",
       "test_system_tray.adb",
       "test_taskbar.adb",
+      "test_up_down.adb",
       "drag_drop_ole.adb"
    );
 
