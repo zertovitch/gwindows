@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2016/05/10  13:15:21
+-- Transcription time: 2017/07/04  10:23:23
 -- GWenerator project file: GW_Install.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -8,7 +8,7 @@
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 10-May-2016
+-- RC Grammar version: >= 19-May-2016
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -63,7 +63,7 @@ package GW_Install_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Conflict_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      );
 
   type Goodbye_dialog_Type is new Window_Type with record
@@ -110,7 +110,7 @@ package GW_Install_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Goodbye_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      );
 
   type Goodbye_dialog_2_Type is new Window_Type with record
@@ -152,7 +152,7 @@ package GW_Install_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Goodbye_dialog_2_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      );
 
   type Main_install_dialog_Type is new Window_Type with record
@@ -201,7 +201,7 @@ package GW_Install_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Main_install_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      );
 
   type Unpack_dialog_Type is new Window_Type with record
@@ -233,18 +233,17 @@ package GW_Install_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Unpack_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      );
 
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "Installer for the GWindows programming framework";
-    FileVersion: constant String:= "10-May-2016";
-    LegalCopyright: constant String:= "© 2012 .. 2016 G. de Montmollin (MIT license)";
+    FileVersion: constant String:= "04-Jul-2017";
+    LegalCopyright: constant String:= "© 2012 .. 2017 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Installer";
     Translation: constant:= 1033;
   end Version_info;
-
 
   ------------------------------------------------
   -- Defined resource symbols --> Ada constants --
@@ -299,7 +298,6 @@ package GW_Install_Resource_GUI is
   procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
 
   function Num_resource(id: Natural) return GString;  --  Just turn 123 into "#123".
-
 
   -- Last line of resource script file: 199
 

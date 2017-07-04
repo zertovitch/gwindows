@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2016/05/10  13:15:21
+-- Transcription time: 2017/07/04  10:23:23
 -- GWenerator project file: GW_Install.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -8,7 +8,7 @@
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 10-May-2016
+-- RC Grammar version: >= 19-May-2016
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -20,7 +20,6 @@ with System;
 package body GW_Install_Resource_GUI is
 
   -- ** Generated code begins here \/ \/ \/.
-
 
   -- Dialog at resource line 36
 
@@ -67,7 +66,7 @@ package body GW_Install_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Conflict_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      )
   is
     x,y,w,h: Integer;
@@ -110,8 +109,7 @@ package body GW_Install_Resource_GUI is
     Create_Label( Window, "Installed version:", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  185, 23, 133, 8, x,y,w,h);
     Create_Label( Window, "Version to be installed:", x,y,w,h, GWindows.Static_Controls.Left, None);
-  end Create_Contents; -- Conflict_dialog_Type
-
+  end Create_Contents;  --  Conflict_dialog_Type
 
   -- Dialog at resource line 53
 
@@ -158,7 +156,7 @@ package body GW_Install_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Goodbye_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      )
   is
     x,y,w,h: Integer;
@@ -214,8 +212,7 @@ package body GW_Install_Resource_GUI is
     Create_Label( Window, "To be used with the .RC to Ada translator (GWenerator) and", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  105, 201, 214, 9, x,y,w,h);
     Create_Label( Window, " the GWindows framework. A version is included with GWenerator", x,y,w,h, GWindows.Static_Controls.Left, None);
-  end Create_Contents; -- Goodbye_dialog_Type
-
+  end Create_Contents;  --  Goodbye_dialog_Type
 
   -- Dialog at resource line 81
 
@@ -262,7 +259,7 @@ package body GW_Install_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Goodbye_dialog_2_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      )
   is
     x,y,w,h: Integer;
@@ -308,8 +305,7 @@ package body GW_Install_Resource_GUI is
     Create( Window.Build_gnatcom, Window, "Build the GNATCOM tools now", x,y,w,h, ID => Build_gnatcom);
     Dlg_to_Scn(  49, 164, 228, 8, x,y,w,h);
     Create( Window.Open_gnatcom_folder, Window, "Open the GNATCOM folder", x,y,w,h, ID => Open_gnatcom_folder);
-  end Create_Contents; -- Goodbye_dialog_2_Type
-
+  end Create_Contents;  --  Goodbye_dialog_2_Type
 
   -- Dialog at resource line 104
 
@@ -356,7 +352,7 @@ package body GW_Install_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Main_install_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      )
   is
     x,y,w,h: Integer;
@@ -432,8 +428,7 @@ package body GW_Install_Resource_GUI is
     else -- hide the closing button
       Hide(Window.IDCANCEL);
     end if;
-  end Create_Contents; -- Main_install_dialog_Type
-
+  end Create_Contents;  --  Main_install_dialog_Type
 
   -- Dialog at resource line 132
 
@@ -480,7 +475,7 @@ package body GW_Install_Resource_GUI is
   procedure Create_Contents
      ( Window      : in out Unpack_dialog_Type;
        for_dialog  : in     Boolean; -- True: buttons do close the window
-       resize      : in     Boolean:= False -- optionnally resize Window as designed
+       resize      : in     Boolean:= False -- optionally resize Window as designed
      )
   is
     x,y,w,h: Integer;
@@ -499,8 +494,7 @@ package body GW_Install_Resource_GUI is
     Create( Window.Static_0001, Window, Num_resource(Zip_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  251, 36, 21, 20, x,y,w,h);
     Create( Window.Static_0002, Window, Num_resource(Ada_doc_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
-  end Create_Contents; -- Unpack_dialog_Type
-
+  end Create_Contents;  --  Unpack_dialog_Type
 
   -- ** Generated code ends here /\ /\ /\.
 
