@@ -48,9 +48,10 @@ if not exist ayacc.exe gnatmake -j2 -gnato -gnatVa -aI..\ayacc -D ..\obj\gnatdeb
 echo ** Compile the AYACC (RC.y) file to Ada sources
 ayacc.exe rc.y off off on on >ayacc.log
 type ayacc.log
-echo. >ayacc.log
+rem Add verbose details to log file.
+echo.          >>ayacc.log
 type rc.verbose>>ayacc.log
-del rc.verbose
+del  rc.verbose
 rem
 if exist yyparse.adb del yyparse.adb
 ren rc.a yyparse.adb
