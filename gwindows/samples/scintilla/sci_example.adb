@@ -1,5 +1,11 @@
-with GWindows.Windows.Main; use GWindows.Windows.Main;
-with GWindows.Scintilla; use GWindows.Scintilla;
+--  Scintilla editor sample with Ada syntax.
+--
+--  Sci_Example.exe will work only if Scintilla.dll
+--  and SciLexer.dll are in the same path.
+
+
+with GWindows.Windows.Main;             use GWindows.Windows.Main;
+with GWindows.Scintilla;                use GWindows.Scintilla;
 with GWindows.Base;
 with GWindows.Application;
 with GWindows.Colors;
@@ -12,7 +18,7 @@ procedure Sci_Example is
 
    TAB_WIDTH : constant := 3;
 
-   Key_Words : GWindows.GString :=
+   Key_Words : constant GWindows.GString :=
      "abort abstract accept access aliased all array at begin body case " &
      "constant declare delay delta digits do else elsif end entry exception " &
      "exit for function generic goto if in is limited loop new null of " &
@@ -33,8 +39,10 @@ procedure Sci_Example is
    procedure Do_Create
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      use GWindows.Scintilla;
-      use GWindows.Colors;
+      use GWindows, GWindows.Colors;
+      --
+      App_default_font      : constant GString := "Courier New";
+      App_default_font_size : constant := 10;
    begin
       On_Character_Added_Handler (Sci_Control,
                                   Do_Character_Added'Unrestricted_Access);
@@ -52,21 +60,21 @@ procedure Sci_Example is
 
       StyleSetFore (Scintilla_Type (Window), STYLE_DEFAULT, Black);
       StyleSetBack (Scintilla_Type (Window), STYLE_DEFAULT, White);
-      StyleSetSize (Scintilla_Type (Window), STYLE_DEFAULT, 10);
-      StyleSetFont (Scintilla_Type (Window), STYLE_DEFAULT, "Courier");
+      StyleSetSize (Scintilla_Type (Window), STYLE_DEFAULT, App_default_font_size);
+      StyleSetFont (Scintilla_Type (Window), STYLE_DEFAULT, App_default_font);
       StyleClearAll (Scintilla_Type (Window));
 
       StyleSetFore (Scintilla_Type (Window), SCE_ADA_DEFAULT, Black);
       StyleSetBack (Scintilla_Type (Window), SCE_ADA_DEFAULT, White);
-      StyleSetSize (Scintilla_Type (Window), SCE_ADA_DEFAULT, 10);
-      StyleSetFont (Scintilla_Type (Window), SCE_ADA_DEFAULT, "Courier");
+      StyleSetSize (Scintilla_Type (Window), SCE_ADA_DEFAULT, App_default_font_size);
+      StyleSetFont (Scintilla_Type (Window), SCE_ADA_DEFAULT, App_default_font);
 
-      StyleSetFore (Scintilla_Type (Window), SCE_ADA_COMMENT, Red);
+      StyleSetFore (Scintilla_Type (Window), SCE_ADA_COMMENTLINE, Red);
       StyleSetFore (Scintilla_Type (Window), SCE_ADA_NUMBER, Blue);
       StyleSetFore (Scintilla_Type (Window), SCE_ADA_WORD, Dark_Green);
       StyleSetFore (Scintilla_Type (Window), SCE_ADA_STRING, Dark_Red);
       StyleSetFore (Scintilla_Type (Window), SCE_ADA_CHARACTER, Blue);
-      StyleSetFore (Scintilla_Type (Window), SCE_ADA_OPERATOR, Black);
+      --  StyleSetFore (Scintilla_Type (Window), SCE_ADA_OPERATOR, Black);
       StyleSetFore (Scintilla_Type (Window), SCE_ADA_IDENTIFIER, Black);
 
       StyleSetFore (Scintilla_Type (Window), SCE_ADA_STRINGEOL, White);
@@ -80,7 +88,6 @@ procedure Sci_Example is
       Special_Key : in     GWindows.Windows.Special_Key_Type;
       Value       : in     GWindows.GCharacter)
    is
-      use GWindows.Scintilla;
       CurPos : Position := GetCurrentPos (Scintilla_Type (Window));
    begin
       if
@@ -94,7 +101,7 @@ procedure Sci_Example is
             Prev_Loc : Integer := GetLineIndentation
               (Scintilla_Type (Window), Line - 1);
          begin
-            if Line > 0 and Prev_Loc > 0 Then
+            if Line > 0 and Prev_Loc > 0 then
                SetLineIndentation (Scintilla_Type (Window),
                                    Line,
                                    Prev_Loc - TAB_WIDTH);

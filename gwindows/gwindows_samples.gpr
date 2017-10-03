@@ -11,9 +11,10 @@ project GWindows_Samples is
    for Object_Dir use "obj";
    for Exec_Dir use "samples";
    for Main use (
+     "sci_example.adb",   --  scintilla editor
      "splitters.adb", 
      "scribble.adb", "scribble2.adb", "text_spin.adb",  --  drawing
-     "control_test.adb"  --  controls
+     "control_test.adb"   --  controls
      --  "tcl_example.adb"
    );
 
