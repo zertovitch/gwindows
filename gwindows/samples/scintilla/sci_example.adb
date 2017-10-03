@@ -43,44 +43,48 @@ procedure Sci_Example is
       --
       App_default_font      : constant GString := "Courier New";
       App_default_font_size : constant := 10;
+      --
+      SW : Scintilla_Type renames Scintilla_Type (Window);
    begin
-      On_Character_Added_Handler (Sci_Control,
-                                  Do_Character_Added'Unrestricted_Access);
+      SW.On_Character_Added_Handler (Do_Character_Added'Unrestricted_Access);
 
       --  Set up editor
-      SetEOLMode (Scintilla_Type (Window), SC_EOL_CRLF);
-      SetTabWidth (Scintilla_Type (Window), TAB_WIDTH);
-      SetUseTabs (Scintilla_Type (Window), False);
-      SetEdgeColumn (Scintilla_Type (Window), 80);
-      SetEdgeMode (Scintilla_Type (Window), EDGE_LINE);
-      --  SetIndentationGuides (Scintilla_Type (Window), True);
+      SW.SetEOLMode (SC_EOL_CRLF);
+      SW.SetTabWidth (TAB_WIDTH);
+      SW.SetUseTabs (False);
+      SW.SetEdgeColumn (80);
+      SW.SetEdgeMode (EDGE_LINE);
+      --  SW.SetIndentationGuides (True);
 
-      SetLexer (Scintilla_Type (Window), SCLEX_ADA);
-      SetKeyWords (Scintilla_Type (Window), 0, Key_Words);
+      SW.SetLexer (SCLEX_ADA);
+      SW.SetKeyWords (0, Key_Words);
 
-      StyleSetFore (Scintilla_Type (Window), STYLE_DEFAULT, Black);
-      StyleSetBack (Scintilla_Type (Window), STYLE_DEFAULT, White);
-      StyleSetSize (Scintilla_Type (Window), STYLE_DEFAULT, App_default_font_size);
-      StyleSetFont (Scintilla_Type (Window), STYLE_DEFAULT, App_default_font);
-      StyleClearAll (Scintilla_Type (Window));
+      SW.StyleSetFore (STYLE_DEFAULT, Black);
+      SW.StyleSetBack (STYLE_DEFAULT, White);
+      SW.StyleSetSize (STYLE_DEFAULT, App_default_font_size);
+      SW.StyleSetFont (STYLE_DEFAULT, App_default_font);
+      SW.StyleClearAll;
 
-      StyleSetFore (Scintilla_Type (Window), SCE_ADA_DEFAULT, Black);
-      StyleSetBack (Scintilla_Type (Window), SCE_ADA_DEFAULT, White);
-      StyleSetSize (Scintilla_Type (Window), SCE_ADA_DEFAULT, App_default_font_size);
-      StyleSetFont (Scintilla_Type (Window), SCE_ADA_DEFAULT, App_default_font);
+      SW.StyleSetFore (SCE_ADA_DEFAULT, Black);
+      SW.StyleSetBack (SCE_ADA_DEFAULT, White);
+      SW.StyleSetSize (SCE_ADA_DEFAULT, App_default_font_size);
+      SW.StyleSetFont (SCE_ADA_DEFAULT, App_default_font);
 
-      StyleSetFore (Scintilla_Type (Window), SCE_ADA_COMMENTLINE, Red);
-      StyleSetFore (Scintilla_Type (Window), SCE_ADA_NUMBER, Blue);
-      StyleSetFore (Scintilla_Type (Window), SCE_ADA_WORD, Dark_Green);
-      StyleSetFore (Scintilla_Type (Window), SCE_ADA_STRING, Dark_Red);
-      StyleSetFore (Scintilla_Type (Window), SCE_ADA_CHARACTER, Blue);
-      --  StyleSetFore (Scintilla_Type (Window), SCE_ADA_OPERATOR, Black);
-      StyleSetFore (Scintilla_Type (Window), SCE_ADA_IDENTIFIER, Black);
+      SW.StyleSetFore (SCE_ADA_COMMENTLINE, Red);
+      SW.StyleSetFore (SCE_ADA_NUMBER,      Blue);
+      SW.StyleSetFore (SCE_ADA_WORD,        Dark_Green);
+      SW.StyleSetFore (SCE_ADA_STRING,      Dark_Red);
+      SW.StyleSetFore (SCE_ADA_CHARACTER,   Blue);
+      SW.StyleSetFore (SCE_ADA_IDENTIFIER,  Black);
 
-      StyleSetFore (Scintilla_Type (Window), SCE_ADA_STRINGEOL, White);
-      StyleSetBack (Scintilla_Type (Window), SCE_ADA_STRINGEOL, Red);
+      SW.StyleSetFore (SCE_ADA_STRINGEOL, White);
+      SW.StyleSetBack (SCE_ADA_STRINGEOL, Red);
 
-      Focus (Scintilla_Type (Window));
+      SW.SetMarginTypeN (1, SC_MARGIN_NUMBER);
+      SW.SetMarginWidthN (1, 40);
+      SW.SetMarginWidthN (2, 10);
+
+      SW.Focus;
    end Do_Create;
 
    procedure Do_Character_Added
