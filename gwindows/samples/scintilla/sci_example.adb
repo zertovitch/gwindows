@@ -77,8 +77,10 @@ procedure Sci_Example is
       SW.StyleSetFore (SCE_ADA_CHARACTER,   Blue);
       SW.StyleSetFore (SCE_ADA_IDENTIFIER,  Black);
 
+      --  SW.StyleSetFore (SCE_ADA_CHARACTEREOL, White);
+      --  SW.StyleSetBack (SCE_ADA_CHARACTEREOL, Dark_Red);
       SW.StyleSetFore (SCE_ADA_STRINGEOL, White);
-      SW.StyleSetBack (SCE_ADA_STRINGEOL, Red);
+      SW.StyleSetBack (SCE_ADA_STRINGEOL, Dark_Red);
 
       SW.SetMarginTypeN (1, SC_MARGIN_NUMBER);
       SW.SetMarginWidthN (1, 40);

@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2017 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -853,7 +853,7 @@ package GWindows.Scintilla is
    SCE_AVE_STRINGEOL : constant := 8;
    SCE_AVE_IDENTIFIER : constant := 9;
    SCE_AVE_OPERATOR : constant := 10;
-   --  Lexical states for SCLEX_ADA
+   --  Lexical states for SCLEX_ADA (see SciLexer.h)
    SCE_ADA_DEFAULT      : constant :=  0;
    SCE_ADA_WORD         : constant :=  1;
    SCE_ADA_IDENTIFIER   : constant :=  2;
@@ -865,6 +865,7 @@ package GWindows.Scintilla is
    SCE_ADA_STRINGEOL    : constant :=  8;
    SCE_ADA_LABEL        : constant :=  9;
    SCE_ADA_COMMENTLINE  : constant := 10;
+   SCE_ADA_ILLEGAL      : constant := 11;
    --  Lexical states for SCLEX_BAAN
    SCE_BAAN_DEFAULT : constant := 0;
    SCE_BAAN_COMMENT : constant := 1;
