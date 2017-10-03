@@ -1,7 +1,6 @@
-Scintilla.dll
 SciLexer.dll
 
--- Scintilla programmer's editor control. Any executable built from
+ -- Scintilla programmer's editor control. Any executable built from
 sources using GWindows.Scintilla must include this dll on its path
 
 tclcontrol8?.dll

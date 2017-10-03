@@ -1,8 +1,7 @@
 --  Scintilla editor sample with Ada syntax.
 --
---  Sci_Example.exe will work only if Scintilla.dll
---  and SciLexer.dll are in the same path.
-
+--  Sci_Example.exe will work only if SciLexer.dll is in the same path.
+--  SciLexer.dll can be found @ http://www.scintilla.org/ or in the redist directory.
 
 with GWindows.Windows.Main;             use GWindows.Windows.Main;
 with GWindows.Scintilla;                use GWindows.Scintilla;
@@ -77,10 +76,14 @@ procedure Sci_Example is
       SW.StyleSetFore (SCE_ADA_CHARACTER,   Blue);
       SW.StyleSetFore (SCE_ADA_IDENTIFIER,  Black);
 
-      --  SW.StyleSetFore (SCE_ADA_CHARACTEREOL, White);
-      --  SW.StyleSetBack (SCE_ADA_CHARACTEREOL, Dark_Red);
+      --  Cases where the text is obviously wrong
+      --  (unfinished character or string, illegal identifier)
+      SW.StyleSetFore (SCE_ADA_CHARACTEREOL, White);
+      SW.StyleSetBack (SCE_ADA_CHARACTEREOL, Dark_Red);
       SW.StyleSetFore (SCE_ADA_STRINGEOL, White);
       SW.StyleSetBack (SCE_ADA_STRINGEOL, Dark_Red);
+      SW.StyleSetFore (SCE_ADA_ILLEGAL, White);
+      SW.StyleSetBack (SCE_ADA_ILLEGAL, Dark_Red);
 
       SW.SetMarginTypeN (1, SC_MARGIN_NUMBER);
       SW.SetMarginWidthN (1, 40);
@@ -94,7 +97,8 @@ procedure Sci_Example is
       Special_Key : in     GWindows.Windows.Special_Key_Type;
       Value       : in     GWindows.GCharacter)
    is
-      CurPos : Position := GetCurrentPos (Scintilla_Type (Window));
+   pragma Unreferenced (Special_Key);
+      CurPos : constant Position := GetCurrentPos (Scintilla_Type (Window));
    begin
       if
         Value = GWindows.GCharacter'Val (10)
@@ -102,9 +106,9 @@ procedure Sci_Example is
         Value = GWindows.GCharacter'Val (13)
       then
          declare
-            Line     : Integer := LineFromPosition
+            Line     : constant Integer := LineFromPosition
               (Scintilla_Type (Window), CurPos);
-            Prev_Loc : Integer := GetLineIndentation
+            Prev_Loc : constant Integer := GetLineIndentation
               (Scintilla_Type (Window), Line - 1);
          begin
             if Line > 0 and Prev_Loc > 0 then
