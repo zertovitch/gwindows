@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                     G W I N D O W S . C O L O R S                        --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2017 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -98,23 +98,24 @@ package GWindows.Colors is
    function System_Color (Color_Const : Integer) return Color_Type;
    --  Returns color set in system
 
-   White      : constant Color_Type := 16#FFFFFF#;
-   Black      : constant Color_Type := 16#000000#;
-   Silver     : constant Color_Type := 16#E0E0E0#;
-   Light_Gray : constant Color_Type := 16#C0C0C0#;
-   Gray       : constant Color_Type := 16#808080#;
-   Dark_Gray  : constant Color_Type := 16#404040#;
-   Red        : constant Color_Type := 16#0000FF#;
-   Dark_Red   : constant Color_Type := 16#000080#;
-   Green      : constant Color_Type := 16#00FF00#;
-   Dark_Green : constant Color_Type := 16#008000#;
-   Blue       : constant Color_Type := 16#FF0000#;
-   Dark_Blue  : constant Color_Type := 16#800000#;
-   Yellow     : constant Color_Type := 16#00FFFF#;
-   Magenta    : constant Color_Type := 16#FF00FF#;
-   Cyan       : constant Color_Type := 16#FFFF00#;
-   Pink       : constant Color_Type := 16#AFAFFF#;
-   Orange     : constant Color_Type := 16#00C8FF#;
+   White       : constant Color_Type := 16#FFFFFF#;
+   Black       : constant Color_Type := 16#000000#;
+   Silver      : constant Color_Type := 16#E0E0E0#;
+   Light_Gray  : constant Color_Type := 16#C0C0C0#;
+   Gray        : constant Color_Type := 16#808080#;
+   Dark_Gray   : constant Color_Type := 16#404040#;
+   Red         : constant Color_Type := 16#0000FF#;
+   Dark_Red    : constant Color_Type := 16#000080#;
+   Green       : constant Color_Type := 16#00FF00#;
+   Dark_Green  : constant Color_Type := 16#008000#;
+   Blue        : constant Color_Type := 16#FF0000#;
+   Dark_Blue   : constant Color_Type := 16#800000#;
+   Yellow      : constant Color_Type := 16#00FFFF#;
+   Magenta     : constant Color_Type := 16#FF00FF#;
+   Cyan        : constant Color_Type := 16#FFFF00#;
+   Pink        : constant Color_Type := 16#AFAFFF#;
+   Orange      : constant Color_Type := 16#00C8FF#;
+   Dark_Orange : constant Color_Type := 16#248DF0#;
    --  Basic Colors
 
 end GWindows.Colors;
