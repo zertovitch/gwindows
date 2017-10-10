@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2017 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -380,7 +380,7 @@ package body GWindows.Scintilla is
    SCI_SETKEYWORDS                : constant := 16#0FA5#;
    SCI_SETLEXERLANGUAGE           : constant := 16#0FA6#;
 
-   procedure LoadLibrary (LibName : GString_C);
+   function LoadLibrary (LibName : GString_C) return GWindows.Types.Handle;
    pragma Import (StdCall, LoadLibrary, "LoadLibrary"
                   & Character_Mode_Identifier);
 
@@ -7515,6 +7515,12 @@ package body GWindows.Scintilla is
       end if;
    end Fire_On_Dwell_End;
 
-begin
-   LoadLibrary (GWindows.GStrings.To_GString_C ("scilexer.dll"));
+   SCI_Lexer_DLL: constant GWindows.Types.Handle:=
+      LoadLibrary (GWindows.GStrings.To_GString_C ("scilexer.dll"));
+
+   function SCI_Lexer_DLL_Successfully_Loaded return Boolean is
+   begin
+      return SCI_Lexer_DLL /= Null_Handle;
+   end SCI_Lexer_DLL_Successfully_Loaded;
+
 end GWindows.Scintilla;

@@ -2298,6 +2298,8 @@ package GWindows.Scintilla is
                            GWindows.Base.Pointer_To_Base_Window_Class);
    --  Receives command messags from parent window
 
+   function SCI_Lexer_DLL_Successfully_Loaded return Boolean;
+
 private
    type Scintilla_Type is new GWindows.Base.Base_Window_Type with
       record
