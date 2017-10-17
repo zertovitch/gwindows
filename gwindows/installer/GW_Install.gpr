@@ -9,8 +9,8 @@ project GW_Install is
    Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
    for Source_Dirs use (
      ".", "unzip",
-	 "..\..\gwenerator\src", -- for GWin_Util
-     "..\..\gwenerator\windows_stuff" -- make sure we use the ANSI version of GWindows
+     "..\..\gwenerator\src", -- for GWin_Util
+     "..\..\gwindows\framework", "..\..\gnatcom\framework"
    );
    for Exec_Dir use ".";
 

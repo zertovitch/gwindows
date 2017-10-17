@@ -8,11 +8,13 @@ with UnZip;                             use UnZip;
 
 with GWin_Util;
 
+with GWindows;                          use GWindows;
 with GWindows.Application;
 with GWindows.Base;
 with GWindows.Buttons;                  use GWindows.Buttons;
 with GWindows.Constants;                use GWindows.Constants;
 with GWindows.Common_Dialogs;           use GWindows.Common_Dialogs;
+with GWindows.GStrings;                 use GWindows.GStrings;
 with GWindows.Static_Controls.Web;      use GWindows.Static_Controls.Web;
 with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
 with GWindows.Windows;                  use GWindows.Windows;
@@ -26,11 +28,23 @@ with Ada_Directories_Extensions; -- Ada 201X items absent in Ada 2005...
 
 procedure GW_Install is
 
+  function S(Source: Unbounded_String) return String
+    renames Ada.Strings.Unbounded.To_String;
+  function U(Source: String) return Unbounded_String
+    renames Ada.Strings.Unbounded.To_Unbounded_String;
+
+  function S2G (Value : String) return GString renames To_GString_From_String;
+  function G2S (Value : GString) return String renames To_String;
+  --  function GU2G (Value : GString_Unbounded) return GString renames To_GString_From_Unbounded;
+  --  function G2GU (Value : GString) return GString_Unbounded renames To_GString_Unbounded;
+
+  NL: constant GString:= S2G(ASCII.CR & ASCII.LF);
+
   Install_dir: Unbounded_String:= To_Unbounded_String("");
   mem_cur_dir: constant String:= Current_Directory & '\';
 
   type Character_mode is (ANSI, UNICODE);
-  Mode: Character_mode:= ANSI;
+  Mode: Character_mode:= UNICODE;  --  Default is Unicode
   Proceed, OK: Boolean;
   With_GWenerator: Boolean:= True;
   No_Parent : Window_Type;
@@ -43,7 +57,7 @@ procedure GW_Install is
     begin
        Main_Dlg.Directory_edit.Text(
          Get_Directory(Parent,
-         "Choose a target directory. GWindows, GNATCOM and " & ASCII.LF &
+         "Choose a target directory. GWindows, GNATCOM and " & NL &
          "GWenerator sub-folders will be created in that directory."
          )
        );
@@ -52,7 +66,7 @@ procedure GW_Install is
     procedure Get_Data ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
       pragma Warnings(off, dummy);
     begin
-      Install_dir:= To_Unbounded_String(Main_Dlg.Directory_edit.Text);
+      Install_dir:= U(G2S(Main_Dlg.Directory_edit.Text));
       if Main_Dlg.ANSI_choice.State = Checked then
         Mode:= ANSI;
       else
@@ -78,9 +92,9 @@ procedure GW_Install is
       when UNICODE =>
         Main_Dlg.UNICODE_choice.State(Checked);
     end case;
-    Main_Dlg.Text(Main_Dlg.Text & Version_info.FileVersion);
-    Main_Dlg.Setup_title.Text(Main_Dlg.Setup_title.Text & Version_info.FileVersion);
-    Main_Dlg.Directory_edit.Text(To_String(Install_dir));
+    Main_Dlg.Text(Main_Dlg.Text & S2G(Version_info.FileVersion));
+    Main_Dlg.Setup_title.Text(Main_Dlg.Setup_title.Text & S2G(Version_info.FileVersion));
+    Main_Dlg.Directory_edit.Text(S2G(S(Install_dir)));
     On_Destroy_Handler (Main_Dlg, Get_Data'Unrestricted_Access);
     On_Click_Handler (
       Main_Dlg.Directory_select_button_permanent,
@@ -113,7 +127,7 @@ procedure GW_Install is
       end if;
       pct_old:= pct;
       Unpack_Dlg.Unpack_progress.Position(pct);
-      Unpack_Dlg.File_name.Text(name);
+      Unpack_Dlg.File_name.Text(S2G(name));
     end Tell_data;
     --
     My_FS_routines: constant UnZip.FS_routines_type:=
@@ -155,9 +169,9 @@ procedure GW_Install is
       when E:others =>
         Message_Box(
           "GWindows installation error",
-          "Archive extraction failed - maybe a broken download ?" & ASCII.LF &
-          "Archive = " & Command_Name & ASCII.LF &
-          Exception_Name(E) & ASCII.LF & Exception_Message(E),
+          "Archive extraction failed - maybe a broken download ?" & NL &
+          "Archive = " & S2G(Command_Name) & NL &
+          S2G(Exception_Name(E)) & NL & S2G(Exception_Message(E)),
           Icon => Error_Icon
         );
         Set_Directory(mem_cur_dir);
@@ -292,7 +306,7 @@ begin
       Result:=
         Message_Box(
           "GWindows installation - possible version conflict",
-          "A version of GWindows is already installed there." & ASCII.LF &
+          "A version of GWindows is already installed there." & NL &
           "Do you want to replace it ?",
           Yes_No_Box,
           Question_Icon
@@ -309,7 +323,7 @@ begin
           Proceed:= False;
           Message_Box(
             "Invalid directory for GWindows installation",
-            "Directory """ & To_String(Install_dir) & """ cannot be created",
+            "Directory """ & S2G(S(Install_dir)) & """ cannot be created",
             Icon => Error_Icon
           );
       end;
