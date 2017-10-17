@@ -9,25 +9,6 @@ echo              -res recompiles the resource for getting bitmaps,
 echo                      icons, etc. actualized
 echo.
 
-if exist ..\..\gwenerator\windows_stuff\gwindows.ads goto stuff_ok
-
-echo --------------------------------------------------------
-echo We put a fresh, ANSI, copy of the GWindows framework,
-echo plus a copy of GNATCOM, into windows_stuff.
-echo --------------------------------------------------------
-
-mkdir ..\windows_stuff
-copy ..\..\gwindows\framework\*.ad* ..\windows_stuff
-copy ..\..\gwindows\framework\coding\gwindows_ansi.ads ..\windows_stuff\gwindows.ads
-copy ..\..\gwindows\framework\coding\gwindows-gstrings_ansi.adb ..\windows_stuff\gwindows-gstrings.adb
-copy ..\..\gwindows\framework\coding\gwindows-gstrings-handling_ansi.ads ..\windows_stuff\gwindows-gstrings-handling.ads
-copy ..\..\gwindows\framework\coding\gwindows-gstrings-maps_ansi.ads ..\windows_stuff\gwindows-gstrings-maps.ads
-copy ..\..\gwindows\framework\coding\gwindows-gstrings-maps_constants_ansi.ads ..\windows_stuff\gwindows-gstrings-maps_constants.ads
-copy ..\..\gwindows\framework\coding\gwindows-gstrings-unbounded_ansi.ads ..\windows_stuff\gwindows-gstrings-unbounded.ads
-copy ..\..\gnatcom\framework\*.ad* ..\windows_stuff
-
-:stuff_ok
-
 if "%1"=="-h" goto fin
 if "%1"=="-H" goto fin
 if "%1"=="--help" goto fin

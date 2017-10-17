@@ -1,5 +1,4 @@
 del *.bak
-del windows_stuff\b~*.*
 del src\b~*.*
 del src\*.bak
 del src\*.bk.*

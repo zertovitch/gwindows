@@ -4,7 +4,7 @@ project GWenerator is
       ("Debug", "Small");
    Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
    for Main use ("GWenerator.adb", "GWenerator_tb.ads", "RC2GW.adb");
-   for Source_Dirs use (".\/**", "..\windows_stuff");
+   for Source_Dirs use (".\/**", "..\..\gwindows\framework", "..\..\gnatcom\framework");
    for Exec_Dir use ".";
 
    case Build_Mode is

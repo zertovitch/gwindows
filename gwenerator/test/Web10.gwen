@@ -11,6 +11,6 @@ INITIALIZE_CONTROLS FALSE
 ADA_MAIN Web10_Test_app.exe
 ADA_LISTEN TRUE
 ADA_AUTO_BUILD TRUE
-ADA_COMMAND gnatmake -i  Web10_Test_app.adb -I..\obj\gnatdebg -I..\windows_stuff 
+ADA_COMMAND gnatmake -i  Web10_Test_app.adb -I..\obj\gnatdebg -I..\..\gwindows\framework -I..\..\gnatcom\framework 
 SHOW_DETAILS TRUE -- in the UI, show the bottom part with message boxes
 SHOW_ADA_BUILD TRUE -- in the UI, show the right part with ada build

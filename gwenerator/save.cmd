@@ -21,7 +21,6 @@ set files=%files% obj/gnatdebg/*.pra obj/gnatsmal/*.txt
 set files=%files% test/*.ago test/*.cmd test/*.gwen test/mani*.xml
 
 if "%1"=="-f" set files=%files% *.exe
-if "%1"=="-f" set files=%files% windows_stuff/*.ad*
 if "%1"=="-f" set files=%files% img/*
 if "%1"=="-f" set files=%files% ayacc/*.ad* aflex/*.ad* ayacc/*.gpr aflex/*.gpr
 if "%1"=="-f" upx --ultra-brute *.exe

@@ -1,6 +1,7 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2016/05/19  09:20:01
+-- Transcription time: 2017/10/17  18:50:04
+-- GWenerator project file: GWenerator.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
@@ -134,7 +135,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  47, 10, 165, 8, x,y,w,h);
     Create_Label( Window, "GWenerator: a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  47, 25, 196, 8, x,y,w,h);
-    Create_Label( Window, "Copyright © Gautier de Montmollin 2008 .. 2016", x,y,w,h, GWindows.Static_Controls.Left, None);
+    Create_Label( Window, "Copyright © Gautier de Montmollin 2008 .. 2017", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  47, 40, 100, 8, x,y,w,h);
     Create_Label( Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  11, 55, 30, 8, x,y,w,h);

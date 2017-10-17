@@ -16,13 +16,13 @@ echo GWenerator and RC2GW should be built and appear in this directory
 echo =================================================================
 dir *.exe
 
-echo.
-echo ==================================================================
-echo Now we test the code generator. Press Ctrl-Break or Ctrl-C to stop
-echo at this point, or any other key to go on.
-echo ==================================================================
-pause
+REM echo.
+REM echo ==================================================================
+REM echo Now we test the code generator. Press Ctrl-Break or Ctrl-C to stop
+REM echo at this point, or any other key to go on.
+REM echo ==================================================================
+REM pause
 
-cd test
-call make_all
-cd..
+REM cd test
+REM call make_all
+REM cd..

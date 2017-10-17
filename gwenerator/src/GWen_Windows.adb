@@ -1,5 +1,6 @@
 --
 
+with GWindows.Application;              use GWindows.Application;
 with GWindows.Base;                     use GWindows.Base;
 with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;
 with GWindows.List_Boxes;               use GWindows.List_Boxes;
@@ -8,12 +9,11 @@ with GWindows.Buttons.Graphic;
 with GWindows.Common_Dialogs;           use GWindows.Common_Dialogs;
 with GWindows.Constants;                use GWindows.Constants;
 with GWindows.Common_Controls;          use GWindows.Common_Controls;
-with GWindows.Static_Controls;          use GWindows.Static_Controls;
-with GWindows.Windows;                  use GWindows.Windows;
 with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
-with GWindows.Application;              use GWindows.Application;
-
+with GWindows.Static_Controls;          use GWindows.Static_Controls;
 with GWindows.Static_Controls.Web;      use GWindows.Static_Controls.Web;
+with GWindows.GStrings;                 use GWindows.GStrings;
+with GWindows.Windows;                  use GWindows.Windows;
 
 with GWenerator_Resource_GUI;           use GWenerator_Resource_GUI;
 
@@ -26,6 +26,7 @@ with Ada.Text_IO.Unbounded_IO;          use Ada.Text_IO.Unbounded_IO;
 with Ada.Calendar;
 
 with rc_io, RC_Help, YYParse, Resource_Header;
+use RC_Help;
 
 with GWens.IO;
 with Time_display;
@@ -36,15 +37,14 @@ with GNAT.Compiler_Version;
 
 package body GWen_Windows is
 
-  -- NB: for an eventual version independent of ANSI / UNICODE,
-  -- only GString should be used.
+  function S2G (Value : String) return GString renames To_GString_From_String;
+  function G2S (Value : GString) return String renames To_String;
+  function GU2G (Value : GString_Unbounded) return GString renames To_GString_From_Unbounded;
+  function G2GU (Value : GString) return GString_Unbounded renames To_GString_Unbounded;
 
-  function S(Source: Unbounded_String) return String
-    renames Ada.Strings.Unbounded.To_String;
-  function U(Source: String) return Unbounded_String
-    renames Ada.Strings.Unbounded.To_Unbounded_String;
+  NL: constant GString:= S2G(ASCII.CR & ASCII.LF);
 
-  NL: constant String:= ASCII.CR & ASCII.LF;
+  use type GString_Unbounded;
 
   -------------------------
   -- Internal procedures --
@@ -54,7 +54,7 @@ package body GWen_Windows is
     margin_x      : constant:= 25;
     margin_x_frame: constant:= 18;
     margin_y      : constant:= 15;
-    title: Unbounded_String:= Window.short_name;
+    title: GString_Unbounded:= Window.short_name;
   begin
     --
     -- Title
@@ -62,7 +62,7 @@ package body GWen_Windows is
     if Window.proj.modified then
       title:= title & " *";
     end if;
-    Window.Text("GWenerator - " & S(title));
+    Window.Text("GWenerator - " & GU2G(title));
     --
     -- Check box and the detail part
     --
@@ -186,15 +186,15 @@ package body GWen_Windows is
         Window,
         "Choose Resource file...",
          New_File_Name,
-         ((U("Resource compiler files (*.rc)"), U("*.rc" )),
-          (U("All files (*.*)"),                U("*.*"))
+         ((G2GU("Resource compiler files (*.rc)"), G2GU("*.rc" )),
+          (G2GU("All files (*.*)"),                G2GU("*.*"))
          ),
          ".rc",
          File_Title,
          Success
       );
       if Success then
-        dlg.Edit_RC_File_Name.Text(S(New_File_Name));
+        dlg.Edit_RC_File_Name.Text(GU2G(New_File_Name));
       end if;
     end Select_RC;
 
@@ -208,20 +208,20 @@ package body GWen_Windows is
         Window,
         "Choose Ada main unit file...",
          New_File_Name,
-         ((U("Ada files (*.adb,*.ads)"), U("*.adb;*.ads" )),
-          (U("Programs (*.exe)"),        U("*.exe" )),
-          (U("All files (*.*)"),         U("*.*"))
+         ((G2GU("Ada files (*.adb,*.ads)"), G2GU("*.adb;*.ads" )),
+          (G2GU("Programs (*.exe)"),        G2GU("*.exe" )),
+          (G2GU("All files (*.*)"),         G2GU("*.*"))
          ),
          ".adb",
          File_Title,
          Success
       );
       if Success then
-        dlg.Edit_Main_Ada_File_Name.Text(S(New_File_Name));
+        dlg.Edit_Main_Ada_File_Name.Text(GU2G(New_File_Name));
       end if;
     end Select_Ada;
 
-    function Img(ch: GWens.RC_compiler_choice) return String is
+    function Img(ch: GWens.RC_compiler_choice) return GString is
     begin
       case ch is
         when none =>
@@ -234,7 +234,7 @@ package body GWen_Windows is
     procedure Get_Data ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
       pragma Warnings(off, dummy);
     begin
-      candidate.RC_name       := U(dlg.Edit_RC_File_Name.Text);
+      candidate.RC_name       := U(G2S(dlg.Edit_RC_File_Name.Text));
       candidate.RC_listen     := dlg.Listen_RC.State = Checked;
       candidate.RC_auto_trans := dlg.Auto_translate.State = Checked;
       for ch in GWens.RC_compiler_choice loop
@@ -244,16 +244,16 @@ package body GWen_Windows is
       end loop;
       --
       candidate.separate_items      := dlg.Separate_items.State = Checked;
-      candidate.base_x              := Integer'Value(dlg.Basx.Text);
-      candidate.base_y              := Integer'Value(dlg.Basy.Text);
+      candidate.base_x              := Integer'Value(G2S(dlg.Basx.Text));
+      candidate.base_y              := Integer'Value(G2S(dlg.Basy.Text));
       candidate.base_defaults       := dlg.Use_base_defs.State = Checked;
       candidate.initialize_controls := dlg.Initialize_controls.State = Checked;
       --
-      candidate.Ada_main      := U(dlg.Edit_Main_Ada_File_Name.Text);
+      candidate.Ada_main      := U(G2S(dlg.Edit_Main_Ada_File_Name.Text));
       candidate.Ada_listen    := dlg.Listen_Ada.State = Checked;
       candidate.Ada_auto_build:= dlg.Auto_build.State = Checked;
       --
-      candidate.Ada_command   := U(dlg.Ada_cmd.Text);
+      candidate.Ada_command   := U(G2S(dlg.Ada_cmd.Text));
     end Get_Data;
 
     modified: Boolean;
@@ -273,7 +273,7 @@ package body GWen_Windows is
     -- Fill dialog's contents
     --
     -- - RC box:
-    dlg.Edit_RC_File_Name.Text(S(candidate.RC_name));
+    dlg.Edit_RC_File_Name.Text(S2G(S(candidate.RC_name)));
     dlg.Listen_RC.State(Bool_to_Check(candidate.RC_listen));
     dlg.Auto_translate.State(Bool_to_Check(candidate.RC_auto_trans));
     for ch in GWens.RC_compiler_choice loop
@@ -284,18 +284,18 @@ package body GWen_Windows is
     -- - Code generation box:
     --
     dlg.Separate_items.State(Bool_to_Check(candidate.separate_items));
-    dlg.Basx.Text(Integer'Image(candidate.base_x));
-    dlg.Basy.Text(Integer'Image(candidate.base_y));
+    dlg.Basx.Text(S2G(Integer'Image(candidate.base_x)));
+    dlg.Basy.Text(S2G(Integer'Image(candidate.base_y)));
     dlg.Use_base_defs.State(Bool_to_Check(candidate.base_defaults));
     dlg.Initialize_controls.State(Bool_to_Check(candidate.initialize_controls));
     --
     -- - Ada background compilation box:
     --
-    dlg.Edit_Main_Ada_File_Name.Text(S(candidate.Ada_main));
+    dlg.Edit_Main_Ada_File_Name.Text(S2G(S((candidate.Ada_main))));
     dlg.Listen_Ada.State(Bool_to_Check(candidate.Ada_listen));
     dlg.Auto_build.State(Bool_to_Check(candidate.Ada_auto_build));
     --
-    dlg.Ada_cmd.Text(S(candidate.Ada_command));
+    dlg.Ada_cmd.Text(S2G(S(candidate.Ada_command)));
     --
     dlg.Center;
     --
@@ -358,7 +358,7 @@ package body GWen_Windows is
     if Success then
       -- Create a new GWen now, with defaults...
       Window.proj:= fresh_gwen;
-      Window.short_name:= Window.proj.name;
+      Window.short_name:= G2GU(S2G(S(Window.proj.name)));
       Update_status_display (Window);
     end if;
   end On_New;
@@ -374,8 +374,8 @@ package body GWen_Windows is
         Window,
         "Open...",
          New_File_Name,
-         ((U("GWenerator project file (*.gwen)"), U("*.gwen" )),
-          (U("All files (*.*)"),                  U("*.*"))
+         ((G2GU("GWenerator project file (*.gwen)"), G2GU("*.gwen" )),
+          (G2GU("All files (*.*)"),                  G2GU("*.*"))
          ),
          ".gwen",
          File_Title,
@@ -383,7 +383,7 @@ package body GWen_Windows is
       );
       if Success then
         GWens.IO.Load(
-          file_name => S(New_File_Name),
+          file_name => G2S(GU2G(New_File_Name)),
           proj      => Window.proj,
           success   => Success
         );
@@ -393,7 +393,7 @@ package body GWen_Windows is
         else
           Message_Box(
             Window,
-            "Error", S(New_File_Name) &
+            "Error", GU2G(New_File_Name) &
             " is not a GWen project file.",
             OK_Box,
             Error_Icon
@@ -425,19 +425,19 @@ package body GWen_Windows is
       Window,
       "Save as...",
        New_File_Name,
-       ((U("GWenerator project file (*.gwen)"), U("*.gwen" )),
-        (U("All files (*.*)"),                  U("*.*"))
+       ((G2GU("GWenerator project file (*.gwen)"), G2GU("*.gwen" )),
+        (G2GU("All files (*.*)"),                  G2GU("*.*"))
        ),
        ".gwen",
        File_Title,
        Success
     );
     if Success then
-      if Ada.Directories.Exists(S(New_File_Name))
+      if Ada.Directories.Exists(G2S(GU2G(New_File_Name)))
       and then
         Message_Box (Window,
                       "Save as",
-                      S(New_File_Name) &
+                      GU2G(New_File_Name) &
                       " exists" & NL &
                       "replace ?",
                       Yes_No_Box,
@@ -446,7 +446,7 @@ package body GWen_Windows is
         return;
       end if;
       Window.short_name:= File_Title;
-      Window.proj.name := New_File_Name;
+      Window.proj.name := U(G2S(GU2G(New_File_Name)));
       Window.proj.titled:= True;
       GWens.IO.Save (Window.proj);
       Window.last_save_success:= True;
@@ -464,17 +464,17 @@ package body GWen_Windows is
       To_Show => url_gnavi_1,
       To_Hide => box.URL,
       Parent  => box,
-      URL     => RC_Help.Web
+      URL     => S2G(RC_Help.Web)
     );
-    Text(url_gnavi_1, RC_Help.Web); -- Here the text and the URL are the same
+    Text(url_gnavi_1, S2G(RC_Help.Web)); -- Here the text and the URL are the same
     Create_and_Swap(url_gnat, box.GNAT_URL, box, "http://libre.adacore.com");
-    Text(box.GNAT_Version, "version " & CVer.Version);
-    Create_and_Swap(url_gnavi_2, box.GNAVI_URL, box, RC_Help.Web);
+    Text(box.GNAT_Version, S2G("version " & CVer.Version));
+    Create_and_Swap(url_gnavi_2, box.GNAVI_URL, box, S2G(RC_Help.Web));
     Create_and_Swap(url_resedit, box.ResEdit_URL, box, "http://resedit.net");
     -- Complete the Grammar version info:
-    box.RC_gramm_ver.Text( box.RC_gramm_ver.Text & RC_Help.Grammar_Version );
+    box.RC_gramm_ver.Text( box.RC_gramm_ver.Text & S2G(RC_Help.Grammar_Version) );
     -- Complete the GWenerator version info:
-    box.GWen_ver.Text( box.GWen_ver.Text & Version_info.FileVersion );
+    box.GWen_ver.Text( box.GWen_ver.Text & S2G(Version_info.FileVersion) );
     box.Center;
     if Show_Dialog (box, Window) = IDOK then
       null;
@@ -488,18 +488,18 @@ package body GWen_Windows is
       "windres -v " & sn & ' ' & on;
     procedure Output_a_line(l: String) is
     begin
-      Add(gw.RC_to_GWindows_messages, l);
+      Add(gw.RC_to_GWindows_messages, S2G(l));
     end;
     p: Windows_pipes.Piped_process;
   begin
     Add(gw.RC_to_GWindows_messages, "");
-    Add(gw.RC_to_GWindows_messages, "Compiling resource... " & Time_display);
-    Add(gw.RC_to_GWindows_messages, Command);
+    Add(gw.RC_to_GWindows_messages, "Compiling resource... " & S2G(Time_display));
+    Add(gw.RC_to_GWindows_messages, S2G(Command));
     Windows_pipes.Start(p, Command, ".", Output_a_line'Unrestricted_Access);
     while Windows_pipes.Alive(p) loop
       Windows_pipes.Check_progress(p);
     end loop;
-    Add(gw.RC_to_GWindows_messages, "Resource compiled. " & Time_display);
+    Add(gw.RC_to_GWindows_messages, "Resource compiled. " & S2G(Time_display));
   end Call_windres;
 
   procedure Check_resource_name (gw: in out GWen_Window_Type; ok: out Boolean) is
@@ -511,7 +511,7 @@ package body GWen_Windows is
       On_Options(gw);
       ok:= False;
     elsif not Exists(sn) then
-      Message_Box(gw, "Ressource file missing", "Cannot find: [" & sn & ']', OK_Box, Error_Icon);
+      Message_Box(gw, "Ressource file missing", "Cannot find: [" & S2G(sn) & ']', OK_Box, Error_Icon);
       On_Options(gw);
       ok:= False;
     end if;
@@ -560,7 +560,7 @@ package body GWen_Windows is
       -- Copy the translation options to RC_Help's globals variables.
       -- These variables are used by the code generated into yyparse.adb from RC.y.
       RC_Help.Reset_globals;
-      RC_Help.GWen_proj:= gw.short_name;
+      RC_Help.GWen_proj:= U(G2S(GU2G(gw.short_name)));
       RC_Help.separate_items:= gw.proj.separate_items;
       RC_Help.generate_test:= generate_test;
       if not gw.proj.base_defaults then
@@ -609,7 +609,7 @@ package body GWen_Windows is
         Clear(gw.RC_to_GWindows_messages);
         while not End_Of_File(fe) loop
           Get_Line(fe, line);
-          Add(gw.RC_to_GWindows_messages, S(line));
+          Add(gw.RC_to_GWindows_messages, S2G(S(line)));
         end loop;
         Close(fe);
         --
@@ -662,7 +662,7 @@ package body GWen_Windows is
         )
       );
     else
-      the_main.GNATMake_messages.Add(l);
+      the_main.GNATMake_messages.Add(S2G(l));
     end if;
   end Output_build_line;
 
@@ -673,7 +673,7 @@ package body GWen_Windows is
     if Alive(gw.build_process) then
       Stop(gw.build_process);
       gw.GNATMake_messages.Add("Stopped! ");
-      gw.GNATMake_messages.Add("Time : " & Time_display);
+      gw.GNATMake_messages.Add("Time : " & S2G(Time_display));
       gw.last_build_failed:= True;
       gw.Bar_Ada.Position(0);
       gw.last_seen_running:= False;
@@ -685,8 +685,8 @@ package body GWen_Windows is
       declare
         cmd: constant String:= Trim(S(gw.proj.Ada_command), Left);
       begin
-        gw.GNATMake_messages.Add("Starting build... [" & cmd & "] ");
-        gw.GNATMake_messages.Add("Time : " & Time_display);
+        gw.GNATMake_messages.Add("Starting build... [" & S2G(cmd) & "] ");
+        gw.GNATMake_messages.Add("Time : " & S2G(Time_display));
         Start(gw.build_process, cmd, ".", Output_build_line'Access);
         gw.last_seen_running:= True;
       exception
@@ -703,7 +703,7 @@ package body GWen_Windows is
             Window,
             "Process error",
             "Cannot start process:" & NL &
-            S(gw.proj.Ada_command),
+            S2G(S((gw.proj.Ada_command))),
             OK_Box,
             Error_Icon
           );
@@ -751,7 +751,7 @@ package body GWen_Windows is
     Window.Create_Contents(for_dialog => False);
     Window.menus.Create_Full_Menu;
     Window.Menu(Window.menus.Main);
-    Window.Accelerator_Table('#' & Trim(Integer'Image(Main_Menu),Left));
+    Window.Accelerator_Table(S2G('#' & Trim(Integer'Image(Main_Menu),Left)));
     if Argument_Count=0 then
       Window.On_New;
     else
@@ -761,16 +761,16 @@ package body GWen_Windows is
         success   => success
       );
       if success then
-        Window.short_name:= U(Simple_Name(Argument(1)));
+        Window.short_name:= G2GU(S2G(Simple_Name(Argument(1))));
       else
         Message_Box(
           Window,
-          "Error", Simple_Name(Argument(1)) &
+          "Error", S2G(Simple_Name(Argument(1))) &
           " is not a GWen project file.",
           OK_Box,
           Error_Icon
         );
-        Window.short_name:= Window.proj.name; -- "Untitled"
+        Window.short_name:= G2GU(S2G(S(Window.proj.name))); -- "Untitled"
       end if;
     end if;
     Update_status_display(Window);
@@ -799,7 +799,7 @@ package body GWen_Windows is
   end On_Destroy;
 
   function Is_RC_newer(proj: GWen) return Boolean is
-    use RC_Help, Ada.Calendar;
+    use Ada.Calendar;
     rn: constant String:= S(proj.RC_name);
     an: constant String:= RC_to_Package_name(rn,True,True) & ".ads";
   begin
@@ -813,7 +813,7 @@ package body GWen_Windows is
   end Is_RC_newer;
 
   function Is_Ada_newer(proj: GWen) return Boolean is
-    use RC_Help, Ada.Calendar;
+    use Ada.Calendar;
     en: constant String:= S(proj.Ada_main);
     rn: constant String:= S(proj.RC_name);
     an: constant String:= RC_to_Package_name(rn,True,True) & ".ads";
@@ -903,9 +903,9 @@ package body GWen_Windows is
           exit_code:= Last_exit_code(Window.build_process);
           if exit_code = 0 then
             Window.GNATMake_messages.Add(
-              "Completed (exit code:" & Integer'Image(exit_code) & "). "
+              S2G("Completed (exit code:" & Integer'Image(exit_code) & "). ")
             );
-            Window.GNATMake_messages.Add("Time : " & Time_display);
+            Window.GNATMake_messages.Add(S2G("Time : " & Time_display));
             Window.last_build_failed:= False;
             -- But wait, sometimes the exit code is not sufficient!
             Update_Ada_newer_flag_and_message;
@@ -914,9 +914,9 @@ package body GWen_Windows is
             end if;
           else
             Window.GNATMake_messages.Add(
-              "Build failed with exit code" & Integer'Image(exit_code) & ". "
+              S2G("Build failed with exit code" & Integer'Image(exit_code) & ". ")
             );
-            Window.GNATMake_messages.Add("Time : " & Time_display);
+            Window.GNATMake_messages.Add(S2G("Time : " & Time_display));
             Window.last_build_failed:= True;
           end if;
           Window.Bar_Ada.Position(0);
@@ -957,7 +957,7 @@ package body GWen_Windows is
         Translation(Window, generate_test => True);
       when Start_main_app =>
         GWin_Util.Start(
-          File      => S(Window.proj.Ada_main) ,
+          File      => S(Window.proj.Ada_main),
           Parameter => "",
           Minimized => False
         );
@@ -971,7 +971,7 @@ package body GWen_Windows is
       when About =>
         Window.On_About;
       when others =>
-        Message_Box(Window, "Unknown menu item", Integer'Image(Item));
+        Message_Box(Window, "Unknown menu item", S2G(Integer'Image(Item)));
     end case;
   end On_Menu_Select;
 
