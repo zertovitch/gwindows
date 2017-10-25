@@ -1986,8 +1986,29 @@ package GWindows.Scintilla is
    SCMOD_CTRL                     : constant := 2;
    SCMOD_ALT                      : constant := 4;
 
+   --  Multiple selections - rectangular selections - multi-line editing
+
+   procedure Set_Additional_Selection_Typing
+     (Control : in out Scintilla_Type; additional_typing : Boolean := True);
+
+   procedure Set_Multiple_Selection
+     (Control : in out Scintilla_Type; multiple_selection : Boolean := True);
+
+   procedure Set_Mouse_Selection_Rectangular
+     (Control : in out Scintilla_Type; rectangular_selection : Boolean := True);
+
+   --  Virtual space is space beyond the end of each line
+
+   SCVS_NONE                 : constant := 0;
+   SCVS_RECTANGULARSELECTION : constant := 1;
+   SCVS_USERACCESSIBLE       : constant := 2;
+   SCVS_NOWRAPLINESTART      : constant := 4;
+
+   procedure Set_Virtual_Space_Options
+     (Control : in out Scintilla_Type; virtual_space_options : Integer := SCVS_NONE);
+
    -------------------------------------------------------------------------
-   --  Common_Control_Type - Event Handlers
+   --  Scintilla_Type - Event Handlers
    -------------------------------------------------------------------------
    --  See Event Methods for details on each event
 

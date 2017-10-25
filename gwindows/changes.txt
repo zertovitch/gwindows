@@ -1,8 +1,23 @@
-Numbers refer to source control revisions.
-Revision N can be currently seen at the following URL:
-http://gnavi.svn.sf.net/viewvc/gnavi?view=revision&revision=N
+Major changes - numbers below refer to svn repository revisions
+===============================================================
 
-Major changes - numbers below refer to svn repository revisions:
+    Revision N can be currently seen at the following URL:
+      https://sourceforge.net/p/gnavi/code/N/
+    Latest revision:
+      https://sourceforge.net/p/gnavi/code/
+
+GWindows release, (upcoming)
+=============================
+
+289:      GWindows.Scintilla: added commands for multiline editing
+286:      GWindows.Scintilla: added function SCI_Lexer_DLL_Successfully_Loaded
+276, 275: GWindows.Common_Controls: fixes regarding Progress_Control_Type and Up_Down_Control_Type
+
+
+GWindows release, 10-May-2016
+=============================
+
+251: GWindows.Locales: added list separator (for Excel's CSV files)
 
 GWindows release, 27-Oct-2014
 =============================

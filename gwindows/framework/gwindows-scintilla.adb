@@ -371,6 +371,10 @@ package body GWindows.Scintilla is
    SCI_SETXOFFSET                 : constant := 16#095D#;
    SCI_GETXOFFSET                 : constant := 16#095E#;
 --   SCI_GRABFOCUS                  : constant := 16#0960#;
+   SCI_SETMULTIPLESELECTION               : constant := 16#0A03#;
+   SCI_SETADDITIONALSELECTIONTYPING       : constant := 16#0A05#;
+   SCI_SETVIRTUALSPACEOPTIONS             : constant := 16#0A24#;
+   SCI_SETMOUSESELECTIONRECTANGULARSWITCH : constant := 16#0A6C#;
    SCI_STARTRECORD                : constant := 16#0BB9#;
    SCI_STOPRECORD                 : constant := 16#0BBA#;
    SCI_SETLEXER                   : constant := 16#0FA1#;
@@ -4572,6 +4576,24 @@ package body GWindows.Scintilla is
       return SendMessage;
    end SelectionIsRectangle;
 
+   -------------------------------------
+   -- Set_Additional_Selection_Typing --
+   -------------------------------------
+
+   procedure Set_Additional_Selection_Typing
+     (Control : in out Scintilla_Type; additional_typing : Boolean := True)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_SETADDITIONALSELECTIONTYPING;
+         wParam : GWindows.Types.Wparam := Boolean'Pos (additional_typing);
+         lParam : GWindows.Types.Lparam := 0);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Set_Additional_Selection_Typing;
+
    ---------------
    -- SetAnchor --
    ---------------
@@ -5323,6 +5345,42 @@ package body GWindows.Scintilla is
       SendMessage;
    end SetMarginWidthN;
 
+   -------------------------------------
+   -- Set_Mouse_Selection_Rectangular --
+   -------------------------------------
+
+   procedure Set_Mouse_Selection_Rectangular
+     (Control : in out Scintilla_Type; rectangular_selection : Boolean := True)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_SETMOUSESELECTIONRECTANGULARSWITCH;
+         wParam : GWindows.Types.Wparam := Boolean'Pos (rectangular_selection);
+         lParam : GWindows.Types.Lparam := 0);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Set_Mouse_Selection_Rectangular;
+
+   ----------------------------
+   -- Set_Multiple_Selection --
+   ----------------------------
+
+   procedure Set_Multiple_Selection
+     (Control : in out Scintilla_Type; multiple_selection : Boolean := True)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_SETMULTIPLESELECTION;
+         wParam : GWindows.Types.Wparam := Boolean'Pos (multiple_selection);
+         lParam : GWindows.Types.Lparam := 0);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Set_Multiple_Selection;
+
    ---------------------
    -- SetModEventMask --
    ---------------------
@@ -5903,6 +5961,24 @@ package body GWindows.Scintilla is
    begin
       SendMessage;
    end SetViewWS;
+
+   -------------------------------
+   -- Set_Virtual_Space_Options --
+   -------------------------------
+
+   procedure Set_Virtual_Space_Options
+     (Control : in out Scintilla_Type; virtual_space_options : Integer := SCVS_NONE)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_SETVIRTUALSPACEOPTIONS;
+         wParam : GWindows.Types.Wparam := To_Wparam (virtual_space_options);
+         lParam : GWindows.Types.Lparam := 0);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Set_Virtual_Space_Options;
 
    ----------------------
    -- SetVisiblePolicy --
