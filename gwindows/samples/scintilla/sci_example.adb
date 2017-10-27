@@ -2,6 +2,9 @@
 --
 --  Sci_Example.exe will work only if SciLexer.dll is in the same path.
 --  SciLexer.dll can be found @ http://www.scintilla.org/ or in the redist directory.
+--
+--  For a complete application using GWindows.Scintilla, see the LEA project:
+--  https://sf.net/projects/l-e-a/
 
 with GWindows.Windows.Main;             use GWindows.Windows.Main;
 with GWindows.Scintilla;                use GWindows.Scintilla;
@@ -54,6 +57,13 @@ procedure Sci_Example is
       SW.SetEdgeColumn (80);
       SW.SetEdgeMode (EDGE_LINE);
       --  SW.SetIndentationGuides (True);
+      --
+      --  Enable sexy features like in Notepad++  :
+      --    multi-line edit, rectangular selections, ...
+      SW.Set_Multiple_Selection;
+      SW.Set_Mouse_Selection_Rectangular;
+      SW.Set_Additional_Selection_Typing;
+      SW.Set_Virtual_Space_Options (SCVS_RECTANGULARSELECTION);
 
       SW.SetLexer (SCLEX_ADA);
       SW.SetKeyWords (0, Key_Words);

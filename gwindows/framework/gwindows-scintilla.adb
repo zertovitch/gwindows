@@ -5345,16 +5345,18 @@ package body GWindows.Scintilla is
       SendMessage;
    end SetMarginWidthN;
 
-   -------------------------------------
-   -- Set_Mouse_Selection_Rectangular --
-   -------------------------------------
+   ----------------------------
+   -- Set_Multiple_Selection --
+   ----------------------------
 
    procedure Set_Mouse_Selection_Rectangular
-     (Control : in out Scintilla_Type; rectangular_selection : Boolean := True)
+     (Control               : in out Scintilla_Type;
+      rectangular_selection : in     Boolean := True)
    is
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_SETMOUSESELECTIONRECTANGULARSWITCH;
+         uMsg   : Interfaces.C.int      :=
+            SCI_SETMOUSESELECTIONRECTANGULARSWITCH;
          wParam : GWindows.Types.Wparam := Boolean'Pos (rectangular_selection);
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
@@ -5967,7 +5969,8 @@ package body GWindows.Scintilla is
    -------------------------------
 
    procedure Set_Virtual_Space_Options
-     (Control : in out Scintilla_Type; virtual_space_options : Integer := SCVS_NONE)
+     (Control               : in out Scintilla_Type;
+      virtual_space_options : in     Integer       := SCVS_NONE)
    is
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -7591,7 +7594,7 @@ package body GWindows.Scintilla is
       end if;
    end Fire_On_Dwell_End;
 
-   SCI_Lexer_DLL: constant GWindows.Types.Handle:=
+   SCI_Lexer_DLL : constant GWindows.Types.Handle :=
       LoadLibrary (GWindows.GStrings.To_GString_C ("scilexer.dll"));
 
    function SCI_Lexer_DLL_Successfully_Loaded return Boolean is

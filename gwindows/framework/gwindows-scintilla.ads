@@ -1995,7 +1995,8 @@ package GWindows.Scintilla is
      (Control : in out Scintilla_Type; multiple_selection : Boolean := True);
 
    procedure Set_Mouse_Selection_Rectangular
-     (Control : in out Scintilla_Type; rectangular_selection : Boolean := True);
+     (Control               : in out Scintilla_Type;
+      rectangular_selection : in     Boolean := True);
 
    --  Virtual space is space beyond the end of each line
 
@@ -2005,7 +2006,8 @@ package GWindows.Scintilla is
    SCVS_NOWRAPLINESTART      : constant := 4;
 
    procedure Set_Virtual_Space_Options
-     (Control : in out Scintilla_Type; virtual_space_options : Integer := SCVS_NONE);
+     (Control               : in out Scintilla_Type;
+      virtual_space_options : in     Integer       := SCVS_NONE);
 
    -------------------------------------------------------------------------
    --  Scintilla_Type - Event Handlers
