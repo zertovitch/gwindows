@@ -5345,9 +5345,9 @@ package body GWindows.Scintilla is
       SendMessage;
    end SetMarginWidthN;
 
-   ----------------------------
-   -- Set_Multiple_Selection --
-   ----------------------------
+   -------------------------------------
+   -- Set_Mouse_Selection_Rectangular --
+   -------------------------------------
 
    procedure Set_Mouse_Selection_Rectangular
      (Control               : in out Scintilla_Type;
