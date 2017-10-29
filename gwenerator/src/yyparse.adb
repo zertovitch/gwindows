@@ -888,10 +888,10 @@ when 416 => -- #line 1279
 when 417 => -- #line 1287
 
               style_switch:= (others => False); -- Reset all style switches
-                append_item_cmd := To_Unbounded_String(
-                  "    Append_Item(Menu." &
-                  Popup_num_to_Ada_ident(popup_stack(popup_top)) &
-                  ", " & Replace_special_characters(yytext));
+              append_item_cmd := To_Unbounded_String(
+                "    Append_Item(Menu." &
+                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+                ", " & Replace_special_characters(yytext));
             
 
 when 418 => -- #line 1296
@@ -900,7 +900,7 @@ when 418 => -- #line 1296
               append_item_cmd := append_item_cmd & ", " & S(last_Ada_constant) & ");";
               if S(last_Ada_constant) = "0" then
                 Ada_Put_Line(to_body, 
-                  "    --  Contraint error would be raised on line after next, but better having an explanation...");
+                  "    --  Constraint error would be raised on line after next, but better having an explanation...");
                 Ada_Put_Line(to_body,
                   "    raise Constraint_Error with ""Forgot to set a command for menu item, value 0"";");
               end if;
