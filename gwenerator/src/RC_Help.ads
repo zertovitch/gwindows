@@ -202,6 +202,7 @@ package RC_Help is
   popup_stack: array(0..1000) of Natural; -- recall parent popups
   function Popup_num_to_Ada_ident(n: Natural) return String;
   last_popup_title: Unbounded_String;
+  append_item_cmd : Unbounded_String;
 
   procedure Insert_symbol(sym_name: String; value: Integer);
   procedure Insert_last_symbol;

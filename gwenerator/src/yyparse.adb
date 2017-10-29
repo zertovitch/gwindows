@@ -12,6 +12,7 @@ with Text_IO; -- for compat.
 
 with Ada.Characters.Handling;           use Ada.Characters.Handling;
 with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
+with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 
 with Interfaces;                        use Interfaces;
 
@@ -887,25 +888,26 @@ when 416 => -- #line 1279
 when 417 => -- #line 1287
 
               style_switch:= (others => False); -- Reset all style switches
-              Ada_Put(to_body,
-                "    Append_Item(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
-                ", " & Replace_special_characters(yytext)
-              );
+                append_item_cmd := To_Unbounded_String(
+                  "    Append_Item(Menu." &
+                  Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+                  ", " & Replace_special_characters(yytext));
             
 
-when 418 => -- #line 1297
+when 418 => -- #line 1296
 
               Insert_last_symbol;
-              Ada_Put_Line(to_body, ", " & S(last_Ada_constant) & ");");
+              append_item_cmd := append_item_cmd & ", " & S(last_Ada_constant) & ");";
               if S(last_Ada_constant) = "0" then
-                Ada_Put_Line(to_body, "    --  Contraint error would be raised on line before, with range checks:");
+                Ada_Put_Line(to_body, 
+                  "    --  Contraint error would be raised on line after next, but better having an explanation...");
                 Ada_Put_Line(to_body,
-                  "    raise Constraint_Error with ""Forgot to set a command for menu item"";");
+                  "    raise Constraint_Error with ""Forgot to set a command for menu item, value 0"";");
               end if;
+              Ada_Put_Line(to_body, To_String (append_item_cmd));
             
 
-when 419 => -- #line 1307
+when 419 => -- #line 1308
 
               if style_switch(grayed) then
                 Ada_Put_Line(to_body, "    State(Menu." &
@@ -927,16 +929,16 @@ when 419 => -- #line 1307
               end if;
             
 
-when 426 => -- #line 1341
+when 426 => -- #line 1342
  style_switch(grayed):= True; 
 
-when 427 => -- #line 1342
+when 427 => -- #line 1343
  style_switch(inactive):= True; 
 
-when 428 => -- #line 1343
+when 428 => -- #line 1344
  style_switch(checked):= True; 
 
-when 432 => -- #line 1352
+when 432 => -- #line 1353
 
               Ada_Put_Line(to_body,
                 "    Append_Separator(Menu." &
@@ -945,7 +947,7 @@ when 432 => -- #line 1352
               );
             
 
-when 460 => -- #line 1440
+when 460 => -- #line 1441
 
                  Open_if_separate("Version_info", with_body => False);
                  if not separate_items then
@@ -953,17 +955,17 @@ when 460 => -- #line 1440
                  end if;
                
 
-when 461 => -- #line 1448
+when 461 => -- #line 1449
  if not separate_items then
                    Ada_Put_Line(to_spec, "  end Version_info;");
                  end if;
                  Close_if_separate("Version_info", with_body => False);
                
 
-when 480 => -- #line 1498
+when 480 => -- #line 1499
 RC_Help.version_info_value_counter:= 0;
 
-when 485 => -- #line 1513
+when 485 => -- #line 1514
 RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
@@ -979,7 +981,7 @@ RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               end case;
              
 
-when 486 => -- #line 1528
+when 486 => -- #line 1529
 RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
@@ -991,16 +993,16 @@ RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               end case;
              
 
-when 500 => -- #line 1598
+when 500 => -- #line 1599
 Treat_include(yytext(2..yylength-1));
 
-when 507 => -- #line 1623
+when 507 => -- #line 1624
 Treat_include(yytext(2..yylength-1));
 
-when 508 => -- #line 1626
+when 508 => -- #line 1627
 Treat_include(yytext(2..yylength-1));
 
-when 529 => -- #line 1694
+when 529 => -- #line 1695
  last_ident:= U(yytext);
              last_Ada_constant:= Ada_ify(yytext);
              last_Ada_ident:= last_Ada_constant;
@@ -1008,7 +1010,7 @@ when 529 => -- #line 1694
              anonymous_item:= False;
            
 
-when 530 => -- #line 1701
+when 530 => -- #line 1702
  last_ident:= U(yytext);
              last_Ada_constant:= last_ident;
              if yylval.intval < -1 then
@@ -1022,7 +1024,7 @@ when 530 => -- #line 1701
              anonymous_item:= True;
            
 
-when 531 => -- #line 1714
+when 531 => -- #line 1715
  last_ident:= U(yytext);
              last_Ada_constant:= last_ident;
              New_static_item;

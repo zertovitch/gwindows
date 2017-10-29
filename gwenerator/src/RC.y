@@ -1286,22 +1286,23 @@ menu_entry :
             RCString
             {
               style_switch:= (others => False); -- Reset all style switches
-              Ada_Put(to_body,
-                "    Append_Item(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
-                ", " & Replace_special_characters(yytext)
-              );
+                append_item_cmd := To_Unbounded_String(
+                  "    Append_Item(Menu." &
+                  Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+                  ", " & Replace_special_characters(yytext));
             }
             COMMA_t
             RC_Ident
             {
               Insert_last_symbol;
-              Ada_Put_Line(to_body, ", " & S(last_Ada_constant) & ");");
+              append_item_cmd := append_item_cmd & ", " & S(last_Ada_constant) & ");";
               if S(last_Ada_constant) = "0" then
-                Ada_Put_Line(to_body, "    --  Contraint error would be raised on line before, with range checks:");
+                Ada_Put_Line(to_body, 
+                  "    --  Contraint error would be raised on line after next, but better having an explanation...");
                 Ada_Put_Line(to_body,
-                  "    raise Constraint_Error with ""Forgot to set a command for menu item"";");
+                  "    raise Constraint_Error with ""Forgot to set a command for menu item, value 0"";");
               end if;
+              Ada_Put_Line(to_body, To_String (append_item_cmd));
             }
             menu_options
             {
@@ -1738,6 +1739,7 @@ with Text_IO; -- for compat.
 
 with Ada.Characters.Handling;           use Ada.Characters.Handling;
 with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
+with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 
 with Interfaces;                        use Interfaces;
 
