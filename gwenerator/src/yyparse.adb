@@ -898,9 +898,14 @@ when 418 => -- #line 1297
 
               Insert_last_symbol;
               Ada_Put_Line(to_body, ", " & S(last_Ada_constant) & ");");
+              if S(last_Ada_constant) = "0" then
+                Ada_Put_Line(to_body, "    --  Contraint error would be raised on line before, with range checks:");
+                Ada_Put_Line(to_body,
+                  "    raise Constraint_Error with ""Forgot to set a command for menu item"";");
+              end if;
             
 
-when 419 => -- #line 1302
+when 419 => -- #line 1307
 
               if style_switch(grayed) then
                 Ada_Put_Line(to_body, "    State(Menu." &
@@ -922,16 +927,16 @@ when 419 => -- #line 1302
               end if;
             
 
-when 426 => -- #line 1336
+when 426 => -- #line 1341
  style_switch(grayed):= True; 
 
-when 427 => -- #line 1337
+when 427 => -- #line 1342
  style_switch(inactive):= True; 
 
-when 428 => -- #line 1338
+when 428 => -- #line 1343
  style_switch(checked):= True; 
 
-when 432 => -- #line 1347
+when 432 => -- #line 1352
 
               Ada_Put_Line(to_body,
                 "    Append_Separator(Menu." &
@@ -940,7 +945,7 @@ when 432 => -- #line 1347
               );
             
 
-when 460 => -- #line 1435
+when 460 => -- #line 1440
 
                  Open_if_separate("Version_info", with_body => False);
                  if not separate_items then
@@ -948,17 +953,17 @@ when 460 => -- #line 1435
                  end if;
                
 
-when 461 => -- #line 1443
+when 461 => -- #line 1448
  if not separate_items then
                    Ada_Put_Line(to_spec, "  end Version_info;");
                  end if;
                  Close_if_separate("Version_info", with_body => False);
                
 
-when 480 => -- #line 1493
+when 480 => -- #line 1498
 RC_Help.version_info_value_counter:= 0;
 
-when 485 => -- #line 1508
+when 485 => -- #line 1513
 RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
@@ -974,7 +979,7 @@ RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               end case;
              
 
-when 486 => -- #line 1523
+when 486 => -- #line 1528
 RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
@@ -986,16 +991,16 @@ RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               end case;
              
 
-when 500 => -- #line 1593
+when 500 => -- #line 1598
 Treat_include(yytext(2..yylength-1));
 
-when 507 => -- #line 1618
+when 507 => -- #line 1623
 Treat_include(yytext(2..yylength-1));
 
-when 508 => -- #line 1621
+when 508 => -- #line 1626
 Treat_include(yytext(2..yylength-1));
 
-when 529 => -- #line 1689
+when 529 => -- #line 1694
  last_ident:= U(yytext);
              last_Ada_constant:= Ada_ify(yytext);
              last_Ada_ident:= last_Ada_constant;
@@ -1003,7 +1008,7 @@ when 529 => -- #line 1689
              anonymous_item:= False;
            
 
-when 530 => -- #line 1696
+when 530 => -- #line 1701
  last_ident:= U(yytext);
              last_Ada_constant:= last_ident;
              if yylval.intval < -1 then
@@ -1017,7 +1022,7 @@ when 530 => -- #line 1696
              anonymous_item:= True;
            
 
-when 531 => -- #line 1709
+when 531 => -- #line 1714
  last_ident:= U(yytext);
              last_Ada_constant:= last_ident;
              New_static_item;

@@ -1297,6 +1297,11 @@ menu_entry :
             {
               Insert_last_symbol;
               Ada_Put_Line(to_body, ", " & S(last_Ada_constant) & ");");
+              if S(last_Ada_constant) = "0" then
+                Ada_Put_Line(to_body, "    --  Contraint error would be raised on line before, with range checks:");
+                Ada_Put_Line(to_body,
+                  "    raise Constraint_Error with ""Forgot to set a command for menu item"";");
+              end if;
             }
             menu_options
             {
