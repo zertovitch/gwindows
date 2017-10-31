@@ -1,3 +1,9 @@
+--  Testing some Windows controls
+--  
+--  - Combo_Box_Type
+--  - Drop_Down_Combo_Box_Type
+--  - Drop_Down_List_Box_Type
+
 with GWindows.Message_Boxes;
 with GWindows.Windows.Main;
 with GWindows.Application;
@@ -7,6 +13,11 @@ with GWindows.GStrings;
 with GWindows.Combo_Boxes;
 
 procedure Win_Controls is
+   --  Resource is just used for having the nice XP+ design.
+   --  Resource file is obtained with the command:
+   --  windres -i control_test.rc -o ..\..\obj\control_test.coff
+   pragma Linker_Options ("control_test.coff");
+
    use GWindows.Windows.Main;
    use GWindows.Combo_Boxes;
 
@@ -54,6 +65,8 @@ begin
    for N in 1 .. 50 loop
       DD_List_Control.Add (GWindows.GStrings.Image (N));
    end loop;
+   DD_List_Control.Add ("I'm a Drop_Down_List_Box_Type");
+   --  Text must be in the list.
    DD_List_Control.Text ("I'm a Drop_Down_List_Box_Type");
 
    Top.Visible;

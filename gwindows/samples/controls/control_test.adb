@@ -12,9 +12,10 @@ with GWindows.Message_Boxes;
 with GWindows.Application;
 
 procedure Control_Test is
-   pragma Linker_Options ("control_test.coff");
-   --  Resource with the toolbar bitmap. File obtained with:
+   --  Resource with the toolbar bitmap.
+   --  Resource file is obtained with the command:
    --  windres -i control_test.rc -o ..\..\obj\control_test.coff
+   pragma Linker_Options ("control_test.coff");
 
    Top_Window   : Main_Window_Type;
    Window       : Window_Type;
