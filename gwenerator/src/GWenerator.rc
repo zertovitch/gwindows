@@ -66,7 +66,7 @@ Main_Menu MENU
     POPUP "&Options"
     {
         MENUITEM "&Options for this GWen", GWen_Options
-        MENUITEM "GWenerator &preferences", GWenerator_Preferences
+        MENUITEM "GWenerator &preferences", GWenerator_Preferences, INACTIVE
     }
     POPUP "&Help"
     {
@@ -134,7 +134,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     RTEXT           "Executable", IDC_STATIC, 18, 178, 60, 8, SS_RIGHT, WS_EX_LEFT
     AUTOCHECKBOX    "Initialize some controls with fake contents (analogy to pragma Initialize_Scalars)", Initialize_controls, 23, 140, 275, 10, 0, WS_EX_LEFT
     LTEXT           "Invoking resource compiler from GWenerator...", IDC_STATIC, 20, 65, 155, 8, SS_LEFT, WS_EX_LEFT
-    COMBOBOX        RC_Compiler_list, 180, 63, 110, 15, CBS_DROPDOWN | CBS_HASSTRINGS, WS_EX_LEFT
+    COMBOBOX        RC_Compiler_list, 180, 63, 110, 15, CBS_DROPDOWNLIST | CBS_HASSTRINGS, WS_EX_LEFT
 }
 
 

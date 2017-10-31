@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2017/10/17  18:50:04
+-- Transcription time: 2017/10/31  09:22:28
 -- GWenerator project file: GWenerator.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -8,7 +8,7 @@
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: >= 19-May-2016
+-- RC Grammar version: 31-Oct-2017
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -122,7 +122,7 @@ package GWenerator_Resource_GUI is
     -- Label: IDC_STATIC
     Initialize_controls: Check_Box_Type;
     -- Label: IDC_STATIC
-    RC_Compiler_list: Drop_Down_Combo_Box_Type;
+    RC_Compiler_list: Drop_Down_List_Box_Type;
   end record; -- GWen_properties_Type
 
   -- Dialog at resource line 137

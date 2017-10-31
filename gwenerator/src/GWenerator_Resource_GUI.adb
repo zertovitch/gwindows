@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2017/10/17  18:50:04
+-- Transcription time: 2017/10/31  09:22:28
 -- GWenerator project file: GWenerator.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -8,7 +8,7 @@
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: >= 19-May-2016
+-- RC Grammar version: 31-Oct-2017
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -44,6 +44,7 @@ package body GWenerator_Resource_GUI is
     Append_Menu(Menu.Main, "&Options", Menu.Popup_0003);
     Append_Item(Menu.Popup_0003, "&Options for this GWen", GWen_Options);
     Append_Item(Menu.Popup_0003, "GWenerator &preferences", GWenerator_Preferences);
+    State(Menu.Popup_0003, Command, GWenerator_Preferences, Disabled);
     Menu.Popup_0004:= Create_Popup;
     Append_Menu(Menu.Main, "&Help", Menu.Popup_0004);
     Append_Item(Menu.Popup_0004, "&About", About);
@@ -301,7 +302,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  20, 65, 155, 8, x,y,w,h);
     Create_Label( Window, "Invoking resource compiler from GWenerator...", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  180, 63, 110, 15, x,y,w,h);
-    Create( Window.RC_Compiler_list, Window, "", x,y,w,h, False, ID => RC_Compiler_list);
+    Create( Window.RC_Compiler_list, Window, x,y,w,h, False, ID => RC_Compiler_list);
   end Create_Contents;  --  GWen_properties_Type
 
   -- Dialog at resource line 146
