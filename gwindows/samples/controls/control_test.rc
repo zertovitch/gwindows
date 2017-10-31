@@ -1,4 +1,5 @@
-//  Resource with the toolbar bitmap. File obtained with:
+//  Resource with the toolbar bitmap.
+//  Resource file is obtained with the command:
 //  windres -i control_test.rc -o ..\..\obj\control_test.coff
 
 #include <windows.h>

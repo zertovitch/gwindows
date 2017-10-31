@@ -14,7 +14,8 @@ project GWindows_Samples is
      "sci_example.adb",   --  scintilla editor
      "splitters.adb", 
      "scribble.adb", "scribble2.adb", "text_spin.adb",  --  drawing
-     "control_test.adb"   --  controls
+     "control_test.adb",   --  controls
+     "win_controls.adb"    --  other controls (combo boxes)
      --  "tcl_example.adb"
    );
 

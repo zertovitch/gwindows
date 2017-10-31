@@ -36,7 +36,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "29-Oct-2017";
+  Grammar_Version: constant String:= "31-Oct-2017";
   Web: constant String:= "http://sf.net/projects/gnavi";
 
   function S(Source: Unbounded_String) return String

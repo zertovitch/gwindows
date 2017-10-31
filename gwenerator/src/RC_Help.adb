@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2016
+--  Copyright (c) Gautier de Montmollin 2008 .. 2017
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -853,11 +853,21 @@ package body RC_Help is
 
   procedure Ada_combo_control is
   begin
-    Ada_normal_control(
-      Combo_type_name(combo),
-      ", " & S(last_text),
-      ", " & Img(style_switch(sort))
-    );
+    if combo = drop_down_list then
+      Ada_normal_control(
+        Combo_type_name(combo),
+        --  No Text parameter - otherwise the wrong Create is called,
+        --  and a Combo Box is created instead of a Drop Down List Box!
+        "",
+        ", " & Img(style_switch(sort))
+      );
+    else
+      Ada_normal_control(
+        Combo_type_name(combo),
+        ", " & S(last_text),
+        ", " & Img(style_switch(sort))
+      );
+    end if;
     if initialize_controls then
       Ada_Put_Line(to_body, "    for N in 0 .. 5 loop");
       Ada_Put_Line(to_body, "      Add(Window." & S(last_Ada_ident) &

@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2017 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -344,6 +344,10 @@ package GWindows.Combo_Boxes is
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False);
    --  Create a drop down list box
+   --
+   --  Caution: This Create is not overriding the Create of Combo_Box_Type.
+   --     If you have a Text parameter after Parent, a Combo Box will be
+   --     actually created instead of a Drop Down List Box!
 
    procedure Text (Window : in out Drop_Down_List_Box_Type;
                    Text   : in     GString);
