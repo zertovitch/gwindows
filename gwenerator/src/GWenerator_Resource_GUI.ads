@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2017/10/31  09:22:28
+-- Transcription time: 2017/10/31  09:58:14
 -- GWenerator project file: GWenerator.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -37,7 +37,7 @@ package GWenerator_Resource_GUI is
     Popup_0004: Menu_Type;  -- level 1; title: "&Help"
   end record;  --  Main_Menu_Type
 
-  -- Menu at line 74
+  -- Menu at line 76
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type);
 
@@ -60,7 +60,7 @@ package GWenerator_Resource_GUI is
     GNAT_Version: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 101
+  -- Dialog at resource line 103
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -125,7 +125,7 @@ package GWenerator_Resource_GUI is
     RC_Compiler_list: Drop_Down_List_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 137
+  -- Dialog at resource line 139
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -160,6 +160,8 @@ package GWenerator_Resource_GUI is
     Button_Translate_permanent: Button_Type; -- doesn't close parent window after click
     Button_Build: Dialog_Button_Type;    -- closes parent window after click
     Button_Build_permanent: Button_Type; -- doesn't close parent window after click
+    Button_Run: Dialog_Button_Type;    -- closes parent window after click
+    Button_Run_permanent: Button_Type; -- doesn't close parent window after click
     Bar_RC: Progress_Control_Type;
     Bar_Ada: Progress_Control_Type;
     Ear_Ada: Bitmap_Type;
@@ -177,11 +179,12 @@ package GWenerator_Resource_GUI is
     Static_0004: Icon_Type;
     Ada_blue_3: Icon_Type;
     Static_0005: Icon_Type;
+    Static_0006: Icon_Type;
     More_less_details: Bitmap_Button_Type;
     More_less_build: Bitmap_Button_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 173
+  -- Dialog at resource line 177
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -208,7 +211,7 @@ package GWenerator_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "GWenerator - Resource script (.rc) to GWindows Ada code translator";
-    FileVersion: constant String:= "1.05";
+    FileVersion: constant String:= "1.1";
     LegalCopyright: constant String:= "© 2008 .. 2017 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWenerator";
     Translation: constant:= 1033;
@@ -271,6 +274,7 @@ package GWenerator_Resource_GUI is
   Bar_RC                 : constant:=   4121;
   Bar_Ada                : constant:=   4122;
   Edit_RC_File_Name      : constant:=   4122;
+  Button_Run             : constant:=  40000;
   New_GWen               : constant:=  40000;
   Open_GWen              : constant:=  40001;
   Save_GWen              : constant:=  40002;
@@ -304,6 +308,6 @@ package GWenerator_Resource_GUI is
 
   function Num_resource(id: Natural) return GString;  --  Just turn 123 into "#123".
 
-  -- Last line of resource script file: 264
+  -- Last line of resource script file: 269
 
 end GWenerator_Resource_GUI;

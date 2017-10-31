@@ -51,6 +51,7 @@
 #define Bar_RC                                  4121
 #define Bar_Ada                                 4122
 #define Edit_RC_File_Name                       4122
+#define Button_Run                              40000
 #define New_GWen                                40000
 #define Open_GWen                               40001
 #define Save_GWen                               40002

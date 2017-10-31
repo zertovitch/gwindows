@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2017/10/31  09:22:28
+-- Transcription time: 2017/10/31  09:58:14
 -- GWenerator project file: GWenerator.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -38,7 +38,9 @@ package body GWenerator_Resource_GUI is
     Menu.Popup_0002:= Create_Popup;
     Append_Menu(Menu.Main, "&Actions", Menu.Popup_0002);
     Append_Item(Menu.Popup_0002, "&Generate test application", Generate_test_app);
-    Append_Item(Menu.Popup_0002, "&Start main application", Start_main_app);
+    Append_Separator(Menu.Popup_0002);
+    Append_Item(Menu.Popup_0002, "&Run main application" & To_GString_From_String((1=>ASCII.HT)) & "F5", Start_main_app);
+    Append_Separator(Menu.Popup_0002);
     Append_Item(Menu.Popup_0002, "&Compile resource only", Compile_resource_only);
     Menu.Popup_0003:= Create_Popup;
     Append_Menu(Menu.Main, "&Options", Menu.Popup_0003);
@@ -50,7 +52,7 @@ package body GWenerator_Resource_GUI is
     Append_Item(Menu.Popup_0004, "&About", About);
   end Create_Full_Menu;  --  Main_Menu_Type
 
-  -- Dialog at resource line 86
+  -- Dialog at resource line 88
 
   -- Pre-Create operation to switch off default styles
   -- or add ones that are not in usual GWindows Create parameters
@@ -159,7 +161,7 @@ package body GWenerator_Resource_GUI is
     Create( Window.GNAT_Version, Window, "GNAT_Version", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAT_Version);
   end Create_Contents;  --  About_box_Type
 
-  -- Dialog at resource line 110
+  -- Dialog at resource line 112
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -305,7 +307,7 @@ package body GWenerator_Resource_GUI is
     Create( Window.RC_Compiler_list, Window, x,y,w,h, False, ID => RC_Compiler_list);
   end Create_Contents;  --  GWen_properties_Type
 
-  -- Dialog at resource line 146
+  -- Dialog at resource line 148
 
   --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -322,7 +324,7 @@ package body GWenerator_Resource_GUI is
   is
     x,y,w,h: Integer;
   begin
-    Dlg_to_Scn(  0, 0, 403, 246, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 469, 246, x,y,w,h);
     if Left   /= Use_Default then x:= Left;   end if;
     if Top    /= Use_Default then y:= Top;    end if;
     if Width  /= Use_Default then w:= Width;  end if;
@@ -356,16 +358,16 @@ package body GWenerator_Resource_GUI is
     x,y,w,h: Integer;
   begin
     if resize then
-    Dlg_to_Scn(  0, 0, 403, 246, x,y,w,h);
+    Dlg_to_Scn(  0, 0, 469, 246, x,y,w,h);
       Move(Window, x,y);
       Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
-    Dlg_to_Scn(  5, 105, 390, 135, x,y,w,h);
+    Dlg_to_Scn(  5, 105, 456, 135, x,y,w,h);
     Create( Window.Details_frame, Window, "Details", x,y,w,h);
-    Dlg_to_Scn(  12, 132, 185, 105, x,y,w,h);
+    Dlg_to_Scn(  12, 132, 188, 105, x,y,w,h);
     Create( Window.RC_to_GWindows_messages, Window, x,y,w,h, False, ID => RC_to_GWindows_messages);
-    Dlg_to_Scn(  210, 132, 182, 105, x,y,w,h);
+    Dlg_to_Scn(  210, 132, 245, 105, x,y,w,h);
     Create( Window.GNATMake_messages, Window, x,y,w,h, False, ID => GNATMake_messages);
     Dlg_to_Scn(  10, 117, 88, 8, x,y,w,h);
     Create_Label( Window, "Resource to Ada messages", x,y,w,h, GWindows.Static_Controls.Left, None);
@@ -392,6 +394,17 @@ package body GWenerator_Resource_GUI is
       Hide(Window.Button_Build_permanent);
     else -- hide the closing button
       Hide(Window.Button_Build);
+    end if;
+    Dlg_to_Scn(  413, 37, 43, 20, x,y,w,h);
+    -- Both versions of the button are created.
+    -- The more meaningful one is made visible, but this choice
+    -- can be reversed, for instance on a "Browse" button.
+    Create( Window.Button_Run, Window, "Run", x,y,w,h, ID => Button_Run);
+    Create( Window.Button_Run_permanent, Window, "Run", x,y,w,h, ID => Button_Run);
+    if for_dialog then -- hide the non-closing button
+      Hide(Window.Button_Run_permanent);
+    else -- hide the closing button
+      Hide(Window.Button_Run);
     end if;
     Dlg_to_Scn(  67, 62, 100, 10, x,y,w,h);
     Create( Window.Bar_RC, Window, x,y,w,h, Horizontal, True);
@@ -427,6 +440,8 @@ package body GWenerator_Resource_GUI is
     Create( Window.Ada_blue_3, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  345, 40, 21, 20, x,y,w,h);
     Create( Window.Static_0005, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
+    Dlg_to_Scn(  387, 40, 21, 20, x,y,w,h);
+    Create( Window.Static_0006, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  5, 93, 10, 9, x,y,w,h);
     Create( Window.More_less_details, Window, "", x,y,w,h, ID => More_less_details);
     Dlg_to_Scn(  215, 93, 10, 9, x,y,w,h);
@@ -543,6 +558,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 264
+  -- Last line of resource script file: 269
 
 end GWenerator_Resource_GUI;

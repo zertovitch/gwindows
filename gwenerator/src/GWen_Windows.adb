@@ -93,7 +93,8 @@ package body GWen_Windows is
     --
     if Window.proj.show_ada_build then
       Window.Show_Ada_build.State(Checked);
-      Window.Client_Area_Width(Window.Exe_file_icon.Left + Window.Exe_file_icon.Width + margin_x);
+      --  Limit the window width to just after the "Run" button
+      Window.Client_Area_Width(Window.Button_Run.Left + Window.Button_Run.Width + margin_x);
       Window.More_less_build.Set_Bitmap(Window.less_build);
       Window.GNATMake_messages.Show;
       Window.Ada_comp_label.Show;
@@ -122,6 +123,7 @@ package body GWen_Windows is
       end if;
     else
       Window.Show_Ada_build.State(Unchecked);
+      --  Limit the window width to just after the "Ada" icon
       Window.Client_Area_Width(Window.Ada_file_icon.Left + Window.Ada_file_icon.Width + margin_x);
       Window.More_less_build.Set_Bitmap(Window.more_build);
       Window.GNATMake_messages.Hide;
@@ -646,6 +648,7 @@ package body GWen_Windows is
   procedure Output_build_line(l: String) is
     x,y: Integer;
   begin
+    --  Intercept the messages like "completed 12%" and update the progress bar
     if l'Length >= 10 and then
       l(l'First..l'First+9)="completed " and then
       Index(l, "%)") > 0
@@ -662,6 +665,7 @@ package body GWen_Windows is
         )
       );
     else
+      --  All other messages are displayed.
       the_main.GNATMake_messages.Add(S2G(l));
     end if;
   end Output_build_line;
@@ -712,6 +716,23 @@ package body GWen_Windows is
     end if;
     Update_status_display(gw);
   end Do_Start_Stop_Build;
+
+  procedure Do_Run (GWen_Window : GWen_Window_Type) is
+    main: String := S(GWen_Window.proj.Ada_main);
+  begin
+    if main /= "" then
+      GWin_Util.Start(
+        File      => main,
+        Parameter => "",
+        Minimized => False
+      );
+    end if;
+  end Do_Run;
+
+  procedure Do_Run_from_button (Window : in out GWindows.Base.Base_Window_Type'Class) is
+  begin
+    Do_Run (GWen_Window_Type(Parent(Window).all));
+  end Do_Run_from_button;
 
   --------------------------------------------
   -- Overriden methods for GWen_Window_Type --
@@ -783,6 +804,7 @@ package body GWen_Windows is
     On_Click_Handler( Window.More_less_build, On_Build_Button_Click'Access );
     On_Click_Handler( Window.Button_Translate_permanent, Do_Translate'Access );
     On_Click_Handler( Window.Button_Build_permanent, Do_Start_Stop_Build'Access );
+    On_Click_Handler( Window.Button_Run_permanent, Do_Run_from_button'Access );
     Windows_Timers.Set_Timer(Window, timer_id, 1000);
     --
     Window.Visible;
@@ -956,11 +978,7 @@ package body GWen_Windows is
       when Generate_test_app =>
         Translation(Window, generate_test => True);
       when Start_main_app =>
-        GWin_Util.Start(
-          File      => S(Window.proj.Ada_main),
-          Parameter => "",
-          Minimized => False
-        );
+        Do_Run (Window);
       when Compile_resource_only =>
          Resource_compilation(Window, optional => False);
       -- Options menu:

@@ -60,7 +60,9 @@ Main_Menu MENU
     POPUP "&Actions"
     {
         MENUITEM "&Generate test application", Generate_test_app
-        MENUITEM "&Start main application", Start_main_app
+        MENUITEM SEPARATOR
+        MENUITEM "&Run main application\tF5", Start_main_app
+        MENUITEM SEPARATOR
         MENUITEM "&Compile resource only", Compile_resource_only
     }
     POPUP "&Options"
@@ -140,18 +142,19 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-Main_dialog DIALOGEX 0, 0, 403, 246
+Main_dialog DIALOGEX 0, 0, 469, 246
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
 CAPTION "GWenerator - Link 1.gwen"
 FONT 8, "Ms Shell Dlg 2", 400, 0, 1
 {
-    GROUPBOX        "Details", Details_frame, 5, 105, 390, 135, BS_CENTER, WS_EX_LEFT
-    LISTBOX         RC_to_GWindows_messages, 12, 132, 185, 105, WS_TABSTOP | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY, WS_EX_LEFT
-    LISTBOX         GNATMake_messages, 210, 132, 182, 105, WS_TABSTOP | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY, WS_EX_LEFT
+    GROUPBOX        "Details", Details_frame, 5, 105, 456, 135, BS_CENTER, WS_EX_LEFT
+    LISTBOX         RC_to_GWindows_messages, 12, 132, 188, 105, WS_TABSTOP | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY, WS_EX_LEFT
+    LISTBOX         GNATMake_messages, 210, 132, 245, 105, WS_TABSTOP | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY, WS_EX_LEFT
     LTEXT           "Resource to Ada messages", IDC_STATIC, 10, 117, 88, 8, SS_LEFT, WS_EX_LEFT
     LTEXT           "Ada compilation and build messages", Ada_comp_label, 212, 117, 115, 8, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Translate now", Button_Translate, 67, 37, 100, 20, 0, WS_EX_LEFT
     PUSHBUTTON      "Build now", Button_Build, 245, 37, 100, 20, 0, WS_EX_LEFT
+    PUSHBUTTON      "Run", Button_Run, 413, 37, 43, 20, 0, WS_EX_LEFT
     CONTROL         "", Bar_RC, PROGRESS_CLASS, PBS_SMOOTH, 67, 62, 100, 10, WS_EX_LEFT
     CONTROL         "", Bar_Ada, PROGRESS_CLASS, PBS_SMOOTH, 245, 62, 100, 10, WS_EX_LEFT
     CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, SS_BITMAP | SS_SUNKEN, 245, 12, 23, 21, WS_EX_LEFT
@@ -169,6 +172,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     ICON            Arrow_icon, IDC_STATIC, 170, 40, 21, 20, SS_ICON, WS_EX_LEFT
     ICON            Arrow_icon, Ada_blue_3, 220, 40, 21, 20, SS_ICON, WS_EX_LEFT
     ICON            Arrow_icon, IDC_STATIC, 345, 40, 21, 20, SS_ICON, WS_EX_LEFT
+    ICON            Arrow_icon, IDC_STATIC, 387, 40, 21, 20, SS_ICON, WS_EX_LEFT
     PUSHBUTTON      "", More_less_details, 5, 93, 10, 9, BS_BITMAP, WS_EX_LEFT
     PUSHBUTTON      "", More_less_build, 215, 93, 10, 9, BS_BITMAP, WS_EX_LEFT
 }
@@ -184,6 +188,7 @@ Main_Menu ACCELERATORS
     "O",            Open_GWen, VIRTKEY, CONTROL
     "S",            Save_GWen, VIRTKEY, CONTROL
     "N",            New_GWen, VIRTKEY, CONTROL
+    VK_F5,         Start_main_app, VIRTKEY
 }
 
 
@@ -251,7 +256,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
         {
             VALUE "Authors", "Gautier de Montmollin"
             VALUE "FileDescription", "GWenerator - Resource script (.rc) to GWindows Ada code translator"
-            VALUE "FileVersion", "1.05"
+            VALUE "FileVersion", "1.1"
             VALUE "LegalCopyright", "© 2008 .. 2017 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWenerator"
         }
