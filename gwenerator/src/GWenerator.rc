@@ -154,7 +154,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     LTEXT           "Ada compilation and build messages", Ada_comp_label, 212, 117, 115, 8, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Translate now", Button_Translate, 67, 37, 100, 20, 0, WS_EX_LEFT
     PUSHBUTTON      "Build now", Button_Build, 245, 37, 100, 20, 0, WS_EX_LEFT
-    PUSHBUTTON      "Run", Button_Run, 413, 37, 43, 20, 0, WS_EX_LEFT
+    PUSHBUTTON      "Run", Button_Run, 410, 37, 46, 20, 0, WS_EX_LEFT
     CONTROL         "", Bar_RC, PROGRESS_CLASS, PBS_SMOOTH, 67, 62, 100, 10, WS_EX_LEFT
     CONTROL         "", Bar_Ada, PROGRESS_CLASS, PBS_SMOOTH, 245, 62, 100, 10, WS_EX_LEFT
     CONTROL         Listen_32x32, Ear_Ada, WC_STATIC, SS_BITMAP | SS_SUNKEN, 245, 12, 23, 21, WS_EX_LEFT
@@ -168,11 +168,11 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     AUTOCHECKBOX    "Ada build", Show_Ada_build, 180, 80, 45, 10, 0, WS_EX_LEFT
     LTEXT           "Last build failed or was stopped. Auto build is temporarily disabled.", Auto_build_lift_msg, 275, 80, 120, 25, SS_LEFT, WS_EX_LEFT
     ICON            Warning_icon, Auto_build_lift_ico, 250, 80, 11, 10, SS_ICON, WS_EX_LEFT
-    ICON            Arrow_icon, IDC_STATIC, 40, 40, 21, 20, SS_ICON, WS_EX_LEFT
-    ICON            Arrow_icon, IDC_STATIC, 170, 40, 21, 20, SS_ICON, WS_EX_LEFT
-    ICON            Arrow_icon, Ada_blue_3, 220, 40, 21, 20, SS_ICON, WS_EX_LEFT
-    ICON            Arrow_icon, IDC_STATIC, 345, 40, 21, 20, SS_ICON, WS_EX_LEFT
-    ICON            Arrow_icon, IDC_STATIC, 387, 40, 21, 20, SS_ICON, WS_EX_LEFT
+    ICON            Arrow_icon, IDC_STATIC, 40,  38, 21, 20, SS_ICON, WS_EX_LEFT
+    ICON            Arrow_icon, IDC_STATIC, 170, 38, 21, 20, SS_ICON, WS_EX_LEFT
+    ICON            Arrow_icon, Ada_blue_3, 220, 38, 21, 20, SS_ICON, WS_EX_LEFT
+    ICON            Arrow_icon, IDC_STATIC, 345, 38, 21, 20, SS_ICON, WS_EX_LEFT
+    ICON            Arrow_icon, IDC_STATIC, 387, 38, 21, 20, SS_ICON, WS_EX_LEFT
     PUSHBUTTON      "", More_less_details, 5, 93, 10, 9, BS_BITMAP, WS_EX_LEFT
     PUSHBUTTON      "", More_less_build, 215, 93, 10, 9, BS_BITMAP, WS_EX_LEFT
 }
@@ -242,8 +242,8 @@ Warning_icon       ICON           "warning.ico"
 //
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1 VERSIONINFO
-    FILEVERSION     1,0,5,0
-    PRODUCTVERSION  1,0,5,0
+    FILEVERSION     1,1,0,0
+    PRODUCTVERSION  1,1,0,0
     FILEOS          VOS_UNKNOWN
     FILETYPE        VFT_UNKNOWN
     FILESUBTYPE     VFT2_UNKNOWN
@@ -256,7 +256,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
         {
             VALUE "Authors", "Gautier de Montmollin"
             VALUE "FileDescription", "GWenerator - Resource script (.rc) to GWindows Ada code translator"
-            VALUE "FileVersion", "1.1"
+            VALUE "FileVersion", "1.10"
             VALUE "LegalCopyright", "© 2008 .. 2017 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWenerator"
         }

@@ -717,10 +717,17 @@ package body GWen_Windows is
     Update_status_display(gw);
   end Do_Start_Stop_Build;
 
-  procedure Do_Run (GWen_Window : GWen_Window_Type) is
+  procedure Do_Run (GWen_Window : in out GWen_Window_Type) is
     main: String := S(GWen_Window.proj.Ada_main);
   begin
-    if main /= "" then
+    if main = "" then
+      Message_Box(GWen_Window,
+        "Main application", "Executable name is undefined (empty)", OK_Box, Error_Icon);
+      GWen_Window.On_Options;
+    elsif not Exists(main) then
+      Message_Box(GWen_Window,
+        "Main application", "Executable file doesn't exist:" & NL & S2G(main), OK_Box, Error_Icon);
+    else
       GWin_Util.Start(
         File      => main,
         Parameter => "",

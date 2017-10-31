@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2017/10/31  09:58:14
+-- Transcription time: 2017/10/31  10:14:07
 -- GWenerator project file: GWenerator.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -395,7 +395,7 @@ package body GWenerator_Resource_GUI is
     else -- hide the closing button
       Hide(Window.Button_Build);
     end if;
-    Dlg_to_Scn(  413, 37, 43, 20, x,y,w,h);
+    Dlg_to_Scn(  410, 37, 46, 20, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
@@ -432,15 +432,15 @@ package body GWenerator_Resource_GUI is
     Create( Window.Auto_build_lift_msg, Window, "Last build failed or was stopped. Auto build is temporarily disabled.", x,y,w,h, GWindows.Static_Controls.Left, None, ID => Auto_build_lift_msg);
     Dlg_to_Scn(  250, 80, 11, 10, x,y,w,h);
     Create( Window.Auto_build_lift_ico, Window, Num_resource(Warning_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn(  40, 40, 21, 20, x,y,w,h);
+    Dlg_to_Scn(  40, 38, 21, 20, x,y,w,h);
     Create( Window.Static_0003, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn(  170, 40, 21, 20, x,y,w,h);
+    Dlg_to_Scn(  170, 38, 21, 20, x,y,w,h);
     Create( Window.Static_0004, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn(  220, 40, 21, 20, x,y,w,h);
+    Dlg_to_Scn(  220, 38, 21, 20, x,y,w,h);
     Create( Window.Ada_blue_3, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn(  345, 40, 21, 20, x,y,w,h);
+    Dlg_to_Scn(  345, 38, 21, 20, x,y,w,h);
     Create( Window.Static_0005, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn(  387, 40, 21, 20, x,y,w,h);
+    Dlg_to_Scn(  387, 38, 21, 20, x,y,w,h);
     Create( Window.Static_0006, Window, Num_resource(Arrow_icon), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  5, 93, 10, 9, x,y,w,h);
     Create( Window.More_less_details, Window, "", x,y,w,h, ID => More_less_details);
