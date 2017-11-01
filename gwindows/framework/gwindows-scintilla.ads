@@ -551,6 +551,16 @@ package GWindows.Scintilla is
      return GWindows.Colors.Color_Type;
    --  Retrieve the foreground color of an indicator.
 
+   procedure Indicator_Clear_Range
+     (Control : in out Scintilla_Type;
+      start   : Integer;
+      length  : Integer);
+
+   procedure Indicator_Fill_Range
+     (Control : in out Scintilla_Type;
+      start   : Integer;
+      length  : Integer);
+
    procedure SetStyleBits
      (Control : in out Scintilla_Type; bits : Integer);
    --  Divide each styling byte into lexical class bits (default:5)

@@ -371,6 +371,8 @@ package body GWindows.Scintilla is
    SCI_SETXOFFSET                 : constant := 16#095D#;
    SCI_GETXOFFSET                 : constant := 16#095E#;
 --   SCI_GRABFOCUS                  : constant := 16#0960#;
+   SCI_INDICATORFILLRANGE         : constant := 16#9C8#;
+   SCI_INDICATORCLEARRANGE        : constant := 16#9C9#;
    SCI_SETMULTIPLESELECTION               : constant := 16#0A03#;
    SCI_SETADDITIONALSELECTIONTYPING       : constant := 16#0A05#;
    SCI_SETVIRTUALSPACEOPTIONS             : constant := 16#0A24#;
@@ -3404,6 +3406,46 @@ package body GWindows.Scintilla is
    begin
       SendMessage;
    end IndicSetStyle;
+
+   ---------------------------
+   -- Indicator_Clear_Range --
+   ---------------------------
+
+   procedure Indicator_Clear_Range
+     (Control : in out Scintilla_Type;
+      start   : Integer;
+      length  : Integer)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_INDICATORCLEARRANGE;
+         wParam : GWindows.Types.Wparam := To_Wparam (start);
+         lParam : GWindows.Types.Lparam := To_Lparam (length));
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Indicator_Clear_Range;
+
+   --------------------------
+   -- Indicator_Fill_Range --
+   --------------------------
+
+   procedure Indicator_Fill_Range
+     (Control : in out Scintilla_Type;
+      start   : Integer;
+      length  : Integer)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_INDICATORFILLRANGE;
+         wParam : GWindows.Types.Wparam := To_Wparam (start);
+         lParam : GWindows.Types.Lparam := To_Lparam (length));
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Indicator_Fill_Range;
 
    ----------------
    -- InsertText --
