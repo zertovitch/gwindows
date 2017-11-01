@@ -521,12 +521,25 @@ package GWindows.Scintilla is
    procedure EndUndoAction (Control : in out Scintilla_Type);
    --  End a sequence of actions that is undone and redone as a unit.
 
-   INDIC_MAX                   : constant := 7;
-   INDIC_PLAIN                 : constant := 0;
-   INDIC_SQUIGGLE              : constant := 1;
-   INDIC_TT                    : constant := 2;
-   INDIC_DIAGONAL              : constant := 3;
-   INDIC_STRIKE                : constant := 4;
+   INDIC_MAX : constant := 7;
+   --
+   INDIC_PLAIN          : constant :=  0;  --  Single, straight underline.
+   INDIC_SQUIGGLE       : constant :=  1;  --  Squiggly underline.
+   INDIC_SQUIGGLELOW    : constant := 11;  --  Squiggle, only 2 vert. pixels.
+   INDIC_TT             : constant :=  2;  --  Line of small T shapes.
+   INDIC_DIAGONAL       : constant :=  3;  --  Diagonal hatching.
+   INDIC_STRIKE         : constant :=  4;  --  Strike out.
+   INDIC_HIDDEN         : constant :=  5;  --  No visual effect.
+   INDIC_BOX            : constant :=  6;  --  Rectangle around the text.
+   INDIC_ROUNDBOX       : constant :=  7;  --  Rectangle with rounded corners.
+   INDIC_STRAIGHTBOX    : constant :=  8;
+   INDIC_FULLBOX        : constant := 16;
+   INDIC_DASH           : constant :=  9;  --  Dashed underline.
+   INDIC_DOTS           : constant := 10;  --  Dotted underline.
+   INDIC_DOTBOX         : constant := 12;  --  Dotted rectangle around text.
+   INDIC_POINT          : constant := 18;  --  Triangle below start.
+   INDIC_POINTCHARACTER : constant := 19;  --  Tri. below centre of 1st char.
+   --  Deprecated after 3.4.2:
    INDIC0_MASK                 : constant := 16#0020#;
    INDIC1_MASK                 : constant := 16#0040#;
    INDIC2_MASK                 : constant := 16#0080#;
