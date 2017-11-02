@@ -108,6 +108,7 @@ package GWindows.Colors is
    Dark_Red    : constant Color_Type := 16#000080#;
    Green       : constant Color_Type := 16#00FF00#;
    Dark_Green  : constant Color_Type := 16#008000#;
+   Light_Blue  : constant Color_Type := 16#FFDD88#;
    Blue        : constant Color_Type := 16#FF0000#;
    Dark_Blue   : constant Color_Type := 16#800000#;
    Yellow      : constant Color_Type := 16#00FFFF#;

@@ -289,6 +289,7 @@ package GWindows.Scintilla is
    SC_MARK_CIRCLEMINUS          : constant := 16#0014#;
    SC_MARK_CIRCLEMINUSCONNECTED : constant := 16#0015#;
    SC_MARK_BACKGROUND           : constant := 16#0016#;
+   SC_MARK_BOOKMARK             : constant := 16#001F#;
    SC_MARK_CHARACTER            : constant := 16#2710#;
    SC_MARKNUM_FOLDEREND         : constant := 16#0019#;
    SC_MARKNUM_FOLDEROPENMID     : constant := 16#001A#;
