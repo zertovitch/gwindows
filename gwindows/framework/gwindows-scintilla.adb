@@ -2898,24 +2898,24 @@ package body GWindows.Scintilla is
       return GWindows.Types.To_Integer (SendMessage);
    end Get_Selection_N_Caret;
 
-   procedure Set_Selection (Control : in out Scintilla_Type; start, endp : Position) is
+   procedure Set_Selection (Control : in out Scintilla_Type; caret, anchor : Position) is
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := SCI_SETSELECTION;
-         wParam : GWindows.Types.Wparam := To_Wparam (start);
-         lParam : GWindows.Types.Lparam := To_Lparam (endp));
+         wParam : GWindows.Types.Wparam := To_Wparam (caret);
+         lParam : GWindows.Types.Lparam := To_Lparam (anchor));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
       SendMessage;
    end Set_Selection;
 
-   procedure Add_Selection (Control : in out Scintilla_Type; start, endp : Position) is
+   procedure Add_Selection (Control : in out Scintilla_Type; caret, anchor : Position) is
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := SCI_ADDSELECTION;
-         wParam : GWindows.Types.Wparam := To_Wparam (start);
-         lParam : GWindows.Types.Lparam := To_Lparam (endp));
+         wParam : GWindows.Types.Wparam := To_Wparam (caret);
+         lParam : GWindows.Types.Lparam := To_Lparam (anchor));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin

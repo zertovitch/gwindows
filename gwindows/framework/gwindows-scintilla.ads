@@ -1188,9 +1188,9 @@ package GWindows.Scintilla is
    --  The caret is either at the end or at start, depending on how
    --  the selection was made (left to right, or right to left).
 
-   procedure Set_Selection (Control : in out Scintilla_Type; start, endp : Position);
-   --  Equivalent of SetSel for first selection.
-   procedure Add_Selection (Control : in out Scintilla_Type; start, endp : Position);
+   procedure Set_Selection (Control : in out Scintilla_Type; caret, anchor : Position);
+   --  Equivalent of SetSel for first selection - but with inverted positions!
+   procedure Add_Selection (Control : in out Scintilla_Type; caret, anchor : Position);
    --  This is for supplemental selections after first.
 
    procedure SetPrintMagnification
