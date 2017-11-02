@@ -1182,17 +1182,32 @@ package GWindows.Scintilla is
    function Get_Selections (Control : Scintilla_Type) return Positive;
    --  There is always at least one selection - eventually empty: start = end
 
-   function Get_Selection_N_Start (Control : Scintilla_Type; N : Positive) return Position;
-   function Get_Selection_N_End (Control : Scintilla_Type; N : Positive) return Position;
+   function Get_Selection_N_Start
+     (Control : Scintilla_Type;
+      N       : Positive)
+      return Position;
+
+   function Get_Selection_N_End
+     (Control : Scintilla_Type;
+      N       : Positive)
+      return Position;
    --  Get bounds of selection number N.
-   function Get_Selection_N_Caret (Control : Scintilla_Type; N : Positive) return Position;
+
+   function Get_Selection_N_Caret
+     (Control : Scintilla_Type;
+      N       : Positive) return Position;
    --  The caret is either at the end or at start, depending on how
    --  the selection was made (left to right, or right to left).
 
-   procedure Set_Selection (Control : in out Scintilla_Type; caret, anchor : Position);
+   procedure Set_Selection
+     (Control       : in out Scintilla_Type;
+      caret, anchor :        Position);
    --  Equivalent of SetSel for first selection - but with inverted positions!
-   procedure Add_Selection (Control : in out Scintilla_Type; caret, anchor : Position);
-   --  This is for supplemental selections after first.
+
+   procedure Add_Selection
+     (Control       : in out Scintilla_Type;
+      caret, anchor :        Position);
+   --  This is for supplemental selections after first one.
 
    procedure SetPrintMagnification
      (Control : in out Scintilla_Type; magnification : Integer);

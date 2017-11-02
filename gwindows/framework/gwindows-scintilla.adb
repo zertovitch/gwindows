@@ -2859,7 +2859,11 @@ package body GWindows.Scintilla is
       return GWindows.Types.To_Integer (SendMessage);
    end Get_Selections;
 
-   function Get_Selection_N_Start (Control : Scintilla_Type; N : Positive) return Position is
+   function Get_Selection_N_Start
+     (Control : Scintilla_Type;
+      N       : Positive)
+      return Position
+   is
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := SCI_GETSELECTIONNSTART;
@@ -2872,7 +2876,11 @@ package body GWindows.Scintilla is
       return GWindows.Types.To_Integer (SendMessage);
    end Get_Selection_N_Start;
 
-   function Get_Selection_N_End (Control : Scintilla_Type; N : Positive) return Position is
+   function Get_Selection_N_End
+     (Control : Scintilla_Type;
+      N       : Positive)
+      return Position
+   is
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := SCI_GETSELECTIONNEND;
@@ -2885,7 +2893,10 @@ package body GWindows.Scintilla is
       return GWindows.Types.To_Integer (SendMessage);
    end Get_Selection_N_End;
 
-   function Get_Selection_N_Caret (Control : Scintilla_Type; N : Positive) return Position is
+   function Get_Selection_N_Caret
+     (Control : Scintilla_Type;
+      N       : Positive) return Position
+   is
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := SCI_GETSELECTIONNCARET;
@@ -2898,7 +2909,10 @@ package body GWindows.Scintilla is
       return GWindows.Types.To_Integer (SendMessage);
    end Get_Selection_N_Caret;
 
-   procedure Set_Selection (Control : in out Scintilla_Type; caret, anchor : Position) is
+   procedure Set_Selection
+     (Control       : in out Scintilla_Type;
+      caret, anchor :        Position)
+   is
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := SCI_SETSELECTION;
@@ -2910,7 +2924,10 @@ package body GWindows.Scintilla is
       SendMessage;
    end Set_Selection;
 
-   procedure Add_Selection (Control : in out Scintilla_Type; caret, anchor : Position) is
+   procedure Add_Selection
+     (Control       : in out Scintilla_Type;
+      caret, anchor :        Position)
+   is
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := SCI_ADDSELECTION;
