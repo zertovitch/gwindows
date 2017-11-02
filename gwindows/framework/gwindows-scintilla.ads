@@ -521,6 +521,10 @@ package GWindows.Scintilla is
    procedure EndUndoAction (Control : in out Scintilla_Type);
    --  End a sequence of actions that is undone and redone as a unit.
 
+   -----------------------------------------------------------------
+   --  Indicators  -  special markings other than text selection  --
+   -----------------------------------------------------------------
+
    INDIC_MAX : constant := 7;
    --
    INDIC_PLAIN          : constant :=  0;  --  Single, straight underline.
@@ -1137,6 +1141,10 @@ package GWindows.Scintilla is
    procedure SetCurrentPos (Control : in out Scintilla_Type; pos : Position);
    --  Sets the Position of the caret.
 
+   -------------------------------------------
+   --  Text selection  -  single selection  --
+   -------------------------------------------
+
    procedure SetSelectionStart
      (Control : in out Scintilla_Type; pos : Position);
    --  Sets the Position that starts the selection - this becomes the anchor.
@@ -1150,6 +1158,37 @@ package GWindows.Scintilla is
 
    function GetSelectionEnd (Control : Scintilla_Type) return Position;
    --  Returns the Position at the end of the selection.
+
+   procedure SetSel
+     (Control : in out Scintilla_Type; start : Position; endp : Position);
+   --  Select a range of text.
+
+   procedure GetSelText
+     (Control : in     Scintilla_Type;
+      text    :    out GString;
+      length  :    out Integer);
+   --  Retrieve the selected text.
+   --  Return the length of the text.
+
+   procedure HideSelection
+     (Control : in out Scintilla_Type; normal : Boolean);
+   --  Draw the selection in normal style or with selection highlighted.
+
+   ---------------------------------------------------------------------------
+   --  Text selection  -  multiple selection (incl. rectangular selection)  --
+   ---------------------------------------------------------------------------
+
+   function Get_Selections (Control : Scintilla_Type) return Positive;
+   --  There is always at least one selection - eventually empty: start = end
+
+   function Get_Selection_N_Start (Control : Scintilla_Type; N : Positive) return Position;
+   function Get_Selection_N_End (Control : Scintilla_Type; N : Positive) return Position;
+   --  Get bound of selection number N.
+
+   procedure Set_Selection (Control : in out Scintilla_Type; start, endp : Position);
+   --  Equivalent of SetSel for first selection.
+   procedure Add_Selection (Control : in out Scintilla_Type; start, endp : Position);
+   --  This is for supplemental selections after first.
 
    procedure SetPrintMagnification
      (Control : in out Scintilla_Type; magnification : Integer);
@@ -1217,17 +1256,6 @@ package GWindows.Scintilla is
    function GetModify (Control : Scintilla_Type) return Boolean;
    --  Is the document different from when it was last saved?
 
-   procedure SetSel
-     (Control : in out Scintilla_Type; start : Position; endp : Position);
-   --  Select a range of text.
-
-   procedure GetSelText
-     (Control : in     Scintilla_Type;
-      text    :    out GString;
-      length  :    out Integer);
-   --  Retrieve the selected text.
-   --  Return the length of the text.
-
    function GetTextRange
      (Control : Scintilla_Type;
       Min     : Integer;
@@ -1238,10 +1266,6 @@ package GWindows.Scintilla is
      (Control : Scintilla_Type; tr : Text_Range_Type) return Integer;
    --  Retrieve a range of text.
    --  Return the length of the text.
-
-   procedure HideSelection
-     (Control : in out Scintilla_Type; normal : Boolean);
-   --  Draw the selection in normal style or with selection highlighted.
 
    function PointXFromPosition
      (Control : Scintilla_Type; pos : Position) return Integer;

@@ -371,10 +371,15 @@ package body GWindows.Scintilla is
    SCI_SETXOFFSET                 : constant := 16#095D#;
    SCI_GETXOFFSET                 : constant := 16#095E#;
 --   SCI_GRABFOCUS                  : constant := 16#0960#;
-   SCI_INDICATORFILLRANGE         : constant := 16#9C8#;
-   SCI_INDICATORCLEARRANGE        : constant := 16#9C9#;
+   SCI_INDICATORFILLRANGE         : constant := 16#09C8#;
+   SCI_INDICATORCLEARRANGE        : constant := 16#09C9#;
    SCI_SETMULTIPLESELECTION               : constant := 16#0A03#;
    SCI_SETADDITIONALSELECTIONTYPING       : constant := 16#0A05#;
+   SCI_GETSELECTIONS                      : constant := 16#0A0A#;
+   SCI_SETSELECTION                       : constant := 16#0A0C#;
+   SCI_ADDSELECTION                       : constant := 16#0A0D#;
+   SCI_GETSELECTIONNSTART                 : constant := 16#0A19#;
+   SCI_GETSELECTIONNEND                   : constant := 16#0A1B#;
    SCI_SETVIRTUALSPACEOPTIONS             : constant := 16#0A24#;
    SCI_SETMOUSESELECTIONRECTANGULARSWITCH : constant := 16#0A6C#;
    SCI_STARTRECORD                : constant := 16#0BB9#;
@@ -2835,6 +2840,73 @@ package body GWindows.Scintilla is
    begin
       return GWindows.Types.To_Integer (SendMessage);
    end GetSelectionStart;
+
+   -----------------------------------------------------------------------
+   -- Get_Selections  -  Get_Selection_N_Start  -  Get_Selection_N_End  --
+   -----------------------------------------------------------------------
+
+   function Get_Selections (Control : Scintilla_Type) return Positive is
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_GETSELECTIONS;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
+        return GWindows.Types.Lresult;
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      return GWindows.Types.To_Integer (SendMessage);
+   end Get_Selections;
+
+   function Get_Selection_N_Start (Control : Scintilla_Type; N : Positive) return Position is
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_GETSELECTIONNSTART;
+         wParam : GWindows.Types.Wparam := To_Wparam (N - 1);
+         lParam : GWindows.Types.Lparam := 0)
+        return GWindows.Types.Lresult;
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      return GWindows.Types.To_Integer (SendMessage);
+   end Get_Selection_N_Start;
+
+   function Get_Selection_N_End (Control : Scintilla_Type; N : Positive) return Position is
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_GETSELECTIONNEND;
+         wParam : GWindows.Types.Wparam := To_Wparam (N - 1);
+         lParam : GWindows.Types.Lparam := 0)
+        return GWindows.Types.Lresult;
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      return GWindows.Types.To_Integer (SendMessage);
+   end Get_Selection_N_End;
+
+   procedure Set_Selection (Control : in out Scintilla_Type; start, endp : Position) is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_SETSELECTION;
+         wParam : GWindows.Types.Wparam := To_Wparam (start);
+         lParam : GWindows.Types.Lparam := To_Lparam (endp));
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Set_Selection;
+
+   procedure Add_Selection (Control : in out Scintilla_Type; start, endp : Position) is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_ADDSELECTION;
+         wParam : GWindows.Types.Wparam := To_Wparam (start);
+         lParam : GWindows.Types.Lparam := To_Lparam (endp));
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Add_Selection;
 
    ----------------
    -- GetSelText --
