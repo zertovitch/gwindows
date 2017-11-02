@@ -1183,7 +1183,10 @@ package GWindows.Scintilla is
 
    function Get_Selection_N_Start (Control : Scintilla_Type; N : Positive) return Position;
    function Get_Selection_N_End (Control : Scintilla_Type; N : Positive) return Position;
-   --  Get bound of selection number N.
+   --  Get bounds of selection number N.
+   function Get_Selection_N_Caret (Control : Scintilla_Type; N : Positive) return Position;
+   --  The caret is either at the end or at start, depending on how
+   --  the selection was made (left to right, or right to left).
 
    procedure Set_Selection (Control : in out Scintilla_Type; start, endp : Position);
    --  Equivalent of SetSel for first selection.

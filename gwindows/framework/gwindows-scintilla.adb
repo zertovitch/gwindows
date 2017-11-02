@@ -378,6 +378,7 @@ package body GWindows.Scintilla is
    SCI_GETSELECTIONS                      : constant := 16#0A0A#;
    SCI_SETSELECTION                       : constant := 16#0A0C#;
    SCI_ADDSELECTION                       : constant := 16#0A0D#;
+   SCI_GETSELECTIONNCARET                 : constant := 16#0A11#;
    SCI_GETSELECTIONNSTART                 : constant := 16#0A19#;
    SCI_GETSELECTIONNEND                   : constant := 16#0A1B#;
    SCI_SETVIRTUALSPACEOPTIONS             : constant := 16#0A24#;
@@ -2883,6 +2884,19 @@ package body GWindows.Scintilla is
    begin
       return GWindows.Types.To_Integer (SendMessage);
    end Get_Selection_N_End;
+
+   function Get_Selection_N_Caret (Control : Scintilla_Type; N : Positive) return Position is
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := SCI_GETSELECTIONNCARET;
+         wParam : GWindows.Types.Wparam := To_Wparam (N - 1);
+         lParam : GWindows.Types.Lparam := 0)
+        return GWindows.Types.Lresult;
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      return GWindows.Types.To_Integer (SendMessage);
+   end Get_Selection_N_Caret;
 
    procedure Set_Selection (Control : in out Scintilla_Type; start, endp : Position) is
       procedure SendMessage
