@@ -7739,12 +7739,19 @@ package body GWindows.Scintilla is
       end if;
    end Fire_On_Dwell_End;
 
-   SCI_Lexer_DLL : constant GWindows.Types.Handle :=
-      LoadLibrary (GWindows.GStrings.To_GString_C ("scilexer.dll"));
+   SCI_Lexer_DLL : GWindows.Types.Handle;
 
    function SCI_Lexer_DLL_Successfully_Loaded return Boolean is
    begin
       return SCI_Lexer_DLL /= Null_Handle;
    end SCI_Lexer_DLL_Successfully_Loaded;
 
+   procedure Try_Loading_Lexer_DLL is
+   begin
+      SCI_Lexer_DLL :=
+         LoadLibrary (GWindows.GStrings.To_GString_C ("scilexer.dll"));
+   end Try_Loading_Lexer_DLL;
+
+begin
+   Try_Loading_Lexer_DLL;
 end GWindows.Scintilla;

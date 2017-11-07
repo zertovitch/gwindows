@@ -2389,6 +2389,10 @@ package GWindows.Scintilla is
 
    function SCI_Lexer_DLL_Successfully_Loaded return Boolean;
 
+   --  This is for retrying if first attempt (automatically done
+   --  on package initialization) was not successful:
+   procedure Try_Loading_Lexer_DLL;
+
 private
    type Scintilla_Type is new GWindows.Base.Base_Window_Type with
       record
