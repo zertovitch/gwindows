@@ -6,7 +6,7 @@
 --                                                                          --
 --                               R E A D M E                                --
 --                                                                          --
---                  Copyright (C) 1999 - 2012 David Botton                  --
+--                  Copyright (C) 1999 - 2017 David Botton                  --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -61,7 +61,7 @@ In the "docs" directory there is a user_guide in Word format
 Installation
 ============
 
-All you have is to run the setup program (e.g. GWindows Setup 16-Feb-2012.exe
+All you have is to run the setup program (e.g. GWindows 11-Nov-2017.exe
 downloaded from here http://sf.net/projects/gnavi/files/latest/download ) which
 unpacks a copy of the framework with samples, tutorials and other goodies.
 Alternatively you can retrieve a copy of the SVN repository from

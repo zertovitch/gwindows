@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2017/07/04  10:23:23
+-- Transcription time: 2017/11/11  04:02:24
 -- GWenerator project file: GW_Install.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -8,7 +8,7 @@
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: >= 19-May-2016
+-- RC Grammar version: 31-Oct-2017
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -379,14 +379,14 @@ package body GW_Install_Resource_GUI is
     Create_Label( Window, "Please specify a directory where you want to install the GWindows framework.", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  36, 99, 223, 8, x,y,w,h);
     Create_Label( Window, "NB: you can install GWindows at several places.", x,y,w,h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn(  36, 83, 221, 14, x,y,w,h);
+    Dlg_to_Scn(  36, 83, 215, 14, x,y,w,h);
     Create( Window.Directory_edit, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Directory_edit);
-    Dlg_to_Scn(  258, 82, 35, 16, x,y,w,h);
+    Dlg_to_Scn(  258, 82, 35, 19, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
     -- can be reversed, for instance on a "Browse" button.
-    Create( Window.Directory_select_button, Window, "...", x,y,w,h, ID => Directory_select_button);
-    Create( Window.Directory_select_button_permanent, Window, "...", x,y,w,h, ID => Directory_select_button);
+    Create( Window.Directory_select_button, Window, "Pick...", x,y,w,h, ID => Directory_select_button);
+    Create( Window.Directory_select_button_permanent, Window, "Pick...", x,y,w,h, ID => Directory_select_button);
     if for_dialog then -- hide the non-closing button
       Hide(Window.Directory_select_button_permanent);
     else -- hide the closing button

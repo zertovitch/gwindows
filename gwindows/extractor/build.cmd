@@ -12,7 +12,7 @@ goto no_gen
 :gen
 cd ..\..\gwenerator\src
 call make
-cd ..\..\gwindows\installer
+cd ..\..\gwindows\extractor
 ..\..\gwenerator\rc2gw GW_Install.rc
 if "%1"=="-gen" shift
 

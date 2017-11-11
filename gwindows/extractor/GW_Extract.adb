@@ -95,6 +95,9 @@ procedure GW_Extract is
     Main_Dlg.Text(Main_Dlg.Text & S2G(Version_info.FileVersion));
     Main_Dlg.Setup_title.Text(Main_Dlg.Setup_title.Text & S2G(Version_info.FileVersion));
     Main_Dlg.Directory_edit.Text(S2G(S(Install_dir)));
+    if Install_dir = "" then
+      Main_Dlg.Directory_edit.Focus;
+    end if;
     On_Destroy_Handler (Main_Dlg, Get_Data'Unrestricted_Access);
     On_Click_Handler (
       Main_Dlg.Directory_select_button_permanent,
@@ -321,11 +324,19 @@ begin
       exception
         when Name_Error =>
           Proceed:= False;
-          Message_Box(
-            "Invalid directory for GWindows installation",
-            "Directory """ & S2G(S(Install_dir)) & """ cannot be created",
-            Icon => Error_Icon
-          );
+          if Install_dir = "" then
+            Message_Box(
+              "Invalid directory for GWindows installation",
+              "Directory for installation is not specified",
+              Icon => Error_Icon
+            );
+          else
+            Message_Box(
+              "Invalid directory for GWindows installation",
+              "Directory """ & S2G(S(Install_dir)) & """ cannot be created",
+              Icon => Error_Icon
+            );
+          end if;
       end;
       if Proceed then
         Self_extract(OK);

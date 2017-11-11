@@ -111,8 +111,8 @@ FONT 8, "Ms Shell Dlg"
     GROUPBOX        "Location", IDC_STATIC, 9, 60, 292, 52, 0, WS_EX_LEFT
     LTEXT           "Please specify a directory where you want to install the GWindows framework.", IDC_STATIC, 36, 72, 261, 8, SS_LEFT, WS_EX_LEFT
     LTEXT           "NB: you can install GWindows at several places.", IDC_STATIC, 36, 99, 223, 8, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        Directory_edit, 36, 83, 221, 14, ES_AUTOHSCROLL, WS_EX_LEFT
-    PUSHBUTTON      "...", Directory_select_button, 258, 82, 35, 16, 0, WS_EX_LEFT
+    EDITTEXT        Directory_edit, 36, 83, 215, 14, ES_AUTOHSCROLL, WS_EX_LEFT
+    PUSHBUTTON      "Pick...", Directory_select_button, 258, 82, 35, 19, 0, WS_EX_LEFT
     AUTORADIOBUTTON "Unicode (16-bit International characters), Ada: Wide_Character / Wide_String", UNICODE_choice, 25, 153, 265, 8, 0, WS_EX_LEFT
     AUTORADIOBUTTON "ANSI (8-bit Western characters), Ada: Character / String", ANSI_choice, 25, 136, 212, 8, 0, WS_EX_LEFT
     GROUPBOX        "Character and string encoding. Please choose (choice can be reversed later):", IDC_STATIC, 9, 120, 293, 52, 0, WS_EX_LEFT
@@ -185,10 +185,10 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
         BLOCK "040901B5"
         {
             VALUE "Authors", "Gautier de Montmollin"
-            VALUE "FileDescription", "Installer for the GWindows programming framework"
-            VALUE "FileVersion", "04-Jul-2017"
+            VALUE "FileDescription", "File extractor for the GWindows programming framework"
+            VALUE "FileVersion", "11-Nov-2017"
             VALUE "LegalCopyright", "© 2012 .. 2017 G. de Montmollin (MIT license)"
-            VALUE "ProductName", "GWindows Installer"
+            VALUE "ProductName", "GWindows Extractor"
         }
     }
     BLOCK "VarFileInfo"
