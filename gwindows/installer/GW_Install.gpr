@@ -17,10 +17,10 @@ project GW_Install is
    case Build_Mode is
       when "Small" =>
          for Object_Dir use "obj\small";
-         for Main use ("GW_Install.adb");
+         for Main use ("GW_Extract.adb");
       when "Debug" =>
          for Object_Dir use "obj\debug";
-         for Main use ("GW_Inst_TB.ads");
+         for Main use ("GW_Extr_TB.ads");
    end case;
 
    package Binder is

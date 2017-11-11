@@ -6,11 +6,12 @@ Major changes - numbers below refer to svn repository revisions
     Latest revision:
       https://sourceforge.net/p/gnavi/code/
 
-GWindows release, (upcoming)
+GWindows release, 11-Nov-2017
 =============================
 
+295:      GWenerator: correct creation of Drop Down List Boxes
 289:      GWindows.Scintilla: added commands for multiline editing
-286:      GWindows.Scintilla: added function SCI_Lexer_DLL_Successfully_Loaded
+286, 307: GWindows.Scintilla: added SCI_Lexer_DLL_Successfully_Loaded, Try_Loading_Lexer_DLL
 276, 275: GWindows.Common_Controls: fixes regarding Progress_Control_Type and Up_Down_Control_Type
 
 

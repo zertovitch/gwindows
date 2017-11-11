@@ -1,7 +1,7 @@
 @echo off
 
 rem Version should match the field VALUE "FileVersion" in GW_Install.rc
-set version=04-Jul-2017
+set version=11-Nov-2017
 
 if not exist GW_Install_Resource_GUI.ads goto gen
 if not exist GW_Install_Resource_GUI.adb goto gen
@@ -27,16 +27,16 @@ if not exist ..\..\gwin.zip echo Press any key to continue, or Ctrl-Break or Ctr
 if not exist ..\..\gwin.zip pause
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Debug
-copy /B gw_inst_tb.exe + ..\..\gwin.zip "Setup Test (Debug mode).exe"
+copy /B gw_extr_tb.exe + ..\..\gwin.zip "Extract Test (Debug mode).exe"
 
 if not exist obj\small\libwin32ada.a copy /B obj\debug\libwin32ada.a obj\small\libwin32ada.a
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Small
-upx --ultra-brute gw_install.exe
+upx --ultra-brute gw_extract.exe
 if exist *.upx del *.upx
 if exist *.000 del *.000
 if exist *.001 del *.001
 
-copy /B gw_install.exe + ..\..\gwin.zip "GWindows Setup %version%.exe"
+copy /B gw_extract.exe + ..\..\gwin.zip "GWindows %version%.exe"
 copy /B                  ..\..\gwin.zip "GWindows Archive %version%.zip"
 

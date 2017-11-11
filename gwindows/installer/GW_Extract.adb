@@ -26,7 +26,7 @@ with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 
 with Ada_Directories_Extensions; -- Ada 201X items absent in Ada 2005...
 
-procedure GW_Install is
+procedure GW_Extract is
 
   function S(Source: Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -338,4 +338,4 @@ begin
       end if;
     end if;
   end loop;
-end GW_Install;
+end GW_Extract;
