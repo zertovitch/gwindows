@@ -718,7 +718,7 @@ package body GWen_Windows is
   end Do_Start_Stop_Build;
 
   procedure Do_Run (GWen_Window : in out GWen_Window_Type) is
-    main: String := S(GWen_Window.proj.Ada_main);
+  main: constant String := S(GWen_Window.proj.Ada_main);
   begin
     if main = "" then
       Message_Box(GWen_Window,

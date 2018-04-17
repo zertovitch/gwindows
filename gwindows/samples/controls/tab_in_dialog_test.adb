@@ -1,4 +1,4 @@
---  Testing Tab Control within a window (see also tab_in_dialog_test.adb)
+--  Testing Tab Control within a dialog (see also tab_test.adb)
 
 with GWindows.Windows.Main; use GWindows.Windows.Main;
 with GWindows.Windows; use GWindows.Windows;
@@ -9,8 +9,9 @@ with GWindows.Base; use GWindows.Base;
 with GWindows.Message_Boxes; use GWindows.Message_Boxes;
 with GWindows.Application;
 
-procedure Tab_Test is
+procedure Tab_in_dialog_test is
    Top_Window  : Main_Window_Type;
+   Dialog_Box  : Window_Type;
    Tab_Control : Tab_Window_Control_Type;
    --  Window is an invisible window created as a control
    --  and containing the Tab Control.
@@ -20,19 +21,23 @@ procedure Tab_Test is
 
    procedure Do_Click (Window : in out Base_Window_Type'Class) is
    begin
-      Text (Top_Window, "Clicked: ---> " & Text (Window));
+      Text (Dialog_Box, "Clicked: ---> " & Text (Window));
       Message_Box (Window, "Click!", Text (Window));
    end Do_Click;
 
 begin
-   Create (Top_Window, "Control Test");
+   Create (Top_Window, "Control Test - Main window");
+   Create_As_Dialog (Dialog_Box, Top_Window, "Control Test - Dialog");
 
-   Create_As_Control (Window, Top_Window, "", 0, 0, 0, 0);
+   Create_As_Control (Window, Dialog_Box, "", 0, 0, 0, 0);
    Keyboard_Support (Window);
    Border (Window);
    Dock (Window, Fill);
 
    Create (Tab_Control, Window, 10, 10, 300, 150);
+   --  In some cases, a button click freezes the
+   --  application if the following is not called:
+   Set_As_Control_Parent (Tab_Control);
 
    Insert_Tab (Tab_Control, 0, "Tab 1");
    Insert_Tab (Tab_Control, 1, "Tab 2");
@@ -78,8 +83,10 @@ begin
 
    Dock (Tab_Control, Fill);
 
-   Dock_Children (Top_Window);
+   Dock_Children (Dialog_Box);
+
    Show (Top_Window);
 
-   GWindows.Application.Message_Loop;
-end Tab_Test;
+   GWindows.Application.Show_Dialog (Dialog_Box, Top_Window);
+
+end Tab_in_dialog_test;

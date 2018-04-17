@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2017 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -4037,6 +4037,37 @@ package body GWindows.Common_Controls is
       end case;
 
    end On_Notify;
+
+   -----------------------------
+   --  Set_As_Control_Parent  --
+   -----------------------------
+
+   GWL_EXSTYLE : constant := -20;
+
+   procedure SetWindowLong
+     (hwnd : GWindows.Types.Handle;
+      nIndex  : Interfaces.C.int := GWL_EXSTYLE;
+      newLong : Interfaces.C.unsigned);
+   pragma Import (StdCall, SetWindowLong,
+                    "SetWindowLong" & Character_Mode_Identifier);
+
+   function GetWindowLong
+     (hwnd : GWindows.Types.Handle;
+      nIndex : Interfaces.C.int := GWL_EXSTYLE)
+     return Interfaces.C.unsigned;
+   pragma Import (StdCall, GetWindowLong,
+                    "GetWindowLong" & Character_Mode_Identifier);
+
+   procedure Set_As_Control_Parent (Control : in out Tab_Window_Control_Type)
+   is
+     --  By André van Splunter, 6-Jan-2007.
+     WS_EX_CONTROLPARENT : constant := 16#00010000#;
+     use GWindows.Base;
+   begin
+     SetWindowLong (Handle (Base_Window_Type (Control)), GWL_EXSTYLE,
+        GetWindowLong (Handle (Base_Window_Type (Control))) or
+        WS_EX_CONTROLPARENT);
+   end Set_As_Control_Parent;
 
    ----------------
    -- Tab_Window --

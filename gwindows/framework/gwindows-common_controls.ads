@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2017 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -1160,6 +1160,11 @@ package GWindows.Common_Controls is
    -------------------------------------------------------------------------
    --  Tab_Window_Control_Type - Properties
    -------------------------------------------------------------------------
+
+   procedure Set_As_Control_Parent (Control : in out Tab_Window_Control_Type);
+   --  Call Set_As_Control_Parent after Create if you have situations leading
+   --  to a freeze of your application related to the Tab Window Control,
+   --  e.g. on a click on a button located inside a Tab Window.
 
    procedure Tab_Window
      (Control : in out Tab_Window_Control_Type;
