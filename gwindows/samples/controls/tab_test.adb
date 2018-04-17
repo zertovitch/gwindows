@@ -1,4 +1,5 @@
---  Testing Tab Control within a window (see also tab_in_dialog_test.adb)
+--  Testing Tab Control within a window (see also tab_in_dialog_test.adb,
+--  important if you are using dialogs)
 
 with GWindows.Windows.Main; use GWindows.Windows.Main;
 with GWindows.Windows; use GWindows.Windows;
