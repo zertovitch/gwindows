@@ -20,8 +20,8 @@ project GWindows_Contrib is
    end Compiler;
 
    package Linker is
+      -- Get the Windows Visual Styles switched on through manifest.xml:
       for Default_Switches ("ada") use ("contrib/test/visual_styles.rbj"); 
-      -- Get the Windows Visual Styles switched on through manifest.xml
    end Linker;
    
    for Main use (
