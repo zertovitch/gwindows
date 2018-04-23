@@ -45,7 +45,7 @@ The framework includes ADO database and Active X support.
 Status
 ======
 
-GWindows is sucessfuly being used by individuals and companies
+GWindows is successfuly being used by individuals and companies
 world wide for the development of professional Windows (32 and 64 bit)
 products.
 
@@ -55,8 +55,8 @@ any problems or have suggestions for improvements.
 Documentation
 =============
 
-In the "docs" directory there is a user_guide in Word format
-(html available on the web) and a quick reference text.
+In the "docs" directory there is a user guide in Word format
+(HTML available as well), and a quick reference text.
 
 Installation
 ============

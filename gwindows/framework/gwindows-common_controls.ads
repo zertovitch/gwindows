@@ -1130,7 +1130,7 @@ package GWindows.Common_Controls is
    --  Tab page changed
 
    procedure On_Changing (Control : in out Tab_Control_Type);
-   --  Tab page changingd
+   --  Tab page changing
 
    -------------------------------------------------------------------------
    --  Tab_Control_Type - Event Framework Methods
