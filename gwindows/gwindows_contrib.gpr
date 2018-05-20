@@ -30,7 +30,9 @@ project GWindows_Contrib is
    );
 
    package Builder is
-      for Default_Switches ("ada") use ("-j2");
+      --   "If -j0 is used, then the maximum number of simultaneous compilation
+      --    jobs is the number of core processors on the platform."
+      for Default_Switches ("ada") use ("-j0");
    end Builder;
    
 end GWindows_Contrib;
