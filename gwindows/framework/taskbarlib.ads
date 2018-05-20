@@ -285,7 +285,10 @@ package TaskbarLib is
      array (Integer range 0 .. 259) of Interfaces.C.unsigned_short;
    Size_Of_T3 : constant := Interfaces.C.unsigned_short'Size * 260;
 
-   Size_Of_tagTHUMBBUTTON : constant := 4320;
+   --  **** Manual edit :
+   Adj_64_Bits : constant := GNATCOM.Types.Size_Of_Pointers - 32;
+
+   Size_Of_tagTHUMBBUTTON : constant := 4320 + Adj_64_Bits;
 
    --  Element Index         : 5
    --  Element Name          : tagTHUMBBUTTON
@@ -307,8 +310,11 @@ package TaskbarLib is
          iId     at 0 range 32 .. 32 + Interfaces.C.unsigned'Size - 1;
          iBitmap at 0 range 64 .. 64 + Interfaces.C.unsigned'Size - 1;
          hIcon   at 0 range 96 .. 96 + GNATCOM.Types.Size_Of_Pointers - 1;
-         szTip   at 0 range 128 .. 128 + Size_Of_T3 - 1;
-         dwFlags at 0 range 4288 .. 4288 + Interfaces.C.unsigned_long'Size - 1;
+         szTip   at 0 range 128 + Adj_64_Bits ..
+                            128 + Adj_64_Bits + Size_Of_T3 - 1;
+         dwFlags at 0 range 4288 + Adj_64_Bits ..
+                            4288 + Adj_64_Bits +
+                            Interfaces.C.unsigned_long'Size - 1;
       end record;
    for tagTHUMBBUTTON'Size use Size_Of_tagTHUMBBUTTON;
    for tagTHUMBBUTTON'Alignment use 4;
