@@ -15,7 +15,9 @@ begin
    Open (Recordset,
          Connection,
          "SELECT * FROM People",
+         --  Dynamic is very slow, consider Forward_Only for just reading data:
          Dynamic,
+         --  Consider Read_Only for just reading data:
          Optimistic);
 
    while not EOF (Recordset) loop
