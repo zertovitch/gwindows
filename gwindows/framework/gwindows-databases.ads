@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                     G W I N D O W S . D A T A B A S E S                  --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -337,6 +337,18 @@ package GWindows.Databases is
 
    procedure On_Delete (Recordset : in out Recordset_Type);
    --  Current record has been updated
+
+   -------------------------------------------------------------------------
+   --  Objectless utilities
+   -------------------------------------------------------------------------
+
+   function Simple_Query (Query             : in     GString;
+                          Connection_String : in     GString;
+                          User_ID           : in     GString        := "";
+                          Password          : in     GString        := "")
+                         return GString;
+   --  Returns an atomic information from a database, that is
+   --  the first element (first column of first row) of a query's result
 
 private
 

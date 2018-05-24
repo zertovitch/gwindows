@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                     G W I N D O W S . D A T A B A S E S                  --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -1082,5 +1082,34 @@ package body GWindows.Databases is
         and
         ADO.adFldUpdatable) = ADO.adFldUpdatable;
    end Field_Updatable;
+
+   ------------------
+   -- Simple_Query --
+   ------------------
+
+   function Simple_Query (Query             : in     GString;
+                          Connection_String : in     GString;
+                          User_ID           : in     GString        := "";
+                          Password          : in     GString        := "")
+                         return GString
+   is
+      Connection : Database_Type;
+      Recordset  : Recordset_Type;
+   begin
+      Open (Connection, Connection_String, User_ID, Password);
+      Open (Recordset, Connection, Query, Forward_Only, Read_Only);
+      if EOF (Recordset) or else Field_Count (Recordset) = 0 then
+         Close (Recordset);
+         Close (Connection);
+         return "";
+      end if;
+      declare
+         Result : GString := Field_Value (Recordset, 1);
+      begin
+         Close (Recordset);
+         Close (Connection);
+         return Result;
+      end;
+   end Simple_Query;
 
 end GWindows.Databases;
