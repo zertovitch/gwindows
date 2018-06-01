@@ -91,7 +91,7 @@ package body GWindows.Databases is
 
    function Edit_Mode (Recordset : Recordset_Type) return Boolean
    is
-      Result : Integer := Integer (Get_EditMode (Recordset.Recordset));
+      Result : constant Integer := Integer (Get_EditMode (Recordset.Recordset));
    begin
       if Result = ADO.adEditInProgress or Result = ADO.adEditAdd then
          return True;
@@ -485,7 +485,7 @@ package body GWindows.Databases is
    is
       type Move_Array is array (Move_From_Type) of Integer;
 
-      Move_Values : Move_Array :=
+      Move_Values : constant Move_Array :=
         (Current => ADO.adBookmarkCurrent,
          First   => ADO.adBookmarkFirst,
          Last    => ADO.adBookmarkLast);
@@ -594,13 +594,13 @@ package body GWindows.Databases is
       type Cursor_Array is array (Cursor_Type) of Interfaces.C.long;
       type Lock_Array is array (Lock_Type) of Interfaces.C.long;
 
-      Cursor_Values : Cursor_Array :=
+      Cursor_Values : constant Cursor_Array :=
         (Dynamic      => ADO.adOpenDynamic,
          Forward_Only => ADO.adOpenForwardOnly,
          Keyset       => ADO.adOpenKeyset,
          Static       => ADO.adOpenStatic);
 
-      Lock_Values   : Lock_Array :=
+      Lock_Values   : constant Lock_Array :=
         (Batch_Optimistic => ADO.adLockBatchOptimistic,
          Optimistic       => ADO.adLockOptimistic,
          Pessimistic      => ADO.adLockPessimistic,
@@ -1104,7 +1104,7 @@ package body GWindows.Databases is
          return "";
       end if;
       declare
-         Result : GString := Field_Value (Recordset, 1);
+         Result : constant GString := Field_Value (Recordset, 1);
       begin
          Close (Recordset);
          Close (Connection);
