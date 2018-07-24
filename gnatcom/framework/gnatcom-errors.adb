@@ -7,7 +7,7 @@
 --                                B o d y                                   --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -172,6 +172,10 @@ package body GNATCOM.Errors is
                when CO_E_OBJNOTCONNECTED =>
                   Ada.Exceptions.Raise_Exception
                     (OBJECT_NOT_CONNECTED_ERROR'Identity,
+                     Message);
+               when DB_E_ERRORSINCOMMAND =>
+                  Ada.Exceptions.Raise_Exception
+                    (ERROR_IN_DB_COMMAND'Identity,
                      Message);
                when others =>
                   Ada.Exceptions.Raise_Exception

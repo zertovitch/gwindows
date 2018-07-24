@@ -7,7 +7,7 @@
 --                                S p e c                                   --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -117,4 +117,9 @@ package GNATCOM.Errors is
    OBJECT_NOT_CONNECTED_ERROR : exception;
    --  Raised when an attempt to invoke a method on an object that is no
    --  longer connected to the process
+
+   ERROR_IN_DB_COMMAND : exception;
+   --  Raised when an database command (normally, a SQL
+   --  command) contains error(s)
+
 end GNATCOM.Errors;

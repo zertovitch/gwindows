@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -91,6 +91,8 @@ package GNATCOM is
    CO_E_APPDIDNTREG          : constant := 16#800401fe#;
    CO_E_OBJNOTCONNECTED      : constant := 16#800401FD#;
    CO_E_OBJISREG             : constant := 16#800401fc#;
+
+   DB_E_ERRORSINCOMMAND      : constant := 16#80040E14#;
 
    CONNECT_E_NOCONNETION     : constant := 16#80040200#;
    CONNECT_E_ADVISELIMIT     : constant := 16#80040201#;

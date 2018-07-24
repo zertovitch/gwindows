@@ -91,7 +91,8 @@ package body GWindows.Databases is
 
    function Edit_Mode (Recordset : Recordset_Type) return Boolean
    is
-      Result : constant Integer := Integer (Get_EditMode (Recordset.Recordset));
+      Result : constant Integer :=
+         Integer (Get_EditMode (Recordset.Recordset));
    begin
       if Result = ADO.adEditInProgress or Result = ADO.adEditAdd then
          return True;
@@ -189,6 +190,14 @@ package body GWindows.Databases is
                          To_BSTR_From_GString (Query),
                          Records'Unchecked_Access, 0);
    end Execute;
+
+   procedure Set_Command_Timeout
+     (Database : in out Database_Type;
+      Seconds  :        Natural)
+   is
+   begin
+      Put_CommandTimeout (Database.Connection, Interfaces.C.long (Seconds));
+   end Set_Command_Timeout;
 
    -----------------
    -- Field_Count --

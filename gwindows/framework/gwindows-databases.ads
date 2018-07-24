@@ -75,6 +75,12 @@ package GWindows.Databases is
                       Query    : in     GString);
    --  Executes a Query
 
+   procedure Set_Command_Timeout
+     (Database : in out Database_Type;
+      Seconds  :        Natural);
+   --  Changes the command timeout, in seconds.
+   --  0 means wait indefinitely. 30 is the preset value.
+
    -------------------------------------------------------------------------
    --  Trans functions
    -------------------------------------------------------------------------
