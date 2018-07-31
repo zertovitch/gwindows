@@ -191,13 +191,33 @@ package body GWindows.Databases is
                          Records'Unchecked_Access, 0);
    end Execute;
 
-   procedure Set_Command_Timeout
+   procedure Command_Timeout
      (Database : in out Database_Type;
       Seconds  :        Natural)
    is
    begin
       Put_CommandTimeout (Database.Connection, Interfaces.C.long (Seconds));
-   end Set_Command_Timeout;
+   end Command_Timeout;
+
+   function Command_Timeout (Database : in Database_Type) return Natural
+   is
+   begin
+      return Natural (Get_CommandTimeout (Database.Connection));
+   end Command_Timeout;
+
+   procedure Connection_Timeout
+     (Database : in out Database_Type;
+      Seconds  :        Natural)
+   is
+   begin
+      Put_ConnectionTimeout (Database.Connection, Interfaces.C.long (Seconds));
+   end Connection_Timeout;
+
+   function Connection_Timeout (Database : in Database_Type) return Natural
+   is
+   begin
+      return Natural (Get_ConnectionTimeout (Database.Connection));
+   end Connection_Timeout;
 
    -----------------
    -- Field_Count --
