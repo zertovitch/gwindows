@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -44,7 +44,11 @@ package GWindows is
 
    type Character_Mode_Type is (ANSI, Unicode);
 
-   --  Bind to ANSI version of Win32
+   --  Bind to ANSI version of the Windows API.
+   --
+   --  For setting the character mode of GWindows (concerns
+   --  this file and 5 others), please use the ansi.cmd or
+   --  unicode.cmd scripts.
 
    Character_Mode : constant Character_Mode_Type := ANSI;
    Character_Mode_Identifier : constant String := "A";

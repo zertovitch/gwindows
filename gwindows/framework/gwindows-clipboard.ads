@@ -39,19 +39,41 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package GWindows.Clipboard is
 
+   procedure Clipboard_Text
+      (Owner : in GWindows.Windows.Window_Type;
+       Text  : in GString);
+
+   procedure Clipboard_Text
+      (Owner : in GWindows.Windows.Window_Type;
+       Text  : in GString_Unbounded);
+
+   function Clipboard_Text
+      (Owner : in GWindows.Windows.Window_Type)
+      return GString;
+
+   function Is_Clipboard_Text_Available
+      return Boolean;
+
+   --  The following subprograms are older versions
+   --  (pre-Aug-2018), supporting only ANSI strings:
+
    procedure Set_Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type;
        Text  : in String);
+   pragma Obsolescent (Set_Clipboard_Text);
 
    procedure Set_Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type;
        Text  : in Unbounded_String);
+   pragma Obsolescent (Set_Clipboard_Text);
 
    function Get_Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type)
       return String;
+   pragma Obsolescent (Get_Clipboard_Text);
 
    function Is_Clipboard_Text
       return Boolean;
+   pragma Obsolescent (Is_Clipboard_Text);
 
 end GWindows.Clipboard;

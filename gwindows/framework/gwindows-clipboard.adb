@@ -36,16 +36,72 @@
 with Ada.Unchecked_Conversion;
 
 with GWindows.Base;
+with GWindows.GStrings; use GWindows.GStrings;
 with GWindows.Types;
 
 package body GWindows.Clipboard is
 
-   subtype HGlobal is Interfaces.C.long;
-   subtype LPVOID is GWindows.Types.Handle;
+   procedure Clipboard_Text
+      (Owner : in GWindows.Windows.Window_Type;
+       Text  : in GString)
+   is
+   begin
+      case Character_Mode is
+         when ANSI =>
+           Set_Clipboard_Text (Owner, To_String (Text));
+         when Unicode =>
+           --  !! use Unicode version here !!
+           Set_Clipboard_Text (Owner, To_String (Text));
+      end case;
+   end Clipboard_Text;
+
+   procedure Clipboard_Text
+      (Owner : in GWindows.Windows.Window_Type;
+       Text  : in GString_Unbounded)
+   is
+   begin
+     Clipboard_Text (Owner, To_GString_From_Unbounded (Text));
+   end Clipboard_Text;
+
+   function Clipboard_Text
+      (Owner : in GWindows.Windows.Window_Type)
+      return GString
+   is
+   begin
+      case Character_Mode is
+         when ANSI =>
+           return To_GString_From_String (Get_Clipboard_Text (Owner));
+         when Unicode =>
+           --  !! use Unicode version here !!
+           return To_GString_From_String (Get_Clipboard_Text (Owner));
+      end case;
+   end Clipboard_Text;
 
    CF_TEXT        : constant :=  1;
---   CF_OEMTEXT     : constant :=  7;
---   CF_UNICODETEXT : constant := 13;
+   CF_UNICODETEXT : constant := 13;
+
+   function Is_Clipboard_Format_Available
+      (Format : in Natural)
+      return Boolean;
+
+   function Is_Clipboard_Text_Available
+      return Boolean
+   is
+   begin
+      case Character_Mode is
+         when ANSI =>
+           return Is_Clipboard_Format_Available (CF_TEXT);
+         when Unicode =>
+           return Is_Clipboard_Format_Available (CF_UNICODETEXT);
+      end case;
+   end Is_Clipboard_Text_Available;
+
+   ---------------------------------------------------
+   --  Here is the low-level part of this package.  --
+   ---------------------------------------------------
+
+   subtype HGlobal is Interfaces.C.long;
+   subtype LPVOID is GWindows.Types.Handle;
 
 --   GHND           : constant := 16#0042#;
 --   GMEM_FIXED     : constant := 16#0000#;
