@@ -355,7 +355,7 @@ package body GWindows.Clipboard is
       Idx  : Natural := 0;
    begin
       Dmp := Open_Clipboard (Owner);
-      Mem := Global_Alloc (GMEM_MOVEABLE, Text'Length * 2 + 1);
+      Mem := Global_Alloc (GMEM_MOVEABLE, Text'Length * 2 + 2);
       Data := Global_Lock (Mem);
       for I in Text'Range loop
          Data.Data (Idx .. Idx + 1) := To_Byte_Pair (Text (I));
