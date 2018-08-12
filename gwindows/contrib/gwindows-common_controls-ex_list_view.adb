@@ -23,8 +23,8 @@ package body GWindows.Common_Controls.Ex_List_View is
    Lvm_Setitemw                 : constant := Lvm_First + 76;
    --  Lvm_Insertitemw              : constant := Lvm_First + 77;
    Lvm_Finditemw                : constant := Lvm_First + 83;
-   LVM_GETCOLUMNA               : constant := Lvm_First + 25;
-   LVM_GETCOLUMNW               : constant := Lvm_First + 95;
+   --LVM_GETCOLUMNA               : constant := Lvm_First + 25;
+   --LVM_GETCOLUMNW               : constant := Lvm_First + 95;
    --LVM_SETCOLUMNA               : constant := LVM_FIRST + 26;
    --LVM_SETCOLUMNW               : constant := LVM_FIRST + 96;
    --  LVM_GETSUBITEMRECT           : constant := LVM_FIRST + 56;
@@ -36,7 +36,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    --  Lvif_Text                    : constant := 16#0001#;
    --  Lvif_Image                   : constant := 16#0002#;
    Lvif_Param                   : constant := 16#0004#;
-   LVCF_TEXT                    : constant := 16#0004#;
+   --  LVCF_TEXT                    : constant := 16#0004#;
    LVM_SETBKCOLOR               : constant := Lvm_First + 1;
    LVM_REDRAWITEMS              : constant := Lvm_First + 21;
    LVM_GETHEADER                : constant := Lvm_First + 31;
@@ -116,18 +116,18 @@ package body GWindows.Common_Controls.Ex_List_View is
       end record;
    type Pointer_To_Nmlistview_Type is access all Nmlistview_Type;
 
-   type Lvcolumn_type is
-      record
-         Mask    : Interfaces.C.unsigned := 0;
-         Format  : Interfaces.C.unsigned := 0;
-         Width   : Integer               := 0;
-         Text    : LPTSTR                := null;
-         Textmax : Integer               := 0;
-         Subitem : Integer               := 0;
-         Image   : Integer               := 0;
-         Order   : Integer               := 0;
-      end record;
-   type Lvcolumn_Pointer is access all Lvcolumn_type;
+   --  type Lvcolumn_type is
+   --     record
+   --        Mask    : Interfaces.C.unsigned := 0;
+   --        Format  : Interfaces.C.unsigned := 0;
+   --        Width   : Integer               := 0;
+   --        Text    : LPTSTR                := null;
+   --        Textmax : Integer               := 0;
+   --        Subitem : Integer               := 0;
+   --        Image   : Integer               := 0;
+   --        Order   : Integer               := 0;
+   --     end record;
+   --  type Lvcolumn_Pointer is access all Lvcolumn_type;
 
    type Findinfo_Type is
       record
@@ -177,7 +177,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    function Internal_To_Lparam is new Ada.Unchecked_Conversion (Internal_Access, GWindows.Types.Lparam);
    function Lparam_To_Internal is new Ada.Unchecked_Conversion (GWindows.Types.Lparam, Internal_Access);
 
-   function Lvcolumn_To_Lparam is new Ada.Unchecked_Conversion (Lvcolumn_Pointer, GWindows.Types.Lparam);
+   --  function Lvcolumn_To_Lparam is new Ada.Unchecked_Conversion (Lvcolumn_Pointer, GWindows.Types.Lparam);
    --  function Lparam_To_lvcolumn is new Ada.Unchecked_Conversion (Gwindows.Types.Lparam, Lvcolumn_pointer);
 
    function Hditem_To_Lparam is new Ada.Unchecked_Conversion (Hditem_Pointer, GWindows.Types.Lparam);
@@ -229,9 +229,6 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    procedure On_Header_Click (Control : in out Ex_List_View_Control_Type;
                               Column  : in     Integer                    );
-
-   function Column_text(Control: in Ex_List_View_Control_Type;
-                        Column: in Natural) return GString;
 
    procedure Header_sorticon(Control: in out Ex_List_View_Control_Type;
                              Column: in Natural;
@@ -666,7 +663,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       Canvas: GWindows.Drawing.Canvas_Type;
       Paint_Left: Integer;
       Max_Width: Integer;
-      Columntext: constant GString := Column_text(Control => Control, Column => Integer(Drawitem.CtlItemID));
+      Columntext: constant GString := Column_Text (Control => Control, Index => Integer(Drawitem.CtlItemID));
       Columntext_Last: Natural := Columntext'Last;
       Size: GWindows.Types.Size_Type;
       Icon_Width, Icon_Height: Natural;
@@ -788,32 +785,34 @@ package body GWindows.Common_Controls.Ex_List_View is
 
 --     end Column_Text;
    ----------------------------------------------------------------------------------------------------
-   function Column_text(Control: in Ex_List_View_Control_Type;
-                        Column: in Natural) return GString is
-      C_Text : Buffer;
-      Lv: Lvcolumn_type;
-      Get_Umsg: Interfaces.C.int;
-   begin
-      case Character_Mode is
-         when Unicode =>
-            Get_Umsg := LVM_GETCOLUMNW;
-         when ANSI =>
-            Get_Umsg := LVM_GETCOLUMNA;
-      end case;
-
-      Lv.Mask := LVCF_TEXT;
-      Lv.Text := C_Text (0)'Unchecked_Access;
-      Lv.Textmax := 255;
-
-      -- get the lvcolumn
-      Sendmessage_proc(Hwnd => Handle(Control),
-                       Umsg => Get_Umsg,
-                       Wparam => GWindows.Types.To_Wparam(Column),
-                       Lparam => Lvcolumn_To_Lparam(Lv'Unrestricted_Access));
-
-      return GWindows.GStrings.To_GString_From_C(GString_C (To_PBuffer (Lv.Text).all));
-
-   end Column_text;
+   --  ** Column_Text function added to GWindows.Common_Controls, August 2018.
+   --
+   --  function Column_text(Control: in Ex_List_View_Control_Type;
+   --                       Column: in Natural) return GString is
+   --     C_Text : Buffer;
+   --     Lv: Lvcolumn_type;
+   --     Get_Umsg: Interfaces.C.int;
+   --  begin
+   --     case Character_Mode is
+   --        when Unicode =>
+   --           Get_Umsg := LVM_GETCOLUMNW;
+   --        when ANSI =>
+   --           Get_Umsg := LVM_GETCOLUMNA;
+   --     end case;
+   --
+   --     Lv.Mask := LVCF_TEXT;
+   --     Lv.Text := C_Text (0)'Unchecked_Access;
+   --     Lv.Textmax := 255;
+   --
+   --     -- get the lvcolumn
+   --     Sendmessage_proc(Hwnd => Handle(Control),
+   --                      Umsg => Get_Umsg,
+   --                      Wparam => GWindows.Types.To_Wparam(Column),
+   --                      Lparam => Lvcolumn_To_Lparam(Lv'Unrestricted_Access));
+   --
+   --     return GWindows.GStrings.To_GString_From_C(GString_C (To_PBuffer (Lv.Text).all));
+   --
+   --  end Column_text;
    ----------------------------------------------------------------------------------------------------
    procedure Header_sorticon(Control: in out Ex_List_View_Control_Type;
                              Column: in Natural;
@@ -957,7 +956,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                   Get_Canvas(Control, Canvas);
                   Get_Font(Control, Font);
                   GWindows.Drawing.Select_Object(Canvas, Font);
-                  Size := GWindows.Drawing.Text_Output_Size (Canvas, Column_text(Control, Column));
+                  Size := GWindows.Drawing.Text_Output_Size (Canvas, Column_Text (Control, Column));
                   Offset := (Size.Height + 4) / 3;
                   if Offset mod 2 > 0 then
                      Offset := Offset + 1;

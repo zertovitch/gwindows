@@ -2429,8 +2429,6 @@ package body GWindows.Common_Controls is
       Index   : in     Integer;
       Width   : in     Integer)
    is
-      LVCF_WIDTH              : constant := 16#0002#;
-
       Item : LVCOLUMN;
 
       procedure SendMessageA
@@ -2484,6 +2482,62 @@ package body GWindows.Common_Controls is
    begin
       return SendMessage;
    end Column_Width;
+
+   -----------------
+   -- Column_Text --
+   -----------------
+
+   function Column_Text
+     (Control : in List_View_Control_Type;
+      Index   : in Integer)
+     return GString
+   is
+      LVM_GETCOLUMNA : constant := LVM_FIRST + 25;
+      LVM_GETCOLUMNW : constant := LVM_FIRST + 95;
+
+      Max_Text : constant := 255;
+      type Buffer is new GString_C (0 .. Max_Text);
+      type PBuffer is access all Buffer;
+
+      function To_PBuffer is
+         new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
+
+      C_Text   : Buffer;
+      LVC      : LVCOLUMN;
+
+      procedure SendMessageA
+        (hwnd   : GWindows.Types.Handle :=
+           GWindows.Common_Controls.Handle (Control);
+         uMsg   : Interfaces.C.int      := LVM_GETCOLUMNA;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
+         lParam : in out LVCOLUMN);
+      pragma Import (StdCall, SendMessageA,
+                       "SendMessage" & Character_Mode_Identifier);
+
+      procedure SendMessageW
+        (hwnd   : GWindows.Types.Handle :=
+           GWindows.Common_Controls.Handle (Control);
+         uMsg   : Interfaces.C.int      := LVM_GETCOLUMNW;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
+         lParam : in out LVCOLUMN);
+      pragma Import (StdCall, SendMessageW,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      LVC.Mask := LVCF_TEXT;
+      C_Text (0) := GChar_C'Val (0);  --  Empty C string in case of failure.
+      LVC.Text := C_Text (0)'Unchecked_Access;
+      LVC.TextMax := Max_Text;
+
+      case Character_Mode is
+         when Unicode =>
+            SendMessageW (lParam => LVC);
+         when ANSI =>
+            SendMessageA (lParam => LVC);
+      end case;
+
+      return GWindows.GStrings.To_GString_From_C
+        (GString_C (To_PBuffer (LVC.Text).all));
+   end Column_Text;
 
    -----------------
    -- Delete_Item --

@@ -816,6 +816,11 @@ package GWindows.Common_Controls is
       Index   : in Integer)
      return Integer;
 
+   function Column_Text
+     (Control : in List_View_Control_Type;
+      Index   : in Integer)
+     return GString;
+
    procedure Clear (Control : in out List_View_Control_Type);
 
    -------------------------------------------------------------------------
