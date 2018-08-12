@@ -41,6 +41,10 @@ with GWindows.Types;
 
 package body GWindows.Clipboard is
 
+   procedure Set_Clipboard_Text_Unicode
+      (Owner : in GWindows.Windows.Window_Type;
+       Text  : in Wide_String);
+
    procedure Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type;
        Text  : in GString)
@@ -50,8 +54,7 @@ package body GWindows.Clipboard is
          when ANSI =>
            Set_Clipboard_Text (Owner, To_String (Text));
          when Unicode =>
-           --  !! use Unicode version here !!
-           Set_Clipboard_Text (Owner, To_String (Text));
+           Set_Clipboard_Text_Unicode (Owner, To_Wide_String (Text));
       end case;
    end Clipboard_Text;
 
@@ -246,11 +249,12 @@ package body GWindows.Clipboard is
       return IsClipboardFormatAvailable;
    end Is_Clipboard_Format_Available;
 
---  http://msdn.microsoft.com/library/default.asp?
----   url=/library/en-us/winui/winui/windowsuserinterface/dataexchange/
---    clipboard/usingtheclipboard.asp
+   --------------------------------------------
+   --  Now, the really serious stuff...      --
+   --                                        --
+   --  1) Set / Get with 8-bit ANSI strings  --
+   --------------------------------------------
 
---  Extra functions
    procedure Set_Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type;
        Text  : in String)
@@ -326,5 +330,38 @@ package body GWindows.Clipboard is
    begin
       return Is_Clipboard_Format_Available (CF_TEXT);
    end Is_Clipboard_Text;
+
+   ------------------------------------------------
+   --  2) Set / Get with 16-bit UNICODE strings  --
+   ------------------------------------------------
+
+   procedure Set_Clipboard_Text_Unicode
+      (Owner : in GWindows.Windows.Window_Type;
+       Text  : in Wide_String)
+   is
+      subtype Byte_Pair is Memory_Byte_Arr (0 .. 1);
+
+      function To_Byte_Pair is new
+         Ada.Unchecked_Conversion (Wide_Character, Byte_Pair);
+
+      Dmp  : Boolean;
+      pragma Unreferenced (Dmp);
+      Mem  : HGlobal;
+      Data : Global_Alloc_Ptr;
+      Idx  : Natural := 0;
+   begin
+      Dmp := Open_Clipboard (Owner);
+      Mem := Global_Alloc (GMEM_MOVEABLE, Text'Length * 2 + 1);
+      Data := Global_Lock (Mem);
+      for I in Text'Range loop
+         Data.Data (Idx .. Idx + 1) := To_Byte_Pair (Text (I));
+         Idx := Idx + 2;
+      end loop;
+      Data.Data (Idx .. Idx + 1) := (0, 0);
+      Dmp := Global_Unlock (Mem);
+      Dmp := Empty_Clipboard;
+      Dmp := Set_Clipboard_Data (CF_UNICODETEXT, Data);
+      Dmp := Close_Clipboard;
+   end Set_Clipboard_Text_Unicode;
 
 end GWindows.Clipboard;
