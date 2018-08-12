@@ -221,12 +221,12 @@ package body GWindows.Common_Controls is
       record
          Mask      : Interfaces.C.unsigned := 0;
          Format    : Interfaces.C.unsigned := 0;
-         Width     : Integer := 0;
-         Text      : LPTSTR := null;
-         TextMax   : Integer := 0;
-         SubItem   : Integer := 0;
-         Image     : Integer := 0;
-         Order     : Integer := 0;
+         Width     : Integer               := 0;
+         Text      : LPTSTR                := null;
+         TextMax   : Integer               := 0;
+         SubItem   : Integer               := 0;
+         Image     : Integer               := 0;
+         Order     : Integer               := 0;
       end record;
 
    TV_FIRST                : constant := 16#1100#;
@@ -2429,21 +2429,6 @@ package body GWindows.Common_Controls is
       Index   : in     Integer;
       Width   : in     Integer)
    is
-      type LVCOLUMN is
-         record
-            Mask      : Interfaces.C.unsigned := 0;
-            Format    : Interfaces.C.unsigned := 0;
-            Width     : Integer               := 0;
-            Text      : LPTSTR                := null;
-            TextMax   : Integer               := 0;
-            SubItem   : Integer               := 0;
-            Image     : Integer               := 0;
-            Order     : Integer               := 0;
-         end record;
-
-      LVM_FIRST               : constant := 16#1000#;
-      LVM_SETCOLUMNA          : constant := LVM_FIRST + 26;
-      LVM_SETCOLUMNW          : constant := LVM_FIRST + 96;
       LVCF_WIDTH              : constant := 16#0002#;
 
       Item : LVCOLUMN;
@@ -2486,7 +2471,6 @@ package body GWindows.Common_Controls is
    )
    return Integer
    is
-      LVM_FIRST               : constant := 16#1000#;
       LVM_GETCOLUMNWIDTH      : constant := LVM_FIRST + 29;
 
       function SendMessage
