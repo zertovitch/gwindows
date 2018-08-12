@@ -52,9 +52,9 @@ package body GWindows.Clipboard is
    begin
       case Character_Mode is
          when ANSI =>
-           Set_Clipboard_Text (Owner, To_String (Text));
+            Set_Clipboard_Text (Owner, To_String (Text));
          when Unicode =>
-           Set_Clipboard_Text_Unicode (Owner, To_Wide_String (Text));
+            Set_Clipboard_Text_Unicode (Owner, To_Wide_String (Text));
       end case;
    end Clipboard_Text;
 
@@ -66,6 +66,10 @@ package body GWindows.Clipboard is
      Clipboard_Text (Owner, To_GString_From_Unbounded (Text));
    end Clipboard_Text;
 
+   function Get_Clipboard_Text_Unicode
+      (Owner : in GWindows.Windows.Window_Type)
+      return Wide_String;
+
    function Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type)
       return GString
@@ -73,10 +77,10 @@ package body GWindows.Clipboard is
    begin
       case Character_Mode is
          when ANSI =>
-           return To_GString_From_String (Get_Clipboard_Text (Owner));
+            return To_GString_From_String (Get_Clipboard_Text (Owner));
          when Unicode =>
-           --  !! use Unicode version here !!
-           return To_GString_From_String (Get_Clipboard_Text (Owner));
+            return To_GString_From_Wide_String
+                      (Get_Clipboard_Text_Unicode (Owner));
       end case;
    end Clipboard_Text;
 
@@ -335,12 +339,12 @@ package body GWindows.Clipboard is
    --  2) Set / Get with 16-bit UNICODE strings  --
    ------------------------------------------------
 
+   subtype Byte_Pair is Memory_Byte_Arr (0 .. 1);
+
    procedure Set_Clipboard_Text_Unicode
       (Owner : in GWindows.Windows.Window_Type;
        Text  : in Wide_String)
    is
-      subtype Byte_Pair is Memory_Byte_Arr (0 .. 1);
-
       function To_Byte_Pair is new
          Ada.Unchecked_Conversion (Wide_Character, Byte_Pair);
 
@@ -363,5 +367,41 @@ package body GWindows.Clipboard is
       Dmp := Set_Clipboard_Data (CF_UNICODETEXT, Data);
       Dmp := Close_Clipboard;
    end Set_Clipboard_Text_Unicode;
+
+   function Get_Clipboard_Text_Unicode
+      (Owner : in GWindows.Windows.Window_Type)
+      return Wide_String
+   is
+      Dmp  : Boolean;
+      pragma Unreferenced (Dmp);
+      Len  : Integer := 0;
+      Mem  : HGlobal;
+      Data : Global_Alloc_Ptr;
+   begin
+      if Is_Clipboard_Format_Available (CF_UNICODETEXT) then
+         Dmp := Open_Clipboard (Owner);
+         Mem := Get_Clipboard_Data (CF_UNICODETEXT);
+         Data := Global_Lock (Mem);
+         --  text is C style, thus ending with 0
+         while Data.Data (Len .. Len + 1) /= (0, 0) loop
+            Len := Len + 2;
+         end loop;
+         declare
+            function To_Wide_Char is new
+               Ada.Unchecked_Conversion (Byte_Pair, Wide_Character);
+            Txt : Wide_String (1 .. Len / 2);
+            J : Natural;
+         begin
+            for I in Txt'Range loop
+               J := (I - 1) * 2;
+               Txt (I) := To_Wide_Char (Data.Data (J .. J + 1));
+            end loop;
+            Dmp := Global_Unlock (Mem);
+            Dmp := Close_Clipboard;
+            return Txt;
+         end;
+      end if;
+      return "";
+   end Get_Clipboard_Text_Unicode;
 
 end GWindows.Clipboard;
