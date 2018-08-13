@@ -1,14 +1,13 @@
-with GWindows.Types;
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                    G W I N D O W S . U T I L I T I E S                   --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,9 +28,14 @@ with GWindows.Types;
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
+
+with GWindows.Types;
 
 package GWindows.Utilities is
 
@@ -50,5 +54,7 @@ package GWindows.Utilities is
    function Make_Long (Low  : in Interfaces.C.short;
                        High : in Interfaces.C.short)
                        return GWindows.Types.Lparam;
+
+   type AU_Choice is array (Character_Mode_Type) of Interfaces.C.int;
 
 end GWindows.Utilities;

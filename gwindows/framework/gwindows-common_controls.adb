@@ -45,6 +45,7 @@ with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 with GWindows.Internal;
 with GWindows.Utilities;
+use GWindows.Utilities;
 
 package body GWindows.Common_Controls is
    use type Interfaces.C.unsigned;
@@ -135,14 +136,14 @@ package body GWindows.Common_Controls is
    LVM_GETITEMCOUNT        : constant := LVM_FIRST + 4;
    LVM_SETITEMA            : constant := LVM_FIRST + 6;
    LVM_SETITEMW            : constant := LVM_FIRST + 76;
-   LVM_INSERTITEMA         : constant := LVM_FIRST + 7;
-   LVM_INSERTITEMW         : constant := LVM_FIRST + 77;
 --     LVM_DELETEITEM          : constant := LVM_FIRST + 8;
    LVM_DELETEALLITEMS      : constant := LVM_FIRST + 9;
-   LVM_SETCOLUMNA          : constant := LVM_FIRST + 26;
-   LVM_SETCOLUMNW          : constant := LVM_FIRST + 96;
-   LVM_INSERTCOLUMNA       : constant := LVM_FIRST + 27;
-   LVM_INSERTCOLUMNW       : constant := LVM_FIRST + 97;
+   LVM_SETCOLUMN           : constant AU_Choice :=
+                             (ANSI    => LVM_FIRST + 26,
+                              Unicode => LVM_FIRST + 96);
+   LVM_INSERTCOLUMN        : constant AU_Choice :=
+                             (ANSI    => LVM_FIRST + 27,
+                              Unicode => LVM_FIRST + 97);
    LVM_GETITEMSTATE        : constant := LVM_FIRST + 44;
    LVM_GETSELECTEDCOUNT    : constant := LVM_FIRST + 50;
    LVM_SETIMAGELIST        : constant := LVM_FIRST + 3;  --  AnSp
@@ -2087,35 +2088,24 @@ package body GWindows.Common_Controls is
 
       Item : LVITEM;
 
-      function SendMessageA
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_INSERTITEMA;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : LVITEM                := Item)
-      return GWindows.Types.Lparam;
-      pragma Import (StdCall, SendMessageA,
-                       "SendMessage" & Character_Mode_Identifier);
+      LVM_INSERTITEM : constant AU_Choice :=
+        (ANSI    => LVM_FIRST + 7,
+         Unicode => LVM_FIRST + 77);
 
-      function SendMessageW
+      function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_INSERTITEMW;
+         uMsg   : Interfaces.C.int      := LVM_INSERTITEM (Character_Mode);
          wParam : GWindows.Types.Wparam := 0;
          lParam : LVITEM                := Item)
       return GWindows.Types.Lparam;
-      pragma Import (StdCall, SendMessageW,
+      pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Item.Mask := LVIF_TEXT or LVIF_IMAGE;
-      Item.Item := Index;
-      Item.Image := Icon;
-      Item.Text := C_Text (0)'Unchecked_Access;
-
-      case Character_Mode is
-         when Unicode =>
-            Sorted_Index := Integer (SendMessageW);
-         when ANSI =>
-            Sorted_Index := Integer (SendMessageA);
-      end case;
+      Item.Mask    := LVIF_TEXT or LVIF_IMAGE;
+      Item.Item    := Index;
+      Item.Image   := Icon;
+      Item.Text    := C_Text (0)'Unchecked_Access;
+      Sorted_Index := Integer (SendMessage);
    end Insert_Item;
 
    procedure Insert_Item (Control : in out List_View_Control_Type;
@@ -2147,32 +2137,18 @@ package body GWindows.Common_Controls is
 
       Item : LVCOLUMN;
 
-      procedure SendMessageA
+      procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_SETCOLUMNA;
+         uMsg   : Interfaces.C.int      := LVM_SETCOLUMN (Character_Mode);
          wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
          lParam : LVCOLUMN          := Item);
-      pragma Import (StdCall, SendMessageA,
-                       "SendMessage" & Character_Mode_Identifier);
-
-      procedure SendMessageW
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_SETCOLUMNW;
-         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
-         lParam : LVCOLUMN              := Item);
-      pragma Import (StdCall, SendMessageW,
+      pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Item.Mask := LVCF_TEXT or LVCF_WIDTH;
-      Item.Text := C_Text (0)'Unchecked_Access;
+      Item.Mask  := LVCF_TEXT or LVCF_WIDTH;
+      Item.Text  := C_Text (0)'Unchecked_Access;
       Item.Width := Width;
-
-      case Character_Mode is
-         when Unicode =>
-            SendMessageW;
-         when ANSI =>
-            SendMessageA;
-      end case;
+      SendMessage;
    end Set_Column;
 
    -------------------
@@ -2188,32 +2164,18 @@ package body GWindows.Common_Controls is
 
       Item : LVCOLUMN;
 
-      procedure SendMessageA
+      procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_INSERTCOLUMNA;
+         uMsg   : Interfaces.C.int      := LVM_INSERTCOLUMN (Character_Mode);
          wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
          lParam : LVCOLUMN              := Item);
-      pragma Import (StdCall, SendMessageA,
-                       "SendMessage" & Character_Mode_Identifier);
-
-      procedure SendMessageW
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_INSERTCOLUMNW;
-         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
-         lParam : LVCOLUMN              := Item);
-      pragma Import (StdCall, SendMessageW,
+      pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Item.Mask := LVCF_TEXT or LVCF_WIDTH;
-      Item.Text := C_Text (0)'Unchecked_Access;
+      Item.Mask  := LVCF_TEXT or LVCF_WIDTH;
+      Item.Text  := C_Text (0)'Unchecked_Access;
       Item.Width := Width;
-
-      case Character_Mode is
-         when Unicode =>
-            SendMessageW;
-         when ANSI =>
-            SendMessageA;
-      end case;
+      SendMessage;
    end Insert_Column;
 
    ----------------
@@ -2338,8 +2300,9 @@ package body GWindows.Common_Controls is
       SubItem : in Integer)
      return GString
    is
-      LVM_GETITEMA : constant := LVM_FIRST + 5;
-      LVM_GETITEMW : constant := LVM_FIRST + 75;
+      LVM_GETITEM : constant AU_Choice :=
+        (ANSI    => LVM_FIRST + 5,
+         Unicode => LVM_FIRST + 75);
       LVIF_TEXT    : constant := 16#0001#;
 
       Max_Text : constant := 255;
@@ -2352,37 +2315,21 @@ package body GWindows.Common_Controls is
       C_Text   : Buffer;
       LVI      : LVITEM;
 
-      procedure SendMessageA
+      procedure SendMessage
         (hwnd   : GWindows.Types.Handle :=
            GWindows.Common_Controls.Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_GETITEMA;
+         uMsg   : Interfaces.C.int      := LVM_GETITEM (Character_Mode);
          wParam : GWindows.Types.Wparam := 0;
          lParam : in out LVITEM);
-      pragma Import (StdCall, SendMessageA,
-                       "SendMessage" & Character_Mode_Identifier);
-
-      procedure SendMessageW
-        (hwnd   : GWindows.Types.Handle :=
-           GWindows.Common_Controls.Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_GETITEMW;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : in out LVITEM);
-      pragma Import (StdCall, SendMessageW,
+      pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      LVI.Mask := LVIF_TEXT;
-      LVI.Item := Item;
+      LVI.Mask    := LVIF_TEXT;
+      LVI.Item    := Item;
       LVI.SubItem := SubItem;
-      LVI.Text := C_Text (0)'Unchecked_Access;
+      LVI.Text    := C_Text (0)'Unchecked_Access;
       LVI.TextMax := Max_Text;
-
-      case Character_Mode is
-         when Unicode =>
-            SendMessageW (lParam => LVI);
-         when ANSI =>
-            SendMessageA (lParam => LVI);
-      end case;
-
+      SendMessage (lParam => LVI);
       return GWindows.GStrings.To_GString_From_C
         (GString_C (To_PBuffer (LVI.Text).all));
    end Text;
@@ -2431,32 +2378,18 @@ package body GWindows.Common_Controls is
    is
       Item : LVCOLUMN;
 
-      procedure SendMessageA
+      procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_SETCOLUMNA;
+         uMsg   : Interfaces.C.int      := LVM_SETCOLUMN (Character_Mode);
          wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
          lParam : LVCOLUMN              := Item);
-      pragma Import (StdCall, SendMessageA,
-                       "SendMessage" & Character_Mode_Identifier);
-
-      procedure SendMessageW
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_SETCOLUMNW;
-         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
-         lParam : LVCOLUMN              := Item);
-      pragma Import (StdCall, SendMessageW,
+      pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Item.Mask := LVCF_WIDTH;
-      Item.Text := null;
+      Item.Mask  := LVCF_WIDTH;
+      Item.Text  := null;
       Item.Width := Width;
-
-      case Character_Mode is
-         when Unicode =>
-            SendMessageW;
-         when ANSI =>
-            SendMessageA;
-      end case;
+      SendMessage;
    end Set_Column_Width;
 
    ------------------
@@ -2492,8 +2425,9 @@ package body GWindows.Common_Controls is
       Index   : in Integer)
      return GString
    is
-      LVM_GETCOLUMNA : constant := LVM_FIRST + 25;
-      LVM_GETCOLUMNW : constant := LVM_FIRST + 95;
+      LVM_GETCOLUMN : constant AU_Choice :=
+        (ANSI    => LVM_FIRST + 25,
+         Unicode => LVM_FIRST + 95);
 
       Max_Text : constant := 255;
       type Buffer is new GString_C (0 .. Max_Text);
@@ -2505,36 +2439,20 @@ package body GWindows.Common_Controls is
       C_Text   : Buffer;
       LVC      : LVCOLUMN;
 
-      procedure SendMessageA
+      procedure SendMessage
         (hwnd   : GWindows.Types.Handle :=
            GWindows.Common_Controls.Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_GETCOLUMNA;
+         uMsg   : Interfaces.C.int      := LVM_GETCOLUMN (Character_Mode);
          wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
          lParam : in out LVCOLUMN);
-      pragma Import (StdCall, SendMessageA,
-                       "SendMessage" & Character_Mode_Identifier);
-
-      procedure SendMessageW
-        (hwnd   : GWindows.Types.Handle :=
-           GWindows.Common_Controls.Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_GETCOLUMNW;
-         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
-         lParam : in out LVCOLUMN);
-      pragma Import (StdCall, SendMessageW,
+      pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
       LVC.Mask := LVCF_TEXT;
       C_Text (0) := GChar_C'Val (0);  --  Empty C string in case of failure.
       LVC.Text := C_Text (0)'Unchecked_Access;
       LVC.TextMax := Max_Text;
-
-      case Character_Mode is
-         when Unicode =>
-            SendMessageW (lParam => LVC);
-         when ANSI =>
-            SendMessageA (lParam => LVC);
-      end case;
-
+      SendMessage (lParam => LVC);
       return GWindows.GStrings.To_GString_From_C
         (GString_C (To_PBuffer (LVC.Text).all));
    end Column_Text;
