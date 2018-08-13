@@ -54,12 +54,19 @@ package Tutorial24_Window is
 
    --  The On_Left_Mouse_Button_Up method is not defined (thus cannot
    --  be overriden) for the controls LV_with_Drag and TV_with_Drag.
+   --  Then we override it for the parent window
 
    overriding
    procedure On_Left_Mouse_Button_Up (Window : in out My_Window_Type;
                                       X      : in     Integer;
                                       Y      : in     Integer;
                                       Keys   : in     Mouse_Key_States);
+
+   overriding
+   procedure On_Mouse_Move (Window : in out My_Window_Type;
+                            X      : in     Integer;
+                            Y      : in     Integer;
+                            Keys   : in     Mouse_Key_States);
 
    type My_Window_Access is access all My_Window_Type;
    type Pointer_To_My_Window_Class is access all My_Window_Type'Class;

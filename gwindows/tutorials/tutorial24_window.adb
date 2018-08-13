@@ -58,32 +58,32 @@ package body Tutorial24_Window is
             Image (Clicked_item + 1) &
             " and perhaps some more items...");
       Capture_Mouse (Main);
-      --  ^ This is needed, otherwise dropping outside of parent window
-      --    is not captured via On_Left_Mouse_Button_Up.
       if Cursor /= 0 then
         Set_Cursor (Cursor);
       end if;
       --  Image associated with dragging
-      --  Unselect clicked item
-      Selected (Window, Clicked_item, False);
+      --  % --  Unselect clicked item:
+      --  % Selected (Window, Clicked_item, False);
+      --  % Window.Redraw;
       --  * --  Set a provisory font
       --  * Get_Font (Window, Mem_Font);
       --  * Create_Stock_Font (Font, System);
       --  * Set_Font (Window, Font);
       Point := (0, 0);
-      Window.Set_Image_List (Normal, Main.Drag_Image_List);  --  Needed ?
+      --  Window.Set_Image_List (Normal, Main.Drag_Image_List);  --  Needed ?
       Image_List_Handle := Sendmessage_list (Hwnd => Handle (Window),
                            Wparam => Clicked_item,
                            Lparam => Point'Access
       );
-      Selected (Window, Clicked_item, True);
+      --  % --  Re-select clicked item:
+      --  % Selected (Window, Clicked_item, True);
+      --  % Window.Redraw;
       --  * Set_Font (Window, Mem_Font);
       Handle (Main.Drag_Image_List, Image_List_Handle);
-      Main.Drag_Image_List.Begin_Drag (0, -10, 0);
+      Main.Drag_Image_List.Begin_Drag (Index => 0, X => 10, Y => -20);
       --  First position for dragging image
       Drag_Enter (Main, Point.X, Point.Y);
       Main.Dragging := True;
-      --  ** Drag_Show_Image;
    end Start_Drag_LV;
 
    procedure On_Notify (
@@ -128,6 +128,8 @@ package body Tutorial24_Window is
          Hwnd   : GWindows.Types.Handle;
          Umsg   : Interfaces.C.int  := TVM_CREATEDRAGIMAGE;
          Wparam : Interfaces.C.int := 0;
+         --  !! Lparam is perhaps wrong, MSDN: "Handle to the item that
+         --     receives the new dragging bitmap."
          Lparam : Tree_Item_Node)
       return GWindows.Types.Handle;
       pragma Import (Stdcall, Sendmessage_tree,
@@ -174,7 +176,7 @@ package body Tutorial24_Window is
       end if;
       --  * Set_Font (Window, Mem_Font);
       Handle (Main.Drag_Image_List, Image_List_Handle);
-      Main.Drag_Image_List.Begin_Drag (0, -10, 0);
+      Main.Drag_Image_List.Begin_Drag (Index => 0, X => 0, Y => 0);
       --  First position for dragging image
       Drag_Enter (Main, Point.X, Point.Y);
       Main.Dragging := True;
@@ -272,6 +274,18 @@ package body Tutorial24_Window is
          Text (Window.Status, "Button up (no drag)");
       end if;
    end On_Left_Mouse_Button_Up;
+
+   procedure On_Mouse_Move (Window : in out My_Window_Type;
+                            X      : in     Integer;
+                            Y      : in     Integer;
+                            Keys   : in     Mouse_Key_States)
+   is
+   pragma Unreferenced (Keys);
+   begin
+      if Window.Dragging then
+        Drag_Move (Window, X, Y);
+      end if;
+   end On_Mouse_Move;
 
 begin
    Create_Stock_Font (GUI_Font, Default_GUI);

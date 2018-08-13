@@ -101,7 +101,10 @@ package GWindows.Image_Lists is
    procedure Begin_Drag (List  : in out Image_List_Type;
                          Index : in     Integer         := 0;
                          X, Y  : in     Integer         := 0);
-   --  Sets image for drag and drop
+   --  Sets image for drag and drop.
+   --  In response to subsequent On_Mouse_Move callbacks,
+   --  you can move the drag image by using the Drag_Move procedure below.
+   --
    --  Index is index of image to use
    --  X, Y is hotspot location
 
@@ -110,7 +113,8 @@ package GWindows.Image_Lists is
    procedure Drag_Cursor_Image (List  : in out Image_List_Type;
                                 Index : in     Integer         := 0;
                                 X, Y  : in     Integer         := 0);
-   --  Sets image to combine with drag image for drag and drop
+   --  Creates a new drag image by combining the specified
+   --  image (typically a mouse cursor image) with the current drag image.
    --  Index is index of image to use
    --  X, Y is hotspot location
 

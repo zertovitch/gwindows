@@ -1,5 +1,6 @@
 --  This tutorial is about doing a simple Drag & Drop
 --  within an application window. No OLE so far.
+--  Work in progress!
 
 with Tutorial24_Window; use Tutorial24_Window;
 
@@ -15,6 +16,7 @@ begin
    --  Put some fuzzy contents in the list
    Insert_Item (My_Window.Some_list, "List item Nr 1", 0);
    Insert_Item (My_Window.Some_list, "List item Nr 2", 1);
+   Insert_Item (My_Window.Some_list, "List item Nr 3", 2);
    --  Put some fuzzy contents in the tree
    Insert_Item (My_Window.Some_tree, "Tree root", 0, root, As_A_Root);
    Insert_Item (My_Window.Some_tree, "Tree node 1", root, n1);
