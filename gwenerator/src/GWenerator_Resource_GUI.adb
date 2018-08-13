@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2017/10/31  10:14:07
+-- Transcription time: 2018/08/13  09:37:49
 -- GWenerator project file: GWenerator.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -41,7 +41,7 @@ package body GWenerator_Resource_GUI is
     Append_Separator(Menu.Popup_0002);
     Append_Item(Menu.Popup_0002, "&Run main application" & To_GString_From_String((1=>ASCII.HT)) & "F5", Start_main_app);
     Append_Separator(Menu.Popup_0002);
-    Append_Item(Menu.Popup_0002, "&Compile resource only", Compile_resource_only);
+    Append_Item(Menu.Popup_0002, "&Compile resource only" & To_GString_From_String((1=>ASCII.HT)) & "Ctrl+R", Compile_resource_only);
     Menu.Popup_0003:= Create_Popup;
     Append_Menu(Menu.Main, "&Options", Menu.Popup_0003);
     Append_Item(Menu.Popup_0003, "&Options for this GWen", GWen_Options);
@@ -558,6 +558,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 269
+  -- Last line of resource script file: 270
 
 end GWenerator_Resource_GUI;

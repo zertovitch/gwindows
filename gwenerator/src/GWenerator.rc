@@ -63,7 +63,7 @@ Main_Menu MENU
         MENUITEM SEPARATOR
         MENUITEM "&Run main application\tF5", Start_main_app
         MENUITEM SEPARATOR
-        MENUITEM "&Compile resource only", Compile_resource_only
+        MENUITEM "&Compile resource only\tCtrl+R", Compile_resource_only
     }
     POPUP "&Options"
     {
@@ -168,7 +168,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     AUTOCHECKBOX    "Ada build", Show_Ada_build, 180, 80, 45, 10, 0, WS_EX_LEFT
     LTEXT           "Last build failed or was stopped. Auto build is temporarily disabled.", Auto_build_lift_msg, 275, 80, 120, 25, SS_LEFT, WS_EX_LEFT
     ICON            Warning_icon, Auto_build_lift_ico, 250, 80, 11, 10, SS_ICON, WS_EX_LEFT
-    ICON            Arrow_icon, IDC_STATIC, 40,  38, 21, 20, SS_ICON, WS_EX_LEFT
+    ICON            Arrow_icon, IDC_STATIC, 40, 38, 21, 20, SS_ICON, WS_EX_LEFT
     ICON            Arrow_icon, IDC_STATIC, 170, 38, 21, 20, SS_ICON, WS_EX_LEFT
     ICON            Arrow_icon, Ada_blue_3, 220, 38, 21, 20, SS_ICON, WS_EX_LEFT
     ICON            Arrow_icon, IDC_STATIC, 345, 38, 21, 20, SS_ICON, WS_EX_LEFT
@@ -189,6 +189,7 @@ Main_Menu ACCELERATORS
     "S",            Save_GWen, VIRTKEY, CONTROL
     "N",            New_GWen, VIRTKEY, CONTROL
     VK_F5,         Start_main_app, VIRTKEY
+    "R",            Compile_resource_only, VIRTKEY, CONTROL
 }
 
 

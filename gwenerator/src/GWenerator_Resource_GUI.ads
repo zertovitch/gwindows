@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2017/10/31  10:14:07
+-- Transcription time: 2018/08/13  09:37:49
 -- GWenerator project file: GWenerator.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -308,6 +308,6 @@ package GWenerator_Resource_GUI is
 
   function Num_resource(id: Natural) return GString;  --  Just turn 123 into "#123".
 
-  -- Last line of resource script file: 269
+  -- Last line of resource script file: 270
 
 end GWenerator_Resource_GUI;
