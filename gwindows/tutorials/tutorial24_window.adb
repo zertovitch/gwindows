@@ -1,7 +1,6 @@
 with GWindows.Types;                    use GWindows.Types;
 with GWindows.Cursors;                  use GWindows.Cursors;
 with GWindows.Base;                     use GWindows.Base;
-with GWindows.Image_Lists;              use GWindows.Image_Lists;
 with GWindows.Drawing_Objects;          use GWindows.Drawing_Objects;
 with GWindows.Static_Controls;          use GWindows.Static_Controls;
 with GWindows.GStrings;                 use GWindows.GStrings;
@@ -14,11 +13,11 @@ package body Tutorial24_Window is
    --  List View with some Drag capability  --
    -------------------------------------------
 
-   procedure Start_Drag (Window : in out LV_with_Drag)
+   procedure Start_Drag_LV (Window : in out LV_with_Drag)
    is
-      Font, Mem_Font : Font_Type;
-      --  Font is needed to create drag image, otherwise drag image
-      --  is invisible - Windows bug since Vista!
+      --  * Font, Mem_Font : Font_Type;
+      --  * --  Font is needed to create drag image, otherwise drag image
+      --  * --  is invisible - Windows bug since Vista!
       Cursor : Cursor_Type := Load_System_Cursor (IDC_HAND);
       --  Cursor_Pos : Point_Type := Get_Cursor_Position;
       use GWindows;
@@ -27,10 +26,11 @@ package body Tutorial24_Window is
       LVM_CREATEDRAGIMAGE          : constant := LVM_FIRST + 33;
 
       Image_List_Handle : GWindows.Types.Handle;
-      Drag_Image_List : Image_List_Type;
       Point : aliased GWindows.Types.Point_Type := Get_Cursor_Position;
 
       Clicked_item, Clicked_subitem : Integer := 0;
+
+      Main : My_Window_Type renames My_Window_Type (Parent (Window).all);
 
       function Sendmessage_list
          (Hwnd   : GWindows.Types.Handle;
@@ -46,11 +46,18 @@ package body Tutorial24_Window is
       Point := Get_Cursor_Position;
       Point := Point_To_Client (Window, Point);
       Item_At_Position (Window, Point, Clicked_item, Clicked_subitem);
-      Text (My_Window_Type (Parent (Window).all).Status,
+      if Clicked_item < 0 then
+        Text (Main.Status,
+            "Drag attempted from List View, but ivalid item (index" &
+            Image (Clicked_item) &
+            ") - aborting...");
+        return;
+      end if;
+      Text (Main.Status,
             "Drag starting from List View, Item Nr" &
             Image (Clicked_item + 1) &
             " and perhaps some more items...");
-      Capture_Mouse (My_Window_Type (Parent (Window).all));
+      Capture_Mouse (Main);
       --  ^ This is needed, otherwise dropping outside of parent window
       --    is not captured via On_Left_Mouse_Button_Up.
       if Cursor /= 0 then
@@ -59,22 +66,25 @@ package body Tutorial24_Window is
       --  Image associated with dragging
       --  Unselect clicked item
       Selected (Window, Clicked_item, False);
-      --  Set a provisory font
-      Get_Font (Window, Mem_Font);
-      Create_Stock_Font (Font, System);
-      Set_Font (Window, Font);
+      --  * --  Set a provisory font
+      --  * Get_Font (Window, Mem_Font);
+      --  * Create_Stock_Font (Font, System);
+      --  * Set_Font (Window, Font);
       Point := (0, 0);
+      Window.Set_Image_List (Normal, Main.Drag_Image_List);  --  Needed ?
       Image_List_Handle := Sendmessage_list (Hwnd => Handle (Window),
                            Wparam => Clicked_item,
                            Lparam => Point'Access
       );
       Selected (Window, Clicked_item, True);
-      Set_Font (Window, Mem_Font);
-      Handle (Drag_Image_List, Image_List_Handle);
-      Begin_Drag (Drag_Image_List, 0, -10, 0);
+      --  * Set_Font (Window, Mem_Font);
+      Handle (Main.Drag_Image_List, Image_List_Handle);
+      Main.Drag_Image_List.Begin_Drag (0, -10, 0);
       --  First position for dragging image
-      Drag_Enter (Window, Point.X, Point.Y);
-   end Start_Drag;
+      Drag_Enter (Main, Point.X, Point.Y);
+      Main.Dragging := True;
+      --  ** Drag_Show_Image;
+   end Start_Drag_LV;
 
    procedure On_Notify (
       Window       : in out LV_with_Drag;
@@ -92,7 +102,7 @@ package body Tutorial24_Window is
          Message, Control, Return_Value);
       case Message.Code is
          when LVN_BEGINDRAG =>
-            Start_Drag (Window);
+            Start_Drag_LV (Window);
          when others =>
             null;
       end case;
@@ -102,11 +112,11 @@ package body Tutorial24_Window is
    --  Tree View with some Drag capability  --
    -------------------------------------------
 
-   procedure Start_Drag (Window : in out TV_with_Drag)
+   procedure Start_Drag_TV (Window : in out TV_with_Drag)
    is
-      Font, Mem_Font : Font_Type;
-      --  Font is needed to create drag image, otherwise drag image
-      --  is invisible - Windows bug since Vista!
+      --  * Font, Mem_Font : Font_Type;
+      --  * --  Font is needed to create drag image, otherwise drag image
+      --  * --  is invisible - Windows bug since Vista!
       IDC_HAND : constant := 32649;
       Cursor : Cursor_Type := Load_System_Cursor (IDC_HAND);
       --  Cursor_Pos : Point_Type := Get_Cursor_Position;
@@ -124,21 +134,21 @@ package body Tutorial24_Window is
                        "SendMessage" & Character_Mode_Identifier);
 
       Image_List_Handle : GWindows.Types.Handle;
-      Drag_Image_List : Image_List_Type;
       Point : aliased GWindows.Types.Point_Type := Get_Cursor_Position;
 
       Clicked_node : Tree_Item_Node;
       Selected_node : Tree_Item_Node;
 
+      Main : My_Window_Type renames My_Window_Type (Parent (Window).all);
    begin
       Point := Get_Cursor_Position;
       Point := Point_To_Client (Window, Point);
       Clicked_node := Item_At_Position (Window, Point);
       Selected_node := Selected_Item (Window);
-      Text (My_Window_Type (Parent (Window).all).Status,
+      Text (Main.Status,
             "Drag starting from Tree View, Node " &
             Text (Window, Clicked_node));
-      Capture_Mouse (My_Window_Type (Parent (Window).all));
+      Capture_Mouse (Main);
       --  ^ This is needed, otherwise dropping outside of parent window
       --    is not captured via On_Left_Mouse_Button_Up.
       if Cursor /= 0 then
@@ -149,11 +159,12 @@ package body Tutorial24_Window is
       if Selected_node = Clicked_node then
         Select_Item (Window, 0);
       end if;
-      --  Set a provisory font
-      Get_Font (Window, Mem_Font);
-      Create_Stock_Font (Font, System);
-      Set_Font (Window, Font);
+      --  * --  Set a provisory font
+      --  * Get_Font (Window, Mem_Font);
+      --  * Create_Stock_Font (Font, System);
+      --  * Set_Font (Window, Font);
       Point := (0, 0);
+      Window.Set_Image_List (Main.Drag_Image_List);  --  Needed ?
       Image_List_Handle := Sendmessage_tree (
         Hwnd => Handle (Window),
         Lparam => Clicked_node
@@ -161,12 +172,14 @@ package body Tutorial24_Window is
       if Selected_node = Clicked_node then
         Select_Item (Window, Selected_node);
       end if;
-      Set_Font (Window, Mem_Font);
-      Handle (Drag_Image_List, Image_List_Handle);
-      Begin_Drag (Drag_Image_List, 0, -10, 0);
+      --  * Set_Font (Window, Mem_Font);
+      Handle (Main.Drag_Image_List, Image_List_Handle);
+      Main.Drag_Image_List.Begin_Drag (0, -10, 0);
       --  First position for dragging image
-      Drag_Enter (Window, Point.X, Point.Y);
-   end Start_Drag;
+      Drag_Enter (Main, Point.X, Point.Y);
+      Main.Dragging := True;
+      Drag_Show_Image;
+   end Start_Drag_TV;
 
    procedure On_Notify (
       Window       : in out TV_with_Drag;
@@ -185,7 +198,7 @@ package body Tutorial24_Window is
          Message, Control, Return_Value);
       case Message.Code is
          when TVN_BEGINDRAGA | TVN_BEGINDRAGW =>
-            Start_Drag (Window);
+            Start_Drag_TV (Window);
          when others =>
             null;
       end case;
@@ -248,10 +261,16 @@ package body Tutorial24_Window is
       --  Flags: Hittest_Flag_Type;
       --  Target_In_Tree: Boolean;
    begin
-     --         GWindows.Image_Lists.Drag_Leave(main);
-     --         GWindows.Image_Lists.End_Drag;
-     Text (Window.Status, "Drag stopped (button up)");
-     Release_Mouse;
+      if Window.Dragging then
+         Drag_Leave (Window);
+         End_Drag;
+         Window.Drag_Image_List.Destroy;
+         Window.Dragging := False;
+         Text (Window.Status, "Drag stopped (button up)");
+         Release_Mouse;
+      else
+         Text (Window.Status, "Button up (no drag)");
+      end if;
    end On_Left_Mouse_Button_Up;
 
 begin

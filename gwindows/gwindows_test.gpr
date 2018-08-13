@@ -29,6 +29,10 @@ project GWindows_Test is
       for Default_Switches ("ada") use ("contrib/test/visual_styles.rbj"); 
    end Linker;
    
+   package Binder is
+      for Default_Switches ("ada") use ("-E");
+   end Binder;
+
    package Builder is
       --   "If -j0 is used, then the maximum number of simultaneous compilation
       --    jobs is the number of core processors on the platform."

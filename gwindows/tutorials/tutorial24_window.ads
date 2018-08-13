@@ -1,7 +1,8 @@
+with GWindows.Base;
 with GWindows.Common_Controls;          use GWindows.Common_Controls;
 with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;
+with GWindows.Image_Lists;              use GWindows.Image_Lists;
 with GWindows.Windows.Main; use GWindows.Windows;
-with GWindows.Base;
 with GWindows.Types;
 
 package Tutorial24_Window is
@@ -40,10 +41,12 @@ package Tutorial24_Window is
 
    type My_Window_Type is
      new GWindows.Windows.Main.Main_Window_Type with record
-        Some_list     : LV_with_Drag;
-        Some_tree     : TV_with_Drag;
-        Some_edit_box : Edit_Box_Type;
-        Status        : Status_Bar_Type;
+        Some_list       : LV_with_Drag;
+        Some_tree       : TV_with_Drag;
+        Some_edit_box   : Edit_Box_Type;
+        Status          : Status_Bar_Type;
+        Dragging        : Boolean := False;
+        Drag_Image_List : Image_List_Type;
      end record;
 
    overriding
