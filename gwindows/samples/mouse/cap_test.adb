@@ -46,8 +46,8 @@ procedure Cap_Test is
             Win_Ptr    : constant Pointer_To_Base_Window_Class :=
               GWindows.Application.Get_Window_At_Location (Location.X,
                                                            Location.Y);
-            Title : constant GString :=
-              GWindows.Application.Get_Window_Title_At_Location (Location.X,
+            Win_Text : constant GString :=
+              GWindows.Application.Get_Window_Text_At_Location (Location.X,
                                                                  Location.Y);
          begin
             Is_GWindow := Win_Ptr /= null;
@@ -55,7 +55,7 @@ procedure Cap_Test is
             Text (Status, To_GString_From_String
              ("Location:" & Location.X'Img & Location.Y'Img &
               ". Is it a GWindow ? " & Is_GWindow'Img) & NL &
-              "Title: """ & Title & '"');
+              "Text: """ & Win_Text & '"');
          end;
       else
          Text (Status, To_GString_From_String ("Location:" & X'Img & Y'Img));

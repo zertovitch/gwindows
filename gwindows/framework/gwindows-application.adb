@@ -1,13 +1,13 @@
 -----------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                 G W I N D O W S . A P P L I C A T I O N                  --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -276,7 +276,7 @@ package body GWindows.Application is
       return Win_Ptr;
    end Get_Window_At_Location;
 
-   function Get_Window_Title_At_Location (X, Y : Integer) return GString
+   function Get_Window_Text_At_Location (X, Y : Integer) return GString
    is
       function GetWindowTextLength (hwnd : GWindows.Types.Handle)
          return Integer;
@@ -302,7 +302,7 @@ package body GWindows.Application is
             return GWindows.GStrings.To_GString_From_C (Buf);
          end;
       end if;
-   end Get_Window_Title_At_Location;
+   end Get_Window_Text_At_Location;
 
    -----------------------
    -- Get_Active_Window --
