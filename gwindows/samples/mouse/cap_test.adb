@@ -6,8 +6,10 @@ with GWindows.Windows; use GWindows.Windows;
 with GWindows.Base; use GWindows.Base;
 with GWindows.Static_Controls; use GWindows.Static_Controls;
 with GWindows.Cursors; use GWindows.Cursors;
+with GWindows.Drawing_Objects; use GWindows.Drawing_Objects;
 with GWindows.GStrings; use GWindows.GStrings;
 with GWindows.Application;
+with GWindows; use GWindows;
 
 procedure Cap_Test is
    Window       : Main_Window_Type;
@@ -28,6 +30,8 @@ procedure Cap_Test is
       In_Capture := True;
    end Do_Mouse_Down;
 
+   NL : constant GString := GCharacter'Val (13) & GCharacter'Val (10);
+
    procedure Do_Mouse_Move (Window : in out Base_Window_Type'Class;
                             X, Y   : in     Integer;
                             Keys   : in     Mouse_Key_States)
@@ -36,22 +40,22 @@ procedure Cap_Test is
    begin
       if In_Capture then
          declare
-            Is_GWindow : Boolean := False;
+            Is_GWindow : Boolean;
             Location   : constant GWindows.Types.Point_Type :=
               Point_To_Desktop (Window, (X, Y));
             Win_Ptr    : constant Pointer_To_Base_Window_Class :=
               GWindows.Application.Get_Window_At_Location (Location.X,
                                                            Location.Y);
+            Title : constant GString :=
+              GWindows.Application.Get_Window_Title_At_Location (Location.X,
+                                                                 Location.Y);
          begin
-            if Win_Ptr /= null then
-               Is_GWindow := True;
-            end if;
+            Is_GWindow := Win_Ptr /= null;
 
-            Text (Status, To_GString_From_String ("Location:" &
-                                                  Location.X'Img &
-                                                  Location.Y'Img &
-                                                  " Is a GWindow " &
-                                                  Is_GWindow'Img));
+            Text (Status, To_GString_From_String
+             ("Location:" & Location.X'Img & Location.Y'Img &
+              ". Is it a GWindow ? " & Is_GWindow'Img) & NL &
+              "Title: """ & Title & '"');
          end;
       else
          Text (Status, To_GString_From_String ("Location:" & X'Img & Y'Img));
@@ -69,11 +73,15 @@ procedure Cap_Test is
       In_Capture := False;
    end Do_Mouse_Up;
 
+   GUI_Font : Font_Type;
+
 begin
    Cross_Cursor := Load_System_Cursor (IDC_CROSS);
    Arrow_Cursor := Load_System_Cursor (IDC_ARROW);
 
    Create (Window, "Mouse Capture Test Window");
+   Create_Stock_Font (GUI_Font, Default_GUI);
+   Set_Font (Window, GUI_Font);
    On_Left_Mouse_Button_Down_Handler
      (Window, Do_Mouse_Down'Unrestricted_Access);
    On_Left_Mouse_Button_Up_Handler
@@ -81,14 +89,15 @@ begin
    On_Mouse_Move_Handler (Window, Do_Mouse_Move'Unrestricted_Access);
 
    Create (Label, Window,
-           "Click on window then drag mouse to other windows",
+           "Click on the window's empty space below, " &
+           "then drag the mouse to other windows",
            0,0,25,25,Center);
    Border (Label);
    Dock (Label, At_Top);
 
    Create (Status, Window,
            "Location: None",
-           0,0,25,25,Center);
+           0,0,25,75,Center);
    Dock (Status, At_Top);
    Border (Status);
    Show (Window);

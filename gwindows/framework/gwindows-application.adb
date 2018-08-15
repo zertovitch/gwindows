@@ -256,26 +256,53 @@ package body GWindows.Application is
    -- Get_Window_At_Location --
    ----------------------------
 
+   type Static_Point_Type is
+      record
+         X, Y : Integer;
+      end record;
+   pragma Convention (C_Pass_By_Copy, Static_Point_Type);
+
+   function WindowFromPoint (Point : Static_Point_Type)
+      return GWindows.Types.Handle;
+   pragma Import (StdCall, WindowFromPoint, "WindowFromPoint");
+
    function Get_Window_At_Location
      (X, Y : Integer)
      return GWindows.Base.Pointer_To_Base_Window_Class
    is
-      type Static_Point_Type is
-         record
-            X, Y : Integer;
-         end record;
-      pragma Convention (C_Pass_By_Copy, Static_Point_Type);
-
-      function WindowFromPoint
-        (Point : Static_Point_Type := (X, Y))
-        return GWindows.Types.Handle;
-      pragma Import (StdCall, WindowFromPoint, "WindowFromPoint");
-
       Win_Ptr : constant GWindows.Base.Pointer_To_Base_Window_Class :=
-        GWindows.Base.Window_From_Handle (WindowFromPoint);
+        GWindows.Base.Window_From_Handle (WindowFromPoint ((X, Y)));
    begin
       return Win_Ptr;
    end Get_Window_At_Location;
+
+   function Get_Window_Title_At_Location (X, Y : Integer) return GString
+   is
+      function GetWindowTextLength (hwnd : GWindows.Types.Handle)
+         return Integer;
+      pragma Import (StdCall, GetWindowTextLength,
+                       "GetWindowTextLength" & Character_Mode_Identifier);
+      procedure GetWindowText
+        (hwnd : in     GWindows.Types.Handle;
+         Text : access GChar_C;
+         Max  : in     Interfaces.C.size_t);
+      pragma Import (StdCall, GetWindowText,
+                       "GetWindowText" & Character_Mode_Identifier);
+      WH : constant GWindows.Types.Handle := WindowFromPoint ((X, Y));
+      use GWindows.Types;
+   begin
+      if WH = Null_Handle then
+         return "";
+      else
+         declare
+            Buf : GString_C (1 .. Interfaces.C.size_t
+                             (GetWindowTextLength (WH) + 1));
+         begin
+            GetWindowText (WH, Buf (Buf'First)'Access, Buf'Last);
+            return GWindows.GStrings.To_GString_From_C (Buf);
+         end;
+      end if;
+   end Get_Window_Title_At_Location;
 
    -----------------------
    -- Get_Active_Window --

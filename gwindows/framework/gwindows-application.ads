@@ -139,6 +139,10 @@ package GWindows.Application is
      return GWindows.Base.Pointer_To_Base_Window_Class;
    --  Returns the window that contains the points X, Y
 
+   function Get_Window_Title_At_Location (X, Y : Integer) return GString;
+   --  Returns the title of the window that contains the points X, Y.
+   --  It can be a non-GWindows window.
+
    function Desktop_Width return Natural;
    --  Returns width of desktop
 
