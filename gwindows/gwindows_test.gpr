@@ -30,7 +30,8 @@ project GWindows_Test is
    end Linker;
    
    package Binder is
-      for Default_Switches ("ada") use ("-E");
+      --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
+      for Default_Switches ("ada") use ("-Es");
    end Binder;
 
    package Builder is

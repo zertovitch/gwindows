@@ -1,4 +1,4 @@
-with Ada.Strings.Unbounded;
+--  Demo for dragging files from Explorer onto our window
 
 with GWindows.Windows; use GWindows.Windows;
 with GWindows.GStrings; use GWindows.GStrings;
@@ -14,10 +14,11 @@ procedure DropTest is
      (Window     : in out GWindows.Base.Base_Window_Type'Class;
       File_Names : in     GWindows.Windows.Array_Of_File_Names)
    is
+   pragma Unreferenced (Window);
    begin
       for N in File_Names'Range loop
          GWindows.Message_Boxes.Message_Box
-           ("Files",
+           ("Files dropped",
             To_GString_From_Unbounded (File_Names (N)));
       end loop;
    end Do_File_Drop;

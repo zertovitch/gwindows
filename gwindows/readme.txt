@@ -6,7 +6,7 @@
 --                                                                          --
 --                               R E A D M E                                --
 --                                                                          --
---                  Copyright (C) 1999 - 2017 David Botton                  --
+--                  Copyright (C) 1999 - 2018 David Botton                  --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -61,11 +61,15 @@ In the "docs" directory there is a user guide in Word format
 Installation
 ============
 
-All you have is to run the setup program (e.g. GWindows 11-Nov-2017.exe
-downloaded from here http://sf.net/projects/gnavi/files/latest/download ) which
-unpacks a copy of the framework with samples, tutorials and other goodies.
-Alternatively you can retrieve a copy of the SVN repository from
-http://sf.net/p/gnavi/code/ .
+The most you have to do is to run the setup program (e.g. GWindows 11-Nov-2017.exe
+downloaded from there: http://sf.net/projects/gnavi/files/latest/download ) which
+unpacks a copy of the GWindows and GNATCOM frameworks with samples, tutorials and
+other goodies. But GWindows doesn't require any installation beyond getting a local
+copy of the frameworks' Ada sources.
+Alternatively you can:
+  - retrieve a copy of the SVN repository from http://sf.net/p/gnavi/code/ .
+  - pull a copy of the Git repository from https://github.com/svn2github/gnavi .
+
 So normally, if you read this readme.txt document, installation already happened!
 The setup program offers you to choose either the ANSI or Unicode variant of
 GWindows. You can change that choice any time by running, in the gwindows folder,

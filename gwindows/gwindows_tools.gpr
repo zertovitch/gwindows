@@ -17,6 +17,11 @@ project GWindows_Tools is
 
    for Main use ( "gnatreg.adb", "gbmanager.adb" );
 
+   package Binder is
+      --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
+      for Default_Switches ("ada") use ("-Es");
+   end Binder;
+
    package Builder is
       --   "If -j0 is used, then the maximum number of simultaneous compilation
       --    jobs is the number of core processors on the platform."

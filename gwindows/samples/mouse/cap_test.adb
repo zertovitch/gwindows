@@ -1,3 +1,5 @@
+--  Demo for mouse capture, drag & drop, and Get_Window_At_Location
+
 with GWindows.Types;
 with GWindows.Windows.Main; use GWindows.Windows.Main;
 with GWindows.Windows; use GWindows.Windows;
@@ -19,6 +21,7 @@ procedure Cap_Test is
                             X, Y   : in     Integer;
                             Keys   : in     Mouse_Key_States)
    is
+   pragma Unreferenced (X, Y, Keys);
    begin
       Set_Cursor (Cross_Cursor);
       Capture_Mouse (Window);
@@ -29,13 +32,14 @@ procedure Cap_Test is
                             X, Y   : in     Integer;
                             Keys   : in     Mouse_Key_States)
    is
+   pragma Unreferenced (Keys);
    begin
       if In_Capture then
          declare
             Is_GWindow : Boolean := False;
-            Location   : GWindows.Types.Point_Type :=
+            Location   : constant GWindows.Types.Point_Type :=
               Point_To_Desktop (Window, (X, Y));
-            Win_Ptr    : Pointer_To_Base_Window_Class :=
+            Win_Ptr    : constant Pointer_To_Base_Window_Class :=
               GWindows.Application.Get_Window_At_Location (Location.X,
                                                            Location.Y);
          begin
@@ -58,6 +62,7 @@ procedure Cap_Test is
                           X, Y   : in     Integer;
                           Keys   : in     Mouse_Key_States)
    is
+   pragma Unreferenced (Window, X, Y, Keys);
    begin
       Release_Mouse;
       Set_Cursor (Arrow_Cursor);

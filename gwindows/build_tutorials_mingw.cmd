@@ -1,1 +1,0 @@
-gnatmake -P gwindows_tutorials -march=i686
