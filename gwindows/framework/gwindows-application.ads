@@ -143,6 +143,10 @@ package GWindows.Application is
    --  Returns the text of the window that contains the points X, Y.
    --  It can be a non-GWindows window.
 
+   function Get_Window_Class_Name_At_Location (X, Y : Integer) return GString;
+   --  Returns the class name of the window that contains the points X, Y.
+   --  It can be a non-GWindows window.
+
    function Desktop_Width return Natural;
    --  Returns width of desktop
 
