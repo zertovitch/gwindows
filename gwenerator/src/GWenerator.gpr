@@ -3,7 +3,7 @@ project GWenerator is
    type Build_Mode_Type is
       ("Debug", "Small");
    Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
-   for Main use ("GWenerator.adb", "GWenerator_tb.ads", "RC2GW.adb");
+   for Main use ("GWenerator.adb", "RC2GW.adb");
    for Source_Dirs use (".\/**", "..\..\gwindows\framework", "..\..\gnatcom\framework");
    for Exec_Dir use ".";
 
@@ -15,11 +15,11 @@ project GWenerator is
    end case;
 
    package Binder is
-
+      --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
       case Build_Mode is
          when "Small" =>
          when "Debug" =>
-            for Default_Switches ("ada") use ("-E");
+            for Default_Switches ("ada") use ("-Es");
       end case;
    end Binder;
 
@@ -40,7 +40,9 @@ project GWenerator is
    end Linker;
 
    package Builder is
-        for Default_Switches ("ada") use ("-j2");
+      --   "If -j0 is used, then the maximum number of simultaneous compilation
+      --    jobs is the number of core processors on the platform."
+      for Default_Switches ("ada") use ("-j0");
    end Builder;
 
    package Compiler is
@@ -56,7 +58,7 @@ project GWenerator is
               --  "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
               --  "-gnatyx",      --  Style: check x:no extra parens
               "-fstack-check", "-g", "-gnatf", "-gnato", "-gnatwa", "-gnatVa", 
-							"-gnatec" & project'Project_Dir & "../obj/gnatdebg/debug.pra");
+              "-gnatec" & project'Project_Dir & "../obj/gnatdebg/debug.pra");
       end case;
    end Compiler;
 
