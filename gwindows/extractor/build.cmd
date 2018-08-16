@@ -27,7 +27,7 @@ if not exist ..\..\gwin.zip echo Press any key to continue, or Ctrl-Break or Ctr
 if not exist ..\..\gwin.zip pause
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Debug
-copy /B gw_extr_tb.exe + ..\..\gwin.zip "Extract Test (Debug mode).exe"
+copy /B gw_extract.exe + ..\..\gwin.zip "Extract Test (Debug mode).exe"
 
 if not exist obj\small\libwin32ada.a copy /B obj\debug\libwin32ada.a obj\small\libwin32ada.a
 

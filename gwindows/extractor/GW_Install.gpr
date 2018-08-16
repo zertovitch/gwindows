@@ -13,43 +13,42 @@ project GW_Install is
      "..\..\gwindows\framework", "..\..\gnatcom\framework"
    );
    for Exec_Dir use ".";
+   for Main use ("GW_Extract.adb");
 
    case Build_Mode is
       when "Small" =>
          for Object_Dir use "obj\small";
-         for Main use ("GW_Extract.adb");
       when "Debug" =>
          for Object_Dir use "obj\debug";
-         for Main use ("GW_Extr_TB.ads");
    end case;
 
    package Binder is
-
+      --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
       case Build_Mode is
          when "Small" =>
          when "Debug" =>
-            for Default_Switches ("ada") use ("-E");
+            for Default_Switches ("ada") use ("-Es");
       end case;
    end Binder;
 
    package Pretty_Printer is
-        for Default_Switches ("ada") use ("-i2");
+      for Default_Switches ("ada") use ("-i2");
    end Pretty_Printer;
 
    package Linker is
 
       case Build_Mode is
-
          when "Small" =>
             for Default_Switches ("ada") use ("-mwindows", "GW_Install.rbj", "-s", "-Wl,--gc-sections");
-
          when "Debug" =>
             for Default_Switches ("ada") use ("GW_Install.rbj");
       end case;
    end Linker;
 
    package Builder is
-        for Default_Switches ("ada") use ("-j2");
+      --   "If -j0 is used, then the maximum number of simultaneous compilation
+      --    jobs is the number of core processors on the platform."
+      for Default_Switches ("ada") use ("-j0");
    end Builder;
 
    package Compiler is
@@ -57,10 +56,10 @@ project GW_Install is
       case Build_Mode is
 
          when "Small" =>
-            for Default_Switches ("ada") use ("-gnat05", "-gnatf", "-Os", "-gnatp", "-march=i386", "-ffunction-sections", "-falign-jumps=0", "-falign-loops=0", "-falign-functions=0", "-mpreferred-stack-boundary=2");
+            for Default_Switches ("ada") use ("-gnatf", "-Os", "-gnatp", "-march=i386", "-ffunction-sections", "-falign-jumps=0", "-falign-loops=0", "-falign-functions=0", "-mpreferred-stack-boundary=2");
 
          when "Debug" =>
-            for Default_Switches ("ada") use ("-gnat05", "-fstack-check", "-g", "-gnatf", "-gnato", "-gnatwa", "-gnatVa");
+            for Default_Switches ("ada") use ("-fstack-check", "-g", "-gnatf", "-gnato", "-gnatwa", "-gnatVa");
       end case;
    end Compiler;
 
