@@ -137,21 +137,21 @@ package GWindows.Application is
    function Get_Window_At_Location
      (X, Y : Integer)
      return GWindows.Base.Pointer_To_Base_Window_Class;
-   --  Returns the window that contains the points X, Y.
-   --  It can be another GWindows window.
+   --  Returns the window that contains the point (X, Y).
+   --  It can be a window of another GWindows application.
 
    function Get_Window_Text_At_Location (X, Y : Integer) return GString;
-   --  Returns the text of the window that contains the points X, Y.
-   --  It can be a non-GWindows window.
+   --  Returns the text of the window that contains the point (X, Y).
+   --  It can be a window of any application, including the desktop.
 
    function Get_Window_Class_Name_At_Location (X, Y : Integer) return GString;
-   --  Returns the class name of the window that contains the points X, Y.
-   --  It can be a non-GWindows window.
+   --  Returns the class name of the window that contains the point (X, Y).
+   --  It can be a window of any application, including the desktop.
 
    function Get_Window_Root_Class_Name_At_Location (X, Y : Integer)
       return GString;
-   --  Returns the root class name of the window that contains the points X, Y.
-   --  It can be a non-GWindows window.
+   --  Returns the root class name of the window that contains the point (X, Y).
+   --  It can be a window of any application, including the desktop.
 
    function Desktop_Width return Natural;
    --  Returns width of desktop
