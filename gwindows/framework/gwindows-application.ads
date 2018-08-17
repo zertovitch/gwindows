@@ -150,8 +150,11 @@ package GWindows.Application is
 
    function Get_Window_Root_Class_Name_At_Location (X, Y : Integer)
       return GString;
-   --  Returns the root class name of the window that contains the point (X, Y).
+   --  Returns the root class name of the window that contains
+   --  the point (X, Y).
    --  It can be a window of any application, including the desktop.
+
+   function Is_Desktop_At_Location (X, Y : Integer) return Boolean;
 
    function Desktop_Width return Natural;
    --  Returns width of desktop

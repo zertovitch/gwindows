@@ -40,27 +40,26 @@ procedure Cap_Test is
    begin
       if In_Capture then
          declare
-            Is_GWindow : Boolean;
+            Is_GWindow, Is_Desktop : Boolean;
+            use GWindows.Application;
             Location   : constant GWindows.Types.Point_Type :=
               Point_To_Desktop (Window, (X, Y));
             Win_Ptr    : constant Pointer_To_Base_Window_Class :=
-              GWindows.Application.Get_Window_At_Location (Location.X,
-                                                           Location.Y);
+              Get_Window_At_Location (Location.X, Location.Y);
             Win_Text : constant GString :=
-              GWindows.Application.Get_Window_Text_At_Location (Location.X,
-                                                                 Location.Y);
+              Get_Window_Text_At_Location (Location.X, Location.Y);
             Win_Class : constant GString :=
-              GWindows.Application.Get_Window_Class_Name_At_Location
-                (Location.X, Location.Y);
+              Get_Window_Class_Name_At_Location (Location.X, Location.Y);
             Win_Root_Class : constant GString :=
-              GWindows.Application.Get_Window_Root_Class_Name_At_Location
-                (Location.X, Location.Y);
+              Get_Window_Root_Class_Name_At_Location (Location.X, Location.Y);
          begin
             Is_GWindow := Win_Ptr /= null;
+            Is_Desktop := Is_Desktop_At_Location (Location.X, Location.Y);
 
             Text (Status, To_GString_From_String
              ("Location:" & Location.X'Img & Location.Y'Img &
-              ". Is it a GWindow ? " & Is_GWindow'Img) & NL &
+              ". Is it a GWindow ? " & Is_GWindow'Img &
+              ". Is it the Desktop ? " & Is_Desktop'Img) & NL &
               "Text: """ & Win_Text & '"' & NL &
               "Class Name: """ & Win_Class & '"' & NL &
               "Root Class Name: """ & Win_Root_Class & '"');

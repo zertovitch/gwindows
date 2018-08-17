@@ -252,9 +252,9 @@ package body GWindows.Application is
       FreeConsole;
    end Detach_From_Console;
 
-   ----------------------------
-   -- Get_Window_At_Location --
-   ----------------------------
+   ---------------------------------------------------
+   -- Get_Window_At_Location, and similar functions --
+   ---------------------------------------------------
 
    type Static_Point_Type is
       record
@@ -349,6 +349,13 @@ package body GWindows.Application is
          GetAncestor (WindowFromPoint ((X, Y)), GA_ROOT)
       );
    end Get_Window_Root_Class_Name_At_Location;
+
+   function Is_Desktop_At_Location (X, Y : Integer) return Boolean is
+   begin
+     return
+       Get_Window_Root_Class_Name_At_Location (X, Y) = "Progman" and then
+       Get_Window_Class_Name_At_Location (X, Y) = "SysListView32";
+   end Is_Desktop_At_Location;
 
    -----------------------
    -- Get_Active_Window --
