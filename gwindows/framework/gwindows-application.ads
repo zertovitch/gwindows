@@ -156,6 +156,8 @@ package GWindows.Application is
 
    function Is_Desktop_At_Location (X, Y : Integer) return Boolean;
 
+   function Explorer_Path_At_Location (X, Y : Integer) return GString;
+
    function Desktop_Width return Natural;
    --  Returns width of desktop
 

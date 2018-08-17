@@ -37,6 +37,10 @@ with GWindows.Internal;
 with GWindows.Windows;
 with GWindows.Constants;
 
+with Ada.Strings.Wide_Fixed;
+with GNAT.OS_Lib;
+with System;
+
 package body GWindows.Application is
 
    -------------------------------------------------------------------------
@@ -277,7 +281,8 @@ package body GWindows.Application is
       return Win_Ptr;
    end Get_Window_At_Location;
 
-   function Get_Window_Text_At_Location (X, Y : Integer) return GString
+   --  Internal
+   function Get_Window_Text (WH : GWindows.Types.Handle) return GString
    is
       function GetWindowTextLength (hwnd : GWindows.Types.Handle)
          return Integer;
@@ -289,7 +294,6 @@ package body GWindows.Application is
          Max  : in     Interfaces.C.size_t);
       pragma Import (StdCall, GetWindowText,
                        "GetWindowText" & Character_Mode_Identifier);
-      WH : constant GWindows.Types.Handle := WindowFromPoint ((X, Y));
       use GWindows.Types;
    begin
       if WH = Null_Handle then
@@ -303,6 +307,12 @@ package body GWindows.Application is
             return GWindows.GStrings.To_GString_From_C (Buf);
          end;
       end if;
+   end Get_Window_Text;
+
+   function Get_Window_Text_At_Location (X, Y : Integer) return GString
+   is
+   begin
+      return Get_Window_Text (WindowFromPoint ((X, Y)));
    end Get_Window_Text_At_Location;
 
    --  Internal
@@ -335,15 +345,17 @@ package body GWindows.Application is
       return Get_Window_Class_Name (WindowFromPoint ((X, Y)));
    end Get_Window_Class_Name_At_Location;
 
+   --  Internal
+   function GetAncestor (
+     hwnd    : GWindows.Types.Handle;
+     gaFlags : Interfaces.C.unsigned)
+   return GWindows.Types.Handle;
+   pragma Import (StdCall, GetAncestor, "GetAncestor");
+   GA_ROOT : constant := 2;
+
    function Get_Window_Root_Class_Name_At_Location (X, Y : Integer)
       return GString
    is
-      function GetAncestor (
-        hwnd    : GWindows.Types.Handle;
-        gaFlags : Interfaces.C.unsigned)
-      return GWindows.Types.Handle;
-      pragma Import (StdCall, GetAncestor, "GetAncestor");
-      GA_ROOT : constant := 2;
    begin
       return Get_Window_Class_Name (
          GetAncestor (WindowFromPoint ((X, Y)), GA_ROOT)
@@ -357,6 +369,66 @@ package body GWindows.Application is
        Get_Window_Class_Name_At_Location (X, Y) = "SysListView32";
    end Is_Desktop_At_Location;
 
+   function Explorer_Path_At_Location (X, Y : Integer) return GString is
+      procedure EnumChildWindows (hwnd   : GWindows.Types.Handle;
+                                  Proc   : System.Address;
+                                  lp     : GWindows.Types.Lparam);
+      pragma Import (StdCall, EnumChildWindows, "EnumChildWindows");
+      Path : GString_Unbounded;
+      use GWindows.GStrings;
+      function Capture_Edit_Box (child  : GWindows.Types.Handle;
+                                 lp     : GWindows.Types.Lparam)
+                         return Boolean;
+      pragma Convention (StdCall, Capture_Edit_Box);
+      function Capture_Edit_Box (child  : GWindows.Types.Handle;
+                                 lp     : GWindows.Types.Lparam)
+                         return Boolean
+      is
+      pragma Unreferenced (lp);
+         CCN : constant GString := Get_Window_Class_Name (child);
+         CT : constant GString := Get_Window_Text (child);
+         WCT : Wide_String := To_Wide_String (CT);
+         I : Integer;
+         use Ada.Strings.Wide_Fixed;
+      begin
+         if CCN = "ToolbarWindow32" then
+            I := Index (WCT, ": ");
+            if I > 0 then
+               --  There are many children with the same class name!
+               --  Only one may contain a path.
+               if Index (WCT, ":\") = 0 and then Index (WCT, "\\") = 0 then
+                  --  It is a bogus directory, like "My Computer"
+                  --  or "Documents" (in various languages...).
+                  null;
+               else
+                  Path := To_GString_Unbounded (CT (I + 2 .. CT'Last));
+                  return False;  --  Stop enumeration
+               end if;
+            end if;
+         end if;
+         --  Recurse on children (not needed so far)
+         --  EnumChildWindows (child, Capture_Edit_Box'Address, 0);
+         return True;  --  Continue enumeration
+      end Capture_Edit_Box;
+      RWH : constant GWindows.Types.Handle :=
+         GetAncestor (WindowFromPoint ((X, Y)), GA_ROOT);
+      RCN : constant GString := Get_Window_Class_Name (RWH);
+      use GNAT.OS_Lib;
+      Env_Var : String_Access;
+   begin
+      if Is_Desktop_At_Location (X, Y) then
+         Env_Var := Getenv ("USERPROFILE");
+         if Env_Var = null or else Env_Var.all = "" then
+            return "";
+         else
+            return To_GString_From_String (Env_Var.all & "\Desktop");
+         end if;
+      end if;
+      if RCN = "CabinetWClass" or else RCN = "ExploreWClass" then
+         EnumChildWindows (RWH, Capture_Edit_Box'Address, 0);
+      end if;
+      return To_GString_From_Unbounded (Path);
+   end Explorer_Path_At_Location;
    -----------------------
    -- Get_Active_Window --
    -----------------------

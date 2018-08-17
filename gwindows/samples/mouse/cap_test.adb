@@ -52,6 +52,8 @@ procedure Cap_Test is
               Get_Window_Class_Name_At_Location (Location.X, Location.Y);
             Win_Root_Class : constant GString :=
               Get_Window_Root_Class_Name_At_Location (Location.X, Location.Y);
+            Explorer_Path : constant GString :=
+              Explorer_Path_At_Location (Location.X, Location.Y);
          begin
             Is_GWindow := Win_Ptr /= null;
             Is_Desktop := Is_Desktop_At_Location (Location.X, Location.Y);
@@ -62,7 +64,8 @@ procedure Cap_Test is
               ". Is it the Desktop ? " & Is_Desktop'Img) & NL &
               "Text: """ & Win_Text & '"' & NL &
               "Class Name: """ & Win_Class & '"' & NL &
-              "Root Class Name: """ & Win_Root_Class & '"');
+              "Root Class Name: """ & Win_Root_Class & '"' & NL &
+              "Explorer Path: """ & Explorer_Path & '"');
          end;
       else
          Text (Status, To_GString_From_String ("Location:" & X'Img & Y'Img));
@@ -104,7 +107,7 @@ begin
 
    Create (Status, Window,
            "Location: None",
-           0,0,25,75,Center);
+           0,0,25,100,Center);
    Dock (Status, At_Top);
    Border (Status);
    Show (Window);
