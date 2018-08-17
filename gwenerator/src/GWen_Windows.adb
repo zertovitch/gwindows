@@ -1,4 +1,4 @@
---
+with Flexible_temp_files;
 
 with GWindows.Application;              use GWindows.Application;
 with GWindows.Base;                     use GWindows.Base;
@@ -18,7 +18,6 @@ with GWindows.Windows;                  use GWindows.Windows;
 with GWenerator_Resource_GUI;           use GWenerator_Resource_GUI;
 
 with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
-with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 with Ada.Directories;                   use Ada.Directories;
 with Ada.Command_Line;
 with Ada.Text_IO;                       use Ada.Text_IO;
@@ -546,23 +545,24 @@ package body GWen_Windows is
   end Resource_compilation;
 
   procedure Translation (gw: in out GWen_Window_Type; generate_test: Boolean) is
+    --  We "de"route the standard output & error -
+    --  anyway, there is no terminal in the first place!
+    se: constant String:= Flexible_temp_files.Radix & "_se.tmp";
     fe, fo: File_Type;
-    -- ^ We "de"rout the standard output & error - anyway, there
-    -- is no terminal in the first place!
     ok: Boolean;
   begin
-    gw.Ear_RC.Set_Bitmap(gw.wheels);
+    gw.Ear_RC.Set_Bitmap (gw.wheels);
     delay 0.01;
-    gw.Bar_RC.Progress_Range(0, 100);
-    gw.Bar_RC.Position(5);
+    gw.Bar_RC.Progress_Range (0, 100);
+    gw.Bar_RC.Position (5);
     delay 0.01;
-    Check_resource_name(gw, ok);
+    Check_resource_name (gw, ok);
     if ok then
-      gw.Bar_RC.Position(10);
+      gw.Bar_RC.Position (10);
       -- Copy the translation options to RC_Help's globals variables.
       -- These variables are used by the code generated into yyparse.adb from RC.y.
       RC_Help.Reset_globals;
-      RC_Help.GWen_proj:= U(G2S(GU2G(gw.short_name)));
+      RC_Help.GWen_proj:= U (G2S (GU2G (gw.short_name)));
       RC_Help.separate_items:= gw.proj.separate_items;
       RC_Help.generate_test:= generate_test;
       if not gw.proj.base_defaults then
@@ -571,57 +571,52 @@ package body GWen_Windows is
       end if;
       RC_Help.initialize_controls:= gw.proj.initialize_controls;
       RC_Help.source_name:= gw.proj.RC_name;
-      gw.Bar_RC.Position(15);
+      gw.Bar_RC.Position (15);
       --
-      rc_io.Open_Input(S(gw.proj.RC_name));
-      Create(fe, Out_File, ""); -- temp file
-      Create(fo, Out_File, ""); -- temp file
-      declare
-        se: constant String:= Name(fe); -- get name of temp file
-        -- so: constant String:= Name(fo); -- get name of temp file
-        line: Unbounded_String;
+      rc_io.Open_Input (S (gw.proj.RC_name));
+      Create (fe, Out_File, se); -- temp file
+      Create (fo, Out_File, ""); -- temp file
+      Set_Error (fe);
+      Set_Output (fo);
+      Put_Line (Current_Error, "GWenerator - RC to GWindows" );
+      Put_Line (Current_Error, "Transcripting '" & S (gw.proj.RC_name) & "'." );
+      Put_Line (Current_Error, "Time now: " & Time_display );
+      RC_Help.has_input:= True;
+      RC_Help.Ada_Begin;
       begin
-        Set_Error(fe);
-        Set_Output(fo);
-        Put_Line(Current_Error, "GWenerator - RC to GWindows" );
-        Put_Line(Current_Error, "Transcripting '" & S(gw.proj.RC_name) & "'." );
-        Put_Line(Current_Error, "Time now: " & Time_display );
-        RC_Help.has_input:= True;
-        RC_Help.Ada_Begin;
-        begin
-          YYParse;
-        exception
-          when RC_Help.Syntax_Error |
-               Resource_Header.Unexpected_Syntax |
-               Resource_Header.No_Define         |
-               Resource_Header.Illegal_Number    =>
-            null; --!!
-        end;
-        rc_io.Close_Input;
-        Set_Error(Standard_Error);
-        Set_Error(Standard_Output);
-        Close(fe);
-        Close(fo);
-        -- Message_Box("Std Output", so);
-        -- The file fo should be empty, but something
-        -- somewhere puts a new line...
-        gw.Bar_RC.Position(70);
-        -- Output the rc2gw messages into the box
-        Open(fe, In_File, se);
-        Clear(gw.RC_to_GWindows_messages);
-        while not End_Of_File(fe) loop
-          Get_Line(fe, line);
-          Add(gw.RC_to_GWindows_messages, S2G(S(line)));
-        end loop;
-        Close(fe);
-        --
-        -- Now, compile the resource.
-        -- Since it is a quick task, we can wait for the
-        -- process to complete here
-        --
-        Resource_compilation(gw, optional => True);
+        YYParse;
+      exception
+        when RC_Help.Syntax_Error |
+             Resource_Header.Unexpected_Syntax |
+             Resource_Header.No_Define         |
+             Resource_Header.Illegal_Number    =>
+          null; --!!
       end;
-      gw.Bar_RC.Position(100);
+      rc_io.Close_Input;
+      Set_Error (Standard_Error);
+      Set_Error (Standard_Output);
+      Close (fe);
+      Close (fo);
+      --  Message_Box("Std Output", so);
+      --  The file fo should be empty, but something
+      --  somewhere puts a new line...
+      gw.Bar_RC.Position (70);
+      --
+      --  Output the rc2gw messages into the left box
+      --
+      Open (fe, In_File, se);
+      Clear (gw.RC_to_GWindows_messages);
+      while not End_Of_File (fe) loop
+        Add (gw.RC_to_GWindows_messages, S2G( S (Get_Line (fe))));
+      end loop;
+      Delete (fe);
+      --
+      --  Now, compile the resource.
+      --  Since it is a quick task, we can wait for the
+      --  process to complete here
+      --
+      Resource_compilation (gw, optional => True);
+      gw.Bar_RC.Position (100);
       delay 0.02;
     end if;
     gw.Bar_RC.Position(0);
@@ -633,7 +628,6 @@ package body GWen_Windows is
     else
       gw.Ear_RC.Set_Bitmap(gw.no_ear);
     end if;
-
   end Translation;
 
   procedure Do_Translate (Window : in out GWindows.Base.Base_Window_Type'Class) is
@@ -818,6 +812,8 @@ package body GWen_Windows is
     --
     Window.last_seen_running:= False;
     Window.last_build_failed:= False;
+    --
+    Flexible_temp_files.Initialize;
   end On_Create;
 
   procedure On_Destroy (Window : in out GWen_Window_Type) is
@@ -1038,6 +1034,7 @@ package body GWen_Windows is
       end if;
     end if;
     Can_Close:= Success;
+    Flexible_temp_files.Finalize;
   end On_Close;
 
 end GWen_Windows;

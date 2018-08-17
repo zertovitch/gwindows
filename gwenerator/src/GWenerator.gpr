@@ -32,7 +32,7 @@ project GWenerator is
       case Build_Mode is
 
          when "Small" =>
-            for Default_Switches ("ada") use ("GWenerator.rbj", "-s", "-Wl,--gc-sections");
+            for Default_Switches ("ada") use ("GWenerator.rbj", "-s", "-Wl,--gc-sections", "-mwindows");
 
          when "Debug" =>
             for Default_Switches ("ada") use ("GWenerator.rbj");
