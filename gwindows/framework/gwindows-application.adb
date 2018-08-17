@@ -262,6 +262,7 @@ package body GWindows.Application is
       end record;
    pragma Convention (C_Pass_By_Copy, Static_Point_Type);
 
+   --  Internal
    function WindowFromPoint (Point : Static_Point_Type)
       return GWindows.Types.Handle;
    pragma Import (StdCall, WindowFromPoint, "WindowFromPoint");
@@ -304,7 +305,8 @@ package body GWindows.Application is
       end if;
    end Get_Window_Text_At_Location;
 
-   function Get_Window_Class_Name_At_Location (X, Y : Integer) return GString
+   --  Internal
+   function Get_Window_Class_Name (WH : GWindows.Types.Handle) return GString
    is
       procedure GetClassName
         (hwnd : in     GWindows.Types.Handle;
@@ -312,7 +314,6 @@ package body GWindows.Application is
          Max  : in     Interfaces.C.size_t);
       pragma Import (StdCall, GetClassName,
                        "GetClassName" & Character_Mode_Identifier);
-      WH : constant GWindows.Types.Handle := WindowFromPoint ((X, Y));
       use GWindows.Types;
    begin
       if WH = Null_Handle then
@@ -325,7 +326,29 @@ package body GWindows.Application is
             return GWindows.GStrings.To_GString_From_C (Buf);
          end;
       end if;
+   end Get_Window_Class_Name;
+
+   function Get_Window_Class_Name_At_Location (X, Y : Integer)
+      return GString
+   is
+   begin
+      return Get_Window_Class_Name (WindowFromPoint ((X, Y)));
    end Get_Window_Class_Name_At_Location;
+
+   function Get_Window_Root_Class_Name_At_Location (X, Y : Integer)
+      return GString
+   is
+      function GetAncestor (
+        hwnd    : GWindows.Types.Handle;
+        gaFlags : Interfaces.C.unsigned)
+      return GWindows.Types.Handle;
+      pragma Import (StdCall, GetAncestor, "GetAncestor");
+      GA_ROOT : constant := 2;
+   begin
+      return Get_Window_Class_Name (
+         GetAncestor (WindowFromPoint ((X, Y)), GA_ROOT)
+      );
+   end Get_Window_Root_Class_Name_At_Location;
 
    -----------------------
    -- Get_Active_Window --
