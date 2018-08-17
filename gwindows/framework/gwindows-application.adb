@@ -417,6 +417,8 @@ package body GWindows.Application is
       Env_Var : String_Access;
    begin
       if Is_Desktop_At_Location (X, Y) then
+         --  NB: a probably cleaner way (regarding Unicode names)
+         --  could be to use SHGetFolderPath with CSIDL_DESKTOPDIRECTORY
          Env_Var := Getenv ("USERPROFILE");
          if Env_Var = null or else Env_Var.all = "" then
             return "";
