@@ -13,15 +13,15 @@ project GWindows_Contrib is
    
    package Compiler is
       for Default_Switches ("ada") use (
-         "-Os", "-g", "-gnat05", 
+         "-Os", "-g",
          "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
          "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
          "-gnatwaKM", "-gnatVa", "-gnato");
    end Compiler;
 
    package Linker is
-      -- Get the Windows Visual Styles switched on through manifest.xml:
-      for Default_Switches ("ada") use ("contrib/test/visual_styles.rbj"); 
+      --  Get the Windows Visual Styles switched on through manifest.xml:
+      --  for Default_Switches ("ada") use ("contrib/test/visual_styles.rbj");   --   Binary file is different for 32 and 64 bit platforms.
    end Linker;
    
    for Main use (

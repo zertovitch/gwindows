@@ -7,7 +7,7 @@
 --                                B o d y                                   --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2014 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -289,7 +289,6 @@ package body GNATCOM.VARIANT is
    is
       use Ada.Calendar;
       use type Interfaces.C.int;
-      use type Interfaces.C.short;
 
       Temp_Var : GNATCOM.Types.VARIANT := Copy (From);
       C_Time   : aliased SYSTEMTIME;
@@ -556,9 +555,7 @@ package body GNATCOM.VARIANT is
       return GNATCOM.Types.VARIANT
    is
       use Ada.Calendar;
-      use type Ada.Calendar.Day_Duration;
       use type Interfaces.C.int;
-      use type Interfaces.C.short;
 
       New_Variant : GNATCOM.Types.VARIANT;
       C_Time      : SYSTEMTIME;

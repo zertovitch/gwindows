@@ -7,7 +7,7 @@
 --                                B o d y                                   --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -82,7 +82,6 @@ package body GNATCOM.Initialize is
    -- Initialize_COM --
 
    procedure Initialize_COM is
-      use Interfaces.C;
    begin
       if CoInitialize = RPC_E_CHANGED_MODE then
          raise CHANGED_MODE_ERROR;
@@ -93,7 +92,6 @@ package body GNATCOM.Initialize is
    -- Initialize_COM_Multi_Threaded --
 
    procedure Initialize_COM_Multi_Threaded is
-      use Interfaces.C;
    begin
       if CoInitializeEx = RPC_E_CHANGED_MODE then
          raise CHANGED_MODE_ERROR;
@@ -104,7 +102,6 @@ package body GNATCOM.Initialize is
    -- Uninitialize_COM --
 
    procedure Uninitialize_COM is
-      use Interfaces.C;
    begin
       CoUninitialize;
       InterlockedDecrement (Initialize_Count'Access);

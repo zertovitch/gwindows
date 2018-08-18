@@ -1135,8 +1135,6 @@ package body GWindows.Common_Controls is
       Show       : in     Boolean                              := True;
       Is_Dynamic : in     Boolean                              := False)
    is
-      use GWindows.GStrings.Unbounded;
-
       Styles : Interfaces.C.unsigned := 0;
 
       type Format_Array is array (Date_Format) of Interfaces.C.unsigned;

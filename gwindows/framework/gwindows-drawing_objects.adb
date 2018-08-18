@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2014 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -107,7 +107,6 @@ package body GWindows.Drawing_Objects is
 
    procedure Finalize (Object : in out Drawing_Object_Type) is
       use type GWindows.Types.Handle;
-      use type Interfaces.C.long;
    begin
       if Object.HOBJECT /= GWindows.Types.Null_Handle then
          Delete (Object);
@@ -119,7 +118,6 @@ package body GWindows.Drawing_Objects is
    ------------
 
    procedure Delete (Object : in out Drawing_Object_Type) is
-      use type Interfaces.C.long;
       use type GWindows.Types.Handle;
       procedure DeleteObject
         (HOBJECT : GWindows.Types.Handle := Object.HOBJECT);

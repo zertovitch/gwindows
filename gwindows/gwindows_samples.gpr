@@ -24,14 +24,14 @@ project GWindows_Samples is
    );
 
    package Compiler is
-      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", 
+      for Default_Switches ("ada") use ("-Os", "-g",
          "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
          "-gnatwa");
    end Compiler;
 
    package Linker is
-      -- Get the Windows Visual Styles switched on through manifest.xml:
-      for Default_Switches ("ada") use ("contrib/test/visual_styles.rbj"); 
+      --  Get the Windows Visual Styles switched on through manifest.xml:
+      --  for Default_Switches ("ada") use ("contrib/test/visual_styles.rbj");   --   Binary file is different for 32 and 64 bit platforms.
    end Linker;
    
    package Binder is

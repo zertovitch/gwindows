@@ -12,7 +12,6 @@ with GNATOCX;
 --  with GNATOCX.IDataObject_Interface;
 with GNATCOM.Types;
 with GNATCOM;
-use GNATCOM.Types;
 
 package body Drag_Drop_OLE_Window is
 

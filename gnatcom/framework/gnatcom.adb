@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -33,15 +33,12 @@
 ------------------------------------------------------------------------------
 
 with GNATCOM.Initialize;
-with Interfaces.C;
 
 package body GNATCOM is
 
    -- Finalize --
 
    procedure Finalize (This : in out COM_Uninitialize_Type) is
-      use type Interfaces.C.long;
-
       pragma Warnings (Off, This);
    begin
       if Initialize_Count > 0 then

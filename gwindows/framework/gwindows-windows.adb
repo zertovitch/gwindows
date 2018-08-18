@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -1624,7 +1624,6 @@ package body GWindows.Windows is
 
    procedure On_MDI_Activate (Window : in out Window_Type) is
       use GWindows.Base;
-      use GWindows.GStrings;
    begin
       if Window.On_MDI_Activate_Event /= null then
          Fire_On_MDI_Activate (Window);
@@ -3600,7 +3599,6 @@ package body GWindows.Windows is
    procedure Dock_Children (Window : in Window_Type)
    is
       use GWindows.Base;
-      use GWindows.GStrings;
 
       Fill_Window    : Pointer_To_Base_Window_Class := null;
 

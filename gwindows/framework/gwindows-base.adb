@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -2431,8 +2431,6 @@ package body GWindows.Base is
                                    wParam  : GWindows.Types.Wparam;
                                    lParam  : GWindows.Types.Lparam)
    is
-      use Interfaces.C;
-
       P     : Pointer_To_Base_Window_Class := Win_Ptr;
       X     : constant Integer := GWindows.Utilities.Low_Word (lParam);
       Y     : constant Integer := GWindows.Utilities.High_Word (lParam);

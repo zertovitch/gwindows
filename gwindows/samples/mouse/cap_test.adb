@@ -60,11 +60,11 @@ procedure Cap_Test is
 
             Text (Status, To_GString_From_String
              ("Location:" & Location.X'Img & Location.Y'Img &
-              ". Is it a GWindow ? " & Is_GWindow'Img &
-              ". Is it the Desktop ? " & Is_Desktop'Img) & NL &
+              ".   Is it a GWindow ? " & Is_GWindow'Img &
+              ".   Is it the Desktop ? " & Is_Desktop'Img) & NL &
               "Text: """ & Win_Text & '"' & NL &
+              "Root Class Name: """ & Win_Root_Class & """.    " &
               "Class Name: """ & Win_Class & '"' & NL &
-              "Root Class Name: """ & Win_Root_Class & '"' & NL &
               "Explorer Path: """ & Explorer_Path & '"');
          end;
       else

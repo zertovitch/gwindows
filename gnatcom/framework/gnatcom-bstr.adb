@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -82,7 +82,6 @@ package body GNATCOM.BSTR is
 
    function To_BSTR (From : String) return GNATCOM.Types.BSTR
    is
-      use type Interfaces.C.wchar_array;
    begin
       if From = "" then
          declare
@@ -102,7 +101,6 @@ package body GNATCOM.BSTR is
 
    function To_BSTR_From_Wide (From : Wide_String) return GNATCOM.Types.BSTR
    is
-      use type Interfaces.C.wchar_array;
    begin
       if From = "" then
          declare

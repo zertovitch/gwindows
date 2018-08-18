@@ -7,7 +7,7 @@ project Gnatcom is
    for Source_Dirs use ("framework");
    for Object_Dir use "obj";
    package Compiler is   
-      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
+      for Default_Switches ("ada") use ("-Os", "-g", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
    end Compiler;
    
 end Gnatcom;

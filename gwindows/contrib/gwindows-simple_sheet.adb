@@ -284,17 +284,10 @@ package body GWindows.Simple_Sheet is
       end loop;
       blurb := blurb & To_GString_From_String (ASCII.CR & ASCII.LF);
     end loop;
-    case Character_Mode is
-      when ANSI =>
-        Set_Clipboard_Text (GWindows.Windows.Window_Type (Sheet),
-          GWindows.GStrings.To_String (To_GString_From_Unbounded (blurb)));
-      when Unicode =>
-        Set_Clipboard_Text (GWindows.Windows.Window_Type (Sheet),
-          GWindows.GStrings.To_String (To_GString_From_Unbounded (blurb)));
-        --  !! gwindows.clipboard should be able to copy unicode text !!
-        --  !! better: gwindows.clipboard should have
-        --     a Set_Clipboard_GText too !!
-    end case;
+    Clipboard_Text (
+       GWindows.Windows.Window_Type (Sheet),
+       To_GString_From_Unbounded (blurb)
+    );
   end Copy_to_Clipboard;
 
   --
@@ -317,13 +310,8 @@ package body GWindows.Simple_Sheet is
         );
       when Unicode =>
         u_blurb := To_GString_Unbounded (
-          To_GString_From_String (
-            Get_Clipboard_Text (GWindows.Windows.Window_Type (Sheet))
-          )
+          Clipboard_Text (GWindows.Windows.Window_Type (Sheet))
         );
-        --  !! gwindows.clipboard should be able to paste unicode text !!
-        --  !! better: gwindows.clipboard should have
-        --     a Get_Clipboard_GText too !!
     end case;
     declare
       --  A little headache to make all work in both Character_Mode's ...

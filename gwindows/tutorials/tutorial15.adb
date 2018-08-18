@@ -1,6 +1,6 @@
 with GWindows.Windows.Main; use GWindows.Windows.Main;
 with GWindows.Static_Controls; use GWindows.Static_Controls;
-with GWindows.GStrings; use GWindows.GStrings;
+with GWindows.GStrings;
 with GWindows.Base;
 with GWindows.Application;
 

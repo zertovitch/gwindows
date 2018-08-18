@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -122,7 +122,6 @@ package body GWindows.Packing_Boxes is
 
    procedure Pack (Window : in out Packing_Box_Type) is
       use GWindows.Base;
-      use type Interfaces.C.long;
 
       Control_Width  : Natural;
       Control_Height : Natural;
@@ -316,7 +315,6 @@ package body GWindows.Packing_Boxes is
       procedure Size_Children (Child : Pointer_To_Base_Window_Class)
       is
          Child_Size : Size_Type;
-         use type Interfaces.C.long;
       begin
          if Handle (Parent (Child.all).all) /= Handle (Window) then
             return;
@@ -389,7 +387,6 @@ package body GWindows.Packing_Boxes is
       procedure Size_Children (Child : Pointer_To_Base_Window_Class)
       is
          Child_Size : Size_Type;
-         use type Interfaces.C.long;
       begin
          if Handle (Parent (Child.all).all) /= Handle (Window) then
             return;

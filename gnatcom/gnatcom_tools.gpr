@@ -13,7 +13,7 @@ project Gnatcom_tools is
    for Main use ("bindcom.adb", "comscope.adb", "createcom.adb", "makeguid.adb");
    
    package Compiler is   
-      for Default_Switches ("ada") use ("-Os", "-g", "-gnat05", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
+      for Default_Switches ("ada") use ("-Os", "-g", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
    end Compiler;
    package Binder is
       for Default_Switches ("ada") use ("-E");

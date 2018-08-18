@@ -7,7 +7,6 @@ package body IE.DWebBrowserEvents2_Events is
       Event_Object : in GNATCOM.Events.Event_Object.Event_Pointer)
    is
       pragma Unreferenced (wFlags);
-      use type Interfaces.C.long;
    begin
       case dispidMember is
          when DWebBrowserEvents2_StatusTextChange =>

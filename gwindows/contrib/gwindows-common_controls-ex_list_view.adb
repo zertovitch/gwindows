@@ -469,8 +469,6 @@ package body GWindows.Common_Controls.Ex_List_View is
                         Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
                         Return_Value : in out GWindows.Types.Lresult    ) is
 
-      use Interfaces.C;
-
       pragma Warnings (Off, Control);
       pragma Warnings (Off, Return_Value);
 
@@ -590,7 +588,6 @@ package body GWindows.Common_Controls.Ex_List_View is
    procedure Redraw_subitem (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                              Control      : in out Ex_List_View_Control_Type;
                              Return_Value : in out GWindows.Types.Lresult              ) is
-      use Interfaces.C;
    begin
       -- set color in redraw according to color_mode
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
@@ -632,7 +629,6 @@ package body GWindows.Common_Controls.Ex_List_View is
    procedure Redraw_item (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                           Control      : in out Ex_List_View_Control_Type;
                           Return_Value : in out GWindows.Types.Lresult              ) is
-      use Interfaces.C;
    begin
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>

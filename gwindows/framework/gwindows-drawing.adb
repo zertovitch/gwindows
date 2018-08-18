@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2014 David Botton                   --
+--                 Copyright (C) 1999 - 2018 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -155,7 +155,6 @@ package body GWindows.Drawing is
 
    procedure Finalize (Object : in out Information_Canvas_Type) is
       use type GWindows.Types.Handle;
-      use type Interfaces.C.long;
    begin
       if Object.HWND /= GWindows.Types.Null_Handle then
          Release (Object);
@@ -573,7 +572,6 @@ package body GWindows.Drawing is
 
    procedure Release (Canvas : in out Information_Canvas_Type) is
       use type GWindows.Types.Handle;
-      use type Interfaces.C.long;
 
       procedure ReleaseDC
         (hWnd : GWindows.Types.Handle := Canvas.HWND;
