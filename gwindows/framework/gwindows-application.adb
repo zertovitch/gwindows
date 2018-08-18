@@ -376,6 +376,7 @@ package body GWindows.Application is
       pragma Import (StdCall, EnumChildWindows, "EnumChildWindows");
       Path : GString_Unbounded;
       use GWindows.GStrings;
+      --
       function Capture_Edit_Box (child  : GWindows.Types.Handle;
                                  lp     : GWindows.Types.Lparam)
                          return Boolean;
@@ -386,9 +387,9 @@ package body GWindows.Application is
       is
       pragma Unreferenced (lp);
          CCN : constant GString := Get_Window_Class_Name (child);
-         CT : constant GString := Get_Window_Text (child);
-         WCT : Wide_String := To_Wide_String (CT);
-         I : Integer;
+         CT  : constant GString := Get_Window_Text (child);
+         WCT : constant Wide_String := To_Wide_String (CT);
+         I   : Integer;
          use Ada.Strings.Wide_Fixed;
       begin
          if CCN = "ToolbarWindow32" then
@@ -410,8 +411,9 @@ package body GWindows.Application is
          --  EnumChildWindows (child, Capture_Edit_Box'Address, 0);
          return True;  --  Continue enumeration
       end Capture_Edit_Box;
+      --
       RWH : constant GWindows.Types.Handle :=
-         GetAncestor (WindowFromPoint ((X, Y)), GA_ROOT);
+                        GetAncestor (WindowFromPoint ((X, Y)), GA_ROOT);
       RCN : constant GString := Get_Window_Class_Name (RWH);
       use GNAT.OS_Lib;
       Env_Var : String_Access;
@@ -428,9 +430,11 @@ package body GWindows.Application is
       end if;
       if RCN = "CabinetWClass" or else RCN = "ExploreWClass" then
          EnumChildWindows (RWH, Capture_Edit_Box'Address, 0);
+         return To_GString_From_Unbounded (Path);
       end if;
-      return To_GString_From_Unbounded (Path);
+      return "";
    end Explorer_Path_At_Location;
+
    -----------------------
    -- Get_Active_Window --
    -----------------------
