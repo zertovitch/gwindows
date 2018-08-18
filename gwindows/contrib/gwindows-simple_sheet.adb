@@ -298,83 +298,68 @@ package body GWindows.Simple_Sheet is
         Row_Start             : in     Positive := 1;
         Column_Start          : in     Positive := 1;
         Complain_if_too_large : in     Boolean := False)
- is
-    u_blurb : GString_Unbounded;
-  begin
-    case Character_Mode is
-      when ANSI =>
-        u_blurb := To_GString_Unbounded (
-          To_GString_From_String (
-            Get_Clipboard_Text (GWindows.Windows.Window_Type (Sheet))
-          )
-        );
-      when Unicode =>
-        u_blurb := To_GString_Unbounded (
-          Clipboard_Text (GWindows.Windows.Window_Type (Sheet))
-        );
-    end case;
-    declare
-      --  A little headache to make all work in both Character_Mode's ...
-      blurb : constant GString := To_GString_From_Unbounded (u_blurb);
-      b1, b2 : Natural;
-      --  For checking Tabs and line-ends, we convert to Wide_String,
-      --  whatever the mode.
-      bis : Wide_String (1 .. 1);
-      bi, bi_old : Wide_Character;
-      r : Positive := Row_Start;
-      c : Positive := Column_Start;
-      Tab : constant Wide_Character := To_Wide_Character (ASCII.HT);
-      LF  : constant Wide_Character := To_Wide_Character (ASCII.LF);
-      CR  : constant Wide_Character := To_Wide_Character (ASCII.CR);
-      --
-      procedure Feed_text is
-      begin
-        if r > Sheet.Rows then
-          if Complain_if_too_large then
-            raise Too_many_rows;
-          else
-            return;
-          end if;
-        end if;
-        if c > Sheet.Columns then
-          if Complain_if_too_large then
-            raise Too_many_columns;
-          else
-            return;
-          end if;
-        end if;
-        Set_Cell_Text (Sheet, r, c, blurb (b1 .. b2));
-      end Feed_text;
+  is
+    blurb : constant GString :=
+      Clipboard_Text (GWindows.Windows.Window_Type (Sheet));
+    --  A little headache to make all work in both Character_Mode's ...
+    b1, b2 : Natural;
+    --  For checking Tabs and line-ends, we convert to Wide_String,
+    --  whatever the mode.
+    bis : Wide_String (1 .. 1);
+    bi, bi_old : Wide_Character;
+    r : Positive := Row_Start;
+    c : Positive := Column_Start;
+    Tab : constant Wide_Character := To_Wide_Character (ASCII.HT);
+    LF  : constant Wide_Character := To_Wide_Character (ASCII.LF);
+    CR  : constant Wide_Character := To_Wide_Character (ASCII.CR);
+    --
+    procedure Feed_text is
     begin
-      b1 := blurb'First;
-      b2 := b1 - 1;
-      bi_old := Tab; -- bogus, just remove warning!
-      --  blurb(b1 .. b2) is the cell's content
-      for i in blurb'Range loop
-        bis := GWindows.GStrings.To_Wide_String (blurb (i .. i));
-        bi := bis (1);
-        if bi = Tab then
-          b2 := i - 1;
-          Feed_text;
-          b1 := i + 1;
-          c := c + 1;
-        elsif bi = LF then
-          b2 := i - 1;
-          if b2 > blurb'First and then bi_old = CR then
-            b2 := i - 2; -- ignore the CR of CR & LF
-          end if;
-          Feed_text;
-          b1 := i + 1;
-          c := Column_Start;
-          r := r + 1;
-        elsif bi = CR then
-          null; -- we could have CR & LF, or LF only...
+      if r > Sheet.Rows then
+        if Complain_if_too_large then
+          raise Too_many_rows;
         else
-          null;
+          return;
         end if;
-        bi_old := bi;
-      end loop;
-    end;
+      end if;
+      if c > Sheet.Columns then
+        if Complain_if_too_large then
+          raise Too_many_columns;
+        else
+          return;
+        end if;
+      end if;
+      Set_Cell_Text (Sheet, r, c, blurb (b1 .. b2));
+    end Feed_text;
+  begin
+    b1 := blurb'First;
+    b2 := b1 - 1;
+    bi_old := Tab; -- bogus, just remove warning!
+    --  blurb(b1 .. b2) is the cell's content
+    for i in blurb'Range loop
+      bis := GWindows.GStrings.To_Wide_String (blurb (i .. i));
+      bi := bis (1);
+      if bi = Tab then
+        b2 := i - 1;
+        Feed_text;
+        b1 := i + 1;
+        c := c + 1;
+      elsif bi = LF then
+        b2 := i - 1;
+        if b2 > blurb'First and then bi_old = CR then
+          b2 := i - 2; -- ignore the CR of CR & LF
+        end if;
+        Feed_text;
+        b1 := i + 1;
+        c := Column_Start;
+        r := r + 1;
+      elsif bi = CR then
+        null; -- we could have CR & LF, or LF only...
+      else
+        null;
+      end if;
+      bi_old := bi;
+    end loop;
   end Paste_from_Clipboard;
 
 end GWindows.Simple_Sheet;
