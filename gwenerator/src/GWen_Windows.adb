@@ -17,6 +17,7 @@ with GWindows.Windows;                  use GWindows.Windows;
 
 with GWenerator_Resource_GUI;           use GWenerator_Resource_GUI;
 
+with Ada.Characters.Handling;           use Ada.Characters.Handling;
 with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
 with Ada.Directories;                   use Ada.Directories;
 with Ada.Command_Line;
@@ -483,8 +484,8 @@ package body GWen_Windows is
   end On_About;
 
   procedure Call_windres (gw: in out GWen_Window_Type) is
-    sn: constant String:= S(gw.proj.RC_name);
-    on: constant String:= sn(sn'First..sn'Last-1) & "bj";
+    sn: constant String:= S(gw.proj.RC_name);                         --  proj.rc
+    on: constant String:= To_Lower (sn(sn'First..sn'Last-1)) & "bj";  --  proj.rbj
     Command : constant String :=
       "windres -v " & sn & ' ' & on;
     procedure Output_a_line(l: String) is

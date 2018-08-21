@@ -166,14 +166,17 @@ package body RC_Help is
     first: Natural:= rc_name'First;
   begin
     if has_input then
-      if not as_file_name then -- remove path by finding last separator
+      if as_file_name then
+        return To_Lower (Root_name(rc_name) & suffix);
+        --  NB: would need to be smarter for Linux and other case-sensitve systems...
+      else  --  remove path by finding last separator
         for i in rc_name'Range loop
           if rc_name(i)='\' or rc_name(i)='/' then
             first:= i+1;
           end if;
         end loop;
+        return Root_name(rc_name(first..rc_name'Last)) & suffix;
       end if;
-      return Root_name(rc_name(first..rc_name'Last)) & suffix;
     else
       return "Input" & suffix;
     end if;
