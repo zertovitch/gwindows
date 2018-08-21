@@ -438,9 +438,9 @@ package body RC_Help is
   procedure Open_if_separate(item: String; with_body: Boolean:= True) is
   begin
     if separate_items then
-      Create(to_spec, pkg(as_file_name => True) & '-' & item & ".ads");
+      Create(to_spec, pkg(as_file_name => True) & '-' & To_Lower (item) & ".ads");
       if with_body then
-        Create(to_body, pkg(as_file_name => True) & '-' & item & ".adb");
+        Create(to_body, pkg(as_file_name => True) & '-' & To_Lower (item) & ".adb");
         Ada_package_headers(eventual_child => '.' & item);
       else
         Blurb(to_spec);
@@ -649,7 +649,7 @@ package body RC_Help is
   procedure Ada_Begin is
   begin
     if separate_items then
-      Create(to_spec, pkg(as_file_name => True) & "-Helpers.ads");
+      Create(to_spec, pkg(as_file_name => True) & "-helpers.ads");
       Blurb(to_spec);
       Ada_Put_Line(to_spec, "with GWindows.Base;");
       Ada_New_Line(to_spec);
@@ -1125,7 +1125,7 @@ package body RC_Help is
   procedure YY_Accept is
   begin
     if separate_items then
-      Create(to_spec, pkg(as_file_name => True) & "-Constants.ads");
+      Create(to_spec, pkg(as_file_name => True) & "-constants.ads");
       Blurb(to_spec);
       Ada_Put_Line(to_spec, "-- Constants from resource.h or equivalent");
       Ada_New_Line(to_spec);
@@ -1134,7 +1134,7 @@ package body RC_Help is
       Ada_Put_Line(to_spec, "end " & pkg & ".Constants;");
       Close(Ada_files(to_spec));
       --
-      Create(to_body, pkg(as_file_name => True) & "-Helpers.adb");
+      Create(to_body, pkg(as_file_name => True) & "-helpers.adb");
       Ada_Put_Line(to_body, "with GWindows.Types;              use GWindows.Types;");
       Ada_Put_Line(to_body, "with GWindows.Drawing_Objects;");
       Ada_Put_Line(to_body, "with GWindows.GStrings;                 use GWindows.GStrings;");
