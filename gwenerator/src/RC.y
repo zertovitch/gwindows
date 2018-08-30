@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script grammar file (AYACC)
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2016
+--  Copyright (c) Gautier de Montmollin 2008 .. 2018
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1066,6 +1066,7 @@ bs_style_only :
           | BS_FLAT_t
           | BS_VCENTER_t
           | BS_MULTILINE_t
+            { style_switch (multi_line):= True; }
           | BS_PUSHLIKE_t
           | BS_PUSHBUTTON_t
             { style_switch(push):= True; }

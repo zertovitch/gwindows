@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2017
+--  Copyright (c) Gautier de Montmollin 2008 .. 2018
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -491,7 +491,7 @@ package body RC_Help is
   function Img is new Enum_Img_Mixed(GWindows.Common_Controls.List_View_Control_Alignment_Type);
   function Img is new Enum_Img_Mixed(Trackbar_Control_Ticks_Type);
 
-  -- Add or remove specific Windows styles that are not in GWindows Create parameters
+  --  Add or remove specific Windows styles that are not in GWindows Create parameters.
   --
   procedure Ada_Dialog_Pre_settings(
     to          : Pkg_output;
@@ -500,8 +500,8 @@ package body RC_Help is
   is
   begin
     if not dialog_style_switch(sys_menu) then -- maybe also: " and ws_dlgframe)"
-      Ada_Put_Line(to, "  -- Pre-Create operation to switch off default styles");
-      Ada_Put_Line(to, "  -- or add ones that are not in usual GWindows Create parameters");
+      Ada_Put_Line(to, "  --  Pre-Create operation to switch off default styles, or");
+      Ada_Put_Line(to, "  --  add ones that are not in usual GWindows Create parameters.");
       Ada_Put_Line(to, "  --");
       Ada_Put_Line(to, "  procedure On_Pre_Create (Window    : in out " & type_name & ";");
       Ada_Put_Line(to, "                           dwStyle   : in out Interfaces.C.unsigned;");
@@ -523,7 +523,7 @@ package body RC_Help is
       end case;
       Ada_New_Line(to);
     end if;
-  end;
+  end Ada_Dialog_Pre_settings;
 
   dialog_mem: array(1..10_000) of Unbounded_String;
   dialog_top: Natural;
@@ -548,10 +548,10 @@ package body RC_Help is
       Ada_New_Line(to_spec);
     end if;
 
-    Ada_Put_Line(to, "  -- Dialog at resource line" & Integer'Image(linenum));
+    Ada_Put_Line(to, "  --  Dialog at resource line" & Integer'Image(linenum));
     Ada_New_Line(to);
     Ada_Dialog_Pre_settings(to, type_name);
-    Ada_Put_Line(to, "  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog");
+    Ada_Put_Line(to, "  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog");
     Ada_Put_Line(to, "  --");
     Ada_Put_Line(to, "  procedure Create_Full_Dialog");
     Ada_Put_Line(to, "     (Window      : in out " & type_name & ";");
@@ -599,8 +599,8 @@ package body RC_Help is
                    S(last_dialog_ident) & "_Type" );
     end case;
     Ada_New_Line(to);
-    Ada_Put_Line(to, "  --  b) Create all contents, not the window itself (must be");
-    Ada_Put_Line(to, "  --      already created) -> can be used in/as any kind of window.");
+    Ada_Put_Line(to, "  --    b) Create all contents, not the window itself (must be");
+    Ada_Put_Line(to, "  --        already created) -> can be used in/as any kind of window.");
     Ada_Put_Line(to, "  --");
     Ada_Put_Line(to, "  procedure Create_Contents");
     Ada_Put_Line(to, "     ( Window      : in out " & type_name & ";");
@@ -629,7 +629,7 @@ package body RC_Help is
   )
   is
   begin
-    Ada_Put_Line(to, "  -- Menu at line" & Integer'Image(linenum));
+    Ada_Put_Line(to, "  --  Menu at line" & Integer'Image(linenum));
     Ada_Put_Line(to, "  procedure Create_Full_Menu");
     Ada_Put(to, "     (Menu        : in out " & type_name & ")");
   end Ada_Proc_Menu;
@@ -762,6 +762,7 @@ package body RC_Help is
   end Ada_label_control;
 
   procedure Ada_button_control is
+    temp_ustr: Unbounded_String;
   begin
     if style_switch(state3) then
       Ada_very_normal_control("Three_State_Box_Type");
@@ -809,9 +810,15 @@ package body RC_Help is
       Ada_Put_Line(to_body, "    else -- hide the closing button");
       Ada_Put_Line(to_body, "      Hide(Window." & S(temp_ustr) & ");");
       Ada_Put_Line(to_body, "    end if;");
-      if style_switch(disabled) then
-        Ada_Put_Line(to_body, "    Enabled(Window." & S(last_Ada_ident) & ", False);");
-        Ada_Put_Line(to_body, "    Enabled(Window." & S(temp_ustr) & ", False);");
+      if style_switch (disabled) then
+        Ada_Put_Line (to_body, "    Enabled (Window." & S (last_Ada_ident) & ", False);");
+        Ada_Put_Line (to_body, "    Enabled (Window." & S (temp_ustr) & ", False);");
+      end if;
+    end if;
+    if style_switch (multi_line) then
+      Ada_Put_Line (to_body, "    Multi_Line (Window." & S (last_Ada_ident) & ");");
+      if temp_ustr /= "" then
+        Ada_Put_Line (to_body, "    Multi_Line (Window." & S (temp_ustr) & ");");
       end if;
     end if;
     Ada_optional_disabling;
@@ -819,7 +826,7 @@ package body RC_Help is
 
   procedure Ada_edit_control is
   begin
-    if style_switch(multi_line) then
+    if style_switch (multi_line) then
       Ada_normal_control(
         "Multi_Line_Edit_Box_Type",
         ", " & S(last_text),
@@ -1061,13 +1068,13 @@ package body RC_Help is
 
   procedure Ada_optional_disabling is
   begin
-    if style_switch(disabled) then
-      Ada_Put_Line(to_body, "    Disable(Window." & S(last_Ada_ident) & ");");
+    if style_switch (disabled) then
+      Ada_Put_Line (to_body, "    Disable (Window." & S(last_Ada_ident) & ");");
     end if;
-    if style_switch(hidden) then
-      Ada_Put_Line(to_body, "    Hide(Window." & S(last_Ada_ident) & ");");
+    if style_switch (hidden) then
+      Ada_Put_Line (to_body, "    Hide (Window." & S(last_Ada_ident) & ");");
     end if;
-  end;
+  end Ada_optional_disabling;
 
   -- Control class is given as a string, not a token (e.g. "Button")
   procedure Identify_control_class(RC_String: String) is

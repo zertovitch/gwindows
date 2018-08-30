@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2017
+--  Copyright (c) Gautier de Montmollin 2008 .. 2018
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -36,7 +36,7 @@ with Ada.Text_IO;
 
 package RC_Help is
 
-  Grammar_Version: constant String:= "31-Oct-2017";
+  Grammar_Version: constant String:= "30-Aug-2018";
   Web: constant String:= "http://sf.net/projects/gnavi";
 
   function S(Source: Unbounded_String) return String
@@ -106,8 +106,8 @@ package RC_Help is
       fully_sunken,
       half_sunken,
       whiterect,
-      multi_line, -- edit boxes
-      grayed,     -- menus
+      multi_line, --  Edit boxes or Box/button styles
+      grayed,     --  Menus
       inactive,
       checked,
       has_buttons, -- tree view
@@ -180,7 +180,7 @@ package RC_Help is
 
   function Image(rect: Rect_type) return String;
 
-  last_ident, last_Ada_ident, last_Ada_constant, temp_ustr: Unbounded_String;
+  last_ident, last_Ada_ident, last_Ada_constant : Unbounded_String;
   anonymous_item: Boolean;
   empty_dialog_record: Boolean;
   last_text, last_class, last_control_text: Unbounded_String;

@@ -735,20 +735,23 @@ when 363 => -- #line 1057
 when 364 => -- #line 1059
  style_switch(ownerdraw):= True; 
 
-when 375 => -- #line 1071
+when 373 => -- #line 1069
+ style_switch (multi_line):= True; 
+
+when 375 => -- #line 1072
  style_switch(push):= True; 
 
-when 376 => -- #line 1073
+when 376 => -- #line 1074
  style_switch(push):= True;
               style_switch(default):= True; 
 
-when 380 => -- #line 1079
+when 380 => -- #line 1080
  style_switch(default):= True; 
 
-when 382 => -- #line 1082
+when 382 => -- #line 1083
  style_switch(default):= True; 
 
-when 383 => -- #line 1093
+when 383 => -- #line 1094
 
               if style_switch(vertical) then
                 Ada_normal_control("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Vertical");
@@ -757,38 +760,38 @@ when 383 => -- #line 1093
               end if;
             
 
-when 388 => -- #line 1112
+when 388 => -- #line 1113
  style_switch(vertical):= True; 
 
-when 391 => -- #line 1123
+when 391 => -- #line 1124
  last_control_text:= U(yytext); 
 
-when 392 => -- #line 1127
+when 392 => -- #line 1128
  Ada_icon_control; 
 
-when 395 => -- #line 1138
+when 395 => -- #line 1139
  Insert_last_symbol; 
 
-when 397 => -- #line 1145
+when 397 => -- #line 1146
  last_text:= U(yytext); 
 
-when 399 => -- #line 1151
+when 399 => -- #line 1152
  RC_Help.last_rect.x:= yylval.intval;
        
 
-when 400 => -- #line 1155
+when 400 => -- #line 1156
  RC_Help.last_rect.y:= yylval.intval;
        
 
-when 401 => -- #line 1159
+when 401 => -- #line 1160
  RC_Help.last_rect.w:= yylval.intval;
        
 
-when 402 => -- #line 1163
+when 402 => -- #line 1164
  RC_Help.last_rect.h:= yylval.intval;
        
 
-when 403 => -- #line 1172
+when 403 => -- #line 1173
  if anonymous_item then
            anonymous_menu_counter:=
              anonymous_menu_counter+1;
@@ -799,7 +802,7 @@ when 403 => -- #line 1172
          end if;
        
 
-when 404 => -- #line 1183
+when 404 => -- #line 1184
 
          Open_if_separate(S(last_dialog_ident));
          Ada_Put_Line(to_spec,
@@ -822,11 +825,11 @@ when 404 => -- #line 1183
          Ada_Put_Line(to_body, "    Menu.Main:= Create_Menu;");
        
 
-when 405 => -- #line 1205
+when 405 => -- #line 1206
  empty_dialog_record:= True;
        
 
-when 406 => -- #line 1209
+when 406 => -- #line 1210
  if empty_dialog_record then
            Ada_Put_Line(to_spec, "    null;  --  empty!");
          end if;
@@ -846,13 +849,13 @@ when 406 => -- #line 1209
          Close_if_separate(S(last_dialog_ident));
        
 
-when 413 => -- #line 1243
+when 413 => -- #line 1244
  empty_dialog_record:= False; 
 
-when 414 => -- #line 1248
+when 414 => -- #line 1249
  last_popup_title:= U(yytext); 
 
-when 415 => -- #line 1250
+when 415 => -- #line 1251
 
               menu_popup_counter:= menu_popup_counter + 1;
               Ada_Put_Line(to_spec,
@@ -880,12 +883,12 @@ when 415 => -- #line 1250
               popup_stack(popup_top):= menu_popup_counter;
             
 
-when 416 => -- #line 1279
+when 416 => -- #line 1280
 
               popup_top:= popup_top-1;
             
 
-when 417 => -- #line 1287
+when 417 => -- #line 1288
 
               style_switch:= (others => False); -- Reset all style switches
               append_item_cmd := To_Unbounded_String(
@@ -894,7 +897,7 @@ when 417 => -- #line 1287
                 ", " & Replace_special_characters(yytext));
             
 
-when 418 => -- #line 1296
+when 418 => -- #line 1297
 
               Insert_last_symbol;
               append_item_cmd := append_item_cmd & ", " & S(last_Ada_constant) & ");";
@@ -907,7 +910,7 @@ when 418 => -- #line 1296
               Ada_Put_Line(to_body, To_String (append_item_cmd));
             
 
-when 419 => -- #line 1308
+when 419 => -- #line 1309
 
               if style_switch(grayed) then
                 Ada_Put_Line(to_body, "    State(Menu." &
@@ -929,16 +932,16 @@ when 419 => -- #line 1308
               end if;
             
 
-when 426 => -- #line 1342
+when 426 => -- #line 1343
  style_switch(grayed):= True; 
 
-when 427 => -- #line 1343
+when 427 => -- #line 1344
  style_switch(inactive):= True; 
 
-when 428 => -- #line 1344
+when 428 => -- #line 1345
  style_switch(checked):= True; 
 
-when 432 => -- #line 1353
+when 432 => -- #line 1354
 
               Ada_Put_Line(to_body,
                 "    Append_Separator(Menu." &
@@ -947,7 +950,7 @@ when 432 => -- #line 1353
               );
             
 
-when 460 => -- #line 1441
+when 460 => -- #line 1442
 
                  Open_if_separate("Version_info", with_body => False);
                  if not separate_items then
@@ -955,17 +958,17 @@ when 460 => -- #line 1441
                  end if;
                
 
-when 461 => -- #line 1449
+when 461 => -- #line 1450
  if not separate_items then
                    Ada_Put_Line(to_spec, "  end Version_info;");
                  end if;
                  Close_if_separate("Version_info", with_body => False);
                
 
-when 480 => -- #line 1499
+when 480 => -- #line 1500
 RC_Help.version_info_value_counter:= 0;
 
-when 485 => -- #line 1514
+when 485 => -- #line 1515
 RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
@@ -981,7 +984,7 @@ RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               end case;
              
 
-when 486 => -- #line 1529
+when 486 => -- #line 1530
 RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
@@ -993,16 +996,16 @@ RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               end case;
              
 
-when 500 => -- #line 1599
+when 500 => -- #line 1600
 Treat_include(yytext(2..yylength-1));
 
-when 507 => -- #line 1624
+when 507 => -- #line 1625
 Treat_include(yytext(2..yylength-1));
 
-when 508 => -- #line 1627
+when 508 => -- #line 1628
 Treat_include(yytext(2..yylength-1));
 
-when 529 => -- #line 1695
+when 529 => -- #line 1696
  last_ident:= U(yytext);
              last_Ada_constant:= Ada_ify(yytext);
              last_Ada_ident:= last_Ada_constant;
@@ -1010,7 +1013,7 @@ when 529 => -- #line 1695
              anonymous_item:= False;
            
 
-when 530 => -- #line 1702
+when 530 => -- #line 1703
  last_ident:= U(yytext);
              last_Ada_constant:= last_ident;
              if yylval.intval < -1 then
@@ -1024,7 +1027,7 @@ when 530 => -- #line 1702
              anonymous_item:= True;
            
 
-when 531 => -- #line 1715
+when 531 => -- #line 1716
  last_ident:= U(yytext);
              last_Ada_constant:= last_ident;
              New_static_item;
