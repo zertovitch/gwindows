@@ -37,7 +37,10 @@ with GBManager_GUI;
 with Bind_COM;
 
 procedure GBManager is
-   pragma Linker_Options ("gbmanager.coff");
+   --
+   --  NB: 32 bit and 64 bit binaries .coff are uncompatible!
+   --
+   --  pragma Linker_Options ("gbmanager.coff");
 
    procedure Display_Usage;
    --  Displays program usage information

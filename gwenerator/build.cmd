@@ -7,7 +7,7 @@ echo  - RC2GW, the command-line version
 echo ====================================
 
 cd src
-call make
+call make %1 %2 %3 %4
 cd..
 
 echo.

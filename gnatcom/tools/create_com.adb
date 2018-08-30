@@ -1287,7 +1287,6 @@ package body Create_COM is
      (Type_Info : GNATCOM.ITypeInfo_Interface.ITypeInfo_Type)
    is
       use type Interfaces.C.short;
-      use type Interfaces.C.long;
       use type Interfaces.C.unsigned;
 
       Bind_Name    : constant String := Valid_Identifier (GetName (Type_Info));
@@ -1938,8 +1937,6 @@ package body Create_COM is
 
       for N in  0 .. Attribs.cFuncs - 1 loop
          declare
-            use type Interfaces.C.unsigned_short;
-
             Desc      : constant GNATCOM.Types.Pointer_To_FUNCDESC :=
               GetFuncDesc (Type_Info, Interfaces.C.int (N));
             Func_Desc : aliased GNATCOM.Types.BSTR;
@@ -2342,9 +2339,6 @@ package body Create_COM is
    procedure Bind_Interface
      (Type_Info : GNATCOM.ITypeInfo_Interface.ITypeInfo_Type)
    is
-      use type Interfaces.C.short;
-      use type Interfaces.C.unsigned_short;
-
       Bind_Name   : constant String := Valid_Identifier (GetName (Type_Info));
       Pre_Buffer  : aliased Source_Buffer_Type;
       Bind_Buffer : Source_Buffer_Type;

@@ -242,7 +242,7 @@ procedure GW_Extract is
       if With_GWenerator then
         if Ciao_2.Build_gwenerator.State = Checked then
           Set_Directory(id & "\gwenerator");
-          GWin_Util.Start(id & "\gwenerator\build.cmd", Minimized => True);
+          GWin_Util.Start(id & "\gwenerator\build.cmd", "-res", Minimized => True);
           Set_Directory(mem_cur_dir);
         end if;
         if Ciao_2.Open_gwenerator_folder.State = Checked then

@@ -2347,7 +2347,6 @@ package body Bind_COM is
    procedure Bind_Interface
      (Type_Info : GNATCOM.ITypeInfo_Interface.ITypeInfo_Type)
    is
-      use type Interfaces.C.short;
       use type Interfaces.C.unsigned_short;
 
       Bind_Name   : constant String := Valid_Identifier (GetName (Type_Info));

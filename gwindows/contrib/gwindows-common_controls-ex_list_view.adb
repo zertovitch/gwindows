@@ -188,7 +188,10 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    function Address_To_Lparam is new Ada.Unchecked_Conversion (System.Address, GWindows.Types.Lparam);
 
-   function Color_To_Lparam is new Ada.Unchecked_Conversion (Color_Type, GWindows.Types.Lparam);
+   function Color_To_Lparam (C: Color_Type) return GWindows.Types.Lparam is
+   begin
+      return GWindows.Types.Lparam (C);
+   end Color_To_Lparam;
 
    function Message_To_Nmlvcustomdraw_Pointer is new Ada.Unchecked_Conversion(GWindows.Base.Pointer_To_Notification,
                                                                               Pointer_To_Nmlvcustomdraw_Type);

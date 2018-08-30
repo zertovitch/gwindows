@@ -16,7 +16,10 @@ procedure Win_Controls is
    --  Resource is just used for having the nice XP+ design.
    --  Resource file is obtained with the command:
    --  windres -i control_test.rc -o ..\..\obj\control_test.coff
-   pragma Linker_Options ("control_test.coff");
+   --
+   --  NB: 32 bit and 64 bit binaries .coff are uncompatible!
+   --
+   --  pragma Linker_Options ("control_test.coff");
 
    use GWindows.Windows.Main;
    use GWindows.Combo_Boxes;

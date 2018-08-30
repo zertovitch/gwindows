@@ -44,7 +44,6 @@ package body GWindows.Drawing_EMF_Canvas is
      (Canvas : in out EMF_Canvas_Type;
       Emf    :    out EMF_Type)
    is
-      use type Interfaces.C.long;
       function CloseEnhMetaFile (hdc : GWindows.Types.Handle)
         return GWindows.Types.Handle;
       pragma Import (Stdcall, CloseEnhMetaFile, "CloseEnhMetaFile");

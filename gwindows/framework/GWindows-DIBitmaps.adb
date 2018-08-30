@@ -24,7 +24,6 @@ package body GWindows.DIBitmaps is
 
    procedure Set_Windows_Components
      (Bitmap : in out Extended_DIBitmap_Type) is
-      use type Interfaces.C.int;
    begin
       Bitmap.Bitmap_Info_Header.Private_Info.Header_Size := 40;
       if (Bitmap.Bitmap_Info_Header.Private_Info.Width + 3) / 4 /=
@@ -42,7 +41,6 @@ package body GWindows.DIBitmaps is
 
    procedure Set_Windows_Components
      (Bitmap : in out VGA_DIBitmap_Type) is
-      use type Interfaces.C.int;
    begin
       --  if Bitmap.Width mod 4 /= 0 then raise Claw.Not_Valid_Error;end if;
       Bitmap.Bitmap_Info_Header.Private_Info.Header_Size := 40;
@@ -125,7 +123,6 @@ package body GWindows.DIBitmaps is
    procedure Copy (Canvas : in     Canvas_Type'Class;
                    Target : in out Extended_DIBitmap_Type;
                    Source : in     Bitmap_Type'Class) is
-      use type Interfaces.C.long;
       use type Interfaces.C.int;
       --
       --  Retrieves the bits of the specified bitmap and copies them with 24bit
@@ -158,7 +155,6 @@ package body GWindows.DIBitmaps is
    procedure Copy (Canvas : in     Canvas_Type'Class;
                    Target : in out VGA_DIBitmap_Type;
                    Source : in     Bitmap_Type'Class) is
-      use type Interfaces.C.long;
       use type Interfaces.C.int;
       --
       --  Retrieves the bits of the specified bitmap and copies them into the
@@ -216,7 +212,6 @@ package body GWindows.DIBitmaps is
       --  Copies the color data for a rectangle of pixels in a
       --  device-independent bitmap (DIB) to the specified destination
       --  rectangle.  Smashes or stretches the image to fit.
-      use type Interfaces.C.long;
       use type Interfaces.C.int;
       Result    : Interfaces.C.int;
       Info_Ptr  : constant DIB_Info_Header_Ptr_Type

@@ -6,7 +6,6 @@ package body ADO.ConnectionEvents_Events is
       pdispparams  : in GNATCOM.Types.Pointer_To_DISPPARAMS;
       Event_Object : in GNATCOM.Events.Event_Object.Event_Pointer)
    is
-      use type Interfaces.C.long;
       pragma Unreferenced (wFlags);
    begin
       case dispidMember is

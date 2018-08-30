@@ -15,7 +15,10 @@ procedure Control_Test is
    --  Resource with the toolbar bitmap.
    --  Resource file is obtained with the command:
    --  windres -i control_test.rc -o ..\..\obj\control_test.coff
-   pragma Linker_Options ("control_test.coff");
+   --
+   --  NB: 32 bit and 64 bit binaries .coff are uncompatible!
+   --
+   --  pragma Linker_Options ("control_test.coff");
 
    Top_Window   : Main_Window_Type;
    Window       : Window_Type;

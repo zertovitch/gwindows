@@ -353,7 +353,6 @@ package body GWindows.GControls.Duration.Edit is
       use GWindows.Drawing;
       use GWindows.Colors;
       use type GWindows.Types.Handle;
-      use type Interfaces.C.long;
       Current_Font : GWindows.Drawing_Objects.Font_Type;
    begin
       Get_Font (Window, Current_Font);

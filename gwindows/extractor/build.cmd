@@ -28,10 +28,14 @@ if not exist ..\..\gwin.zip pause
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Debug
 copy /B gw_extract.exe + ..\..\gwin.zip "Extract Test (Debug mode).exe"
+del gw_extract_deb.exe
+ren gw_extract.exe gw_extract_deb.exe
 
 if not exist obj\small\libwin32ada.a copy /B obj\debug\libwin32ada.a obj\small\libwin32ada.a
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Small
+copy /B gw_extract.exe gw_extract_small_no_upx.exe
+
 upx --ultra-brute gw_extract.exe
 if exist *.upx del *.upx
 if exist *.000 del *.000

@@ -39,7 +39,10 @@ with GWindows.GStrings;
 with GNATREG_Lib;
 
 package body GNATREG_GUI is
-   pragma Linker_Options ("gnatreg.coff");
+   --
+   --  NB: 32 bit and 64 bit binaries .coff are uncompatible!
+   --
+   --  pragma Linker_Options ("gnatreg.coff");
 
    Main_Window   : Main_Window_Type;
    Lib_List      : List_Box_Type;

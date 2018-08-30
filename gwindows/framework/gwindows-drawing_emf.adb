@@ -60,7 +60,6 @@ package body GWindows.Drawing_EMF is
 
    procedure Delete (Emf : in out EMF_Type)
    is
-      use type Interfaces.C.long;
       procedure DeleteEnhMetaFile (HENHMETAFILE : GWindows.Types.Handle);
       pragma Import (StdCall, DeleteEnhMetaFile, "DeleteEnhMetaFile");
    begin
@@ -71,7 +70,6 @@ package body GWindows.Drawing_EMF is
    end Delete;
 
    function Valid (Emf : EMF_Type) return Boolean is
-      use type Interfaces.C.long;
    begin
       return Handle (Emf) /= GWindows.Types.Null_Handle;
    end Valid;

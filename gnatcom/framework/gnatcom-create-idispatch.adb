@@ -124,7 +124,6 @@ package body GNATCOM.Create.IDispatch is
       pptinfo : in     GNATCOM.Types.Pointer_To_Pointer_To_Void)
       return GNATCOM.Types.HRESULT
    is
-      use type Interfaces.C.unsigned_long;
       use type Interfaces.C.unsigned;
       use type GNATCOM.Types.Pointer_To_ITypeInfo;
 

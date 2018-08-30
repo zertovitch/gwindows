@@ -56,7 +56,7 @@ project GW_Install is
       case Build_Mode is
 
          when "Small" =>
-            for Default_Switches ("ada") use ("-gnatf", "-Os", "-gnatp", "-march=i386", "-ffunction-sections", "-falign-jumps=0", "-falign-loops=0", "-falign-functions=0", "-mpreferred-stack-boundary=2");
+            for Default_Switches ("ada") use ("-gnatf", "-Os", "-gnatp", "-ffunction-sections");
 
          when "Debug" =>
             for Default_Switches ("ada") use ("-fstack-check", "-g", "-gnatf", "-gnato", "-gnatwa", "-gnatVa");
