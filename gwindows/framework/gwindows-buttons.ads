@@ -62,6 +62,13 @@ package GWindows.Buttons is
    --  Create Button. If Width or Height is 0, Recommended_Size is used.
 
    -------------------------------------------------------------------------
+   --  Button_Type - Style Change Methods
+   -------------------------------------------------------------------------
+
+   procedure Multi_Line (Button : in out Button_Type);
+   --  The box' or button's label is spread over multiple lines.
+
+   -------------------------------------------------------------------------
    --  Button_Type - Event Handlers
    -------------------------------------------------------------------------
    --  See Event Methods for details on each event

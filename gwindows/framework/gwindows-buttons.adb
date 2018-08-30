@@ -66,7 +66,7 @@ package body GWindows.Buttons is
 --     BS_BOTTOM                  : constant := 2048;
 --     BS_VCENTER                 : constant := 3072;
    BS_PUSHLIKE                : constant := 4096;
---     BS_MULTILINE               : constant := 8192;
+   BS_MULTILINE               : constant := 8192;
 --     BS_NOTIFY                  : constant := 16384;
 --     BS_FLAT                    : constant := 32768;
 --     BS_RIGHTBUTTON             : constant := 32;
@@ -578,6 +578,14 @@ package body GWindows.Buttons is
             SendMessage (wParam => BST_UNCHECKED);
       end case;
    end State;
+
+   procedure Multi_Line (Button : in out Button_Type) is
+   begin
+      SetWindowLong (Handle (Button),
+                     newLong =>
+                       GetWindowLong (Handle (Button)) or
+                       BS_MULTILINE);
+   end Multi_Line;
 
    ----------------------
    -- On_Click_Handler --
