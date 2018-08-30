@@ -2,7 +2,7 @@ GNAVI
 =====
 
 The GNAVI project's goal is an integrated, interactive development
-environment. That software so far unfinished.
+environment. That software is so far unfinished.
 
 However, the underlying programming framework for Windows, GWindows,
 is fully functional and used for many years in professional, commercial,
