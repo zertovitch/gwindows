@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2017/11/11  04:02:24
+-- Transcription time: 2018/08/30  11:39:48
 -- GWenerator project file: GW_Install.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -8,7 +8,7 @@
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 31-Oct-2017
+-- RC Grammar version: 30-Aug-2018
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -42,9 +42,9 @@ package GW_Install_Resource_GUI is
     -- Label: IDC_STATIC
   end record; -- Conflict_dialog_Type
 
-  -- Dialog at resource line 44
+  --  Dialog at resource line 44
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Conflict_dialog_Type;
@@ -57,8 +57,8 @@ package GW_Install_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False);
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Conflict_dialog_Type;
@@ -89,9 +89,9 @@ package GW_Install_Resource_GUI is
     -- Label: IDC_STATIC
   end record; -- Goodbye_dialog_Type
 
-  -- Dialog at resource line 72
+  --  Dialog at resource line 72
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Goodbye_dialog_Type;
@@ -104,8 +104,8 @@ package GW_Install_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False);
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Goodbye_dialog_Type;
@@ -131,9 +131,9 @@ package GW_Install_Resource_GUI is
     Open_gnatcom_folder: Check_Box_Type;
   end record; -- Goodbye_dialog_2_Type
 
-  -- Dialog at resource line 95
+  --  Dialog at resource line 95
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Goodbye_dialog_2_Type;
@@ -146,8 +146,8 @@ package GW_Install_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False);
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Goodbye_dialog_2_Type;
@@ -180,9 +180,9 @@ package GW_Install_Resource_GUI is
     IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
   end record; -- Main_install_dialog_Type
 
-  -- Dialog at resource line 123
+  --  Dialog at resource line 123
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Main_install_dialog_Type;
@@ -195,8 +195,8 @@ package GW_Install_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False);
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Main_install_dialog_Type;
@@ -212,9 +212,9 @@ package GW_Install_Resource_GUI is
     Static_0002: Icon_Type;
   end record; -- Unpack_dialog_Type
 
-  -- Dialog at resource line 137
+  --  Dialog at resource line 137
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Unpack_dialog_Type;
@@ -227,8 +227,8 @@ package GW_Install_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False);
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Unpack_dialog_Type;
@@ -239,8 +239,8 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "File extractor for the GWindows programming framework";
-    FileVersion: constant String:= "11-Nov-2017";
-    LegalCopyright: constant String:= "© 2012 .. 2017 G. de Montmollin (MIT license)";
+    FileVersion: constant String:= "30-Aug-2018";
+    LegalCopyright: constant String:= "© 2012 .. 2018 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Extractor";
     Translation: constant:= 1033;
   end Version_info;

@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2017/11/11  04:02:24
+-- Transcription time: 2018/08/30  11:39:48
 -- GWenerator project file: GW_Install.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -8,7 +8,7 @@
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 31-Oct-2017
+-- RC Grammar version: 30-Aug-2018
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -21,9 +21,9 @@ package body GW_Install_Resource_GUI is
 
   -- ** Generated code begins here \/ \/ \/.
 
-  -- Dialog at resource line 36
+  --  Dialog at resource line 36
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Conflict_dialog_Type;
@@ -60,8 +60,8 @@ package body GW_Install_Resource_GUI is
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- Conflict_dialog_Type
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Conflict_dialog_Type;
@@ -111,9 +111,9 @@ package body GW_Install_Resource_GUI is
     Create_Label( Window, "Version to be installed:", x,y,w,h, GWindows.Static_Controls.Left, None);
   end Create_Contents;  --  Conflict_dialog_Type
 
-  -- Dialog at resource line 53
+  --  Dialog at resource line 53
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Goodbye_dialog_Type;
@@ -150,8 +150,8 @@ package body GW_Install_Resource_GUI is
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- Goodbye_dialog_Type
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Goodbye_dialog_Type;
@@ -214,9 +214,9 @@ package body GW_Install_Resource_GUI is
     Create_Label( Window, " the GWindows framework. A version is included with GWenerator", x,y,w,h, GWindows.Static_Controls.Left, None);
   end Create_Contents;  --  Goodbye_dialog_Type
 
-  -- Dialog at resource line 81
+  --  Dialog at resource line 81
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Goodbye_dialog_2_Type;
@@ -253,8 +253,8 @@ package body GW_Install_Resource_GUI is
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- Goodbye_dialog_2_Type
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Goodbye_dialog_2_Type;
@@ -307,9 +307,9 @@ package body GW_Install_Resource_GUI is
     Create( Window.Open_gnatcom_folder, Window, "Open the GNATCOM folder", x,y,w,h, ID => Open_gnatcom_folder);
   end Create_Contents;  --  Goodbye_dialog_2_Type
 
-  -- Dialog at resource line 104
+  --  Dialog at resource line 104
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Main_install_dialog_Type;
@@ -346,8 +346,8 @@ package body GW_Install_Resource_GUI is
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- Main_install_dialog_Type
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Main_install_dialog_Type;
@@ -402,10 +402,11 @@ package body GW_Install_Resource_GUI is
     Create( Window.Static_0009, Window, Num_resource(GNAVI_Logo), x,y,w,h, GWindows.Static_Controls.Left, Half_Sunken);
     Dlg_to_Scn(  9, 184, 224, 8, x,y,w,h);
     Create( Window.GNATCOM_check, Window, "Install GNATCOM - mandatory for GWindows", x,y,w,h, ID => GNATCOM_check);
-    Disable(Window.GNATCOM_check);
-    Disable(Window.GNATCOM_check);
-    Dlg_to_Scn(  9, 200, 228, 8, x,y,w,h);
-    Create( Window.GWen_check, Window, "Install the GWenerator Ada code generator (ANSI resources only)", x,y,w,h, ID => GWen_check);
+    Disable (Window.GNATCOM_check);
+    Disable (Window.GNATCOM_check);
+    Dlg_to_Scn(  9, 200, 223, 25, x,y,w,h);
+    Create( Window.GWen_check, Window, "Install the GWenerator Ada code generator (processes ANSI resources only, but can be used for Unicode implementations)", x,y,w,h, ID => GWen_check);
+    Multi_Line (Window.GWen_check);
     Dlg_to_Scn(  245, 192, 60, 19, x,y,w,h);
     -- Both versions of the button are created.
     -- The more meaningful one is made visible, but this choice
@@ -430,9 +431,9 @@ package body GW_Install_Resource_GUI is
     end if;
   end Create_Contents;  --  Main_install_dialog_Type
 
-  -- Dialog at resource line 132
+  --  Dialog at resource line 132
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Unpack_dialog_Type;
@@ -469,8 +470,8 @@ package body GW_Install_Resource_GUI is
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- Unpack_dialog_Type
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Unpack_dialog_Type;

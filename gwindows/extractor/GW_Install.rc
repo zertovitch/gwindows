@@ -118,7 +118,7 @@ FONT 8, "Ms Shell Dlg"
     GROUPBOX        "Character and string encoding. Please choose (choice can be reversed later):", IDC_STATIC, 9, 120, 293, 52, 0, WS_EX_LEFT
     CONTROL         GNAVI_Logo, IDC_STATIC, WC_STATIC, SS_BITMAP | SS_SUNKEN, 36, 6, 125, 33, WS_EX_LEFT
     AUTOCHECKBOX    "Install GNATCOM - mandatory for GWindows", GNATCOM_check, 9, 184, 224, 8, WS_DISABLED, WS_EX_LEFT
-    AUTOCHECKBOX    "Install the GWenerator Ada code generator (ANSI resources only)", GWen_check, 9, 200, 228, 8, 0, WS_EX_LEFT
+    AUTOCHECKBOX    "Install the GWenerator Ada code generator (processes ANSI resources only, but can be used for Unicode implementations)", GWen_check, 9, 200, 223, 25, BS_MULTILINE, WS_EX_LEFT
     DEFPUSHBUTTON   "Install", IDOK, 245, 192, 60, 19, 0, WS_EX_LEFT
     PUSHBUTTON      "Cancel", IDCANCEL, 245, 216, 60, 19, 0, WS_EX_LEFT
 }
@@ -186,8 +186,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
         {
             VALUE "Authors", "Gautier de Montmollin"
             VALUE "FileDescription", "File extractor for the GWindows programming framework"
-            VALUE "FileVersion", "11-Nov-2017"
-            VALUE "LegalCopyright", "© 2012 .. 2017 G. de Montmollin (MIT license)"
+            VALUE "FileVersion", "30-Aug-2018"
+            VALUE "LegalCopyright", "© 2012 .. 2018 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWindows Extractor"
         }
     }

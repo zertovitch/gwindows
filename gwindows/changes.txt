@@ -6,6 +6,22 @@ Major changes - numbers below refer to svn repository revisions
     Latest revision:
       https://sourceforge.net/p/gnavi/code/
 
+354: GWenerator: implemented BS_MULTILINE style for buttons, call to Multi_Line is generated
+353: GWindows.Buttons: added Multi_Line method for Button_Type
+352: GWenerator & RC2GW: all files written are lower case
+346: GWindows.Application: added Explorer_Path_At_Location
+345: GWindows.Application: added Is_Desktop_At_Location
+343: GWindows.Application: added Get_Window_Root_Class_Name_At_Location
+339: GWindows.Application: added Get_Window_Class_Name_At_Location
+337: GWindows.Application: added Get_Window_Title_At_Location
+335: GWindows Tutorial 24: drag and drop working from ListView
+331: GWindows.Common_Controls: added Column_Text function to List_View_Control_Type (consequently, removed from GWindows.Common_Controls.Ex_List_View)
+328: GWindows.Clipboard: the clipboard is ANSI/Unicode-agnostic both ways (copy & paste).
+325: GWindows.Databases: get/set of timeouts for connection and command
+322: GWindows.Databases: added function Simple_Query
+318: GWindows.Taskbar compatible with both 32 and 64 bit Windows
+313: GWindows.Common_Controls: added procedure Set_As_Control_Parent (Control : in out Tab_Window_Control_Type);
+
 GWindows release, 11-Nov-2017
 =============================
 
