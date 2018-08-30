@@ -6,6 +6,9 @@ Major changes - numbers below refer to svn repository revisions
     Latest revision:
       https://sourceforge.net/p/gnavi/code/
 
+GWindows release, 30-Aug-2018
+=============================
+
 354: GWenerator: implemented BS_MULTILINE style for buttons, call to Multi_Line is generated
 353: GWindows.Buttons: added Multi_Line method for Button_Type
 352: GWenerator & RC2GW: all files written are lower case
