@@ -53,7 +53,7 @@ if "%1"=="-res" shift
 if not exist GWenerator.rbj windres GWenerator.rc GWenerator.rbj
 
 gnatmake %1 %2 gwenerator -PGWenerator.gpr -XBuild_Mode=Small
-gnatmake %1 %2 rc2gw      -PGWenerator.gpr -XBuild_Mode=Small
+gnatmake %1 %2 rc2gw      -PGWenerator.gpr -XBuild_Mode=Debug
 copy /b GWenerator.exe ..\GWenerator.exe
 copy /b rc2gw.exe ..\RC2GW.exe
 

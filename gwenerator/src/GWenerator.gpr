@@ -16,11 +16,7 @@ project GWenerator is
 
    package Binder is
       --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
-      case Build_Mode is
-         when "Small" =>
-         when "Debug" =>
-            for Default_Switches ("ada") use ("-Es");
-      end case;
+      for Default_Switches ("ada") use ("-Es");
    end Binder;
 
    package Pretty_Printer is
