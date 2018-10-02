@@ -109,7 +109,6 @@ package body GNATCOM.GUID is
 
    function To_String (From : GNATCOM.Types.GUID) return String is
       use type GNATCOM.Types.HRESULT;
-      use type GNATCOM.Types.BSTR;
       use GNATCOM.Errors;
 
       Ref_GUID    : aliased GNATCOM.Types.GUID := From;

@@ -28,7 +28,7 @@ begin
    --  Open Database
    Open (DB_Control.Database,
          "Provider=Microsoft.Jet.OLEDB.4.0; " &
-         "Data Source=..\..\tutorials\adotest.mdb");
+         "Data Source=..\tutorials\adotest.mdb");
 
    Open (DB_Control.Recordset,
          DB_Control.Database,
@@ -43,7 +43,7 @@ begin
                     Field_Name (DB_Control.Recordset, N),
                     10, N * 40, 100, 25);
       declare
-         Box  : Pointer_To_Edit_Box_Class := new Edit_Box_Type;
+         Box  : constant Pointer_To_Edit_Box_Class := new Edit_Box_Type;
          Perm : Permissions_Type := Read_Write;
       begin
          Create (Box.all, Main_Window,

@@ -45,7 +45,6 @@ pragma Elaborate_All (GWindows.Cursors);
 
 package body GWindows.Windows is
    use type Interfaces.C.unsigned;
-   use type Interfaces.C.int;
    use type Interfaces.C.long;
    use GWindows.Types;
 
