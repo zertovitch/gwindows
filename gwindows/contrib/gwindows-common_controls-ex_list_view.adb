@@ -653,7 +653,12 @@ package body GWindows.Common_Controls.Ex_List_View is
    procedure On_Header_Click (Control : in out Ex_List_View_Control_Type;
                               Column  : in     Integer                    ) is
    begin
-      Sort(Control => Control, Column => Column, Direction => Auto, Show_Icon => True);
+      --  Call Sort, defined here or overriden.
+      Sort(
+        Control   => Ex_List_View_Control_Type'Class(Control),
+        Column    => Column,
+        Direction => Auto,
+        Show_Icon => True);
    end On_Header_Click;
    ----------------------------------------------------------------------------------------------------
    procedure Draw_sorticon(Control: in out Ex_List_View_Control_Type;
