@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2019 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,10 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   http://www.gnavi.org/gwindows                                          --
+--   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -56,6 +59,7 @@ package body GWindows.Databases is
 
    procedure Begin_Trans (Database : in out Database_Type) is
       n : Integer;
+      pragma Unreferenced (n);
    begin
       n := Integer (BeginTrans (Database.Connection));
    end Begin_Trans;
@@ -164,6 +168,7 @@ package body GWindows.Databases is
       return Natural
    is
       Result  : ADO.Pointer_To_uRecordset;
+      pragma Unreferenced (Result);
       Records : aliased GNATCOM.Types.VARIANT;
    begin
       Records.vt := GNATCOM.Types.VT_I4;
@@ -183,6 +188,7 @@ package body GWindows.Databases is
       Query    : in     GString)
    is
       Result  : ADO.Pointer_To_uRecordset;
+      pragma Unreferenced (Result);
       Records : aliased GNATCOM.Types.VARIANT;
    begin
       Records.vt := GNATCOM.Types.VT_I4;
