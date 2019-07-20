@@ -6,6 +6,11 @@ Major changes - numbers below refer to svn repository revisions
     Latest revision:
       https://sourceforge.net/p/gnavi/code/
 
+363: GWindows.Common_Controls.Ex_List_View: eventually overriden Sort
+     is called also on a click on a header
+359: Moved Paint_Transparent_Bitmap to new GWindows.Drawing.Extended
+     from GWindows.Drawing (some versions of GCC issue a linker error)
+
 GWindows release, 30-Aug-2018 [rev. 357]
 ========================================
 
