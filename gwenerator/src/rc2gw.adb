@@ -4,7 +4,7 @@
 --  RC2GW translates a Resource Compiler script file (.rc or .dlg)
 --  into an Ada package for the GWindows GUI system.
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2016
+--  Copyright (c) Gautier de Montmollin 2008 .. 2019
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -48,18 +48,18 @@ procedure RC2GW is
 
   procedure Syntax is
   begin
-    Put_Line( Standard_Error, "Syntax: RC2GW [option] input_file" );
-    New_Line( Standard_Error );
-    Put_Line( Standard_Error, "RC2GW translates a Resource Compiler script file (.rc or .dlg)" );
-    Put_Line( Standard_Error, "into an Ada package for the GWindows GUI system." );
-    New_Line( Standard_Error );
-    Put_Line( Standard_Error, "options:  -x# : set base_unit_x as # (default:" & Positive'Image(RC_Help.base_unit_x) & ')' );
-    Put_Line( Standard_Error, "          -y# : set base_unit_y as # (default:" & Positive'Image(RC_Help.base_unit_y) & ')' );
-    Put_Line( Standard_Error, "          -s  : put each item (dialog, menu) in a separate package");
-    Put_Line( Standard_Error, "          -t  : generate test procedure");
-    Put_Line( Standard_Error, "          -c  : initialize some controls with fake contents, for test/debug");
-    New_Line( Standard_Error );
-    Put_Line( Standard_Error, "RC Grammar version: " & RC_Help.Grammar_Version);
+    Put_Line( Current_Error, "Syntax: RC2GW [option] input_file" );
+    New_Line( Current_Error );
+    Put_Line( Current_Error, "RC2GW translates a Resource Compiler script file (.rc or .dlg)" );
+    Put_Line( Current_Error, "into an Ada package for the GWindows GUI system." );
+    New_Line( Current_Error );
+    Put_Line( Current_Error, "options:  -x# : set base_unit_x as # (default:" & Positive'Image(RC_Help.base_unit_x) & ')' );
+    Put_Line( Current_Error, "          -y# : set base_unit_y as # (default:" & Positive'Image(RC_Help.base_unit_y) & ')' );
+    Put_Line( Current_Error, "          -s  : put each item (dialog, menu) in a separate package");
+    Put_Line( Current_Error, "          -t  : generate test procedure");
+    Put_Line( Current_Error, "          -c  : initialize some controls with fake contents, for test/debug");
+    New_Line( Current_Error );
+    Put_Line( Current_Error, "RC Grammar version: " & RC_Help.Grammar_Version);
   end Syntax;
 
 begin
@@ -98,12 +98,14 @@ begin
           begin
             rc_io.Open_Input (fname => arg);
             Inp_Opened := True;
-            Put_Line(Standard_Error,
+            Put_Line(Current_Error,
               "RC2GW: transcripting '" & arg &
               "' to GWindows Ada sources." );
+            Put_Line(Current_Error,
+              "RC Grammar version: " & RC_Help.Grammar_Version);
           exception
             when Name_Error =>
-              Put_Line( Standard_Error, "Input file '" & arg &
+              Put_Line( Current_Error, "Input file '" & arg &
                 "' not found." );
               Syntax;
               return;
@@ -114,7 +116,7 @@ begin
   end loop;
 
   if not Inp_Opened then
-    Put_Line(Standard_Error,"Missing input file!");
+    Put_Line(Current_Error,"Missing input file!");
     Syntax;
     return;
   end if;

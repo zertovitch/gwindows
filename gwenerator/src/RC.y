@@ -1,9 +1,9 @@
 --------------------------------------------------------------------------
 --  RC.y
 --
---  Resource Compiler script grammar file (AYACC)
+--  Resource Compiler script grammar file (for AYACC)
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2018
+--  Copyright (c) Gautier de Montmollin 2008 .. 2019
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -706,7 +706,7 @@ ex_style_only
           | WS_EX_TOOLWINDOW_t
           | WS_EX_NOPARENTNOTIFY_t
           | WS_EX_CONTEXTHELP_t
-          | WS_EX_LEFT_t   -- exported everywhere by ResEdit 1.6.x (2014)
+          | WS_EX_LEFT_t   --  WS_EX_LEFT is added everywhere by ResEdit 1.6.x (2014+)
           | WS_EX_RIGHT_t
           | WS_EX_LEFTSCROLLBAR_t
           | WS_EX_TOPMOST_t
@@ -778,7 +778,7 @@ es_styles_optional :
           -- nothing
           | COMMA_t
             es_style_list
-            ex_styles_optional
+            ex_styles_optional  --  Extended styles
           ;
 
 es_style_list:
@@ -835,7 +835,7 @@ cbs_styles_optional :
           -- nothing
           | COMMA_t
             cbs_style_list
-            ex_styles_optional
+            ex_styles_optional  --  Extended styles
           ;
 
 cbs_style_list:
@@ -882,7 +882,7 @@ gbs_styles_optional :
           -- nothing
           | COMMA_t
             gbs_style_list
-            ex_styles_optional
+            ex_styles_optional  --  Extended styles
           ;
 
 gbs_style_list:
@@ -915,7 +915,7 @@ lbs_styles_optional :
           -- nothing
           | COMMA_t
             lbs_style_list
-            ex_styles_optional
+            ex_styles_optional  --  Extended styles
           ;
 
 lbs_style_list: lbs_style
@@ -1019,7 +1019,7 @@ bs_styles_optional :
           -- nothing
           | COMMA_t
             bs_style_list
-            ex_styles_optional
+            ex_styles_optional  --  Extended styles
           ;
 
 bs_style_list:
@@ -1098,11 +1098,15 @@ scrollbar :
                 Ada_normal_control("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Horizontal");
               end if;
             }
-            ;
+         ;
 
+--  Optional scroll bar styles            
+--
 sbs_styles_optional :
           -- nothing
-          | COMMA_t sbs_style_list
+          | COMMA_t 
+            sbs_style_list
+            ex_styles_optional  --  Extended styles
           ;
 
 sbs_style_list:

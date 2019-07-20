@@ -2,7 +2,8 @@
 echo.
 echo Script for building RC2GW.exe and GWenerator.exe
 echo.
-echo make: option -r   recreates RC2GW's and GWenerator's parser sources
+echo make: option -h   shows this help only
+echo              -r   recreates RC2GW's and GWenerator's parser sources
 echo                      from RC.y and RC.l
 echo              -gen recreates GWenerator's own GUI Ada sources with rc2gw
 echo              -res recompiles the resource for getting bitmaps,
