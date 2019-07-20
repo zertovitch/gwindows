@@ -11,6 +11,6 @@ INITIALIZE_CONTROLS TRUE
 ADA_MAIN GW_RE_App.exe
 ADA_LISTEN TRUE
 ADA_AUTO_BUILD TRUE
-ADA_COMMAND   gnatmake.exe -i GW_RE_App.adb -I..\obj\gnatdebg -I..\..\gwindows\framework -I..\..\gnatcom\framework 
+ADA_COMMAND   gnatmake.exe -i GW_RE_App.adb -I..\obj\gnatdebg -I..\..\gwindows\framework -I..\..\gnatcom\framework -largs GW_RE_App.rbj
 SHOW_DETAILS TRUE -- in the UI, show the bottom part with message boxes
 SHOW_ADA_BUILD TRUE -- in the UI, show the right part with ada build
