@@ -1,3 +1,7 @@
+--  Demo for the GWindows.Simple_Sheet package.
+--
+--  See: gwindows\contrib, gwindows\gwindows_contrib.gpr, gwindows\contrib\test
+
 with GWindows.Application;
 with GWindows.Base;
 with GWindows.Buttons;
@@ -7,7 +11,7 @@ with GWindows.Simple_Sheet;             use GWindows.Simple_Sheet;
 with GWindows.GStrings;                 use GWindows.GStrings;
 with GWindows.Drawing_Objects;
 
---  Only needed for having a decent font
+--  Only needed for having a decent font (see Common_Fonts below).
 with Interfaces.C;
 with System;
 with GWindows.Types;
@@ -24,8 +28,8 @@ procedure Test_Simple_Sheet is
   rows          : constant Natural := 10;
   columns       : constant Natural := 10;
   row_height    : Positive := 20;
-  column_width  : Positive := 58;
-  row_growth   : Integer := 1;
+  column_width  : Positive := 75;
+  row_growth    : Integer := 1;
 
   procedure Button_action (btn : in out GWindows.Base.Base_Window_Type'Class)
   is
@@ -38,7 +42,7 @@ procedure Test_Simple_Sheet is
     end if;
     row_height := row_height + row_growth;
     Set_Row_Height (Sheet, row_height);
-    Text (Top, "Cell A1 contains: " & Get_Cell_Text (Sheet, 1, 1));
+    Text (Top, "Cell (10, 10) contains: " & Get_Cell_Text (Sheet, 10, 10));
   end Button_action;
 
   procedure Copy_action (btn : in out GWindows.Base.Base_Window_Type'Class)
@@ -55,10 +59,10 @@ procedure Test_Simple_Sheet is
      Paste_from_Clipboard (Sheet);
   end Paste_action;
 
-  ----------------------------------------------------------
-  -- All the following is to get the usual GUI fonts !... --
-  -- Code taken from what GWenerator is generating.       --
-  ----------------------------------------------------------
+  ----------------------------------------------------------------------
+  -- The following (Common_Fonts) is to get the usual GUI fonts !...  --
+  -- The code below is taken from what GWenerator is generating.      --
+  ----------------------------------------------------------------------
 
   package Common_Fonts is
     GUI_Font : GWindows.Drawing_Objects.Font_Type;
@@ -142,9 +146,12 @@ procedure Test_Simple_Sheet is
 
 begin
   Create (Top, "Hello World");
-  Size (Top, 600, 300);
+  Size (Top, 800, 300);
   Common_Fonts.Create_Common_Fonts;
   Use_GUI_Font (Top);
+  --
+  --  The spreadsheet is created here.
+  --
   GWindows.Simple_Sheet.Create (
     Sheet          => Sheet,
     Parent         => Top,
@@ -161,6 +168,9 @@ begin
     Window => Sheet,
     State  => True);
 
+  --
+  --  We fill the sheet with some contents.
+  --
   for I in 1 .. 10 loop
     for J in 1 .. 10 loop
 
@@ -169,22 +179,26 @@ begin
       else
         Set_Cell_Text
           (
-          Sheet  => Sheet,
-          Row    => I,
-          Column => J,
-          Text   =>
-            To_GString_From_String (
-              Integer'Image (I) & "," & Integer'Image (J))
-            );
+            Sheet     => Sheet,
+            Row       => I,
+            Column    => J,
+            Text      =>
+              To_GString_From_String (
+                Integer'Image (I) & "," & Integer'Image (J)),
+            Read_Only => I = 1 or J = 1  --  Top row and Left column will look like headers
+          );
       end if;
 
     end loop;
   end loop;
 
+  --
+  --  We add a few buttons *within* the spreadsheet!
+  --
   GWindows.Buttons.Create
     (Button => Button,
     Parent => Get_Item_Within_Cell (Sheet => Sheet, Row => 2, Column => 2).all,
-    Text => "Wow",
+    Text => "Show (10, 10)",
     Left => 1,
     Top => 1,
     Width => column_width,
