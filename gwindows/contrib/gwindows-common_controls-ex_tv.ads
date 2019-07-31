@@ -6,7 +6,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--              Copyright (C) 1999 - 2019 David Botton / KonAd              --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -33,8 +33,7 @@
 --    extension to the Tree_view_control_type (David Botton):
 --    implemented features:
 --
---  -> TreeHitTest, returns, which node is at point
---  -> select a node
+--  -> TreeHitTest, returns which node is at point
 --  -> nodes with icons
 --  -> catch the change-event
 --
@@ -96,10 +95,9 @@ package GWindows.Common_Controls.Ex_TV is
                         return Integer;
    --  set and get the item-id
 
-   function Select_Item (Control : in Ex_Tree_View_Control_Type;
-                         Item    : in Tree_Item_Node)
-                        return Boolean;
-   --  select a node, returns true if success
+   --  Function Select_Item has been moved to parent type
+   --  Tree_View_Control_Type in GWindows.Common_Controls, along with
+   --  a procedure having the same name. Change: GdM 31-Jul-2019.
 
    procedure Set_Image (Control          : in Ex_Tree_View_Control_Type;
                         Item             : in Tree_Item_Node;

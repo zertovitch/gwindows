@@ -6,7 +6,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--              Copyright (C) 1999 - 2019 David Botton / KonAd              --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -43,8 +43,6 @@ with GWindows.GStrings; use GWindows.GStrings;
 package body GWindows.Common_Controls.Ex_TV_Generic is
 
    Tv_First           : constant := 16#1100#;
-   Tvgn_Caret         : constant := 16#0009#;
-   Tv_Selectitem      : constant := Tv_First + 11;
    Tvm_Hittest        : constant := Tv_First + 17;
    Tvm_Setimagelist   : constant := Tv_First + 9;
    TVM_SETLINECOLOR   : constant := Tv_First + 40;
@@ -313,25 +311,6 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
       Data_access := Address_Conversion.To_Pointer(Get_Lparam(Control, Node));
       return Data_access.ID;
    end Get_Item_Id;
-
-   -----------------
-   -- select_item --
-   -----------------
-
-   function Select_Item (Control : in     Ex_Tree_View_Control_Type;
-                         Item    : in     Tree_Item_Node          )
-                        return Boolean is
-
-      function Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
-                            Umsg   : Interfaces.C.int  := Tv_Selectitem;
-                            Wparam : Integer           := Tvgn_Caret;
-                            Lparam : Tree_Item_Node    := Item              )
-                           return Boolean;
-      pragma Import (Stdcall, Sendmessage,
-                       "SendMessage" & Character_Mode_Identifier);
-   begin
-      return Sendmessage;
-   end Select_Item;
 
    ---------------
    -- set_image --

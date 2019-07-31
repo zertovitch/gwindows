@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2019 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -980,11 +980,22 @@ package GWindows.Common_Controls is
      (Control     : in out Tree_View_Control_Type;
       At_Node     : in     Tree_Item_Node);
 
-   --  GdM: Select_Item added 21-May-2009
+   --  GdM: Select_Item *procedure* added 21-May-2009
 
    procedure Select_Item
-     (Control     : in out Tree_View_Control_Type;
-      Node        : in     Tree_Item_Node);
+     (Control : in Tree_View_Control_Type;
+      Node    : in Tree_Item_Node);
+
+   --  GdM: Select_Item *function* added 31-Jul-2019
+   --  The same has function been removed from extension packages
+   --  GWindows.Common_Controls.Ex_TV and
+   --  GWindows.Common_Controls.Ex_TV_Generic .
+
+   function Select_Item
+     (Control : in Tree_View_Control_Type;
+      Node    : in Tree_Item_Node)
+      return Boolean;
+   --  Returns True if success
 
    -------------------------------------------------------------------------
    --  Tree_View_Control_Type - Event Framework Methods

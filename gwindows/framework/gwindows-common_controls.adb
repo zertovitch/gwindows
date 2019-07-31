@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2019 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -238,11 +238,11 @@ package body GWindows.Common_Controls is
    TVM_GETNEXTITEM         : constant := TV_FIRST + 10;
    TVM_GETITEMA            : constant := TV_FIRST + 12;
    TVM_GETITEMW            : constant := TV_FIRST + 62;
-   TVM_GETCOUNT            : constant := TV_FIRST + 5;  --  AnSp
+   TVM_GETCOUNT            : constant := TV_FIRST +  5;  --  AnSp
    TVM_SETITEMA            : constant := TV_FIRST + 13;  --  AnSp
    TVM_SETITEMW            : constant := TV_FIRST + 63;  --  AnSp
-   TVM_SETIMAGELIST        : constant := TV_FIRST + 9;  --  AnSp
-   TVM_SELECTITEM          : constant := TV_FIRST + 11; -- GdM
+   TVM_SETIMAGELIST        : constant := TV_FIRST +  9;  --  AnSp
+   TVM_SELECTITEM          : constant := TV_FIRST + 11;  --  GdM
    TVM_HITTEST             : constant := TV_FIRST + 17;
 
    TVGN_ROOT               : constant := 16#0000#;
@@ -3000,19 +3000,29 @@ package body GWindows.Common_Controls is
    --  GdM: added 21-May-2009
 
    procedure Select_Item
-     (Control     : in out Tree_View_Control_Type;
-      Node        : in     Tree_Item_Node)
+     (Control : in Tree_View_Control_Type;
+      Node    : in Tree_Item_Node)
    is
+      dummy : Boolean := Select_Item (Control, Node);
+   begin
+      null;
+   end Select_Item;
 
-      procedure SendMessage
+   function Select_Item
+     (Control : in Tree_View_Control_Type;
+      Node    : in Tree_Item_Node)
+      return Boolean
+   is
+      function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := TVM_SELECTITEM;
          wParam : GWindows.Types.Wparam := TVGN_CARET;
-         lParam : Tree_Item_Node        := Node);
+         lParam : Tree_Item_Node        := Node)
+      return Boolean;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      return SendMessage;
    end Select_Item;
 
    ---------------

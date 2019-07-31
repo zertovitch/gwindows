@@ -6,7 +6,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--              Copyright (C) 1999 - 2019 David Botton / KonAd              --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -41,8 +41,6 @@ with GWindows.GStrings; use GWindows.GStrings;
 package body GWindows.Common_Controls.Ex_TV is
 
    TV_FIRST           : constant := 16#1100#;
-   TVGN_CARET         : constant := 16#0009#;
-   TV_SELECTITEM      : constant := TV_FIRST + 11;
    TVM_HITTEST        : constant := TV_FIRST + 17;
    Tvm_Setimagelist   : constant := TV_FIRST + 9;
    TVM_SETLINECOLOR   : constant := TV_FIRST + 40;
@@ -333,26 +331,6 @@ package body GWindows.Common_Controls.Ex_TV is
         Address_Conversion.To_Pointer (Get_Lparam (Control, Node));
       return Data_access.ID;
    end Get_Item_Id;
-
-   -----------------
-   -- Select_Item --
-   -----------------
-
-   function Select_Item (Control : in Ex_Tree_View_Control_Type;
-                         Item    : in Tree_Item_Node)
-                        return Boolean
-   is
-
-      function Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
-                            Umsg   : Interfaces.C.int  := TV_SELECTITEM;
-                            Wparam : Integer           := TVGN_CARET;
-                            Lparam : Tree_Item_Node    := Item)
-                           return Boolean;
-      pragma Import (Stdcall, Sendmessage,
-                       "SendMessage" & Character_Mode_Identifier);
-   begin
-      return Sendmessage;
-   end Select_Item;
 
    ---------------
    -- Set_Image --
