@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2014 David Botton                   --
+--                 Copyright (C) 1999 - 2019 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -203,8 +203,10 @@ package GWindows.Menus is
    function Valid (Menu : in Menu_Type) return Boolean;
    --  Returns true if Menu is valid
 
-   --  Execute immediately a Popup menu
-
+   --  Execute immediately a popup menu (also called: "pop-up menu",
+   --  "context menu", "contextual menu", or "shortcut menu").
+   --  Default location is the current mouse cursor position.
+   --
    procedure Immediate_Popup_Menu (
       Menu     : Menu_Type;
       Window   : GWindows.Base.Base_Window_Type'Class;

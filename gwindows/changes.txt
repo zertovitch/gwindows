@@ -6,6 +6,9 @@ Major changes - numbers below refer to svn repository revisions
     Latest revision:
       https://sourceforge.net/p/gnavi/code/
 
+371: Moved function Select_Item from GWindows.Common_Controls.Ex_TV
+     and GWindows.Common_Controls.Ex_TV_Generic to parent type
+     in GWindows.Common_Controls.
 363: GWindows.Common_Controls.Ex_List_View: eventually overriden Sort
      is called also on a click on a header
 359: Moved Paint_Transparent_Bitmap to new GWindows.Drawing.Extended
