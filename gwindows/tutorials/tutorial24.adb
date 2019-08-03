@@ -1,6 +1,11 @@
---  This tutorial is about doing a simple Drag & Drop
---  within an application window. No OLE so far.
+--  This Tutorial is about doing a simple Drag & Drop
+--  *within a GWindows application window*.
+--  No OLE so far.
 --  Work in progress!
+--
+--  For a simple, working Drag & Drop from a GWindows
+--  application to Windows Explorer or the Desktop,
+--  see the Sample: gwindows\samples\mouse\cap_test.adb.
 
 with Tutorial24_Window; use Tutorial24_Window;
 

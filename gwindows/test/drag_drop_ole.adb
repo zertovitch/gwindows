@@ -1,6 +1,11 @@
---  Derived from tutorial 24 - testing Drag & Drop with OLE
+--  Derived from Tutorial 24 - testing Drag & Drop with OLE
 --  Especially: dragging something from the application window.
 --  to the file explorer.
+--
+--  *** NB: This test does not work properly yet. ***
+--  For a simple, working Drag & Drop from a GWindows
+--  application to Windows Explorer or the Desktop, *without using OLE*,
+--  see the Sample: gwindows\samples\mouse\cap_test.adb.
 
 with Drag_Drop_OLE_Window; use Drag_Drop_OLE_Window;
 

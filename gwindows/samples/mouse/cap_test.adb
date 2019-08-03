@@ -1,4 +1,14 @@
---  Demo for mouse capture, drag & drop, and Get_Window_At_Location
+--  Demo for mouse capture and related "spying" functions:
+--
+--  Get_Window_At_Location
+--  Get_Window_Text_At_Location
+--  Get_Window_Class_Name_At_Location
+--  Get_Window_Root_Class_Name_At_Location
+--  Explorer_Path_At_Location
+--  Is_Desktop_At_Location
+--
+--  The last two can be used for Drag & Drop operations from a GWindows
+--  application to Windows Explorer or the Desktop.
 
 with GWindows.Types;
 with GWindows.Windows.Main; use GWindows.Windows.Main;

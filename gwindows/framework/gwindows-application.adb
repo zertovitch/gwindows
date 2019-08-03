@@ -345,7 +345,7 @@ package body GWindows.Application is
       return Get_Window_Class_Name (WindowFromPoint ((X, Y)));
    end Get_Window_Class_Name_At_Location;
 
-   --  Internal
+   --  GetAncestor is internal, just for obtaining the root window handle.
    function GetAncestor (
      hwnd    : GWindows.Types.Handle;
      gaFlags : Interfaces.C.unsigned)
@@ -370,6 +370,7 @@ package body GWindows.Application is
    end Is_Desktop_At_Location;
 
    function Explorer_Path_At_Location (X, Y : Integer) return GString is
+      --
       procedure EnumChildWindows (hwnd   : GWindows.Types.Handle;
                                   Proc   : System.Address;
                                   lp     : GWindows.Types.Lparam);
@@ -386,28 +387,34 @@ package body GWindows.Application is
                          return Boolean
       is
       pragma Unreferenced (lp);
-         CCN : constant GString := Get_Window_Class_Name (child);
+         Child_Class_Name : constant GString := Get_Window_Class_Name (child);
          CT  : constant GString := Get_Window_Text (child);
+         --  Force to Unicode (for the Index function)
          WCT : constant Wide_String := To_Wide_String (CT);
          I   : Integer;
          use Ada.Strings.Wide_Fixed;
       begin
-         if CCN = "ToolbarWindow32" then
+         if Child_Class_Name = "ToolbarWindow32" then
+            --  Examples of WCT (Windows 10 in French):
+            --    "Boutons de navigation"
+            --    "Barre d'outils du bandeau supérieur"
+            --    "Adresse : C:\Ada\gnavi\gwindows\samples"
+            --
             I := Index (WCT, ": ");
             if I > 0 then
-               --  There are many children with the same class name!
-               --  Only one may contain a path.
+               --  There are many children with the same class
+               --  name (ToolbarWindow32)! Only one may contain a path.
                if Index (WCT, ":\") = 0 and then Index (WCT, "\\") = 0 then
                   --  It is a bogus directory, like "My Computer"
                   --  or "Documents" (in various languages...).
                   null;
                else
                   Path := To_GString_Unbounded (CT (I + 2 .. CT'Last));
-                  return False;  --  Stop enumeration
+                  return False;  --  Found, then stop enumeration
                end if;
             end if;
          end if;
-         --  Recurse on children (not needed so far)
+         --  Recurse on children (not needed so far):
          --  EnumChildWindows (child, Capture_Edit_Box'Address, 0);
          return True;  --  Continue enumeration
       end Capture_Edit_Box;
