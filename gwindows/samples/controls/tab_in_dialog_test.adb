@@ -1,5 +1,13 @@
---  Testing Tab Control within a dialog (see also tab_test.adb)
---  By Andre van Splunter
+--  Testing Tab Control within a dialog (see also tab_test.adb).
+--  By Andre van Splunter.
+--
+--  For real applications using tabs in dialogs, see:
+--
+--    AZip ( http://azip.sf.net/ ), quick help dialog:
+--      package AZip_GWin.Help (azip_gwin-help.adb)
+--
+--    TeXCAD ( http://texcad.sf.net ), procedure On_General_Options
+--      in package TC.GWin.MDI_Main (tc_gwin\tc-gwin-mdi_main.adb)
 
 with GWindows;                          use GWindows;
 with GWindows.Application;
@@ -35,7 +43,7 @@ procedure Tab_in_dialog_test is
       Create (Tab_Control, Panel, 10, 10, 300, 150);
       --  Any click in the buttons Button_1, Button_2 below
       --  will freeze the application if the following has
-      --  not been called:
+      --  *not* been called:
       Set_As_Control_Parent (Tab_Control);
       --  See discussion:
       --  [Gnavi-discuss] Button clicked inside of a tab -> hanging
