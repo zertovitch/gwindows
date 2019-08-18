@@ -1,3 +1,9 @@
+--  ! NOTE: Since 2009 or so the registry is not used anymore by GNAT.
+--  ! Only environment variables such as PATH (for locating active GNAT version)
+--  ! or ADA_PROJECT_PATH are used.
+--  ! GNATREG would be only useful in the case you are using
+--  ! a very old GNAT version, like 3.15p.
+
 ------------------------------------------------------------------------------
 --                                                                          --
 --          GNATREG - Win32 GNAT Standard Library Registry Tool             --
