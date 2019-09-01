@@ -5,6 +5,11 @@ Major changes - numbers below refer to svn repository revisions
       https://sourceforge.net/p/gnavi/code/N/
     Latest revision:
       https://sourceforge.net/p/gnavi/code/
+    From SVN, you can see all changes between two revisions A and B with "svn log -rA:B".
+
+
+GWindows release, 01-Sep-2019 [rev. 376]
+========================================
 
 371: Moved function Select_Item from GWindows.Common_Controls.Ex_TV
      and GWindows.Common_Controls.Ex_TV_Generic to parent type

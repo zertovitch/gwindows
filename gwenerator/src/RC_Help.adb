@@ -310,7 +310,7 @@ package body RC_Help is
     if first_include then
       Convert_Header_File (fn, done);
       if done then
-        Put_Line(Current_Error, "Processed main header file: " & fn & '.');
+        Put_Line(Current_Error, " . . . . Processed main header file: " & fn & '.');
         first_include:= False; -- otherwise, we try with the next one, if any...
       end if;
     end if;
@@ -432,7 +432,7 @@ package body RC_Help is
   procedure Create(on_pkg: Pkg_output; name: String) is
   begin
     Create(Ada_files(on_pkg), Out_File, name);
-    Put_Line(Current_Error, "Writing: " & name);
+    Put_Line(Current_Error, " . . . . Writing: " & name);
   end Create;
 
   procedure Open_if_separate(item: String; with_body: Boolean:= True) is

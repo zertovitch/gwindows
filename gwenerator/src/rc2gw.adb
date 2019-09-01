@@ -102,7 +102,7 @@ begin
               "RC2GW: transcripting '" & arg &
               "' to GWindows Ada sources." );
             Put_Line(Current_Error,
-              "RC Grammar version: " & RC_Help.Grammar_Version);
+              " . . . . RC Grammar version: " & RC_Help.Grammar_Version);
           exception
             when Name_Error =>
               Put_Line( Current_Error, "Input file '" & arg &
@@ -131,4 +131,5 @@ begin
     rc_io.Close_Input;
   end if;
 
+  Put_Line(Current_Error, "RC2GW is done." );
 end RC2GW;

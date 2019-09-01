@@ -1,14 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2018/08/30  11:39:48
--- GWenerator project file: GW_Install.gwen
+-- Transcription time: 2019/09/01  08:14:26
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 30-Aug-2018
+-- RC Grammar version: 20-Jul-2019
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -239,8 +238,8 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "File extractor for the GWindows programming framework";
-    FileVersion: constant String:= "30-Aug-2018";
-    LegalCopyright: constant String:= "© 2012 .. 2018 G. de Montmollin (MIT license)";
+    FileVersion: constant String:= "01-Sep-2019";
+    LegalCopyright: constant String:= "© 2012 .. 2019 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Extractor";
     Translation: constant:= 1033;
   end Version_info;

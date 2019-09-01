@@ -104,9 +104,9 @@ CAPTION "GWindows installer, version "
 FONT 8, "Ms Shell Dlg"
 {
     GROUPBOX        "", IDC_STATIC, 11, 0, 290, 43, 0, WS_EX_LEFT
-    LTEXT           "Open Source Visual", IDC_STATIC, 176, 6, 109, 8, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Open Source Visual", IDC_STATIC, 192, 6, 80, 8, SS_LEFT, WS_EX_LEFT
     LTEXT           "Rapid Application Development", IDC_STATIC, 176, 19, 109, 8, SS_LEFT, WS_EX_LEFT
-    LTEXT           "for Microsoft Windows", IDC_STATIC, 176, 32, 109, 8, SS_LEFT, WS_EX_LEFT
+    LTEXT           "for Microsoft Windows", IDC_STATIC, 192, 32, 80, 8, SS_LEFT, WS_EX_LEFT
     LTEXT           "This is the GWindows programming framework's setup, version ", Setup_title, 9, 47, 284, 8, SS_LEFT, WS_EX_LEFT
     GROUPBOX        "Location", IDC_STATIC, 9, 60, 292, 52, 0, WS_EX_LEFT
     LTEXT           "Please specify a directory where you want to install the GWindows framework.", IDC_STATIC, 36, 72, 261, 8, SS_LEFT, WS_EX_LEFT
@@ -186,8 +186,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
         {
             VALUE "Authors", "Gautier de Montmollin"
             VALUE "FileDescription", "File extractor for the GWindows programming framework"
-            VALUE "FileVersion", "30-Aug-2018"
-            VALUE "LegalCopyright", "© 2012 .. 2018 G. de Montmollin (MIT license)"
+            VALUE "FileVersion", "01-Sep-2019"
+            VALUE "LegalCopyright", "© 2012 .. 2019 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWindows Extractor"
         }
     }

@@ -1,14 +1,13 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2018/08/30  11:39:48
--- GWenerator project file: GW_Install.gwen
+-- Transcription time: 2019/09/01  08:14:26
 --
 -- Translated by the RC2GW or by the GWenerator tool.
 -- URL: http://sf.net/projects/gnavi
 --
 -- This file contains only automatically generated code. Do not edit this.
 -- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 30-Aug-2018
+-- RC Grammar version: 20-Jul-2019
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -365,11 +364,11 @@ package body GW_Install_Resource_GUI is
     Use_GUI_Font(Window);
     Dlg_to_Scn(  11, 0, 290, 43, x,y,w,h);
     Create( Window.Static_0001, Window, "", x,y,w,h);
-    Dlg_to_Scn(  176, 6, 109, 8, x,y,w,h);
+    Dlg_to_Scn(  192, 6, 80, 8, x,y,w,h);
     Create_Label( Window, "Open Source Visual", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  176, 19, 109, 8, x,y,w,h);
     Create_Label( Window, "Rapid Application Development", x,y,w,h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn(  176, 32, 109, 8, x,y,w,h);
+    Dlg_to_Scn(  192, 32, 80, 8, x,y,w,h);
     Create_Label( Window, "for Microsoft Windows", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn(  9, 47, 284, 8, x,y,w,h);
     Create( Window.Setup_title, Window, "This is the GWindows programming framework's setup, version ", x,y,w,h, GWindows.Static_Controls.Left, None, ID => Setup_title);
