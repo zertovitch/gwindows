@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2019 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -36,6 +36,10 @@ with System;
 with Ada.Unchecked_Conversion;
 
 package GWindows.Types is
+
+   type BYTE is new Interfaces.C.unsigned_char;
+   type WORD is new Interfaces.C.unsigned_short;
+   type DWORD is new Interfaces.C.unsigned;
 
    type Handle is new System.Address;
    Null_Handle : constant Handle := Handle (System.Null_Address);

@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2014 David Botton                   --
+--                 Copyright (C) 1999 - 2019 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -169,16 +169,17 @@ package GWindows.Common_Dialogs is
    -------------------------------------------------------------------------
 
    type BCHARSTR is
-     array (Integer range 0 .. 31) of Interfaces.C.unsigned_char;
+     array (Integer range 0 .. 31) of GWindows.Types.BYTE;
 
    type DEVMODE is
       record
          dmDeviceName       : BCHARSTR;
-         dmSpecVersion      : Interfaces.C.short;
-         dmDriverVersion    : Interfaces.C.short;
-         dmSize             : Interfaces.C.short;
-         dmDriverExtra      : Interfaces.C.short;
-         dmFields           : Interfaces.C.long;
+         dmSpecVersion      : GWindows.Types.WORD;
+         dmDriverVersion    : GWindows.Types.WORD;
+         dmSize             : GWindows.Types.WORD;
+         dmDriverExtra      : GWindows.Types.WORD;
+         dmFields           : GWindows.Types.DWORD;
+         --
          dmOrientation      : Interfaces.C.short;
          dmPaperSize        : Interfaces.C.short;
          dmPaperLength      : Interfaces.C.short;
@@ -187,27 +188,36 @@ package GWindows.Common_Dialogs is
          dmCopies           : Interfaces.C.short;
          dmDefaultSource    : Interfaces.C.short;
          dmPrintQuality     : Interfaces.C.short;
+         --
          dmColor            : Interfaces.C.short;
          dmDuplex           : Interfaces.C.short;
          dmYResolution      : Interfaces.C.short;
          dmTTOption         : Interfaces.C.short;
          dmCollate          : Interfaces.C.short;
+         --
          dmFormName         : BCHARSTR;
-         dmLogPixels        : Interfaces.C.short;
-         dmBitsPerPel       : Interfaces.C.long;
-         dmPelsWidth        : Interfaces.C.long;
-         dmPelsHeight       : Interfaces.C.long;
-         dmDisplayFlags     : Interfaces.C.long;
-         dmDisplayFrequency : Interfaces.C.long;
-         dmICMMethod        : Interfaces.C.long;
-         dmICMIntent        : Interfaces.C.long;
-         dmMediaType        : Interfaces.C.long;
-         dmDitherType       : Interfaces.C.long;
-         dmReserved1        : Interfaces.C.long;
-         dmReserved2        : Interfaces.C.long;
-         dmPanningWidth     : Interfaces.C.long;
-         dmPanningHeight    : Interfaces.C.long;
+         dmLogPixels        : GWindows.Types.WORD;
+         dmBitsPerPel       : GWindows.Types.DWORD;
+         dmPelsWidth        : GWindows.Types.DWORD;
+         dmPelsHeight       : GWindows.Types.DWORD;
+         dmDisplayFlags     : GWindows.Types.DWORD;
+         --
+         dmDisplayFrequency : GWindows.Types.DWORD;
+         dmICMMethod        : GWindows.Types.DWORD;
+         dmICMIntent        : GWindows.Types.DWORD;
+         dmMediaType        : GWindows.Types.DWORD;
+         dmDitherType       : GWindows.Types.DWORD;
+         dmReserved1        : GWindows.Types.DWORD;
+         dmReserved2        : GWindows.Types.DWORD;
+         dmPanningWidth     : GWindows.Types.DWORD;
+         dmPanningHeight    : GWindows.Types.DWORD;
       end record;
+
+   function Device_Name (Device : DEVMODE) return GString;
+   --  Example: "PCL/HP LaserJet"
+
+   function Form_Name (Device : DEVMODE) return GString;
+   --  Examples: "Letter" or "Legal"
 
    --  Flags that can be used for Choose Printer
 

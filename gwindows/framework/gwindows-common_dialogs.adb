@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2014 David Botton                   --
+--                 Copyright (C) 1999 - 2019 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -45,6 +45,7 @@ package body GWindows.Common_Dialogs is
    pragma Linker_Options ("-lcomdlg32");
 
    use type Interfaces.C.unsigned;
+   use type GWindows.Types.DWORD;
 
    -------------------------------------------------------------------------
    --  Operating System Imports
@@ -206,25 +207,38 @@ package body GWindows.Common_Dialogs is
 
    type Pointer_To_DEVMODE is access all DEVMODE;
 
+   function Expected_PRINTDLG_Size return GWindows.Types.DWORD is
+   begin
+      if Standard'Address_Size = 32 then
+         return 66;
+      else
+         return 120;
+      end if;
+   end Expected_PRINTDLG_Size;
+
    type TPRINTDLG is
       record
-         lStructSize         : Interfaces.C.long      := 66;
-         hwndOwner       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         lStructSize         : GWindows.Types.DWORD   :=
+                                  Expected_PRINTDLG_Size;
+         hwndOwner           : GWindows.Types.Handle  :=
+                                  GWindows.Types.Null_Handle;
          hDevMode            : Pointer_To_DEVMODE     := null;
-         hDevNames           : Integer                := 0;
-         hDC             : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         flags               : Interfaces.C.unsigned  := 0;
-         nFromPage           : Interfaces.C.short     := 0;
-         nToPage             : Interfaces.C.short     := 0;
-         nMinPage            : Interfaces.C.short     := 0;
-         nMaxPage            : Interfaces.C.short     := 0;
-         nCopies             : Interfaces.C.short     := 0;
-         hInstance           : Interfaces.C.long      := 0;
-         lCustData           : Interfaces.C.long      := 0;
-         lpfnPrintHook       : Interfaces.C.long      := 0;
-         lpfnSetupHook       : Interfaces.C.long      := 0;
-         lpPrintTemplateName : Interfaces.C.long      := 0;
-         lpSetupTemplateName : Interfaces.C.long      := 0;
+         hDevNames           : Interfaces.C.long      := 0;
+         hDC                 : GWindows.Types.Handle  :=
+                                  GWindows.Types.Null_Handle;
+         flags               : GWindows.Types.DWORD   := 0;
+         nFromPage           : GWindows.Types.WORD    := 0;
+         nToPage             : GWindows.Types.WORD    := 0;
+         nMinPage            : GWindows.Types.WORD    := 0;
+         nMaxPage            : GWindows.Types.WORD    := 0;
+         nCopies             : GWindows.Types.WORD    := 0;
+         hInstance           : GWindows.Types.Handle  :=
+                                  GWindows.Types.Null_Handle;
+         lCustData           : GWindows.Types.Lparam  := 0;
+         lpfnPrintHook       : GWindows.Types.Lparam  := 0;
+         lpfnSetupHook       : GWindows.Types.Lparam  := 0;
+         lpPrintTemplateName : GWindows.Types.Lparam  := 0;
+         lpSetupTemplateName : GWindows.Types.Lparam  := 0;
          hPrintTemplate      : Interfaces.C.long      := 0;
          hSetupTemplate      : Interfaces.C.long      := 0;
       end record;
@@ -256,6 +270,28 @@ package body GWindows.Common_Dialogs is
       pszpath : GString_C);
    pragma Import (StdCall, SHGetPathFromIDList,
                            "SHGetPathFromIDList" & Character_Mode_Identifier);
+
+   function Convert (B : BCHARSTR) return String is
+      use Interfaces.C;
+      Res : char_array (0 .. size_t (B'Last));
+   begin
+      for i in B'Range loop
+         Res (size_t (i)) := char'Val (B (i));
+      end loop;
+      return To_Ada (Res);
+   end Convert;
+
+   function Device_Name (Device : DEVMODE) return GString is
+      use GWindows.GStrings;
+   begin
+      return To_GString_From_String (Convert (Device.dmDeviceName));
+   end Device_Name;
+
+   function Form_Name (Device : DEVMODE) return GString is
+      use GWindows.GStrings;
+   begin
+      return To_GString_From_String (Convert (Device.dmFormName));
+   end Form_Name;
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -749,7 +785,7 @@ package body GWindows.Common_Dialogs is
       Copies    : in out Natural;
       Success   :    out Boolean)
    is
-      use Interfaces.C;
+      use GWindows.Types;
 
       PD : TPRINTDLG;
 
@@ -758,27 +794,27 @@ package body GWindows.Common_Dialogs is
         return Integer;
       pragma Import (StdCall, PrintDlg, "PrintDlgA");
 
-      procedure GlobalFree (handle : Integer);
+      procedure GlobalFree (handle : Interfaces.C.long);
       procedure GlobalFree (handle : Pointer_To_DEVMODE);
       pragma Import (StdCall, GlobalFree, "GlobalFree");
    begin
       PD.hwndOwner := GWindows.Base.Handle (Window);
-      PD.flags     := PD_RETURNDC or Flags;
-      PD.nFromPage := short (From_Page);
-      PD.nToPage := short (To_Page);
-      PD.nMinPage := short (Min_Page);
-      PD.nMaxPage := short (Max_Page);
-      PD.nCopies := short (Copies);
+      PD.flags     := PD_RETURNDC or DWORD (Flags);
+      PD.nFromPage := WORD (From_Page);
+      PD.nToPage   := WORD (To_Page);
+      PD.nMinPage  := WORD (Min_Page);
+      PD.nMaxPage  := WORD (Max_Page);
+      PD.nCopies   := WORD (Copies);
 
       Success := PrintDlg /= 0;
 
       if Success then
          GWindows.Drawing.Capture (Canvas, GWindows.Types.Null_Handle, PD.hDC);
 
-         Flags := PD.flags;
+         Flags     := Interfaces.C.unsigned (PD.flags);
          From_Page := Integer (PD.nFromPage);
-         To_Page := Integer (PD.nToPage);
-         Copies := Integer (PD.nCopies);
+         To_Page   := Integer (PD.nToPage);
+         Copies    := Integer (PD.nCopies);
 
          Settings := PD.hDevMode.all;
 
@@ -804,7 +840,7 @@ package body GWindows.Common_Dialogs is
         return Integer;
       pragma Import (StdCall, PrintDlg, "PrintDlgA");
 
-      procedure GlobalFree (handle : Integer);
+      procedure GlobalFree (handle : Interfaces.C.long);
       procedure GlobalFree (handle : Pointer_To_DEVMODE);
       pragma Import (StdCall, GlobalFree, "GlobalFree");
    begin
