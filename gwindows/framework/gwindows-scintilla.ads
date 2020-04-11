@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2017 David Botton                   --
+--                 Copyright (C) 1999 - 2020 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -1079,6 +1079,8 @@ package GWindows.Scintilla is
    procedure SetUseTabs (Control : in out Scintilla_Type; useTabs : Boolean);
    --  Indentation will only use space characters if useTabs is false,
    --  otherwise it will use a combination of tabs and spaces.
+   --  See the Tab and BackTab methods for programatically activating
+   --  indentation and dedentation.
 
    function GetUseTabs (Control : Scintilla_Type) return Boolean;
    --  Retrieve whether tabs will be used in indentation.
@@ -1676,11 +1678,12 @@ package GWindows.Scintilla is
 
    procedure Tab (Control : in out Scintilla_Type);
    --  If selection is empty or all on one line replace the selection
-   --  with a tab character.  If more than one line selected, indent
-   --  the lines.
+   --  with a tab character or with the equivalent amount of spaces if
+   --  the editor was set up with SetUseTabs (Control, False).
+   --  If more than one line selected, indent the lines.
 
    procedure BackTab (Control : in out Scintilla_Type);
-   --  Dedent the selected lines.
+   --  Dedent the selected lines. Reverse of the Tab method.
 
    procedure NewLine (Control : in out Scintilla_Type);
    --  Insert a new line, may use a CRLF, CR or LF depending on EOL mode.
