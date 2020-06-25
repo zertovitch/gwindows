@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2019 David Botton                   --
+--                 Copyright (C) 1999 - 2020 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,7 +29,8 @@
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
---   http://sf.net/projects/gnavi/                                          --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --   http://www.gnavi.org/gwindows                                          --
 --   http://www.adapower.com/gwindows                                       --
 --                                                                          --
@@ -2249,6 +2250,55 @@ package body GWindows.Common_Controls is
    begin
       SendMessage;
    end Clear;
+
+   procedure Switch_Extended_Style (Control : in List_View_Control_Type;
+                                    Style   : in Extended_Style_Type;
+                                    On_Off  : in Boolean)
+   is
+      --  This feature was moved on 2020-06-25 from
+      --  GWindows.Common_Controls.Ex_List_View (contrib by Falk Maier).
+      procedure Sendmessage_proc (Hwnd   : GWindows.Types.Handle;
+                                  Umsg   : Interfaces.C.int;
+                                  Wparam : GWindows.Types.Wparam := 0;
+                                  Lparam : GWindows.Types.Lparam := 0);
+      pragma Import (Stdcall, Sendmessage_proc,
+                     "SendMessage" & Character_Mode_Identifier);
+      Lvm_First                    : constant := 16#1000#;
+      Lvs_Ex_Gridlines             : constant := 1;
+      Lvs_Ex_Headerdragdrop        : constant := 16;
+      Lvs_Ex_Fullrowselect         : constant := 32;
+      Lvm_Setextendedlistviewstyle : constant := Lvm_First + 54;
+      --
+      WStyle  : GWindows.Types.Wparam;
+      LSwitch : GWindows.Types.Lparam;
+   begin
+      case Style is
+         when Grid             => WStyle := Lvs_Ex_Gridlines;
+         when Header_Drag_Drop => WStyle := Lvs_Ex_Headerdragdrop;
+         when Full_Row_Select  => WStyle := Lvs_Ex_Fullrowselect;
+      end case;
+      if On_Off then
+        LSwitch := GWindows.Types.Lparam (WStyle);
+      else
+        LSwitch := 0;
+      end if;
+      Sendmessage_proc (Hwnd   => Handle (Control),
+                        Umsg   => Lvm_Setextendedlistviewstyle,
+                        Wparam => WStyle,
+                        Lparam => LSwitch);
+   end Switch_Extended_Style;
+
+   procedure Set_Extended_Style (Control : in List_View_Control_Type;
+                                 Style   : in Extended_Style_Type) is
+   begin
+      Switch_Extended_Style (Control, Style, True);
+   end Set_Extended_Style;
+
+   procedure Remove_Extended_Style (Control : in List_View_Control_Type;
+                                    Style   : in Extended_Style_Type) is
+   begin
+      Switch_Extended_Style (Control, Style, False);
+   end Remove_Extended_Style;
 
    ------------------
    -- Clicked_Item --

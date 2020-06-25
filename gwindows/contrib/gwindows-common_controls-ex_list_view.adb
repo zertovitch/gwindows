@@ -9,16 +9,16 @@ with GWindows.Drawing;
 package body GWindows.Common_Controls.Ex_List_View is
 
    Lvm_First                    : constant := 16#1000#;
-   Lvs_Ex_Gridlines             : constant := 1;
-   Lvs_Ex_Headerdragdrop        : constant := 16;
-   Lvs_Ex_Fullrowselect         : constant := 32;
+   --  Lvs_Ex_Gridlines             : constant := 1;
+   --  Lvs_Ex_Headerdragdrop        : constant := 16;
+   --  Lvs_Ex_Fullrowselect         : constant := 32;
    --  Lvs_Ex_Flatsb                : constant := 256;
    Lvm_Getitema                 : constant := Lvm_First + 5;
    Lvm_Setitema                 : constant := Lvm_First + 6;
    --  Lvm_Insertitema              : constant := Lvm_First + 7;
    Lvm_Finditema                : constant := Lvm_First + 13;
    Lvm_Sortitems                : constant := Lvm_First + 48;
-   Lvm_Setextendedlistviewstyle : constant := Lvm_First + 54;
+   --  Lvm_Setextendedlistviewstyle : constant := Lvm_First + 54;
    Lvm_Getitemw                 : constant := Lvm_First + 75;
    Lvm_Setitemw                 : constant := Lvm_First + 76;
    --  Lvm_Insertitemw              : constant := Lvm_First + 77;
@@ -979,50 +979,6 @@ package body GWindows.Common_Controls.Ex_List_View is
             end if;
       end case;
    end Autosize;
-   ----------------------------------------------------------------------------------------------------
-   procedure Set_Extended_Style (Control : in     Ex_List_View_Control_Type;
-                                 Style   : in     Extended_Style_Type ) is
-   begin
-      case Style is
-         when Grid =>
-            Sendmessage_proc(Hwnd => Handle(Control),
-                             Umsg => Lvm_Setextendedlistviewstyle,
-                             Wparam => Lvs_Ex_Gridlines,
-                             Lparam => Lvs_Ex_Gridlines);
-         when Header_Drag_Drop =>
-            Sendmessage_proc(Hwnd => Handle(Control),
-                             Umsg => Lvm_Setextendedlistviewstyle,
-                             Wparam => Lvs_Ex_Headerdragdrop,
-                             Lparam => Lvs_Ex_Headerdragdrop);
-         when Full_Row_Select =>
-            Sendmessage_proc(Hwnd => Handle(Control),
-                             Umsg => Lvm_Setextendedlistviewstyle,
-                             Wparam => Lvs_Ex_Fullrowselect,
-                             Lparam => Lvs_Ex_Fullrowselect);
-      end case;
-   end Set_Extended_Style;
-   ----------------------------------------------------------------------------------------------------
-   procedure Remove_Extended_Style (Control : in     Ex_List_View_Control_Type;
-                                    Style   : in     Extended_Style_Type ) is
-   begin
-      case Style is
-         when Grid =>
-            Sendmessage_proc(Hwnd => Handle(Control),
-                             Umsg => Lvm_Setextendedlistviewstyle,
-                             Wparam => Lvs_Ex_Gridlines,
-                             Lparam => 0);
-         when Header_Drag_Drop =>
-            Sendmessage_proc(Hwnd => Handle(Control),
-                             Umsg => Lvm_Setextendedlistviewstyle,
-                             Wparam => Lvs_Ex_Headerdragdrop,
-                             Lparam => 0);
-         when Full_Row_Select =>
-            Sendmessage_proc(Hwnd => Handle(Control),
-                             Umsg => Lvm_Setextendedlistviewstyle,
-                             Wparam => Lvs_Ex_Fullrowselect,
-                             Lparam => 0);
-      end case;
-   end Remove_Extended_Style;
    ----------------------------------------------------------------------------------------------------
    function Color_Mode(Control : in Ex_List_View_Control_Type) return Color_Mode_Type is
    begin

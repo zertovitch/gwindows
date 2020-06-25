@@ -89,9 +89,9 @@ begin
                            Event => Do_On_Free_Payload'Unrestricted_Access);
 
    -- styles
-   Set_Extended_Style(Control => List, Style => My_List_View_Pkg.Grid);
-   Set_Extended_Style(Control => List, Style => My_List_View_Pkg.Full_Row_Select);
-   Set_Extended_Style(Control => List, Style => My_List_View_Pkg.Header_Drag_Drop);
+   Set_Extended_Style (Control => List, Style => GWindows.Common_Controls.Grid);
+   Set_Extended_Style (Control => List, Style => GWindows.Common_Controls.Full_Row_Select);
+   Set_Extended_Style (Control => List, Style => GWindows.Common_Controls.Header_Drag_Drop);
 
    -- columns
    Insert_Column (Control => List,

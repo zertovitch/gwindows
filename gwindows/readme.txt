@@ -6,7 +6,7 @@
 --                                                                          --
 --                               R E A D M E                                --
 --                                                                          --
---                  Copyright (C) 1999 - 2019 David Botton                  --
+--                  Copyright (C) 1999 - 2020 David Botton                  --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,8 @@
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
---   http://sf.net/projects/gnavi/                                          --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --   http://www.gnavi.org/gwindows                                          --
 --   http://www.adapower.com/gwindows                                       --
 --                                                                          --
@@ -48,9 +49,17 @@ Status
 GWindows is successfuly being used by individuals and companies
 world wide for the development of professional Windows (32 and 64 bit)
 products.
+Some open-source projects using GWindows are:
+  AZip   -  a free, portable Zip Archive Manager -
+               https://azip.sourceforge.io/
+  LEA    -  a Lightweight Editor for Ada -
+               https://l-e-a.sourceforge.io
+  TeXCAD -  a program for drawing or retouching {picture}s in LaTeX -
+               https://texcad.sourceforge.io/
 
-Please joint the e-mail list gnavi-list@gnavi.org if you are experiencing
-any problems or have suggestions for improvements.
+Please joint the e-mail list
+  https://sourceforge.net/projects/gnavi/lists/gnavi-discuss
+if you are experiencing any problems or have suggestions for improvements.
 
 Documentation
 =============

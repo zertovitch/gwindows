@@ -8,6 +8,17 @@ Major changes - numbers below refer to svn repository revisions
     From SVN, you can see all changes between two revisions A and B with "svn log -rA:B".
 
 
+Upcoming GWindows release
+=========================
+
+379: Moved type Extended_Style_Type and methods Set_Extended_Style
+        and Remove_Extended_Style for type Ex_List_View_Control_Type in
+        package GWindows.Common_Controls.Ex_List_View
+        to parent package GWindows.Common_Controls,
+        for type List_View_Control_Type.
+377: GWindows.Common_Dialogs: Choose_[Default_]Printer works
+        in 64-bit mode too.
+
 GWindows release, 01-Sep-2019 [rev. 376]
 ========================================
 

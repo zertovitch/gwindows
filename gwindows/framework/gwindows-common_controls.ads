@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2019 David Botton                   --
+--                 Copyright (C) 1999 - 2020 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,7 +29,8 @@
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
---   http://sf.net/projects/gnavi/                                          --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --   http://www.gnavi.org/gwindows                                          --
 --   http://www.adapower.com/gwindows                                       --
 --                                                                          --
@@ -822,6 +823,26 @@ package GWindows.Common_Controls is
      return GString;
 
    procedure Clear (Control : in out List_View_Control_Type);
+
+   --  Extended Styles
+   --  All styles may be combined:
+   --    Grid             = gridlines between the subitems
+   --    Header_Drag_Drop = move the columns with drag and drop
+   --    Full_Row_Select  = selection mark on complete row
+   type Extended_Style_Type is (Grid, Header_Drag_Drop, Full_Row_Select);
+
+   procedure Switch_Extended_Style
+     (Control : in List_View_Control_Type;
+      Style   : in Extended_Style_Type;
+      On_Off  : in Boolean);
+
+   procedure Set_Extended_Style
+     (Control : in List_View_Control_Type;
+      Style   : in Extended_Style_Type);
+
+   procedure Remove_Extended_Style
+     (Control : in List_View_Control_Type;
+      Style   : in Extended_Style_Type);
 
    -------------------------------------------------------------------------
    --  List_View_Control_Type - Event Framework Methods

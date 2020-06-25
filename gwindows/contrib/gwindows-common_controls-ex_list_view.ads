@@ -62,18 +62,6 @@ package GWindows.Common_Controls.Ex_List_View is
                        Column  : in Natural;
                        Sizing  : in Autosize_Type := Headersize);
 
-   -- Styles -----------------------
-   --
-   -- All styles may be combined
-   --   Grid = gridlines between the subitems
-   --   Headerdragdrop = move the columns with drag and drop
-   --   Fullrowselect = selection mark on complete row
-   type Extended_Style_Type is (Grid, Header_Drag_Drop, Full_Row_Select);
-   procedure Set_Extended_Style (Control : in     Ex_List_View_Control_Type;
-                                 Style   : in     Extended_Style_Type );
-   procedure Remove_Extended_Style (Control : in     Ex_List_View_Control_Type;
-                                    Style   : in     Extended_Style_Type );
-
    -- Coloring ---------------------
    --
    --   Allitems = all items/subitems have the same text/backcolor
