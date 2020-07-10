@@ -603,22 +603,24 @@ package body GWindows.Common_Controls.Ex_List_View is
                internal: constant Internal_Access :=
                   Get_Internal(Control => Control,
                                Index => Integer(Lvcd_Ptr.Nmcd.Dwitemspec));
+               i_color : constant Integer := Integer (Lvcd_Ptr.Isubitem);
+               --  !!  Bug: i_color happens to be negative in 64-bit mode (cf demo_exlv2).
             begin
                if internal /= null and then
                  internal.Colors /= null and then
-                 internal.Colors'Last >=  Integer(Lvcd_Ptr.Isubitem) and then
-                 internal.Colors(Integer(Lvcd_Ptr.Isubitem)).Textcolor /= NullColor
+                 i_color in internal.Colors'Range and then
+                 internal.Colors (i_color).Textcolor /= NullColor
                then
-                  Lvcd_Ptr.Clrtext := internal.Colors(Integer(Lvcd_Ptr.Isubitem)).Textcolor;
+                  Lvcd_Ptr.Clrtext := internal.Colors (i_color).Textcolor;
                else
                   Lvcd_Ptr.Clrtext := Control.Control_Textcolor;
                end if;
                if internal /= null and then
                  internal.Colors /= null and then
-                 internal.Colors'Last >=  Integer(Lvcd_Ptr.Isubitem) and then
-                 internal.Colors(Integer(Lvcd_Ptr.Isubitem)).Backcolor /= NullColor
+                 i_color in internal.Colors'Range and then
+                 internal.Colors (i_color).Backcolor /= NullColor
                then
-                  Lvcd_Ptr.Clrtextbk := internal.Colors(Integer(Lvcd_Ptr.Isubitem)).Backcolor;
+                  Lvcd_Ptr.Clrtextbk := internal.Colors (i_color).Backcolor;
                else
                   Lvcd_Ptr.Clrtextbk := Control.Control_Backcolor;
                end if;
