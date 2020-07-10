@@ -83,13 +83,20 @@ package body GWindows.Common_Controls.Ex_List_View is
       end record;
    type Lvitem_Access is access all Lvitem;
 
+   type DWORD_PTR is mod 2 ** Standard'Address_Size;
+   --  From the Windows documentation:
+   --    "An unsigned long type for pointer precision. Use when casting
+   --     a pointer to a long type to perform pointer arithmetic. (Also
+   --     commonly used for general 32-bit parameters that have been
+   --     extended to 64 bits in 64-bit Windows.)"
+
    type Nmcustomdraw_Type is
       record
          Hdr         : GWindows.Base.Notification;
          Dwdrawstage : Interfaces.C.long;
          Hdc         : GWindows.Types.Handle;
          Rect        : GWindows.Types.Rectangle_Type;
-         Dwitemspec  : Interfaces.C.long;
+         Dwitemspec  : DWORD_PTR;  --  Fix 2020-07-10: was Interfaces.C.long;
          Uitemstate  : Interfaces.C.unsigned;
          Litemlparam : GWindows.Types.Lparam;
       end record;
