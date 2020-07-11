@@ -603,15 +603,14 @@ package body GWindows.Common_Controls.Ex_List_View is
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
             Return_Value := Cdrf_Notifyitemdraw;
-         when Interfaces.C.long(Cdds_Itemprepaint) =>
+         when Interfaces.C.long (Cdds_Itemprepaint) =>
             Return_Value := Cdrf_Notifysubitemdraw;
-         when Interfaces.C.long(Cdds_Itemprepaint + Cdds_Subitem) =>
+         when Interfaces.C.long (Cdds_Itemprepaint + Cdds_Subitem) =>
             declare
                internal: constant Internal_Access :=
                   Get_Internal(Control => Control,
-                               Index => Integer(Lvcd_Ptr.Nmcd.Dwitemspec));
+                               Index   => Integer (Lvcd_Ptr.Nmcd.Dwitemspec));
                i_color : constant Integer := Integer (Lvcd_Ptr.Isubitem);
-               --  !!  Bug: i_color happens to be negative in 64-bit mode (cf demo_exlv2).
             begin
                if internal /= null and then
                  internal.Colors /= null and then
