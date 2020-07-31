@@ -8,8 +8,8 @@ Major changes - numbers below refer to svn repository revisions
     From SVN, you can see all changes between two revisions A and B with "svn log -rA:B".
 
 
-Upcoming GWindows release
-=========================
+GWindows release, 31-Jul-2020 [rev. 383]
+========================================
 
 379: Moved type Extended_Style_Type and methods Set_Extended_Style
         and Remove_Extended_Style for type Ex_List_View_Control_Type in
