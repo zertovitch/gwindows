@@ -9,13 +9,8 @@ with GWindows.Buttons;
 with GWindows.Windows.Main;             use GWindows.Windows.Main;
 with GWindows.Simple_Sheet;             use GWindows.Simple_Sheet;
 with GWindows.GStrings;                 use GWindows.GStrings;
-with GWindows.Drawing_Objects;
 
---  Only needed for having a decent font (see Common_Fonts below).
-with Interfaces.C;
-with System;
-with GWindows.Types;
-with GWindows;
+with GWin_Util;  --  Only needed for having a decent font.
 
 procedure Test_Simple_Sheet is
 
@@ -59,96 +54,10 @@ procedure Test_Simple_Sheet is
      Paste_from_Clipboard (Sheet);
   end Paste_action;
 
-  ----------------------------------------------------------------------
-  -- The following (Common_Fonts) is to get the usual GUI fonts !...  --
-  -- The code below is taken from what GWenerator is generating.      --
-  ----------------------------------------------------------------------
-
-  package Common_Fonts is
-    GUI_Font : GWindows.Drawing_Objects.Font_Type;
-    URL_Font : GWindows.Drawing_Objects.Font_Type;
-    --  ^ These fonts are created once, at startup
-    --   it avoid GUI resource leak under Windows 95/98/ME
-    procedure Create_Common_Fonts;
-    --  in initialisation part if this pkg becomes standalone
-  end Common_Fonts;
-
-  procedure Use_GUI_Font (Window : in out GWindows.Base.Base_Window_Type'Class)
-  is
-  begin
-    --  Use Standard Windows GUI font instead of system font
-    GWindows.Base.Set_Font (Window, Common_Fonts.GUI_Font);
-  end Use_GUI_Font;
-
-  package body Common_Fonts is
-
-    use Interfaces.C;
-
-    procedure Create_Common_Fonts is
-
-     type Face_Name_Type is array (1 .. 32) of GWindows.GChar_C;
-
-     type LOGFONT is record
-       lfHeight : Interfaces.C.long;
-       lfWidth : Interfaces.C.long;
-       lfEscapement : Interfaces.C.long;
-       lfOrientation : Interfaces.C.long;
-       lfWeight : Interfaces.C.long;
-       lfItalic : Interfaces.C.char;
-       lfUnderline : Interfaces.C.char;
-       lfStrikeOut : Interfaces.C.char;
-       lfCharSet : Interfaces.C.char;
-       lfOutPrecision : Interfaces.C.char;
-       lfClipPrecision : Interfaces.C.char;
-       lfQuality : Interfaces.C.char;
-       lfPitchAndFamily : Interfaces.C.char;
-       lfFaceName : Face_Name_Type;
-     end record;
-
-     Log_of_current_font : aliased LOGFONT;
-
-     subtype PVOID   is System.Address;                      --  winnt.h
-     subtype LPVOID  is PVOID;                               --  windef.h
-
-     function GetObject
-       (hgdiobj   : GWindows.Types.Handle  :=
-          GWindows.Drawing_Objects.Handle (GUI_Font);
-        cbBufferl : Interfaces.C.int       := LOGFONT'Size / 8;
-        lpvObject : LPVOID                 := Log_of_current_font'Address)
-       return Interfaces.C.int;
-     pragma Import (StdCall, GetObject,
-                      "GetObject" & GWindows.Character_Mode_Identifier);
-
-     function CreateFontIndirect
-       (lpvObject : LPVOID                 := Log_of_current_font'Address)
-       return GWindows.Types.Handle;
-     pragma Import (StdCall, CreateFontIndirect,
-                      "CreateFontIndirect" &
-                      GWindows.Character_Mode_Identifier);
-
-    begin
-      GWindows.Drawing_Objects.Create_Stock_Font (
-        GUI_Font,
-        GWindows.Drawing_Objects.Default_GUI
-      );
-      if GetObject = 0 then
-        GWindows.Drawing_Objects.Create_Font (URL_Font,
-          "MS Sans Serif",
-          14, Underline => True);
-            --  !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
-      else
-        Log_of_current_font.lfUnderline := Interfaces.C.char'Val (1);
-        GWindows.Drawing_Objects.Handle (URL_Font, CreateFontIndirect);
-      end if;
-    end Create_Common_Fonts;
-
-  end Common_Fonts;
-
 begin
   Create (Top, "Hello World");
   Size (Top, 800, 300);
-  Common_Fonts.Create_Common_Fonts;
-  Use_GUI_Font (Top);
+  GWin_Util.Use_GUI_Font (Top);
   --
   --  The spreadsheet is created here.
   --
