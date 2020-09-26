@@ -7,6 +7,11 @@ Major changes - numbers below refer to svn repository revisions
       https://sourceforge.net/p/gnavi/code/
     From SVN, you can see all changes between two revisions A and B with "svn log -rA:B".
 
+GWindows upcoming release
+=========================
+
+385: GWindows.Windows.MDI: added function Count_MDI_Children
+384: (contrib) Added GWin_Util package
 
 GWindows release, 31-Jul-2020 [rev. 383]
 ========================================

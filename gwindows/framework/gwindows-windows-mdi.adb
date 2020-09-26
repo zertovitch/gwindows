@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--         GWINDOWS - Ada 95 Framework for Windows GUI Development          --
 --                                                                          --
 --                G W I N D O W S . W I N D O W S . M A I N                 --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2020 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 --  Window types to ease in the creation of Multi Document Interface
@@ -131,6 +133,30 @@ package body GWindows.Windows.MDI is
          Window.Window_Menu_Location);
       GWindows.Windows.MDI_Close_All (GWindows.Windows.Window_Type (Window));
    end MDI_Close_All;
+
+   ------------------------
+   -- Count_MDI_Children --
+   ------------------------
+
+   function Count_MDI_Children (Window : in out MDI_Main_Window_Type)
+   return Natural
+   is
+      Count : Natural := 0;
+      procedure Count_MDI_Child_Window
+        (Window : GWindows.Base.Pointer_To_Base_Window_Class)
+      is
+      begin
+         if Window.all in MDI_Child_Window_Type'Class then
+            Count := Count + 1;
+         end if;
+      end Count_MDI_Child_Window;
+   begin
+      GWindows.Base.Enumerate_Children (
+         MDI_Client_Window (Window).all,
+         Count_MDI_Child_Window'Unrestricted_Access
+      );
+      return Count;
+   end Count_MDI_Children;
 
    --------------
    -- Activate --

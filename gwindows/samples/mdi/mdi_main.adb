@@ -6,6 +6,7 @@ with Standard_IDs;
 
 with GWindows.Base;
 with GWindows.Application;
+with GWindows.Menus;
 with GWindows.Message_Boxes;
 with GWindows.Common_Dialogs;
 with GWindows.GStrings; use GWindows.GStrings;
@@ -24,7 +25,6 @@ package body MDI_Main is
 
    procedure On_Create (Window : in out MDI_Main_Type) is
       use GWindows.Menus;
-      use GWindows.Common_Controls;
       use GWindows.Image_Lists;
       use Standard_IDs;
    begin
@@ -61,7 +61,7 @@ package body MDI_Main is
    procedure On_File_New (Window : in out MDI_Main_Type) is
       use MDI_Edit_Child;
 
-      New_Window : MDI_Edit_Child_Access := new MDI_Edit_Child_Type;
+      New_Window : constant MDI_Edit_Child_Access := new MDI_Edit_Child_Type;
 
       function Suffix return GWindows.GString;
       --  Suffix
@@ -91,7 +91,7 @@ package body MDI_Main is
       use MDI_Edit_Child;
       use GWindows.Common_Dialogs;
 
-      New_Window : MDI_Edit_Child_Access := new MDI_Edit_Child_Type;
+      New_Window : constant MDI_Edit_Child_Access := new MDI_Edit_Child_Type;
       File_Title : GWindows.GString_Unbounded;
       Success    : Boolean;
    begin
@@ -117,7 +117,7 @@ package body MDI_Main is
 
             OFile : File_Type;
             OText : GWindows.GString_Unbounded;
-            NL    : String := Character'Val (13) & Character'Val (10);
+            NL    : constant String := Character'Val (13) & Character'Val (10);
          begin
             Open (File => OFile,
                   Mode => In_File,
@@ -166,9 +166,17 @@ package body MDI_Main is
    --------------
 
    procedure On_About (Window : in out MDI_Main_Type) is
+      use GWindows;
+      NL : constant GString := GCharacter'Val (13) & GCharacter'Val (10);
    begin
       GWindows.Message_Boxes.Message_Box
-        (Window, "MDI_Example", "Sample MDI Application");
+        (Window,
+         "MDI_Example",
+         "Sample MDI Application" & NL &
+         "MDI child windows open:" &
+         To_GString_From_String (
+           Integer'Image (Count_MDI_Children (Window)))
+        );
    end On_About;
 
    -------------------
@@ -180,7 +188,6 @@ package body MDI_Main is
                             Kind    : in     GWindows.Windows.Hover_Item_Type)
    is
       use GWindows.Windows;
-      use GWindows.Menus;
    begin
       if Kind = GWindows.Windows.Menu_Item and Item > 0 then
          Text (Window.Status_Bar,
@@ -229,7 +236,7 @@ package body MDI_Main is
    --------------------
 
    procedure On_Right_Click (Control : in out MDI_Status_Bar_Type) is
-      Parent : MDI_Main_Access :=
+      Parent : constant MDI_Main_Access :=
         MDI_Main_Access (Controlling_Parent (Control));
    begin
       On_About (Parent.all);
@@ -242,7 +249,7 @@ package body MDI_Main is
    procedure On_Button_Select (Control : in out MDI_Toolbar_Type;
                                Item    : in     Integer)
    is
-      Parent : MDI_Main_Access :=
+      Parent : constant MDI_Main_Access :=
         MDI_Main_Access (Controlling_Parent (Control));
    begin
       On_Menu_Select (Parent.all, Item);

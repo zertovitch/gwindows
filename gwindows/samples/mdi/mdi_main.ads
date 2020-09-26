@@ -1,5 +1,4 @@
 with GWindows.Windows.MDI;
-with GWindows.Menus;
 with GWindows.Common_Controls;
 with GWindows.Image_Lists;
 

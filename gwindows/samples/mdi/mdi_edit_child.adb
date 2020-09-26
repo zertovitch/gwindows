@@ -1,15 +1,18 @@
 with Ada.Text_IO;
 with GNAT.OS_Lib;
 
-with MDI_Main;
 with Standard_IDs;
+
 with GWindows.Base;
-with GWindows.Drawing_Objects;
-with GWindows.GStrings; use GWindows.GStrings;
 with GWindows.Common_Dialogs;
+with GWindows.Drawing_Objects;
+with GWindows.GStrings;
+with GWindows.Menus;
 with GWindows.Message_Boxes;
 
 package body MDI_Edit_Child is
+
+   use GWindows.GStrings;
 
    ---------------
    -- On_Create --
@@ -41,6 +44,8 @@ package body MDI_Edit_Child is
       Dock_Children (Window);
 
       MDI_Menu (Window, Load_Menu ("Edit_Child_Menu"), 3);
+      
+      Zoom (Window);
    end On_Create;
 
    --------------------
@@ -78,7 +83,7 @@ package body MDI_Edit_Child is
 
    procedure On_Save (Window : in out MDI_Edit_Child_Type)
    is
-      File_Name : GWindows.GString :=
+      File_Name : constant GWindows.GString :=
         To_GString_From_Unbounded (Window.File_Name);
    begin
       if File_Name = "" then
@@ -115,10 +120,8 @@ package body MDI_Edit_Child is
               (To_String ((To_GString_From_Unbounded (New_File_Name))))
          then
             declare
-               use GWindows.Message_Boxes;
-               use GWindows;
-
-               NL : GString := GCharacter'Val (13) & GCharacter'Val (10);
+               use GWindows, GWindows.Message_Boxes;
+               NL : constant GString := GCharacter'Val (13) & GCharacter'Val (10);
             begin
                if Message_Box (Window,
                                "Save As",

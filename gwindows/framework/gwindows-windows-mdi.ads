@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--         GWINDOWS - Ada 95 Framework for Windows GUI Development          --
 --                                                                          --
 --                G W I N D O W S . W I N D O W S . M A I N                 --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2020 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 --  Window types to ease in the creation of Multi Document Interface
@@ -76,11 +78,14 @@ package GWindows.Windows.MDI is
    --  Handles closing down the message loop when the window is closed
    --  and destroying the menu
 
+   function Count_MDI_Children (Window : in out MDI_Main_Window_Type)
+   return Natural;
+   --  Count child windows that are in the MDI_Child_Window_Type class
+
    -------------------------------------------------------------------------
-   --  MDI_Main_Window_Type
+   --  MDI_Child_Window_Type
    -------------------------------------------------------------------------
-   --  MDI_Main_Window_Type is a top level MDI window that when closed will
-   --  also close the current message loop
+   --  MDI_Child_Window_Type is a sub-window of a MDI_Main_Window_Type
 
    type MDI_Child_Window_Type is new Window_Type with private;
    type MDI_Child_Window_Access is access all MDI_Child_Window_Type;

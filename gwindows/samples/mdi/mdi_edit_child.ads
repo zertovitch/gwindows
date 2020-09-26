@@ -1,6 +1,5 @@
 with GWindows.Windows.MDI;
 with GWindows.Edit_Boxes;
-with GWindows.Menus;
 
 package MDI_Edit_Child is
 
