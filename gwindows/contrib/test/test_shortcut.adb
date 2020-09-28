@@ -1,20 +1,23 @@
 --  Demo for the GWin_Util package, Create_Desktop_Shortcut procedure.
 --
---  See: gwindows\contrib, gwindows\gwindows_contrib.gpr, gwindows\contrib\test
+--  See: gwindows\contrib\, gwindows\gwindows_contrib.gpr,
+--       gwindows\contrib\test\
 
 with Ada.Command_Line;
 with GWin_Util;
 with GWindows.Message_Boxes;
 
 procedure Test_Shortcut is
+  use GWindows.Message_Boxes, GWin_Util;
 begin
-  GWin_Util.Create_Desktop_Shortcut (
+  Create_Desktop_Shortcut (
     "Such a nice Shortcut!",
     Ada.Command_Line.Command_Name,
-    All_Users => False
+    Current_User
   );
-  GWindows.Message_Boxes.Message_Box (
+  Message_Box (
     "Desktop Shortcut",
-    "Shortcut to myself has been created."
+    "A shortcut to myself has just been created.",
+    Icon => Information_Icon
   );
 end Test_Shortcut;

@@ -2,6 +2,7 @@ with GWindows.Application,
      GWindows.Common_Controls,
      GWindows.Constants,
      GWindows.Drawing_Objects,
+     GWindows.Registry,
      GWindows.Types;
 
 with Ada.Environment_Variables,
@@ -232,7 +233,7 @@ package body GWin_Util is
   procedure Create_Desktop_Shortcut (
     Link_Name   : String;  --  Name without extension, e.g. "AZip".
     Target_Path : String;  --  Full path. E.g. Ada.Command_Line.Command_Name
-    All_Users   : Boolean  --  When False, shortcut is created only on current user's desktop.
+    User_Scope  : Windows_User_Scope
   )
   is
     use Ada.Environment_Variables, Ada.Text_IO;
@@ -240,8 +241,8 @@ package body GWin_Util is
     --  https://superuser.com/questions/455364/how-to-create-a-shortcut-using-a-batch-script
     SCRIPT : constant String := Value ("TEMP") & "\make_shortcut_from_ada.vbs";
     f : File_Type;
-    function User return String is
-      (if All_Users then Value ("PUBLIC") else Value ("USERPROFILE"));
+    User : constant String :=
+      (if User_Scope = All_Users then Value ("PUBLIC") else Value ("USERPROFILE"));
   begin
     Create (f, Out_File, SCRIPT);
     Put_Line (f, "Set oWS = WScript.CreateObject(""WScript.Shell"")");
@@ -256,6 +257,41 @@ package body GWin_Util is
     Open (f, In_File, SCRIPT);
     Delete (f);
   end Create_Desktop_Shortcut;
+
+  procedure Explorer_Context_Menu (
+    Entry_Name  : GString;  -- Context menu entry name as stored in the registry.
+    Subject     : Context_Menu_Subject;
+    User_Scope  : Windows_User_Scope;
+    Action      : Context_Menu_Action;  --  Add or remove from context menu.
+    Entry_Label : GString := "";  --  Menu entry displayed on right-clicking.
+    Command     : GString := "";  --  E.g.: "c:\program files\azip\azip.exe ""%1""".
+    Icon_Path   : GString := ""   --  "" for no icon.
+  )
+  is
+    use GWindows.Registry;
+    Root : constant Integer :=
+      (if User_Scope = All_Users
+       then HKEY_CLASSES_ROOT
+       else HKEY_CURRENT_USER
+      );
+    Path : constant GString :=
+      (if User_Scope = All_Users then "" else "Software\Classes");
+    Subj : constant GString :=
+      (if Subject = Any_File then "*" else "Directory");
+    Key : constant GString := Path & '\' & Subj & "\shell\" & Entry_Name;
+  begin
+    case Action is
+      when Add =>
+        Register (Key, "", Entry_Label, Root);
+        Register (Key & "\command", "", Command, Root);
+        if Icon_Path /= "" then
+          Register (Key, "icon", Icon_Path, Root);
+        end if;
+      when Remove =>
+        Unregister (Key & "\command", Root);
+        Unregister (Key, Root);
+    end case;
+  end Explorer_Context_Menu;
 
   procedure Get_Windows_version(
     major, minor: out Integer;

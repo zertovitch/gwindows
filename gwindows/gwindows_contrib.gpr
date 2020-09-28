@@ -26,6 +26,7 @@ project GWindows_Contrib is
    end Linker;
    
    for Main use (
+      "test_explorer_context_menu.adb",
       "test_shortcut.adb",
       "test_simple_sheet.adb",
       "demo_exlv1.adb", "demo_exlv2.adb", "demo_exlv3.adb"

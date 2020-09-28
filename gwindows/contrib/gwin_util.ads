@@ -15,6 +15,7 @@ with GWindows.Base,
      GWindows.Static_Controls,
      GWindows.Windows;
 
+--  28-Sep-2020 : Added: Explorer_Context_Menu.
 --  21-Jul-2020 : Function "Exist" removed (it's in Ada.Directories).
 --                Added: Create_Desktop_Shortcut.
 --  17-Apr-2018 : Fix_Tabbed_control moved to GWindows.Common_Controls as Set_As_Control_Parent.
@@ -46,9 +47,9 @@ package GWin_Util is
 
   procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
 
-  -----------------------------------------
-  -- Execute or start external processes --
-  -----------------------------------------
+  -------------------------------------------
+  --  Execute or start external processes  --
+  -------------------------------------------
 
   procedure Start (
     File       : in String;
@@ -61,10 +62,40 @@ package GWin_Util is
 
   procedure Exec_Command (the_command : String);
 
- procedure Create_Desktop_Shortcut (
+  ------------------------------------------------------------------
+  --  Desktop shortcut creation.                                  --
+  --  See Test_Shortcut (file test_shortcut.adb) for an example.  --
+  ------------------------------------------------------------------
+
+  type Windows_User_Scope is (Current_User, All_Users);
+
+  procedure Create_Desktop_Shortcut (
     Link_Name   : String;  --  Name without extension, e.g. "AZip".
     Target_Path : String;  --  Full path. E.g. Ada.Command_Line.Command_Name
-    All_Users   : Boolean  --  When False, shortcut is created only on current user's desktop.
+    User_Scope  : Windows_User_Scope
+  );
+  --  NB: if User_Scope = All_Users, the desktop shortcut is created only
+  --  if the executable calling Create_Desktop_Shortcut runs in admin mode.
+  --  The shortcut is visible to all users.
+
+  -------------------------------------------------------------
+  --  Windows Explorer context menu customization.           --
+  --  See Test_Explorer_Context_Menu                         --
+  --  (file test_explorer_context_menu.adb) for an example.  --
+  -------------------------------------------------------------
+
+  type Context_Menu_Subject is (Any_File, Any_Folder);
+
+  type Context_Menu_Action is (Add, Remove);
+
+  procedure Explorer_Context_Menu (
+    Entry_Name  : GString;  -- Context menu entry name as stored in the registry.
+    Subject     : Context_Menu_Subject;
+    User_Scope  : Windows_User_Scope;
+    Action      : Context_Menu_Action;  --  Add or remove from context menu.
+    Entry_Label : GString := "";  --  Menu entry displayed on right-clicking.
+    Command     : GString := "";  --  E.g.: "c:\program files\azip\azip.exe ""%1""".
+    Icon_Path   : GString := ""   --  "" for no icon.
   );
 
   type Windows_family is (Win32s, Win9x, NT);

@@ -10,6 +10,8 @@ Major changes - numbers below refer to svn repository revisions
 GWindows upcoming release
 =========================
 
+387: (contrib) GWin_Util package: added Explorer_Context_Menu.
+386: GWindows.Registry and GWindows.Errors work in 64-bit mode too
 385: GWindows.Windows.MDI: added function Count_MDI_Children
 384: (contrib) Added GWin_Util package
 
