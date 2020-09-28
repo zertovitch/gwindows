@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--           GWINDOWS - Ada 95 Framework for Windows Development            --
 --                                                                          --
 --                   G W I N D O W S . R E G I S T R Y                      --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2020 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -43,13 +45,6 @@ with GWindows.Internal;
 with GWindows.Types;
 
 package body GWindows.Registry is
-
-   -------------------------------------------------------------------------
-   --  Operating System Imports
-   -------------------------------------------------------------------------
-
-   procedure RegCloseKey (HKEY : Interfaces.C.long);
-   pragma Import (StdCall, RegCloseKey, "RegCloseKey");
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -112,6 +107,12 @@ package body GWindows.Registry is
       return GWindows.GStrings.To_GString_From_C (Server_Path);
    end Get_Short_Directory_Name;
 
+   subtype LSTATUS is Interfaces.C.long;
+   subtype HKEY_T is GWindows.Types.Handle;
+
+   procedure RegCloseKey (HKEY : HKEY_T);
+   pragma Import (StdCall, RegCloseKey, "RegCloseKey");
+
    --------------
    -- Register --
    --------------
@@ -120,37 +121,37 @@ package body GWindows.Registry is
      (Key_Name, Name, Value : in GString;
       Root_Key              : in Integer)
    is
-      use type Interfaces.C.unsigned_long;
+      use type Interfaces.C.long, GWindows.Types.DWORD;
 
       C_Key      : GString_C := GWindows.GStrings.To_GString_C (Key_Name);
       Name_Name  : GString_C := GWindows.GStrings.To_GString_C (Name);
       Value_Data : GString_C := GWindows.GStrings.To_GString_C (Value);
-      Key        : aliased Interfaces.C.long;
+      Key        : aliased HKEY_T;
       REG_SZ     : constant := 1;
 
       function RegCreateKey
-        (hKey      : in     Integer           := Root_Key;
-         lpSubKey  : access GChar_C           := C_Key (C_Key'First)'Access;
-         phkResult : access Interfaces.C.long := Key'Access)
-        return Integer;
+        (hKey      : in     HKEY_T  := GWindows.Types.To_Handle (Root_Key);
+         lpSubKey  : access GChar_C := C_Key (C_Key'First)'Access;
+         phkResult : access HKEY_T  := Key'Access)
+        return LSTATUS;
       pragma Import (StdCall, RegCreateKey,
                        "RegCreateKey" & Character_Mode_Identifier);
 
       function RegSetValueEx
-        (hKey        : in     Interfaces.C.long          := Key;
-         lpValueName : access GChar_C                    :=
+        (hKey        : in     HKEY_T               := Key;
+         lpValueName : access GChar_C              :=
            Name_Name (Name_Name'First)'Access;
-         reserved    : in     Interfaces.C.unsigned_long := 0;
-         dwType      : in     Integer                    := REG_SZ;
-         lpData      : access GChar_C                    :=
+         reserved    : in     GWindows.Types.DWORD := 0;
+         dwType      : in     GWindows.Types.DWORD := REG_SZ;
+         lpData      : access GChar_C              :=
            Value_Data (Value_Data'First)'Access;
-         cbData      : in     Interfaces.C.unsigned_long :=
+         cbData      : in     GWindows.Types.DWORD :=
            Value_Data'Length * (GCharacter'Size / 8))
-        return Integer;
+        return LSTATUS;
       pragma Import (StdCall, RegSetValueEx,
                        "RegSetValueEx" & Character_Mode_Identifier);
 
-      Result : Integer;
+      Result : LSTATUS;
    begin
       Result := RegCreateKey;
 
@@ -158,7 +159,7 @@ package body GWindows.Registry is
          Ada.Exceptions.Raise_Exception
            (REGISTRY_ERROR'Identity,
             GWindows.GStrings.To_String
-            (GWindows.Errors.Error_To_String (Result)));
+            (GWindows.Errors.Error_To_String (Integer (Result))));
       end if;
 
       Result := RegSetValueEx;
@@ -168,7 +169,7 @@ package body GWindows.Registry is
          Ada.Exceptions.Raise_Exception
            (REGISTRY_ERROR'Identity,
             GWindows.GStrings.To_String
-            (GWindows.Errors.Error_To_String (Result)));
+            (GWindows.Errors.Error_To_String (Integer (Result))));
       end if;
 
    end Register;
@@ -184,19 +185,20 @@ package body GWindows.Registry is
       C_Key : GString_C := GWindows.GStrings.To_GString_C (Key_Name);
 
       function RegDeleteKey
-        (hKey     : in     Integer := Root_Key;
+        (hKey     : in     HKEY_T  := GWindows.Types.To_Handle (Root_Key);
          lpSubKey : access GChar_C := C_Key (C_Key'First)'Access)
-        return Integer;
+        return LSTATUS;
       pragma Import (StdCall, RegDeleteKey,
                        "RegDeleteKey" & Character_Mode_Identifier);
-      Result : Integer;
+      Result : LSTATUS;
+      use type LSTATUS;
    begin
       Result := RegDeleteKey;
       if Result /= 0 then
          Ada.Exceptions.Raise_Exception
            (REGISTRY_ERROR'Identity,
             GWindows.GStrings.To_String
-            (GWindows.Errors.Error_To_String (Result)));
+            (GWindows.Errors.Error_To_String (Integer (Result))));
       end if;
    end Unregister;
 
@@ -209,32 +211,33 @@ package body GWindows.Registry is
    is
       C_Key      : GString_C := GWindows.GStrings.To_GString_C (Key_Name);
       Name_Name  : GString_C := GWindows.GStrings.To_GString_C (Name);
-      Key        : aliased Interfaces.C.long;
+      Key        : aliased HKEY_T;
 
       function RegCreateKey
-        (hKey      : in     Integer           := Root_Key;
-         lpSubKey  : access GChar_C           := C_Key (C_Key'First)'Access;
-         phkResult : access Interfaces.C.long := Key'Access)
-        return Integer;
+        (hKey      : in     HKEY_T  := GWindows.Types.To_Handle (Root_Key);
+         lpSubKey  : access GChar_C := C_Key (C_Key'First)'Access;
+         phkResult : access HKEY_T  := Key'Access)
+        return LSTATUS;
       pragma Import (StdCall, RegCreateKey,
                        "RegCreateKey" & Character_Mode_Identifier);
 
       function RegDeleteValue
-        (hKey   : in     Interfaces.C.long := Key;
-         D_Name : access GChar_C           :=
+        (hKey   : in     HKEY_T  := Key;
+         D_Name : access GChar_C :=
            Name_Name (Name_Name'First)'Access)
-        return Integer;
+        return LSTATUS;
       pragma Import (StdCall, RegDeleteValue,
                        "RegDeleteValue" & Character_Mode_Identifier);
 
-      Result : Integer;
+      Result : LSTATUS;
+      use type LSTATUS;
    begin
       Result := RegCreateKey;
       if Result /= 0 then
          Ada.Exceptions.Raise_Exception
            (REGISTRY_ERROR'Identity,
             GWindows.GStrings.To_String
-            (GWindows.Errors.Error_To_String (Result)));
+            (GWindows.Errors.Error_To_String (Integer (Result))));
       end if;
 
       Result := RegDeleteValue;
@@ -244,7 +247,7 @@ package body GWindows.Registry is
          Ada.Exceptions.Raise_Exception
            (REGISTRY_ERROR'Identity,
             GWindows.GStrings.To_String
-            (GWindows.Errors.Error_To_String (Result)));
+            (GWindows.Errors.Error_To_String (Integer (Result))));
       end if;
 
    end Delete_Value;
@@ -258,35 +261,36 @@ package body GWindows.Registry is
                             return Value_Name_Array
    is
       C_Key      : GString_C := GWindows.GStrings.To_GString_C (Key_Name);
-      Key        : aliased Interfaces.C.long;
-      Num_Vals   : aliased Integer := 0;
-      Max_Name   : aliased Integer := 0;
+      Key        : aliased HKEY_T;
+      Num_Vals   : aliased GWindows.Types.DWORD := 0;
+      Max_Name   : aliased GWindows.Types.DWORD := 0;
 
       function RegOpenKey
-        (hKey      : in     Integer           := Root_Key;
-         lpSubKey  : access GChar_C           := C_Key (C_Key'First)'Access;
-         phkResult : access Interfaces.C.long := Key'Access)
-        return Integer;
+        (hKey      : in     HKEY_T  := GWindows.Types.To_Handle (Root_Key);
+         lpSubKey  : access GChar_C := C_Key (C_Key'First)'Access;
+         phkResult : access HKEY_T  := Key'Access)
+        return LSTATUS;
       pragma Import (StdCall, RegOpenKey,
                        "RegOpenKey" & Character_Mode_Identifier);
 
       procedure RegQueryInfoKey
-        (HKEY             :        Interfaces.C.long := Key;
-         A, B, C, D, E, F :        Integer           := 0;
-         NVALS            : access Integer           := Num_Vals'Access;
-         MNAME            : access Integer           := Max_Name'Access;
-         G, H, I          :        Integer           := 0);
+        (HKEY             :        HKEY_T  := Key;
+         A, B, C, D, E, F : access GWindows.Types.DWORD := null;
+         NVALS            : access GWindows.Types.DWORD := Num_Vals'Access;
+         MNAME            : access GWindows.Types.DWORD := Max_Name'Access;
+         G, H, I          : access GWindows.Types.DWORD := null);
       pragma Import (StdCall, RegQueryInfoKey,
                        "RegQueryInfoKey" & Character_Mode_Identifier);
 
-      Result : Integer;
+      Result : LSTATUS;
+      use type LSTATUS;
    begin
       Result := RegOpenKey;
       if Result /= 0 then
          Ada.Exceptions.Raise_Exception
            (REGISTRY_ERROR'Identity,
             GWindows.GStrings.To_String
-            (GWindows.Errors.Error_To_String (Result)));
+            (GWindows.Errors.Error_To_String (Integer (Result))));
       end if;
 
       RegQueryInfoKey;
@@ -294,24 +298,25 @@ package body GWindows.Registry is
       declare
          Name_Buf  : GString_C (0 .. Interfaces.C.size_t (Max_Name));
 
-         Tmp_Max    : aliased Integer;
+         Tmp_Max    : aliased GWindows.Types.DWORD;
 
          procedure RegEnumValue
-           (HKEY       :        Interfaces.C.long := Key;
-            Index      :        Integer;
-            Name       : access GChar_C           :=
+           (HKEY       :        HKEY_T               := Key;
+            dwIndex    :        GWindows.Types.DWORD;
+            Name       : access GChar_C              :=
               Name_Buf (Name_Buf'First)'Access;
-            MNAME      : access Integer           := Tmp_Max'Access;
-            A, B, C, D :        Integer           := 0);
+            MNAME      : access GWindows.Types.DWORD := Tmp_Max'Access;
+            A, B, C, D : access Integer              := null);
          pragma Import (StdCall, RegEnumValue,
                           "RegEnumValue" & Character_Mode_Identifier);
 
-         Results : Value_Name_Array (1 .. Num_Vals);
+         Results : Value_Name_Array (1 .. Integer (Num_Vals));
+         use type GWindows.Types.DWORD;
       begin
          for N in 1 .. Num_Vals loop
             Tmp_Max := Max_Name + 1;
-            RegEnumValue (Index => N - 1);
-            Results (N) :=
+            RegEnumValue (dwIndex => N - 1);
+            Results (Integer (N)) :=
               GWindows.GStrings.To_GString_Unbounded
               (GWindows.GStrings.To_GString_From_C (Name_Buf));
          end loop;
@@ -332,26 +337,28 @@ package body GWindows.Registry is
    is
       C_Key      : GString_C := GWindows.GStrings.To_GString_C (Key_Name);
       C_Name     : GString_C := GWindows.GStrings.To_GString_C (Name);
-      Key        : aliased Interfaces.C.long;
-      Max_Value  : aliased Integer := 0;
+      Key        : aliased HKEY_T;
+      Max_Value  : aliased GWindows.Types.DWORD := 0;
 
       function RegOpenKey
-        (hKey      : in     Integer           := Root_Key;
-         lpSubKey  : access GChar_C           := C_Key (C_Key'First)'Access;
-         phkResult : access Interfaces.C.long := Key'Access)
-        return Integer;
+        (hKey      : in     HKEY_T  := GWindows.Types.To_Handle (Root_Key);
+         lpSubKey  : access GChar_C := C_Key (C_Key'First)'Access;
+         phkResult : access HKEY_T  := Key'Access)
+        return LSTATUS;
       pragma Import (StdCall, RegOpenKey,
                        "RegOpenKey" & Character_Mode_Identifier);
 
       procedure RegQueryInfoKey
-        (HKEY                   :        Interfaces.C.long := Key;
-         A, B, C, D, E, F, G, H :        Integer           := 0;
-         MVAL                   : access Integer           := Max_Value'Access;
-         I, J                   :        Integer           := 0);
+        (HKEY         :        HKEY_T               := Key;
+         A, B, C, D,
+         E, F, G, H   : access GWindows.Types.DWORD := null;
+         MVAL         : access GWindows.Types.DWORD := Max_Value'Access;
+         I, J         : access GWindows.Types.DWORD := null);
       pragma Import (StdCall, RegQueryInfoKey,
                        "RegQueryInfoKey" & Character_Mode_Identifier);
 
-      Result : Integer;
+      Result : LSTATUS;
+      use type GWindows.Types.DWORD, LSTATUS;
    begin
       Result := RegOpenKey;
 
@@ -359,7 +366,7 @@ package body GWindows.Registry is
          Ada.Exceptions.Raise_Exception
            (REGISTRY_ERROR'Identity,
             GWindows.GStrings.To_String
-            (GWindows.Errors.Error_To_String (Result)));
+            (GWindows.Errors.Error_To_String (Integer (Result))));
       end if;
 
       RegQueryInfoKey;
@@ -370,12 +377,13 @@ package body GWindows.Registry is
          C_Result : GString_C (0 .. Interfaces.C.size_t (Max_Value));
 
          procedure RegQueryValueEx
-           (HKEY  : in     Interfaces.C.long := Key;
-            Name  : access GChar_C           := C_Name (C_Name'First)'Access;
-            A     : in     Integer           := 0;
-            B     : in     Integer           := 0;
-            Value : access GChar_C           := C_Result (0)'Access;
-            Max   : access Integer           := Max_Value'Access);
+           (HKEY  : in     HKEY_T               := Key;
+            Name  : access GChar_C              :=
+              C_Name (C_Name'First)'Access;
+            A     : access GWindows.Types.DWORD := null;
+            B     : access GWindows.Types.DWORD := null;
+            Value : access GChar_C              := C_Result (0)'Access;
+            Max   : access GWindows.Types.DWORD := Max_Value'Access);
          pragma Import (StdCall, RegQueryValueEx,
                           "RegQueryValueEx" & Character_Mode_Identifier);
       begin
@@ -395,35 +403,36 @@ package body GWindows.Registry is
                          return Key_Name_Array
    is
       C_Key      : GString_C := GWindows.GStrings.To_GString_C (Key_Name);
-      Key        : aliased Interfaces.C.long;
-      Num_Keys   : aliased Integer := 0;
-      Max_Name   : aliased Integer := 0;
+      Key        : aliased HKEY_T;
+      Num_Keys   : aliased GWindows.Types.DWORD := 0;
+      Max_Name   : aliased GWindows.Types.DWORD := 0;
 
       function RegOpenKey
-        (hKey      : in     Integer           := Root_Key;
-         lpSubKey  : access GChar_C           := C_Key (C_Key'First)'Access;
-         phkResult : access Interfaces.C.long := Key'Access)
-        return Integer;
+        (hKey      : in     HKEY_T  := GWindows.Types.To_Handle (Root_Key);
+         lpSubKey  : access GChar_C := C_Key (C_Key'First)'Access;
+         phkResult : access HKEY_T  := Key'Access)
+        return LSTATUS;
       pragma Import (StdCall, RegOpenKey,
                        "RegOpenKey" & Character_Mode_Identifier);
 
       procedure RegQueryInfoKey
-        (HKEY             :        Interfaces.C.long := Key;
-         A, B, C          :        Integer           := 0;
-         NKEYS            : access Integer           := Num_Keys'Access;
-         MNAME            : access Integer           := Max_Name'Access;
-         D, E, F, G, H, I :        Integer           := 0);
+        (HKEY             :        HKEY_T               := Key;
+         A, B, C          : access GWindows.Types.DWORD := null;
+         NKEYS            : access GWindows.Types.DWORD := Num_Keys'Access;
+         MNAME            : access GWindows.Types.DWORD := Max_Name'Access;
+         D, E, F, G, H, I : access GWindows.Types.DWORD := null);
       pragma Import (StdCall, RegQueryInfoKey,
                        "RegQueryInfoKey" & Character_Mode_Identifier);
 
-      Result : Integer;
+      Result : LSTATUS;
+      use type Interfaces.C.long;
    begin
       Result := RegOpenKey;
       if Result /= 0 then
          Ada.Exceptions.Raise_Exception
            (REGISTRY_ERROR'Identity,
             GWindows.GStrings.To_String
-            (GWindows.Errors.Error_To_String (Result)));
+            (GWindows.Errors.Error_To_String (Integer (Result))));
       end if;
 
       RegQueryInfoKey;
@@ -431,22 +440,23 @@ package body GWindows.Registry is
       declare
          Name_Buf  : GString_C (0 .. Interfaces.C.size_t (Max_Name));
 
-         Tmp_Max    : aliased Integer;
+         Tmp_Max    : GWindows.Types.DWORD;
 
          procedure RegEnumKey
-           (HKEY  :        Interfaces.C.long := Key;
-            Index :        Integer;
-            Name  : access GChar_C           := Name_Buf (0)'Access;
-            MNAME : access Integer           := Tmp_Max'Access);
+           (HKEY    :        HKEY_T               := Key;
+            dwIndex :        GWindows.Types.DWORD;
+            lpName  : access GChar_C              := Name_Buf (0)'Access;
+            cchName :        GWindows.Types.DWORD := Tmp_Max);
          pragma Import (StdCall, RegEnumKey,
                           "RegEnumKey" & Character_Mode_Identifier);
 
-         Results   : Key_Name_Array (1 .. Num_Keys);
+         Results : Key_Name_Array (1 .. Integer (Num_Keys));
+         use type GWindows.Types.DWORD;
       begin
          for N in 1 .. Num_Keys loop
             Tmp_Max := Max_Name + 1;
-            RegEnumKey (Index => N - 1);
-            Results (N) :=
+            RegEnumKey (dwIndex => N - 1);
+            Results (Integer (N)) :=
               GWindows.GStrings.To_GString_Unbounded
               (GWindows.GStrings.To_GString_From_C (Name_Buf));
          end loop;

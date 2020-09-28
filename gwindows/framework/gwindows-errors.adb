@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--           GWINDOWS - Ada 95 Framework for Windows Development            --
 --                                                                          --
 --                       G W I N D O W S . E R R O R S                      --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2020 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -36,9 +38,8 @@ with Ada.Exceptions;
 
 with System.Storage_Elements;
 
-with Interfaces.C;
-
-with GWindows.GStrings;
+with GWindows.GStrings,
+     GWindows.Types;
 
 package body GWindows.Errors is
 
@@ -54,14 +55,15 @@ package body GWindows.Errors is
       Message                    : GString_C (0 .. MAX_ERROR);
 
       procedure FormatMessage
-        (dwFlags      : Integer                    :=
+        (dwFlags      : GWindows.Types.DWORD       :=
            FORMAT_MESSAGE_FROM_SYSTEM;
-         lpSource     : Interfaces.C.unsigned_long := 0;
-         hr           : Integer                    := Error_Number;
-         dwLanguageId : Interfaces.C.unsigned_long := 0;
+         lpSource     : access GChar_C             := null;
+         dwMessageId  : GWindows.Types.DWORD       :=
+           GWindows.Types.DWORD (Error_Number);
+         dwLanguageId : GWindows.Types.DWORD       := 0;
          lpBuffer     : access GChar_C             := Message (0)'Access;
-         nSize        : Interfaces.C.unsigned_long := MAX_ERROR;
-         Arguments    : Interfaces.C.unsigned_long := 0);
+         nSize        : GWindows.Types.DWORD       := MAX_ERROR;
+         Arguments    : access GChar_C             := null);
       pragma Import (StdCall, FormatMessage, "FormatMessage" &
                     Character_Mode_Identifier);
    begin
