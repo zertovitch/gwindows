@@ -1,7 +1,7 @@
--- This is the GNAT / GNAT Programming Studio (GPS) project file for
+-- This is the GCC / GNAT / GNAT Studio project file for
 -- testing some components of the GWindows framework, or some contributed packages.
 --
--- Build me with "gnatmake -P gwindows_test", or open me with GPS
+-- Build me with "gnatmake -P gwindows_test", or open me with GNAT Studio
 
 with "GWindows.gpr";
 
@@ -10,6 +10,7 @@ project GWindows_Test is
    for Source_Dirs use ("test");
    for Object_Dir use "obj";
    for Exec_Dir use "test";   
+   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
    
    package Compiler is
       for Default_Switches ("ada") use ("-Os", "-g", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
@@ -17,6 +18,7 @@ project GWindows_Test is
 
    for Main use (
       "test_clipboard.adb",
+      "test_errors.adb",
       "test_locale.adb",
       "test_system_tray.adb",
       "test_taskbar.adb",

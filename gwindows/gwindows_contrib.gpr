@@ -1,7 +1,7 @@
--- This is the GNAT / GNAT Programming Studio (GPS) project file for
+-- This is the GCC / GNAT / GNAT Studio project file for
 -- testing some components of the GWindows framework, or some contributed packages.
 --
--- Build me with "gnatmake -P gwindows_contrib", or open me with GPS
+-- Build me with "gnatmake -P gwindows_contrib", or open me with GNAT Studio
 
 with "GWindows.gpr";
 

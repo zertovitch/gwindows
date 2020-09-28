@@ -55,15 +55,15 @@ package body GWindows.Errors is
       Message                    : GString_C (0 .. MAX_ERROR);
 
       procedure FormatMessage
-        (dwFlags      : GWindows.Types.DWORD       :=
+        (dwFlags      : GWindows.Types.DWORD    :=
            FORMAT_MESSAGE_FROM_SYSTEM;
-         lpSource     : access GChar_C             := null;
-         dwMessageId  : GWindows.Types.DWORD       :=
+         lpSource     : access GChar_C          := null;
+         dwMessageId  : GWindows.Types.DWORD    :=
            GWindows.Types.DWORD (Error_Number);
-         dwLanguageId : GWindows.Types.DWORD       := 0;
-         lpBuffer     : access GChar_C             := Message (0)'Access;
-         nSize        : GWindows.Types.DWORD       := MAX_ERROR;
-         Arguments    : access GChar_C             := null);
+         dwLanguageId : GWindows.Types.DWORD    := 0;
+         lpBuffer     : access GChar_C          := Message (0)'Access;
+         nSize        : GWindows.Types.DWORD    := MAX_ERROR;
+         Arguments    : access GChar_C          := null);
       pragma Import (StdCall, FormatMessage, "FormatMessage" &
                     Character_Mode_Identifier);
    begin
@@ -82,7 +82,6 @@ package body GWindows.Errors is
          Ada.Exceptions.Raise_Exception
            (Win32_Error'Identity,
             GWindows.GStrings.To_String (Get_Last_Error));
-         raise Win32_Error;
       end if;
    end Error_Check;
 
@@ -92,10 +91,10 @@ package body GWindows.Errors is
 
    function Get_Last_Error return Integer
    is
-      function GetLastError return Integer;
+      function GetLastError return GWindows.Types.DWORD;
       pragma Import (StdCall, GetLastError, "GetLastError");
    begin
-      return GetLastError;
+      return Integer (GetLastError);
    end Get_Last_Error;
 
    --------------------
