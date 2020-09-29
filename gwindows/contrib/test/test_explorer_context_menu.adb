@@ -22,7 +22,7 @@ begin
       Icon => Information_Icon
     );
     for Subject in Context_Menu_Subject loop
-      GWin_Util.Explorer_Context_Menu (
+      Explorer_Context_Menu (
         Entry_Name  => "Test_Explorer_Context_Menu",
         Subject     => Subject,
         User_Scope  => Current_User,
@@ -42,7 +42,7 @@ begin
       Icon => Information_Icon
     );
     for Subject in Context_Menu_Subject loop
-      GWin_Util.Explorer_Context_Menu (
+      Explorer_Context_Menu (
         Entry_Name => "Test_Explorer_Context_Menu",
         Subject    => Subject,
         User_Scope => Current_User,

@@ -275,10 +275,10 @@ package body GWin_Util is
        else HKEY_CURRENT_USER
       );
     Path : constant GString :=
-      (if User_Scope = All_Users then "" else "Software\Classes");
+      (if User_Scope = All_Users then "" else "Software\Classes\");
     Subj : constant GString :=
       (if Subject = Any_File then "*" else "Directory");
-    Key : constant GString := Path & '\' & Subj & "\shell\" & Entry_Name;
+    Key : constant GString := Path & Subj & "\shell\" & Entry_Name;
   begin
     case Action is
       when Add =>
