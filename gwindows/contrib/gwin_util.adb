@@ -271,14 +271,13 @@ package body GWin_Util is
     use GWindows.Registry;
     Root : constant Integer :=
       (if User_Scope = All_Users
-       then HKEY_CLASSES_ROOT
+       then HKEY_LOCAL_MACHINE
        else HKEY_CURRENT_USER
       );
-    Path : constant GString :=
-      (if User_Scope = All_Users then "" else "Software\Classes\");
+    --  NB: in both cases, the keys are also visible in HKEY_CLASSES_ROOT.
     Subj : constant GString :=
       (if Subject = Any_File then "*" else "Directory");
-    Key : constant GString := Path & Subj & "\shell\" & Entry_Name;
+    Key : constant GString := "Software\Classes\" & Subj & "\shell\" & Entry_Name;
   begin
     case Action is
       when Add =>

@@ -26,10 +26,22 @@ package GWin_Util is
 
   use GWindows;
 
-  -- Tab:
+  --  Tab:
   HT : constant GCharacter := GCharacter'Val (9);
-  -- New Line:
+  --  New Line:
   NL : constant GString    := GCharacter'Val (13) & GCharacter'Val (10);
+
+  --  Some special characters.
+  --  Only for Unicode mode of GWindows (GCharacter = Wide_Character).
+  --
+  --  Source: https://dev.w3.org/html5/html-author/charref
+  --
+  Right_Arrow         : constant Wide_Character := Wide_Character'Val (8594);   --  &rarr;
+  Circle_Times        : constant Wide_Character := Wide_Character'Val (8855);   --  &otimes;
+  Check               : constant Wide_Character := Wide_Character'Val (10003);  --  &check;
+  Cross               : constant Wide_Character := Wide_Character'Val (10007);  --  &cross;
+  Big_Circle_Times    : constant Wide_Character := Wide_Character'Val (10754);  --  &bigotimes;
+  Double_Circle_Times : constant Wide_Character := Wide_Character'Val (10807);  --  &Otimes;
 
   function To_Lower (Value : GString) return GString;
   --  Converts case of GString to Lower
