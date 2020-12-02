@@ -10,10 +10,11 @@ Major changes - numbers below refer to svn repository revisions
 GWindows upcoming release
 =========================
 
+391: GWindows.Common_Controls.List_View: added Ensure_Visible.
 387: (contrib) GWin_Util package: added Explorer_Context_Menu.
-386: GWindows.Registry and GWindows.Errors work in 64-bit mode too
-385: GWindows.Windows.MDI: added function Count_MDI_Children
-384: (contrib) Added GWin_Util package
+386: GWindows.Registry and GWindows.Errors work in 64-bit mode too.
+385: GWindows.Windows.MDI: added function Count_MDI_Children.
+384: (contrib) Added GWin_Util package.
 
 GWindows release, 31-Jul-2020 [rev. 383]
 ========================================

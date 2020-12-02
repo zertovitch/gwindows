@@ -2382,6 +2382,28 @@ package body GWindows.Common_Controls is
         (GString_C (To_PBuffer (LVI.Text).all));
    end Text;
 
+   procedure Ensure_Visible
+     (Control    : in out List_View_Control_Type;
+      Item       : in     Integer;
+      Visibility : in     Item_Visibility)
+   is
+      LVM_ENSUREVISIBLE : constant := LVM_FIRST + 19;
+
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle :=
+           GWindows.Common_Controls.Handle (Control);
+         uMsg   : Interfaces.C.int      := LVM_ENSUREVISIBLE;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item);
+         lParam : GWindows.Types.Lparam := Item_Visibility'Pos (Visibility));
+      --  lParam : a value specifying whether the item must be
+      --  entirely visible. If this parameter is TRUE, no scrolling
+      --  occurs if the item is at least partially visible.
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Ensure_Visible;
+
    --------------
    -- Selected --
    --------------

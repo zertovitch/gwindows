@@ -844,6 +844,15 @@ package GWindows.Common_Controls is
      (Control : in List_View_Control_Type;
       Style   : in Extended_Style_Type);
 
+   type Item_Visibility is (Full, Partial);
+
+   procedure Ensure_Visible
+     (Control    : in out List_View_Control_Type;
+      Item       : in     Integer;
+      Visibility : in     Item_Visibility);
+   --  If necessary, scroll programmatically to make
+   --  an item visible (partially or fully).
+
    -------------------------------------------------------------------------
    --  List_View_Control_Type - Event Framework Methods
    -------------------------------------------------------------------------
