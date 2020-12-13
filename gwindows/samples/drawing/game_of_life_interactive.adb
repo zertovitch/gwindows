@@ -19,6 +19,7 @@ with GWindows.Types;
 
 procedure Game_of_Life_Interactive is
    pragma Linker_Options ("-mwindows");
+   pragma Linker_Options ("control_test.coff");
 
    Main        : Main_Window_Type;
    Draw_Win    : Window_Type;
@@ -49,6 +50,7 @@ procedure Game_of_Life_Interactive is
       procedure Clear is
       begin
         GoL.Clear (Map (current));
+        GoL.Clear (Map (1 - current));
       end Clear;
       --
       procedure Set (x, y : Integer; f : GoL.Figure; s : GoL.State) is
@@ -126,7 +128,7 @@ procedure Game_of_Life_Interactive is
       if active then
          Play_Pause_Button.Text ("Playing");
       else
-         Play_Pause_Button.Text ("Paused");
+         Play_Pause_Button.Text ("-- Paused --");
       end if;
    end Refresh_Titles;
 
