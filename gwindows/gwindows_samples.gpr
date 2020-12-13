@@ -12,25 +12,37 @@ project GWindows_Samples is
    for Exec_Dir use "samples";
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
    for Main use (
-     "cap_test.adb",       --  Demo for mouse capture, drag & drop, and Get_Window_At_Location
-     "droptest.adb",       --  Demo for dragging files from Explorer onto our window
-     --  "db_view",        --  Database demo (need to fix the demo database...)
-     "mdi_example.adb",    --  Multi-document example (see AZip, LEA or TeXCAD for full apps)
+     "game_of_life_interactive.adb",  --  Passive *and* active drawing demo
+     "cap_test.adb",                  --  Demo for mouse capture, drag & drop, and Get_Window_At_Location
+     "droptest.adb",                  --  Demo for dragging files from Explorer onto our window
+     --  "db_view",                   --  Database demo (need to fix the demo database...)
+     "mdi_example.adb",               --  Multi-document example (see AZip, LEA or TeXCAD for full apps)
      "tab_in_dialog_test.adb",
      "tab_test.adb",
-     "sci_example.adb",    --  scintilla editor
+     "sci_example.adb",               --  scintilla editor
      "splitters.adb", 
-     "scribble.adb",       --  Drawing demos
-     "scribble2.adb",      --  Drawing demos
-     "text_spin.adb",      --  Drawing demos
-     "control_test.adb",   --  controls
-     "win_controls.adb"    --  other controls (combo boxes)
+     "scribble.adb",                  --  Active drawing demo
+     "scribble2.adb",                 --  Active drawing demo
+     "text_spin.adb",                 --  Drawing demo
+     "control_test.adb",              --  controls
+     "win_controls.adb"               --  other controls (combo boxes)
      --  "tcl_example.adb"
    );
 
    package Compiler is
-      for Default_Switches ("ada") use ("-Os", "-g",
+      for Default_Switches ("ada") use (
+         "-Os", "-g",
+         "-fipa-cp-clone", "-fgcse-after-reload", 
+         "-funroll-loops", "-fpeel-loops", "-funswitch-loops", 
+         "-ftracer", "-fweb", "-ftree-vectorize",
+         "-frename-registers", "-ffunction-sections",
          "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
+         "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
+         "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
+         "-gnatyO",      --  Style: check that overriding subprograms are explicitly marked as such.
+         "-gnatyx",      --  Style: check x:no extra parens
+         "-gnatye",      --  Style: check e:end/exit labels present
+         "-gnatytc",     --  Style: check t:token separation rules, c:comment format (two spaces)
          "-gnatwa");
    end Compiler;
 
