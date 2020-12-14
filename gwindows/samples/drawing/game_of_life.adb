@@ -83,8 +83,8 @@ package body Game_of_Life is
    );
 
    procedure Add_Figure (Map : out Map_Type; xc, yc : Integer; f : Figure; s : State) is
-     wm1 : constant Positive := Dims (f).Width - 1;
-     hm1 : constant Positive := Dims (f).Height - 1;
+     wm1 : constant Natural := Dims (f).Width - 1;
+     hm1 : constant Natural := Dims (f).Height - 1;
      x, y : Integer;
      --
      procedure P (pat : String; x, y : Integer) is

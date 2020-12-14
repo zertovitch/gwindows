@@ -77,22 +77,51 @@ procedure Game_of_Life_Interactive is
    end GoL_Map;
 
    GoL_Brushes : array (GoL.State) of Brush_Type;
+   Grid_Pen : Pen_Type;
+
+   draw_grid : constant Boolean := True;
 
    procedure Draw_Map (full : Boolean) is
       type Real is digits 15;
       cw, ch : Real;
       ww : constant Integer := Draw_Win.Client_Area_Width;
       wh : constant Integer := Draw_Win.Client_Area_Height;
+      margin : Natural;
    begin
       cw := Real (ww) / Real (Fixed_Map'Last (1));
       ch := Real (wh) / Real (Fixed_Map'Last (2));
+      if draw_grid then
+         margin := 1;
+      else
+         margin := 0;
+      end if;
+      if full then
+         Fill_Rectangle (Saved_Area, (0, 0, ww, wh), GoL_Brushes (GoL.Dead));
+         if draw_grid then
+            Saved_Area.Select_Object (Grid_Pen);
+            for x in 0 .. Fixed_Map'Last (1) loop
+               Line (
+                  Saved_Area,
+                  Integer (cw * Real (x)), 0,
+                  Integer (cw * Real (x)), wh
+               );
+            end loop;
+            for y in 0 .. Fixed_Map'Last (2) loop
+               Line (
+                  Saved_Area,
+                  0,  Integer (ch * Real (y)),
+                  ww, Integer (ch * Real (y))
+               );
+            end loop;
+         end if;
+      end if;
       for x in Fixed_Map'Range (1) loop
          for y in Fixed_Map'Range (2) loop
             if full or else GoL_Map.Is_Changed (x, y) then
                Fill_Rectangle (
                   Saved_Area,
-                 (Integer (cw * Real (x - 1)),
-                  Integer (ch * Real (y - 1)),
+                 (Integer (cw * Real (x - 1)) + margin,
+                  Integer (ch * Real (y - 1)) + margin,
                   Integer (cw * Real (x)),
                   Integer (ch * Real (y))),
                  GoL_Brushes (GoL_Map.Get (x, y))
@@ -287,10 +316,7 @@ begin
 
    GoL_Brushes (GoL.Dead).Create_Solid_Brush (White);
    GoL_Brushes (GoL.Alive).Create_Solid_Brush (Dark_Green);
-   for S in GoL.State loop
-     Drawing_Area.Select_Object (GoL_Brushes (S));
-     Saved_Area.Select_Object (GoL_Brushes (S));
-   end loop;
+   Grid_Pen.Create_Pen (Solid, 0, Light_Gray);
 
    Big_W := 2 * Desktop_Width;
    Big_H := 2 * Desktop_Height;
