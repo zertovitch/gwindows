@@ -25,6 +25,6 @@ package Game_of_Life is  --  Abstract Game of Life, could be moved out of this d
      HWSS
    );
 
-   procedure Add_Figure (Map : out Map_Type; x, y : Integer; f : Figure; s : State);
+   procedure Add_Figure (Map : out Map_Type; xc, yc : Integer; f : Figure; s : State);
 
 end Game_of_Life;

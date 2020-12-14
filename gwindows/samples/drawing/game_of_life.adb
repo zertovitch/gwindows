@@ -66,9 +66,27 @@ package body Game_of_Life is
       Map := (others => (others => Dead));
    end Clear;
 
-   procedure Add_Figure (Map : out Map_Type; x, y : Integer; f : Figure; s : State) is
-     wm1 : constant := 15;
-     hm1 : constant := 14;
+   type Dimension is record Width, Height : Positive; end record;
+
+   Dims : constant array (Figure) of Dimension :=
+   (
+     Point           =>  (1,  1),
+     Block           =>  (2,  2),
+     Blinker         =>  (3,  1),
+     Beacon          =>  (4,  4),
+     Pulsar          => (15, 15),
+     Pentadecathlon  =>  (3,  8),
+     Glider          =>  (3,  3),
+     LWSS            =>  (5,  4),
+     MWSS            =>  (6,  5),
+     HWSS            =>  (7,  5)
+   );
+
+   procedure Add_Figure (Map : out Map_Type; xc, yc : Integer; f : Figure; s : State) is
+     wm1 : constant Positive := Dims (f).Width - 1;
+     hm1 : constant Positive := Dims (f).Height - 1;
+     x, y : Integer;
+     --
      procedure P (pat : String; x, y : Integer) is
        xx : Integer := x;
      begin
@@ -79,7 +97,10 @@ package body Game_of_Life is
          xx := xx + 1;
        end loop;
      end P;
+     --
    begin
+      x := xc - wm1 / 2;
+      y := yc - hm1 / 2;
       if          x        in Map'Range (1)
         and then (x + wm1) in Map'Range (1)
         and then  y        in Map'Range (2)
@@ -94,11 +115,14 @@ package body Game_of_Life is
             when Blinker =>
                P ("***", x, y);
             when Glider =>
-               P ("*   ", x, y);
-               P (" ** ", x, y + 1);
+               P (" * ", x, y);
+               P ("  *", x, y + 1);
+               P ("***", x, y + 2);
             when Beacon =>
                P ("**  ", x, y);
-               P ("  **", x, y + 1);
+               P ("**  ", x, y + 1);
+               P ("  **", x, y + 2);
+               P ("  **", x, y + 3);
             when Pulsar =>
                P ("    *     *    ", x, y);
                P ("    *     *    ", x, y +  1);
