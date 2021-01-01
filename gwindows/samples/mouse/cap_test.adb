@@ -111,13 +111,13 @@ begin
    Create (Label, Window,
            "Click on the window's empty space below, " &
            "then drag the mouse to other windows",
-           0,0,25,25,Center);
+           0, 0, 25, 25, Center);
    Border (Label);
    Dock (Label, At_Top);
 
    Create (Status, Window,
            "Location: None",
-           0,0,25,100,Center);
+           0, 0, 25, 100, Center);
    Dock (Status, At_Top);
    Border (Status);
    Show (Window);

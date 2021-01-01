@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2020/07/31  14:20:11
+-- Transcription time: 2021/01/01  20:16:58
 -- GWenerator project file: GW_Install.gwen
 --
 -- Translated by the RC2GW or by the GWenerator tool.
@@ -16,6 +16,8 @@ with GWindows.Drawing;                  use GWindows.Drawing;
 with GWindows.Drawing_Objects;
 with GWindows.GStrings;                 use GWindows.GStrings;
 with System;
+
+pragma Warnings ("U");  --  turn off warnings for unused entity
 
 package body GW_Install_Resource_GUI is
 

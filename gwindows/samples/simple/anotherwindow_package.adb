@@ -1,10 +1,10 @@
--- with GWindows.Application;
+--  with GWindows.Application;
 with GWindows.Colors;
 with GWindows.Base;
 
 package body AnotherWindow_Package is
 
-   procedure On_Create (Window : in out AnotherWindow_Type)
+   overriding procedure On_Create (Window : in out AnotherWindow_Type)
    is
    begin
       Text (Window, "AnotherWindow");
@@ -27,14 +27,13 @@ package body AnotherWindow_Package is
                               Height => 50);
       GWindows.Panels.Dock (Window.Split1, GWindows.Base.At_Bottom);
 
-      -- The broad horizontal split bar, blue when moving
+      --  The broad horizontal split bar, blue when moving
       GWindows.GControls.GSize_Bars.Create (Window.Split_Bar1,
                                             Parent => Window.Split1,
                                             Location => GWindows.Base.At_Top);
       GWindows.GControls.GSize_Bars.Live_Resize (Window.Split_Bar1, False);
       GWindows.GControls.GSize_Bars.Move_Bar_Color (Window.Split_Bar1,
                                                     GWindows.Colors.Blue);
-
 
       GWindows.Edit_Boxes.Create (Window.Edit_Box2,
                                   Parent => Window.Split1,

@@ -37,7 +37,7 @@ package AnotherWindow_Package is
    type Pointer_To_AnotherWindow_Class is
      access all AnotherWindow_Type'Class;
 
-   procedure On_Create (Window : in out AnotherWindow_Type);
+   overriding procedure On_Create (Window : in out AnotherWindow_Type);
 
    AnotherWindow : AnotherWindow_Type;
 

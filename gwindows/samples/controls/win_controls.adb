@@ -1,5 +1,5 @@
 --  Testing some Windows controls
---  
+--
 --  - Combo_Box_Type
 --  - Drop_Down_Combo_Box_Type
 --  - Drop_Down_List_Box_Type

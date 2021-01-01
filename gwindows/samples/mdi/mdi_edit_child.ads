@@ -17,10 +17,10 @@ package MDI_Edit_Child is
    procedure On_Save_As (Window : in out MDI_Edit_Child_Type);
    --  Handles file saves
 
-   procedure On_Create (Window : in out MDI_Edit_Child_Type);
+   overriding procedure On_Create (Window : in out MDI_Edit_Child_Type);
    --  Handles creating window
 
-   procedure On_Menu_Select
+   overriding procedure On_Menu_Select
      (Window : in out MDI_Edit_Child_Type;
       Item   : in     Integer);
    --  Handles menu selections

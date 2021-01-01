@@ -38,7 +38,7 @@ procedure Text_Spin is
             declare
                F : Font_Type;
             begin
-               Create_Font (F, "Arial", 20, Angle => Integer(Angle) * 10);
+               Create_Font (F, "Arial", 20, Angle => Integer (Angle) * 10);
                Select_Object (Canvas, F);
                Put (Canvas,
                     Width (Main) / 2, Height (Main) / 2,

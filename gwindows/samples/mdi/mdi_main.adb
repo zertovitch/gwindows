@@ -23,7 +23,7 @@ package body MDI_Main is
    -- On_Create --
    ---------------
 
-   procedure On_Create (Window : in out MDI_Main_Type) is
+   overriding procedure On_Create (Window : in out MDI_Main_Type) is
       use GWindows.Menus;
       use GWindows.Image_Lists;
       use Standard_IDs;
@@ -132,9 +132,9 @@ package body MDI_Main is
                   Max_String_Length : constant := 255;
                   Output_String     : String (1 .. Max_String_Length);
                begin
-                  Get_Line(File => OFile,
-                           Item => Output_String,
-                           Last => Line_Length);
+                  Get_Line (File => OFile,
+                            Item => Output_String,
+                            Last => Line_Length);
 
                   OText := OText &
                     To_GString_From_String
@@ -183,9 +183,9 @@ package body MDI_Main is
    -- On_Menu_Hover --
    -------------------
 
-   procedure On_Menu_Hover (Window  : in out MDI_Main_Type;
-                            Item    : in     Integer;
-                            Kind    : in     GWindows.Windows.Hover_Item_Type)
+   overriding procedure On_Menu_Hover (Window  : in out MDI_Main_Type;
+                                       Item    : in     Integer;
+                                       Kind    : in     GWindows.Windows.Hover_Item_Type)
    is
       use GWindows.Windows;
    begin
@@ -202,7 +202,7 @@ package body MDI_Main is
    -- On_Menu_Select --
    --------------------
 
-   procedure On_Menu_Select
+   overriding procedure On_Menu_Select
      (Window : in out MDI_Main_Type;
       Item   : in     Integer)
    is
@@ -235,7 +235,7 @@ package body MDI_Main is
    -- On_Right_Click --
    --------------------
 
-   procedure On_Right_Click (Control : in out MDI_Status_Bar_Type) is
+   overriding procedure On_Right_Click (Control : in out MDI_Status_Bar_Type) is
       Parent : constant MDI_Main_Access :=
         MDI_Main_Access (Controlling_Parent (Control));
    begin
@@ -246,8 +246,8 @@ package body MDI_Main is
    -- On_Button_Select --
    ----------------------
 
-   procedure On_Button_Select (Control : in out MDI_Toolbar_Type;
-                               Item    : in     Integer)
+   overriding procedure On_Button_Select (Control : in out MDI_Toolbar_Type;
+                                          Item    : in     Integer)
    is
       Parent : constant MDI_Main_Access :=
         MDI_Main_Access (Controlling_Parent (Control));

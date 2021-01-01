@@ -37,10 +37,10 @@ procedure Scribble2 is
    pragma Unreferenced (Window);
    begin
       if Keys (Left_Button) then
-         Ellipse (Saved_Area, X, Y, X+50, Y+50);
-         Ellipse (Drawing_Area, X, Y, X+50, Y+50);
-         Put (Saved_Area, X+15, Y+25, "Moo");
-         Put (Drawing_Area, X+15, Y+25, "Moo");
+         Ellipse (Saved_Area, X, Y, X + 50, Y + 50);
+         Ellipse (Drawing_Area, X, Y, X + 50, Y + 50);
+         Put (Saved_Area, X + 15, Y + 25, "Moo");
+         Put (Drawing_Area, X + 15, Y + 25, "Moo");
       end if;
    end Do_Mouse_Move;
 
@@ -61,7 +61,7 @@ begin
 
    Keyboard_Support (Main, True); --  Allow ESC key for Done_Button
 
-   Create_As_Control (Draw_Win, Main, "", 0,0,0,0);
+   Create_As_Control (Draw_Win, Main, "", 0, 0, 0, 0);
    Dock (Draw_Win, Fill);
 
    Get_Canvas (Draw_Win, Drawing_Area);
@@ -93,7 +93,7 @@ begin
                           Do_Mouse_Move'Unrestricted_Access);
 
    Create (Done_Button, Main, "Done Scribblin'",
-           0,0,60,25,
+           0, 0, 60, 25,
            ID => IDCANCEL);
 
    --  Use Standard Windows GUI font instead of system font

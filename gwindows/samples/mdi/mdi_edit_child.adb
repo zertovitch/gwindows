@@ -18,7 +18,7 @@ package body MDI_Edit_Child is
    -- On_Create --
    ---------------
 
-   procedure On_Create (Window : in out MDI_Edit_Child_Type) is
+   overriding procedure On_Create (Window : in out MDI_Edit_Child_Type) is
       use GWindows.Edit_Boxes;
       use GWindows.Menus;
 
@@ -44,7 +44,7 @@ package body MDI_Edit_Child is
       Dock_Children (Window);
 
       MDI_Menu (Window, Load_Menu ("Edit_Child_Menu"), 3);
-      
+
       Zoom (Window);
    end On_Create;
 
@@ -52,7 +52,7 @@ package body MDI_Edit_Child is
    -- On_Menu_Select --
    --------------------
 
-   procedure On_Menu_Select
+   overriding procedure On_Menu_Select
      (Window : in out MDI_Edit_Child_Type;
       Item   : in     Integer)
    is
