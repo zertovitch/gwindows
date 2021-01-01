@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2018
+--  Copyright (c) Gautier de Montmollin 2008 .. 2021
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -408,6 +408,8 @@ package body RC_Help is
     Ada_Put_Line(to_spec, "use GWindows;");
     Ada_Put_Line(to_spec, "with Interfaces.C;                      use Interfaces.C;");
     Ada_New_Line(to_spec);
+    Ada_Put_Line(to_spec, "pragma Warnings (""U"");  --  turn off warnings for unused entity");
+    Ada_New_Line(to_spec);
     Ada_Put_Line(to_spec, "package " & pkg & eventual_child &" is");
     Ada_New_Line(to_spec);
     --
@@ -425,6 +427,8 @@ package body RC_Help is
       Ada_Put_Line(to_body, " use " & pkg & ".Constants; ");
     end if;
 
+    Ada_Put_Line(to_body, "pragma Warnings (""U"");  --  turn off warnings for unused entity");
+    Ada_New_Line(to_body);
     Ada_Put_Line(to_body, "package body " & pkg & eventual_child & " is");
     Ada_New_Line(to_body);
   end Ada_package_headers;
