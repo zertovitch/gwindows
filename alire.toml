@@ -23,6 +23,10 @@ executables = [
 	"createcom",
 	"makeguid"
 ]
+tags = [
+	"gui"
+]
+website = "http://www.gnavi.org/"
 
 [available.'case(os)']
 windows = true
