@@ -26,7 +26,7 @@ executables = [
 tags = [
 	"gui"
 ]
-website = "http://www.gnavi.org/"
+website = "https://sourceforge.net/projects/gnavi/"
 
 [available.'case(os)']
 windows = true
