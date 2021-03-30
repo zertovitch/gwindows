@@ -45,12 +45,12 @@ package body GNATCOM.Create.Factory is
 
    function InterlockedIncrement
      (lpAddend : access Interfaces.C.long) return Interfaces.C.long;
-   pragma Import (StdCall, InterlockedIncrement, "InterlockedIncrement");
+   pragma Import (StdCall, InterlockedIncrement, "_InterlockedIncrement");
    --  Win32 API for protected increment of a long
 
    function InterlockedDecrement
      (lpAddend : access Interfaces.C.long) return Interfaces.C.long;
-   pragma Import (StdCall, InterlockedDecrement, "InterlockedDecrement");
+   pragma Import (StdCall, InterlockedDecrement, "_InterlockedDecrement");
    --  Win32 API for protected decrement of a long
 
    -- AddRef --
