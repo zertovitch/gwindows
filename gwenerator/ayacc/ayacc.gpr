@@ -1,4 +1,4 @@
---  This is the GNAT / GNAT Studio project file.
+--  This is the GNAT / GNAT Studio project file for AYACC (Ada version of Yet Another Compiler Compiler).
 --  Build me with "gprbuild -P ayacc", "gnatmake -P ayacc", or open me with GNAT Studio
 
 project AYACC is
@@ -7,8 +7,15 @@ project AYACC is
    for Main use ("ayacc.adb");
    for Exec_Dir use ".";   
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
+
    package Compiler is
       for Default_Switches ("ada") use ("-gnato", "-gnatVa");
    end Compiler;
-   
+
+   package Builder is
+      --   "If -j0 is used, then the maximum number of simultaneous compilation
+      --    jobs is the number of core processors on the platform."
+      for Default_Switches ("ada") use ("-j0");
+   end Builder;
+
 end AYACC;
