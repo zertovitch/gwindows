@@ -1,6 +1,6 @@
--- Convert a C-headerfile containing only defines for resource-IDs
--- to an Ada-spec. It is expected that each line contains a simgle
--- #define for a synonym of a number, e.g.: "define THISID 100"
+--  Convert a C-header file containing only defines for resource-IDs
+--  to an Ada-spec. It is expected that each line contains a simgle
+--  #define for a synonym of a number, e.g.: "define THISID 100"
 
 with Text_IO; use Text_IO;
 with RC_Help;
@@ -9,7 +9,7 @@ with Ada.Exceptions; use Ada.Exceptions;
 
 package body Resource_Header is
 
-  procedure Convert_Header_File  (Name : String; Done : out Boolean) is
+  procedure Convert_Header_File  (Header_Name : String; Done : out Boolean) is
 
     H_File : File_Type;
 
@@ -157,7 +157,7 @@ package body Resource_Header is
       end Insert;
 
     begin
-      -- put_line("@..." & s & "@");
+      --  put_line("@..." & s & "@");
       if s = "#endif" then
         return;
       end if;
@@ -212,7 +212,7 @@ package body Resource_Header is
     Done := False;
 
     begin
-      Open (H_File, In_File, Name);
+      Open (H_File, In_File, Header_Name);
     exception
       when Name_Error =>
         return;  --  Header file not found, perhaps "#include <windows.h>". Not done, try next one.
@@ -240,7 +240,7 @@ package body Resource_Header is
       Close (H_File);
       Raise_Exception(
         Exception_Identity(E),
-        "File: " & Name & "; line:" & Integer'Image (Input_Line_Nr)
+        "File: " & Header_Name & "; line:" & Integer'Image (Input_Line_Nr)
       );
   end Convert_Header_File;
 

@@ -57,14 +57,14 @@ package body GWen_Windows is
     title: GString_Unbounded:= Window.short_name;
   begin
     --
-    -- Title
+    --  Title
     --
     if Window.proj.modified then
       title:= title & " *";
     end if;
     Window.Text("GWenerator - " & GU2G(title));
     --
-    -- Check box and the detail part
+    --  Check box and the detail part
     --
     if Window.proj.show_details then
       Window.Show_Details.State(Checked);
@@ -76,7 +76,7 @@ package body GWen_Windows is
       Window.More_less_details.Set_Bitmap(Window.more_details);
     end if;
     --
-    -- RC main part
+    --  RC main part
     --
     if Window.proj.RC_listen then
       Window.Ear_RC.Set_Bitmap(Window.ear);
@@ -89,7 +89,7 @@ package body GWen_Windows is
       Window.Newer_RC.Hide;
     end if;
     --
-    -- Ada main part
+    --  Ada main part
     --
     if Window.proj.show_ada_build then
       Window.Show_Ada_build.State(Checked);
@@ -171,7 +171,6 @@ package body GWen_Windows is
     candidate: GWen:= Window.proj;
 
     procedure Update_base_units ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
-      pragma Warnings(off, dummy);
       use_defaults_checked: constant Boolean:= dlg.Use_base_defs.State = Checked;
     begin
       Enabled(dlg.Basx, not use_defaults_checked);
@@ -179,7 +178,6 @@ package body GWen_Windows is
     end Update_base_units;
 
     procedure Select_RC ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
-      pragma Warnings(off, dummy);
       New_File_Name : GWindows.GString_Unbounded;
       File_Title    : GWindows.GString_Unbounded;
       Success: Boolean;
@@ -201,7 +199,6 @@ package body GWen_Windows is
     end Select_RC;
 
     procedure Select_Ada ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
-      pragma Warnings(off, dummy);
       New_File_Name : GWindows.GString_Unbounded;
       File_Title    : GWindows.GString_Unbounded;
       Success: Boolean;
@@ -234,7 +231,6 @@ package body GWen_Windows is
     end Img;
 
     procedure Get_Data ( dummy : in out GWindows.Base.Base_Window_Type'Class ) is
-      pragma Warnings(off, dummy);
     begin
       candidate.RC_name       := U(G2S(dlg.Edit_RC_File_Name.Text));
       candidate.RC_listen     := dlg.Listen_RC.State = Checked;
@@ -265,16 +261,16 @@ package body GWen_Windows is
     dlg.Create_Full_Dialog(Window);
     dlg.Small_Icon("Tools");
     --
-    -- Display the non-closing buttons
+    --  Display the non-closing buttons
     --
     dlg.Button_Browse_RC.Hide;
     dlg.Button_Browse_RC_permanent.Show;
     dlg.Button_Browse_Ada.Hide;
     dlg.Button_Browse_Ada_permanent.Show;
     --
-    -- Fill dialog's contents
+    --  Fill dialog's contents
     --
-    -- - RC box:
+    --  - RC box:
     dlg.Edit_RC_File_Name.Text(S2G(S(candidate.RC_name)));
     dlg.Listen_RC.State(Bool_to_Check(candidate.RC_listen));
     dlg.Auto_translate.State(Bool_to_Check(candidate.RC_auto_trans));
@@ -283,7 +279,7 @@ package body GWen_Windows is
     end loop;
     dlg.RC_Compiler_list.Text(Img(Window.proj.RC_compile));
     --
-    -- - Code generation box:
+    --  - Code generation box:
     --
     dlg.Separate_items.State(Bool_to_Check(candidate.separate_items));
     dlg.Basx.Text(S2G(Integer'Image(candidate.base_x)));
@@ -291,7 +287,7 @@ package body GWen_Windows is
     dlg.Use_base_defs.State(Bool_to_Check(candidate.base_defaults));
     dlg.Initialize_controls.State(Bool_to_Check(candidate.initialize_controls));
     --
-    -- - Ada background compilation box:
+    --  - Ada background compilation box:
     --
     dlg.Edit_Main_Ada_File_Name.Text(S2G(S((candidate.Ada_main))));
     dlg.Listen_Ada.State(Bool_to_Check(candidate.Ada_listen));
@@ -311,14 +307,14 @@ package body GWen_Windows is
       when IDOK =>
         --
         modified:= Window.proj /= candidate;
-        -- ^ True if any option has changed, False if no change.
+        --  ^ True if any option has changed, False if no change.
         --
         if modified then
           Window.proj:= candidate;
           Window.proj.modified:= True;
           Update_status_display(Window);
         end if;
-        -- Message_Box("Modified ?", Boolean'Image(modified));
+        --  Message_Box("Modified ?", Boolean'Image(modified));
       when others =>
         null; -- discard changes
     end case;
@@ -340,7 +336,7 @@ package body GWen_Windows is
           Window.last_save_success:= False;
           Window.On_Save;
           Success:= Window.last_save_success;
-          -- False e.g. if "Save as..." of a new file is cancelled
+          --  False e.g. if "Save as..." of a new file is cancelled
           return;
         when No     =>
           null;
@@ -358,7 +354,7 @@ package body GWen_Windows is
   begin
     Process_unsaved_changes(Window, Success);
     if Success then
-      -- Create a new GWen now, with defaults...
+      --  Create a new GWen now, with defaults...
       Window.proj:= fresh_gwen;
       Window.short_name:= G2GU(S2G(S(Window.proj.name)));
       Update_status_display (Window);
@@ -473,9 +469,9 @@ package body GWen_Windows is
     Text(box.GNAT_Version, S2G("version " & CVer.Version));
     Create_and_Swap(url_gnavi_2, box.GNAVI_URL, box, S2G(RC_Help.Web));
     Create_and_Swap(url_resedit, box.ResEdit_URL, box, "http://resedit.net");
-    -- Complete the Grammar version info:
+    --  Complete the Grammar version info:
     box.RC_gramm_ver.Text( box.RC_gramm_ver.Text & S2G(RC_Help.Grammar_Version) );
-    -- Complete the GWenerator version info:
+    --  Complete the GWenerator version info:
     box.GWen_ver.Text( box.GWen_ver.Text & S2G(Version_info.FileVersion) );
     box.Center;
     if Show_Dialog (box, Window) = IDOK then
@@ -491,7 +487,7 @@ package body GWen_Windows is
     procedure Output_a_line(l: String) is
     begin
       Add(gw.RC_to_GWindows_messages, S2G(l));
-    end;
+    end Output_a_line;
     p: Windows_pipes.Piped_process;
   begin
     Add(gw.RC_to_GWindows_messages, "");
@@ -545,7 +541,7 @@ package body GWen_Windows is
     end if;
   end Resource_compilation;
 
-  procedure Translation (gw: in out GWen_Window_Type; generate_test: Boolean) is
+  procedure Translation (gw: in out GWen_Window_Type; generate_test_option: Boolean) is
     --  We "de"route the standard output & error -
     --  anyway, there is no terminal in the first place!
     se: constant String:= Flexible_temp_files.Radix & "_se.tmp";
@@ -560,12 +556,12 @@ package body GWen_Windows is
     Check_resource_name (gw, ok);
     if ok then
       gw.Bar_RC.Position (10);
-      -- Copy the translation options to RC_Help's globals variables.
-      -- These variables are used by the code generated into yyparse.adb from RC.y.
-      RC_Help.Reset_globals;
+      --  Copy the translation options to RC_Help's globals variables.
+      --  These variables are used by the code generated into yyparse.adb from RC.y.
+      RC_Help.Reset_Globals;
       RC_Help.GWen_proj:= U (G2S (GU2G (gw.short_name)));
       RC_Help.separate_items:= gw.proj.separate_items;
-      RC_Help.generate_test:= generate_test;
+      RC_Help.generate_test:= generate_test_option;
       if not gw.proj.base_defaults then
         RC_Help.base_unit_x:= gw.proj.base_x;
         RC_Help.base_unit_y:= gw.proj.base_y;
@@ -621,9 +617,9 @@ package body GWen_Windows is
       delay 0.02;
     end if;
     gw.Bar_RC.Position(0);
-    -- Restore ear logos
-    -- NB: no call to main updating proc since this can be
-    -- called when window is in background
+    --  Restore ear logos
+    --  NB: no call to main updating proc since this can be
+    --  called when window is in background
     if gw.proj.RC_listen then
       gw.Ear_RC.Set_Bitmap(gw.ear);
     else
@@ -633,10 +629,10 @@ package body GWen_Windows is
 
   procedure Do_Translate (Window : in out GWindows.Base.Base_Window_Type'Class) is
   begin
-    Translation(GWen_Window_Type(Parent(Window).all), generate_test => False);
+    Translation(GWen_Window_Type(Parent(Window).all), generate_test_option => False);
   end Do_Translate;
 
-  -- Not nice (we reasonably suppose there is only *one* main window)
+  --  Not nice (we reasonably suppose there is only *one* main window)
   type GWen_Window_Type_Access is access all GWen_Window_Type;
   the_main: GWen_Window_Type_Access;
   --
@@ -724,9 +720,9 @@ package body GWen_Windows is
         "Main application", "Executable file doesn't exist:" & NL & S2G(main), OK_Box, Error_Icon);
     else
       GWin_Util.Start(
-        File      => main,
-        Parameter => "",
-        Minimized => False
+        File         => main,
+        Parameter    => "",
+        As_Minimized => False
       );
     end if;
   end Do_Run;
@@ -744,13 +740,13 @@ package body GWen_Windows is
                            dwStyle   : in out Interfaces.C.unsigned;
                            dwExStyle : in out Interfaces.C.unsigned)
   is
-    pragma Warnings (Off, Window);
-    pragma Warnings (Off, dwExStyle);
+    pragma Unmodified (Window);
+    pragma Unmodified (dwExStyle);
     WS_BORDER     : constant:= 16#0080_0000#;
     WS_SYSMENU    : constant:= 16#0008_0000#; -- Get the [x] closing box
     WS_MINIMIZEBOX: constant:= 16#0002_0000#;
     custom_style  : constant:= WS_BORDER + WS_SYSMENU + WS_MINIMIZEBOX;
-    -- essentially, we want a window the user cannot resize
+    --  essentially, we want a window the user cannot resize
   begin
     dwStyle:= custom_style;
   end On_Pre_Create;
@@ -760,7 +756,7 @@ package body GWen_Windows is
   procedure On_Create (Window : in out GWen_Window_Type) is
   --  Handles setting up icons, menus, etc.
     use Ada.Command_Line, GWindows.Buttons.Graphic;
-    success: Boolean;
+    successful: Boolean;
   begin
     Window.ear.Load_Bitmap(Num_resource(Listen_32x32));
     Window.no_ear.Load_Bitmap(Num_resource(Not_Listen_32x32));
@@ -781,9 +777,9 @@ package body GWen_Windows is
       GWens.IO.Load(
         file_name => Argument(1),
         proj      => Window.proj,
-        success   => success
+        success   => successful
       );
-      if success then
+      if successful then
         Window.short_name:= G2GU(S2G(Simple_Name(Argument(1))));
       else
         Message_Box(
@@ -818,7 +814,7 @@ package body GWen_Windows is
   end On_Create;
 
   procedure On_Destroy (Window : in out GWen_Window_Type) is
-  -- Method taken from GWindows.Windows.Main
+  --  Method taken from GWindows.Windows.Main
   begin
     GWindows.Application.End_Loop;
     Window_Type (Window).On_Destroy;
@@ -892,16 +888,16 @@ package body GWen_Windows is
 
   begin
     if message = Windows_Timers.WM_TIMER then
-      -- Window.RC_to_GWindows_messages.Add("tick!");
+      --  Window.RC_to_GWindows_messages.Add("tick!");
       if not busy_listening then
-        -- Lock the listener in case the timer ticks again during what follows
-        -- Without such a lock I guess it could mess something...
+        --  Lock the listener in case the timer ticks again during what follows
+        --  Without such a lock I guess it could mess something...
         busy_listening:= True;
         ---------------
         -- Listen RC --
         ---------------
         Update_RC_newer_flag_and_message;
-        -- Translate if RC new and this automatism desired
+        --  Translate if RC new and this automatism desired
         if Window.RC_new and Window.proj.RC_auto_trans then
           Do_Translate(Window.Button_Translate_permanent);
           Update_RC_newer_flag_and_message;
@@ -914,17 +910,17 @@ package body GWen_Windows is
           and Window.proj.show_ada_build
           and not Window.last_build_failed
           and not Alive(Window.build_process)
-          -- ^avoid stopping a running build!
+          --  ^avoid stopping a running build!
         then
           Do_Start_Stop_Build(Window.Button_Build_permanent);
         end if;
-        -- In case there is new messages from a running Ada build,
-        -- it is the occasion to empty the pipe
+        --  In case there is new messages from a running Ada build,
+        --  it is the occasion to empty the pipe
         if Alive(Window.build_process) then
           Check_progress(Window.build_process);
         end if;
         if Window.last_seen_running and not Alive(Window.build_process) then
-          -- Process just died
+          --  Process just died
           Window.last_seen_running:= False;
           exit_code:= Last_exit_code(Window.build_process);
           if exit_code = 0 then
@@ -933,7 +929,7 @@ package body GWen_Windows is
             );
             Window.GNATMake_messages.Add(S2G("Time : " & Time_display));
             Window.last_build_failed:= False;
-            -- But wait, sometimes the exit code is not sufficient!
+            --  But wait, sometimes the exit code is not sufficient!
             Update_Ada_newer_flag_and_message;
             if Window.Ada_new then -- Ada code still newer
               Window.last_build_failed:= True;
@@ -948,11 +944,11 @@ package body GWen_Windows is
           Window.Bar_Ada.Position(0);
           Update_status_display(Window);
         end if;
-        -- Unlock
+        --  Unlock
         busy_listening:= False;
       end if;
     end if;
-    -- Call parent method
+    --  Call parent method
     On_Message(
       Window_Type(Window),
       message,
@@ -978,14 +974,14 @@ package body GWen_Windows is
         Window.On_Save_As;
       when Quit =>
         Window.Close;
-      -- Action menu:
+      --  Action menu:
       when Generate_test_app =>
-        Translation(Window, generate_test => True);
+        Translation(Window, generate_test_option => True);
       when Start_main_app =>
         Do_Run (Window);
       when Compile_resource_only =>
          Resource_compilation(Window, optional => False);
-      -- Options menu:
+      --  Options menu:
       when GWen_Options =>
         Window.On_Options;
       when GWenerator_Preferences =>
@@ -1004,7 +1000,7 @@ package body GWen_Windows is
     use Windows_pipes;
   begin
     --
-    -- 1/ Check running processes
+    --  1/ Check running processes
     --
     if Alive(Window.build_process) then
       case Message_Box(
@@ -1026,7 +1022,7 @@ package body GWen_Windows is
       Success:= True;
     end if;
     --
-    -- 2/ Check unsaved changes
+    --  2/ Check unsaved changes
     --
     if Success then
       Process_unsaved_changes(Window, Success);

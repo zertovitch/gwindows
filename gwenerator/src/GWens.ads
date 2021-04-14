@@ -4,7 +4,7 @@ package GWens is
 
   type RC_compiler_choice is (
     none,
-    -- rc_cvtres, -- the Microsoft way
+    --  rc_cvtres, -- the Microsoft way
     windres       -- GNU
   );
 
@@ -13,7 +13,7 @@ package GWens is
     titled        : Boolean:= False;
     modified      : Boolean:= False;
     --
-    -- Data to be saved:
+    --  Data to be saved:
     --
     show_details  : Boolean:= False;
     --

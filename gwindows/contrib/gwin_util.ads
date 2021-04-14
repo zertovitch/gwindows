@@ -64,9 +64,9 @@ package GWin_Util is
   -------------------------------------------
 
   procedure Start (
-    File       : in String;
-    Parameter  : in String  := "";
-    Minimized  : in Boolean := False
+    File          : in String;
+    Parameter     : in String  := "";
+    As_Minimized  : in Boolean := False
   );
 
   procedure Exec (name : String; param : String:= "");
@@ -117,7 +117,7 @@ package GWin_Util is
   );
   cannot_get_Windows_version: exception;
 
-  -- Toolbar styles (for GWindows.Common_Controls):
+  --  Toolbar styles (for GWindows.Common_Controls):
   TBSTYLE_WRAPABLE: constant:= 16#200#;
   TBSTYLE_FLAT    : constant:= 16#800#;
   TBSTYLE_LIST    : constant:= 16#1000#;
@@ -136,12 +136,12 @@ package GWin_Util is
   --  Tabs - Property sheets  --
   ------------------------------
 
-  -- The package Property_Tabs_Package is indeed a kind of generic object type
-  -- An instance, like:
-  --   package Tabbing is new GWin_Util.Property_Tabs_Package(Tab_subject,Lang.Msg);
-  -- contains the Tab objects and Tabbing.Create
-  -- manages the creation of tabs with the Ideal Microsoft Proportions
-  -- and adds the OK, Cancel, (later) Apply buttons to the parent.
+  --  The package Property_Tabs_Package is indeed a kind of generic object type
+  --  An instance, like:
+  --    package Tabbing is new GWin_Util.Property_Tabs_Package(Tab_subject,Lang.Msg);
+  --  contains the Tab objects and Tabbing.Create
+  --  manages the creation of tabs with the Ideal Microsoft Proportions
+  --  and adds the OK, Cancel, (later) Apply buttons to the parent.
 
   generic
     type Tab_enumeration is (<>);
@@ -149,7 +149,7 @@ package GWin_Util is
     ok_message    : GString;
     cancel_message: GString;
   package Property_Tabs_Package is
-    -- Data:
+    --  Data:
     tab   : array(Tab_enumeration) of aliased GWindows.Windows.Window_Type;
     ok    : Default_Button_Type;
     cancel: Button_Type;

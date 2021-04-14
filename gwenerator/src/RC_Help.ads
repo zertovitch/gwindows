@@ -24,8 +24,8 @@
 --  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 --  THE SOFTWARE.
 
--- NB: this is the MIT License, as found 28-Jul-2008 on the site
--- http://www.opensource.org/licenses/mit-license.php
+--  NB: this is the MIT License, as found 28-Jul-2008 on the site
+--  http://www.opensource.org/licenses/mit-license.php
 ----------------------------------------------------------------------------
 
 with GWindows.Static_Controls,
@@ -48,9 +48,9 @@ package RC_Help is
   function Replace_special_characters(str: String) return String;
 
   function RC_to_Package_name(
-    rc_name     : String;
-    has_input   : Boolean; -- False => ignores rc_name and uses a default name
-    as_file_name: Boolean
+    rc_name         : String;
+    has_input_param : Boolean; -- False => ignores rc_name and uses a default name
+    as_file_name    : Boolean
   ) return String;
 
   has_input: Boolean;
@@ -75,8 +75,8 @@ package RC_Help is
   ------------------------
   -- Style combinations --
   ------------------------
-  -- They come either from control name like AUTORADIOBUTTON, or
-  -- from styles BS_AUTORADIOBUTTON
+  --  They come either from control name like AUTORADIOBUTTON, or
+  --  from styles BS_AUTORADIOBUTTON
 
   type Style_switch_type is
     ( auto,
@@ -130,13 +130,13 @@ package RC_Help is
 
   type Control_type is
     ( unknown,
-      -- "Static controls":
+      --  "Static controls":
       static,
       icon,
       bitmap,
       button,
       edit,
-      -- "Common controls":
+      --  "Common controls":
       track_bar, -- slider
       up_down,   -- spin
       progress,
@@ -161,7 +161,7 @@ package RC_Help is
 
   last_alignment: GWindows.Static_Controls.Alignment_Type:= GWindows.Static_Controls.Left;
   --
-  -- List view options
+  --  List view options
   --
   lv_type  : GWindows.Common_Controls.List_View_Control_View_Type;
   lv_select: GWindows.Common_Controls.List_View_Control_Select_Type;
@@ -190,9 +190,9 @@ package RC_Help is
   version_info_value: Unbounded_String;
 
   static_counter: Natural;
-  -- Counter for objects labelled as static (-1, ID_STATIC) but
-  -- that cannot be anonymous like labels.
-  -- Essentially Group_Boxes are concerned.
+  --  Counter for objects labelled as static (-1, ID_STATIC) but
+  --  that cannot be anonymous like labels.
+  --  Essentially Group_Boxes are concerned.
   procedure New_static_item;
 
   anonymous_dialog_counter: Natural;
@@ -245,16 +245,16 @@ package RC_Help is
   procedure Ada_combo_control;
 
   procedure Reset_control_styles;
-  -- All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
+  --  All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
   procedure Ada_untyped_control;
 
   procedure Ada_optional_disabling;
 
-  -- Control class is given as a string, not a token (e.g. "Button")
+  --  Control class is given as a string, not a token (e.g. "Button")
   procedure Identify_control_class(RC_String: String);
 
   procedure RC_Comment(s: String);
 
-  procedure Reset_globals;
+  procedure Reset_Globals;
 
 end RC_Help;

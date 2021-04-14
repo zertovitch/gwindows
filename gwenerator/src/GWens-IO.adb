@@ -21,9 +21,9 @@ package body GWens.IO is
     f: File_Type;
     k: Key;
     fresh_gwen: GWen;
-    -- ^ initialized with defaults;
-    -- for the case of an incomplete .gwen file,
-    -- e.g. saved with an older version
+    --  ^ initialized with defaults;
+    --  for the case of an incomplete .gwen file,
+    --  e.g. saved with an older version
     dummy: Character;
     is_gwen_file: Boolean:= False;
   begin

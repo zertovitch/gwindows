@@ -1,14 +1,14 @@
 ---------------------------------------------------------------------------
--- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2018/08/17  06:05:12
--- GWenerator project file: GWenerator.gwen
+--  GUI contents of resource script file: GWenerator.rc
+--  Transcription time: 2021/04/14  11:32:51
+--  GWenerator project file: GWenerator.gwen
 --
--- Translated by the RC2GW or by the GWenerator tool.
--- URL: http://sf.net/projects/gnavi
+--  Translated by the RC2GW or by the GWenerator tool.
+--  URL: http://sf.net/projects/gnavi
 --
--- This file contains only automatically generated code. Do not edit this.
--- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 31-Oct-2017
+--  This file contains only automatically generated code. Do not edit this.
+--  Rework the resource script instead, and re-run the translator.
+--  RC Grammar version: 20-Jul-2019
 ---------------------------------------------------------------------------
 
 with GWindows.Types;                    use GWindows.Types;
@@ -17,11 +17,13 @@ with GWindows.Drawing_Objects;
 with GWindows.GStrings;                 use GWindows.GStrings;
 with System;
 
+pragma Warnings ("U");  --  turn off warnings for unused entity
+
 package body GWenerator_Resource_GUI is
 
-  -- ** Generated code begins here \/ \/ \/.
+  --  ** Generated code begins here \/ \/ \/.
 
-  -- Menu at line 49
+  --  Menu at line 49
   procedure Create_Full_Menu
      (Menu        : in out Main_Menu_Type)
   is
@@ -52,23 +54,23 @@ package body GWenerator_Resource_GUI is
     Append_Item(Menu.Popup_0004, "&About", About);
   end Create_Full_Menu;  --  Main_Menu_Type
 
-  -- Dialog at resource line 88
+  --  Dialog at resource line 88
 
-  -- Pre-Create operation to switch off default styles
-  -- or add ones that are not in usual GWindows Create parameters
+  --  Pre-Create operation to switch off default styles, or
+  --  add ones that are not in usual GWindows Create parameters.
   --
   procedure On_Pre_Create (Window    : in out About_box_Type;
                            dwStyle   : in out Interfaces.C.unsigned;
                            dwExStyle : in out Interfaces.C.unsigned)
   is
-    pragma Warnings (Off, Window);
-    pragma Warnings (Off, dwExStyle);
-    WS_SYSMENU: constant:= 16#0008_0000#;
+    pragma Unmodified (Window);
+    pragma Unmodified (dwExStyle);
+    WS_SYSMENU : constant := 16#0008_0000#;
   begin
     dwStyle:= dwStyle and not WS_SYSMENU;
   end On_Pre_Create;
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out About_box_Type;
@@ -105,8 +107,8 @@ package body GWenerator_Resource_GUI is
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- About_box_Type
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out About_box_Type;
@@ -123,14 +125,14 @@ package body GWenerator_Resource_GUI is
     end if;
     Use_GUI_Font(Window);
     Dlg_to_Scn(  109, 174, 50, 14, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
+    --  Both versions of the button are created.
+    --  The more meaningful one is made visible, but this choice
+    --  can be reversed, for instance on a "Browse" button.
     Create( Window.IDOK, Window, "Close", x,y,w,h, ID => IDOK);
     Create( Window.IDOK_permanent, Window, "Close", x,y,w,h, ID => IDOK);
-    if for_dialog then -- hide the non-closing button
+    if for_dialog then  --  Hide the non-closing button
       Hide(Window.IDOK_permanent);
-    else -- hide the closing button
+    else  --  Hide the closing button
       Hide(Window.IDOK);
     end if;
     Dlg_to_Scn(  5, 5, 32, 30, x,y,w,h);
@@ -161,9 +163,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.GNAT_Version, Window, "GNAT_Version", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAT_Version);
   end Create_Contents;  --  About_box_Type
 
-  -- Dialog at resource line 112
+  --  Dialog at resource line 112
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out GWen_properties_Type;
@@ -200,8 +202,8 @@ package body GWenerator_Resource_GUI is
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- GWen_properties_Type
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out GWen_properties_Type;
@@ -218,25 +220,25 @@ package body GWenerator_Resource_GUI is
     end if;
     Use_GUI_Font(Window);
     Dlg_to_Scn(  195, 255, 50, 14, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
+    --  Both versions of the button are created.
+    --  The more meaningful one is made visible, but this choice
+    --  can be reversed, for instance on a "Browse" button.
     Create( Window.IDOK, Window, "OK", x,y,w,h, ID => IDOK);
     Create( Window.IDOK_permanent, Window, "OK", x,y,w,h, ID => IDOK);
-    if for_dialog then -- hide the non-closing button
+    if for_dialog then  --  Hide the non-closing button
       Hide(Window.IDOK_permanent);
-    else -- hide the closing button
+    else  --  Hide the closing button
       Hide(Window.IDOK);
     end if;
     Dlg_to_Scn(  250, 255, 50, 14, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
+    --  Both versions of the button are created.
+    --  The more meaningful one is made visible, but this choice
+    --  can be reversed, for instance on a "Browse" button.
     Create( Window.IDCANCEL, Window, "Cancel", x,y,w,h, ID => IDCANCEL);
     Create( Window.IDCANCEL_permanent, Window, "Cancel", x,y,w,h, ID => IDCANCEL);
-    if for_dialog then -- hide the non-closing button
+    if for_dialog then  --  Hide the non-closing button
       Hide(Window.IDCANCEL_permanent);
-    else -- hide the closing button
+    else  --  Hide the closing button
       Hide(Window.IDCANCEL);
     end if;
     Dlg_to_Scn(  83, 17, 168, 15, x,y,w,h);
@@ -244,14 +246,14 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  20, 20, 60, 8, x,y,w,h);
     Create_Label( Window, "File name", x,y,w,h, GWindows.Static_Controls.Right, None);
     Dlg_to_Scn(  253, 17, 43, 14, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
+    --  Both versions of the button are created.
+    --  The more meaningful one is made visible, but this choice
+    --  can be reversed, for instance on a "Browse" button.
     Create( Window.Button_Browse_RC, Window, "Browse...", x,y,w,h, ID => Button_Browse_RC);
     Create( Window.Button_Browse_RC_permanent, Window, "Browse...", x,y,w,h, ID => Button_Browse_RC);
-    if for_dialog then -- hide the non-closing button
+    if for_dialog then  --  Hide the non-closing button
       Hide(Window.Button_Browse_RC_permanent);
-    else -- hide the closing button
+    else  --  Hide the closing button
       Hide(Window.Button_Browse_RC);
     end if;
     Dlg_to_Scn(  20, 42, 93, 10, x,y,w,h);
@@ -265,14 +267,14 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  83, 173, 168, 15, x,y,w,h);
     Create( Window.Edit_Main_Ada_File_Name, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Edit_Main_Ada_File_Name);
     Dlg_to_Scn(  253, 173, 43, 14, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
+    --  Both versions of the button are created.
+    --  The more meaningful one is made visible, but this choice
+    --  can be reversed, for instance on a "Browse" button.
     Create( Window.Button_Browse_Ada, Window, "Browse...", x,y,w,h, ID => Button_Browse_Ada);
     Create( Window.Button_Browse_Ada_permanent, Window, "Browse...", x,y,w,h, ID => Button_Browse_Ada);
-    if for_dialog then -- hide the non-closing button
+    if for_dialog then  --  Hide the non-closing button
       Hide(Window.Button_Browse_Ada_permanent);
-    else -- hide the closing button
+    else  --  Hide the closing button
       Hide(Window.Button_Browse_Ada);
     end if;
     Dlg_to_Scn(  20, 198, 107, 10, x,y,w,h);
@@ -307,9 +309,9 @@ package body GWenerator_Resource_GUI is
     Create( Window.RC_Compiler_list, Window, x,y,w,h, False, ID => RC_Compiler_list);
   end Create_Contents;  --  GWen_properties_Type
 
-  -- Dialog at resource line 148
+  --  Dialog at resource line 148
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Main_dialog_Type;
@@ -346,8 +348,8 @@ package body GWenerator_Resource_GUI is
     Create_Contents(Window, True);
   end Create_Full_Dialog; -- Main_dialog_Type
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Main_dialog_Type;
@@ -374,36 +376,36 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn(  212, 117, 115, 8, x,y,w,h);
     Create( Window.Ada_comp_label, Window, "Ada compilation and build messages", x,y,w,h, GWindows.Static_Controls.Left, None, ID => Ada_comp_label);
     Dlg_to_Scn(  67, 37, 100, 20, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
+    --  Both versions of the button are created.
+    --  The more meaningful one is made visible, but this choice
+    --  can be reversed, for instance on a "Browse" button.
     Create( Window.Button_Translate, Window, "Translate now", x,y,w,h, ID => Button_Translate);
     Create( Window.Button_Translate_permanent, Window, "Translate now", x,y,w,h, ID => Button_Translate);
-    if for_dialog then -- hide the non-closing button
+    if for_dialog then  --  Hide the non-closing button
       Hide(Window.Button_Translate_permanent);
-    else -- hide the closing button
+    else  --  Hide the closing button
       Hide(Window.Button_Translate);
     end if;
     Dlg_to_Scn(  245, 37, 100, 20, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
+    --  Both versions of the button are created.
+    --  The more meaningful one is made visible, but this choice
+    --  can be reversed, for instance on a "Browse" button.
     Create( Window.Button_Build, Window, "Build now", x,y,w,h, ID => Button_Build);
     Create( Window.Button_Build_permanent, Window, "Build now", x,y,w,h, ID => Button_Build);
-    if for_dialog then -- hide the non-closing button
+    if for_dialog then  --  Hide the non-closing button
       Hide(Window.Button_Build_permanent);
-    else -- hide the closing button
+    else  --  Hide the closing button
       Hide(Window.Button_Build);
     end if;
     Dlg_to_Scn(  410, 37, 46, 20, x,y,w,h);
-    -- Both versions of the button are created.
-    -- The more meaningful one is made visible, but this choice
-    -- can be reversed, for instance on a "Browse" button.
+    --  Both versions of the button are created.
+    --  The more meaningful one is made visible, but this choice
+    --  can be reversed, for instance on a "Browse" button.
     Create( Window.Button_Run, Window, "Run", x,y,w,h, ID => Button_Run);
     Create( Window.Button_Run_permanent, Window, "Run", x,y,w,h, ID => Button_Run);
-    if for_dialog then -- hide the non-closing button
+    if for_dialog then  --  Hide the non-closing button
       Hide(Window.Button_Run_permanent);
-    else -- hide the closing button
+    else  --  Hide the closing button
       Hide(Window.Button_Run);
     end if;
     Dlg_to_Scn(  67, 62, 100, 10, x,y,w,h);
@@ -448,25 +450,25 @@ package body GWenerator_Resource_GUI is
     Create( Window.More_less_build, Window, "", x,y,w,h, ID => More_less_build);
   end Create_Contents;  --  Main_dialog_Type
 
-  -- ** Generated code ends here /\ /\ /\.
+  --  ** Generated code ends here /\ /\ /\.
 
-  -- ** Some helper utilities (body).
+  --  ** Some helper utilities (body).
 
   procedure Dlg_to_Scn( -- converts dialog coords to screen (pixel) coords.
     xd,yd,wd,hd:  in Integer;
     xs,ys,ws,hs: out Integer)
   is
-    -- function GetDialogBaseUnits return Integer;
-    -- pragma Import (StdCall, GetDialogBaseUnits, "GetDialogBaseUnits");
-    -- baseunit, baseunitX, baseunitY: Integer;
+    --  function GetDialogBaseUnits return Integer;
+    --  pragma Import (StdCall, GetDialogBaseUnits, "GetDialogBaseUnits");
+    --  baseunit, baseunitX, baseunitY: Integer;
     baseunitX: constant:= 6;
     baseunitY: constant:= 13;
   begin
-    -- baseunit:= GetDialogBaseUnits; -- this gives X=8, Y=16 (SYSTEM font)
-    -- baseunitX:= baseunit mod (2 ** 16);
-    -- baseunitY:= baseunit  / (2 ** 16);
-    -- NB: the other way with MapDialogRect works only
-    --   by full moon, hence the use-defined units.
+    --  baseunit:= GetDialogBaseUnits; -- this gives X=8, Y=16 (SYSTEM font)
+    --  baseunitX:= baseunit mod (2 ** 16);
+    --  baseunitY:= baseunit  / (2 ** 16);
+    --  NB: the other way with MapDialogRect works only
+    --    by full moon, hence the use-defined units.
     xs := (xd * baseunitX) / 4;
     ws := (wd * baseunitX) / 4;
     ys := (yd * baseunitY) / 8;
@@ -476,10 +478,10 @@ package body GWenerator_Resource_GUI is
   package Common_Fonts is
     GUI_Font : GWindows.Drawing_Objects.Font_Type;
     URL_Font : GWindows.Drawing_Objects.Font_Type;
-    -- ^ These fonts are created once, at startup
-    --   it avoid GUI resource leak under Windows 95/98/ME
+    --  ^ These fonts are created once, at startup
+    --    it avoid GUI resource leak under Windows 95/98/ME
     procedure Create_Common_Fonts;
-    -- in initialisation part if this pkg becomes standalone
+    --  in initialisation part if this pkg becomes standalone
   end Common_Fonts;
 
   procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class)
@@ -546,7 +548,7 @@ package body GWenerator_Resource_GUI is
         GWindows.Drawing_Objects.Create_Font(URL_Font,
           "MS Sans Serif",
           14, Underline => True);
-            -- !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
+            --  !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
       else
         Log_of_current_font.lfUnderline:= Interfaces.C.char'Val(1);
         GWindows.Drawing_Objects.Handle(URL_Font, CreateFontIndirect);
@@ -558,6 +560,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  -- Last line of resource script file: 270
+  --  Last line of resource script file: 270
 
 end GWenerator_Resource_GUI;

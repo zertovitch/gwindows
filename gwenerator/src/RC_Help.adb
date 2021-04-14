@@ -24,11 +24,11 @@
 --  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 --  THE SOFTWARE.
 
--- NB: this is the MIT License, as found 28-Jul-2008 on the site
--- http://www.opensource.org/licenses/mit-license.php
+--  NB: this is the MIT License, as found 28-Jul-2008 on the site
+--  http://www.opensource.org/licenses/mit-license.php
 ----------------------------------------------------------------------------
 
--- with Ada.Command_Line;                  use Ada.Command_Line;
+--  with Ada.Command_Line;                  use Ada.Command_Line;
 with Ada.Text_IO;                       use Ada.Text_IO;
 with Ada.Characters.Handling;           use Ada.Characters.Handling;
 with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
@@ -62,9 +62,9 @@ package body RC_Help is
     return S(us);
   end Replace_special_characters;
 
-  function Combo_type_name(combo: Combo_type) return String is
+  function Combo_type_name (combo_choice: Combo_type) return String is
   begin
-    case combo is
+    case combo_choice is
       when no_drop => return "Combo_Box_Type";
       when drop_down => return "Drop_Down_Combo_Box_Type";
       when drop_down_list => return "Drop_Down_List_Box_Type";
@@ -124,22 +124,22 @@ package body RC_Help is
   procedure Ada_Put(to: Pkg_output; s: String) is
   begin
     iPut(to, s, as_comment => False);
-  end;
+  end Ada_Put;
 
   procedure Ada_Put_Line(to: Pkg_output; s: String) is
   begin
     iPut_Line(to, s, as_comment => False);
-  end;
+  end Ada_Put_Line;
 
   procedure Ada_New_Line(to: Pkg_output) is
   begin
     iNew_Line(to);
-  end;
+  end Ada_New_Line;
 
   procedure Ada_Comment(to: Pkg_output; s: String) is
   begin
     iPut_Line(to, "-- " & s, as_comment => True);
-  end;
+  end Ada_Comment;
 
   function Root_name(sn: String) return String is
   begin
@@ -152,20 +152,20 @@ package body RC_Help is
   end Root_name;
 
   function RC_to_Package_name(
-    rc_name     : String;
-    has_input   : Boolean;
-    as_file_name: Boolean
+    rc_name         : String;
+    has_input_param : Boolean;
+    as_file_name    : Boolean
   ) return String
   is
     sep_child: constant array(Boolean) of Character:= ('.', '-');
     as_child: constant Boolean:= False;
-    -- Problem with making a the main resource package a child:
-    -- parent may not be a package but a procedure.
+    --  Problem with making a the main resource package a child:
+    --  parent may not be a package but a procedure.
     sep: constant array(Boolean) of Character:= ('_', sep_child(as_file_name));
     suffix: constant String:= sep(as_child) & "Resource_GUI";
     first: Natural:= rc_name'First;
   begin
-    if has_input then
+    if has_input_param then
       if as_file_name then
         return To_Lower (Root_name(rc_name) & suffix);
         --  NB: would need to be smarter for Linux and other case-sensitve systems...
@@ -241,15 +241,15 @@ package body RC_Help is
 
   type Sorting_mode is (by_name, by_value);
 
-  -- We need two dictionaries
-  -- - by value, for the nice sorted output
-  -- - by name, for avoiding duplicating names
+  --  We need two dictionaries
+  --  - by value, for the nice sorted output
+  --  - by name, for avoiding duplicating names
 
   symbols_by_name, symbols_by_value: p_Dir_node:= null;
 
-  procedure Insert( item :  in     Entry_type;
-                    node :  in out p_Dir_node;
-                    mode :  in     Sorting_mode ) is
+  procedure Insert( item      :  in     Entry_type;
+                    node      :  in out p_Dir_node;
+                    sort_mode :  in     Sorting_mode ) is
   begin
     if node = null then
       node:= new Dir_node'
@@ -258,26 +258,26 @@ package body RC_Help is
            right        => null
            )
         );
-      if mode = by_name then
-        -- This new name is unique, let's insert by value too
+      if sort_mode = by_name then
+        --  This new name is unique, let's insert by value too
         Insert( item, symbols_by_value, by_value );
       end if;
     else
-      case mode is
+      case sort_mode is
         when by_value =>
           if item.value >= node.item.value then
-             -- '=': values may be duplicate (several constants with same values)
-            Insert( item, node.right, mode );
+             --  '=': values may be duplicate (several constants with same values)
+            Insert( item, node.right, sort_mode );
           else
-            Insert( item, node.left , mode );
+            Insert( item, node.left , sort_mode );
           end if;
         when by_name =>
           if item.RC_Ident > node.item.RC_Ident then
-            Insert( item, node.right, mode );
+            Insert( item, node.right, sort_mode );
           elsif item.RC_Ident < node.item.RC_Ident then
-            Insert( item, node.left , mode );
+            Insert( item, node.left , sort_mode );
           else
-            -- duplicated names are ignored
+            --  duplicated names are ignored
             null;
           end if;
       end case;
@@ -288,7 +288,7 @@ package body RC_Help is
   begin
     if not anonymous_item then
       Insert( (last_ident, last_Ada_constant, -1, False), symbols_by_name, by_name );
-      -- In principle already inserted via resource.h, unless that one is missing
+      --  In principle already inserted via resource.h, unless that one is missing
     end if;
   end Insert_last_symbol;
 
@@ -355,12 +355,12 @@ package body RC_Help is
     end Output_node_and_sons;
 
   begin
-    Ada_Put_Line(to_spec, "  ------------------------------------------------");
-    Ada_Put_Line(to_spec, "  -- Defined resource symbols --> Ada constants --");
-    Ada_Put_Line(to_spec, "  ------------------------------------------------");
+    Ada_Put_Line(to_spec, "  --------------------------------------------------");
+    Ada_Put_Line(to_spec, "  --  Defined resource symbols --> Ada constants  --");
+    Ada_Put_Line(to_spec, "  --------------------------------------------------");
     Ada_New_Line(to_spec);
-    Ada_Put_Line(to_spec, "  -- NB: only items with a defined symbol get a constant here");
-    Ada_Put_Line(to_spec, "  -- These constants are needed for getting button and menu feedbacks.");
+    Ada_Put_Line(to_spec, "  --  NB: only items with a defined symbol get a constant here");
+    Ada_Put_Line(to_spec, "  --  These constants are needed for getting button and menu feedbacks.");
     Ada_New_Line(to_spec);
     Set_max(symbols_by_value);
     Output_node_and_sons(symbols_by_value);
@@ -371,18 +371,18 @@ package body RC_Help is
   procedure Blurb(to: Pkg_output) is
   begin
     Ada_Put_Line(to, "---------------------------------------------------------------------------");
-    Ada_Put_Line(to, "-- GUI contents of resource script file: " & S(source_name));
-    Ada_Put_Line(to, "-- Transcription time: " & Time_display);
+    Ada_Put_Line(to, "--  GUI contents of resource script file: " & S(source_name));
+    Ada_Put_Line(to, "--  Transcription time: " & Time_display);
     if GWen_proj /= "" then
-      Ada_Put_Line(to, "-- GWenerator project file: " & S(GWen_proj));
+      Ada_Put_Line(to, "--  GWenerator project file: " & S(GWen_proj));
     end if;
     Ada_Put_Line(to, "--");
-    Ada_Put_Line(to, "-- Translated by the RC2GW or by the GWenerator tool.");
-    Ada_Put_Line(to, "-- URL: " & Web);
+    Ada_Put_Line(to, "--  Translated by the RC2GW or by the GWenerator tool.");
+    Ada_Put_Line(to, "--  URL: " & Web);
     Ada_Put_Line(to, "--");
-    Ada_Put_Line(to, "-- This file contains only automatically generated code. Do not edit this.");
-    Ada_Put_Line(to, "-- Rework the resource script instead, and re-run the translator.");
-    Ada_Put_Line(to, "-- RC Grammar version: " & Grammar_Version);
+    Ada_Put_Line(to, "--  This file contains only automatically generated code. Do not edit this.");
+    Ada_Put_Line(to, "--  Rework the resource script instead, and re-run the translator.");
+    Ada_Put_Line(to, "--  RC Grammar version: " & Grammar_Version);
     Ada_Put_Line(to, "---------------------------------------------------------------------------");
     Ada_New_Line(to);
   end Blurb;
@@ -503,7 +503,7 @@ package body RC_Help is
   )
   is
   begin
-    if not dialog_style_switch(sys_menu) then -- maybe also: " and ws_dlgframe)"
+    if not dialog_style_switch(sys_menu) then  --  maybe also: " and ws_dlgframe)"
       Ada_Put_Line(to, "  --  Pre-Create operation to switch off default styles, or");
       Ada_Put_Line(to, "  --  add ones that are not in usual GWindows Create parameters.");
       Ada_Put_Line(to, "  --");
@@ -516,9 +516,9 @@ package body RC_Help is
         when to_body =>
           Ada_New_Line(to);
           Ada_Put_Line(to, "  is");
-          Ada_Put_Line(to, "    pragma Warnings (Off, Window);");
-          Ada_Put_Line(to, "    pragma Warnings (Off, dwExStyle);");
-          Ada_Put_Line(to, "    WS_SYSMENU: constant:= 16#0008_0000#;");
+          Ada_Put_Line(to, "    pragma Unmodified (Window);");
+          Ada_Put_Line(to, "    pragma Unmodified (dwExStyle);");
+          Ada_Put_Line(to, "    WS_SYSMENU : constant := 16#0008_0000#;");
           Ada_Put_Line(to, "  begin");
           if not style_switch(sys_menu) then
             Ada_Put_Line(to, "    dwStyle:= dwStyle and not WS_SYSMENU;");
@@ -529,8 +529,8 @@ package body RC_Help is
     end if;
   end Ada_Dialog_Pre_settings;
 
-  dialog_mem: array(1..10_000) of Unbounded_String;
-  dialog_top: Natural;
+  dialog_mem : array (1 .. 10_000) of Unbounded_String;
+  dialog_top : Natural;
 
   procedure Ada_Proc_Dialog(
     to          : Pkg_output;
@@ -539,7 +539,7 @@ package body RC_Help is
   )
   is
   begin
-    -- First, finish defining type
+    --  First, finish defining type
     if to = to_spec then
       dialog_top:= dialog_top + 1;
       dialog_mem(dialog_top):= U(type_name);
@@ -614,7 +614,7 @@ package body RC_Help is
     if to = to_body then
       Ada_New_Line(to);
       Ada_Put_Line(to_body, "  is");
-      Ada_Put_Line(to_body, "    x,y,w,h: Integer;");
+      Ada_Put_Line(to_body, "    x,y,w,h : Integer;");
       Ada_Put_Line(to_body, "  begin");
       Ada_Put_Line(to_body, "    if resize then");
       Ada_Coord_conv(last_dialog_rect);
@@ -642,12 +642,12 @@ package body RC_Help is
   begin
     Ada_New_Line(to);
     Ada_Put_Line(to, "  procedure Dlg_to_Scn(");
-    Ada_Put_Line(to, "    xd,yd,wd,hd:  in Integer;");
-    Ada_Put_Line(to, "    xs,ys,ws,hs: out Integer);");
+    Ada_Put_Line(to, "    xd,yd,wd,hd :  in Integer;");
+    Ada_Put_Line(to, "    xs,ys,ws,hs : out Integer);");
     Ada_New_Line(to);
-    Ada_Put_Line(to, "  procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);");
+    Ada_Put_Line(to, "  procedure Use_GUI_Font (Window : in out GWindows.Base.Base_Window_Type'Class);");
     Ada_New_Line(to);
-    Ada_Put_Line(to, "  function Num_resource(id: Natural) return GString;  --  Just turn 123 into ""#123"".");
+    Ada_Put_Line(to, "  function Num_resource (id : Natural) return GString;  --  Just turn 123 into ""#123"".");
   end Ada_Helpers_spec;
 
   procedure Ada_Begin is
@@ -665,22 +665,22 @@ package body RC_Help is
       --
       Create(to_spec, pkg(as_file_name => True) & ".ads");
       Blurb(to_spec);
-      Ada_Put_Line(to_spec, "-- Option separate_items selected (-s with RC2GW), then all items are in child packages.");
-      Ada_Put_Line(to_spec, "-- Children are");
-      Ada_Put_Line(to_spec, "--   1 per dialog or menu item");
-      Ada_Put_Line(to_spec, "--   " & pkg & ".Constants for resource constants (ID's)");
-      Ada_Put_Line(to_spec, "--   " & pkg & ".Helpers for internal helper routines");
-      Ada_Put_Line(to_spec, "--   " & pkg & ".Version_info for constants stored in the VersionInfo part.");
+      Ada_Put_Line(to_spec, "--  Option separate_items selected (-s with RC2GW), then all items are in child packages.");
+      Ada_Put_Line(to_spec, "--  Children are");
+      Ada_Put_Line(to_spec, "--    1 per dialog or menu item");
+      Ada_Put_Line(to_spec, "--    " & pkg & ".Constants for resource constants (ID's)");
+      Ada_Put_Line(to_spec, "--    " & pkg & ".Helpers for internal helper routines");
+      Ada_Put_Line(to_spec, "--    " & pkg & ".Version_info for constants stored in the VersionInfo part.");
       Ada_New_Line(to_spec);
       Ada_Put_Line(to_spec, "package " & pkg & " is");
-      Ada_Put_Line(to_spec, "  -- empty: everything is in child packages.");
+      Ada_Put_Line(to_spec, "  --  empty: everything is in child packages.");
       Ada_Put_Line(to_spec, "end " & pkg & ';');
       Close(Ada_files(to_spec));
     else
       Create(to_spec, pkg(as_file_name => True) & ".ads");
       Create(to_body, pkg(as_file_name => True) & ".adb");
       Ada_package_headers(eventual_child => "");
-      Ada_Put_Line(to_body, "  -- ** Generated code begins here \/ \/ \/.");
+      Ada_Put_Line(to_body, "  --  ** Generated code begins here \/ \/ \/.");
     end if;
     --
     popup_stack(0):= 0; -- root is "Main" menu
@@ -690,8 +690,8 @@ package body RC_Help is
 
   procedure Ada_Coord_conv(rect: Rect_type) is
   begin
-     Ada_Put_Line(to_body,
-       "    Dlg_to_Scn( " & -- Window_Type(Window),
+     Ada_Put_Line (to_body,
+       "    Dlg_to_Scn (" & -- Window_Type(Window),
        Long_Long_Integer'Image(rect.x) & ',' &
        Long_Long_Integer'Image(rect.y) & ',' &
        Long_Long_Integer'Image(rect.w) & ',' &
@@ -709,8 +709,8 @@ package body RC_Help is
     end id_part;
 
   begin
-    Ada_Put_Line(to_body,
-      "    Create( Window." & S(last_Ada_ident) & ", Window" &
+    Ada_Put_Line (to_body,
+      "    Create (Window." & S(last_Ada_ident) & ", Window" &
       comma_text & ", x,y,w,h" & extra & id_part &
       ");"
     );
@@ -746,10 +746,10 @@ package body RC_Help is
   procedure Ada_label_control is -- Static text
   begin
     if anonymous_item then
-      Ada_Coord_conv(last_rect);
-      Ada_Put_Line(to_spec, "    -- Label: " & S(last_ident) );
-      Ada_Put_Line(to_body,
-        "    Create_Label( Window, " &
+      Ada_Coord_conv (last_rect);
+      Ada_Put_Line (to_spec, "    --  Label: " & S(last_ident) );
+      Ada_Put_Line (to_body,
+        "    Create_Label (Window, " &
         S(last_text) &
         ", x,y,w,h" &
         Static_tail
@@ -769,23 +769,23 @@ package body RC_Help is
     temp_ustr: Unbounded_String;
   begin
     if style_switch(state3) then
-      Ada_very_normal_control("Three_State_Box_Type");
+      Ada_very_normal_control ("Three_State_Box_Type");
     elsif style_switch(checkbox) then
-      Ada_very_normal_control("Check_Box_Type");
+      Ada_very_normal_control ("Check_Box_Type");
     elsif style_switch(radio) then
-      Ada_very_normal_control("Radio_Button_Type");
+      Ada_very_normal_control ("Radio_Button_Type");
     elsif style_switch(bitmap) then
-      Ada_very_normal_control("Bitmap_Button_Type");
+      Ada_very_normal_control ("Bitmap_Button_Type");
     elsif style_switch(icon) then
-      Ada_very_normal_control("Icon_Button_Type");
+      Ada_very_normal_control ("Icon_Button_Type");
     elsif style_switch(ownerdraw) then
-      Ada_very_normal_control("Owner_Drawn_Button_Type");
+      Ada_very_normal_control ("Owner_Drawn_Button_Type");
     elsif style_switch(push) then
       Ada_Coord_conv(last_rect);
-      -- Here it is a bit tricky, since, as expected,
-      -- Dialog_Button's close the window and Button don't .
-      -- If we want a "real", permanent, window, then we want
-      -- the latter sort.
+      --  Here it is a bit tricky, since, as expected,
+      --  Dialog_Button's close the window and Button don't .
+      --  If we want a "real", permanent, window, then we want
+      --  the latter sort.
       ------------------------------------
       -- "Dialog" version of the button --
       ------------------------------------
@@ -793,10 +793,10 @@ package body RC_Help is
       if style_switch(default) then
         Ada_Put(to_spec, "Default_");
       end if;
-      Ada_Put_Line(to_spec, "Dialog_Button_Type;    -- closes parent window after click" );
-      Ada_Put_Line(to_body, "    -- Both versions of the button are created.");
-      Ada_Put_Line(to_body, "    -- The more meaningful one is made visible, but this choice");
-      Ada_Put_Line(to_body, "    -- can be reversed, for instance on a ""Browse"" button.");
+      Ada_Put_Line(to_spec, "Dialog_Button_Type;    --  Closes parent window after click" );
+      Ada_Put_Line(to_body, "    --  Both versions of the button are created.");
+      Ada_Put_Line(to_body, "    --  The more meaningful one is made visible, but this choice");
+      Ada_Put_Line(to_body, "    --  can be reversed, for instance on a ""Browse"" button.");
       Ada_normal_control_create(", " & S(last_text));
       ------------------------------------
       -- "Window" version of the button --
@@ -807,12 +807,12 @@ package body RC_Help is
       if style_switch(default) then
         Ada_Put(to_spec, "Default_");
       end if;
-      Ada_Put_Line(to_spec, "Button_Type; -- doesn't close parent window after click" );
+      Ada_Put_Line(to_spec, "Button_Type;  --  Doesn't close parent window after click" );
       Ada_normal_control_create(", " & S(last_text));
-      Ada_Put_Line(to_body, "    if for_dialog then -- hide the non-closing button");
-      Ada_Put_Line(to_body, "      Hide(Window." & S(last_Ada_ident) & ");");
-      Ada_Put_Line(to_body, "    else -- hide the closing button");
-      Ada_Put_Line(to_body, "      Hide(Window." & S(temp_ustr) & ");");
+      Ada_Put_Line(to_body, "    if for_dialog then  --  Hide the non-closing button");
+      Ada_Put_Line(to_body, "      Hide (Window." & S(last_Ada_ident) & ");");
+      Ada_Put_Line(to_body, "    else  --  Hide the closing button");
+      Ada_Put_Line(to_body, "      Hide (Window." & S(temp_ustr) & ");");
       Ada_Put_Line(to_body, "    end if;");
       if style_switch (disabled) then
         Ada_Put_Line (to_body, "    Enabled (Window." & S (last_Ada_ident) & ", False);");
@@ -831,13 +831,13 @@ package body RC_Help is
   procedure Ada_edit_control is
   begin
     if style_switch (multi_line) then
-      Ada_normal_control(
+      Ada_normal_control (
         "Multi_Line_Edit_Box_Type",
         ", " & S(last_text),
         ", " & Img(style_switch(auto_h_scroll))
       );
     else
-      Ada_normal_control(
+      Ada_normal_control (
         "Edit_Box_Type",
         ", " & S(last_text),
         ", Horizontal_Scroll => " & Img(style_switch(auto_h_scroll)) &
@@ -863,7 +863,7 @@ package body RC_Help is
       );
       Ada_Put_Line(to_body, "    end loop;");
     end if;
-  end;
+  end Ada_list_box_control;
 
   procedure Ada_combo_control is
   begin
@@ -884,7 +884,7 @@ package body RC_Help is
     end if;
     if initialize_controls then
       Ada_Put_Line(to_body, "    for N in 0 .. 5 loop");
-      Ada_Put_Line(to_body, "      Add(Window." & S(last_Ada_ident) &
+      Ada_Put_Line(to_body, "      Add (Window." & S(last_Ada_ident) &
         ", To_GString_From_String (""Combo item Nr"" & N'Img));"
       );
       Ada_Put_Line(to_body, "    end loop;");
@@ -908,7 +908,7 @@ package body RC_Help is
       end if;
       Ada_normal_control(
         "Icon_Type",
-        ", Num_resource(" & S(last_control_text) & ')' ,
+        ", Num_resource (" & S(last_control_text) & ')' ,
         Static_tail,
         with_id => False
       );
@@ -923,8 +923,8 @@ package body RC_Help is
     else
       Ada_normal_control(
         "Bitmap_Type",
-         ", Num_resource(" & S(last_control_text) & ')',
-         -- ^ direct resource name, as string
+         ", Num_resource (" & S(last_control_text) & ')',
+         --  ^ direct resource name, as string
         Static_tail,
         with_id => False
       );
@@ -938,9 +938,9 @@ package body RC_Help is
     lv_sort  := GWindows.Common_Controls.No_Sorting;
     lv_auto_arrange:= False;
     lv_align := GWindows.Common_Controls.Align_None;
-  end;
+  end Reset_control_styles;
 
-  -- All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
+  --  All that begin with CONTROL, e.g. CONTROL "" ,IDC_EDIT11,"EDIT", ...
   procedure Ada_untyped_control is
     use GWindows.Common_Controls;
   begin
@@ -1008,7 +1008,7 @@ package body RC_Help is
           with_id => False
        );
         if initialize_controls then
-          Ada_Put_Line(to_body, "    -- Initialize_controls");
+          Ada_Put_Line(to_body, "    --  Initialize_controls");
           Ada_Put_Line(to_body, "    Insert_Column (Window." & S(last_Ada_ident)  & ", ""Item"", 0, 75);");
           if lv_type = Report_View then
             Ada_Put_Line(to_body, "    Insert_Column (Window." & S(last_Ada_ident)  & ", ""Sub_Item"", 1, 100);");
@@ -1034,7 +1034,7 @@ package body RC_Help is
           with_id => False
         );
         if initialize_controls then
-          Ada_Put_Line(to_body, "    declare -- Initialize_controls");
+          Ada_Put_Line(to_body, "    declare  --  Initialize_controls");
           Ada_Put_Line(to_body, "       Root_Node : Tree_Item_Node;");
           Ada_Put_Line(to_body, "       An_Item   : Tree_Item_Node;");
           Ada_Put_Line(to_body, "    begin");
@@ -1050,8 +1050,8 @@ package body RC_Help is
         end if;
       when tab_control =>
         Ada_normal_control("Tab_Window_Control_Type", with_id => False );
-        -- Tab_Window_Control_Type allows to associate a window
-        -- to a tab via the Tab_Window method
+        --  Tab_Window_Control_Type allows to associate a window
+        --  to a tab via the Tab_Window method
       when date_time =>
         Ada_normal_control(
           "Date_Time_Picker_Type",
@@ -1080,7 +1080,7 @@ package body RC_Help is
     end if;
   end Ada_optional_disabling;
 
-  -- Control class is given as a string, not a token (e.g. "Button")
+  --  Control class is given as a string, not a token (e.g. "Button")
   procedure Identify_control_class(RC_String: String) is
   begin
     for c in Control_type loop
@@ -1092,9 +1092,9 @@ package body RC_Help is
   end Identify_control_class;
 
   procedure Test_generation is
-    pkg: constant String:= Root_name(S(source_name));
+    root_pkg : constant String := Root_name (S(source_name));
   begin
-    Create(to_body, pkg & "_Test_app.adb");
+    Create(to_body, root_pkg & "_Test_app.adb");
     Ada_Put_Line(to_body, "-- GWindows test application, generated by GWenerator");
     Ada_New_Line(to_body);
     Ada_Put_Line(to_body, "with GWindows.Base;               use GWindows.Base;");
@@ -1103,17 +1103,17 @@ package body RC_Help is
     Ada_Put_Line(to_body, "with GWindows.Message_Boxes;      use GWindows.Message_Boxes;");
     Ada_Put_Line(to_body, "with GWindows.Application;");
     Ada_New_Line(to_body);
-    Ada_Put_Line(to_body, "with " & pkg & "_Resource_GUI;");
-    Ada_Put_Line(to_body, " use " & pkg & "_Resource_GUI;");
+    Ada_Put_Line(to_body, "with " & root_pkg & "_Resource_GUI;");
+    Ada_Put_Line(to_body, " use " & root_pkg & "_Resource_GUI;");
     Ada_New_Line(to_body);
-    Ada_Put_Line(to_body, "procedure " & pkg & "_Test_app is");
+    Ada_Put_Line(to_body, "procedure " & root_pkg & "_Test_app is");
     Ada_New_Line(to_body);
     Ada_Put_Line(to_body, "  pragma Linker_Options (""-mwindows"");");
     Ada_New_Line(to_body);
     for i in 1..dialog_top loop
       Ada_Put_Line(to_body,
         "  Dlg" & Trim(Integer'Image(i), Both) &
-        "      : " & pkg & "_Resource_GUI." & S(dialog_mem(i)) & ";"
+        "      : " & root_pkg & "_Resource_GUI." & S(dialog_mem(i)) & ";"
       );
     end loop;
     Ada_Put_Line(to_body, "  Result    : Integer;");
@@ -1129,7 +1129,7 @@ package body RC_Help is
         Ada_Put_Line(to_body, "  Result := GWindows.Application.Show_Dialog (" & dlg & ");");
       end;
     end loop;
-    Ada_Put_Line(to_body, "end " & pkg & "_Test_app;");
+    Ada_Put_Line(to_body, "end " & root_pkg & "_Test_app;");
     Close(Ada_files(to_body));
   end Test_generation;
 
@@ -1138,7 +1138,7 @@ package body RC_Help is
     if separate_items then
       Create(to_spec, pkg(as_file_name => True) & "-constants.ads");
       Blurb(to_spec);
-      Ada_Put_Line(to_spec, "-- Constants from resource.h or equivalent");
+      Ada_Put_Line(to_spec, "--  Constants from resource.h or equivalent");
       Ada_New_Line(to_spec);
       Ada_Put_Line(to_spec, "package " & pkg & ".Constants is");
       Output_symbols;
@@ -1157,29 +1157,29 @@ package body RC_Help is
       Ada_New_Line(to_spec);
       Output_symbols;
       Ada_New_Line(to_spec);
-      Ada_Put_Line(to_spec, "  -- ** Some helper utilities (spec).");
+      Ada_Put_Line(to_spec, "  --  ** Some helper utilities (spec).");
       Ada_Helpers_spec(to_spec);
       Ada_New_Line(to_body);
-      Ada_Put_Line(to_body, "  -- ** Generated code ends here /\ /\ /\.");
+      Ada_Put_Line(to_body, "  --  ** Generated code ends here /\ /\ /\.");
       Ada_New_Line(to_body);
-      Ada_Put_Line(to_body, "  -- ** Some helper utilities (body).");
+      Ada_Put_Line(to_body, "  --  ** Some helper utilities (body).");
     end if;
     Ada_New_Line(to_body);
-    Ada_Put_Line(to_body, "  procedure Dlg_to_Scn( -- converts dialog coords to screen (pixel) coords.");
-    Ada_Put_Line(to_body, "    xd,yd,wd,hd:  in Integer;");
-    Ada_Put_Line(to_body, "    xs,ys,ws,hs: out Integer)");
+    Ada_Put_Line(to_body, "  procedure Dlg_to_Scn (  --  Converts dialog coords to screen (pixel) coordinates.");
+    Ada_Put_Line(to_body, "    xd,yd,wd,hd :  in Integer;");
+    Ada_Put_Line(to_body, "    xs,ys,ws,hs : out Integer)");
     Ada_Put_Line(to_body, "  is");
-    Ada_Put_Line(to_body, "    -- function GetDialogBaseUnits return Integer;");
-    Ada_Put_Line(to_body, "    -- pragma Import (StdCall, GetDialogBaseUnits, ""GetDialogBaseUnits"");");
-    Ada_Put_Line(to_body, "    -- baseunit, baseunitX, baseunitY: Integer;");
+    Ada_Put_Line(to_body, "    --  function GetDialogBaseUnits return Integer;");
+    Ada_Put_Line(to_body, "    --  pragma Import (StdCall, GetDialogBaseUnits, ""GetDialogBaseUnits"");");
+    Ada_Put_Line(to_body, "    --  baseunit, baseunitX, baseunitY: Integer;");
     Ada_Put_Line(to_body, "    baseunitX: constant:=" & Positive'Image(base_unit_x) & ';');
     Ada_Put_Line(to_body, "    baseunitY: constant:=" & Positive'Image(base_unit_y) & ';');
     Ada_Put_Line(to_body, "  begin");
-    Ada_Put_Line(to_body, "    -- baseunit:= GetDialogBaseUnits; -- this gives X=8, Y=16 (SYSTEM font)");
-    Ada_Put_Line(to_body, "    -- baseunitX:= baseunit mod (2 ** 16);");
-    Ada_Put_Line(to_body, "    -- baseunitY:= baseunit  / (2 ** 16);");
-    Ada_Put_Line(to_body, "    -- NB: the other way with MapDialogRect works only");
-    Ada_Put_Line(to_body, "    --   by full moon, hence the use-defined units.");
+    Ada_Put_Line(to_body, "    --  baseunit := GetDialogBaseUnits; -- this gives X=8, Y=16 (SYSTEM font)");
+    Ada_Put_Line(to_body, "    --  baseunitX := baseunit mod (2 ** 16);");
+    Ada_Put_Line(to_body, "    --  baseunitY := baseunit  / (2 ** 16);");
+    Ada_Put_Line(to_body, "    --  NB: the other way with MapDialogRect works only");
+    Ada_Put_Line(to_body, "    --    by full moon, hence the user-defined units.");
     Ada_Put_Line(to_body, "    xs := (xd * baseunitX) / 4;");
     Ada_Put_Line(to_body, "    ws := (wd * baseunitX) / 4;");
     Ada_Put_Line(to_body, "    ys := (yd * baseunitY) / 8;");
@@ -1189,20 +1189,20 @@ package body RC_Help is
     Ada_Put_Line(to_body, "  package Common_Fonts is");
     Ada_Put_Line(to_body, "    GUI_Font : GWindows.Drawing_Objects.Font_Type;");
     Ada_Put_Line(to_body, "    URL_Font : GWindows.Drawing_Objects.Font_Type;");
-    Ada_Put_Line(to_body, "    -- ^ These fonts are created once, at startup");
-    Ada_Put_Line(to_body, "    --   it avoid GUI resource leak under Windows 95/98/ME");
+    Ada_Put_Line(to_body, "    --  ^ These fonts are created once, at startup");
+    Ada_Put_Line(to_body, "    --    it avoid GUI resource leak under Windows 95/98/ME");
     Ada_Put_Line(to_body, "    procedure Create_Common_Fonts;");
-    Ada_Put_Line(to_body, "    -- in initialisation part if this pkg becomes standalone");
+    Ada_Put_Line(to_body, "    --  in initialisation part if this pkg becomes standalone");
     Ada_Put_Line(to_body, "  end Common_Fonts;");
     Ada_New_Line(to_body);
-    Ada_Put_Line(to_body, "  procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class)");
+    Ada_Put_Line(to_body, "  procedure Use_GUI_Font (Window: in out GWindows.Base.Base_Window_Type'Class)");
     Ada_Put_Line(to_body, "  is");
     Ada_Put_Line(to_body, "  begin");
     Ada_Put_Line(to_body, "    --  Use Standard Windows GUI font instead of system font");
     Ada_Put_Line(to_body, "    GWindows.Base.Set_Font (Window, Common_Fonts.GUI_Font);");
     Ada_Put_Line(to_body, "  end Use_GUI_Font;");
     Ada_New_Line(to_body);
-    Ada_Put_Line(to_body, "  function Num_resource(id: Natural) return GString is");
+    Ada_Put_Line(to_body, "  function Num_resource (id: Natural) return GString is");
     Ada_Put_Line(to_body, "    img: constant String:= Integer'Image(id);");
     Ada_Put_Line(to_body, "  begin");
     Ada_Put_Line(to_body, "    return To_GString_From_String('#' & img(img'First+1..img'Last));");
@@ -1212,13 +1212,13 @@ package body RC_Help is
     Ada_New_Line(to_body);
     Ada_Put_Line(to_body, "    procedure Create_Common_Fonts is");
     Ada_New_Line(to_body);
-    Ada_Put_Line(to_body, "     type Face_Name_Type is array(1..32) of GWindows.GChar_C;");
+    Ada_Put_Line(to_body, "     type Face_Name_Type is array (1 .. 32) of GWindows.GChar_C;");
     Ada_New_Line(to_body);
     Ada_Put_Line(to_body, "     type LOGFONT is record");
-    Ada_Put_Line(to_body, "       lfHeight: Interfaces.C.long;");
-    Ada_Put_Line(to_body, "       lfWidth: Interfaces.C.long;");
-    Ada_Put_Line(to_body, "       lfEscapement: Interfaces.C.long;");
-    Ada_Put_Line(to_body, "       lfOrientation: Interfaces.C.long;");
+    Ada_Put_Line(to_body, "       lfHeight : Interfaces.C.long;");
+    Ada_Put_Line(to_body, "       lfWidth  : Interfaces.C.long;");
+    Ada_Put_Line(to_body, "       lfEscapement  : Interfaces.C.long;");
+    Ada_Put_Line(to_body, "       lfOrientation : Interfaces.C.long;");
     Ada_Put_Line(to_body, "       lfWeight: Interfaces.C.long;");
     Ada_Put_Line(to_body, "       lfItalic: Interfaces.C.char;");
     Ada_Put_Line(to_body, "       lfUnderline: Interfaces.C.char;");
@@ -1231,7 +1231,7 @@ package body RC_Help is
     Ada_Put_Line(to_body, "       lfFaceName: Face_Name_Type;");
     Ada_Put_Line(to_body, "     end record;");
     Ada_New_Line(to_body);
-    Ada_Put_Line(to_body, "     Log_of_current_font: aliased LOGFONT;");
+    Ada_Put_Line(to_body, "     Log_of_current_font : aliased LOGFONT;");
     Ada_New_Line(to_body);
     Ada_Put_Line(to_body, "     subtype PVOID   is System.Address;                      --  winnt.h");
     Ada_Put_Line(to_body, "     subtype LPVOID  is PVOID;                               --  windef.h");
@@ -1256,13 +1256,13 @@ package body RC_Help is
     Ada_Put_Line(to_body, "        GWindows.Drawing_Objects.Default_GUI");
     Ada_Put_Line(to_body, "      );");
     Ada_Put_Line(to_body, "      if GetObject = 0 then");
-    Ada_Put_Line(to_body, "        GWindows.Drawing_Objects.Create_Font(URL_Font,");
+    Ada_Put_Line(to_body, "        GWindows.Drawing_Objects.Create_Font (URL_Font,");
     Ada_Put_Line(to_body, "          ""MS Sans Serif"",");
     Ada_Put_Line(to_body, "          14, Underline => True);");
-    Ada_Put_Line(to_body, "            -- !! ^ Not so nice (non-unsharpened font, size ~..., color ?)");
+    Ada_Put_Line(to_body, "            --  !! ^ Not so nice (non-unsharpened font, size ~..., color ?)");
     Ada_Put_Line(to_body, "      else");
-    Ada_Put_Line(to_body, "        Log_of_current_font.lfUnderline:= Interfaces.C.char'Val(1);");
-    Ada_Put_Line(to_body, "        GWindows.Drawing_Objects.Handle(URL_Font, CreateFontIndirect);");
+    Ada_Put_Line(to_body, "        Log_of_current_font.lfUnderline := Interfaces.C.char'Val(1);");
+    Ada_Put_Line(to_body, "        GWindows.Drawing_Objects.Handle (URL_Font, CreateFontIndirect);");
     Ada_Put_Line(to_body, "      end if;");
     Ada_Put_Line(to_body, "    end Create_Common_Fonts;");
     Ada_New_Line(to_body);
@@ -1273,7 +1273,7 @@ package body RC_Help is
     for to in Pkg_output loop
       if not (to = to_spec and separate_items) then
         Ada_New_Line(to);
-        Ada_Put_Line(to, "  -- Last line of resource script file:" & Integer'Image(linenum));
+        Ada_Put_Line(to, "  --  Last line of resource script file:" & Integer'Image(linenum));
         Ada_New_Line(to);
         if separate_items then
           Ada_Put_Line(to, "end " & pkg & ".Helpers;");
@@ -1293,44 +1293,44 @@ package body RC_Help is
   procedure YY_Abort is
   begin
     Put_Line(Current_Error, "YY_Abort");
-  end;
+  end YY_Abort;
 
   procedure YY_Terminate is
   begin
     Put_Line(Current_Error, "YY_Terminate");
-  end;
+  end YY_Terminate;
 
   procedure RC_Comment(s: String) is
   begin
     null;
-  end;
+  end RC_Comment;
 
-  procedure Reset_globals is
+  procedure Reset_Globals is
   begin
-    has_input:= False;
-    source_name:= U("");
-    GWen_proj:= U("");
-    linenum:= 0;
+    has_input := False;
+    source_name := U("");
+    GWen_proj := U("");
+    linenum := 0;
     --
-    base_unit_x:= 6;  -- usual value, overriden with option -x
-    base_unit_y:= 13; -- usual value, overriden with option -y
-    separate_items:= False;
-    generate_test:= False;
-    initialize_controls:= False;
+    base_unit_x := 6;   --  usual value, overriden with option -x
+    base_unit_y := 13;  --  usual value, overriden with option -y
+    separate_items := False;
+    generate_test  := False;
+    initialize_controls := False;
     --
-    first_include:= True;
-    dialog_top:= 0;
+    first_include := True;
+    dialog_top := 0;
     --
-    -- Initialize the symbol dictionaries with common symbols (See GWindows.Constants)
-    Insert_Common( "IDOK"    , 1);
-    Insert_Common( "IDCANCEL", 2);
-    Insert_Common( "IDABORT" , 3);
-    Insert_Common( "IDRETRY" , 4);
-    Insert_Common( "IDIGNORE", 5);
-    Insert_Common( "IDYES"   , 6);
-    Insert_Common( "IDNO"    , 7);
-    Insert_Common( "IDCLOSE" , 8);
-    Insert_Common( "IDHELP"  , 9);
-  end;
+    --  Initialize the symbol dictionaries with common symbols (See GWindows.Constants)
+    Insert_Common ("IDOK"    , 1);
+    Insert_Common ("IDCANCEL", 2);
+    Insert_Common ("IDABORT" , 3);
+    Insert_Common ("IDRETRY" , 4);
+    Insert_Common ("IDIGNORE", 5);
+    Insert_Common ("IDYES"   , 6);
+    Insert_Common ("IDNO"    , 7);
+    Insert_Common ("IDCLOSE" , 8);
+    Insert_Common ("IDHELP"  , 9);
+  end Reset_Globals;
 
 end RC_Help;

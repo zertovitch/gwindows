@@ -1,6 +1,6 @@
 with Ada.Text_IO;                       use Ada.Text_IO;
 
--- Project specific:
+--  Project specific:
 with RC_Help;
 
 procedure YYError (s: in String) is
