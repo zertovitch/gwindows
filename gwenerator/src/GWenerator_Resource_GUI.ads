@@ -1,14 +1,13 @@
 ---------------------------------------------------------------------------
 --  GUI contents of resource script file: GWenerator.rc
---  Transcription time: 2021/04/14  11:32:51
---  GWenerator project file: GWenerator.gwen
+--  Transcription time: 2021/04/14  14:16:39
 --
 --  Translated by the RC2GW or by the GWenerator tool.
 --  URL: http://sf.net/projects/gnavi
 --
 --  This file contains only automatically generated code. Do not edit this.
 --  Rework the resource script instead, and re-run the translator.
---  RC Grammar version: 20-Jul-2019
+--  RC Grammar version: 14-Apr-2021
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -32,16 +31,15 @@ pragma Warnings ("U");  --  turn off warnings for unused entity
 package GWenerator_Resource_GUI is
 
   type Main_Menu_Type is tagged record
-    Main: Menu_Type; -- Root of the whole menu tree
-    Popup_0001: Menu_Type;  -- level 1; title: "&File"
-    Popup_0002: Menu_Type;  -- level 1; title: "&Actions"
-    Popup_0003: Menu_Type;  -- level 1; title: "&Options"
-    Popup_0004: Menu_Type;  -- level 1; title: "&Help"
+    Main: Menu_Type;  --  Root of the whole menu tree
+    Popup_0001 : Menu_Type;   --  Popup level: 1; title: "&File"
+    Popup_0002 : Menu_Type;   --  Popup level: 1; title: "&Actions"
+    Popup_0003 : Menu_Type;   --  Popup level: 1; title: "&Options"
+    Popup_0004 : Menu_Type;   --  Popup level: 1; title: "&Help"
   end record;  --  Main_Menu_Type
 
   --  Menu at line 76
-  procedure Create_Full_Menu
-     (Menu        : in out Main_Menu_Type);
+  procedure Create_Full_Menu (New_Menu : in out Main_Menu_Type);
 
   type About_box_Type is new Window_Type with record
 
@@ -303,12 +301,12 @@ package GWenerator_Resource_GUI is
   --  ** Some helper utilities (spec).
 
   procedure Dlg_to_Scn(
-    xd,yd,wd,hd:  in Integer;
-    xs,ys,ws,hs: out Integer);
+    xd,yd,wd,hd :  in Integer;
+    xs,ys,ws,hs : out Integer);
 
-  procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
+  procedure Use_GUI_Font (Window : in out GWindows.Base.Base_Window_Type'Class);
 
-  function Num_resource(id: Natural) return GString;  --  Just turn 123 into "#123".
+  function Num_resource (id : Natural) return GString;  --  Just turn 123 into "#123".
 
   --  Last line of resource script file: 270
 

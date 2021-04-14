@@ -627,15 +627,14 @@ package body RC_Help is
     end if;
   end Ada_Proc_Dialog;
 
-  procedure Ada_Proc_Menu(
-    to       : Pkg_output;
-    type_name: String
+  procedure Ada_Proc_Menu (
+    to        : Pkg_output;
+    type_name : String
   )
   is
   begin
-    Ada_Put_Line(to, "  --  Menu at line" & Integer'Image(linenum));
-    Ada_Put_Line(to, "  procedure Create_Full_Menu");
-    Ada_Put(to, "     (Menu        : in out " & type_name & ")");
+    Ada_Put_Line (to, "  --  Menu at line" & Integer'Image(linenum));
+    Ada_Put      (to, "  procedure Create_Full_Menu (New_Menu : in out " & type_name & ")");
   end Ada_Proc_Menu;
 
   procedure Ada_Helpers_spec(to: Pkg_output) is

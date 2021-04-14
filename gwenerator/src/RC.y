@@ -1186,28 +1186,28 @@ menu : RC_Ident
        MENU_t
        properties
        {
-         Open_if_separate(S(last_dialog_ident));
-         Ada_Put_Line(to_spec,
+         Open_if_separate (S(last_dialog_ident));
+         Ada_Put_Line (to_spec,
            "  type " & S(last_dialog_ident) &
            "_Type is tagged record"
          );
-         menu_popup_counter:= 0;
-         popup_top:= 0;
-         Ada_Put_Line(to_spec,
-           "    Main: Menu_Type; -- Root of the whole menu tree"
+         menu_popup_counter := 0;
+         popup_top := 0;
+         Ada_Put_Line (to_spec,
+           "    Main: Menu_Type;  --  Root of the whole menu tree"
          );
-         Ada_New_Line(to_body);
-         Ada_Proc_Menu(
+         Ada_New_Line (to_body);
+         Ada_Proc_Menu (
             to_body,
             S(last_dialog_ident) & "_Type"
          );
-         Ada_New_Line(to_body);
-         Ada_Put_Line(to_body, "  is");
-         Ada_Put_Line(to_body, "  begin");
-         Ada_Put_Line(to_body, "    Menu.Main:= Create_Menu;");
+         Ada_New_Line (to_body);
+         Ada_Put_Line (to_body, "  is");
+         Ada_Put_Line (to_body, "  begin");
+         Ada_Put_Line (to_body, "    New_Menu.Main := Create_Menu;");
        }
        BEGIN_block
-       { empty_dialog_record:= True;
+       { empty_dialog_record := True;
        }
        menu_items_optional
        END_block
@@ -1222,10 +1222,10 @@ menu : RC_Ident
             to_spec,
             S(last_dialog_ident) & "_Type"
          );
-         Ada_Put_Line(to_spec, ";");
-         Ada_New_Line(to_spec);
-         Ada_Put_Line(to_body,
-           "  end Create_Full_Menu;  --  " &
+         Ada_Put_Line (to_spec, ";");
+         Ada_New_Line (to_spec);
+         Ada_Put_Line (to_body,
+           "  end Create_Full_Menu;  --  For type: " &
            S(last_dialog_ident) & "_Type" );
          Close_if_separate(S(last_dialog_ident));
        }
@@ -1253,36 +1253,36 @@ popup :     POPUP_t
             { last_popup_title:= U(yytext); }
             menu_options
             {
-              menu_popup_counter:= menu_popup_counter + 1;
-              Ada_Put_Line(to_spec,
+              menu_popup_counter := menu_popup_counter + 1;  --  Another (sub)menu.
+              Ada_Put_Line (to_spec,
                 "    " &
-                Popup_num_to_Ada_ident(menu_popup_counter) &
-                ": Menu_Type; "
-                & " -- level" & Integer'Image(popup_top+1) &
+                Popup_num_to_Ada_ident (menu_popup_counter) &
+                " : Menu_Type; "
+                & "  --  Popup level:" & Integer'Image (popup_top + 1) &
                 "; title: " &
-                S(last_popup_title)
+                S (last_popup_title)
               );
-              Ada_Put_Line(to_body,
-                "    Menu." &
-                Popup_num_to_Ada_ident(menu_popup_counter) &
-                ":= Create_Popup;"
+              Ada_Put_Line (to_body,
+                "    New_Menu." &
+                Popup_num_to_Ada_ident (menu_popup_counter) &
+                " := Create_Popup;"
               );
-              Ada_Put_Line(to_body,
-                "    Append_Menu(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+              Ada_Put_Line (to_body,
+                "    Append_Menu (New_Menu." &
+                Popup_num_to_Ada_ident (popup_stack(popup_top)) &
                 ", " & S(last_popup_title) &
-                ", Menu." &
-                Popup_num_to_Ada_ident(menu_popup_counter) &
+                ", New_Menu." &
+                Popup_num_to_Ada_ident (menu_popup_counter) &
                 ");"
               );
-              popup_top:= popup_top+1;
-              popup_stack(popup_top):= menu_popup_counter;
+              popup_top := popup_top + 1;
+              popup_stack (popup_top) := menu_popup_counter;
             }
             BEGIN_block
             menu_items_optional
             END_block
             {
-              popup_top:= popup_top-1;
+              popup_top := popup_top - 1;
             }
           ;
 
@@ -1290,11 +1290,11 @@ menu_entry :
             MENUITEM_t
             RCString
             {
-              style_switch:= (others => False); -- Reset all style switches
-              append_item_cmd := To_Unbounded_String(
-                "    Append_Item(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
-                ", " & Replace_special_characters(yytext));
+              style_switch := (others => False);  --  Reset all style switches
+              append_item_cmd := To_Unbounded_String (
+                "    Append_Item (New_Menu." &
+                Popup_num_to_Ada_ident (popup_stack (popup_top)) &
+                ", " & Replace_special_characters (yytext));
             }
             COMMA_t
             RC_Ident
@@ -1311,20 +1311,20 @@ menu_entry :
             }
             menu_options
             {
-              if style_switch(grayed) then
-                Ada_Put_Line(to_body, "    State(Menu." &
+              if style_switch (grayed) then
+                Ada_Put_Line(to_body, "    State (New_Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
                 ", Command, " & S(last_Ada_constant) &
                 ", Grayed);");
               end if;
-              if style_switch(inactive) then
-                Ada_Put_Line(to_body, "    State(Menu." &
+              if style_switch (inactive) then
+                Ada_Put_Line(to_body, "    State (New_Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
                 ", Command, " & S(last_Ada_constant) &
                 ", Disabled);");
               end if;
-              if style_switch(checked) then
-                Ada_Put_Line(to_body, "    Check(Menu." &
+              if style_switch (checked) then
+                Ada_Put_Line(to_body, "    Check (New_Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
                 ", Command, " & S(last_Ada_constant) &
                 ", True);");
@@ -1356,9 +1356,9 @@ menu_separator :
             MENUITEM_t
             SEPARATOR_t
             {
-              Ada_Put_Line(to_body,
-                "    Append_Separator(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+              Ada_Put_Line (to_body,
+                "    Append_Separator (New_Menu." &
+                Popup_num_to_Ada_ident (popup_stack (popup_top)) &
                 ");"
               );
             }
