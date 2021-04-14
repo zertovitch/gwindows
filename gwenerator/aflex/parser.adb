@@ -21,7 +21,7 @@ begin
 	    sceof(actvsc(i)) := true;
 	    text_io.put( temp_action_file, "YY_END_OF_BUFFER +" );
 	    tstring.put( temp_action_file,  scname(actvsc(i)) );
-	    text_io.put_line( temp_action_file, " + 1 " );
+	    text_io.put_line( temp_action_file, " + 1" );
 	    if (i /= actvp) then
 		text_io.put_line( temp_action_file, " |" );
 	    else

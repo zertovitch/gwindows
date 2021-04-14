@@ -19,7 +19,8 @@ package Rc_Tokens is
   end record;
 
 
-    YYLVal, YYVal : YYSType; 
+    YYLVal, YYVal : YYSType;
+
     type Token is
         (End_Of_Input, Error, Number, Float_T,
          Comma_T, Bar_T, Lbrace_T,

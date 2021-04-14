@@ -223,8 +223,8 @@ begin
 
      type State_type is (Have_nothing,Have_Ada_ID,Have_bound_to);
 
-     Start_Index : integer;    --| 
-     End_Index: integer;       --| Indices of characters in argument string
+     Start_Index : Integer;    --| 
+     End_Index: Integer;       --| Indices of characters in argument string
 
      Scan_string: ss.Scanner;  --| Scanned argument string
      Argument: sp.String_Type; --| Argument scanned from argument string

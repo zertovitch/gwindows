@@ -675,7 +675,7 @@ package body DFA is
     if FULLTBL then
       TEXT_IO.PUT("yy_nxt : constant array(0..");
       INT_IO.PUT(NUM_NXT_STATES - 1, 1);
-      TEXT_IO.PUT_LINE(" , ASCII.NUL..ASCII.DEL) of short :=");
+      TEXT_IO.PUT_LINE(" , ASCII.NUL..ASCII.DEL) of Short :=");
       TEXT_IO.PUT_LINE("   (");
 
       RESET(FULL_TABLE_TEMP_FILE, IN_FILE);

@@ -421,10 +421,10 @@ package body RC_Help is
     Ada_Put_Line(to_body, "with System;");
     Ada_New_Line(to_body);
     if separate_items then
-      Ada_Put_Line(to_body, "with " & pkg & ".Helpers; ");
-      Ada_Put_Line(to_body, " use " & pkg & ".Helpers; ");
-      Ada_Put_Line(to_body, "with " & pkg & ".Constants; ");
-      Ada_Put_Line(to_body, " use " & pkg & ".Constants; ");
+      Ada_Put_Line(to_body, "with " & pkg & ".Helpers;");
+      Ada_Put_Line(to_body, " use " & pkg & ".Helpers;");
+      Ada_Put_Line(to_body, "with " & pkg & ".Constants;");
+      Ada_Put_Line(to_body, " use " & pkg & ".Constants;");
     end if;
 
     Ada_Put_Line(to_body, "pragma Warnings (""U"");  --  turn off warnings for unused entity");
@@ -573,13 +573,13 @@ package body RC_Help is
       when to_body =>
         Ada_New_Line(to_body);
         Ada_Put_Line(to_body, "  is");
-        Ada_Put_Line(to_body, "    x,y,w,h: Integer;");
+        Ada_Put_Line(to_body, "    x, y, w, h: Integer;");
         Ada_Put_Line(to_body, "  begin");
         Ada_Coord_conv(last_dialog_rect);
-        Ada_Put_Line(to_body, "    if Left   /= Use_Default then x:= Left;   end if;" );
-        Ada_Put_Line(to_body, "    if Top    /= Use_Default then y:= Top;    end if;" );
-        Ada_Put_Line(to_body, "    if Width  /= Use_Default then w:= Width;  end if;" );
-        Ada_Put_Line(to_body, "    if Height /= Use_Default then h:= Height; end if;" );
+        Ada_Put_Line(to_body, "    if Left   /= Use_Default then x := Left;   end if;" );
+        Ada_Put_Line(to_body, "    if Top    /= Use_Default then y := Top;    end if;" );
+        Ada_Put_Line(to_body, "    if Width  /= Use_Default then w := Width;  end if;" );
+        Ada_Put_Line(to_body, "    if Height /= Use_Default then h := Height; end if;" );
         Ada_Put_Line(to_body,
            "    Create_As_Dialog("
         );

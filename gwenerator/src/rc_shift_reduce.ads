@@ -1446,9 +1446,9 @@ package Rc_Shift_Reduce is
 -- State  680
 ,(-1,-119)
 );
---  The offset vector
-SHIFT_REDUCE_OFFSET : array (0.. 680) of Integer :=
-( 0,
+  --  The offset vector
+  Shift_Reduce_Offset : array (0 .. 680) of Integer :=
+  ( 0,
  9, 10, 11, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
  32, 33, 46, 54, 58, 61, 64, 66, 67, 68, 70, 71, 72, 73, 74, 75,
  76, 77, 80, 82, 90, 98, 99, 107, 115, 118, 126, 127, 128, 129, 130, 131,

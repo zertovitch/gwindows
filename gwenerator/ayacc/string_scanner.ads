@@ -196,9 +196,9 @@ function Is_Word(		--| Check if Scanner is at the start of a word.
 
 procedure Scan_word(		--| Scan sequence of non blank characters
     T      : in     Scanner;	--| String to be scanned
-    Found  :    out boolean;	--| TRUE iff a word found
+    Found  :    out Boolean;	--| TRUE iff a word found
     Result :    out String_Type;--| Word scanned from string
-    Skip   : in     boolean := false
+    Skip   : in     Boolean := false
 				--| Skip white spaces before scan
     );
 
@@ -211,7 +211,7 @@ procedure Scan_word(		--| Scan sequence of non blank characters
 													pragma Page;
 function Is_Number(		--| Return TRUE iff Scanner is at a decimal digit
     T : in Scanner		--| The string being scanned
-    ) return boolean;
+    ) return Boolean;
 
 --| Effects: Return TRUE iff Scan_Number would return a non-null string.
 --| N/A: Raises, Modifies, Errors
@@ -220,9 +220,9 @@ function Is_Number(		--| Return TRUE iff Scanner is at a decimal digit
 
 procedure Scan_Number(		--| Scan sequence of digits
     T      : in     Scanner;	--| String to be scanned
-    Found  :    out boolean;	--| TRUE iff one or more digits found
+    Found  :    out Boolean;	--| TRUE iff one or more digits found
     Result :    out String_Type;--| Number scanned from string
-    Skip   : in     boolean := false
+    Skip   : in     Boolean := false
 				--| Skip white spaces before scan
     );
 
@@ -236,9 +236,9 @@ procedure Scan_Number(		--| Scan sequence of digits
 
 procedure Scan_Number(		--| Scan sequence of digits
     T      : in     Scanner;	--| String to be scanned
-    Found  :    out boolean;	--| TRUE iff one or more digits found
-    Result :    out integer;	--| Number scanned from string
-    Skip   : in     boolean := false
+    Found  :    out Boolean;	--| TRUE iff one or more digits found
+    Result :    out Integer;	--| Number scanned from string
+    Skip   : in     Boolean := false
 				--| Skip white spaces before scan
     );
 
@@ -251,7 +251,7 @@ procedure Scan_Number(		--| Scan sequence of digits
 function Is_Signed_Number(	--| Check if Scanner is at a decimal digit or
 				--| sign (+/-)
     T : in Scanner		--| The string being scanned
-    ) return boolean;
+    ) return Boolean;
 
 --| Effects: Return TRUE iff Scan_Signed_Number would return a non-null
 --| string.
@@ -262,9 +262,9 @@ function Is_Signed_Number(	--| Check if Scanner is at a decimal digit or
 
 procedure Scan_Signed_Number(	--| Scan signed sequence of digits 
     T      : in     Scanner;	--| String to be scanned
-    Found  :    out boolean;	--| TRUE iff one or more digits found
+    Found  :    out Boolean;	--| TRUE iff one or more digits found
     Result :    out String_Type;--| Number scanned from string
-    Skip   : in     boolean := false
+    Skip   : in     Boolean := False
 				--| Skip white spaces before scan
     );
 
@@ -279,9 +279,9 @@ procedure Scan_Signed_Number(	--| Scan signed sequence of digits
 
 procedure Scan_Signed_Number(	--| Scan signed sequence of digits 
     T      : in     Scanner;	--| String to be scanned
-    Found  :    out boolean;	--| TRUE iff one or more digits found
-    Result :    out integer;	--| Number scanned from string
-    Skip   : in     boolean := false
+    Found  :    out Boolean;	--| TRUE iff one or more digits found
+    Result :    out Integer;	--| Number scanned from string
+    Skip   : in     Boolean := False
 				--| Skip white spaces before scan
     );
 
@@ -530,9 +530,9 @@ function Is_Literal(		--| Check if T is at literal Chars
 ----------------------------------------------------------------
 
 function Is_Literal(		--| Check if T is at literal Chars
-    Chars : in string;		--| Characters to be scanned
+    Chars : in String;		--| Characters to be scanned
     T     : in Scanner		--| The string being scanned
-    ) return boolean;
+    ) return Boolean;
 
 --| Effects: Return TRUE iff T is at literal Chars.
 --| Modifies: Raises, Modifies, Errors
@@ -542,8 +542,8 @@ function Is_Literal(		--| Check if T is at literal Chars
 procedure Scan_Literal(		--| Scan arbitrary literal
     Chars  : in     String_Type;--| Literal that should be scanned
     T      : in     Scanner;	--| String to be scanned
-    Found  :    out boolean;	--| TRUE iff a sequence found
-    Skip   : in     boolean := false
+    Found  :    out Boolean;	--| TRUE iff a sequence found
+    Skip   : in     Boolean := false
 				--| Skip white spaces before scan
     );
 
