@@ -43,7 +43,7 @@ package body GNATCOM.Create.Remote_Register is
    procedure Display_Help;
    --  Displays instructions on using the Local Server
 
-   function Retrieve_hInstance return Interfaces.C.long;
+   function Retrieve_hInstance return Interfaces.C.ptrdiff_t;
    pragma Import (C, Retrieve_hInstance, "rts_get_hInstance");
 
    -- Display_Help --
