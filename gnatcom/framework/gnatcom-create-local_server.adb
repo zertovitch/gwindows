@@ -73,7 +73,7 @@ package body GNATCOM.Create.Local_Server is
    procedure CoResumeClassObjects;
    pragma Import (StdCall, CoResumeClassObjects, "CoResumeClassObjects");
 
-   function Retrieve_hInstance return Interfaces.C.long;
+   function Retrieve_hInstance return Interfaces.C.ptrdiff_t;
    pragma Import (C, Retrieve_hInstance, "rts_get_hInstance");
 
    procedure CoAddRefServerProcess;

@@ -49,14 +49,14 @@ package body GNATCOM.Register is
    procedure Error_Check (Result : in GNATCOM.Types.HRESULT);
 
    function RegCreateKey
-     (hKey      : in     Interfaces.C.long;
+     (hKey      : in     Interfaces.C.ptrdiff_t;
       lpSubKey  : in     Interfaces.C.char_array;
-      phkResult : access Interfaces.C.long)
+      phkResult : access Interfaces.C.ptrdiff_t)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, RegCreateKey, "RegCreateKeyA");
 
    function RegSetValueEx
-     (hKey        : Interfaces.C.long;
+     (hKey        : Interfaces.C.ptrdiff_t;
       lpValueName : Interfaces.C.char_array;
       reserved    : Interfaces.C.unsigned_long;
       dwType      : EREGTYPE;
@@ -66,13 +66,13 @@ package body GNATCOM.Register is
    pragma Import (StdCall, RegSetValueEx, "RegSetValueExA");
 
    function RegDeleteKey
-     (hKey     : Interfaces.C.long;
+     (hKey     : Interfaces.C.ptrdiff_t;
       lpSubKey : Interfaces.C.char_array)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, RegDeleteKey, "RegDeleteKeyA");
 
    function GetModuleFileName
-     (hInst        : in     Interfaces.C.long;
+     (hInst        : in     Interfaces.C.ptrdiff_t;
       lpszFileName : access Interfaces.C.char;
       cbFileName   : in     Interfaces.C.int)
      return Interfaces.C.int;
@@ -105,12 +105,12 @@ package body GNATCOM.Register is
    --------------
 
    procedure Register (KeyName, Name, Value : in String;
-                       Root_Key             : in Interfaces.C.long :=
+                       Root_Key             : in Interfaces.C.ptrdiff_t :=
                          HKEY_CLASSES_ROOT)
    is
       use type Interfaces.C.unsigned_long;
 
-      Key : aliased Interfaces.C.long;
+      Key : aliased Interfaces.C.ptrdiff_t;
    begin
 
       Error_Check
@@ -132,7 +132,7 @@ package body GNATCOM.Register is
    ----------------------------
 
    procedure Register_Inproc_Server
-     (hInstance    : in Interfaces.C.long;
+     (hInstance    : in Interfaces.C.ptrdiff_t;
       CLSID        : in GNATCOM.Types.GUID;
       Name         : in String;
       Version      : in String;
@@ -184,7 +184,7 @@ package body GNATCOM.Register is
    ---------------------------
 
    procedure Register_Local_Server
-     (hInstance    : in Interfaces.C.long;
+     (hInstance    : in Interfaces.C.ptrdiff_t;
       CLSID        : in GNATCOM.Types.GUID;
       Name         : in String;
       Version      : in String;
@@ -266,7 +266,7 @@ package body GNATCOM.Register is
    -- Register_Type_Library --
    ---------------------------
 
-   procedure Register_Type_Library (hInstance : in Interfaces.C.long) is
+   procedure Register_Type_Library (hInstance : in Interfaces.C.ptrdiff_t) is
       use type Interfaces.C.int;
 
       MAX_PATH   : constant := 1024;
@@ -309,7 +309,8 @@ package body GNATCOM.Register is
    ----------------
 
    procedure Unregister (KeyName  : in String;
-                         Root_Key : in Interfaces.C.long := HKEY_CLASSES_ROOT)
+                         Root_Key : in Interfaces.C.ptrdiff_t :=
+                           HKEY_CLASSES_ROOT)
    is
    begin
       Error_Check

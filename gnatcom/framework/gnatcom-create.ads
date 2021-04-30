@@ -46,7 +46,7 @@ package GNATCOM.Create is
    --  server not shut down even if there are no outstanding components,
    --  i.e. Component_Count > 0
 
-   hInstance : Interfaces.C.long := 0;
+   hInstance : Interfaces.C.ptrdiff_t := 0;
    --  Contains the intstance handle of the container
 
    InProcServer : Boolean := True;

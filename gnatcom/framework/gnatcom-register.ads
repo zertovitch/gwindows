@@ -50,18 +50,19 @@ package GNATCOM.Register is
    HKEY_DYN_DATA         : constant := -2147483642;
 
    procedure Register (KeyName, Name, Value : in String;
-                       Root_Key             : in Interfaces.C.long :=
+                       Root_Key             : in Interfaces.C.ptrdiff_t :=
                          HKEY_CLASSES_ROOT);
    --  Place a Name / Value pair in the Windows NT Registry
    --  A blank name implies the default value for the key
 
    procedure Unregister (KeyName  : in String;
-                         Root_Key : in Interfaces.C.long := HKEY_CLASSES_ROOT);
+                         Root_Key : in Interfaces.C.ptrdiff_t :=
+                           HKEY_CLASSES_ROOT);
    --  Removes a key and its Name / Value pairs from the Windows NT Registry
    --  All child keys of a KeyName must first be removed before Unregister
    --  will remove a KeyName from the registry.
 
-   procedure Register_Type_Library (hInstance : in Interfaces.C.long);
+   procedure Register_Type_Library (hInstance : in Interfaces.C.ptrdiff_t);
    --  Register the Type Library embedded as a resource in the application
    --  as:
    --         1 TypeLib "XXXXXX.tlb"
@@ -72,7 +73,7 @@ package GNATCOM.Register is
    procedure Unregister_Type_Library (LIBID : in GNATCOM.Types.GUID);
    --  Unregister the Type Library with LIBID
 
-   procedure Register_Inproc_Server (hInstance    : in Interfaces.C.long;
+   procedure Register_Inproc_Server (hInstance    : in Interfaces.C.ptrdiff_t;
                                      CLSID        : in GNATCOM.Types.GUID;
                                      Name         : in String;
                                      Version      : in String;
@@ -80,7 +81,7 @@ package GNATCOM.Register is
                                      Thread_Model : in String := "Apartment");
    --  Register COM object contained in an Inproc (DLL) Server
 
-   procedure Register_Local_Server (hInstance    : in Interfaces.C.long;
+   procedure Register_Local_Server (hInstance    : in Interfaces.C.ptrdiff_t;
                                     CLSID        : in GNATCOM.Types.GUID;
                                     Name         : in String;
                                     Version      : in String;

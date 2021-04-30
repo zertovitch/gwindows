@@ -50,7 +50,7 @@ package body GNATCOM.Create.Inproc is
    pragma Import (C, Adafinal);
 
    function DllMain
-     (hinstDLL    : Interfaces.C.long;
+     (hinstDLL    : Interfaces.C.ptrdiff_t;
       fdwReason   : Interfaces.C.unsigned_short;
       lpvReserved : GNATCOM.Types.Pointer_To_Void)
      return Interfaces.C.int;
@@ -192,7 +192,7 @@ package body GNATCOM.Create.Inproc is
    -------------
 
    function DllMain
-     (hinstDLL    : Interfaces.C.long;
+     (hinstDLL    : Interfaces.C.ptrdiff_t;
       fdwReason   : Interfaces.C.unsigned_short;
       lpvReserved : GNATCOM.Types.Pointer_To_Void)
      return Interfaces.C.int
