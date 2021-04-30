@@ -25,7 +25,7 @@ with Interfaces.C, System;
 
 package Windows_pipes is
 
-   -- Output a line to anywhere: a terminal (Text_IO), a message box,...
+   --  Output a line to anywhere: a terminal (Text_IO), a message box,...
    type Output_Line is access procedure (l: String);
 
    Cannot_create_pipe: exception;

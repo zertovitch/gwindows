@@ -1,11 +1,21 @@
+--  This is the GNAT / GNAT Studio project file for
+--  the GWenerator source code generator for the GWindows framework.
+--
+--  Build me with "gnatmake -P gwenerator", or "gprbuild -P gwenerator",
+--  or open me with GNAT Studio.
+
 project GWenerator is
 
    type Build_Mode_Type is
       ("Debug", "Small");
    Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
-   for Main use ("GWenerator.adb", "RC2GW.adb");
-   for Source_Dirs use (".\/**", "..\..\gwindows\framework", "..\..\gnatcom\framework");
+   for Main use (
+     "GWenerator.adb",
+     "RC2GW.adb"
+   );
+   for Source_Dirs use (".\/**", "..\..\gwindows\framework", "..\..\gwindows\contrib", "..\..\gnatcom\framework");
    for Exec_Dir use ".";
+   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
 
    case Build_Mode is
       when "Small" =>
@@ -13,6 +23,42 @@ project GWenerator is
       when "Debug" =>
          for Object_Dir use "..\obj\gnatdebg";
    end case;
+
+   Common_Compiler_Options := (
+     "-gnatwa",                        --  Warnings switches (a:turn on all info/warnings marked with +)
+     --  "-gnatwh",                        --  Warnings switches (h:turn on warnings for hiding declarations)
+     "-gnatwcijkmopruvz.c.p.t.w.x",    --  Warnings switches (run "gnatmake" for full list)
+     "-gnatf",  --  Full errors. Verbose details, all undefined references
+     "-gnatq",  --  Don't quit, try semantics, even if parse errors
+     "-gnatQ"   --  Don't quit, write ali/tree file even if compile errors
+     --
+     --  "-gnatyaknpr",   --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
+     --  "-gnatybfhiu",   --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
+     --  "-gnatyx",       --  Style: check x:no extra parens
+     --  "-gnatye"        --  Style: check e:end/exit labels present
+     --  "-gnatyc"        --  Style: check c:comment format (two spaces)
+     --  "-gnatyt",       --  Style: check t:token separation rules
+   );
+
+   package Compiler is
+
+      case Build_Mode is
+
+         when "Small" =>
+            for Default_Switches ("ada") use 
+            Common_Compiler_Options &
+            ("-Os", "-gnatp", "-ffunction-sections");
+
+         when "Debug" =>
+            for Default_Switches ("ada") use
+            Common_Compiler_Options &
+            (
+              "-fstack-check",
+              "-g", "-gnato", 
+              "-gnatVa", 
+              "-gnatec" & project'Project_Dir & "../obj/gnatdebg/debug.pra");
+      end case;
+   end Compiler;
 
    package Binder is
       --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
@@ -37,23 +83,6 @@ project GWenerator is
       --    jobs is the number of core processors on the platform."
       for Default_Switches ("ada") use ("-j0");
    end Builder;
-
-   package Compiler is
-
-      case Build_Mode is
-
-         when "Small" =>
-            for Default_Switches ("ada") use ("-gnatf", "-Os", "-gnatp", "-ffunction-sections");
-
-         when "Debug" =>
-            for Default_Switches ("ada") use (
-              --  "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
-              --  "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
-              --  "-gnatyx",      --  Style: check x:no extra parens
-              "-fstack-check", "-g", "-gnatf", "-gnato", "-gnatwa", "-gnatVa", 
-              "-gnatec" & project'Project_Dir & "../obj/gnatdebg/debug.pra");
-      end case;
-   end Compiler;
 
 end GWenerator;
 

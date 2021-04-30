@@ -1,8 +1,8 @@
 
--- This header comes from RC.y (bottom)
+-- This header comes from RC.y (at bottom)
 
 with RC_Tokens, RC_Shift_Reduce, RC_Goto, RC_Help, RC_IO;
-use  RC_Tokens, RC_Shift_Reduce, RC_Goto, RC_Help, RC_IO;
+use  RC_Tokens, RC_Shift_Reduce, RC_Goto, RC_Help;
 
 with RC_DFA, YYroutines, YYerror;
 use  RC_DFA, YYroutines;
@@ -10,7 +10,7 @@ use  RC_DFA, YYroutines;
 with Ada.Text_IO;                       use Ada.Text_IO;
 with Text_IO; -- for compat.
 
-with Ada.Characters.Handling;           use Ada.Characters.Handling;
+--  with Ada.Characters.Handling;           use Ada.Characters.Handling;
 with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
 with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 
@@ -52,9 +52,9 @@ procedure YYParse is
        --  Affects error 'Stack size exceeded on state_stack'
        stack_size : constant Natural := yy_sizes.stack_size; -- was 300, then 8192
 
-       -- subtype rule         is natural;
-       subtype parse_state  is natural;
-       -- subtype nonterminal  is integer;
+       -- subtype rule         is Natural;
+       subtype parse_state  is Natural;
+       -- subtype nonterminal  is Integer;
 
        -- encryption constants
        default           : constant := -1;
@@ -63,88 +63,88 @@ procedure YYParse is
        error_code        : constant := -3000;
 
        -- stack data used by the parser
-       tos                : natural := 0;
-       value_stack        : array(0..stack_size) of yy_tokens.yystype;
+       tos                : Natural := 0;
+       value_stack        : array(0..stack_size) of yy_tokens.YYSType;
        state_stack        : array(0..stack_size) of parse_state;
 
        -- current input symbol and action the parser is on
-       action             : integer;
-       rule_id            : rule;
-       input_symbol       : yy_tokens.token:= Error;
+       action             : Integer;
+       rule_id            : Rule;
+       input_symbol       : yy_tokens.Token:= Error;
 
 
        -- error recovery flag
-       error_flag : natural := 0;
+       error_flag : Natural := 0;
           -- indicates  3 - (number of valid shifts after an error occurs)
 
-       look_ahead : boolean := true;
-       index      : integer;
+       look_ahead : Boolean := True;
+       index      : Integer;
 
        -- Is Debugging option on or off
-        DEBUG : constant boolean := FALSE;
+       debug : constant Boolean := FALSE;
 
     end yy;
 
 
     function goto_state
       (state : yy.parse_state;
-       sym   : nonterminal) return yy.parse_state;
+       sym   : Nonterminal) return yy.parse_state;
 
     function parse_action
       (state : yy.parse_state;
-       t     : yy_tokens.token) return integer;
+       t     : yy_tokens.Token) return Integer;
 
     pragma inline(goto_state, parse_action);
 
 
     function goto_state(state : yy.parse_state;
-                        sym   : nonterminal) return yy.parse_state is
-        index : integer;
+                        sym   : Nonterminal) return yy.parse_state is
+        index : Integer;
     begin
         index := goto_offset(state);
-        while  integer(goto_matrix(index).nonterm) /= sym loop
+        while Integer (Goto_Matrix(index).nonterm) /= sym loop
             index := index + 1;
         end loop;
-        return integer(goto_matrix(index).newstate);
+        return Integer (Goto_Matrix(index).newstate);
     end goto_state;
 
 
     function parse_action(state : yy.parse_state;
-                          t     : yy_tokens.token) return integer is
-        index      : integer;
-        tok_pos    : integer;
-        default    : constant integer := -1;
+                          t     : yy_tokens.token) return Integer is
+        index      : Integer;
+        tok_pos    : Integer;
+        default    : constant Integer := -1;
     begin
         tok_pos := yy_tokens.token'pos(t);
-        index   := shift_reduce_offset(state);
-        while integer(shift_reduce_matrix(index).t) /= tok_pos and then
-              integer(shift_reduce_matrix(index).t) /= default
+        index   := Shift_Reduce_Offset(state);
+        while Integer (Shift_Reduce_Matrix(index).t) /= tok_pos and then
+              Integer (Shift_Reduce_Matrix(index).t) /= default
         loop
             index := index + 1;
         end loop;
-        return integer(shift_reduce_matrix(index).act);
+        return Integer (shift_reduce_matrix(index).act);
     end parse_action;
 
 -- error recovery stuff
 
-    procedure handle_error is
-      temp_action : integer;
+    procedure Handle_Error is
+      temp_action : Integer;
     begin
 
-      if yy.error_flag = 3 then -- no shift yet, clobber input.
+      if yy.error_flag = 3 then  --  no shift yet, clobber input.
       if yy.debug then
-          text_io.put_line("  -- Ayacc.YYParse: Error Recovery Clobbers " &
-                   yy_tokens.token'image(yy.input_symbol));
+          Text_IO.Put_Line("  -- Ayacc.YYParse: Error Recovery Clobbers " &
+                   yy_tokens.token'Image(yy.input_symbol));
       end if;
-        if yy.input_symbol = yy_tokens.end_of_input then  -- don't discard,
+        if yy.input_symbol = yy_tokens.end_of_input then  --  don't discard,
         if yy.debug then
-            text_io.put_line("  -- Ayacc.YYParse: Can't discard END_OF_INPUT, quiting...");
+            Text_IO.Put_Line("  -- Ayacc.YYParse: Can't discard END_OF_INPUT, quitting...");
         end if;
-        raise yy_tokens.syntax_error;
+        raise yy_tokens.Syntax_Error;
         end if;
 
-            yy.look_ahead := true;   -- get next token
-        return;                  -- and try again...
+        yy.look_ahead := True;   --  get next token
+        return;                  --  and try again...
     end if;
 
     if yy.error_flag = 0 then -- brand new error
@@ -160,19 +160,19 @@ procedure YYParse is
     -- find state on stack where error is a valid shift --
 
     if yy.debug then
-        text_io.put_line("  -- Ayacc.YYParse: Looking for state with error as valid shift");
+        Text_IO.Put_Line("  -- Ayacc.YYParse: Looking for state with error as valid shift");
     end if;
 
     loop
         if yy.debug then
-          text_io.put_line("  -- Ayacc.YYParse: Examining State " &
-               yy.parse_state'image(yy.state_stack(yy.tos)));
+          Text_IO.Put_Line("  -- Ayacc.YYParse: Examining State " &
+               yy.parse_state'Image(yy.state_stack(yy.tos)));
         end if;
         temp_action := parse_action(yy.state_stack(yy.tos), error);
 
             if temp_action >= yy.first_shift_entry then
                 if yy.tos = yy.stack_size then
-                    text_io.put_line("  -- Ayacc.YYParse: Stack size exceeded on state_stack");
+                    Text_IO.Put_Line("  -- Ayacc.YYParse: Stack size exceeded on state_stack");
                     raise yy_Tokens.syntax_error;
                 end if;
                 yy.tos := yy.tos + 1;
@@ -190,32 +190,32 @@ procedure YYParse is
 
         if yy.tos = 0 then
           if yy.debug then
-            text_io.put_line("  -- Ayacc.YYParse: Error recovery popped entire stack, aborting...");
+            Text_IO.Put_Line("  -- Ayacc.YYParse: Error recovery popped entire stack, aborting...");
           end if;
           raise yy_tokens.syntax_error;
         end if;
     end loop;
 
     if yy.debug then
-        text_io.put_line("  -- Ayacc.YYParse: Shifted error token in state " &
-              yy.parse_state'image(yy.state_stack(yy.tos)));
+        Text_IO.Put_Line("  -- Ayacc.YYParse: Shifted error token in state " &
+              yy.parse_state'Image(yy.state_stack(yy.tos)));
     end if;
 
-    end handle_error;
+    end Handle_Error;
 
-   -- print debugging information for a shift operation
-   procedure shift_debug(state_id: yy.parse_state; lexeme: yy_tokens.token) is
+   --  Print debugging information for a shift operation
+   procedure Shift_Debug (state_id: yy.parse_state; lexeme: yy_tokens.token) is
    begin
-       text_io.put_line("  -- Ayacc.YYParse: Shift "& yy.parse_state'image(state_id)&" on input symbol "&
-               yy_tokens.token'image(lexeme) );
-   end;
+       Text_IO.Put_Line("  -- Ayacc.YYParse: Shift "& yy.parse_state'Image(state_id)&" on input symbol "&
+               yy_tokens.token'Image(lexeme) );
+   end Shift_Debug;
 
-   -- print debugging information for a reduce operation
-   procedure reduce_debug(rule_id: rule; state_id: yy.parse_state) is
+   --  Print debugging information for a reduce operation
+   procedure Reduce_Debug (rule_id: rule; state_id: yy.parse_state) is
    begin
-       text_io.put_line("  -- Ayacc.YYParse: Reduce by rule "&rule'image(rule_id)&" goto state "&
-               yy.parse_state'image(state_id));
-   end;
+       Text_IO.Put_Line("  -- Ayacc.YYParse: Reduce by rule "&rule'Image(rule_id)&" goto state "&
+               yy.parse_state'Image(state_id));
+   end Reduce_Debug;
 
    -- make the parser believe that 3 valid shifts have occured.
    -- used for error recovery.
@@ -228,7 +228,7 @@ procedure YYParse is
    procedure yyclearin is
    begin
        -- yy.input_symbol := yylex;
-       yy.look_ahead := true;
+       yy.look_ahead := True;
    end yyclearin;
 
 
@@ -239,12 +239,12 @@ begin
 
     loop
 
-        yy.index := shift_reduce_offset(yy.state_stack(yy.tos));
-        if integer(shift_reduce_matrix(yy.index).t) = yy.default then
-            yy.action := integer(shift_reduce_matrix(yy.index).act);
+        yy.index := Shift_Reduce_Offset(yy.state_stack(yy.tos));
+        if Integer (shift_reduce_matrix(yy.index).t) = yy.default then
+            yy.action := Integer (shift_reduce_matrix(yy.index).act);
         else
             if yy.look_ahead then
-                yy.look_ahead   := false;
+                yy.look_ahead   := False;
 
                 yy.input_symbol := yylex;
             end if;
@@ -256,32 +256,32 @@ begin
         if yy.action >= yy.first_shift_entry then  -- SHIFT
 
             if yy.debug then
-                shift_debug(yy.action, yy.input_symbol);
+              Shift_Debug (yy.action, yy.input_symbol);
             end if;
 
-            -- Enter new state
+            --  Enter new state
             if yy.tos = yy.stack_size then
-                text_io.put_line(" Stack size exceeded on state_stack");
+                Text_IO.Put_Line(" Stack size exceeded on state_stack");
                 raise yy_Tokens.syntax_error;
             end if;
             yy.tos := yy.tos + 1;
             yy.state_stack(yy.tos) := yy.action;
-              yy.value_stack(yy.tos) := yylval;
+              yy.value_stack(yy.tos) := YYLVal;
 
-        if yy.error_flag > 0 then  -- indicate a valid shift
-            yy.error_flag := yy.error_flag - 1;
+        if yy.error_flag > 0 then  --  Indicate a valid shift
+          yy.error_flag := yy.error_flag - 1;
         end if;
 
-            -- Advance lookahead
-            yy.look_ahead := true;
+            --  Advance lookahead
+            yy.look_ahead := True;
 
         elsif yy.action = yy.error_code then       -- ERROR
 
-            handle_error;
+            Handle_Error;
 
         elsif yy.action = yy.accept_code then
             if yy.debug then
-                text_io.put_line("  -- Ayacc.YYParse: Accepting Grammar...");
+                Text_IO.Put_Line("  -- Ayacc.YYParse: Accepting Grammar...");
             end if;
             exit;
 
@@ -303,22 +303,22 @@ when 2 => -- #line 224
 RC_Help.YY_ABORT;
 
 when 25 => -- #line 264
- style_switch(simple_border):= True; 
+ style_switch(simple_border):= True;
 
 when 26 => -- #line 266
- style_switch(simple_border):= False; 
+ style_switch(simple_border):= False;
 
 when 27 => -- #line 268
- style_switch(hidden):= False; 
+ style_switch(hidden):= False;
 
 when 28 => -- #line 270
- style_switch(hidden):= True; 
+ style_switch(hidden):= True;
 
 when 32 => -- #line 275
- style_switch(sys_menu):= True; 
+ style_switch(sys_menu):= True;
 
 when 37 => -- #line 281
- style_switch(disabled):= True; 
+ style_switch(disabled):= True;
 
 when 47 => -- #line 299
  if anonymous_item then
@@ -329,7 +329,6 @@ when 47 => -- #line 299
                  else
                    last_dialog_ident:= last_ident;
                  end if;
-               
 
 when 48 => -- #line 309
 
@@ -340,31 +339,27 @@ when 48 => -- #line 309
                  );
                  Ada_New_Line(to_spec);
                  Ada_New_Line(to_body);
-                 last_caption:= U("""""");
-                 style_switch:= (others => False); -- Reset all style switches
-                 static_counter:= 0;
-               
+                 last_caption := U("""""");
+                 style_switch := (others => False);  --  Reset all style switches
+                 static_counter := 0;
 
-when 49 => -- #line 323
-
-                 last_dialog_rect:= last_rect;
-               
+when 49 => -- #line 324
+last_dialog_rect:= last_rect;
 
 when 50 => -- #line 327
 
-                 last_dialog_caption:= last_caption;
-                 dialog_style_switch:= style_switch;
+                 last_dialog_caption := last_caption;
+                 dialog_style_switch := style_switch;
                  Ada_Proc_Dialog(
                     to_body,
                     S(last_dialog_ident) & "_Type",
                     S(last_dialog_caption)
                  );
-               
 
-when 51 => -- #line 338
- empty_dialog_record:= True; 
+when 51 => -- #line 337
+empty_dialog_record := True;
 
-when 52 => -- #line 341
+when 52 => -- #line 340
  Ada_Proc_Dialog(
                     to_spec,
                     S(last_dialog_ident) & "_Type",
@@ -376,422 +371,393 @@ when 52 => -- #line 341
                    "  end Create_Contents;  --  " &
                    S(last_dialog_ident) & "_Type" );
                  Close_if_separate(S(last_dialog_ident));
-               
 
-when 65 => -- #line 382
- style_switch(shell_font):= True; 
+when 65 => -- #line 380
+style_switch(shell_font) := True;
 
-when 85 => -- #line 421
- style_switch(shell_font):= True; 
+when 85 => -- #line 419
+style_switch (shell_font) := True;
 
-when 86 => -- #line 422
- style_switch(shell_font):= True; 
+when 86 => -- #line 420
+style_switch (shell_font) := True;
 
-when 87 => -- #line 423
- style_switch(shell_font):= True; 
+when 87 => -- #line 421
+style_switch (shell_font) := True;
 
-when 100 => -- #line 452
- last_caption:= U(yytext); 
+when 100 => -- #line 450
+last_caption := U (YYText);
 
-when 102 => -- #line 456
+when 102 => -- #line 454
 
               style_switch:= (others => False); -- Reset all style switches
               last_text:= U("""""");
-            
 
-when 105 => -- #line 465
-empty_dialog_record:= False;
+when 105 => -- #line 463
+empty_dialog_record := False;
 
-when 107 => -- #line 467
-empty_dialog_record:= False;
+when 107 => -- #line 465
+empty_dialog_record := False;
 
-when 108 => -- #line 468
-empty_dialog_record:= False;
+when 108 => -- #line 466
+empty_dialog_record := False;
 
-when 109 => -- #line 469
-empty_dialog_record:= False;
+when 109 => -- #line 467
+empty_dialog_record := False;
 
-when 110 => -- #line 470
-empty_dialog_record:= False;
+when 110 => -- #line 468
+empty_dialog_record := False;
 
-when 111 => -- #line 471
-empty_dialog_record:= False;
+when 111 => -- #line 469
+empty_dialog_record := False;
 
-when 112 => -- #line 472
-empty_dialog_record:= False;
+when 112 => -- #line 470
+empty_dialog_record := False;
 
-when 113 => -- #line 473
-empty_dialog_record:= False;
+when 113 => -- #line 471
+empty_dialog_record := False;
 
-when 114 => -- #line 474
-empty_dialog_record:= False;
+when 114 => -- #line 472
+empty_dialog_record := False;
 
-when 115 => -- #line 484
- control:= unknown;
-                 Reset_control_styles;
-               
+when 115 => -- #line 482
+control := unknown;
+                Reset_control_styles;
 
-when 116 => -- #line 488
- last_control_text:= U(yytext); 
+when 116 => -- #line 486
+last_control_text := U(YYText);
 
-when 117 => -- #line 491
- Insert_last_symbol;
-               
+when 117 => -- #line 490
+Insert_last_symbol;
 
-when 118 => -- #line 495
- last_class:= U(yytext); 
+when 118 => -- #line 494
+last_class := U(YYText);
 
-when 119 => -- #line 501
- Ada_untyped_control; 
+when 119 => -- #line 500
+Ada_untyped_control;
 
-when 123 => -- #line 512
- Identify_control_class(yytext); 
+when 123 => -- #line 511
+ Identify_control_class (YYText);
 
-when 125 => -- #line 526
+when 125 => -- #line 525
  control:= date_time;
-		
 
-when 128 => -- #line 532
+when 128 => -- #line 530
  control:= calendar;
-		
 
-when 130 => -- #line 537
- control:= progress;
-          Control_Direction:= Horizontal;
-		
+when 130 => -- #line 534
+ control := progress;
+          Control_Direction := Horizontal;
 
-when 136 => -- #line 547
+when 136 => -- #line 543
  control:= track_bar;
           Trackbar_Control_Ticks:= No_Ticks;
-          Control_Direction:= Horizontal;
-        
+          Control_Direction := Horizontal;
 
-when 137 => -- #line 552
+when 137 => -- #line 547
  control:= up_down;
-          Control_Direction:= Vertical;
-		
+          Control_Direction := Vertical;
 
-when 146 => -- #line 565
- control:= list_view; 
+when 146 => -- #line 559
+ control := list_view;
 
-when 150 => -- #line 572
- control:= static; 
+when 150 => -- #line 566
+ control:= static;
 
-when 151 => -- #line 576
- control:= static; 
+when 151 => -- #line 570
+ control:= static;
 
-when 152 => -- #line 579
- control:= tab_control; 
+when 152 => -- #line 573
+ control := tab_control;
 
-when 153 => -- #line 582
- control:= tree_view; 
+when 153 => -- #line 576
+ control := tree_view;
 
-when 161 => -- #line 596
- Control_Direction:= Vertical; 
+when 161 => -- #line 589
+ Control_Direction:= Vertical;
 
-when 162 => -- #line 598
- style_switch(smooth):= True; 
+when 162 => -- #line 590
+ style_switch(smooth) := True;
 
-when 163 => -- #line 600
- Control_Direction:= Vertical; 
+when 163 => -- #line 591
+ Control_Direction := Vertical;
 
-when 164 => -- #line 602
- Trackbar_Control_Ticks:= Top_Ticks; 
+when 164 => -- #line 592
+ Trackbar_Control_Ticks := Top_Ticks;
 
-when 165 => -- #line 604
- Trackbar_Control_Ticks:= Bottom_Ticks; 
+when 165 => -- #line 593
+ Trackbar_Control_Ticks := Bottom_Ticks;
 
-when 168 => -- #line 609
- style_switch(tips):= True; 
+when 168 => -- #line 597
+style_switch(tips) := True;
 
-when 170 => -- #line 612
- Control_Direction:= Horizontal; 
+when 170 => -- #line 599
+Control_Direction := Horizontal;
 
-when 171 => -- #line 614
- style_switch(keys):= True; 
+when 171 => -- #line 600
+style_switch(keys)     := True;
 
-when 172 => -- #line 616
- style_switch(wrap):= True; 
+when 172 => -- #line 601
+style_switch (wrap)    := True;
 
-when 173 => -- #line 618
- style_switch(no_1000):= True; 
+when 173 => -- #line 602
+style_switch (no_1000) := True;
 
-when 178 => -- #line 624
- lv_align := GWindows.Common_Controls.Align_Left; 
+when 178 => -- #line 607
+ lv_align := GWindows.Common_Controls.Align_Left;
 
-when 180 => -- #line 627
- lv_type:= GWindows.Common_Controls.Icon_View; 
+when 180 => -- #line 609
+ lv_type := GWindows.Common_Controls.Icon_View;
 
-when 181 => -- #line 629
- lv_type:= GWindows.Common_Controls.Small_Icon_View; 
+when 181 => -- #line 610
+ lv_type := GWindows.Common_Controls.Small_Icon_View;
 
-when 182 => -- #line 631
- lv_type:= GWindows.Common_Controls.List_View; 
+when 182 => -- #line 611
+ lv_type := GWindows.Common_Controls.List_View;
 
-when 183 => -- #line 633
- lv_type:= GWindows.Common_Controls.Report_View; 
+when 183 => -- #line 612
+ lv_type := GWindows.Common_Controls.Report_View;
 
-when 185 => -- #line 636
- lv_sort:= GWindows.Common_Controls.Sort_Ascending; 
+when 185 => -- #line 614
+ lv_sort := GWindows.Common_Controls.Sort_Ascending;
 
-when 186 => -- #line 638
- lv_sort:= GWindows.Common_Controls.Sort_Descending; 
+when 186 => -- #line 615
+ lv_sort := GWindows.Common_Controls.Sort_Descending;
 
-when 187 => -- #line 640
- lv_auto_arrange:= True; 
+when 187 => -- #line 616
+ lv_auto_arrange := True;
 
-when 191 => -- #line 645
- lv_select:= GWindows.Common_Controls.Single; 
+when 191 => -- #line 620
+lv_select := GWindows.Common_Controls.Single;
 
-when 193 => -- #line 648
- style_switch(tips):= True; 
+when 193 => -- #line 622
+style_switch (tips):= True;
 
-when 195 => -- #line 651
- style_switch(has_lines):= True; 
+when 195 => -- #line 624
+style_switch (has_lines):= True;
 
-when 197 => -- #line 654
- style_switch(has_buttons):= True; 
+when 197 => -- #line 626
+style_switch (has_buttons):= True;
 
-when 198 => -- #line 656
- style_switch(lines_at_root):= True; 
+when 198 => -- #line 627
+style_switch (lines_at_root):= True;
 
-when 202 => -- #line 661
- style_switch(single_expand):= True; 
+when 202 => -- #line 631
+style_switch (single_expand):= True;
 
-when 213 => -- #line 672
- style_switch(read_only):= True; 
+when 213 => -- #line 642
+style_switch (read_only):= True;
 
-when 222 => -- #line 699
- style_switch(fully_sunken):= True; 
+when 222 => -- #line 668
+ style_switch (fully_sunken) := True;
 
-when 223 => -- #line 701
- style_switch(half_sunken):= True; 
+when 223 => -- #line 669
+ style_switch (half_sunken)  := True;
 
-when 239 => -- #line 724
- style_switch(half_sunken):= True; 
+when 239 => -- #line 691
+style_switch(half_sunken) := True;
 
-when 241 => -- #line 727
- style_switch(center_image):= True; 
+when 241 => -- #line 693
+style_switch(center_image):= True;
 
-when 242 => -- #line 729
- control:= bitmap; -- overrides the "control:= static;" of WC_STATIC
-            
+when 242 => -- #line 694
+control := bitmap;
 
-when 243 => -- #line 732
- control:= icon;   -- overrides the "control:= static;" of WC_STATIC
-            
+when 243 => -- #line 695
+control := icon;
 
-when 244 => -- #line 735
- style_switch(real_size_image):= True; 
+when 244 => -- #line 696
+style_switch(real_size_image) := True;
 
-when 249 => -- #line 741
- style_switch(right_justify):= True; 
+when 249 => -- #line 701
+style_switch (right_justify) := True;
 
-when 253 => -- #line 746
- style_switch(whiterect):= True; 
+when 253 => -- #line 705
+style_switch (whiterect) := True;
 
-when 259 => -- #line 760
- style_switch(simple_border):= True;  
-              --  By default in GWindows (and elsewhere), edit boxes have borders.
-              --  ResEdit adds the style NOT WS_BORDER to hide the border
-            
+when 259 => -- #line 719
+  --  By default in GWindows (and elsewhere), edit boxes have borders.
+               --  ResEdit adds the style NOT WS_BORDER to hide the border.
+               style_switch (simple_border) := True;
 
-when 260 => -- #line 767
+when 260 => -- #line 727
+Ada_edit_control;
 
-              Ada_edit_control;
-            
+when 271 => -- #line 754
+style_switch (multi_line)    := True;
 
-when 271 => -- #line 796
- style_switch(multi_line):= True; 
+when 272 => -- #line 755
+style_switch (read_only)     := True;
 
-when 272 => -- #line 797
- style_switch(read_only):= True; 
+when 273 => -- #line 756
+style_switch (auto_h_scroll) := True;
 
-when 273 => -- #line 798
- style_switch(auto_h_scroll):= True; 
+when 274 => -- #line 757
+style_switch (auto_v_scroll) := True;
 
-when 274 => -- #line 799
- style_switch(auto_v_scroll):= True; 
+when 284 => -- #line 773
+ Ada_label_control;
 
-when 284 => -- #line 815
- Ada_label_control; 
+when 285 => -- #line 776
+last_alignment := GWindows.Static_Controls.Left;
 
-when 285 => -- #line 818
-last_alignment:= GWindows.Static_Controls.Left;   
+when 286 => -- #line 777
+last_alignment := GWindows.Static_Controls.Center;
 
-when 286 => -- #line 819
-last_alignment:= GWindows.Static_Controls.Center; 
+when 287 => -- #line 778
+last_alignment := GWindows.Static_Controls.Right;
 
-when 287 => -- #line 820
-last_alignment:= GWindows.Static_Controls.Right;  
+when 288 => -- #line 786
+ combo:= no_drop;
 
-when 288 => -- #line 828
- combo:= no_drop; 
+when 289 => -- #line 789
+ Ada_combo_control;
 
-when 289 => -- #line 831
- Ada_combo_control; 
+when 297 => -- #line 810
+ combo := no_drop;
 
-when 297 => -- #line 852
- combo:= no_drop; 
+when 298 => -- #line 811
+ combo := drop_down;
 
-when 298 => -- #line 853
- combo:= drop_down; 
+when 299 => -- #line 812
+ combo := drop_down_list;
 
-when 299 => -- #line 854
- combo:= drop_down_list; 
+when 300 => -- #line 813
+ style_switch (sort):= True;
 
-when 300 => -- #line 855
- style_switch(sort):= True; 
-
-when 307 => -- #line 871
+when 307 => -- #line 829
 
               Ada_Put_Line(to_spec, "    " & S(last_Ada_ident) & ": Group_Box_Type;");
               Ada_Coord_conv(last_rect);
               Ada_Put_Line(to_body,
                 "    Create( Window." & S(last_Ada_ident) & ", Window, " &
-                S(last_text) & ", x,y,w,h);"
+                S(last_text) & ", x, y, w, h);"
               );
-            
 
-when 315 => -- #line 906
- Ada_list_box_control; 
+when 315 => -- #line 863
+ Ada_list_box_control;
 
-when 322 => -- #line 926
- style_switch(sort):= True; 
+when 322 => -- #line 883
+ style_switch(sort) := True;
 
-when 337 => -- #line 950
+when 337 => -- #line 907
 
               style_switch(checkbox):= True;
               Ada_button_control;
-            
 
-when 338 => -- #line 957
- style_switch(auto):= False;
-                 style_switch(state3):= False;
-               
+when 338 => -- #line 913
+ style_switch(auto)   := False;
+                 style_switch(state3) := False;
 
-when 339 => -- #line 961
- style_switch(auto):= False;
-                 style_switch(state3):= True;
-               
+when 339 => -- #line 916
+ style_switch(auto)   := False;
+                 style_switch(state3) := True;
 
-when 340 => -- #line 965
- style_switch(auto):= True;
-                 style_switch(state3):= False;
-               
+when 340 => -- #line 919
+ style_switch(auto)   := True;
+                 style_switch(state3) := False;
 
-when 341 => -- #line 969
- style_switch(auto):= True;
-                 style_switch(state3):= True;
-               
+when 341 => -- #line 922
+ style_switch(auto)   := True;
+                 style_switch(state3) := True;
 
-when 342 => -- #line 982
+when 342 => -- #line 934
 
-              style_switch(push):= True;
+              style_switch (push):= True;
               Ada_button_control;
-            
 
-when 344 => -- #line 991
- style_switch(default):= True; 
+when 344 => -- #line 942
+ style_switch (default) := True;
 
-when 345 => -- #line 1002
+when 345 => -- #line 953
 
-              style_switch(radio):= True;
+              style_switch (radio) := True;
               Ada_button_control;
-            
 
-when 347 => -- #line 1011
- style_switch(auto):= True; 
+when 347 => -- #line 961
+ style_switch(auto) := True;
 
-when 356 => -- #line 1038
- style_switch(auto):= True;
-              style_switch(radio):= True;
-            
+when 356 => -- #line 988
+ style_switch (auto)  := True;
+              style_switch (radio) := True;
 
-when 357 => -- #line 1042
- style_switch(radio):= True; 
+when 357 => -- #line 991
+ style_switch(radio):= True;
 
-when 358 => -- #line 1044
- style_switch(state3):= True; 
+when 358 => -- #line 993
+ style_switch (state3):= True;
 
-when 359 => -- #line 1046
- style_switch(state3):= True;
-              style_switch(auto):= True;
-            
+when 359 => -- #line 995
+ style_switch (state3) := True;
+              style_switch (auto)   := True;
 
-when 360 => -- #line 1050
- style_switch(checkbox):= True; 
+when 360 => -- #line 998
+ style_switch (checkbox):= True;
 
-when 361 => -- #line 1052
- style_switch(auto):= True;
-              style_switch(checkbox):= True; 
+when 361 => -- #line 1000
+ style_switch (auto)     := True;
+              style_switch (checkbox) := True;
 
-when 362 => -- #line 1055
- style_switch(bitmap):= True; 
+when 362 => -- #line 1003
+ style_switch (bitmap):= True;
 
-when 363 => -- #line 1057
- style_switch(icon):= True; 
+when 363 => -- #line 1005
+ style_switch (icon):= True;
 
-when 364 => -- #line 1059
- style_switch(ownerdraw):= True; 
+when 364 => -- #line 1007
+ style_switch (ownerdraw):= True;
 
-when 373 => -- #line 1069
- style_switch (multi_line):= True; 
+when 373 => -- #line 1017
+ style_switch (multi_line):= True;
 
-when 375 => -- #line 1072
- style_switch(push):= True; 
+when 375 => -- #line 1020
+ style_switch (push):= True;
 
-when 376 => -- #line 1074
- style_switch(push):= True;
-              style_switch(default):= True; 
+when 376 => -- #line 1022
+ style_switch (push):= True;
+              style_switch (default):= True;
 
-when 380 => -- #line 1080
- style_switch(default):= True; 
+when 380 => -- #line 1028
+ style_switch (default):= True;
 
-when 382 => -- #line 1083
- style_switch(default):= True; 
+when 382 => -- #line 1031
+ style_switch (default):= True;
 
-when 383 => -- #line 1094
+when 383 => -- #line 1042
 
               if style_switch(vertical) then
-                Ada_normal_control("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Vertical");
+                Ada_normal_control ("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Vertical");
               else
-                Ada_normal_control("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Horizontal");
+                Ada_normal_control ("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Horizontal");
               end if;
-            
 
-when 388 => -- #line 1117
- style_switch(vertical):= True; 
+when 388 => -- #line 1064
+style_switch (vertical) := True;
 
-when 391 => -- #line 1128
- last_control_text:= U(yytext); 
+when 391 => -- #line 1075
+ last_control_text := U(YYText);
 
-when 392 => -- #line 1132
- Ada_icon_control; 
+when 392 => -- #line 1079
+ Ada_icon_control;
 
-when 395 => -- #line 1143
- Insert_last_symbol; 
+when 395 => -- #line 1090
+ Insert_last_symbol;
 
-when 397 => -- #line 1150
- last_text:= U(yytext); 
+when 397 => -- #line 1097
+ last_text:= U(YYText);
 
-when 399 => -- #line 1156
- RC_Help.last_rect.x:= yylval.intval;
-       
+when 399 => -- #line 1102
+RC_Help.last_rect.x := YYLVal.intval;
 
-when 400 => -- #line 1160
- RC_Help.last_rect.y:= yylval.intval;
-       
+when 400 => -- #line 1104
+RC_Help.last_rect.y := YYLVal.intval;
 
-when 401 => -- #line 1164
- RC_Help.last_rect.w:= yylval.intval;
-       
+when 401 => -- #line 1106
+RC_Help.last_rect.w := YYLVal.intval;
 
-when 402 => -- #line 1168
- RC_Help.last_rect.h:= yylval.intval;
-       
+when 402 => -- #line 1108
+RC_Help.last_rect.h := YYLVal.intval;
 
-when 403 => -- #line 1177
+when 403 => -- #line 1116
  if anonymous_item then
            anonymous_menu_counter:=
              anonymous_menu_counter+1;
@@ -800,36 +766,33 @@ when 403 => -- #line 1177
          else
            last_dialog_ident:= last_ident;
          end if;
-       
 
-when 404 => -- #line 1188
+when 404 => -- #line 1127
 
-         Open_if_separate(S(last_dialog_ident));
-         Ada_Put_Line(to_spec,
+         Open_if_separate (S(last_dialog_ident));
+         Ada_Put_Line (to_spec,
            "  type " & S(last_dialog_ident) &
            "_Type is tagged record"
          );
-         menu_popup_counter:= 0;
-         popup_top:= 0;
-         Ada_Put_Line(to_spec,
-           "    Main: Menu_Type; -- Root of the whole menu tree"
+         menu_popup_counter := 0;
+         popup_top := 0;
+         Ada_Put_Line (to_spec,
+           "    Main: Menu_Type;  --  Root of the whole menu tree"
          );
-         Ada_New_Line(to_body);
-         Ada_Proc_Menu(
+         Ada_New_Line (to_body);
+         Ada_Proc_Menu (
             to_body,
             S(last_dialog_ident) & "_Type"
          );
-         Ada_New_Line(to_body);
-         Ada_Put_Line(to_body, "  is");
-         Ada_Put_Line(to_body, "  begin");
-         Ada_Put_Line(to_body, "    Menu.Main:= Create_Menu;");
-       
+         Ada_New_Line (to_body);
+         Ada_Put_Line (to_body, "  is");
+         Ada_Put_Line (to_body, "  begin");
+         Ada_Put_Line (to_body, "    New_Menu.Main := Create_Menu;");
 
-when 405 => -- #line 1210
- empty_dialog_record:= True;
-       
+when 405 => -- #line 1149
+ empty_dialog_record := True;
 
-when 406 => -- #line 1214
+when 406 => -- #line 1153
  if empty_dialog_record then
            Ada_Put_Line(to_spec, "    null;  --  empty!");
          end if;
@@ -841,134 +804,124 @@ when 406 => -- #line 1214
             to_spec,
             S(last_dialog_ident) & "_Type"
          );
-         Ada_Put_Line(to_spec, ";");
-         Ada_New_Line(to_spec);
-         Ada_Put_Line(to_body,
-           "  end Create_Full_Menu;  --  " &
+         Ada_Put_Line (to_spec, ";");
+         Ada_New_Line (to_spec);
+         Ada_Put_Line (to_body,
+           "  end Create_Full_Menu;  --  For type: " &
            S(last_dialog_ident) & "_Type" );
          Close_if_separate(S(last_dialog_ident));
-       
 
-when 413 => -- #line 1248
- empty_dialog_record:= False; 
+when 413 => -- #line 1186
+empty_dialog_record := False;
 
-when 414 => -- #line 1253
- last_popup_title:= U(yytext); 
+when 414 => -- #line 1191
+last_popup_title := U(yytext);
 
-when 415 => -- #line 1255
+when 415 => -- #line 1193
 
-              menu_popup_counter:= menu_popup_counter + 1;
-              Ada_Put_Line(to_spec,
+              menu_popup_counter := menu_popup_counter + 1;  --  Another (sub)menu.
+              Ada_Put_Line (to_spec,
                 "    " &
-                Popup_num_to_Ada_ident(menu_popup_counter) &
-                ": Menu_Type; "
-                & " -- level" & Integer'Image(popup_top+1) &
+                Popup_num_to_Ada_ident (menu_popup_counter) &
+                " : Menu_Type; "
+                & "  --  Popup level:" & Integer'Image (popup_top + 1) &
                 "; title: " &
-                S(last_popup_title)
+                S (last_popup_title)
               );
-              Ada_Put_Line(to_body,
-                "    Menu." &
-                Popup_num_to_Ada_ident(menu_popup_counter) &
-                ":= Create_Popup;"
+              Ada_Put_Line (to_body,
+                "    New_Menu." &
+                Popup_num_to_Ada_ident (menu_popup_counter) &
+                " := Create_Popup;"
               );
-              Ada_Put_Line(to_body,
-                "    Append_Menu(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+              Ada_Put_Line (to_body,
+                "    Append_Menu (New_Menu." &
+                Popup_num_to_Ada_ident (popup_stack(popup_top)) &
                 ", " & S(last_popup_title) &
-                ", Menu." &
-                Popup_num_to_Ada_ident(menu_popup_counter) &
+                ", New_Menu." &
+                Popup_num_to_Ada_ident (menu_popup_counter) &
                 ");"
               );
-              popup_top:= popup_top+1;
-              popup_stack(popup_top):= menu_popup_counter;
-            
+              popup_top := popup_top + 1;
+              popup_stack (popup_top) := menu_popup_counter;
 
-when 416 => -- #line 1284
+when 416 => -- #line 1223
+popup_top := popup_top - 1;
 
-              popup_top:= popup_top-1;
-            
+when 417 => -- #line 1229
 
-when 417 => -- #line 1292
+              style_switch := (others => False);  --  Reset all style switches
+              append_item_cmd := To_Unbounded_String (
+                "    Append_Item (New_Menu." &
+                Popup_num_to_Ada_ident (popup_stack (popup_top)) &
+                ", " & Replace_special_characters (yytext));
 
-              style_switch:= (others => False); -- Reset all style switches
-              append_item_cmd := To_Unbounded_String(
-                "    Append_Item(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
-                ", " & Replace_special_characters(yytext));
-            
-
-when 418 => -- #line 1301
+when 418 => -- #line 1238
 
               Insert_last_symbol;
               append_item_cmd := append_item_cmd & ", " & S(last_Ada_constant) & ");";
               if S(last_Ada_constant) = "0" then
-                Ada_Put_Line(to_body, 
+                Ada_Put_Line(to_body,
                   "    --  Constraint error would be raised on line after next, but better having an explanation...");
                 Ada_Put_Line(to_body,
                   "    raise Constraint_Error with ""Forgot to set a command for menu item, value 0"";");
               end if;
               Ada_Put_Line(to_body, To_String (append_item_cmd));
-            
 
-when 419 => -- #line 1313
+when 419 => -- #line 1250
 
-              if style_switch(grayed) then
-                Ada_Put_Line(to_body, "    State(Menu." &
+              if style_switch (grayed) then
+                Ada_Put_Line(to_body, "    State (New_Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
                 ", Command, " & S(last_Ada_constant) &
                 ", Grayed);");
               end if;
-              if style_switch(inactive) then
-                Ada_Put_Line(to_body, "    State(Menu." &
+              if style_switch (inactive) then
+                Ada_Put_Line(to_body, "    State (New_Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
                 ", Command, " & S(last_Ada_constant) &
                 ", Disabled);");
               end if;
-              if style_switch(checked) then
-                Ada_Put_Line(to_body, "    Check(Menu." &
+              if style_switch (checked) then
+                Ada_Put_Line(to_body, "    Check (New_Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
                 ", Command, " & S(last_Ada_constant) &
                 ", True);");
               end if;
-            
 
-when 426 => -- #line 1347
- style_switch(grayed):= True; 
+when 426 => -- #line 1283
+style_switch (grayed)   := True;
 
-when 427 => -- #line 1348
- style_switch(inactive):= True; 
+when 427 => -- #line 1284
+style_switch (inactive) := True;
 
-when 428 => -- #line 1349
- style_switch(checked):= True; 
+when 428 => -- #line 1285
+style_switch (checked)  := True;
 
-when 432 => -- #line 1358
+when 432 => -- #line 1294
 
-              Ada_Put_Line(to_body,
-                "    Append_Separator(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+              Ada_Put_Line (to_body,
+                "    Append_Separator (New_Menu." &
+                Popup_num_to_Ada_ident (popup_stack (popup_top)) &
                 ");"
               );
-            
 
-when 460 => -- #line 1446
+when 460 => -- #line 1381
 
                  Open_if_separate("Version_info", with_body => False);
                  if not separate_items then
                    Ada_Put_Line(to_spec, "  package Version_info is");
                  end if;
-               
 
-when 461 => -- #line 1454
+when 461 => -- #line 1389
  if not separate_items then
                    Ada_Put_Line(to_spec, "  end Version_info;");
                  end if;
                  Close_if_separate("Version_info", with_body => False);
-               
 
-when 480 => -- #line 1504
+when 480 => -- #line 1438
 RC_Help.version_info_value_counter:= 0;
 
-when 485 => -- #line 1519
+when 485 => -- #line 1453
 RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
@@ -982,77 +935,75 @@ RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
                 when others =>
                   null;
               end case;
-             
 
-when 486 => -- #line 1534
+when 486 => -- #line 1467
 RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
                   null; -- should not happen...
                 when 2 =>
-                  Ada_Put_Line(to_spec, ": constant:=" & Long_Long_Integer'Image(yylval.intval) & ';');
+                  Ada_Put_Line(to_spec, ": constant:=" & Long_Long_Integer'Image(YYLVal.intval) & ';');
                 when others =>
                   null;
               end case;
-             
 
-when 500 => -- #line 1604
+when 500 => -- #line 1536
 Treat_include(yytext(2..yylength-1));
 
-when 507 => -- #line 1629
+when 507 => -- #line 1561
 Treat_include(yytext(2..yylength-1));
 
-when 508 => -- #line 1632
+when 508 => -- #line 1564
 Treat_include(yytext(2..yylength-1));
 
-when 529 => -- #line 1700
- last_ident:= U(yytext);
-             last_Ada_constant:= Ada_ify(yytext);
+when 529 => -- #line 1632
+ last_ident:= U (YYText);
+             last_Ada_constant:= Ada_ify (YYText);
              last_Ada_ident:= last_Ada_constant;
              -- normally no confusion here (record entry vs int. constant)
              anonymous_item:= False;
-           
 
-when 530 => -- #line 1707
- last_ident:= U(yytext);
+when 530 => -- #line 1639
+ last_ident:= U (YYText);
              last_Ada_constant:= last_ident;
-             if yylval.intval < -1 then
-               last_Ada_ident:= U("RC_item_Minus_Invalid" & yytext);
-             elsif yylval.intval = -1 then
+             if YYLVal.intval < -1 then
+               last_Ada_ident:= U ("RC_item_Minus_Invalid" & YYText);
+             elsif YYLVal.intval = -1 then
                New_static_item;
-               last_Ada_constant:= U("IDC_STATIC");
+               last_Ada_constant:= U ("IDC_STATIC");
              else
-               last_Ada_ident:= U("RC_item_" & yytext);
+               last_Ada_ident:= U ("RC_item_" & YYText);
              end if;
              anonymous_item:= True;
-           
 
-when 531 => -- #line 1720
- last_ident:= U(yytext);
-             last_Ada_constant:= last_ident;
+when 531 => -- #line 1652
+ last_ident:= U (YYText);
+             last_Ada_constant := last_ident;
              New_static_item;
              anonymous_item:= True;
-           
 
                     when others => null;
                 end case;
 
 
             -- Pop RHS states and goto next state
+            if yy.rule_id < 0 then
+              raise Constraint_Error with "yy.rule_id = " & Integer'Image (yy.rule_id) & " < 0";
+            end if;
             yy.tos      := yy.tos - rule_length(yy.rule_id) + 1;
             if yy.tos > yy.stack_size then
-                text_io.put_line(" Stack size exceeded on state_stack");
-                raise yy_Tokens.syntax_error;
+                Text_IO.Put_Line (" Stack size exceeded on state_stack");
+                raise yy_Tokens.Syntax_Error;
             end if;
             yy.state_stack(yy.tos) := goto_state(yy.state_stack(yy.tos-1) ,
-                                 get_lhs_rule(yy.rule_id));
+                                 Get_LHS_Rule (yy.rule_id));
 
               yy.value_stack(yy.tos) := yyval;
 
             if yy.debug then
                 reduce_debug(yy.rule_id,
                     goto_state(yy.state_stack(yy.tos - 1),
-                               get_lhs_rule(yy.rule_id)));
+                               Get_LHS_Rule (yy.rule_id)));
             end if;
 
         end if;

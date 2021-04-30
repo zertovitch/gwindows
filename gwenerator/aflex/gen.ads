@@ -33,13 +33,13 @@ package GEN is
   procedure GEN_START_STATE; 
   procedure GENECS; 
   procedure GENFTBL; 
-  procedure INDENT_PUTS(STR : in STRING); 
+  procedure INDENT_PUTS (STR : in STRING); 
   procedure GENTABS; 
   procedure INDENT_DOWN; 
   pragma INLINE(INDENT_DOWN);
   procedure INDENT_UP; 
   pragma INLINE(INDENT_UP);
-  procedure SET_INDENT(INDENT_VAL : in INTEGER); 
+  procedure SET_INDENT (INDENT_VAL : in INTEGER); 
   procedure MAKE_TABLES; 
   procedure DO_SECT3_OUT; 
 end GEN; 

@@ -30,7 +30,7 @@ with String_pkg;    use String_pkg;
 
 --------------------------------------------------------------------
 
-Package command_line_interface is
+package command_line_interface is
 --| Provides primitives for getting at the command line arguments.
 
 --| Overview
@@ -69,7 +69,7 @@ Package command_line_interface is
 max_args: constant := 255;
 --| Maximum number of command line arguments (arbitrary).
 
-subtype Argument_count is integer range 0..max_args;
+subtype Argument_count is Integer range 0 .. max_args;
 --| For number of arguments
 subtype Argument_index is Argument_count range 1..Argument_count'last;
 --| Used to number the command line arguments.

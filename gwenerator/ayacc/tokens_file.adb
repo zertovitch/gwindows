@@ -91,26 +91,23 @@ package body Tokens_File is
       end if;
     end Start_Tokens_Package;
 
-
     procedure Close is
-	use Text_IO;
+      use Text_IO;
     begin
-	Close(T_File);
+      Close(T_File);
     end Close;
 
-    procedure Write(S: in String) is
-	use Text_IO;
+    procedure Write (S: in String) is
+      use Text_IO;
     begin
-	Put(T_File,S);
+      Put (T_File, S);
     end Write;
 
-    procedure Writeln(S: in String) is
-	use Text_IO;
+    procedure Writeln (S: in String) is
+      use Text_IO;
     begin
-	Put_Line(T_File,S);
+      Put_Line (T_File, S);
     end Writeln;
-
-
 
     procedure Complete_Tokens_Package is
 
@@ -124,7 +121,8 @@ package body Tokens_File is
         Start_Tokens_Package;
       end if;
 
-        Writeln("    YYLVal, YYVal : YYSType; "); 
+        Writeln("    YYLVal, YYVal : YYSType;"); 
+	Writeln("");
 	Writeln("    type Token is");
 	Write("        (");
 

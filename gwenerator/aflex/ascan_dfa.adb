@@ -1,6 +1,6 @@
 with ascan_dfa; use ascan_dfa; 
 package body ascan_dfa is
-function YYText return string is
+function YYText return String is
     i : integer;
     str_loc : integer := 1;
     buffer : string(1..1024);

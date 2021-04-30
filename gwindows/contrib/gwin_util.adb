@@ -27,10 +27,10 @@ package body GWin_Util is
   package Common_Fonts is
     GUI_Font : GWindows.Drawing_Objects.Font_Type;
     URL_Font : GWindows.Drawing_Objects.Font_Type;
-    -- ^ These fonts are created once, at startup
-    --   it avoid GUI resource leak under Windows 95/98/ME
+    --  ^ These fonts are created once, at startup
+    --    it avoid GUI resource leak under Windows 95/98/ME
     procedure Create_Common_Fonts;
-    -- in initialisation part if this pkg becomes standalone
+    --  in initialisation part if this pkg becomes standalone
   end Common_Fonts;
 
   package body Common_Fonts is
@@ -85,7 +85,7 @@ package body GWin_Util is
         GWindows.Drawing_Objects.Create_Font(URL_Font,
           "MS Sans Serif",
           14, Underline => True);
-            -- !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
+            --  !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
       else
         Log_of_current_font.lfUnderline:= Interfaces.C.char'Val(1);
         GWindows.Drawing_Objects.Handle(URL_Font, CreateFontIndirect);
@@ -127,9 +127,9 @@ package body GWin_Util is
   -----------
 
   procedure Start (
-    File       : in String;
-    Parameter  : in String  := "";
-    Minimized  : in Boolean := False
+    File          : in String;
+    Parameter     : in String  := "";
+    As_Minimized  : in Boolean := False
   )
   is
 
@@ -139,7 +139,7 @@ package body GWin_Util is
                            Interfaces.C.To_C(File);
     C_Parameter  : aliased Interfaces.C.char_array :=
                            Interfaces.C.To_C(Parameter);
-    -- Parts from Win32Ada:
+    --  Parts from Win32Ada:
     subtype PVOID is System.Address;
     subtype HANDLE is PVOID;                    --  winnt.h :144
     subtype HWND is HANDLE;                     --  windef.h :178
@@ -147,7 +147,7 @@ package body GWin_Util is
     subtype INT is Interfaces.C.int;                  --  windef.h
     --
     Exe : HINSTANCE;
-    pragma Warnings(Off, Exe);
+    pragma Unreferenced (Exe);
     SW_ShowNormal    : constant := 1;
     SW_ShowMinimized : constant := 2;
     sw: constant array( Boolean ) of INT:=
@@ -185,12 +185,12 @@ package body GWin_Util is
       lpFile       => C_Executable(C_Executable'First)'Unchecked_Access,
       lpParameters => C_Parameter (C_Parameter'First)'Unchecked_Access,
       lpDirectory  => null,
-      nShowCmd     => sw(Minimized));
+      nShowCmd     => sw (As_Minimized));
   end Start;
 
-  -- EXEC improved by :
-  --  Martin C. Carlisle, Asst Prof of Comp Sci,
-  --  US Air Force Academy, mcc@cs.usafa.af.mil
+  --  EXEC improved by :
+  --    Martin C. Carlisle, Asst Prof of Comp Sci,
+  --    US Air Force Academy, mcc@cs.usafa.af.mil
 
   procedure Exec(name: String; param:String:="") is
     num_params : Integer := 1;
@@ -297,7 +297,7 @@ package body GWin_Util is
     family      : out Windows_family
   )
   is
-    -- Parts from Win32Ada:
+    --  Parts from Win32Ada:
     subtype ULONG is Interfaces.C.unsigned_long;      --  windef.h
     subtype INT is Interfaces.C.int;                  --  windef.h
     subtype DWORD is ULONG;                           --  windef.h
@@ -321,7 +321,7 @@ package body GWin_Util is
 
     function GetVersionEx (lpVersionInformation : LPOSVERSIONINFOA)
                           return BOOL renames GetVersionExA;
-    -- ^^^^ Parts from Win32Ada
+    --  ^^^^ Parts from Win32Ada
     res:  BOOL;
     info: aliased OSVERSIONINFO;
   begin
@@ -363,9 +363,9 @@ package body GWin_Util is
            Top  in -320 .. Desktop_Height - 80;
   end Valid_Left_Top;
 
-  -- GdM 22-Feb-2003
+  --  GdM 22-Feb-2003
   function Find_short_path_name( long: String ) return String is
-    -- Parts from Win32Ada:
+    --  Parts from Win32Ada:
     subtype ULONG is Interfaces.C.unsigned_long;      --  windef.h
     subtype DWORD is ULONG;                           --  windef.h
     subtype CHAR is Interfaces.C.char;                --  winnt.h
@@ -385,10 +385,10 @@ package body GWin_Util is
                                cchBuffer : DWORD)
                               return DWORD
     renames GetShortPathNameA;
-    -- ^^^^ Parts from Win32Ada
+    --  ^^^^ Parts from Win32Ada
     ls: Integer;
-    -- mcc : 18-Mar-2005
-    -- short path name may be longer than long
+    --  mcc : 18-Mar-2005
+    --  short path name may be longer than long
     short_CH : array(0..255) of aliased CHAR :=
       (others => CHAR'First);
     long_CH : array(0..long'Length) of aliased CHAR :=
@@ -422,7 +422,7 @@ package body GWin_Util is
     procedure Create(Parent: in out GWindows.Base.Base_Window_Type'Class) is
       margin : constant := 6;
     begin
-      -- 1/ Create the tabs holder
+      --  1/ Create the tabs holder
       tabs.Create (Parent,
         margin,
         margin,
@@ -430,7 +430,7 @@ package body GWin_Util is
         Parent.Client_Area_Height - 30 - margin * 2
       );
       tabs.Set_As_Control_Parent; -- <- Avoid button press hanging the app.
-      -- 2/ Create each tab
+      --  2/ Create each tab
       for s in Tab_enumeration loop
         tabs.Insert_Tab (Tab_enumeration'Pos(s)-Tab_enumeration'Pos(Tab_enumeration'First), Title(s));
         GWindows.Windows.Create_As_Control (
@@ -444,7 +444,7 @@ package body GWin_Util is
         --  -- ^ for buttons from a resource file (André van Splunter)
         tabs.Tab_Window (Tab_enumeration'Pos(s)-Tab_enumeration'Pos(Tab_enumeration'First), tab(s)'Unrestricted_Access);
       end loop;
-      -- 3/ Create OK, Cancel buttons:
+      --  3/ Create OK, Cancel buttons:
       Create (ok, Parent, ok_message,
               Parent.Client_Area_Width - 162,
               Parent.Client_Area_Height - 30, 75, 23,

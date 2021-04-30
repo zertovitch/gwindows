@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script grammar file (for AYACC)
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2019
+--  Copyright (c) Gautier de Montmollin 2008 .. 2021
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -261,24 +261,24 @@ ws_style  :
                   WS_HSCROLL_t
           |       WS_VSCROLL_t
           |       WS_BORDER_t
-            { style_switch(simple_border):= True; }
+            { style_switch(simple_border):= True;}
           | NOT_t WS_BORDER_t
-            { style_switch(simple_border):= False; }
+            { style_switch(simple_border):= False;}
           |       WS_VISIBLE_t
-            { style_switch(hidden):= False; }
+            { style_switch(hidden):= False;}
           | NOT_t WS_VISIBLE_t
-            { style_switch(hidden):= True; }
+            { style_switch(hidden):= True;}
           |       WS_CAPTION_t
           |       WS_DLGFRAME_t
           |       WS_POPUP_t
           |       WS_SYSMENU_t
-                  { style_switch(sys_menu):= True; }
+                  { style_switch(sys_menu):= True;}
           |       WS_TABSTOP_t
           | NOT_t WS_TABSTOP_t
           |       WS_GROUP_t
           | NOT_t WS_GROUP_t
           |       WS_DISABLED_t
-                  { style_switch(disabled):= True; }
+                  { style_switch(disabled):= True;}
           |       WS_MINIMIZEBOX_t
           |       WS_MAXIMIZEBOX_t
           |       WS_THICKFRAME_t
@@ -303,8 +303,8 @@ dialog    :    RC_Ident
                      Trim(Integer'Image(anonymous_dialog_counter),both));
                  else
                    last_dialog_ident:= last_ident;
-                 end if;
-               }
+                 end if;}
+               --
                dialog_hint
                {
                  Open_if_separate(S(last_dialog_ident));
@@ -314,28 +314,27 @@ dialog    :    RC_Ident
                  );
                  Ada_New_Line(to_spec);
                  Ada_New_Line(to_body);
-                 last_caption:= U("""""");
-                 style_switch:= (others => False); -- Reset all style switches
-                 static_counter:= 0;
-               }
+                 last_caption := U("""""");
+                 style_switch := (others => False);  --  Reset all style switches
+                 static_counter := 0;}
+               --
                properties
                rect
-               {
-                 last_dialog_rect:= last_rect;
-               }
+               --
+               {last_dialog_rect:= last_rect;}
+               --
                dlg_optional_statements
                {
-                 last_dialog_caption:= last_caption;
-                 dialog_style_switch:= style_switch;
+                 last_dialog_caption := last_caption;
+                 dialog_style_switch := style_switch;
                  Ada_Proc_Dialog(
                     to_body,
                     S(last_dialog_ident) & "_Type",
                     S(last_dialog_caption)
-                 );
-               }
+                 );}
 
                BEGIN_block
-               { empty_dialog_record:= True; }
+               {empty_dialog_record := True;}
                dlg_items
                END_block
                { Ada_Proc_Dialog(
@@ -348,8 +347,7 @@ dialog    :    RC_Ident
                  Ada_Put_Line(to_body,
                    "  end Create_Contents;  --  " &
                    S(last_dialog_ident) & "_Type" );
-                 Close_if_separate(S(last_dialog_ident));
-               }
+                 Close_if_separate(S(last_dialog_ident));}
           ;
 
 dialog_hint:
@@ -379,7 +377,7 @@ language :  LANGUAGE_t
           ;
 
 font      : FONT_t
-            { style_switch(shell_font):= True; }
+            {style_switch(shell_font) := True;}
             NUMBER -- size
             COMMA_t
             RCSTRING -- face
@@ -418,9 +416,9 @@ dlg_style : DS_3DLOOK_t
           | DS_CENTER_t
           | DS_MODALFRAME_t
           | DS_SYSMODAL_t
-          | DS_SETFONT_t     { style_switch(shell_font):= True; }
-          | DS_SHELLFONT_t   { style_switch(shell_font):= True; }
-          | DS_FIXEDSYS_t    { style_switch(shell_font):= True; }
+          | DS_SETFONT_t        {style_switch (shell_font) := True;}
+          | DS_SHELLFONT_t      {style_switch (shell_font) := True;}
+          | DS_FIXEDSYS_t       {style_switch (shell_font) := True;}
           | DS_NOIDLEMSG_t
           | DS_CENTERMOUSE_t
           | DS_LOCALEDIT_t
@@ -449,29 +447,29 @@ class_for_dialog :
 
 caption   : CAPTION_t
             RCSTRING
-            { last_caption:= U(yytext); }
+            {last_caption := U (YYText);}
           ;
 
 dlg_items : -- empty
           | {
               style_switch:= (others => False); -- Reset all style switches
-              last_text:= U("""""");
-            }
+              last_text:= U("""""");}
+            --
             dlg_item
             dlg_items
           ;
 
 dlg_item  : control
-          | edittext    {empty_dialog_record:= False;}
+          | edittext    {empty_dialog_record := False;}
           | label
-          | combobox    {empty_dialog_record:= False;}
-          | groupbox    {empty_dialog_record:= False;}
-          | listbox     {empty_dialog_record:= False;}
-          | checkbox    {empty_dialog_record:= False;}
-          | pushbutton  {empty_dialog_record:= False;}
-          | radiobutton {empty_dialog_record:= False;}
-          | scrollbar   {empty_dialog_record:= False;}
-          | icon        {empty_dialog_record:= False;}
+          | combobox    {empty_dialog_record := False;}
+          | groupbox    {empty_dialog_record := False;}
+          | listbox     {empty_dialog_record := False;}
+          | checkbox    {empty_dialog_record := False;}
+          | pushbutton  {empty_dialog_record := False;}
+          | radiobutton {empty_dialog_record := False;}
+          | scrollbar   {empty_dialog_record := False;}
+          | icon        {empty_dialog_record := False;}
           ;
 
 -------------
@@ -481,24 +479,25 @@ dlg_item  : control
 -- CONTROL text, id, class, style, x, y, width, height [, extended-style]
 
 control   :    CONTROL_t
-               { control:= unknown;
-                 Reset_control_styles;
-               }
+               {control := unknown;
+                Reset_control_styles;}
+               --
                control_text
-               { last_control_text:= U(yytext); }
+               {last_control_text := U(YYText);}
+               --
                COMMA_t
-               RC_Ident -- id
-               { Insert_last_symbol;
-               }
+               RC_Ident  --  id
+               {Insert_last_symbol;}
+               --
                COMMA_t
                class
-               { last_class:= U(yytext); }
+               {last_class := U(YYText);}
                COMMA_t
                ctrl_style_list
                COMMA_t
                rect
                ex_styles_optional
-               { Ada_untyped_control; }
+               {Ada_untyped_control;}
           ;
 
 control_text :
@@ -509,7 +508,7 @@ control_text :
 
 class : window_class
       | RCSTRING
-        { Identify_control_class(yytext); }
+        { Identify_control_class (YYText);}
       ;
 
 
@@ -523,20 +522,17 @@ window_class:
         -- Creates animation controls (silently display an AVI clip).
       | DATETIMEPICK_CLASS_t
         -- Creates date and time picker controls.
-        { control:= date_time;
-		}
+        { control:= date_time;}
       | HOTKEY_CLASS_t -- Creates hot key controls.
       | LINK_CLASS_t
       | MONTHCAL_CLASS_t
         -- Creates month calendar controls.
-        { control:= calendar;
-		}
+        { control:= calendar;}
       | NATIVEFNTCTL_CLASS_t -- Creates native font controls. These controls are used with native fonts.
       | PROGRESS_CLASS_t
 	    -- Creates progress bars.
-        { control:= progress;
-          Control_Direction:= Horizontal;
-		}
+        { control := progress;
+          Control_Direction := Horizontal;}
       | REBARCLASSNAME_t -- Creates rebar controls. These controls act as a container for child windows.
       | STANDARD_CLASSES_t
       | STATUSCLASSNAME_t -- Creates status windows.
@@ -546,12 +542,10 @@ window_class:
         -- Creates trackbars (select from a range of values by moving a slider).
         { control:= track_bar;
           Trackbar_Control_Ticks:= No_Ticks;
-          Control_Direction:= Horizontal;
-        }
+          Control_Direction := Horizontal;}
       | UPDOWN_CLASS_t
         { control:= up_down;
-          Control_Direction:= Vertical;
-		}
+          Control_Direction := Vertical;}
       | WC_BUTTON_t
       | WC_COMBOBOX_t
       | WC_COMBOBOXEX_t
@@ -562,24 +556,24 @@ window_class:
       | WC_LINK_t          -- Creates SysLink controls. These controls contain hypertext links.
       | WC_LISTVIEW_t
         -- Creates list-view controls.
-        { control:= list_view; }
+        { control := list_view;}
       | WC_NATIVEFONTCTL_t -- Creates native font controls (invisible)
       | WC_PAGESCROLLER_t  -- Creates pager controls (contain and scroll another window).
       | WC_SCROLLBAR_t     -- Creates scrollbar controls (scroll the contents of a window).
       | WC_STATIC_t
         -- Creates static controls. These controls contain noneditable text.
         -- ResEdit seems to use WC_STATIC for pictures; some sources use STATIC
-        { control:= static; }
+        { control:= static;}
       |    STATIC_t
         -- Creates static controls. These controls contain noneditable text.
         -- ResEdit seems to use WC_STATIC for pictures; some sources use STATIC
-        { control:= static; }
+        { control:= static;}
       | WC_TABCONTROL_t
         -- Creates tab controls
-        { control:= tab_control; }
+        { control := tab_control;}
       | WC_TREEVIEW_t
         -- Creates tree-view controls.
-        { control:= tree_view; }
+        { control := tree_view;}
       ;
 
 ctrl_style_list:
@@ -592,73 +586,49 @@ ctrl_style: ws_style
           | es_style_only
           | bs_style_only
           | cbs_style_only
-          | PBS_VERTICAL_t
-            { Control_Direction:= Vertical; }
-          | PBS_SMOOTH_t
-            { style_switch(smooth):= True; }
-          | TBS_VERT_t
-            { Control_Direction:= Vertical; }
-          | TBS_TOP_t
-            { Trackbar_Control_Ticks:= Top_Ticks; }
-          | TBS_BOTTOM_t
-            { Trackbar_Control_Ticks:= Bottom_Ticks; }
+          | PBS_VERTICAL_t                { Control_Direction:= Vertical;}
+          | PBS_SMOOTH_t                  { style_switch(smooth) := True;}
+          | TBS_VERT_t                    { Control_Direction := Vertical;}
+          | TBS_TOP_t                     { Trackbar_Control_Ticks := Top_Ticks;}
+          | TBS_BOTTOM_t                  { Trackbar_Control_Ticks := Bottom_Ticks;}
           | TBS_NOTICKS_t
             -- ignore (default); ResEdit combines with others...
           | TBS_AUTOTICKS_t
-		  | TBS_TOOLTIPS_t
-            { style_switch(tips):= True; }
+          | TBS_TOOLTIPS_t                {style_switch(tips) := True;}
           | TBS_BOTH_t
-          | UDS_HORZ_t
-            { Control_Direction:= Horizontal; }
-	      | UDS_ARROWKEYS_t
-            { style_switch(keys):= True; }
-          | UDS_WRAP_t
-            { style_switch(wrap):= True; }
-          | UDS_NOTHOUSANDS_t
-            { style_switch(no_1000):= True; }
+          | UDS_HORZ_t                    {Control_Direction := Horizontal;}
+          | UDS_ARROWKEYS_t               {style_switch(keys)     := True;}
+          | UDS_WRAP_t                    {style_switch (wrap)    := True;}
+          | UDS_NOTHOUSANDS_t             {style_switch (no_1000) := True;}
           | UDS_SETBUDDYINT_t
           | UDS_ALIGNRIGHT_t
           | UDS_AUTOBUDDY_t
           | UDS_HOTTRACK_t
-          | LVS_ALIGNLEFT_t
-            { lv_align := GWindows.Common_Controls.Align_Left; }
+          | LVS_ALIGNLEFT_t               { lv_align := GWindows.Common_Controls.Align_Left;}
           | LVS_EDITLABELS_t
-          | LVS_ICON_t
-            { lv_type:= GWindows.Common_Controls.Icon_View; }
-          | LVS_SMALLICON_t
-            { lv_type:= GWindows.Common_Controls.Small_Icon_View; }
-          | LVS_LIST_t
-            { lv_type:= GWindows.Common_Controls.List_View; }
-          | LVS_REPORT_t
-            { lv_type:= GWindows.Common_Controls.Report_View; }
+          | LVS_ICON_t                    { lv_type := GWindows.Common_Controls.Icon_View;}
+          | LVS_SMALLICON_t               { lv_type := GWindows.Common_Controls.Small_Icon_View;}
+          | LVS_LIST_t                    { lv_type := GWindows.Common_Controls.List_View;}
+          | LVS_REPORT_t                  { lv_type := GWindows.Common_Controls.Report_View;}
           | LVS_SHOWSELALWAYS_t
-          | LVS_SORTASCENDING_t
-            { lv_sort:= GWindows.Common_Controls.Sort_Ascending; }
-          | LVS_SORTDESCENDING_t
-            { lv_sort:= GWindows.Common_Controls.Sort_Descending; }
-          | LVS_AUTOARRANGE_t
-            { lv_auto_arrange:= True; }
+          | LVS_SORTASCENDING_t           { lv_sort := GWindows.Common_Controls.Sort_Ascending;}
+          | LVS_SORTDESCENDING_t          { lv_sort := GWindows.Common_Controls.Sort_Descending;}
+          | LVS_AUTOARRANGE_t             { lv_auto_arrange := True;}
           | LVS_NOCOLUMNHEADER_t
           | LVS_NOSORTHEADER_t
           | LVS_NOLABELWRAP_t
-          | LVS_SINGLESEL_t
-            { lv_select:= GWindows.Common_Controls.Single; }          
+          | LVS_SINGLESEL_t               {lv_select := GWindows.Common_Controls.Single;}          
           | LVS_SHAREIMAGELISTS_t
-          | TVS_INFOTIP_t
-            { style_switch(tips):= True; }
+          | TVS_INFOTIP_t                 {style_switch (tips):= True;}
           | TVS_NOSCROLL_t
-          | TVS_HASLINES_t
-            { style_switch(has_lines):= True; }
+          | TVS_HASLINES_t                {style_switch (has_lines):= True;}
           | TVS_SHOWSELALWAYS_t
-          | TVS_HASBUTTONS_t
-            { style_switch(has_buttons):= True; }
-          | TVS_LINESATROOT_t
-            { style_switch(lines_at_root):= True; }
+          | TVS_HASBUTTONS_t              {style_switch (has_buttons):= True;}
+          | TVS_LINESATROOT_t             {style_switch (lines_at_root):= True;}
           | TVS_NOTOOLTIPS_t
           | TVS_EDITLABELS_t
           | TVS_DISABLEDRAGDROP_t
-          | TVS_SINGLEEXPAND_t
-            { style_switch(single_expand):= True; }
+          | TVS_SINGLEEXPAND_t            {style_switch (single_expand):= True;}
           | TVS_TRACKSELECT_t
           | TVS_FULLROWSELECT_t
           | DTS_APPCANPARSE_t
@@ -669,7 +639,7 @@ ctrl_style: ws_style
           | TCS_BUTTONS_t
           | TCS_MULTILINE_t
           | GS_COLUMNLABELS_t
-          | GS_READONLY_t      { style_switch(read_only):= True; }
+          | GS_READONLY_t                 {style_switch (read_only):= True;}
           | NUMBER
           ;
 
@@ -695,10 +665,8 @@ ex_style  : ex_style_only
           ;
 
 ex_style_only
-          : WS_EX_CLIENTEDGE_t
-            { style_switch(fully_sunken):= True; }
-          | WS_EX_STATICEDGE_t
-            { style_switch(half_sunken):= True; }
+          : WS_EX_CLIENTEDGE_t            { style_switch (fully_sunken) := True;}
+          | WS_EX_STATICEDGE_t            { style_switch (half_sunken)  := True;}
           | WS_EX_WINDOWEDGE_t
           | WS_EX_CONTROLPARENT_t
           | WS_EX_ACCEPTFILES_t
@@ -720,30 +688,21 @@ ex_style_only
 -------------------
 
 ss_style  : SS_NOPREFIX_t
-          | SS_SUNKEN_t
-            { style_switch(half_sunken):= True; }
+          | SS_SUNKEN_t            {style_switch(half_sunken) := True;}
           | SS_BLACKFRAME_t
-          | SS_CENTERIMAGE_t
-            { style_switch(center_image):= True; }
-          | SS_BITMAP_t
-            { control:= bitmap; -- overrides the "control:= static;" of WC_STATIC
-            }
-          | SS_ICON_t
-            { control:= icon;   -- overrides the "control:= static;" of WC_STATIC
-            }
-          | SS_REALSIZEIMAGE_t
-            { style_switch(real_size_image):= True; }
+          | SS_CENTERIMAGE_t       {style_switch(center_image):= True;}
+          | SS_BITMAP_t            {control := bitmap;}  --  Overrides the "control := static;" of WC_STATIC.
+          | SS_ICON_t              {control := icon;}    --  Overrides the "control := static;" of WC_STATIC.
+          | SS_REALSIZEIMAGE_t     {style_switch(real_size_image) := True;}
           | SS_SIMPLE_t
           | SS_LEFTNOWORDWRAP_t
           | SS_LEFT_t
           | SS_RIGHT_t
-          | SS_RIGHTJUST_t
-            { style_switch(right_justify):= True; }
+          | SS_RIGHTJUST_t         {style_switch (right_justify) := True;}
           | SS_BLACKRECT_t
           | SS_GRAYRECT_t
           | SS_GRAYFRAME_t
-          | SS_WHITERECT_t
-            { style_switch(whiterect):= True; }
+          | SS_WHITERECT_t         {style_switch (whiterect) := True;}
           | SS_ENDELLIPSIS_t
           | SS_NOTIFY_t
           | SS_ETCHEDHORZ_t
@@ -757,16 +716,15 @@ ss_style  : SS_NOPREFIX_t
 ----------------
 
 edittext  : EDITTEXT_t
-            { style_switch(simple_border):= True;  
-              --  By default in GWindows (and elsewhere), edit boxes have borders.
-              --  ResEdit adds the style NOT WS_BORDER to hide the border
-            }
+            {  --  By default in GWindows (and elsewhere), edit boxes have borders.
+               --  ResEdit adds the style NOT WS_BORDER to hide the border.
+               style_switch (simple_border) := True;}
+            --
             edit_text
             ctrl_properties_notext
-            es_styles_optional -- also with optional extended styles
-            {
-              Ada_edit_control;
-            }
+            es_styles_optional  --  also with optional extended styles
+            --
+            {Ada_edit_control;}
             ;
 
 -- Windres (.res -> .rc) outputs a text (seems wrong)
@@ -793,10 +751,10 @@ es_style  : es_style_only
           ;
 
 es_style_only :
-            ES_MULTILINE_t   { style_switch(multi_line):= True; }
-          | ES_READONLY_t    { style_switch(read_only):= True; }
-          | ES_AUTOHSCROLL_t { style_switch(auto_h_scroll):= True; }
-          | ES_AUTOVSCROLL_t { style_switch(auto_v_scroll):= True; }
+            ES_MULTILINE_t    {style_switch (multi_line)    := True;}
+          | ES_READONLY_t     {style_switch (read_only)     := True;}
+          | ES_AUTOHSCROLL_t  {style_switch (auto_h_scroll) := True;}
+          | ES_AUTOVSCROLL_t  {style_switch (auto_v_scroll) := True;}
           | ES_WANTRETURN_t
           | ES_NUMBER_t
           | ES_PASSWORD_t
@@ -811,13 +769,13 @@ es_style_only :
 
 label     : pos_hint
             ctrl_properties
-            es_styles_optional -- also with optional extended styles
-            { Ada_label_control; }
+            es_styles_optional  --  also with optional extended styles
+            { Ada_label_control;}
             ;
 
-pos_hint : LTEXT_t {last_alignment:= GWindows.Static_Controls.Left;   }
-         | CTEXT_t {last_alignment:= GWindows.Static_Controls.Center; }
-         | RTEXT_t {last_alignment:= GWindows.Static_Controls.Right;  }
+pos_hint : LTEXT_t {last_alignment := GWindows.Static_Controls.Left;}
+         | CTEXT_t {last_alignment := GWindows.Static_Controls.Center;}
+         | RTEXT_t {last_alignment := GWindows.Static_Controls.Right;}
          ;
 
 -----------------
@@ -825,10 +783,10 @@ pos_hint : LTEXT_t {last_alignment:= GWindows.Static_Controls.Left;   }
 -----------------
 
 combobox  : COMBOBOX_t
-            { combo:= no_drop; }
+            { combo:= no_drop;}
             ctrl_properties_notext
-            cbs_styles_optional -- also with optional extended styles
-            { Ada_combo_control; }
+            cbs_styles_optional  --  also with optional extended styles
+            { Ada_combo_control;}
             ;
 
 cbs_styles_optional :
@@ -849,10 +807,10 @@ cbs_style : cbs_style_only
           ;
 
 cbs_style_only
-          : CBS_SIMPLE_t          { combo:= no_drop; }
-          | CBS_DROPDOWN_t        { combo:= drop_down; }
-          | CBS_DROPDOWNLIST_t    { combo:= drop_down_list; }
-          | CBS_SORT_t            { style_switch(sort):= True; }
+          : CBS_SIMPLE_t          { combo := no_drop;}
+          | CBS_DROPDOWN_t        { combo := drop_down;}
+          | CBS_DROPDOWNLIST_t    { combo := drop_down_list;}
+          | CBS_SORT_t            { style_switch (sort):= True;}
           | CBS_HASSTRINGS_t
           | CBS_UPPERCASE_t
           | CBS_AUTOHSCROLL_t
@@ -873,9 +831,8 @@ groupbox  : GROUPBOX_t
               Ada_Coord_conv(last_rect);
               Ada_Put_Line(to_body,
                 "    Create( Window." & S(last_Ada_ident) & ", Window, " &
-                S(last_text) & ", x,y,w,h);"
-              );
-            }
+                S(last_text) & ", x, y, w, h);"
+              );}
             ;
 
 gbs_styles_optional :
@@ -903,7 +860,7 @@ listbox   : LISTBOX_t
             lbs_text
             ctrl_properties_notext
             lbs_styles_optional -- also with optional extended styles
-            { Ada_list_box_control; }
+            { Ada_list_box_control;}
             ;
 
 -- Windres (.res -> .rc) outputs a text (seems wrong)
@@ -923,7 +880,7 @@ lbs_style_list: lbs_style
           ;
 
 lbs_style :       LBS_SORT_t
-            { style_switch(sort):= True; }
+            { style_switch(sort) := True;}
           |       LBS_MULTIPLESEL_t
           |       LBS_MULTICOLUMN_t
           |       LBS_NOINTEGRALHEIGHT_t
@@ -949,26 +906,21 @@ checkbox  : checkbox_hint
             bs_styles_optional -- also with optional extended styles
             {
               style_switch(checkbox):= True;
-              Ada_button_control;
-            }
+              Ada_button_control;}
             ;
 
 checkbox_hint : CHECKBOX_t
-               { style_switch(auto):= False;
-                 style_switch(state3):= False;
-               }
+               { style_switch(auto)   := False;
+                 style_switch(state3) := False;}
             |   STATE3_t
-               { style_switch(auto):= False;
-                 style_switch(state3):= True;
-               }
+               { style_switch(auto)   := False;
+                 style_switch(state3) := True;}
             |   AUTOCHECKBOX_t
-               { style_switch(auto):= True;
-                 style_switch(state3):= False;
-               }
+               { style_switch(auto)   := True;
+                 style_switch(state3) := False;}
             |   AUTO3STATE_t
-               { style_switch(auto):= True;
-                 style_switch(state3):= True;
-               }
+               { style_switch(auto)   := True;
+                 style_switch(state3) := True;}
             ;
 
 ------------------
@@ -978,17 +930,16 @@ checkbox_hint : CHECKBOX_t
 pushbutton  :
             pushbutton_hint
             ctrl_properties
-            bs_styles_optional -- also with optional extended styles
+            bs_styles_optional  --  also with optional extended styles
             {
-              style_switch(push):= True;
-              Ada_button_control;
-            }
+              style_switch (push):= True;
+              Ada_button_control;}
             ;
 
 pushbutton_hint :
             PUSHBUTTON_t
           | DEFPUSHBUTTON_t
-            { style_switch(default):= True; }
+            { style_switch (default) := True;}
            ;
 
 -----------------------
@@ -998,17 +949,16 @@ pushbutton_hint :
 radiobutton :
             radiobutton_hint
             ctrl_properties
-            bs_styles_optional -- also with optional extended styles
+            bs_styles_optional  --  also with optional extended styles
             {
-              style_switch(radio):= True;
-              Ada_button_control;
-            }
+              style_switch (radio) := True;
+              Ada_button_control;}
             ;
 
 radiobutton_hint :
              RADIOBUTTON_t
            | AUTORADIOBUTTON_t
-             { style_switch(auto):= True; }
+             { style_switch(auto) := True;}
            ;
 
 -------------------
@@ -1035,28 +985,26 @@ bs_style  : bs_style_only
 bs_style_only :
             BS_LEFTTEXT_t
           | BS_AUTORADIOBUTTON_t
-            { style_switch(auto):= True;
-              style_switch(radio):= True;
-            }
+            { style_switch (auto)  := True;
+              style_switch (radio) := True;}
           | BS_RADIOBUTTON_t
-            { style_switch(radio):= True; }
+            { style_switch(radio):= True;}
           | BS_3STATE_t
-            { style_switch(state3):= True; }
+            { style_switch (state3):= True;}
           | BS_AUTO3STATE_t
-            { style_switch(state3):= True;
-              style_switch(auto):= True;
-            }
+            { style_switch (state3) := True;
+              style_switch (auto)   := True;}
           | BS_CHECKBOX_t
-            { style_switch(checkbox):= True; }
+            { style_switch (checkbox):= True;}
           | BS_AUTOCHECKBOX_t
-            { style_switch(auto):= True;
-              style_switch(checkbox):= True; }
+            { style_switch (auto)     := True;
+              style_switch (checkbox) := True;}
           | BS_BITMAP_t
-            { style_switch(bitmap):= True; }
+            { style_switch (bitmap):= True;}
           | BS_ICON_t
-            { style_switch(icon):= True; }
+            { style_switch (icon):= True;}
           | BS_OWNERDRAW_t
-            { style_switch(ownerdraw):= True; }
+            { style_switch (ownerdraw):= True;}
           | BS_NOTIFY_t
           | BS_TOP_t
           | BS_BOTTOM_t
@@ -1066,21 +1014,21 @@ bs_style_only :
           | BS_FLAT_t
           | BS_VCENTER_t
           | BS_MULTILINE_t
-            { style_switch (multi_line):= True; }
+            { style_switch (multi_line):= True;}
           | BS_PUSHLIKE_t
           | BS_PUSHBUTTON_t
-            { style_switch(push):= True; }
+            { style_switch (push):= True;}
           | BS_DEFPUSHBUTTON_t
-            { style_switch(push):= True;
-              style_switch(default):= True; }
+            { style_switch (push):= True;
+              style_switch (default):= True;}
           | BS_TEXT_t
           | BS_RIGHTBUTTON_t
           | BS_SPLITBUTTON_t
           | BS_DEFSPLITBUTTON_t
-            { style_switch(default):= True; }
+            { style_switch (default):= True;}
           | BS_COMMANDLINK_t
           | BS_DEFCOMMANDLINK_t
-            { style_switch(default):= True; }
+            { style_switch (default):= True;}
           ;
 
 -----------------
@@ -1093,11 +1041,10 @@ scrollbar :
          sbs_styles_optional
             {
               if style_switch(vertical) then
-                Ada_normal_control("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Vertical");
+                Ada_normal_control ("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Vertical");
               else
-                Ada_normal_control("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Horizontal");
-              end if;
-            }
+                Ada_normal_control ("GWindows.Scroll_Bars.Scroll_Bar_Type", ", Horizontal");
+              end if;}
          ;
 
 --  Optional scroll bar styles            
@@ -1114,7 +1061,7 @@ sbs_style_list:
           | sbs_style BAR_t sbs_style_list
           ;
 
-sbs_style : SBS_VERT_t { style_switch(vertical):= True; }
+sbs_style : SBS_VERT_t {style_switch (vertical) := True;}
           | ws_style
           | NUMBER
           ;
@@ -1125,11 +1072,11 @@ sbs_style : SBS_VERT_t { style_switch(vertical):= True; }
 
 icon      : ICON_t
             icon_file  -- image file name
-            { last_control_text:= U(yytext); }
+            { last_control_text := U(YYText);}
             COMMA_t
             ctrl_properties_notext
             es_styles_optional -- also with optional extended styles
-            { Ada_icon_control; }
+            { Ada_icon_control;}
             ;
 
 icon_file : RC_Ident | RCString ;
@@ -1140,33 +1087,25 @@ icon_file : RC_Ident | RCString ;
 
 ctrl_properties_notext :
             RC_Ident -- control's identifier
-            { Insert_last_symbol; }
+            { Insert_last_symbol;}
             COMMA_t
             rect
             ;
 
 ctrl_properties :
             RCSTRING -- default text
-            { last_text:= U(yytext); }
+            { last_text:= U(YYText);}
             COMMA_t
             ctrl_properties_notext
             ;
 
-rect : NUMBER
-       { RC_Help.last_rect.x:= yylval.intval;
-       }
+rect : NUMBER       {RC_Help.last_rect.x := YYLVal.intval;}
        COMMA_t
-       NUMBER
-       { RC_Help.last_rect.y:= yylval.intval;
-       }
+       NUMBER       {RC_Help.last_rect.y := YYLVal.intval;}
        COMMA_t
-       NUMBER
-       { RC_Help.last_rect.w:= yylval.intval;
-       }
+       NUMBER       {RC_Help.last_rect.w := YYLVal.intval;}
        COMMA_t
-       NUMBER
-       { RC_Help.last_rect.h:= yylval.intval;
-       }
+       NUMBER       {RC_Help.last_rect.h := YYLVal.intval;}
        ;
 
 -----------
@@ -1181,36 +1120,36 @@ menu : RC_Ident
              Trim(Integer'Image(anonymous_menu_counter),both));
          else
            last_dialog_ident:= last_ident;
-         end if;
-       }
+         end if;}
+       --
        MENU_t
        properties
        {
-         Open_if_separate(S(last_dialog_ident));
-         Ada_Put_Line(to_spec,
+         Open_if_separate (S(last_dialog_ident));
+         Ada_Put_Line (to_spec,
            "  type " & S(last_dialog_ident) &
            "_Type is tagged record"
          );
-         menu_popup_counter:= 0;
-         popup_top:= 0;
-         Ada_Put_Line(to_spec,
-           "    Main: Menu_Type; -- Root of the whole menu tree"
+         menu_popup_counter := 0;
+         popup_top := 0;
+         Ada_Put_Line (to_spec,
+           "    Main: Menu_Type;  --  Root of the whole menu tree"
          );
-         Ada_New_Line(to_body);
-         Ada_Proc_Menu(
+         Ada_New_Line (to_body);
+         Ada_Proc_Menu (
             to_body,
             S(last_dialog_ident) & "_Type"
          );
-         Ada_New_Line(to_body);
-         Ada_Put_Line(to_body, "  is");
-         Ada_Put_Line(to_body, "  begin");
-         Ada_Put_Line(to_body, "    Menu.Main:= Create_Menu;");
-       }
+         Ada_New_Line (to_body);
+         Ada_Put_Line (to_body, "  is");
+         Ada_Put_Line (to_body, "  begin");
+         Ada_Put_Line (to_body, "    New_Menu.Main := Create_Menu;");}
+       --
        BEGIN_block
-       { empty_dialog_record:= True;
-       }
+       { empty_dialog_record := True;}
        menu_items_optional
        END_block
+       --
        { if empty_dialog_record then
            Ada_Put_Line(to_spec, "    null;  --  empty!");
          end if;
@@ -1222,13 +1161,12 @@ menu : RC_Ident
             to_spec,
             S(last_dialog_ident) & "_Type"
          );
-         Ada_Put_Line(to_spec, ";");
-         Ada_New_Line(to_spec);
-         Ada_Put_Line(to_body,
-           "  end Create_Full_Menu;  --  " &
+         Ada_Put_Line (to_spec, ";");
+         Ada_New_Line (to_spec);
+         Ada_Put_Line (to_body,
+           "  end Create_Full_Menu;  --  For type: " &
            S(last_dialog_ident) & "_Type" );
-         Close_if_separate(S(last_dialog_ident));
-       }
+         Close_if_separate(S(last_dialog_ident));}
      ;
 
 
@@ -1245,91 +1183,89 @@ menu_item_list:
 menu_item : menu_entry
           | menu_separator
           | popup
-            { empty_dialog_record:= False; }
+            {empty_dialog_record := False;}
           ;
 
 popup :     POPUP_t
             RCString
-            { last_popup_title:= U(yytext); }
+            {last_popup_title := U(yytext);}
             menu_options
             {
-              menu_popup_counter:= menu_popup_counter + 1;
-              Ada_Put_Line(to_spec,
+              menu_popup_counter := menu_popup_counter + 1;  --  Another (sub)menu.
+              Ada_Put_Line (to_spec,
                 "    " &
-                Popup_num_to_Ada_ident(menu_popup_counter) &
-                ": Menu_Type; "
-                & " -- level" & Integer'Image(popup_top+1) &
+                Popup_num_to_Ada_ident (menu_popup_counter) &
+                " : Menu_Type; "
+                & "  --  Popup level:" & Integer'Image (popup_top + 1) &
                 "; title: " &
-                S(last_popup_title)
+                S (last_popup_title)
               );
-              Ada_Put_Line(to_body,
-                "    Menu." &
-                Popup_num_to_Ada_ident(menu_popup_counter) &
-                ":= Create_Popup;"
+              Ada_Put_Line (to_body,
+                "    New_Menu." &
+                Popup_num_to_Ada_ident (menu_popup_counter) &
+                " := Create_Popup;"
               );
-              Ada_Put_Line(to_body,
-                "    Append_Menu(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+              Ada_Put_Line (to_body,
+                "    Append_Menu (New_Menu." &
+                Popup_num_to_Ada_ident (popup_stack(popup_top)) &
                 ", " & S(last_popup_title) &
-                ", Menu." &
-                Popup_num_to_Ada_ident(menu_popup_counter) &
+                ", New_Menu." &
+                Popup_num_to_Ada_ident (menu_popup_counter) &
                 ");"
               );
-              popup_top:= popup_top+1;
-              popup_stack(popup_top):= menu_popup_counter;
-            }
+              popup_top := popup_top + 1;
+              popup_stack (popup_top) := menu_popup_counter;}
+            --
             BEGIN_block
             menu_items_optional
             END_block
-            {
-              popup_top:= popup_top-1;
-            }
+            --
+            {popup_top := popup_top - 1;}
           ;
 
 menu_entry :
             MENUITEM_t
             RCString
             {
-              style_switch:= (others => False); -- Reset all style switches
-              append_item_cmd := To_Unbounded_String(
-                "    Append_Item(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
-                ", " & Replace_special_characters(yytext));
-            }
+              style_switch := (others => False);  --  Reset all style switches
+              append_item_cmd := To_Unbounded_String (
+                "    Append_Item (New_Menu." &
+                Popup_num_to_Ada_ident (popup_stack (popup_top)) &
+                ", " & Replace_special_characters (yytext));}
+            --
             COMMA_t
             RC_Ident
             {
               Insert_last_symbol;
               append_item_cmd := append_item_cmd & ", " & S(last_Ada_constant) & ");";
               if S(last_Ada_constant) = "0" then
-                Ada_Put_Line(to_body, 
+                Ada_Put_Line(to_body,
                   "    --  Constraint error would be raised on line after next, but better having an explanation...");
                 Ada_Put_Line(to_body,
                   "    raise Constraint_Error with ""Forgot to set a command for menu item, value 0"";");
               end if;
-              Ada_Put_Line(to_body, To_String (append_item_cmd));
-            }
+              Ada_Put_Line(to_body, To_String (append_item_cmd));}
+            --
             menu_options
             {
-              if style_switch(grayed) then
-                Ada_Put_Line(to_body, "    State(Menu." &
+              if style_switch (grayed) then
+                Ada_Put_Line(to_body, "    State (New_Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
                 ", Command, " & S(last_Ada_constant) &
                 ", Grayed);");
               end if;
-              if style_switch(inactive) then
-                Ada_Put_Line(to_body, "    State(Menu." &
+              if style_switch (inactive) then
+                Ada_Put_Line(to_body, "    State (New_Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
                 ", Command, " & S(last_Ada_constant) &
                 ", Disabled);");
               end if;
-              if style_switch(checked) then
-                Ada_Put_Line(to_body, "    Check(Menu." &
+              if style_switch (checked) then
+                Ada_Put_Line(to_body, "    Check (New_Menu." &
                 Popup_num_to_Ada_ident(popup_stack(popup_top)) &
                 ", Command, " & S(last_Ada_constant) &
                 ", True);");
-              end if;
-            }
+              end if;}
             ;
 
 menu_options :
@@ -1344,9 +1280,9 @@ menu_option_list:
           | menu_option menu_option_list
           ;
 
-menu_option : GRAYED_t   { style_switch(grayed):= True; }
-            | INACTIVE_t { style_switch(inactive):= True; }
-            | CHECKED_t  { style_switch(checked):= True; }
+menu_option : GRAYED_t        {style_switch (grayed)   := True;}
+            | INACTIVE_t      {style_switch (inactive) := True;}
+            | CHECKED_t       {style_switch (checked)  := True;}
             | HELP_t
             | MENUBARBREAK_t
             | MENUBREAK_t
@@ -1356,12 +1292,11 @@ menu_separator :
             MENUITEM_t
             SEPARATOR_t
             {
-              Ada_Put_Line(to_body,
-                "    Append_Separator(Menu." &
-                Popup_num_to_Ada_ident(popup_stack(popup_top)) &
+              Ada_Put_Line (to_body,
+                "    Append_Separator (New_Menu." &
+                Popup_num_to_Ada_ident (popup_stack (popup_top)) &
                 ");"
-              );
-            }
+              );}
             ;
 
 ------------------
@@ -1447,15 +1382,14 @@ version_info :
                  Open_if_separate("Version_info", with_body => False);
                  if not separate_items then
                    Ada_Put_Line(to_spec, "  package Version_info is");
-                 end if;
-               }
+                 end if;}
+               --
                fixed_infos
                version_block_contents
                { if not separate_items then
                    Ada_Put_Line(to_spec, "  end Version_info;");
                  end if;
-                 Close_if_separate("Version_info", with_body => False);
-               }
+                 Close_if_separate("Version_info", with_body => False);}
              ;
 
 fixed_infos :
@@ -1528,19 +1462,17 @@ value_arg :  RCString
                   Ada_Put_Line(to_spec, ": constant String:= " & yytext & ';');
                 when others =>
                   null;
-              end case;
-             }
+              end case;}
            | NUMBER
              {RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
                   null; -- should not happen...
                 when 2 =>
-                  Ada_Put_Line(to_spec, ": constant:=" & Long_Long_Integer'Image(yylval.intval) & ';');
+                  Ada_Put_Line(to_spec, ": constant:=" & Long_Long_Integer'Image(YYLVal.intval) & ';');
                 when others =>
                   null;
-              end case;
-             }
+              end case;}
            ;
 
 --------------
@@ -1697,31 +1629,30 @@ dlginit_stuff: RC_Ident | RCString;
 --------------------
 
 RC_Ident : IDENT_t
-           { last_ident:= U(yytext);
-             last_Ada_constant:= Ada_ify(yytext);
+           { last_ident:= U (YYText);
+             last_Ada_constant:= Ada_ify (YYText);
              last_Ada_ident:= last_Ada_constant;
              -- normally no confusion here (record entry vs int. constant)
-             anonymous_item:= False;
-           }
+             anonymous_item:= False;}
+
          | NUMBER
-           { last_ident:= U(yytext);
+           { last_ident:= U (YYText);
              last_Ada_constant:= last_ident;
-             if yylval.intval < -1 then
-               last_Ada_ident:= U("RC_item_Minus_Invalid" & yytext);
-             elsif yylval.intval = -1 then
+             if YYLVal.intval < -1 then
+               last_Ada_ident:= U ("RC_item_Minus_Invalid" & YYText);
+             elsif YYLVal.intval = -1 then
                New_static_item;
-               last_Ada_constant:= U("IDC_STATIC");
+               last_Ada_constant:= U ("IDC_STATIC");
              else
-               last_Ada_ident:= U("RC_item_" & yytext);
+               last_Ada_ident:= U ("RC_item_" & YYText);
              end if;
-             anonymous_item:= True;
-           }
+             anonymous_item:= True;}
+
          | IDC_STATIC_t
-           { last_ident:= U(yytext);
-             last_Ada_constant:= last_ident;
+           { last_ident:= U (YYText);
+             last_Ada_constant := last_ident;
              New_static_item;
-             anonymous_item:= True;
-           }
+             anonymous_item:= True;}
          ;
 
 Style_Ident : IDENT_t | NUMBER ;
@@ -1731,10 +1662,10 @@ END_block   : END_t   | RBRACE_t ;   -- RC has both C and Pascal syntaxes !
 
 %%
 
--- This header comes from RC.y (bottom)
+-- This header comes from RC.y (at bottom)
 
 with RC_Tokens, RC_Shift_Reduce, RC_Goto, RC_Help, RC_IO;
-use  RC_Tokens, RC_Shift_Reduce, RC_Goto, RC_Help, RC_IO;
+use  RC_Tokens, RC_Shift_Reduce, RC_Goto, RC_Help;
 
 with RC_DFA, YYroutines, YYerror;
 use  RC_DFA, YYroutines;
@@ -1742,7 +1673,7 @@ use  RC_DFA, YYroutines;
 with Ada.Text_IO;                       use Ada.Text_IO;
 with Text_IO; -- for compat.
 
-with Ada.Characters.Handling;           use Ada.Characters.Handling;
+--  with Ada.Characters.Handling;           use Ada.Characters.Handling;
 with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
 with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 

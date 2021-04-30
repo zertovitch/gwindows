@@ -7,8 +7,11 @@ Major changes - numbers below refer to svn repository revisions
       https://sourceforge.net/p/gnavi/code/
     From SVN, you can see all changes between two revisions A and B with "svn log -rA:B".
 
-GWindows upcoming release, 01-Jan-2021 [rev. 397]
-=================================================
+GWindows upcoming release
+=========================
+
+GWindows release, 01-Jan-2021 [rev. 397]
+========================================
 
 391: GWindows.Common_Controls.List_View: added Ensure_Visible.
 387: (contrib) GWin_Util package: added Explorer_Context_Menu.

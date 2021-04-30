@@ -1,7 +1,7 @@
 package GWens.IO is
 
-  -- Keys for easy and safe load / save through a file or the registry.
-  -- Each key correspond to a record field of the type GWen.
+  --  Keys for easy and safe load / save through a file or the registry.
+  --  Each key correspond to a record field of the type GWen.
 
   type Key is
   (
@@ -26,7 +26,7 @@ package GWens.IO is
     show_ada_build
   );
 
-  -- Load / Save through files
+  --  Load / Save through files
 
   procedure Load(file_name: in String; proj: out GWen; success: out Boolean);
 

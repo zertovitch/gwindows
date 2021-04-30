@@ -1,14 +1,13 @@
 ---------------------------------------------------------------------------
--- GUI contents of resource script file: GWenerator.rc
--- Transcription time: 2018/08/17  06:05:12
--- GWenerator project file: GWenerator.gwen
+--  GUI contents of resource script file: GWenerator.rc
+--  Transcription time: 2021/04/14  14:16:39
 --
--- Translated by the RC2GW or by the GWenerator tool.
--- URL: http://sf.net/projects/gnavi
+--  Translated by the RC2GW or by the GWenerator tool.
+--  URL: http://sf.net/projects/gnavi
 --
--- This file contains only automatically generated code. Do not edit this.
--- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 31-Oct-2017
+--  This file contains only automatically generated code. Do not edit this.
+--  Rework the resource script instead, and re-run the translator.
+--  RC Grammar version: 14-Apr-2021
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -27,29 +26,30 @@ with GWindows.Menus;                    use GWindows.Menus;
 use GWindows;
 with Interfaces.C;                      use Interfaces.C;
 
+pragma Warnings ("U");  --  turn off warnings for unused entity
+
 package GWenerator_Resource_GUI is
 
   type Main_Menu_Type is tagged record
-    Main: Menu_Type; -- Root of the whole menu tree
-    Popup_0001: Menu_Type;  -- level 1; title: "&File"
-    Popup_0002: Menu_Type;  -- level 1; title: "&Actions"
-    Popup_0003: Menu_Type;  -- level 1; title: "&Options"
-    Popup_0004: Menu_Type;  -- level 1; title: "&Help"
+    Main: Menu_Type;  --  Root of the whole menu tree
+    Popup_0001 : Menu_Type;   --  Popup level: 1; title: "&File"
+    Popup_0002 : Menu_Type;   --  Popup level: 1; title: "&Actions"
+    Popup_0003 : Menu_Type;   --  Popup level: 1; title: "&Options"
+    Popup_0004 : Menu_Type;   --  Popup level: 1; title: "&Help"
   end record;  --  Main_Menu_Type
 
-  -- Menu at line 76
-  procedure Create_Full_Menu
-     (Menu        : in out Main_Menu_Type);
+  --  Menu at line 76
+  procedure Create_Full_Menu (New_Menu : in out Main_Menu_Type);
 
   type About_box_Type is new Window_Type with record
 
-    IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
-    IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
+    IDOK: Default_Dialog_Button_Type;    --  Closes parent window after click
+    IDOK_permanent: Default_Button_Type;  --  Doesn't close parent window after click
     Static_0001: Icon_Type;
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
     URL: Label_Type;
     RC_gramm_ver: Label_Type;
     GWen_ver: Label_Type;
@@ -60,16 +60,16 @@ package GWenerator_Resource_GUI is
     GNAT_Version: Label_Type;
   end record; -- About_box_Type
 
-  -- Dialog at resource line 103
+  --  Dialog at resource line 103
 
-  -- Pre-Create operation to switch off default styles
-  -- or add ones that are not in usual GWindows Create parameters
+  --  Pre-Create operation to switch off default styles, or
+  --  add ones that are not in usual GWindows Create parameters.
   --
   procedure On_Pre_Create (Window    : in out About_box_Type;
                            dwStyle   : in out Interfaces.C.unsigned;
                            dwExStyle : in out Interfaces.C.unsigned);
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out About_box_Type;
@@ -82,8 +82,8 @@ package GWenerator_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False);
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out About_box_Type;
@@ -93,41 +93,41 @@ package GWenerator_Resource_GUI is
 
   type GWen_properties_Type is new Window_Type with record
 
-    IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
-    IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
-    IDCANCEL: Dialog_Button_Type;    -- closes parent window after click
-    IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
+    IDOK: Default_Dialog_Button_Type;    --  Closes parent window after click
+    IDOK_permanent: Default_Button_Type;  --  Doesn't close parent window after click
+    IDCANCEL: Dialog_Button_Type;    --  Closes parent window after click
+    IDCANCEL_permanent: Button_Type;  --  Doesn't close parent window after click
     Edit_RC_File_Name: Edit_Box_Type;
-    -- Label: IDC_STATIC
-    Button_Browse_RC: Dialog_Button_Type;    -- closes parent window after click
-    Button_Browse_RC_permanent: Button_Type; -- doesn't close parent window after click
+    --  Label: IDC_STATIC
+    Button_Browse_RC: Dialog_Button_Type;    --  Closes parent window after click
+    Button_Browse_RC_permanent: Button_Type;  --  Doesn't close parent window after click
     Listen_RC: Check_Box_Type;
     Auto_translate: Check_Box_Type;
     Static_0002: Group_Box_Type;
     Auto_build: Check_Box_Type;
     Edit_Main_Ada_File_Name: Edit_Box_Type;
-    Button_Browse_Ada: Dialog_Button_Type;    -- closes parent window after click
-    Button_Browse_Ada_permanent: Button_Type; -- doesn't close parent window after click
+    Button_Browse_Ada: Dialog_Button_Type;    --  Closes parent window after click
+    Button_Browse_Ada_permanent: Button_Type;  --  Doesn't close parent window after click
     Listen_Ada: Check_Box_Type;
     Static_0003: Group_Box_Type;
     Separate_items: Check_Box_Type;
     Basx: Edit_Box_Type;
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
     Basy: Edit_Box_Type;
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
     Use_base_defs: Check_Box_Type;
     Static_0006: Group_Box_Type;
     Static_0007: Group_Box_Type;
     Ada_cmd: Edit_Box_Type;
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
     Initialize_controls: Check_Box_Type;
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
     RC_Compiler_list: Drop_Down_List_Box_Type;
   end record; -- GWen_properties_Type
 
-  -- Dialog at resource line 139
+  --  Dialog at resource line 139
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out GWen_properties_Type;
@@ -140,8 +140,8 @@ package GWenerator_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False);
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out GWen_properties_Type;
@@ -154,14 +154,14 @@ package GWenerator_Resource_GUI is
     Details_frame: Group_Box_Type;
     RC_to_GWindows_messages: List_Box_Type;
     GNATMake_messages: List_Box_Type;
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
     Ada_comp_label: Label_Type;
-    Button_Translate: Dialog_Button_Type;    -- closes parent window after click
-    Button_Translate_permanent: Button_Type; -- doesn't close parent window after click
-    Button_Build: Dialog_Button_Type;    -- closes parent window after click
-    Button_Build_permanent: Button_Type; -- doesn't close parent window after click
-    Button_Run: Dialog_Button_Type;    -- closes parent window after click
-    Button_Run_permanent: Button_Type; -- doesn't close parent window after click
+    Button_Translate: Dialog_Button_Type;    --  Closes parent window after click
+    Button_Translate_permanent: Button_Type;  --  Doesn't close parent window after click
+    Button_Build: Dialog_Button_Type;    --  Closes parent window after click
+    Button_Build_permanent: Button_Type;  --  Doesn't close parent window after click
+    Button_Run: Dialog_Button_Type;    --  Closes parent window after click
+    Button_Run_permanent: Button_Type;  --  Doesn't close parent window after click
     Bar_RC: Progress_Control_Type;
     Bar_Ada: Progress_Control_Type;
     Ear_Ada: Bitmap_Type;
@@ -184,9 +184,9 @@ package GWenerator_Resource_GUI is
     More_less_build: Bitmap_Button_Type;
   end record; -- Main_dialog_Type
 
-  -- Dialog at resource line 177
+  --  Dialog at resource line 177
 
-  --  a) Create_As_Dialog & create all contents -> ready-to-use dialog
+  --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
   procedure Create_Full_Dialog
      (Window      : in out Main_dialog_Type;
@@ -199,8 +199,8 @@ package GWenerator_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False);
 
-  --  b) Create all contents, not the window itself (must be
-  --      already created) -> can be used in/as any kind of window.
+  --    b) Create all contents, not the window itself (must be
+  --        already created) -> can be used in/as any kind of window.
   --
   procedure Create_Contents
      ( Window      : in out Main_dialog_Type;
@@ -217,12 +217,12 @@ package GWenerator_Resource_GUI is
     Translation: constant:= 1033;
   end Version_info;
 
-  ------------------------------------------------
-  -- Defined resource symbols --> Ada constants --
-  ------------------------------------------------
+  --------------------------------------------------
+  --  Defined resource symbols --> Ada constants  --
+  --------------------------------------------------
 
-  -- NB: only items with a defined symbol get a constant here
-  -- These constants are needed for getting button and menu feedbacks.
+  --  NB: only items with a defined symbol get a constant here
+  --  These constants are needed for getting button and menu feedbacks.
 
   IDC_STATIC             : constant:=     -1;
   GWen_properties        : constant:=    105;
@@ -298,16 +298,16 @@ package GWenerator_Resource_GUI is
   Use_base_defs          : constant:=  40015;
   More_less_build        : constant:=  40016;
 
-  -- ** Some helper utilities (spec).
+  --  ** Some helper utilities (spec).
 
   procedure Dlg_to_Scn(
-    xd,yd,wd,hd:  in Integer;
-    xs,ys,ws,hs: out Integer);
+    xd,yd,wd,hd :  in Integer;
+    xs,ys,ws,hs : out Integer);
 
-  procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
+  procedure Use_GUI_Font (Window : in out GWindows.Base.Base_Window_Type'Class);
 
-  function Num_resource(id: Natural) return GString;  --  Just turn 123 into "#123".
+  function Num_resource (id : Natural) return GString;  --  Just turn 123 into "#123".
 
-  -- Last line of resource script file: 270
+  --  Last line of resource script file: 270
 
 end GWenerator_Resource_GUI;

@@ -16,8 +16,8 @@ yy_cp, yy_bp : integer;
 yy_hold_char : character;
 yy_c_buf_p : integer;   -- points to current character in buffer
 
-function YYText return string;
-function YYLength return integer;
+function YYText return String;
+function YYLength return Integer;
 procedure YY_DO_BEFORE_ACTION;
 --These variables are needed between calls to YYLex.
 yy_init : boolean := true; -- do we need to initialize YYLex?

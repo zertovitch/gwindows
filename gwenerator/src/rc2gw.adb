@@ -25,16 +25,16 @@
 --  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 --  THE SOFTWARE.
 
--- NB: this is the MIT License, as found 28-Jul-2008 on the site
--- http://www.opensource.org/licenses/mit-license.php
+--  NB: this is the MIT License, as found 28-Jul-2008 on the site
+--  http://www.opensource.org/licenses/mit-license.php
 ----------------------------------------------------------------------------
 --
--- Change log:
+--  Change log:
 --
--- 24-Jun-2009 GdM: Added the -c option (initialize controls, for testing)
+--  24-Jun-2009 GdM: Added the -c option (initialize controls, for testing)
 --  ~ May-2009 GdM: Added the -t option (test generation)
--- 29-Aug-2008 GdM: Added the -x and -y options
--- 28-Jul-2008 GdM: Created
+--  29-Aug-2008 GdM: Added the -x and -y options
+--  28-Jul-2008 GdM: Created
 --
 
 with Ada.Command_Line;                  use Ada.Command_Line;
@@ -63,7 +63,7 @@ procedure RC2GW is
   end Syntax;
 
 begin
-  RC_Help.Reset_globals;
+  RC_Help.Reset_Globals;
 
   for i in 1..Argument_Count loop
     declare

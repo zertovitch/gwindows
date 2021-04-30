@@ -89,9 +89,9 @@ package body Windows_pipes is
    is
     Created       : BOOL;
     IgnoreBool    : BOOL;
-    pragma Warnings(Off, IgnoreBool);
+    pragma Unreferenced (IgnoreBool);
     IgnoreLResult : LRESULT;
-    pragma Warnings(Off, IgnoreLResult);
+    pragma Unmodified (IgnoreLResult);
     --
     Process_Buffer : array (command'First..command'Last+1) of aliased CHAR;
     Start_Path     : array (path'First..path'Last+1) of aliased CHAR;
@@ -131,18 +131,18 @@ package body Windows_pipes is
     p.SI.hStdInput  := System.Null_Address;
     p.SI.hStdOutput := p.PipeWrite;
     p.SI.hStdError  := p.PipeWrite;
-    -- Copy command
+    --  Copy command
     for i in command'Range loop
       Process_Buffer(i) := CHAR(command(i));
     end loop;
     Process_Buffer(Process_Buffer'Last) := CHAR'First;
-    -- Copy path
+    --  Copy path
     for i in path'Range loop
       Start_Path(i) := CHAR(path(i));
     end loop;
     Start_Path(Start_Path'Last) := CHAR'First;
     --
-    -- http://msdn.microsoft.com/en-us/library/ms682425(VS.85).aspx
+    --  http://msdn.microsoft.com/en-us/library/ms682425(VS.85).aspx
     --
     Created :=
       CreateProcess(
@@ -173,7 +173,7 @@ package body Windows_pipes is
 
   procedure Stop (p: in out Piped_process) is
     IgnoreBool : BOOL;
-    pragma Warnings(Off, IgnoreBool);
+    pragma Unreferenced (IgnoreBool);
     use System;
   begin
     if Alive(p)  then
@@ -182,14 +182,14 @@ package body Windows_pipes is
     end if;
   end Stop;
 
-  -- Internal
+  --  Internal
   --
   procedure Read_pipe (p: in out Piped_process) is
     NumRead : aliased DWORD;
     StuffInPipe   : BOOL;
     HowManyBytes  : aliased DWORD;
     IgnoreBool    : BOOL;
-    pragma Warnings(Off, IgnoreBool);
+    pragma Unreferenced (IgnoreBool);
     use Interfaces.C, Ada.Strings.Unbounded;
   begin
     StuffInPipe :=
@@ -214,7 +214,7 @@ package body Windows_pipes is
           s(i):= Character(Buffer(i));
         end loop;
         p.part_of_line:= p.part_of_line & To_Unbounded_String(s);
-      end;
+      end Memorize_chunk;
       --
       procedure Spit_a_line(a,b: Integer) is
         s: String(a..b);
@@ -224,7 +224,7 @@ package body Windows_pipes is
         end loop;
         p.text_output(To_String(p.part_of_line) & s);
         p.part_of_line:= Ada.Strings.Unbounded.Null_Unbounded_String;
-      end;
+      end Spit_a_line;
       --
     begin
       IgnoreBool:= ReadFile(
@@ -246,7 +246,7 @@ package body Windows_pipes is
              null;
          end case;
        end loop;
-       -- We may have still an incomplete line:
+       --  We may have still an incomplete line:
        Memorize_chunk(mark, Integer(NumRead));
     end;
 
@@ -265,7 +265,7 @@ package body Windows_pipes is
     if not Alive(p) then
       return;
     end if;
-    -- http://msdn.microsoft.com/en-us/library/ms683189(VS.85).aspx
+    --  http://msdn.microsoft.com/en-us/library/ms683189(VS.85).aspx
     func_exit_code_result :=
       GetExitCodeProcess(p.ProcessObject, DwExitCode'Unchecked_Access);
     --
@@ -280,12 +280,12 @@ package body Windows_pipes is
       return;
     end if;
     --
-    -- don't want to have two running at same time somehow
-    -- so we clear ProcessObject
+    --  don't want to have two running at same time somehow
+    --  so we clear ProcessObject
     TempProcessObject := p.ProcessObject;
     p.ProcessObject   := System.Null_Address;
     Read_pipe(p);
-    -- restore value of ProcessObject
+    --  restore value of ProcessObject
     p.ProcessObject := TempProcessObject;
 
   end Check_progress;
@@ -295,7 +295,7 @@ package body Windows_pipes is
   -----------
 
   function Alive(p: Piped_process) return Boolean is
-    use System, Interfaces.C;
+    use System;
   begin
     if p.ProcessObject = System.Null_Address then
       return False;

@@ -183,11 +183,11 @@ package body NFA is
     -- number because we do it before we start parsing the current rule
     RULE_LINENUM(NUM_RULES) := LINENUM; 
 
-    TEXT_IO.PUT(TEMP_ACTION_FILE, "when "); 
+    TEXT_IO.PUT(TEMP_ACTION_FILE, "  when "); 
     INT_IO.PUT(TEMP_ACTION_FILE, NUM_RULES, 1); 
-    TEXT_IO.PUT_LINE(TEMP_ACTION_FILE, " => "); 
+    TEXT_IO.PUT_LINE(TEMP_ACTION_FILE, " =>"); 
 
-    if (VARIABLE_TRAIL_RULE) then 
+    if VARIABLE_TRAIL_RULE then 
       RULE_TYPE(NUM_RULES) := RULE_VARIABLE; 
 
       if (PERFORMANCE_REPORT) then 

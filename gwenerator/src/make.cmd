@@ -19,14 +19,14 @@ if "%1"=="/?" goto fin
 if not "%1"=="-r" goto comp
 
 rem Build AFLEX
-if not exist aflex.exe gnatmake -j2 -gnato -gnatVa -aI..\aflex -D ..\obj\gnatdebg aflex
+if not exist aflex.exe gnatmake -j0 -gnato -gnatVa -aI..\aflex -D ..\obj\gnatdebg aflex
 echo ** Compile the AFLEX (RC.l) file to Ada sources
 aflex.exe -i -E rc.l
 echo.
 gnatchop -w *.a
 del *.a
 rem Build AYACC
-if not exist ayacc.exe gnatmake -j2 -gnato -gnatVa -aI..\ayacc -D ..\obj\gnatdebg ayacc
+if not exist ayacc.exe gnatmake -j0 -gnato -gnatVa -aI..\ayacc -D ..\obj\gnatdebg ayacc
 echo ** Compile the AYACC (RC.y) file to Ada sources
 ayacc.exe rc.y off off on on >ayacc.log
 type ayacc.log

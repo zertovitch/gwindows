@@ -1,10 +1,10 @@
---  This is the GNAT / GNAT Studio project file for the AFLex Lexical Analyser Generator
+--  This is the GNAT / GNAT Studio project file for AYACC (Ada version of Yet Another Compiler Compiler).
 --  Build me with "gprbuild -P ayacc", "gnatmake -P ayacc", or open me with GNAT Studio
 
-project AFlex is
+project AYACC is
 
    for Object_Dir use "obj";
-   for Main use ("aflex.adb");
+   for Main use ("ayacc.adb");
    for Exec_Dir use ".";   
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
 
@@ -18,4 +18,4 @@ project AFlex is
       for Default_Switches ("ada") use ("-j0");
    end Builder;
 
-end AFLex;
+end AYACC;

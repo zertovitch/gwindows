@@ -280,11 +280,11 @@ end Scan_Any;
 													pragma Page;
 function Quoted_String(
     T : in Scanner
-    ) return integer is
+    ) return Integer is
 
-    Count : integer := 0;
-    I     : positive;
-    N     : natural;
+    Count : Integer := 0;
+    I     : Positive;
+    N     : Natural;
 
 begin
 
@@ -463,19 +463,19 @@ end Scan_Number;
 
 procedure Scan_Number(
     T      : in     Scanner;
-    Found  :    out boolean;
-    Result :    out integer;
-    Skip   : in     boolean := false
+    Found  :    out Boolean;
+    Result :    out Integer;
+    Skip   : in     Boolean := False
     ) is
 
-    F     : boolean;
+    F     : Boolean;
     S_Str : String_Type;
 
 begin
 
     Scan_Number(T, F, S_Str, Skip);
     if F then
-	Result := integer'value(String_Pkg.Value(S_Str));
+      Result := Integer'Value (String_Pkg.Value(S_Str));
     end if;
     Found := F;
 
@@ -547,19 +547,19 @@ end Scan_Signed_Number;
 
 procedure Scan_Signed_Number(
     T      : in     Scanner;
-    Found  :    out boolean;
-    Result :    out integer;
-    Skip   : in     boolean := false
+    Found  :    out Boolean;
+    Result :    out Integer;
+    Skip   : in     Boolean := False
     ) is
 
-    F     : boolean;
+    F     : Boolean;
     S_Str : String_Type;
 
 begin
 
     Scan_Signed_Number(T, F, S_Str, Skip);
     if F then
-	Result := integer'value(String_Pkg.Value(S_Str));
+      Result := Integer'Value (String_Pkg.Value(S_Str));
     end if;
     Found := F;
 
@@ -675,7 +675,7 @@ procedure Scan_Quoted(
     Skip   : in     boolean := false
     ) is
 
-    Count : integer;
+    Count : Integer;
 
 begin
 
@@ -784,13 +784,13 @@ end Is_Sequence;
 procedure Scan_Sequence(
     Chars  : in     String_Type;
     T      : in     Scanner;
-    Found  :    out boolean;
+    Found  :    out Boolean;
     Result :    out String_Type;
-    Skip   : in     boolean := false
+    Skip   : in     Boolean := false
     ) is
 
-    I     : positive;
-    Count : integer := 0;
+    I     : Positive;
+    Count : Integer := 0;
 
 begin
 

@@ -27,11 +27,11 @@ package body Error_Report_File is
 --    corrected, yyerror does not get called.
 --    
   
-  max_line_length : constant integer := 370;
+  max_line_length : constant Integer := 370;
 
   The_File : File_Type;                   -- Where the error report goes
 
-  Text   : String(1..max_line_length);    -- Current line from source file
+  Text   : String (1 .. max_line_length); -- Current line from source file
   Length : Natural := 1;                  -- and its length
             
 
