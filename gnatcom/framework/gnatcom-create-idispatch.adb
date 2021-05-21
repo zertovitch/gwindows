@@ -32,6 +32,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with System;
 with GNATCOM.Errors;
 
 package body GNATCOM.Create.IDispatch is
@@ -136,9 +137,10 @@ package body GNATCOM.Create.IDispatch is
 
       if Data.Type_Information /= null then
          Result := Data.Type_Information.Vtbl.AddRef (Data.Type_Information);
+         pptinfo.all := Data.Type_Information.all'Address;
+      else
+         pptinfo.all := System.Null_Address;
       end if;
-
-      pptinfo.all := Data.Type_Information'Address;
 
       return GNATCOM.S_OK;
    end GetTypeInfo;
