@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -2413,7 +2413,7 @@ package body GWindows.Base is
                                  Object : Pointer_To_Base_Window_Class)
    is
       procedure SetProp
-        (handle   : GWindows.Types.Handle        := HWND;
+        (s_handle : GWindows.Types.Handle        := HWND;
          lpString : Interfaces.C.unsigned_short  :=
            GWindows.Internal.GWindows_Object_Property_Atom;
          hData    : Pointer_To_Base_Window_Class := Object);
@@ -2807,7 +2807,7 @@ package body GWindows.Base is
       GWL_WNDPROC : constant := -4;
 
       procedure Set_Window_Procedure
-        (hwnd     : GWindows.Types.Handle;
+        (s_hwnd   : GWindows.Types.Handle;
          nIndex   : Interfaces.C.int  := GWL_WNDPROC;
          New_Proc : Windproc_Access);
       pragma Import (StdCall, Set_Window_Procedure,

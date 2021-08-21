@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2020 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -143,10 +143,10 @@ package body GWindows.Windows.MDI is
    is
       Count : Natural := 0;
       procedure Count_MDI_Child_Window
-        (Window : GWindows.Base.Pointer_To_Base_Window_Class)
+        (Child_Window : GWindows.Base.Pointer_To_Base_Window_Class)
       is
       begin
-         if Window.all in MDI_Child_Window_Type'Class then
+         if Child_Window.all in MDI_Child_Window_Type'Class then
             Count := Count + 1;
          end if;
       end Count_MDI_Child_Window;

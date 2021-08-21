@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2020 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -377,13 +377,13 @@ package body GWindows.Registry is
          C_Result : GString_C (0 .. Interfaces.C.size_t (Max_Value));
 
          procedure RegQueryValueEx
-           (HKEY  : in     HKEY_T               := Key;
-            Name  : access GChar_C              :=
+           (HKEY     : in     HKEY_T               := Key;
+            C_Name_A : access GChar_C              :=
               C_Name (C_Name'First)'Access;
-            A     : access GWindows.Types.DWORD := null;
-            B     : access GWindows.Types.DWORD := null;
-            Value : access GChar_C              := C_Result (0)'Access;
-            Max   : access GWindows.Types.DWORD := Max_Value'Access);
+            A        : access GWindows.Types.DWORD := null;
+            B        : access GWindows.Types.DWORD := null;
+            Value    : access GChar_C              := C_Result (0)'Access;
+            Max      : access GWindows.Types.DWORD := Max_Value'Access);
          pragma Import (StdCall, RegQueryValueEx,
                           "RegQueryValueEx" & Character_Mode_Identifier);
       begin

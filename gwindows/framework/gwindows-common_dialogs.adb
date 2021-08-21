@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2019 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -864,14 +864,14 @@ package body GWindows.Common_Dialogs is
       Settings     :    out DEVMODE;
       Success      :    out Boolean)
    is
-      type Pointer_To_DEVMODE is access all DEVMODE;
       type Pointer_To_char is access constant Interfaces.C.char;
+      type Pointer_To_DEVMODE_Local is access all DEVMODE;
 
       function CreateDC
          (lpszDriver : access GChar_C;
           lpszDevice : access GChar_C;
           lpszOutput : Pointer_To_char;
-          lpInitData : Pointer_To_DEVMODE)
+          lpInitData : Pointer_To_DEVMODE_Local)
       return GWindows.Types.Handle;
       pragma Import (StdCall, CreateDC, "CreateDC" &
                      Character_Mode_Identifier);
@@ -881,7 +881,7 @@ package body GWindows.Common_Dialogs is
       Printer_Name_C : GString_C :=
       GWindows.GStrings.To_GString_C (Printer_Name);
       Local_Settings : aliased DEVMODE;
-      Pointer_to_Local_Settings : constant Pointer_To_DEVMODE :=
+      Pointer_to_Local_Settings : constant Pointer_To_DEVMODE_Local :=
          Local_Settings'Access;
       use GWindows.Types;
    begin
@@ -986,11 +986,11 @@ package body GWindows.Common_Dialogs is
          BFFM_INITIALIZED : constant := 1;
          BFFM_SELCHANGED  : constant := 2;
          procedure SendMessage
-            (hwnd   : GWindows.Types.Handle := handle_bpc;
-             uMsg   : Interfaces.C.unsigned :=
-                         BFFM_SETSELECTION (Character_Mode);
-             wParam : GWindows.Types.Wparam := 1; -- (windef's TRUE)
-             lParam : GWindows.Types.Lparam := Cvt (ini));
+            (hwnd     : GWindows.Types.Handle := handle_bpc;
+             uMsg     : Interfaces.C.unsigned :=
+                           BFFM_SETSELECTION (Character_Mode);
+             wParam   : GWindows.Types.Wparam := 1; -- (windef's TRUE)
+             s_lParam : GWindows.Types.Lparam := Cvt (ini));
          pragma Import (StdCall, SendMessage,
                         "SendMessage" & Character_Mode_Identifier);
          use GWindows.Types;
