@@ -367,11 +367,11 @@ package body GWindows.Common_Controls.Ex_List_View is
          return null;
    end Get_Internal;
    -----------------------------------------------------------------------------------------
-   procedure Set_Internal_color (Control   : in     Ex_List_View_Control_Type;
-                                 Index     : in     Natural;
-                                 Sub_Index : in     Natural;
-                                 colors: in Internal_Color_Type)is
-
+   procedure Set_Internal_color (Control    : in Ex_List_View_Control_Type;
+                                 Index      : in Natural;
+                                 Sub_Index  : in Natural;
+                                 new_colors : in Internal_Color_Type)
+   is
       Item : Lvitem;
       get_Umsg: Interfaces.C.int;
       internal: Internal_Access := null;
@@ -411,14 +411,14 @@ package body GWindows.Common_Controls.Ex_List_View is
          end;
       end if;
 
-      internal.Colors(Sub_Index)  := colors;
+      internal.Colors(Sub_Index) := new_colors;
 
    end Set_Internal_color;
    -----------------------------------------------------------------------------------------
-   procedure Set_Internal_Payload (Control   : in     Ex_List_View_Control_Type;
-                                   Index     : in     Natural;
-                                   payload: in Data_Access)is
-
+   procedure Set_Internal_Payload (Control : in Ex_List_View_Control_Type;
+                                   Index   : in Natural;
+                                   payload : in Data_Access)
+   is
       Item : Lvitem;
       get_Umsg: Interfaces.C.int;
       internal: Internal_Access := null;
@@ -447,11 +447,12 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    end Set_Internal_Payload;
    -----------------------------------------------------------------------------------------
-   procedure On_Message(control       : in out Ex_List_View_Control_Type;
+   procedure On_Message(control      : in out Ex_List_View_Control_Type;
                         message      : in     Interfaces.C.unsigned;
                         wParam       : in     GWindows.Types.Wparam;
                         lParam       : in     GWindows.Types.Lparam;
-                        Return_Value : in out GWindows.Types.Lresult)is
+                        Return_Value : in out GWindows.Types.Lresult)
+   is
       use Interfaces.C;
       WM_DRAWITEM                : constant := 16#002B#;
       ODT_HEADER                 : constant := 100;
@@ -1039,7 +1040,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                             Index      : in     Integer := -1;
                             Sub_Index  : in     Integer := -1            )is
 
-      colors: Internal_Color_Type;
+      new_colors: Internal_Color_Type;
    begin
       if Column_Count(Control) = 0 then
          Ada.Exceptions.Raise_Exception(Elv_Exception'Identity, "No columns!");
@@ -1049,27 +1050,27 @@ package body GWindows.Common_Controls.Ex_List_View is
          Ada.Exceptions.Raise_Exception(Elv_Exception'Identity, "No index/subindex!");
       end if;
 
-      colors.Textcolor := Text_Color;
-      colors.Backcolor := Back_Color;
+      new_colors.Textcolor := Text_Color;
+      new_colors.Backcolor := Back_Color;
 
       if Index >= 0 and Sub_Index >= 0 then -- subitem
          Set_Internal_color (Control => Control,
                              Index   => Index,
                              Sub_Index => Sub_Index,
-                             colors => colors);
+                             new_colors => new_colors);
       elsif Index >= 0 then -- row
          for P_Sub_Index in 0..Column_Count(Control)-1 loop
             Set_Internal_color (Control => Control,
                                 Index   => Index,
                                 Sub_Index => P_Sub_Index,
-                                colors => colors);
+                                new_colors => new_colors);
          end loop;
       elsif Sub_Index >= 0 then -- column
          for P_Index in 0..Item_Count(Control)-1 loop
             Set_Internal_color (Control => Control,
                                 Index   => P_Index,
                                 Sub_Index => Sub_Index,
-                                colors => colors);
+                                new_colors => new_colors);
          end loop;
       end if;
       Control.Color_Mode := Subitem;

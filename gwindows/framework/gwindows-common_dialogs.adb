@@ -30,8 +30,7 @@
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
 --   http://sf.net/projects/gnavi/                                          --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -721,9 +720,9 @@ package body GWindows.Common_Dialogs is
       CFont : TCHOOSEFONT;
 
       procedure GetObject
-        (Object : GWindows.Types.Handle := Handle (Font);
-         SizeOf : Integer := 60;
-         Font   : in out LOGFONT);
+        (Object   : GWindows.Types.Handle := Handle (Font);
+         SizeOf   : Integer := 60;
+         GO_LFont : in out LOGFONT);
       pragma Import (StdCall, GetObject, "GetObjectA");
 
       procedure ChooseFont (CF : TCHOOSEFONT := CFont);
@@ -741,7 +740,7 @@ package body GWindows.Common_Dialogs is
 
       LFont.lfFaceName := FName'Unchecked_Access;
 
-      GetObject (Font => LFont);
+      GetObject (GO_LFont => LFont);
 
       ChooseFont;
 
