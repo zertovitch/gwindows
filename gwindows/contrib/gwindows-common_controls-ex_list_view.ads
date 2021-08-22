@@ -149,9 +149,12 @@ package GWindows.Common_Controls.Ex_List_View is
    --  if value1 = value2 then return 0
    --  if value1 < value2 then return -1
 
+   --  Comparison technique 1: custom comparison using ONLY the list view cells'
+   --                          contents (the Text function).
+
    --  You can override On_Compare for a derived type, and define there your
    --  custom sorting.
-   function On_Compare(
+   function On_Compare (
                Control: in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
@@ -164,29 +167,66 @@ package GWindows.Common_Controls.Ex_List_View is
                Value1 : in GString;
                Value2 : in GString) return Integer;
 
-   procedure On_Compare_Handler(Control: in out Ex_List_View_Control_Type;
-                                Event  : in Compare_Event);
+   procedure On_Compare_Handler (Control: in out Ex_List_View_Control_Type;
+                                 Event  : in Compare_Event);
 
    --  Use the handler, if available.
    --  If not available, it defaults to alphabetical sorting.
-   function Fire_On_Compare(
+   function Fire_On_Compare (
                Control: in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer;
 
-   type Sort_Direction_Type is (Up, Down, Auto);
-   --  Start the sort by procedure call
-   procedure Sort(Control   : in out Ex_List_View_Control_Type;
-                  Column    : in Natural;
-                  Direction : in Sort_Direction_Type;
-                  Show_Icon : in Boolean := True);
+   --  Comparison technique 2: custom comparison using the list view cells'
+   --                          coordinates. Depending on the column, you can
+   --                          opt to compare the Text, or use the Payload if
+   --                          it is more practical or faster. For instance,
+   --                          you may have numerical informations in some
+   --                          columns. Then you can store the numbers
+   --                          directly in the payload record.
 
-   --  Get the information of actually sorting
+   --  You can override On_Compare for a derived type, and define there your
+   --  custom sorting.
+   function On_Compare (
+               Control : in Ex_List_View_Control_Type;
+               Column  : in Natural;
+               Index_1 : in Natural;
+               Index_2 : in Natural) return Integer;
+
+   --  Alternatively, you can dynamically set a handler.
+   type General_Compare_Event is access
+     function (Control : in Ex_List_View_Control_Type;
+               Column  : in Natural;
+               Index_1 : in Natural;
+               Index_2 : in Natural) return Integer;
+
+   procedure On_Compare_Handler (Control       : in out Ex_List_View_Control_Type;
+                                 General_Event : in General_Compare_Event);
+
+   --  Use the handler, if available.
+   --  If not available, it defaults to alphabetical sorting.
+   function Fire_On_Compare (
+               Control : in Ex_List_View_Control_Type;
+               Column  : in Natural;
+               Index_1 : in Natural;
+               Index_2 : in Natural) return Integer;
+
+   type Sort_Direction_Type is (Up, Down, Auto);
+   type Comparison_Technique_Type is (As_Strings, General);
+   --  Start the sort by procedure call
+   procedure Sort (Control    : in out Ex_List_View_Control_Type;
+                   Column     : in Natural;
+                   Direction  : in Sort_Direction_Type;
+                   Show_Icon  : in Boolean := True;
+                   Technique  : in Comparison_Technique_Type := As_Strings
+                  );
+
+   --  Get the information of actual sorting.
    --  If sorting is inactive -> OUT-Parameter column = -1
-   procedure Sort_Info(Control   : in Ex_List_View_Control_Type;
-                       Column    : out Integer;
-                       Direction : out Sort_Direction_Type);
+   procedure Sort_Info (Control   : in Ex_List_View_Control_Type;
+                        Column    : out Integer;
+                        Direction : out Sort_Direction_Type);
 
 private
 
@@ -226,8 +266,9 @@ private
       Alt_Color2: Color_Type;
       Comctl_Version: Natural := 0;
       --  events
-      On_Free_Payload: Free_Payload_Event := null;
-      On_Compare_Event: Compare_Event := null;
+      On_Free_Payload : Free_Payload_Event := null;
+      On_Compare_Event : Compare_Event := null;
+      On_General_Compare_Event : General_Compare_Event := null;
       --  for callback
       Sort_Object: Sorting_Object;
    end record;

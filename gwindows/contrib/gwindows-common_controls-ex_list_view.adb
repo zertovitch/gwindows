@@ -1152,10 +1152,60 @@ package body GWindows.Common_Controls.Ex_List_View is
       end if;
    end Fire_On_Compare;
    ----------------------------------------------------------------------------------------------------
-   procedure Sort(Control: in out Ex_List_View_Control_Type;
-                  Column: in Natural;
-                  Direction: in Sort_Direction_Type;
-                  Show_Icon: in Boolean := True)
+   function On_Compare (
+               Control : in Ex_List_View_Control_Type;
+               Column  : in Natural;
+               Index_1 : in Natural;
+               Index_2 : in Natural) return Integer
+   is
+   begin
+     return Fire_On_Compare (Control, Column, Index_1, Index_2);
+   end On_Compare;
+   --
+   procedure On_Compare_Handler(Control       : in out Ex_List_View_Control_Type;
+                                 General_Event : in General_Compare_Event)
+   is
+   begin
+      Control.On_General_Compare_Event := General_Event;
+   end On_Compare_Handler;
+   --
+   function Fire_On_Compare (
+               Control : in Ex_List_View_Control_Type;
+               Column  : in Natural;
+               Index_1 : in Natural;
+               Index_2 : in Natural) return Integer
+   is
+   begin
+      if Control.On_General_Compare_Event /= null then
+         return Control.On_General_Compare_Event (
+            Control, Column, Index_1, Index_2
+         );
+      end if;
+      --  Default behaviour: alphabetic.
+      declare
+         Value_1 : constant GString := Text (Control => Control,
+                                             Item    => Index_1,
+                                             SubItem => Column);
+         Value_2 : constant GString := Text (Control => Control,
+                                             Item    => Index_2,
+                                             SubItem => Column);
+      begin
+         if Value_1 = Value_2 then
+            return 0;
+         elsif Value_1 > Value_2 then
+            return 1;
+         else
+            return -1;
+         end if;
+      end;
+   end Fire_On_Compare;
+   ----------------------------------------------------------------------------------------------------
+   procedure Sort (Control    : in out Ex_List_View_Control_Type;
+                   Column     : in Natural;
+                   Direction  : in Sort_Direction_Type;
+                   Show_Icon  : in Boolean := True;
+                   Technique  : in Comparison_Technique_Type := As_Strings
+                  )
    is
       function On_compare_internal
         (Lparam1    : in     GWindows.Types.Lparam;
@@ -1192,27 +1242,39 @@ package body GWindows.Common_Controls.Ex_List_View is
                                        Umsg => L_Umsg,
                                        Wparam => -1,
                                        Lparam => Address_To_Lparam(Findinfo'Address)));
-         --  values
-         declare
-            Value1: constant GString := Text(Control => Control,
-                                             Item => Index1,
-                                             SubItem => Control.Sort_Object.Sort_Column);
-            Value2: constant GString := Text(Control => Control,
-                                             Item => Index2,
-                                             SubItem => Control.Sort_Object.Sort_Column);
-         begin
-            --  We call the method, which is either overriden, or calls
-            --  Fire_On_Compare which in turn calls the handler, if available, or
-            --  applies a default alphabetical sorting.
-            return Interfaces.C.int(
-               On_Compare(
-                  Control => Ex_List_View_Control_Type'Class(Control),
-                  Column  => Control.Sort_Object.Sort_Column,
-                  Value1  => Value1,
-                  Value2  => Value2)
-               * Control.Sort_Object.Sort_Direction
-             );
-         end;
+         case Technique is
+            when As_Strings =>
+               --  values
+               declare
+                  Value1: constant GString := Text(Control => Control,
+                                                   Item => Index1,
+                                                   SubItem => Control.Sort_Object.Sort_Column);
+                  Value2: constant GString := Text(Control => Control,
+                                                   Item => Index2,
+                                                   SubItem => Control.Sort_Object.Sort_Column);
+               begin
+                  --  We call the method, which is either overriden, or calls
+                  --  Fire_On_Compare which in turn calls the handler, if available, or
+                  --  applies a default alphabetical sorting.
+                  return Interfaces.C.int (
+                     On_Compare (
+                        Control => Ex_List_View_Control_Type'Class(Control),
+                        Column  => Control.Sort_Object.Sort_Column,
+                        Value1  => Value1,
+                        Value2  => Value2)
+                     * Control.Sort_Object.Sort_Direction
+                   );
+               end;
+            when General =>
+               return Interfaces.C.int (
+                  On_Compare (
+                     Control  => Ex_List_View_Control_Type'Class(Control),
+                     Column   => Control.Sort_Object.Sort_Column,
+                     Index_1  => Index1,
+                     Index_2  => Index2)
+                  * Control.Sort_Object.Sort_Direction
+                );
+         end case;
       exception
          when E:others =>
             Raise_Exception(Elv_Exception'Identity, "error on on_compare: " & Exception_Information(E));
