@@ -108,9 +108,9 @@ package GWindows.Common_Controls.Ex_List_View is
    --  Change the color_mode manually
    --  when the mode is changed (either explicitly or utomatically by library) retained the old color settings,
    --  but applied again only when the associated color_mode is reactivated
-   procedure Color_Mode(Control : in out Ex_List_View_Control_Type;
-                        Mode    : in Color_Mode_Type;
-                        Redraw  : in Boolean := True);
+   procedure Color_Mode (Control : in out Ex_List_View_Control_Type;
+                         Mode    : in Color_Mode_Type;
+                         Redraw  : in Boolean := True);
 
    -- Payload ----------------------------
    --
@@ -118,21 +118,26 @@ package GWindows.Common_Controls.Ex_List_View is
    --  attention: passing a pointer to the type that was passed at instantiation
    --  the user of library is responsible for the lifetime of the payload data,
    --  the control manages the pointer only!
-   procedure Item_Data(Control : in Ex_List_View_Control_Type;
-                       Index   : in Natural;
-                       Payload : in Data_Access);
+   procedure Item_Data (Control : in Ex_List_View_Control_Type;
+                        Index   : in Natural;
+                        Payload : in Data_Access);
    --  returns a pointer to payload data
-   function Item_Data(Control : in Ex_List_View_Control_Type;
-                      Index   : in Natural) return Data_Access;
+   function Item_Data (Control : in Ex_List_View_Control_Type;
+                       Index   : in Natural) return Data_Access;
 
-   --  event to free the payload by the user of the library
+   --  Method for freeing a row's payload.
+   procedure On_Free_Payload (Control : in out Ex_List_View_Control_Type;
+                              Payload : out Data_Access);
+
+   --  Alternative: use an event handler for freeing a row's payload.
+   --  Define an event to free the payload by the user of the library.
    type Free_Payload_Event is access
      procedure (Control: in out Ex_List_View_Control_Type;
                 Payload: out Data_Access);
 
-   --  event-handler for free payload
-   procedure On_Free_Payload_Handler(Control: in out Ex_List_View_Control_Type;
-                                     Event: in Free_Payload_Event);
+   --  Here we can set the handler for the event.
+   procedure On_Free_Payload_Handler (Control : in out Ex_List_View_Control_Type;
+                                      Event : in Free_Payload_Event);
 
    -- Sorting ----------------------------
    --
@@ -273,17 +278,17 @@ private
       Sort_Object: Sorting_Object;
    end record;
 
-   procedure On_Create(Control: in out Ex_List_View_Control_Type);
-   procedure On_Message(control       : in out Ex_List_View_Control_Type;
-                        message      : in     Interfaces.C.unsigned;
-                        wParam       : in     GWindows.Types.Wparam;
-                        lParam       : in     GWindows.Types.Lparam;
-                        Return_Value : in out GWindows.Types.Lresult);
+   procedure On_Create (Control : in out Ex_List_View_Control_Type);
+   procedure On_Message (Control      : in out Ex_List_View_Control_Type;
+                         message      : in     Interfaces.C.unsigned;
+                         wParam       : in     GWindows.Types.Wparam;
+                         lParam       : in     GWindows.Types.Lparam;
+                         Return_Value : in out GWindows.Types.Lresult);
    procedure On_Notify (Window       : in out Ex_List_View_Control_Type;
                         Message      : in     GWindows.Base.Pointer_To_Notification;
                         Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
                         Return_Value : in out GWindows.Types.Lresult    );
-   procedure On_Destroy (control : in out Ex_List_View_Control_Type);
+   procedure On_Destroy (Control : in out Ex_List_View_Control_Type);
    procedure Delete_Item (Control : in out Ex_List_View_Control_Type;
                           Index   : in     Integer);
    procedure Clear (Control : in out Ex_List_View_Control_Type);

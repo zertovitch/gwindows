@@ -10,6 +10,8 @@ Major changes - numbers below refer to svn repository revisions
 GWindows upcoming release
 =========================
 
+411: GWindows.Common_Controls.Ex_List_View: method On_Free_Payload
+        is now public and can be overriden with effect.
 410: GWindows.Common_Controls.Ex_List_View: Sort can use a comparison
         method not based on strings.
 

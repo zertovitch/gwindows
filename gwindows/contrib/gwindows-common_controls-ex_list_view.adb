@@ -234,9 +234,6 @@ package body GWindows.Common_Controls.Ex_List_View is
                           Control      : in out Ex_List_View_Control_Type;
                           Return_Value : in out GWindows.Types.Lresult              );
 
-   procedure On_Free_Payload(Control: in out Ex_List_View_Control_Type;
-                             Payload: out Data_Access);
-
    procedure On_Header_Click (Control : in out Ex_List_View_Control_Type;
                               Column  : in     Integer                    );
 
@@ -447,7 +444,7 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    end Set_Internal_Payload;
    -----------------------------------------------------------------------------------------
-   procedure On_Message(control      : in out Ex_List_View_Control_Type;
+   procedure On_Message(Control      : in out Ex_List_View_Control_Type;
                         message      : in     Interfaces.C.unsigned;
                         wParam       : in     GWindows.Types.Wparam;
                         lParam       : in     GWindows.Types.Lparam;
@@ -465,12 +462,12 @@ package body GWindows.Common_Controls.Ex_List_View is
             begin
                Drawitem := Lparam_To_Drawitem(lParam);
                if Drawitem /= null and then Drawitem.all.CtlType = ODT_HEADER then
-                  Draw_sorticon(control, Drawitem.all, control.Sort_Object.Sort_Direction);
+                  Draw_sorticon (Control, Drawitem.all, Control.Sort_Object.Sort_Direction);
                end if;
                Return_Value := 1;
             end;
          when others =>
-            GWindows.Common_Controls.On_Message(List_View_Control_Type(control),message,wParam, lParam, Return_Value);
+            GWindows.Common_Controls.On_Message (List_View_Control_Type (Control), message, wParam, lParam, Return_Value);
       end case;
 
    end On_Message;
@@ -556,37 +553,38 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    end On_Notify;
    -----------------------------------------------------------------------------------------
-   procedure Destroy_Row (control : in out Ex_List_View_Control_Type; index: Integer) is
-      Int: Internal_Access := Get_Internal(control, index);
+   procedure Destroy_Row (Control : in out Ex_List_View_Control_Type; Index: Integer) is
+      Int : Internal_Access := Get_Internal (Control, Index);
    begin
       if Int /= null then
          if Int.Colors /= null then
-            Free_Color_Array(Int.Colors);
+            Free_Color_Array (Int.Colors);
          end if;
-         --  free the payload-data
-         On_Free_Payload(Control => control,
-                         Payload => Int.User_Data);
+         --  Free the payload data. With 'Class we re-dispatch in case
+         --  the method On_Free_Payload has been overriden.
+         On_Free_Payload (Control => Ex_List_View_Control_Type'Class (Control),
+                          Payload => Int.User_Data);
       end if;
-      Free_Internal(Int);
+      Free_Internal (Int);
    end Destroy_Row;
 
-   procedure Destroy_All_Rows (control : in out Ex_List_View_Control_Type) is
+   procedure Destroy_All_Rows (Control : in out Ex_List_View_Control_Type) is
    begin
-      for Index in 0..Item_Count(control)-1 loop
-         Destroy_Row (control, Index);
+      for Index in 0 .. Item_Count (Control) - 1 loop
+         Destroy_Row (Control, Index);
       end loop;
    end Destroy_All_Rows;
 
-   procedure On_Destroy (control : in out Ex_List_View_Control_Type)is
+   procedure On_Destroy (Control : in out Ex_List_View_Control_Type)is
    begin
-      Destroy_All_Rows (control);
-      On_Destroy(List_View_Control_Type(control));  --  Call parent method
+      Destroy_All_Rows (Control);
+      On_Destroy (List_View_Control_Type (Control));  --  Call parent method
    end On_Destroy;
 
    procedure Delete_Item (Control : in out Ex_List_View_Control_Type;
                           Index   : in     Integer) is
    begin
-      Destroy_Row(Control, Index);
+      Destroy_Row (Control, Index);
       Delete_Item (List_View_Control_Type(Control), Index);  --  Call parent method
    end Delete_Item;
 
@@ -1101,11 +1099,12 @@ package body GWindows.Common_Controls.Ex_List_View is
       return Get_Internal(Control, Index).User_Data;
    end Item_Data;
    ----------------------------------------------------------------------------------------------------
-   procedure On_Free_Payload(Control: in out Ex_List_View_Control_Type;
-                             Payload: out Data_Access)is
+   procedure On_Free_Payload (Control: in out Ex_List_View_Control_Type;
+                              Payload: out Data_Access)
+   is
    begin
       if Control.On_Free_Payload /= null then
-         Control.On_Free_Payload(Control, Payload);
+         Control.On_Free_Payload (Control, Payload);
       end if;
    end On_Free_Payload;
    ----------------------------------------------------------------------------------------------------
