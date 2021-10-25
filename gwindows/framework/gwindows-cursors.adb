@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -84,7 +84,7 @@ package body GWindows.Cursors is
 
       function LoadCursor
         (hInst : GWindows.Types.Handle := GWindows.Internal.Current_hInstance;
-         Name  : access GChar_C        := C_Text (C_Text'First)'Access)
+         CName : access GChar_C        := C_Text (C_Text'First)'Access)
         return Cursor_Type;
       pragma Import (StdCall, LoadCursor, "LoadCursor"
                      & Character_Mode_Identifier);
@@ -153,7 +153,7 @@ package body GWindows.Cursors is
    is
       NArea : constant GWindows.Types.Rectangle_Type := Area;
 
-      procedure ClipCursor (Area : GWindows.Types.Rectangle_Type := NArea);
+      procedure ClipCursor (NN_Area : GWindows.Types.Rectangle_Type := NArea);
       pragma Import (StdCall, ClipCursor, "ClipCursor");
    begin
       ClipCursor;

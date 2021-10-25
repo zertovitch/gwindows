@@ -11,7 +11,9 @@ with GWindows.Cursors;
 with GWindows.Types;
 with GWindows.Drawing_Objects;
 
--- demonstrates the handling of payload
+--  Demonstrates the handling of payload
+--  in GWindows.Common_Controls.Ex_List_View.
+
 procedure Demo_Exlv2 is
    use GWindows.Windows.Main;
    use GWindows.GStrings;
@@ -39,7 +41,7 @@ procedure Demo_Exlv2 is
          return;
       end if;
 
-      -- get payload
+      --  Get payload
       Payload := Item_Data(Control => My_List_View_Type(Window),
                            Index => L_Item);
       if Payload /= null then
@@ -64,15 +66,15 @@ procedure Demo_Exlv2 is
    end Do_On_Free_Payload;
 
 begin
-   -- font
+   --  Font
    GWindows.Drawing_Objects.Create_Stock_Font(Font, GWindows.Drawing_Objects.ANSI_Variable_Width);
 
-   -- main
+   --  Main window creation
    Create(Main, "Test ex_list_view - Payload", 0, 0, 600, 500);
    Center(Main);
    Set_Font(Main, Font);
 
-   -- list_view
+   --  List_View creation
    Create(Control => List,
           Parent  => Main,
           Left    => 20,
@@ -81,19 +83,19 @@ begin
           Height  => 400,
           View => GWindows.Common_Controls.Report_View);
 
-   -- handler
+   --  On-click handler. Alternatively, we could override the On_Click method.
    On_Click_Handler(List, Do_On_List_Click'Unrestricted_Access);
 
-   -- free payload
+   --  On-free-payload handler. Alternatively, we could override the On_Free_Payload method.
    On_Free_Payload_Handler(Control => List,
                            Event => Do_On_Free_Payload'Unrestricted_Access);
 
-   -- styles
+   --  Styles
    Set_Extended_Style (Control => List, Style => GWindows.Common_Controls.Grid);
    Set_Extended_Style (Control => List, Style => GWindows.Common_Controls.Full_Row_Select);
    Set_Extended_Style (Control => List, Style => GWindows.Common_Controls.Header_Drag_Drop);
 
-   -- columns
+   --  Columns
    Insert_Column (Control => List,
                   Text    => "Column 0",
                   Index   => 0,
@@ -103,7 +105,7 @@ begin
                   Index   => 1,
                   Width   => 150);
 
-   -- test data
+   --  Test data
    declare
       L_Index: Natural;
       L_Sorted_Index: Integer;
@@ -121,7 +123,7 @@ begin
       end loop;
    end;
 
-   -- set colors for color_mode=SubItem and payload
+   --  Set colors for color_mode=SubItem and payload
    declare
       L_Rgb: RGB_Type;
       Payload: My_List_View_Pkg.Data_Access;
@@ -156,7 +158,7 @@ begin
       end loop;
    end;
 
-   -- gui controls
+   --  GUI controls
    Create_Label(Parent => Main,
                 Text => "Click on subitem to see the payload data:",
                 Left => 380,

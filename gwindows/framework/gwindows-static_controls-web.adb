@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 2008 - 2011 Gautier de Montmollin          --
+--                 Copyright (C) 2008 - 2021 Gautier de Montmollin          --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,8 +30,7 @@
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
 --   http://sf.net/projects/gnavi/                                          --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -68,7 +67,7 @@ package body GWindows.Static_Controls.Web is
     subtype INT is Interfaces.C.int;                  --  windef.h
     --
     Exe : HINSTANCE;
-    pragma Warnings (Off, Exe);
+    pragma Unreferenced (Exe);
     SW_SHOWNORMAL    : constant := 1;
     SW_SHOWMINIMIZED : constant := 2;
     sw : constant array (Boolean) of INT :=

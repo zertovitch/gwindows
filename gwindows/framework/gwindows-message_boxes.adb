@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -81,10 +81,10 @@ package body GWindows.Message_Boxes is
       use type Interfaces.C.unsigned;
 
       function MessageBox
-        (hwnd    : GWindows.Types.Handle := GWindows.Base.Handle (Window);
-         Message : access GChar_C;
-         Title   : access GChar_C;
-         uType   : in     Interfaces.C.unsigned   := 0)
+        (hwnd     : GWindows.Types.Handle := GWindows.Base.Handle (Window);
+         Message  : access GChar_C;
+         mb_Title : access GChar_C;
+         uType    : in     Interfaces.C.unsigned   := 0)
         return Integer;
       pragma Import (StdCall, MessageBox,
                        "MessageBox" & Character_Mode_Identifier);
@@ -137,9 +137,9 @@ package body GWindows.Message_Boxes is
          MStyle := MStyle or MB_TOPMOST;
       end if;
 
-      Result := MessageBox (Message => BoxMessage (BoxMessage'First)'Access,
-                            Title   => BoxTitle (BoxTitle'First)'Access,
-                            uType   => MIcon or MStyle);
+      Result := MessageBox (Message  => BoxMessage (BoxMessage'First)'Access,
+                            mb_Title => BoxTitle (BoxTitle'First)'Access,
+                            uType    => MIcon or MStyle);
 
       case Result is
          when IDOK =>
@@ -260,18 +260,18 @@ package body GWindows.Message_Boxes is
       Cancel_Button : Cancel_Button_Type;
       Box_Result    : Integer;
 
-      procedure Do_Destroy
-        (Window : in out GWindows.Base.Base_Window_Type'Class);
+      procedure Do_On_Destroy
+        (Window_Dummy : in out GWindows.Base.Base_Window_Type'Class);
       --  Grab data
 
-      procedure Do_Destroy
-        (Window : in out GWindows.Base.Base_Window_Type'Class)
+      procedure Do_On_Destroy
+        (Window_Dummy : in out GWindows.Base.Base_Window_Type'Class)
       is
-         pragma Warnings (Off, Window);
+         pragma Warnings (Off, Window_Dummy);
       begin
          Out_Text := GWindows.GStrings.To_GString_Unbounded
            (GWindows.Edit_Boxes.Text (In_Box));
-      end Do_Destroy;
+      end Do_On_Destroy;
 
    begin
       Result := False;
@@ -284,7 +284,7 @@ package body GWindows.Message_Boxes is
                         Width  => Width,
                         Height => Height);
       Center (Win_Box, Window);
-      On_Destroy_Handler (Win_Box, Do_Destroy'Unrestricted_Access);
+      On_Destroy_Handler (Win_Box, Do_On_Destroy'Unrestricted_Access);
 
       --  Use Standard Windows GUI font instead of system font
 
