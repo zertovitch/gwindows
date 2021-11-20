@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2020 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -506,8 +506,8 @@ package body GWindows.Common_Controls is
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
       Return_Value : in out GWindows.Types.Lresult)
    is
-      pragma Warnings (Off, Control);
-      pragma Warnings (Off, Return_Value);
+      pragma Unreferenced (Control);
+      pragma Unmodified (Return_Value);
 
       NM_OUTOFMEMORY               : constant := -1;
       NM_CLICK                     : constant := -2;
@@ -1106,8 +1106,7 @@ package body GWindows.Common_Controls is
                          Control : in
                            GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, ID);
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (ID, Control);
    begin
       case Code is
          when ACN_START =>
@@ -1700,12 +1699,11 @@ package body GWindows.Common_Controls is
                          Control : in
                            GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, ID);
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (ID, Control);
 
-      EN_SETFOCUS                : constant := 256;
-      EN_KILLFOCUS               : constant := 512;
-      EN_CHANGE                  : constant := 768;
+      EN_SETFOCUS    : constant := 256;
+      EN_KILLFOCUS   : constant := 512;
+      EN_CHANGE      : constant := 768;
    begin
       case Code is
          when EN_SETFOCUS =>
@@ -4796,7 +4794,7 @@ package body GWindows.Common_Controls is
       ID      : in     Integer;
       Control : in     GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (Control);
    begin
       if Code = 0 then
          On_Button_Select (Toolbar_Control_Type'Class (Window), ID);

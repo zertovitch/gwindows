@@ -2394,9 +2394,8 @@ package body GWindows.Base is
    is
       pragma Warnings (Off, Window);
       pragma Warnings (Off, message);
-      pragma Warnings (Off, wParam);
-      pragma Warnings (Off, lParam);
-      pragma Warnings (Off, Return_Value);
+      pragma Unreferenced (wParam, lParam);
+      pragma Unmodified (Return_Value);
    begin
       Continue := True;
    end On_Filter_Message;

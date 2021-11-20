@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -952,8 +952,7 @@ package body GWindows.Edit_Boxes is
                          Control : in
                            GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, ID);
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (ID, Control);
    begin
       case Code is
          when EN_SETFOCUS =>

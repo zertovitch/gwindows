@@ -475,9 +475,8 @@ package body GWindows.Common_Controls.Ex_List_View is
    procedure On_Notify (Window       : in out Ex_List_View_Control_Type;
                         Message      : in     GWindows.Base.Pointer_To_Notification;
                         Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out GWindows.Types.Lresult    ) is
-
-      pragma Warnings (Off, Control);
+                        Return_Value : in out GWindows.Types.Lresult    )
+   is
       pragma Warnings (Off, Return_Value);
 
       Nm_Customdraw   : constant := - 12;

@@ -4120,12 +4120,11 @@ package body GWindows.Scintilla is
       ID      : in     Integer;
       Control : in     GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      SCEN_CHANGE                    : constant := 16#0300#;
-      SCEN_SETFOCUS                  : constant := 16#0200#;
-      SCEN_KILLFOCUS                 : constant := 16#0100#;
+      pragma Unreferenced (ID, Control);
 
-      pragma Warnings (Off, ID);
-      pragma Warnings (Off, Control);
+      SCEN_CHANGE     : constant := 16#0300#;
+      SCEN_SETFOCUS   : constant := 16#0200#;
+      SCEN_KILLFOCUS  : constant := 16#0100#;
    begin
       case Code is
          when SCEN_SETFOCUS =>
@@ -4149,7 +4148,7 @@ package body GWindows.Scintilla is
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
       Return_Value : in out GWindows.Types.Lresult)
    is
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (Control);
       pragma Unmodified (Return_Value);
 
       type uptr_t is new Types.Wparam;   --  32 or 64 bit

@@ -7,7 +7,7 @@
 --                                B o d y                                   --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -423,7 +423,7 @@ package body GNATCOM.VARIANT is
       Temp_Var  : GNATCOM.Types.VARIANT := From;
       P_Interface : GNATCOM.Types.Pointer_To_IDispatch;
       Ref       : Interfaces.C.unsigned_long;
-      pragma Warnings (Off, Ref);
+      pragma Unreferenced (Ref);
    begin
       Change_Type (Temp_Var, GNATCOM.Types.VT_DISPATCH);
       P_Interface := Temp_Var.u.pdispVal;
@@ -448,7 +448,7 @@ package body GNATCOM.VARIANT is
       Temp_Var  : GNATCOM.Types.VARIANT := From;
       P_Interface : GNATCOM.Types.Pointer_To_IUnknown;
       Ref       : Interfaces.C.unsigned_long;
-      pragma Warnings (Off, Ref);
+      pragma Unreferenced (Ref);
    begin
       Change_Type (Temp_Var, GNATCOM.Types.VT_DISPATCH);
       P_Interface := Temp_Var.u.punkVal;
@@ -626,7 +626,7 @@ package body GNATCOM.VARIANT is
       return GNATCOM.Types.VARIANT
    is
       Ref         : Interfaces.C.unsigned_long;
-      pragma Warnings (Off, Ref);
+      pragma Unreferenced (Ref);
 
       New_Variant : GNATCOM.Types.VARIANT;
    begin
@@ -649,7 +649,7 @@ package body GNATCOM.VARIANT is
       return GNATCOM.Types.VARIANT
    is
       Ref         : Interfaces.C.unsigned_long;
-      pragma Warnings (Off, Ref);
+      pragma Unreferenced (Ref);
 
       New_Variant : GNATCOM.Types.VARIANT;
    begin

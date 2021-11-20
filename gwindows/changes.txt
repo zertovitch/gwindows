@@ -7,10 +7,13 @@ Major changes - numbers below refer to svn repository revisions
       https://sourceforge.net/p/gnavi/code/
     From SVN, you can see all changes between two revisions A and B with "svn log -rA:B".
 
+    The repository is mirrored at https://github.com/zertovitch/gwindows
+
 GWindows, upcoming release
 ==========================
 
-412: GWindows.Scintilla: works on Intel x64 64-bit platforms
+412: GWindows.Scintilla: works on both Intel x86 32-bit and x64 64-bit
+        types of platforms
 411: GWindows.Common_Controls.Ex_List_View: method On_Free_Payload
         is now public and can be overriden with effect.
 410: GWindows.Common_Controls.Ex_List_View: Sort can use a comparison

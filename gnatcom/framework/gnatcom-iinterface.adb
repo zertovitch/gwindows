@@ -7,7 +7,7 @@
 --                                B o d y                                   --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2006 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -124,7 +124,7 @@ package body GNATCOM.Iinterface is
       if Address (This) /= System.Null_Address then
          declare
             Result : Interfaces.C.unsigned_long;
-            pragma Warnings (Off, Result);
+            pragma Unreferenced (Result);
          begin
             Result := Pointer (This).Vtbl.AddRef (Pointer (This));
          end;
@@ -288,7 +288,7 @@ package body GNATCOM.Iinterface is
 
       declare
          Result : Interfaces.C.unsigned_long;
-         pragma Warnings (Off, Result);
+         pragma Unreferenced (Result);
       begin
          Result := Factory.Vtbl.Release (Factory);
       end;
@@ -502,7 +502,7 @@ package body GNATCOM.Iinterface is
       if Address (This) /= System.Null_Address then
          declare
             Result : Interfaces.C.unsigned_long;
-            pragma Warnings (Off, Result);
+            pragma Unreferenced (Result);
          begin
             Result := Pointer (This).Vtbl.Release (Pointer (This));
          end;
@@ -686,7 +686,7 @@ package body GNATCOM.Iinterface is
 
       declare
          Result : Interfaces.C.unsigned_long;
-         pragma Warnings (Off, Result);
+         pragma Unreferenced (Result);
       begin
          Result := Factory.Vtbl.Release (Factory);
       end;
