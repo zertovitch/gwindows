@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2020 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -31,8 +31,6 @@
 -- be located on the web at one of the following places:                    --
 --   https://sourceforge.net/projects/gnavi/                                --
 --   https://github.com/zertovitch/gwindows                                 --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -402,6 +400,12 @@ package body GWindows.Scintilla is
 
    WS_TABSTOP                 : constant := 65536;
 
+   --  The following are conversions between Adress_Size-bit types .
+
+   function To_Int is new Ada.Unchecked_Conversion (Lresult, Scintilla.Int);
+   function To_Wparam is new Ada.Unchecked_Conversion (Int, Wparam);
+   function To_Lparam is new Ada.Unchecked_Conversion (Int, Lparam);
+
    --------------------
    -- AddRefDocument --
    --------------------
@@ -653,7 +657,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end AutoCPosStart;
 
    -----------------
@@ -945,7 +949,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end BraceMatch;
 
    -------------------
@@ -995,7 +999,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end CallTipPosStart;
 
    --------------------
@@ -1681,7 +1685,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end FindText;
 
    -----------------
@@ -1734,7 +1738,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end GetAnchor;
 
    ---------------------------
@@ -1976,7 +1980,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end GetCurrentPos;
 
    ---------------
@@ -2098,7 +2102,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end GetEndStyled;
 
    ----------------
@@ -2326,7 +2330,7 @@ package body GWindows.Scintilla is
    -- GetLength --
    ---------------
 
-   function GetLength (Control : Scintilla_Type) return Integer is
+   function GetLength (Control : Scintilla_Type) return Position is
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := SCI_GETLENGTH;
@@ -2336,7 +2340,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end GetLength;
 
    --------------
@@ -2459,7 +2463,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end GetLineIndentPosition;
 
    ------------------
@@ -2826,7 +2830,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end GetSelectionEnd;
 
    -----------------------
@@ -2843,7 +2847,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end GetSelectionStart;
 
    -----------------------------------------------------------------------
@@ -2877,7 +2881,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end Get_Selection_N_Start;
 
    function Get_Selection_N_End
@@ -2894,7 +2898,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end Get_Selection_N_End;
 
    function Get_Selection_N_Caret
@@ -2910,7 +2914,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end Get_Selection_N_Caret;
 
    procedure Set_Selection
@@ -3092,7 +3096,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end GetTargetEnd;
 
    --------------------
@@ -3109,7 +3113,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end GetTargetStart;
 
    -------------
@@ -3160,15 +3164,15 @@ package body GWindows.Scintilla is
 
    function GetTextRange
      (Control : Scintilla_Type;
-      Min     : Integer;
-      Max     : Integer)
+      Min     : Position;
+      Max     : Position)
      return GString
    is
-      Buffer : String (1 .. Max - Min);
+      Buffer : String (1 .. Integer (Max) - Integer (Min));
       TR     : constant Text_Range_Type :=
-        (Min, Max, Buffer (Buffer'First)'Address);
+        (Int_32 (Min), Int_32 (Max), Buffer (Buffer'First)'Address);
       Length : Integer;
-      pragma Warnings (Off, Length);
+      pragma Unreferenced (Length);
    begin
       Length := GetTextRange (Control, TR);
       return GWindows.GStrings.To_GString_From_String (Buffer);
@@ -3520,8 +3524,8 @@ package body GWindows.Scintilla is
 
    procedure Indicator_Clear_Range
      (Control : in out Scintilla_Type;
-      start   : Integer;
-      length  : Integer)
+      start   : Position;
+      length  : Position)
    is
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -3540,8 +3544,8 @@ package body GWindows.Scintilla is
 
    procedure Indicator_Fill_Range
      (Control : in out Scintilla_Type;
-      start   : Integer;
-      length  : Integer)
+      start   : Position;
+      length  : Position)
    is
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -4146,33 +4150,46 @@ package body GWindows.Scintilla is
       Return_Value : in out GWindows.Types.Lresult)
    is
       pragma Warnings (Off, Control);
-      pragma Warnings (Off, Return_Value);
+      pragma Unmodified (Return_Value);
 
-      type STRUCT_SCNOTIFICATION is
+      type uptr_t is new Types.Wparam;   --  32 or 64 bit
+      type unsigned_int is mod 2 ** 32;  --  32 bit
+
+      --  Here we need to figure out whether we have
+      --  Scintilla's "int" (32 or 64 bit) or C++'s "int" (32 bit).
+      --
+      --  Those guys seem to have guessed out correctly:
+      --    https://docs.rs/scintilla-sys/4.0.9/
+      --      scintilla_sys/struct.SCNotification.html
+
+      type STRUCT_SCNotification is
          record
-            Handle           : GWindows.Types.Handle;
-            ID               : Integer;
-            Code             : Integer;
+            --  Sci_NotifyHeader
+            Handle           : Types.Handle;
+            ID_From          : uptr_t;
+            Code             : unsigned_int;
+            --
             Pos              : Position;
-            ch               : Integer;
-            modifiers        : Integer;
-            modificationType : Integer;
+            ch               : Int_32;
+            modifiers        : Int_32;
+            modificationType : Int_32;
             text             : System.Address;
-            length           : Integer;
-            linesAdded       : Integer;
-            message          : Integer;
-            wParam           : Integer;
-            lParam           : Integer;
-            line             : Integer;
-            foldLevelNow     : Integer;
-            foldLevelPrev    : Integer;
-            margin           : Integer;
-            listType         : Integer;
-            x                : Integer;
-            y                : Integer;
+            length           : Position;
+            linesAdded       : Position;
+            message          : Int_32;
+            wParam           : Types.Wparam;
+            lParam           : Types.Lparam;
+            line             : Position;
+            foldLevelNow     : Int_32;
+            foldLevelPrev    : Int_32;
+            margin           : Int_32;
+            listType         : Int_32;
+            x                : Int_32;
+            y                : Int_32;
          end record;
-      pragma Convention (C,  STRUCT_SCNOTIFICATION);
-      type PSTRUCT_SCNOTIFICATION is access all STRUCT_SCNOTIFICATION;
+      pragma Convention (C,  STRUCT_SCNotification);
+
+      type PSTRUCT_SCNOTIFICATION is access all STRUCT_SCNotification;
 
       function To_PSTRUCT_SCNOTIFICATION is new
         Ada.Unchecked_Conversion (GWindows.Base.Pointer_To_Notification,
@@ -4208,7 +4225,7 @@ package body GWindows.Scintilla is
             declare
                use type System.Address;
 
-               type Text_Array is new String (1 .. NM.length);
+               type Text_Array is new String (1 .. Integer (NM.length));
                type Pointer_To_Text_Array is access all Text_Array;
 
                function To_PTA is new
@@ -4224,37 +4241,37 @@ package body GWindows.Scintilla is
                   begin
                      On_Modified (Scintilla_Type'Class (Window),
                                   NM.Pos,
-                                  NM.modificationType,
+                                  Integer (NM.modificationType),
                                   T (T'First .. T'Last - 1),
-                                  NM.linesAdded,
-                                  NM.line,
-                                  NM.foldLevelNow,
-                                  NM.foldLevelPrev);
+                                  Integer (NM.linesAdded),
+                                  Integer (NM.line),
+                                  Integer (NM.foldLevelNow),
+                                  Integer (NM.foldLevelPrev));
                   end;
                else
                   On_Modified (Scintilla_Type'Class (Window),
                                NM.Pos,
-                               NM.modificationType,
+                               Integer (NM.modificationType),
                                "",
-                               NM.linesAdded,
-                               NM.line,
-                               NM.foldLevelNow,
-                               NM.foldLevelPrev);
+                               Integer (NM.linesAdded),
+                               Integer (NM.line),
+                               Integer (NM.foldLevelNow),
+                               Integer (NM.foldLevelPrev));
                end if;
             end;
          when SCN_MACRORECORD =>
             On_Macro_Read (Scintilla_Type'Class (Window),
-                           NM.message,
+                           Integer (NM.message),
                            NM.wParam,
                            NM.lParam);
          when SCN_MARGINCLICK =>
             On_Margin_Click (Scintilla_Type'Class (Window),
                              NM.Pos,
-                             NM.margin);
+                             Integer (NM.margin));
          when SCN_NEEDSHOWN =>
             On_Need_Shown (Scintilla_Type'Class (Window),
                            NM.Pos,
-                           NM.length);
+                           Integer (NM.length));
          when SCN_DWELLSTART =>
             On_Dwell_Start (Scintilla_Type'Class (Window),
                             NM.Pos);
@@ -4263,7 +4280,7 @@ package body GWindows.Scintilla is
                             NM.Pos);
          when SCN_USERLISTSELECTION =>
             declare
-               type Text_Array is new String (1 .. NM.length);
+               type Text_Array is new String (1 .. Integer (NM.length));
                type Pointer_To_Text_Array is access all Text_Array;
 
                function To_PTA is new
@@ -4276,7 +4293,7 @@ package body GWindows.Scintilla is
                  (String (S.all));
             begin
                On_User_List_Selection (Scintilla_Type'Class (Window),
-                                       NM.listType,
+                                       Integer (NM.listType),
                                        T (T'First .. T'Last - 1));
             end;
          when SCN_CHARADDED =>
@@ -4429,7 +4446,7 @@ package body GWindows.Scintilla is
    function PositionFromLine
      (Control : Scintilla_Type;
       line : Integer)
-      return Integer
+      return Position
    is
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -4440,7 +4457,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end PositionFromLine;
 
    -----------------------
@@ -4626,7 +4643,7 @@ package body GWindows.Scintilla is
    function SearchInTarget
      (Control : Scintilla_Type;
       text : GString)
-      return Integer
+      return Position
    is
       S : String := GWindows.GStrings.To_String (text) & Character'Val (0);
 
@@ -4639,7 +4656,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end SearchInTarget;
 
    ----------------
@@ -7506,8 +7523,8 @@ package body GWindows.Scintilla is
 
    procedure On_Macro_Read (Control : in out Scintilla_Type;
                             Message : in     Integer;
-                            wParam  : in     Integer;
-                            lParam  : in     Integer)
+                            wParam  : in     Types.Wparam;
+                            lParam  : in     Types.Lparam)
    is
    begin
       Fire_On_Macro_Read (Control,
@@ -7534,8 +7551,8 @@ package body GWindows.Scintilla is
 
    procedure Fire_On_Macro_Read (Control : in out Scintilla_Type;
                                  Message : in     Integer;
-                                 wParam  : in     Integer;
-                                 lParam  : in     Integer)
+                                 wParam  : in     Types.Wparam;
+                                 lParam  : in     Types.Lparam)
    is
       use GWindows.Base;
    begin

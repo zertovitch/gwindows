@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2020 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -31,8 +31,6 @@
 -- be located on the web at one of the following places:                    --
 --   https://sourceforge.net/projects/gnavi/                                --
 --   https://github.com/zertovitch/gwindows                                 --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -77,29 +75,51 @@ package GWindows.Scintilla is
 
    INVALID_POSITION : constant := -1;
 
-   subtype Position is Integer;
+   --  Types are as described in https://www.scintilla.org/ScintillaDoc.html
+   --  as of 2021-11-20.
+   --  Subject to change...
+
+   type Int is range
+     -(2 ** (Standard'Address_Size - 1)) ..
+      (2 ** (Standard'Address_Size - 1)) - 1;
+   for Int'Size use Standard'Address_Size;
+   --  "Arguments are 32-bit or 64-bit signed integers depending
+   --   on the platform. Equivalent to intptr_t."
+
+   subtype Position is Int;
+   subtype Line_t is Int;
 
    type Cell_Array_Type is array (Natural range <>) of Integer;
 
+   type Int_32 is range -(2 ** 31) .. (2 ** 31) - 1;
+   for Int_32'Size use 32;
+
+   subtype Sci_PositionCR is Int_32;
+   --  "In a future release the type Sci_PositionCR will be redefined
+   --   to be 64-bits when Scintilla is built for 64-bits on all platforms."
+
    type Text_Range_Type is
       record
-         Min  : Integer;
-         Max  : Integer;
+         Min  : Sci_PositionCR;
+         Max  : Sci_PositionCR;
          Text : System.Address;
       end record;
+   --  Scintilla name: Sci_TextRange
 
    type Format_Range_Type is new Text_Range_Type;
 
-   type Key_Mod is new Integer;
+   type Key_Mod is new Int_32;
 
    type Find_Text_Type is
       record
-         Min  : Integer;
-         Max  : Integer;
+         Min  : Sci_PositionCR;
+         Max  : Sci_PositionCR;
          Text : System.Address;
-         TMin : Integer;
-         TMax : Integer;
+         TMin : Sci_PositionCR;
+         TMax : Sci_PositionCR;
       end record;
+   --  Scintilla name: Sci_TextToFind
+
    type Find_Text_Access is access all Find_Text_Type;
 
    procedure AddText
@@ -121,7 +141,7 @@ package GWindows.Scintilla is
    procedure ClearDocumentStyle (Control : in out Scintilla_Type);
    --  Set all style bytes to 0, remove all folding information
 
-   function GetLength (Control : Scintilla_Type) return Integer;
+   function GetLength (Control : Scintilla_Type) return Position;
    --  The number of characters in the document
 
    function GetCharAt
@@ -572,13 +592,13 @@ package GWindows.Scintilla is
 
    procedure Indicator_Clear_Range
      (Control : in out Scintilla_Type;
-      start   : Integer;
-      length  : Integer);
+      start   : Position;
+      length  : Position);
 
    procedure Indicator_Fill_Range
      (Control : in out Scintilla_Type;
-      start   : Integer;
-      length  : Integer);
+      start   : Position;
+      length  : Position);
 
    procedure SetStyleBits
      (Control : in out Scintilla_Type; bits : Integer);
@@ -1280,8 +1300,8 @@ package GWindows.Scintilla is
 
    function GetTextRange
      (Control : Scintilla_Type;
-      Min     : Integer;
-      Max     : Integer)
+      Min     : Position;
+      Max     : Position)
      return GString;
 
    function GetTextRange
@@ -1304,7 +1324,7 @@ package GWindows.Scintilla is
    --  Retrieve the line containing a Position.
 
    function PositionFromLine
-     (Control : Scintilla_Type; line : Integer) return Integer;
+     (Control : Scintilla_Type; line : Integer) return Position;
    --  Retrieve the Position at the start of a line.
 
    procedure LineScroll
@@ -1404,7 +1424,7 @@ package GWindows.Scintilla is
 
    function SearchInTarget
      (Control : Scintilla_Type; text : GString)
-     return Integer;
+     return Position;
    --  Search for a counted GString in the target and set the target
    --  to the found range. Text is counted so it can contain nulls.
    --  Returns length of range or -1 for failure in which case target
@@ -2101,8 +2121,8 @@ package GWindows.Scintilla is
    type Macro_Read_Event is access
      procedure (Control : in out GWindows.Base.Base_Window_Type'Class;
                 Message : in     Integer;
-                wParam  : in     Integer;
-                lParam  : in     Integer);
+                wParam  : in     Types.Wparam;
+                lParam  : in     Types.Lparam);
 
    type Margin_Click_Event is access
      procedure (Control : in out GWindows.Base.Base_Window_Type'Class;
@@ -2202,8 +2222,8 @@ package GWindows.Scintilla is
       Handler : in     Macro_Read_Event);
    procedure Fire_On_Macro_Read (Control : in out Scintilla_Type;
                                  Message : in     Integer;
-                                 wParam  : in     Integer;
-                                 lParam  : in     Integer);
+                                 wParam  : in     Types.Wparam;
+                                 lParam  : in     Types.Lparam);
 
    procedure On_Margin_Click_Handler (Control : in out Scintilla_Type;
                                       Handler : in     Margin_Click_Event);
@@ -2329,8 +2349,8 @@ package GWindows.Scintilla is
 
    procedure On_Macro_Read (Control : in out Scintilla_Type;
                             Message : in     Integer;
-                            wParam  : in     Integer;
-                            lParam  : in     Integer);
+                            wParam  : in     Types.Wparam;
+                            lParam  : in     Types.Lparam);
    --  Tell that an operation is being performed so that a choice can
    --  be made to record the fact if it is in a macro recording mode
 

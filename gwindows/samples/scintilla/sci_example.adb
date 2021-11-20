@@ -1,19 +1,27 @@
 --  Scintilla editor sample with Ada syntax.
 --
 --  Sci_Example.exe will work only if SciLexer.dll is in the same path.
---  SciLexer.dll can be found @ http://www.scintilla.org/ or in the redist directory.
+--  SciLexer.dll can be found @ http://www.scintilla.org/, or in the redist directory,
+--  or with the Notepad++ installation ( https://notepad-plus-plus.org/ ).
 --
---  For a complete application using GWindows.Scintilla, see the LEA project:
---  https://sf.net/projects/l-e-a/
+--  For a complete open-source application using GWindows.Scintilla, see the
+--  LEA (Lightweight Editor for Ada) project @
+--      https://sf.net/projects/l-e-a/
+--      https://github.com/zertovitch/lea
 
-with GWindows.Windows.Main;             use GWindows.Windows.Main;
-with GWindows.Scintilla;                use GWindows.Scintilla;
-with GWindows.Base;
 with GWindows.Application;
+with GWindows.Base;
 with GWindows.Colors;
+with GWindows.GStrings;
+with GWindows.Message_Boxes;
+with GWindows.Scintilla;
+with GWindows.Types;
+with GWindows.Windows.Main;
 
 procedure Sci_Example is
    pragma Linker_Options ("-mwindows");
+
+   use GWindows.Windows.Main, GWindows.Message_Boxes, GWindows.Scintilla;
 
    Main_Window : Main_Window_Type;
    Sci_Control : Scintilla_Type;
@@ -25,8 +33,8 @@ procedure Sci_Example is
      "constant declare delay delta digits do else elsif end entry exception " &
      "exit for function generic goto if in interface is limited loop mod new not null of " &
      "or others out overriding package pragma private procedure protected raise range " &
-     "record rem renames requeue return reverse select separate some subtype synchronized tagged " &
-     "task terminate then type until use when while with xor";
+     "record rem renames requeue return reverse select separate some subtype synchronized " &
+     "tagged task terminate then type until use when while with xor";
 
    procedure Do_Character_Added
       (Window      : in out GWindows.Base.Base_Window_Type'Class;
@@ -130,8 +138,22 @@ procedure Sci_Example is
       end if;
    end Do_Character_Added;
 
+   NL : constant GWindows.GCharacter := GWindows.GCharacter'Val (10);
+
 begin
    Create (Main_Window, "Scintilla Example");
+
+   if not SCI_Lexer_DLL_Successfully_Loaded then
+     Message_Box (
+       "DLL error - could not load scilexer.dll",
+       "Either the file scilexer.dll doesn't exist, or there is a 32 vs. 64 bit mismatch." & NL &
+       "You can copy scilexer.dll from the .\gwindows\redist directory." & NL &
+       "This program is a" &
+       GWindows.GStrings.To_GString_From_String (Integer'Image (GWindows.Types.Wparam'Size)) &
+       " bit application.",
+       Icon => Error_Icon
+     );
+   end if;
 
    On_Create_Handler (Sci_Control, Do_Create'Unrestricted_Access);
    Create (Sci_Control, Main_Window, 1, 1, 1, 1);
