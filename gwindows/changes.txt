@@ -12,6 +12,8 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
+413: GWindows.Scintilla: method names are "de-camel-cased":
+        e.g.: "Move_Caret_Inside_View" instead of "MoveCaretInsideView"
 412: GWindows.Scintilla: works on both Intel x86 32-bit and x64 64-bit
         types of platforms
 411: GWindows.Common_Controls.Ex_List_View: method On_Free_Payload
