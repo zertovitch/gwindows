@@ -4,8 +4,8 @@
 --  SciLexer.dll can be found @ http://www.scintilla.org/, or in the redist directory,
 --  or with the Notepad++ installation ( https://notepad-plus-plus.org/ ).
 --
---  For a complete open-source application using GWindows.Scintilla, see the
---  LEA (Lightweight Editor for Ada) project @
+--  For a complete open-source application using GWindows.Scintilla, see
+--  the LEA (Lightweight Editor for Ada) project @
 --      https://sf.net/projects/l-e-a/
 --      https://github.com/zertovitch/lea
 
@@ -18,10 +18,14 @@ with GWindows.Scintilla;
 with GWindows.Types;
 with GWindows.Windows.Main;
 
+with Ada.Strings.Fixed;
+
 procedure Sci_Example is
    pragma Linker_Options ("-mwindows");
 
-   use GWindows.Windows.Main, GWindows.Message_Boxes, GWindows.Scintilla;
+   use Ada.Strings, Ada.Strings.Fixed,
+       GWindows.Message_Boxes, GWindows.Scintilla,
+       GWindows.GStrings, GWindows.Windows.Main;
 
    Main_Window : Main_Window_Type;
    Sci_Control : Scintilla_Type;
@@ -59,7 +63,7 @@ procedure Sci_Example is
       SW.On_Character_Added_Handler (Do_Character_Added'Unrestricted_Access);
 
       --  Set up editor
-      SW.Set_EOL_Mode (SC_EOL_CR);
+      SW.Set_EOL_Mode (SC_EOL_LF);
       SW.Set_Tab_Width (TAB_WIDTH);
       SW.Set_Use_Tabs (False);
       SW.Set_Edge_Column (100);
@@ -111,7 +115,7 @@ procedure Sci_Example is
       SW.Focus;
    end Do_Create;
 
-   CR : constant GWindows.GCharacter := GWindows.GCharacter'Val (13);
+   --  CR : constant GWindows.GCharacter := GWindows.GCharacter'Val (13);
    LF : constant GWindows.GCharacter := GWindows.GCharacter'Val (10);
 
    NL : constant GWindows.GCharacter := LF;  --  We use Unix end-of-lines
@@ -121,27 +125,22 @@ procedure Sci_Example is
       Special_Key : in     GWindows.Windows.Special_Key_Type;
       Value       : in     GWindows.GCharacter)
    is
-   pragma Unreferenced (Special_Key);
+      pragma Unreferenced (Special_Key);
       CurPos : constant Position := Get_Current_Pos (Scintilla_Type (Window));
+      SW : Scintilla_Type renames Scintilla_Type (Window);
+      Line, Prev_Loc : Integer;
    begin
-      if Value = LF or Value = CR then
-         declare
-            Line     : constant Integer := Line_From_Position
-              (Scintilla_Type (Window), CurPos);
-            Prev_Loc : constant Integer := Get_Line_Indentation
-              (Scintilla_Type (Window), Line - 1);
-         begin
-            if Line > 0 and Prev_Loc > 0 then
-               Set_Line_Indentation (Scintilla_Type (Window),
-                                   Line,
-                                   Prev_Loc - TAB_WIDTH);
-            end if;
-         end;
+      if Value = LF then
+         Line     := SW.Line_From_Position (CurPos);
+         Prev_Loc := SW.Get_Line_Indentation (Line - 1);
+         if Line > 0 and Prev_Loc > 0 then
+            SW.Add_Text (To_GString_From_String (Prev_Loc * ' '));
+         end if;
       end if;
    end Do_Character_Added;
 
 begin
-   Create (Main_Window, "Scintilla Example");
+   Main_Window.Create ("Scintilla Example");
 
    if not SCI_Lexer_DLL_Successfully_Loaded then
      Message_Box (
@@ -155,11 +154,11 @@ begin
      );
    end if;
 
-   On_Create_Handler (Sci_Control, Do_Create'Unrestricted_Access);
-   Create (Sci_Control, Main_Window, 1, 1, 1, 1);
+   Sci_Control.On_Create_Handler (Do_Create'Unrestricted_Access);
+   Sci_Control.Create (Main_Window, 1, 1, 1, 1);
 
-   Add_Text (Sci_Control,
-     "with Ada.Text_IO; use Ada.Text_IO;" & NL &
+   Sci_Control.Add_Text (
+     "with Ada.Text_IO; use Ada.Text_IO;" & NL & NL &
      "procedure Hello is"                 & NL &
      "begin"                              & NL &
      "    "                               & NL &
@@ -168,18 +167,18 @@ begin
      "   for i in 1 .. 10 loop"           & NL &
      "      "                             & NL &
      "      --  Now, it's your turn!"     & NL &
-     "      "                             & NL &
-     "      "                             & NL &
+     "       "                            & NL &
+     "        "                           & NL &
      "   --  For a complete application using GWindows.Scintilla, see" & NL &
-     "   --  LEA (Lightweight Editor for Ada) project @"               & NL &
+     "   --  the LEA (Lightweight Editor for Ada) project @"           & NL &
      "   --      https://sf.net/projects/l-e-a/"                       & NL &
      "   --      https://github.com/zertovitch/lea"                    & NL
    );
    --  NB: at some places we have put extra spaces to show off indentation guides...
 
-   Dock (Sci_Control, GWindows.Base.Fill);
+   Sci_Control.Dock (GWindows.Base.Fill);
 
-   Visible (Main_Window);
+   Main_Window.Visible;
 
    GWindows.Application.Message_Loop;
 end Sci_Example;
