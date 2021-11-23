@@ -4348,6 +4348,38 @@ package body GWindows.Common_Controls is
    end Add_String;
 
    ----------------
+   -- Get_String --
+   ----------------
+
+   procedure Get_String
+     (Control     : in out Toolbar_Control_Type;
+      Index       :        Natural;
+      Text        :    out GString;
+      Length      :    out Natural)
+   is
+      TB_GETSTRINGA : constant := WM_USER + 92;
+      TB_GETSTRINGW : constant := WM_USER + 91;
+      TB_GETSTRING : constant array (Character_Mode_Type) of
+         Interfaces.C.int :=
+            (ANSI    => TB_GETSTRINGA,
+             Unicode => TB_GETSTRINGW);
+
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := TB_GETSTRING (Character_Mode);
+         wParam : GWindows.Types.Lparam :=
+           GWindows.Types.Lparam (
+             Text'Length - 1 +
+             --  "- 1" is for holding the C NUL character.
+             Index * 2**16);
+         lParam : System.Address        := Text'Address) return Natural;
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      Length := SendMessage;
+   end Get_String;
+
+   ----------------
    -- Add_Button --
    ----------------
 
