@@ -12,10 +12,12 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
+417: GWindows.Common_Controls.Ex_Tb (toolbar): is now 64-bit compatible;
+        see LEA http://l-e-a.sf.net/ , LEA_GWin.Toolbars for an example.
 414: GWindows.Scintilla: method names are "de-camel-cased":
-        e.g.: "Move_Caret_Inside_View" instead of "MoveCaretInsideView"
+        e.g.: "Move_Caret_Inside_View" instead of "MoveCaretInsideView".
 412: GWindows.Scintilla: works on both Intel x86 32-bit and x64 64-bit
-        types of platforms
+        types of platforms.
 411: GWindows.Common_Controls.Ex_List_View: method On_Free_Payload
         is now public and can be overriden with effect.
 410: GWindows.Common_Controls.Ex_List_View: Sort can use a comparison

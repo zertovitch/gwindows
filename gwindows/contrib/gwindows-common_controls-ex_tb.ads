@@ -1,12 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
---                     Gwindows.Common_controls.Ex_Tb                       --
+--                     GWindows.Common_controls.Ex_Tb                       --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                   Copyright (C) 1999 - 2021 KonAd GmbH                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -26,15 +27,16 @@
 -- however invalidate  any other reasons why  the executable file  might be --
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
--- More information about GWINDOWS and the most current public version can  --
--- be located on the web at http://www.adapower.com/gwindows                --
+-- More information about GWindows and the latest current release can       --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 --  Toolbar with extended functions and styles
 ------------------------------------------------------------------------------
 
 with GWindows.Image_Lists.Ex_Image_Lists;
-use GWindows.Image_Lists.Ex_Image_Lists;
 
 package GWindows.Common_Controls.Ex_Tb is
 
@@ -65,9 +67,12 @@ package GWindows.Common_Controls.Ex_Tb is
    --  create ex_toolbar
    --  max_buttons: max number of buttons
 
-   procedure Set_Image_List (Control : in out Ex_Toolbar_Control_Type;
-                             List    : in     Ex_Image_List_Type);
-   --  setting Image_list
+   procedure Set_Image_List
+     (Control : in out Ex_Toolbar_Control_Type;
+      List    : in     GWindows.Image_Lists.Ex_Image_Lists.Ex_Image_List_Type);
+   --  Setting Image_List.
+   --  NB: it is also possible to use Set_Image_List with List: Image_List_Type
+   --      from the parent type.
 
    procedure Add_Button (Control      : in out Ex_Toolbar_Control_Type;
                          Image_Index  : in     Natural;
