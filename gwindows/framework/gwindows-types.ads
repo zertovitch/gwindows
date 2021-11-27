@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2019 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -46,6 +46,10 @@ package GWindows.Types is
    type Wparam is mod 2 ** Standard'Address_Size;
    type Lparam is new Wparam;
    type Lresult is new Wparam;
+   type INT_PTR is range
+     -(2 ** (Standard'Address_Size - 1)) ..
+      (2 ** (Standard'Address_Size - 1)) - 1;
+   for INT_PTR'Size use Standard'Address_Size;
 
    function To_Handle (I : Integer) return Handle;
    function To_Handle (I : Interfaces.C.long) return Handle;
