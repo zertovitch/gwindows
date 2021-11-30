@@ -4401,15 +4401,6 @@ package body GWindows.Common_Controls is
       type BUTTON_ARRAY is array (1 .. 1) of TBBUTTON;
       TB : BUTTON_ARRAY;
       TBSTYLE_AUTOSIZE : constant := 16#10#;
-      use type GWindows.Types.Wparam;
-
-      procedure Sendmessage_Buttonstructsize
-        (Hwnd   : GWindows.Types.Handle := Handle (Control);
-         Umsg   : Interfaces.C.int      := TB_BUTTONSTRUCTSIZE;
-         Wparam : GWindows.Types.Wparam := TBBUTTON'Size / 8;
-         Lparam : GWindows.Types.Lparam := 0);
-      pragma Import (Stdcall, Sendmessage_Buttonstructsize,
-                       "SendMessage" & Character_Mode_Identifier);
 
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -4419,7 +4410,6 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Sendmessage_Buttonstructsize;
       TB (1).Image := Image_Index;
       TB (1).Command := Command;
       TB (1).Style := TBSTYLE_AUTOSIZE;
@@ -4437,15 +4427,6 @@ package body GWindows.Common_Controls is
       type BUTTON_ARRAY is array (1 .. 1) of TBBUTTON;
       TB : BUTTON_ARRAY;
       TBSTYLE_AUTOSIZE : constant := 16#10#;
-      use type GWindows.Types.Wparam;
-
-      procedure Sendmessage_Buttonstructsize
-        (Hwnd   : GWindows.Types.Handle := Handle (Control);
-         Umsg   : Interfaces.C.int      := TB_BUTTONSTRUCTSIZE;
-         Wparam : GWindows.Types.Wparam := TBBUTTON'Size / 8;
-         Lparam : GWindows.Types.Lparam := 0);
-      pragma Import (Stdcall, Sendmessage_Buttonstructsize,
-                       "SendMessage" & Character_Mode_Identifier);
 
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -4455,7 +4436,6 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
    begin
-      Sendmessage_Buttonstructsize;
       TB (1).Image := Image_Index;
       TB (1).Command := Command;
       TB (1).Style := TBSTYLE_AUTOSIZE;
@@ -4839,15 +4819,19 @@ package body GWindows.Common_Controls is
 
    procedure On_Create (Control : in out Toolbar_Control_Type)
    is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := TB_BUTTONSTRUCTSIZE;
-         wParam : GWindows.Types.Wparam := 20;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
+      use type Types.Wparam;
+      procedure SendMessage_TB_Button_Struct_Size
+        (hwnd   : Types.Handle     := Handle (Control);
+         uMsg   : Interfaces.C.int := TB_BUTTONSTRUCTSIZE;
+         wParam : Types.Wparam     := TBBUTTON'Size / 8;
+         lParam : Types.Lparam     := 0);
+      pragma Import (StdCall, SendMessage_TB_Button_Struct_Size,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      SendMessage_TB_Button_Struct_Size;
+      --  ^ This call is needed in order to have, for instance, tool
+      --    tips working correctly on 64-bit builds. Obviously there was
+      --    a mess around the TBBUTTON C struct in Windows API's design.
    end On_Create;
 
    procedure On_Command
