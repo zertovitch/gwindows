@@ -769,6 +769,17 @@ package body GWindows.Base is
                     fuFlags => SWP_NOMOVE or SWP_NOSIZE);
    end Order;
 
+   -----------------------
+   -- Set_Active_Window --
+   -----------------------
+
+   procedure Set_Active_Window (Window : in out Base_Window_Type) is
+      procedure SetActiveWindow (HWND : GWindows.Types.Handle);
+      pragma Import (StdCall, SetActiveWindow, "SetActiveWindow");
+   begin
+     SetActiveWindow (Handle (Window));
+   end Set_Active_Window;
+
    ------------
    -- Freeze --
    ------------

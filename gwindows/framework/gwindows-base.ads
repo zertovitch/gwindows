@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -144,6 +144,13 @@ package GWindows.Base is
    procedure Order (Window       : in out Base_Window_Type;
                     After_Window : in     Base_Window_Type'Class);
    --  Move window to position After_Window in layout order
+
+   procedure Set_Active_Window (Window : in out Base_Window_Type);
+   --  The Set_Active_Window procedure activates a window,
+   --  but not if the application is in the background.
+   --  The window will be brought into the foreground (top of Z-Order)
+   --  if its application is in the foreground when the system activates
+   --  the window.
 
    procedure Horizontal_Scroll_Bar (Window : in out Base_Window_Type;
                                     State  : in     Boolean := True);
