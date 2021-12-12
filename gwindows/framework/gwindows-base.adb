@@ -777,8 +777,19 @@ package body GWindows.Base is
       procedure SetActiveWindow (HWND : GWindows.Types.Handle);
       pragma Import (StdCall, SetActiveWindow, "SetActiveWindow");
    begin
-     SetActiveWindow (Handle (Window));
+      SetActiveWindow (Handle (Window));
    end Set_Active_Window;
+
+   ---------------------------
+   -- Set_Foreground_Window --
+   ---------------------------
+
+   procedure Set_Foreground_Window (Window : in out Base_Window_Type) is
+      procedure SetForegroundWindow (HWND : GWindows.Types.Handle);
+      pragma Import (StdCall, SetForegroundWindow, "SetForegroundWindow");
+   begin
+      SetForegroundWindow (Handle (Window));
+   end Set_Foreground_Window;
 
    ------------
    -- Freeze --

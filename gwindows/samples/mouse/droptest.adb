@@ -15,7 +15,10 @@ procedure DropTest is
       File_Names : in     GWindows.Windows.Array_Of_File_Names)
    is
    begin
-      --  Attempts to bring the window on the foreground.
+      --  Bring the window on the foreground.
+      Window.Set_Foreground_Window;
+      --  The two further steps are possibly
+      --  superfluous in our case:
       Window.Set_Active_Window;
       Window.Focus;
       --

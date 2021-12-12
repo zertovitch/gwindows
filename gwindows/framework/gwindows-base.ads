@@ -152,6 +152,10 @@ package GWindows.Base is
    --  if its application is in the foreground when the system activates
    --  the window.
 
+   procedure Set_Foreground_Window (Window : in out Base_Window_Type);
+   --  Brings the thread that created the specified window into the
+   --  foreground and activates the window.
+
    procedure Horizontal_Scroll_Bar (Window : in out Base_Window_Type;
                                     State  : in     Boolean := True);
    function Horizontal_Scroll_Bar (Window : in Base_Window_Type)
