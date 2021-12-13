@@ -20,6 +20,7 @@ project GWindows_Test is
       "test_clipboard.adb",
       "test_errors.adb",
       "test_locale.adb",
+      "test_screen_visibility.adb",
       "test_system_tray.adb",
       "test_taskbar.adb",
       "test_up_down.adb",

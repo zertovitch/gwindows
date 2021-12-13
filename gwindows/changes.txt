@@ -12,6 +12,7 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
+424: GWindows.Application: added function Screen_Visibility
 423: GWindows.Application: added Enumerate_Display_Monitors
 422: GWindows.Base: added Set_Foreground_Window
 421: GWindows.Base: added Set_Active_Window

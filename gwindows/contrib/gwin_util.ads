@@ -129,6 +129,9 @@ package GWin_Util is
 
   function Valid_Left_Top (Left, Top: Integer)
     return Boolean;
+  pragma Obsolescent (Valid_Left_Top,
+    "That function is bogus on multiple screens. "&
+    "Use GWindows.Application.Screen_Visibility instead");
 
   function Find_short_path_name( long: String ) return String;
 

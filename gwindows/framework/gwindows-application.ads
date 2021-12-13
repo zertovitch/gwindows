@@ -178,4 +178,14 @@ package GWindows.Application is
    --  The primary monitor is not always the first monitor
    --  in the enumeration!
 
+   type Screen_Visibility_Type is (Fair, Poor, Invisible);
+
+   function Screen_Visibility
+     (Left_Top_Corner : Types.Point_Type;
+      Minimum_Width   : Positive := 200;
+      Minimum_Height  : Positive := 50)
+      return Screen_Visibility_Type;
+   --  Determines the potential visibility of a window's (left, top) corner.
+   --  The check is done for all available monitors.
+
 end GWindows.Application;

@@ -293,6 +293,45 @@ package body GWindows.Application is
       EnumDisplayMonitors;
    end Enumerate_Display_Monitors;
 
+   -----------------------
+   -- Screen_Visibility --
+   -----------------------
+
+   function Screen_Visibility
+     (Left_Top_Corner : Types.Point_Type;
+      Minimum_Width   : Positive := 200;
+      Minimum_Height  : Positive := 50)
+      return Screen_Visibility_Type
+   is
+      Result : Screen_Visibility_Type := Invisible;
+
+      procedure Check_Point_In_Monitor (Rectangle : Types.Rectangle_Type) is
+         Is_In_Rectangle, Is_In_Restricted_Rectangle : Boolean;
+      begin
+         Is_In_Rectangle :=
+            Left_Top_Corner.X
+              in Rectangle.Left .. Rectangle.Right
+            and then Left_Top_Corner.Y
+              in Rectangle.Top .. Rectangle.Bottom;
+         Is_In_Restricted_Rectangle :=
+            Is_In_Rectangle
+            and then Left_Top_Corner.X <= Rectangle.Right - Minimum_Width
+            and then Left_Top_Corner.Y <= Rectangle.Bottom - Minimum_Height;
+         if Is_In_Rectangle and Result = Invisible then
+            Result := Poor;
+         end if;
+         if Is_In_Restricted_Rectangle and Result = Poor then
+            Result := Fair;
+         end if;
+      end Check_Point_In_Monitor;
+
+      procedure Check_Point_In_Monitors is
+        new Enumerate_Display_Monitors (Check_Point_In_Monitor);
+   begin
+      Check_Point_In_Monitors;
+      return Result;
+   end Screen_Visibility;
+
    -------------------------
    -- Detach_From_Console --
    -------------------------
