@@ -12,20 +12,22 @@ project GWindows_Samples is
    for Exec_Dir use "samples";
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
    for Main use (
-     "game_of_life_interactive.adb",  --  Passive *and* active drawing demo
-     "cap_test.adb",                  --  Demo for mouse capture, drag & drop, and Get_Window_At_Location
-     "droptest.adb",                  --  Demo for dragging files from Explorer onto our window
-     --  "db_view",                   --  Database demo (need to fix the demo database...)
-     "mdi_example.adb",               --  Multi-document example (see AZip, LEA or TeXCAD for full apps)
-     "tab_in_dialog_test.adb",
-     "tab_test.adb",
-     "sci_example.adb",               --  scintilla editor
-     "splitters.adb", 
-     "scribble.adb",                  --  Active drawing demo
-     "scribble2.adb",                 --  Active drawing demo
-     "text_spin.adb",                 --  Drawing demo
-     "control_test.adb",              --  controls
-     "win_controls.adb"               --  other controls (combo boxes)
+     "cap_test.adb",                  --  .\mouse\       Demo for mouse capture, drag & drop, and Get_Window_At_Location
+     "control_test.adb",              --  .\controls\    Controls
+     "droptest.adb",                  --  .\mouse\       Demo for dragging files from Explorer onto our window
+     "game_of_life_interactive.adb",  --  .\drawing\     Passive *and* active drawing demo
+     "mdi_example.adb",               --  .\mdi\         Multi-document example (see AZip, LEA or TeXCAD for full apps)
+     "point_test.adb",                --  .\simple\      Shows mouse pointer coordinates
+     "sci_example.adb",               --  .\scintilla\   Scintilla editor demo  (see LEA for full app)
+     "scribble.adb",                  --  .\drawing\     Active drawing demo
+     "scribble2.adb",                 --  .\drawing\     Active drawing demo
+     "splitters.adb",                 --  .\simple\
+     "tab_in_dialog_test.adb",        --  .\controls\
+     "tab_test.adb",                  --  .\controls\
+     "text_spin.adb",                 --  .\drawing\     Drawing demo
+     "win_controls.adb"               --  .\controls\    Other controls (combo boxes)
+     --
+     --  "db_view",                   --  .\databases\   Database demo (first, need to fix the demo database...)
      --  "tcl_example.adb"
    );
 

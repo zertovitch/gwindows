@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -243,6 +245,53 @@ package body GWindows.Application is
    begin
       return GWindows.Internal.Desktop_Height;
    end Desktop_Height;
+
+   --------------------------------
+   -- Enumerate_Display_Monitors --
+   --------------------------------
+
+   procedure Enumerate_Display_Monitors is
+      use GWindows.Types;
+
+      function Output_Monitor_Dims (
+           HMONITOR :        Handle;
+           HDC      :        Handle;
+           LPRECT   : access Rectangle_Type;
+           mLPARAM  :        Lparam
+         ) return Boolean;
+      pragma Convention (Stdcall, Output_Monitor_Dims);
+
+      function Output_Monitor_Dims (
+           HMONITOR :        Handle;
+           HDC      :        Handle;
+           LPRECT   : access Rectangle_Type;
+           mLPARAM  :        Lparam
+         ) return Boolean
+      is
+         pragma Unreferenced (HMONITOR, HDC, mLPARAM);
+      begin
+         Monitor_Dimensions (LPRECT.all);
+         return True;  --  Continue enumeration
+      end Output_Monitor_Dims;
+
+      type MONITORENUMPROC is access
+         function (
+           HMONITOR :        Handle;
+           HDC      :        Handle;
+           LPRECT   : access Rectangle_Type;
+           mLPARAM  :        Lparam
+         ) return Boolean;
+      pragma Convention (Stdcall, MONITORENUMPROC);
+
+      procedure EnumDisplayMonitors
+         (hdc      : Handle          := Null_Handle;
+          lprcClip : Wparam          := 0;
+          lpfnEnum : MONITORENUMPROC := Output_Monitor_Dims'Access;
+          dwData   : Lparam          := 0);
+      pragma Import (StdCall, EnumDisplayMonitors, "EnumDisplayMonitors");
+   begin
+      EnumDisplayMonitors;
+   end Enumerate_Display_Monitors;
 
    -------------------------
    -- Detach_From_Console --

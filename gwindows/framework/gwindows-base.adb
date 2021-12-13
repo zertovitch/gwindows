@@ -29,9 +29,8 @@
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
---   http://sf.net/projects/gnavi/                                          --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 

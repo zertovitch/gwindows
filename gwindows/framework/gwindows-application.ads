@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -162,9 +164,18 @@ package GWindows.Application is
    --  In any other case, the returned string is empty.
 
    function Desktop_Width return Natural;
-   --  Returns width of desktop
+   --  Returns width of desktop (on the primary monitor).
 
    function Desktop_Height return Natural;
-   --  Returns height of desktop
+   --  Returns height of desktop (on the primary monitor).
+
+   generic
+      with procedure Monitor_Dimensions
+        (Rectangle : GWindows.Types.Rectangle_Type);
+   procedure Enumerate_Display_Monitors;
+   --  Reveals the rectangles corresponding to each monitor.
+   --  The primary monitor matches Desktop_Width, Desktop_Height.
+   --  The primary monitor is not always the first monitor
+   --  in the enumeration!
 
 end GWindows.Application;
