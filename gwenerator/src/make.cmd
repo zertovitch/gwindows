@@ -28,15 +28,22 @@ del *.a
 rem Build AYACC
 if not exist ayacc.exe gnatmake -j0 -gnato -gnatVa -aI..\ayacc -D ..\obj\gnatdebg ayacc
 echo ** Compile the AYACC (RC.y) file to Ada sources
+
+rem --- Old Ayacc
 ayacc.exe rc.y off off on on >ayacc.log
 type ayacc.log
+rem --- New Ayacc (Ada France)
+rem ayacc.exe rc.y -s -v >ayacc.log
+
 rem Add verbose details to log file.
 echo.          >>ayacc.log
 type rc.verbose>>ayacc.log
 del  rc.verbose
 rem
 if exist yyparse.adb del yyparse.adb
-ren rc.a yyparse.adb
+if exist rc.ada ren rc.ada yyparse.adb
+rem  In case of old ayacc with .a
+if exist rc.a   ren rc.a yyparse.adb
 shift
 rem
 

@@ -676,7 +676,7 @@ package body GWen_Windows is
       Clear(gw.GNATMake_messages);
       gw.last_build_failed:= False;
       gw.Bar_Ada.Progress_Range(0, 100);
-      the_main:= gw'Access;
+      the_main:= gw'Unchecked_Access;
       declare
         cmd: constant String:= Trim(S(gw.proj.Ada_command), Left);
       begin
