@@ -2,12 +2,12 @@
 echo.
 echo Script for building RC2GW.exe and GWenerator.exe
 echo.
-echo make: option -h   shows this help only
-echo              -r   recreates RC2GW's and GWenerator's parser sources
-echo                      from RC.y and RC.l
-echo              -gen recreates GWenerator's own GUI Ada sources with rc2gw
-echo              -res recompiles the resource for getting bitmaps,
-echo                      icons, etc. actualized
+echo make: option -h    shows this help only
+echo              -r    recreates RC2GW's and GWenerator's parser sources
+echo                       from RC.y and RC.l
+echo              -gen  recreates GWenerator's own GUI Ada sources with rc2gw
+echo              -res  recompiles the resource (gwenerator.rbj) for getting
+echo                       bitmaps, icons, etc. actualized
 echo.
 
 if "%1"=="-h" goto fin
@@ -60,8 +60,8 @@ if "%1"=="-res" windres GWenerator.rc GWenerator.rbj
 if "%1"=="-res" shift
 if not exist GWenerator.rbj windres GWenerator.rc GWenerator.rbj
 
-gnatmake %1 %2 gwenerator -PGWenerator.gpr -XBuild_Mode=Small
-gnatmake %1 %2 rc2gw      -PGWenerator.gpr -XBuild_Mode=Debug
+gnatmake %1 %2 gwenerator -PGWenerator.gpr -XGWenerator_Build_Mode=Small
+gnatmake %1 %2 rc2gw      -PGWenerator.gpr -XGWenerator_Build_Mode=Debug
 copy /b GWenerator.exe ..\GWenerator.exe
 copy /b rc2gw.exe ..\RC2GW.exe
 

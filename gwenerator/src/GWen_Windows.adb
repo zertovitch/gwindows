@@ -468,7 +468,6 @@ package body GWen_Windows is
     Create_and_Swap(url_gnat, box.GNAT_URL, box, "http://libre.adacore.com");
     Text(box.GNAT_Version, S2G("version " & CVer.Version));
     Create_and_Swap(url_gnavi_2, box.GNAVI_URL, box, S2G(RC_Help.Web));
-    Create_and_Swap(url_resedit, box.ResEdit_URL, box, "http://resedit.net");
     --  Complete the Grammar version info:
     box.RC_gramm_ver.Text( box.RC_gramm_ver.Text & S2G(RC_Help.Grammar_Version) );
     --  Complete the GWenerator version info:
