@@ -37,6 +37,9 @@
 package GWindows.Image_Lists.Ex_Image_Lists is
 
    type Ex_Image_List_Type is new Image_List_Type with null record;
+   pragma Obsolescent (Ex_Image_List_Type,
+     "Color depths are now covered by Color_Option parameter " &
+     "in Create* methods of parent type");
 
    type Color_Depth_Type is (Depth_4, Depth_8, Depth_16, Depth_24, Depth_32);
 

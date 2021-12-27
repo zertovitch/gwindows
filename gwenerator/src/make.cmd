@@ -33,6 +33,8 @@ rem --- Old Ayacc
 ayacc.exe rc.y off off on on >ayacc.log
 type ayacc.log
 rem --- New Ayacc (Ada France)
+rem     Waiting for the resolution of https://github.com/Ada-France/ayacc/issues/3
+rem     (Syntax Error doesn't show line number)
 rem ayacc.exe rc.y -s -v >ayacc.log
 
 rem Add verbose details to log file.
