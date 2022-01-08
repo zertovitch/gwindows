@@ -34,9 +34,6 @@ procedure Point_Test is
 
       use GWindows.Application, GWindows.GStrings, GWindows.GStrings.IO;
 
-      procedure Check_Point_In_Monitors is
-        new Enumerate_Display_Monitors (Check_Point_In_Monitor);
-
    begin
       Put_Line ("Click relative to Window :" &
                   Image (X) & " ," & Image (Y) &
@@ -48,7 +45,7 @@ procedure Point_Test is
                   "  ---  Desktop dimensions: " &
                   Image (Desktop_Width) & " ," &
                   Image (Desktop_Height));
-      Check_Point_In_Monitors;
+      Enumerate_Display_Monitors (Check_Point_In_Monitor'Unrestricted_Access);
       Put_Line ("Point is visible on monitor #" & Image (Monitor_With_Point));
    end Do_Mouse_Click;
 
@@ -66,16 +63,14 @@ procedure Point_Test is
       New_Line;
    end List_Monitor_Dimensions;
 
-   procedure List_All_Monitors_Dimensions is
-     new GWindows.Application.Enumerate_Display_Monitors (List_Monitor_Dimensions);
-
 begin
    Top.Create ("Click somewhere on this window's client area!");
    Top.Size (500, 100);
    Top.On_Left_Mouse_Button_Down_Handler (Do_Mouse_Click'Unrestricted_Access);
    Top.Visible;
    --
-   List_All_Monitors_Dimensions;
+   GWindows.Application.Enumerate_Display_Monitors
+     (List_Monitor_Dimensions'Unrestricted_Access);
    --
    GWindows.Application.Message_Loop;
 end Point_Test;

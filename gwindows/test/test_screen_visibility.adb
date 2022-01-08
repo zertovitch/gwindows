@@ -18,7 +18,8 @@ procedure Test_Screen_Visibility is
       Window.Text (
         To_GString_From_String (
           Screen_Visibility_Type'Image (Screen_Visibility ((Left, Top)))
-        ) & " = corner visibility; " & Image (Left) & ',' & Image (Top)
+        ) & " is my left, top corner visibility; " &
+        Image (Left) & ',' & Image (Top) & ". Move me!"
       );
    end Moved;
    --

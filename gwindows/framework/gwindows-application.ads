@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -169,16 +169,20 @@ package GWindows.Application is
    function Desktop_Height return Natural;
    --  Returns height of desktop (on the primary monitor).
 
-   generic
-      with procedure Monitor_Dimensions
-        (Rectangle : GWindows.Types.Rectangle_Type);
-   procedure Enumerate_Display_Monitors;
-   --  Reveals the rectangles corresponding to each monitor.
-   --  The primary monitor matches Desktop_Width, Desktop_Height.
-   --  The primary monitor is not always the first monitor
-   --  in the enumeration!
+   type Monitor_Dimensions is access
+      procedure (Rectangle : GWindows.Types.Rectangle_Type);
 
-   type Screen_Visibility_Type is (Fair, Poor, Invisible);
+   procedure Enumerate_Display_Monitors (M : Monitor_Dimensions);
+   --  Reveals the rectangles corresponding to each monitor.
+   --  * The primary monitor matches Desktop_Width, Desktop_Height.
+   --  * The primary monitor is not always the first monitor
+   --      in the enumeration!
+   --
+   --  A version of Enumerate_Display_Monitors using generics
+   --  instead of a call-back causes an unexpected exit with
+   --  GNAT GPL 2017, the last 32-bit version of GNAT.
+
+   type Screen_Visibility_Type is (Good, Fair, Poor);
 
    function Screen_Visibility
      (Left_Top_Corner : Types.Point_Type;

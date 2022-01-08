@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -250,7 +250,7 @@ package body GWindows.Application is
    -- Enumerate_Display_Monitors --
    --------------------------------
 
-   procedure Enumerate_Display_Monitors is
+   procedure Enumerate_Display_Monitors (M : Monitor_Dimensions) is
       use GWindows.Types;
 
       function Output_Monitor_Dims (
@@ -270,7 +270,7 @@ package body GWindows.Application is
       is
          pragma Unreferenced (HMONITOR, HDC, mLPARAM);
       begin
-         Monitor_Dimensions (LPRECT.all);
+         M (LPRECT.all);
          return True;  --  Continue enumeration
       end Output_Monitor_Dims;
 
@@ -303,32 +303,33 @@ package body GWindows.Application is
       Minimum_Height  : Positive := 50)
       return Screen_Visibility_Type
    is
-      Result : Screen_Visibility_Type := Invisible;
+      Result : Screen_Visibility_Type := Poor;
 
       procedure Check_Point_In_Monitor (Rectangle : Types.Rectangle_Type) is
          Is_In_Rectangle, Is_In_Restricted_Rectangle : Boolean;
       begin
          Is_In_Rectangle :=
-            Left_Top_Corner.X
-              in Rectangle.Left .. Rectangle.Right
-            and then Left_Top_Corner.Y
-              in Rectangle.Top .. Rectangle.Bottom;
+            Left_Top_Corner.X in            Rectangle.Left .. Rectangle.Right
+              and then Left_Top_Corner.Y in Rectangle.Top  .. Rectangle.Bottom;
+         --
          Is_In_Restricted_Rectangle :=
             Is_In_Rectangle
-            and then Left_Top_Corner.X <= Rectangle.Right - Minimum_Width
-            and then Left_Top_Corner.Y <= Rectangle.Bottom - Minimum_Height;
-         if Is_In_Rectangle and Result = Invisible then
-            Result := Poor;
-         end if;
-         if Is_In_Restricted_Rectangle and Result = Poor then
+              and then Left_Top_Corner.X <= Rectangle.Right - Minimum_Width
+              and then Left_Top_Corner.Y <= Rectangle.Bottom - Minimum_Height;
+         --
+         --  Promotion of the visibility if the tested
+         --  point is visible on the tested monitor.
+         --
+         if Is_In_Rectangle and Result = Poor then
             Result := Fair;
+         end if;
+         if Is_In_Restricted_Rectangle then
+            Result := Good;
          end if;
       end Check_Point_In_Monitor;
 
-      procedure Check_Point_In_Monitors is
-        new Enumerate_Display_Monitors (Check_Point_In_Monitor);
    begin
-      Check_Point_In_Monitors;
+      Enumerate_Display_Monitors (Check_Point_In_Monitor'Unrestricted_Access);
       return Result;
    end Screen_Visibility;
 
