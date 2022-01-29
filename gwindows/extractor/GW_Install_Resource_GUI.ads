@@ -1,14 +1,14 @@
 ---------------------------------------------------------------------------
--- GUI contents of resource script file: GW_Install.rc
--- Transcription time: 2021/01/01  20:16:58
--- GWenerator project file: GW_Install.gwen
+--  GUI contents of resource script file: GW_Install.rc
+--  Transcription time: 2022/01/29  20:34:34
+--  GWenerator project file: GW_Install.gwen
 --
--- Translated by the RC2GW or by the GWenerator tool.
--- URL: http://sf.net/projects/gnavi
+--  Translated by the RC2GW or by the GWenerator tool.
+--  URL: http://sf.net/projects/gnavi
 --
--- This file contains only automatically generated code. Do not edit this.
--- Rework the resource script instead, and re-run the translator.
--- RC Grammar version: 20-Jul-2019
+--  This file contains only automatically generated code. Do not edit this.
+--  Rework the resource script instead, and re-run the translator.
+--  RC Grammar version: 14-Apr-2021
 ---------------------------------------------------------------------------
 
 with GWindows.Base;                     use GWindows.Base;
@@ -33,15 +33,15 @@ package GW_Install_Resource_GUI is
 
   type Conflict_dialog_Type is new Window_Type with record
 
-    IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
-    IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
-    IDCANCEL: Dialog_Button_Type;    -- closes parent window after click
-    IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
-    -- Label: IDC_STATIC
+    IDOK: Default_Dialog_Button_Type;    --  Closes parent window after click
+    IDOK_permanent: Default_Button_Type;  --  Doesn't close parent window after click
+    IDCANCEL: Dialog_Button_Type;    --  Closes parent window after click
+    IDCANCEL_permanent: Button_Type;  --  Doesn't close parent window after click
+    --  Label: IDC_STATIC
     Installed_version: List_Box_Type;
     Installer_Version: List_Box_Type;
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
   end record; -- Conflict_dialog_Type
 
   --  Dialog at resource line 44
@@ -70,14 +70,14 @@ package GW_Install_Resource_GUI is
 
   type Goodbye_dialog_Type is new Window_Type with record
 
-    IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
-    IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
+    IDOK: Default_Dialog_Button_Type;    --  Closes parent window after click
+    IDOK_permanent: Default_Button_Type;  --  Doesn't close parent window after click
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
     Static_0005: Icon_Type;
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
     Static_0007: Bitmap_Type;
     GNAT_URL: Label_Type;
     MinGW_URL: Label_Type;
@@ -87,8 +87,8 @@ package GW_Install_Resource_GUI is
     GNAVI_URL: Label_Type;
     Static_0009: Bitmap_Type;
     ResEdit_URL: Label_Type;
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
   end record; -- Goodbye_dialog_Type
 
   --  Dialog at resource line 72
@@ -117,10 +117,10 @@ package GW_Install_Resource_GUI is
 
   type Goodbye_dialog_2_Type is new Window_Type with record
 
-    IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
-    IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
+    IDOK: Default_Dialog_Button_Type;    --  Closes parent window after click
+    IDOK_permanent: Default_Button_Type;  --  Doesn't close parent window after click
     Static_0001: Icon_Type;
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
     Static_0003: Group_Box_Type;
     Open_folder: Check_Box_Type;
     Open_user_guide: Check_Box_Type;
@@ -160,26 +160,26 @@ package GW_Install_Resource_GUI is
   type Main_install_dialog_Type is new Window_Type with record
 
     Static_0001: Group_Box_Type;
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
     Setup_title: Label_Type;
     Static_0005: Group_Box_Type;
-    -- Label: IDC_STATIC
-    -- Label: IDC_STATIC
+    --  Label: IDC_STATIC
+    --  Label: IDC_STATIC
     Directory_edit: Edit_Box_Type;
-    Directory_select_button: Dialog_Button_Type;    -- closes parent window after click
-    Directory_select_button_permanent: Button_Type; -- doesn't close parent window after click
+    Directory_select_button: Dialog_Button_Type;    --  Closes parent window after click
+    Directory_select_button_permanent: Button_Type;  --  Doesn't close parent window after click
     UNICODE_choice: Radio_Button_Type;
     ANSI_choice: Radio_Button_Type;
     Static_0008: Group_Box_Type;
     Static_0009: Bitmap_Type;
     GNATCOM_check: Check_Box_Type;
     GWen_check: Check_Box_Type;
-    IDOK: Default_Dialog_Button_Type;    -- closes parent window after click
-    IDOK_permanent: Default_Button_Type; -- doesn't close parent window after click
-    IDCANCEL: Dialog_Button_Type;    -- closes parent window after click
-    IDCANCEL_permanent: Button_Type; -- doesn't close parent window after click
+    IDOK: Default_Dialog_Button_Type;    --  Closes parent window after click
+    IDOK_permanent: Default_Button_Type;  --  Doesn't close parent window after click
+    IDCANCEL: Dialog_Button_Type;    --  Closes parent window after click
+    IDCANCEL_permanent: Button_Type;  --  Doesn't close parent window after click
   end record; -- Main_install_dialog_Type
 
   --  Dialog at resource line 123
@@ -241,18 +241,18 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "File extractor for the GWindows programming framework";
-    FileVersion: constant String:= "01-Jan-2021";
-    LegalCopyright: constant String:= "© 2012 .. 2021 G. de Montmollin (MIT license)";
+    FileVersion: constant String:= "29-Jan-2022";
+    LegalCopyright: constant String:= "© 2012 .. 2022 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWindows Extractor";
     Translation: constant:= 1033;
   end Version_info;
 
-  ------------------------------------------------
-  -- Defined resource symbols --> Ada constants --
-  ------------------------------------------------
+  --------------------------------------------------
+  --  Defined resource symbols --> Ada constants  --
+  --------------------------------------------------
 
-  -- NB: only items with a defined symbol get a constant here
-  -- These constants are needed for getting button and menu feedbacks.
+  --  NB: only items with a defined symbol get a constant here
+  --  These constants are needed for getting button and menu feedbacks.
 
   IDC_STATIC             : constant:=     -1;
   GNAVI_Logo             : constant:=    133;
@@ -291,16 +291,16 @@ package GW_Install_Resource_GUI is
   Open_gnatcom_folder    : constant:=  40025;
   Build_gnatcom          : constant:=  40026;
 
-  -- ** Some helper utilities (spec).
+  --  ** Some helper utilities (spec).
 
   procedure Dlg_to_Scn(
-    xd,yd,wd,hd:  in Integer;
-    xs,ys,ws,hs: out Integer);
+    xd,yd,wd,hd :  in Integer;
+    xs,ys,ws,hs : out Integer);
 
-  procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
+  procedure Use_GUI_Font (Window : in out GWindows.Base.Base_Window_Type'Class);
 
-  function Num_resource(id: Natural) return GString;  --  Just turn 123 into "#123".
+  function Num_resource (id : Natural) return GString;  --  Just turn 123 into "#123".
 
-  -- Last line of resource script file: 199
+  --  Last line of resource script file: 199
 
 end GW_Install_Resource_GUI;

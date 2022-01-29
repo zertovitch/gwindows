@@ -12,6 +12,10 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
+
+GWindows release, 29-Jan-2022 [rev. 429]
+========================================
+
 427: GWindows.Image_Lists: added color options;
         includes features of "extended" Ex_Image_List_Type
         in package GWindows.Image_Lists.Ex_Image_Lists, which
@@ -29,7 +33,7 @@ GWindows, upcoming release
 411: GWindows.Common_Controls.Ex_List_View: method On_Free_Payload
         is now public and can be overriden with effect.
 410: GWindows.Common_Controls.Ex_List_View: Sort can use a comparison
-        method not based on strings.
+        method not based on strings (e.g. a numerical comparison).
 
 GWindows release, 01-Jan-2021 [rev. 397]
 ========================================
