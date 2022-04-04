@@ -21,12 +21,58 @@ with GWindows.Windows;                  use GWindows.Windows;
 
 with Ada.Command_Line;                  use Ada.Command_Line;
 with Ada.Directories;                   use Ada.Directories;
+with Ada.Environment_Variables;
 with Ada.Exceptions;                    use Ada.Exceptions;
+with Ada.Strings.Fixed;
 with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
+with Ada.Text_IO;
 
 with Ada_Directories_Extensions; -- Ada 201X items absent in Ada 2005...
 
 procedure GW_Extract is
+
+  procedure Configure_ResEdit (re_dir : String) is
+    use Ada.Environment_Variables, Ada.Strings.Fixed, Ada.Text_IO;
+    xml : constant String := re_dir & "\ResEdit.xml";
+    bak : constant String := re_dir & "\ResEdit.bak.xml";
+    path : constant String := Value ("PATH");
+    start : Integer := path'First;
+    sep, stop : Natural;
+    f : File_Type;
+    procedure Try (incl : String) is
+    begin
+      if Ada.Directories.Exists (incl & "windows.h") then
+        Put_Line (f, "      <include path=""" & incl & """ />");
+      end if;
+    end Try;
+  begin
+    if Ada.Directories.Exists (xml) then
+      Copy_File (xml, bak);
+    end if;
+    Create (f, Out_File, xml);
+    Put_Line (f, "<!-- ResEdit configuration file, with some presets for GWenerator -->");
+    Put_Line (f, "<config>");
+    Put_Line (f, "  <wizard value=""false"" />");
+    Put_Line (f, "  <createProjectFolder value=""false"" />");
+    Put_Line (f, "  <autoCheckUpdate value=""false"" />");
+    Put_Line (f, "  <headerName>%barefilename%.h</headerName>");
+    Put_Line (f, "  <includes>");
+    while start <= path'Last loop
+      sep := Index (path (start .. path'Last), ";");
+      if sep = 0 then
+        stop := path'Last;
+      else
+        stop := sep - 1;
+      end if;
+      --  Remove the "bin" with - 3
+      Try (path (start .. stop - 3) & "i686-pc-mingw32\include\");
+      Try (path (start .. stop - 3) & "x86_64-w64-mingw32\include\");
+      start := stop + 2;
+    end loop;
+    Put_Line (f, "  </includes>");
+    Put_Line (f, "</config>");
+    Close (f);
+  end Configure_ResEdit;
 
   function S (Source : Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
@@ -222,6 +268,7 @@ procedure GW_Extract is
     GNAT, GNAVI, GNAVI_SF, GNAVI_Dis, MinGW, ResEdit : URL_Type;
     procedure Get_Data (dummy : in out GWindows.Base.Base_Window_Type'Class) is
       id : constant String := To_String (Install_dir);
+      gwen_dir : constant String := id & "\gwenerator";
     begin
       if Ciao_2.Open_folder.State = Checked then
         GWin_Util.Start (id & "\gwindows");
@@ -238,16 +285,17 @@ procedure GW_Extract is
         Set_Directory (mem_cur_dir);
       end if;
       if With_GWenerator then
+        Configure_ResEdit (gwen_dir);
         if Ciao_2.Build_gwenerator.State = Checked then
-          Set_Directory (id & "\gwenerator");
-          GWin_Util.Start (id & "\gwenerator\build.cmd", "-res", As_Minimized => True);
+          Set_Directory (gwen_dir);
+          GWin_Util.Start (gwen_dir & "\build.cmd", "-res", As_Minimized => True);
           Set_Directory (mem_cur_dir);
         end if;
         if Ciao_2.Open_gwenerator_folder.State = Checked then
-          GWin_Util.Start (id & "\gwenerator");
+          GWin_Util.Start (gwen_dir);
         end if;
         if Ciao_2.Open_gwenerator_doc.State = Checked then
-          GWin_Util.Start (id & "\gwenerator\gwenerator_info.html");
+          GWin_Util.Start (gwen_dir & "\gwenerator_info.html");
         end if;
       end if;
     end Get_Data;

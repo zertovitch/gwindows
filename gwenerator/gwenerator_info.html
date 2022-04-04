@@ -352,9 +352,14 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
     then, General &rarr; Include paths:<br><br>
       <img align=top border=1 width=624 height=462 alt="Include paths" src="img/re_03.png">
     <br><br>
-    We assume here that GNAT is installed in the directory "C:\GNAT\2019", just for example.<br>
-    Then the include directory required for ResEdit will be "C:\GNAT\2019\x86_64-pc-mingw32\include".
-    You can see the actual GNAT directory in the PATH (command "path" in the command-line interface, cmd.exe)<br>
+    We assume here that GNAT is installed in the directory "C:\GNAT\2021" (2021 is just an example and
+    the directory is rather C:\GNATPRO for GNAT Pro).<br>
+    Then the include directory required for ResEdit will be "C:\GNAT\2021\x86_64-pc-mingw32\include".
+    You can see the actual GNAT directory in the PATH (command "path" in the command-line interface, cmd.exe).
+    <br><br>
+    Note that this configuration point is automatically performed by the GWindows installer:
+    it scans the PATH for GNAT installations and searches for possible include paths.
+    A new ResEdit.xml configuration file is created with the correct path(s).<br>
   </p>
     <b><font face="Arial, Tahoma">Advices about using ResEdit</font></b>
   <p>
@@ -362,7 +367,9 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
     <li>It is recommended to have a proper naming convention for the ".h" files containing the resource constants.<br>
     It may be especially useful if you have several resource scripts in the same location.<br>
     For instance the interface with "GWenerator.rc" has "GWenerator.h" instead of the default "resource.h".<br>
-    To that aim, in the preferences, put <b>"%barefilename%.h"</b> instead of "resource.h" as Header file name.<br><br>
+    To that aim, in the preferences, put <b>"%barefilename%.h"</b> instead of "resource.h" as Header file name.
+    <br><br>
+    Note that this configuration point is also done for you by the GWindows installer.<br><br>
       <img align=top border=1 width=624 height=459 alt="Header file name" src="img/re_04.png">
     <br> <br>
     <li>Sometimes, the auto-resize feature of ResEdit is too narrow and the last word of some labels are cut out
