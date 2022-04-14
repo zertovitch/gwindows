@@ -46,7 +46,7 @@ package GWin_Util is
   function To_Lower (Value : GString) return GString;
   --  Converts case of GString to Lower
 
-  function To_URL_Encoding (s: String) return String;
+  function To_URL_Encoding (s : String) return String;
   --  Converts special characters in a string to the encoding used in URL's
   --  For instance, " " becomes "%20" .
 
@@ -54,10 +54,10 @@ package GWin_Util is
 
   use GWindows.Buttons;
 
-  boolean_to_state: constant array (Boolean) of Check_State_Type:=
+  boolean_to_state : constant array (Boolean) of Check_State_Type :=
     (True => Checked, False => Unchecked);
 
-  procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class);
+  procedure Use_GUI_Font (Window : in out GWindows.Base.Base_Window_Type'Class);
 
   -------------------------------------------
   --  Execute or start external processes  --
@@ -69,7 +69,7 @@ package GWin_Util is
     As_Minimized  : in Boolean := False
   );
 
-  procedure Exec (name : String; param : String:= "");
+  procedure Exec (name : String; param : String := "");
   Exec_failed : exception;
 
   procedure Exec_Command (the_command : String);
@@ -111,29 +111,29 @@ package GWin_Util is
   );
 
   type Windows_family is (Win32s, Win9x, NT);
-  procedure Get_Windows_version(
-    major, minor: out Integer;
+  procedure Get_Windows_version (
+    major, minor : out Integer;
     family      : out Windows_family
   );
-  cannot_get_Windows_version: exception;
+  cannot_get_Windows_version : exception;
 
   --  Toolbar styles (for GWindows.Common_Controls):
-  TBSTYLE_WRAPABLE: constant:= 16#200#;
-  TBSTYLE_FLAT    : constant:= 16#800#;
-  TBSTYLE_LIST    : constant:= 16#1000#;
+  TBSTYLE_WRAPABLE : constant := 16#200#;
+  TBSTYLE_FLAT     : constant := 16#800#;
+  TBSTYLE_LIST     : constant := 16#1000#;
 
   function Temp_dir return String;
 
-  function Minimized (Window: GWindows.Base.Base_Window_Type'Class)
+  function Minimized (Window : GWindows.Base.Base_Window_Type'Class)
     return Boolean;
 
-  function Valid_Left_Top (Left, Top: Integer)
+  function Valid_Left_Top (Left, Top : Integer)
     return Boolean;
   pragma Obsolescent (Valid_Left_Top,
-    "That function is bogus on multiple screens. "&
+    "That function is bogus on multiple screens. " &
     "Use GWindows.Application.Screen_Visibility instead");
 
-  function Find_short_path_name( long: String ) return String;
+  function Find_short_path_name (long : String) return String;
 
   ------------------------------
   --  Tabs - Property sheets  --
@@ -148,15 +148,15 @@ package GWin_Util is
 
   generic
     type Tab_enumeration is (<>);
-    with function Title(te: Tab_enumeration) return GString;
-    ok_message    : GString;
-    cancel_message: GString;
+    with function Title (te : Tab_enumeration) return GString;
+    ok_message     : GString;
+    cancel_message : GString;
   package Property_Tabs_Package is
     --  Data:
-    tab   : array(Tab_enumeration) of aliased GWindows.Windows.Window_Type;
-    ok    : Default_Button_Type;
-    cancel: Button_Type;
-    procedure Create(Parent: in out GWindows.Base.Base_Window_Type'Class);
+    tab    : array (Tab_enumeration) of aliased GWindows.Windows.Window_Type;
+    ok     : Default_Button_Type;
+    cancel : Button_Type;
+    procedure Create (Parent : in out GWindows.Base.Base_Window_Type'Class);
   end Property_Tabs_Package;
 
   ------------------------------------------

@@ -140,8 +140,8 @@ package body GWindows.Common_Controls.Ex_List_View is
       record
          Flags       : Interfaces.C.unsigned := Lvfi_Param;
          Psz         : LPTSTR                := null;
-         Lparam      : GWindows.Types.Lparam;
-         Point       : GWindows.Types.Point_Type;
+         Lparam      : Types.Lparam;
+         Point       : Types.Point_Type;
          Vkdirection : Interfaces.C.unsigned := 0;
       end record;
 
@@ -150,14 +150,15 @@ package body GWindows.Common_Controls.Ex_List_View is
          Mask      : Interfaces.C.unsigned := 0;
          Cxy       : Interfaces.C.int      := 0;
          pszText   : LPTSTR                := null;
-         HBitmap   : Interfaces.C.long     := 0;
+         HBitmap   : Types.Handle          := Types.Null_Handle;
          CchTextMax: Interfaces.C.int      := 0;
          Fmt       : Interfaces.C.int      := 0;
-         Lparam    : System.Address;
+         Lparam    : Types.Lparam          := 0;
          IImage    : Interfaces.C.int      := 0;
-         IOrdegr    : Interfaces.C.int      := 0;
+         IOrder    : Interfaces.C.int      := 0;
          Typ       : Interfaces.C.unsigned := 0;
-         PvFilter  : System.Address        ;
+         PvFilter  : System.Address        := System.Null_Address;
+         state     : Interfaces.C.unsigned := 0;
       end record;
    type Hditem_Pointer is access all Hditem_type;
 
@@ -836,6 +837,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       L_setUmsg: Interfaces.C.int;
       L_getUmsg: Interfaces.C.int;
    begin
+      C_Text (C_Text'First) := Interfaces.C.wchar_t'Val (0);
       case Character_Mode is
          when Unicode =>
             L_setUmsg := HDM_SETITEMW; L_getUmsg := HDM_GETITEMW;
