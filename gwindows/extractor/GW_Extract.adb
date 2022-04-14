@@ -27,7 +27,7 @@ with Ada.Strings.Fixed;
 with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
 with Ada.Text_IO;
 
-with Ada_Directories_Extensions; -- Ada 201X items absent in Ada 2005...
+with Set_Modification_Time_GNAT;  --  Missing in Ada.Directories...
 
 procedure GW_Extract is
 
@@ -180,7 +180,7 @@ procedure GW_Extract is
     --
     My_FS_routines : constant UnZip.FS_routines_type :=
        (Create_Path         => Ada.Directories.Create_Path'Access,  --  Ada 2005
-        Set_Time_Stamp      => Ada_Directories_Extensions.Set_Modification_Time'Access,
+        Set_Time_Stamp      => Set_Modification_Time_GNAT'Access,
         Compose_File_Name   => null,
         others              => null
       );
