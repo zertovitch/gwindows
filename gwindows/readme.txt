@@ -49,7 +49,8 @@ Status
 GWindows is successfuly being used by individuals and companies
 world wide for the development of professional Windows (32 and 64 bit)
 products.
-Some open-source projects using GWindows are:
+
+There are also open-source projects using GWindows, for instance:
   AZip   -  a free, portable Zip Archive Manager -
                https://azip.sourceforge.io/
   LEA    -  a Lightweight Editor for Ada -

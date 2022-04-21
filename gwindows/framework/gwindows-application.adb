@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -243,6 +245,93 @@ package body GWindows.Application is
    begin
       return GWindows.Internal.Desktop_Height;
    end Desktop_Height;
+
+   --------------------------------
+   -- Enumerate_Display_Monitors --
+   --------------------------------
+
+   procedure Enumerate_Display_Monitors (M : Monitor_Dimensions) is
+      use GWindows.Types;
+
+      function Output_Monitor_Dims (
+           HMONITOR :        Handle;
+           HDC      :        Handle;
+           LPRECT   : access Rectangle_Type;
+           mLPARAM  :        Lparam
+         ) return Boolean;
+      pragma Convention (Stdcall, Output_Monitor_Dims);
+
+      function Output_Monitor_Dims (
+           HMONITOR :        Handle;
+           HDC      :        Handle;
+           LPRECT   : access Rectangle_Type;
+           mLPARAM  :        Lparam
+         ) return Boolean
+      is
+         pragma Unreferenced (HMONITOR, HDC, mLPARAM);
+      begin
+         M (LPRECT.all);
+         return True;  --  Continue enumeration
+      end Output_Monitor_Dims;
+
+      type MONITORENUMPROC is access
+         function (
+           HMONITOR :        Handle;
+           HDC      :        Handle;
+           LPRECT   : access Rectangle_Type;
+           mLPARAM  :        Lparam
+         ) return Boolean;
+      pragma Convention (Stdcall, MONITORENUMPROC);
+
+      procedure EnumDisplayMonitors
+         (hdc      : Handle          := Null_Handle;
+          lprcClip : Wparam          := 0;
+          lpfnEnum : MONITORENUMPROC := Output_Monitor_Dims'Access;
+          dwData   : Lparam          := 0);
+      pragma Import (StdCall, EnumDisplayMonitors, "EnumDisplayMonitors");
+   begin
+      EnumDisplayMonitors;
+   end Enumerate_Display_Monitors;
+
+   -----------------------
+   -- Screen_Visibility --
+   -----------------------
+
+   function Screen_Visibility
+     (Left_Top_Corner : Types.Point_Type;
+      Minimum_Width   : Positive := 200;
+      Minimum_Height  : Positive := 50)
+      return Screen_Visibility_Type
+   is
+      Result : Screen_Visibility_Type := Poor;
+
+      procedure Check_Point_In_Monitor (Rectangle : Types.Rectangle_Type) is
+         Is_In_Rectangle, Is_In_Restricted_Rectangle : Boolean;
+      begin
+         Is_In_Rectangle :=
+            Left_Top_Corner.X in            Rectangle.Left .. Rectangle.Right
+              and then Left_Top_Corner.Y in Rectangle.Top  .. Rectangle.Bottom;
+         --
+         Is_In_Restricted_Rectangle :=
+            Is_In_Rectangle
+              and then Left_Top_Corner.X <= Rectangle.Right - Minimum_Width
+              and then Left_Top_Corner.Y <= Rectangle.Bottom - Minimum_Height;
+         --
+         --  Promotion of the visibility if the tested
+         --  point is visible on the tested monitor.
+         --
+         if Is_In_Rectangle and Result = Poor then
+            Result := Fair;
+         end if;
+         if Is_In_Restricted_Rectangle then
+            Result := Good;
+         end if;
+      end Check_Point_In_Monitor;
+
+   begin
+      Enumerate_Display_Monitors (Check_Point_In_Monitor'Unrestricted_Access);
+      return Result;
+   end Screen_Visibility;
 
    -------------------------
    -- Detach_From_Console --

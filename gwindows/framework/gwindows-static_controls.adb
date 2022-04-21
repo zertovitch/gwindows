@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --              G W I N D O W S . S T A T I C _ C O N T R O L S             --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -509,8 +509,7 @@ package body GWindows.Static_Controls is
                          Control : in
                            GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, ID);
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (ID, Control);
    begin
       case Code is
          when STN_CLICKED =>

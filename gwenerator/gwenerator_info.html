@@ -137,15 +137,15 @@ from the generated object types.
      When you press the "<b>Translate now</b>" button, a translation occurs and details
      appear in the box below as long as you have checked the "<b>Show details</b>" option.
      The translation also occurs automatically via the mechanism described above.<br>
-     <img align=top width=367 height=469 alt="GWenerator running" src="img/trans.png">
+     <img align=top width=354 height=451 alt="GWenerator running" src="img/trans.png">
  <li><b>Ada background build</b><br>
      If the "Automatically build when GUI newer" check box is selected in the "GWen"
      project options, the tool will rebuild your application
      automatically whenever the generated Ada sources are newer than the executable (or any object file)
      you have specified. The same occurs on demand when you press the "Build now" button in the
      right part of the user interface. The right part is shown when you check
-     then "<b>Ada build</b>" option (cf red oval here).
-     <img align=top width=624 height=469 alt="Ada build running" src="img/build.png">
+     the "<b>Show Ada build</b>" option (cf red oval in the picture here).
+     <img align=top width=711 height=451 alt="Ada build running" src="img/build.png">
  </ul> 
 </p>
 <li>
@@ -228,10 +228,8 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
           e.g. to separately build tools in parallel to a GPS session:
        <a target=_blank href=https://sourceforge.net/projects/adagide/>here</a>.
     </ul><br>&nbsp;<br>
-    <li> <b>ResEdit</b>, a very cool and free resource editor
-          <a target=_blank href=http://www.resedit.net/>here</a>.<br>
-         The ResEdit installer has unfortunately an "adware" which is, fortunately, blocked by
-         some antivirus programs. Moreover, that installer is useless: ResEdit doesn't need it.<br>
+    <li> <b>ResEdit</b>, a very cool and free resource editor, unfortunately
+         no more maintained since around 2020.<br>
          The good news are that a copy (in two versions: 32 bits, 64 bits) of the
          ResEdit executable (without its useless and problematic installer)
          is now provided with the GWindows installer.<br>
@@ -354,9 +352,14 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
     then, General &rarr; Include paths:<br><br>
       <img align=top border=1 width=624 height=462 alt="Include paths" src="img/re_03.png">
     <br><br>
-    We assume here that GNAT is installed in the directory "C:\GNAT\2019", just for example.<br>
-    Then the include directory required for ResEdit will be "C:\GNAT\2019\x86_64-pc-mingw32\include".
-    You can see the actual GNAT directory in the PATH (command "path" in the command-line interface, cmd.exe)<br>
+    We assume here that GNAT is installed in the directory "C:\GNAT\2021" (2021 is just an example and
+    the directory is rather C:\GNATPRO for GNAT Pro).<br>
+    Then the include directory required for ResEdit will be "C:\GNAT\2021\x86_64-pc-mingw32\include".
+    You can see the actual GNAT directory in the PATH (command "path" in the command-line interface, cmd.exe).
+    <br><br>
+    Note that this configuration point is automatically performed by the GWindows installer:
+    it scans the PATH for GNAT installations and searches for possible include paths.
+    A new ResEdit.xml configuration file is created with the correct path(s).<br>
   </p>
     <b><font face="Arial, Tahoma">Advices about using ResEdit</font></b>
   <p>
@@ -364,7 +367,9 @@ which is created with <a href=#resources>ResEdit</a>. The application there is f
     <li>It is recommended to have a proper naming convention for the ".h" files containing the resource constants.<br>
     It may be especially useful if you have several resource scripts in the same location.<br>
     For instance the interface with "GWenerator.rc" has "GWenerator.h" instead of the default "resource.h".<br>
-    To that aim, in the preferences, put <b>"%barefilename%.h"</b> instead of "resource.h" as Header file name.<br><br>
+    To that aim, in the preferences, put <b>"%barefilename%.h"</b> instead of "resource.h" as Header file name.
+    <br><br>
+    Note that this configuration point is also done for you by the GWindows installer.<br><br>
       <img align=top border=1 width=624 height=459 alt="Header file name" src="img/re_04.png">
     <br> <br>
     <li>Sometimes, the auto-resize feature of ResEdit is too narrow and the last word of some labels are cut out

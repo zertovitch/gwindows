@@ -6,9 +6,9 @@
 
 project GWenerator is
 
-   type Build_Mode_Type is
+   type GWenerator_Build_Mode_Type is
       ("Debug", "Small");
-   Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
+   GWenerator_Build_Mode : GWenerator_Build_Mode_Type := external ("GWenerator_Build_Mode", "Debug");
    for Main use (
      "GWenerator.adb",
      "RC2GW.adb"
@@ -17,7 +17,7 @@ project GWenerator is
    for Exec_Dir use ".";
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
 
-   case Build_Mode is
+   case GWenerator_Build_Mode is
       when "Small" =>
          for Object_Dir use "..\obj\gnatsmal";
       when "Debug" =>
@@ -42,7 +42,7 @@ project GWenerator is
 
    package Compiler is
 
-      case Build_Mode is
+      case GWenerator_Build_Mode is
 
          when "Small" =>
             for Default_Switches ("ada") use 
@@ -50,13 +50,13 @@ project GWenerator is
             ("-Os", "-gnatp", "-ffunction-sections");
 
          when "Debug" =>
+            for Local_Configuration_Pragmas use project'Project_Dir & "../obj/gnatdebg/debug.pra";
             for Default_Switches ("ada") use
             Common_Compiler_Options &
             (
               "-fstack-check",
               "-g", "-gnato", 
-              "-gnatVa", 
-              "-gnatec" & project'Project_Dir & "../obj/gnatdebg/debug.pra");
+              "-gnatVa");
       end case;
    end Compiler;
 
@@ -70,7 +70,7 @@ project GWenerator is
    end Pretty_Printer;
 
    package Linker is
-      case Build_Mode is
+      case GWenerator_Build_Mode is
          when "Small" =>
             for Default_Switches ("ada") use ("GWenerator.rbj", "-s", "-Wl,--gc-sections");
          when "Debug" =>

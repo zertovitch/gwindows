@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2020 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -31,8 +31,6 @@
 -- be located on the web at one of the following places:                    --
 --   https://sourceforge.net/projects/gnavi/                                --
 --   https://github.com/zertovitch/gwindows                                 --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -77,191 +75,231 @@ package GWindows.Scintilla is
 
    INVALID_POSITION : constant := -1;
 
-   subtype Position is Integer;
+   --  Types are as described in https://www.scintilla.org/ScintillaDoc.html
+   --  as of 2021-11-20.
+   --  Subject to change...
+
+   type Int is range
+     -(2 ** (Standard'Address_Size - 1)) ..
+      (2 ** (Standard'Address_Size - 1)) - 1;
+   for Int'Size use Standard'Address_Size;
+   --  "Arguments are 32-bit or 64-bit signed integers depending
+   --   on the platform. Equivalent to intptr_t."
+
+   subtype Position is Int;
 
    type Cell_Array_Type is array (Natural range <>) of Integer;
 
+   type Int_32 is range -(2 ** 31) .. (2 ** 31) - 1;
+   for Int_32'Size use 32;
+
+   subtype Sci_PositionCR is Int_32;
+   --  "In a future release the type Sci_PositionCR will be redefined
+   --   to be 64-bits when Scintilla is built for 64-bits on all platforms."
+
    type Text_Range_Type is
       record
-         Min  : Integer;
-         Max  : Integer;
+         Min  : Sci_PositionCR;
+         Max  : Sci_PositionCR;
          Text : System.Address;
       end record;
+   --  Scintilla API name: Sci_TextRange
 
    type Format_Range_Type is new Text_Range_Type;
 
-   type Key_Mod is new Integer;
+   type Key_Mod is new Int_32;
 
    type Find_Text_Type is
       record
-         Min  : Integer;
-         Max  : Integer;
+         Min  : Sci_PositionCR;
+         Max  : Sci_PositionCR;
          Text : System.Address;
-         TMin : Integer;
-         TMax : Integer;
+         TMin : Sci_PositionCR;
+         TMax : Sci_PositionCR;
       end record;
+   --  Scintilla API name: Sci_TextToFind
+
    type Find_Text_Access is access all Find_Text_Type;
 
-   procedure AddText
+   type Pointer is new System.Address;
+
+   -------------
+   -- Methods --
+   -------------
+
+   procedure Add_Text
      (Control : in out Scintilla_Type;
       text    : in     GString);
    --  Add text to the document
 
-   procedure AddStyledText
+   procedure Add_Styled_Text
      (Control : in out Scintilla_Type; c : Cell_Array_Type);
    --  Add array of cells to document
 
-   procedure InsertText
+   procedure Insert_Text
      (Control : in out Scintilla_Type; pos : Position; text : GString);
    --  Insert string at a position
 
-   procedure ClearAll (Control : in out Scintilla_Type);
+   procedure Clear_All (Control : in out Scintilla_Type);
    --  Delete all text in the document
 
-   procedure ClearDocumentStyle (Control : in out Scintilla_Type);
+   procedure Clear_Document_Style (Control : in out Scintilla_Type);
    --  Set all style bytes to 0, remove all folding information
 
-   function GetLength (Control : Scintilla_Type) return Integer;
-   --  The number of characters in the document
+   function Get_Length (Control : Scintilla_Type) return Position;
+   --  Retrieve the number of characters in the document.
 
-   function GetCharAt
+   function Get_Text_Length (Control : Scintilla_Type) return Position
+      renames Get_Length;
+
+   function Line_Length (Control : Scintilla_Type; line : Integer)
+                       return Integer;
+   --  How many characters are on a line, not including end of line characters.
+
+   function Lines_On_Screen (Control : Scintilla_Type) return Integer;
+   --  Retrieves the number of lines completely visible.
+
+   function Get_Char_At
      (Control : Scintilla_Type; pos : Position) return Integer;
    --  Returns the character byte at the position
 
-   function GetCurrentPos (Control : Scintilla_Type) return Position;
+   function Get_Current_Pos (Control : Scintilla_Type) return Position;
    --  Returns the position of the caret
 
-   function GetAnchor (Control : Scintilla_Type) return Position;
+   function Get_Anchor (Control : Scintilla_Type) return Position;
    --  Returns the position of the opposite end of the selection to the caret
 
-   function GetStyleAt
+   function Get_Style_At
      (Control : Scintilla_Type; pos : Position) return Integer;
    --  Returns the style byte at the position
 
    procedure Redo (Control : in out Scintilla_Type);
    --  Redoes the next action on the undo history
 
-   procedure SetUndoCollection
-     (Control : in out Scintilla_Type; collectUndo : Boolean);
+   procedure Set_Undo_Collection
+     (Control : in out Scintilla_Type; Collect_Undo : Boolean);
    --  Choose between collecting actions into the undo
    --  history and discarding them.
 
-   procedure SelectAll (Control : in out Scintilla_Type);
+   procedure Select_All (Control : in out Scintilla_Type);
    --  Select all the text in the document.
 
-   procedure SetSavePoint (Control : Scintilla_Type);
+   procedure Set_Save_Point (Control : Scintilla_Type);
    --  Remember the current position in the undo history as the position
    --  at which the document was saved.
 
-   function GetStyledText
+   function Get_Styled_Text
      (Control : Scintilla_Type; tr : Text_Range_Type) return Integer;
    --  Retrieve a buffer of cells. Returns the number of bytes in the
    --  buffer not including terminating nulls.
 
-   function CanRedo (Control : Scintilla_Type) return Boolean;
+   function Can_Redo (Control : Scintilla_Type) return Boolean;
    --  Are there any redoable actions in the undo history.
 
-   function MarkerLineFromHandle
+   function Marker_Line_From_Handle
      (Control : Scintilla_Type; mhandle : Integer) return Integer;
    --  Retrieve the line number at which a particular marker is located
 
-   procedure MarkerDeleteHandle
+   procedure Marker_Delete_Handle
      (Control : in out Scintilla_Type; mhandle : Integer);
    --  Delete a marker.
 
-   function GetUndoCollection (Control : Scintilla_Type) return Boolean;
+   function Get_Undo_Collection (Control : Scintilla_Type) return Boolean;
    --  Is undo history being collected?
 
    SCWS_INVISIBLE          : constant := 0;
    SCWS_VISIBLEALWAYS      : constant := 1;
    SCWS_VISIBLEAFTERINDENT : constant := 2;
 
-   function GetViewWS (Control : Scintilla_Type) return Integer;
+   function Get_View_WS (Control : Scintilla_Type) return Integer;
    --  Are white space characters currently visible?
    --  Returns one of SCWS_* constants.
 
-   procedure SetViewWS  (Control : in out Scintilla_Type; views : Integer);
+   procedure Set_View_WS  (Control : in out Scintilla_Type; views : Integer);
    --  Make white space characters invisible, always visible or
    --  visible outside indentation.
 
-   function PositionFromPoint
+   function Position_From_Point
      (Control : Scintilla_Type; x : Integer; y : Integer) return Integer;
    --  Find the position from a point within the window.
 
-   function PositionFromPointClose
+   function Position_From_Point_Close
      (Control : Scintilla_Type; x : Integer; y : Integer) return Integer;
    --  Find the position from a point within the window but return
    --  INVALID_POSITION if not close to text.
 
-   procedure GotoLine
+   procedure Go_To_Line
      (Control : in out Scintilla_Type; line : Integer);
    --  Set caret to start of a line and ensure it is visible.
 
-   procedure GotoPos (Control : in out Scintilla_Type; pos : Position);
+   procedure Go_To_Pos (Control : in out Scintilla_Type; pos : Position);
    --  Set caret to a position and ensure it is visible.
 
-   procedure SetAnchor (Control : in out Scintilla_Type; posAnchor : Position);
+   procedure Set_Anchor
+     (Control : in out Scintilla_Type; posAnchor : Position);
    --  Set the selection anchor to a position. The anchor is the opposite
    --  end of the selection from the caret.
 
-   procedure GetCurLine
+   procedure Get_Cur_Line
      (Control        : in     Scintilla_Type;
       text           :    out GString;
       Caret_Position :    out Integer);
    --  Retrieve the text of the line containing the caret.
    --  Returns the index of the caret on the line.
 
-   function GetEndStyled (Control : Scintilla_Type) return Position;
+   function Get_End_Styled (Control : Scintilla_Type) return Position;
    --  Retrieve the position of the last correctly styled character.
 
-   SC_EOL_CRLF               : constant := 0;
-   SC_EOL_CR                 : constant := 1;
-   SC_EOL_LF                 : constant := 2;
+   SC_EOL_CRLF : constant := 0;
+   SC_EOL_CR   : constant := 1;
+   SC_EOL_LF   : constant := 2;
 
-   procedure ConvertEOLs (Control : in out Scintilla_Type; eolMode : Integer);
+   procedure Convert_EOLs (Control : in out Scintilla_Type; eolMode : Integer);
    --  Convert all line endings in the document to one mode.
 
-   function GetEOLMode (Control : Scintilla_Type) return Integer;
+   function Get_EOL_Mode (Control : Scintilla_Type) return Integer;
    --  Retrieve the current end of line mode - one of CRLF, CR, or LF.
 
-   procedure SetEOLMode (Control : in out Scintilla_Type; eolMode : Integer);
+   procedure Set_EOL_Mode (Control : in out Scintilla_Type; eolMode : Integer);
    --  Set the current end of line mode.
 
-   procedure StartStyling
+   procedure Start_Styling
      (Control : in out Scintilla_Type; pos : Position; mask : Integer);
    --  Set the current styling position to pos and the styling mask to
    --  mask.  The styling mask can be used to protect some bits in
    --  each styling byte from modification.
 
-   procedure SetStyling
+   procedure Set_Styling
      (Control : in out Scintilla_Type; length : Integer; style : Integer);
    --  Change style from current styling position for length
    --  characters to a style and move the current styling position to
    --  after this newly styled segment.
 
-   function GetBufferedDraw (Control : Scintilla_Type) return Boolean;
+   function Get_Buffered_Draw (Control : Scintilla_Type) return Boolean;
    --  Is drawing done first into a buffer or direct to the screen.
 
-   procedure SetBufferedDraw
+   procedure Set_Buffered_Draw
      (Control : in out Scintilla_Type; buffered : Boolean);
    --  If drawing is buffered then each line of text is drawn into a
    --  bitmap buffer before drawing it to the screen to avoid flicker.
 
-   procedure SetTabWidth (Control : in out Scintilla_Type; tabWidth : Integer);
+   procedure Set_Tab_Width
+     (Control : in out Scintilla_Type; tabWidth : Integer);
    --  Change the visible size of a tab to be a multiple of the width
    --  of a space character.
 
-   function GetTabWidth (Control : Scintilla_Type) return Integer;
+   function Get_Tab_Width (Control : Scintilla_Type) return Integer;
    --  Retrieve the visible size of a tab.
 
-   SC_CP_UTF8                : constant := 16#0000_FDE9#;
+   SC_CP_UTF8 : constant := 16#0000_FDE9#;
 
-   procedure SetCodePage (Control : in out Scintilla_Type; codePage : Integer);
+   procedure Set_Code_Page
+     (Control : in out Scintilla_Type; codePage : Integer);
    --  Set the code page used to interpret the bytes of the document
    --  as characters.  The SC_CP_UTF8 value can be used to enter
    --  Unicode mode.
 
-   procedure SetUsePalette
+   procedure Set_Use_Palette
      (Control : in out Scintilla_Type; usePalette : Boolean);
    --  In palette mode, Scintilla uses the environments palette calls
    --  to display more colors. This may lead to ugly displays.
@@ -301,48 +339,48 @@ package GWindows.Scintilla is
    SC_MARKNUM_FOLDEROPEN        : constant := 16#001F#;
    SC_MASK_FOLDERS              : constant := 16#FE00_0000#;
 
-   procedure MarkerDefine
+   procedure Marker_Define
      (Control : in out Scintilla_Type;
       markerNumber : in Integer;
       markerSymbol : in Integer);
    --  Set the symbol used for a particular marker number.
 
-   procedure MarkerSetFore
+   procedure Marker_Set_Fore
      (Control      : in out Scintilla_Type;
       markerNumber : in     Integer;
       fore         : in     GWindows.Colors.Color_Type);
    --  Set the foreground color used for a particular marker number.
 
-   procedure MarkerSetBack
+   procedure Marker_Set_Back
      (Control      : in out Scintilla_Type;
       markerNumber : in     Integer;
       back         : in     GWindows.Colors.Color_Type);
    --  Set the background color used for a particular marker number.
 
-   function MarkerAdd
+   function Marker_Add
      (Control : Scintilla_Type; line : Integer; markerNumber : Integer)
      return Integer;
    --  Add a marker to a line, returning an ID which can be used to
    --  find or delete the marker.
 
-   procedure MarkerDelete
+   procedure Marker_Delete
      (Control : in out Scintilla_Type; line : Integer; markerNumber : Integer);
    --  Delete a marker from a line
 
-   procedure MarkerDeleteAll
+   procedure Marker_Delete_All
      (Control : in out Scintilla_Type; markerNumber : Integer);
    --  Delete all markers with a particular number from all lines
 
-   function MarkerGet (Control : Scintilla_Type; line : Integer)
+   function Marker_Get (Control : Scintilla_Type; line : Integer)
                       return Integer;
    --  Get a bit mask of all the markers set on a line.
 
-   function MarkerNext
+   function Marker_Next
      (Control : Scintilla_Type; lineStart : Integer; markerMask : Integer)
      return Integer;
    --  Find the next line after lineStart that includes a marker in mask.
 
-   function MarkerPrevious
+   function Marker_Previous
      (Control : Scintilla_Type; lineStart : Integer; markerMask : Integer)
      return Integer;
    --  Find the previous line before lineStart that includes a marker in mask.
@@ -350,35 +388,35 @@ package GWindows.Scintilla is
    SC_MARGIN_SYMBOL            : constant := 0;
    SC_MARGIN_NUMBER            : constant := 1;
 
-   procedure SetMarginTypeN
+   procedure Set_Margin_Type_N
      (Control : in out Scintilla_Type; margin : Integer; marginType : Integer);
    --  Set a margin to be either numeric or symbolic.
 
-   function GetMarginTypeN
+   function Get_Margin_Type_N
      (Control : Scintilla_Type; margin : Integer) return Integer;
    --  Retrieve the type of a margin.
 
-   procedure SetMarginWidthN
+   procedure Set_Margin_Width_N
      (Control : in out Scintilla_Type; margin : Integer; pixelWidth : Integer);
    --  Set the width of a margin to a width expressed in pixels.
 
-   function GetMarginWidthN
+   function Get_Margin_Width_N
      (Control : Scintilla_Type; margin : Integer) return Integer;
    --  Retrieve the width of a margin in pixels.
 
-   procedure SetMarginMaskN
+   procedure Set_Margin_Mask_N
      (Control : in out Scintilla_Type; margin : Integer; mask : Integer);
    --  Set a mask that determines which markers are displayed in a margin.
 
-   function GetMarginMaskN
+   function Get_Margin_Mask_N
      (Control : Scintilla_Type; margin : Integer) return Integer;
    --  Retrieve the marker mask of a margin.
 
-   procedure SetMarginSensitiveN
+   procedure Set_Margin_Sensitive_N
      (Control : in out Scintilla_Type; margin : Integer; sensitive : Boolean);
    --  Make a margin sensitive or insensitive to mouse clicks.
 
-   function GetMarginSensitiveN
+   function Get_Margin_Sensitive_N
      (Control : Scintilla_Type; margin : Integer) return Boolean;
    --  Retrieve the mouse click sensitivity of a margin.
 
@@ -410,46 +448,46 @@ package GWindows.Scintilla is
    SC_CHARSET_VIETNAMESE       : constant := 16#00A3#;
    SC_CHARSET_THAI             : constant := 16#00DE#;
 
-   procedure StyleClearAll (Control : in out Scintilla_Type);
+   procedure Style_Clear_All (Control : in out Scintilla_Type);
    --  Clear all the styles and make equivalent to the global default style.
 
-   procedure StyleSetFore
+   procedure Style_Set_Fore
      (Control : in out Scintilla_Type;
       style   : in     Integer;
       fore    : in     GWindows.Colors.Color_Type);
    --  Set the foreground color of a style.
 
-   procedure StyleSetBack
+   procedure Style_Set_Back
      (Control : in out Scintilla_Type;
       style   : in     Integer;
       back    : in     GWindows.Colors.Color_Type);
    --  Set the background color of a style.
 
-   procedure StyleSetBold
+   procedure Style_Set_Bold
      (Control : in out Scintilla_Type; style : Integer; bold : Boolean);
    --  Set a style to be bold or not.
 
-   procedure StyleSetItalic
+   procedure Style_Set_Italic
      (Control : in out Scintilla_Type; style : Integer; italic : Boolean);
    --  Set a style to be italic or not.
 
-   procedure StyleSetSize
+   procedure Style_Set_Size
      (Control : in out Scintilla_Type; style : Integer; sizePoints : Integer);
    --  Set the size of characters of a style.
 
-   procedure StyleSetFont
+   procedure Style_Set_Font
      (Control : in out Scintilla_Type; style : Integer; fontName : GString);
    --  Set the font of a style.
 
-   procedure StyleSetEOLFilled
+   procedure Style_Set_EOL_Filled
      (Control : in out Scintilla_Type; style : Integer; filled : Boolean);
    --  Set a style to have its end of line filled or not.
 
-   procedure StyleResetDefault
+   procedure Style_Reset_Default
      (Control : in out Scintilla_Type);
    --  Reset the default style to its state at startup
 
-   procedure StyleSetUnderline
+   procedure Style_Set_Underline
      (Control : in out Scintilla_Type; style : Integer; underline : Boolean);
    --  Set a style to be underlined or not.
 
@@ -457,70 +495,70 @@ package GWindows.Scintilla is
    SC_CASE_UPPER               : constant := 1;
    SC_CASE_LOWER               : constant := 2;
 
-   procedure StyleSetCase
+   procedure Style_Set_Case
      (Control : in out Scintilla_Type; style : Integer; caseForce : Integer);
    --  Set a style to be mixed case, or to force upper or lower case.
 
-   procedure StyleSetCharacterSet
+   procedure Style_Set_Character_Set
      (Control      : in out Scintilla_Type;
       style        : in     Integer;
       characterSet : in     Integer);
    --  Set the character set of the font in a style.
 
-   procedure SetSelFore
+   procedure Set_Sel_Fore
      (Control    : in out Scintilla_Type;
       useSetting : in     Boolean;
       fore       : in     GWindows.Colors.Color_Type);
    --  Set the foreground color of the selection and whether to use
    --  this setting.
 
-   procedure SetSelBack
+   procedure Set_Sel_Back
      (Control    : in out Scintilla_Type;
       useSetting : in     Boolean;
       back       : in     GWindows.Colors.Color_Type);
    --  Set the background color of the selection and whether to use
    --  this setting.
 
-   procedure SetCaretFore
+   procedure Set_Caret_Fore
      (Control : in out Scintilla_Type; fore : GWindows.Colors.Color_Type);
    --  Set the foreground color of the caret.
 
-   procedure AssignCmdKey
+   procedure Assign_Cmd_Key
      (Control : in out Scintilla_Type; km : Key_Mod; msg : Integer);
    --  When key+modifier combination km is pressed perform msg.
 
-   procedure ClearCmdKey (Control : in out Scintilla_Type; km : Key_Mod);
+   procedure Clear_Cmd_Key (Control : in out Scintilla_Type; km : Key_Mod);
    --  When key+modifier combination km do nothing.
 
-   procedure ClearAllCmdKeys (Control : in out Scintilla_Type);
+   procedure Clear_All_Cmd_Keys (Control : in out Scintilla_Type);
    --  Drop all key mappings.
 
-   procedure SetStylingEx
+   procedure Set_Styling_Ex
      (Control : in out Scintilla_Type; length : Integer; styles : GString);
    --  Set the styles for a segment of the document.
 
-   procedure StyleSetVisible
+   procedure Style_Set_Visible
      (Control : in out Scintilla_Type; style : Integer; visible : Boolean);
    --  Set a style to be visible or not.
 
-   procedure GetCaretPeriod (Control : in out Scintilla_Type);
+   procedure Get_Caret_Period (Control : in out Scintilla_Type);
    --  Get the time in milliseconds that the caret is on and off.
 
-   procedure SetCaretPeriod
+   procedure Set_Caret_Period
      (Control : in out Scintilla_Type; periodMilliseconds : Integer);
    --  Get the time in milliseconds that the caret is on and off. 0 =
    --  steady on.
 
-   procedure SetWordChars
+   procedure Set_Word_Chars
      (Control : in out Scintilla_Type; characters : GString);
    --  Set the set of characters making up words for when moving or selecting
    --  by word.
 
-   procedure BeginUndoAction (Control : in out Scintilla_Type);
+   procedure Begin_Undo_Action (Control : in out Scintilla_Type);
    --  Start a sequence of actions that is undone and redone as a unit.
    --  May be nested.
 
-   procedure EndUndoAction (Control : in out Scintilla_Type);
+   procedure End_Undo_Action (Control : in out Scintilla_Type);
    --  End a sequence of actions that is undone and redone as a unit.
 
    -----------------------------------------------------------------
@@ -551,43 +589,43 @@ package GWindows.Scintilla is
    INDIC2_MASK                 : constant := 16#0080#;
    INDICS_MASK                 : constant := 16#00E0#;
 
-   procedure IndicSetStyle
+   procedure Indic_Set_Style
      (Control : in out Scintilla_Type; indic : Integer; style : Integer);
    --  Set an indicator to plain, squiggle or TT.
 
-   procedure IndicGetStyle
+   procedure Indic_Get_Style
      (Control : in out Scintilla_Type; indic : Integer);
    --  Retrieve the style of an indicator.
 
-   procedure IndicSetFore
+   procedure Indic_Set_Fore
      (Control : in out Scintilla_Type;
       indic   : in     Integer;
       fore    : in     GWindows.Colors.Color_Type);
    --  Set the foreground color of an indicator.
 
-   function IndicGetFore
+   function Indic_Get_Fore
      (Control : Scintilla_Type; indic : Integer)
      return GWindows.Colors.Color_Type;
    --  Retrieve the foreground color of an indicator.
 
    procedure Indicator_Clear_Range
      (Control : in out Scintilla_Type;
-      start   : Integer;
-      length  : Integer);
+      start   : Position;
+      length  : Position);
 
    procedure Indicator_Fill_Range
      (Control : in out Scintilla_Type;
-      start   : Integer;
-      length  : Integer);
+      start   : Position;
+      length  : Position);
 
-   procedure SetStyleBits
+   procedure Set_Style_Bits
      (Control : in out Scintilla_Type; bits : Integer);
    --  Divide each styling byte into lexical class bits (default:5)
    --  and indicator bits (default:3). If a lexer requires more than
    --  32 lexical states, then this is used to expand the possible
    --  states.
 
-   function GetStyleBits (Control : Scintilla_Type) return Integer;
+   function Get_Style_Bits (Control : Scintilla_Type) return Integer;
    --  Retrieve number of bits in style bytes used to hold the lexical state.
 
    --  Lexical states for SCLEX_PYTHON
@@ -663,19 +701,19 @@ package GWindows.Scintilla is
    SCE_H_SGML_1ST_PARAM_COMMENT : constant := 30;
    SCE_H_SGML_BLOCK_DEFAULT     : constant := 31;
    --  Embedded Javascript
-   SCE_HJ_START : constant := 40;
-   SCE_HJ_DEFAULT : constant := 41;
-   SCE_HJ_COMMENT : constant := 42;
-   SCE_HJ_COMMENTLINE : constant := 43;
-   SCE_HJ_COMMENTDOC : constant := 44;
-   SCE_HJ_NUMBER : constant := 45;
-   SCE_HJ_WORD : constant := 46;
-   SCE_HJ_KEYWORD : constant := 47;
+   SCE_HJ_START        : constant := 40;
+   SCE_HJ_DEFAULT      : constant := 41;
+   SCE_HJ_COMMENT      : constant := 42;
+   SCE_HJ_COMMENTLINE  : constant := 43;
+   SCE_HJ_COMMENTDOC   : constant := 44;
+   SCE_HJ_NUMBER       : constant := 45;
+   SCE_HJ_WORD         : constant := 46;
+   SCE_HJ_KEYWORD      : constant := 47;
    SCE_HJ_DOUBLESTRING : constant := 48;
    SCE_HJ_SINGLESTRING : constant := 49;
-   SCE_HJ_SYMBOLS : constant := 50;
-   SCE_HJ_STRINGEOL : constant := 51;
-   SCE_HJ_REGEX : constant := 52;
+   SCE_HJ_SYMBOLS      : constant := 50;
+   SCE_HJ_STRINGEOL    : constant := 51;
+   SCE_HJ_REGEX        : constant := 52;
    --  ASP Javascript
    SCE_HJA_START : constant := 55;
    SCE_HJA_DEFAULT : constant := 56;
@@ -939,49 +977,49 @@ package GWindows.Scintilla is
    SCE_NNCRONTAB_ENVIRONMENT : constant := 9;
    SCE_NNCRONTAB_IDENTIFIER : constant := 10;
    --  Lexical states for SCLEX_MATLAB
-   SCE_MATLAB_DEFAULT : constant := 0;
-   SCE_MATLAB_COMMENT : constant := 1;
-   SCE_MATLAB_COMMAND : constant := 2;
-   SCE_MATLAB_NUMBER : constant := 3;
-   SCE_MATLAB_KEYWORD : constant := 4;
-   SCE_MATLAB_STRING : constant := 5;
-   SCE_MATLAB_OPERATOR : constant := 6;
+   SCE_MATLAB_DEFAULT    : constant := 0;
+   SCE_MATLAB_COMMENT    : constant := 1;
+   SCE_MATLAB_COMMAND    : constant := 2;
+   SCE_MATLAB_NUMBER     : constant := 3;
+   SCE_MATLAB_KEYWORD    : constant := 4;
+   SCE_MATLAB_STRING     : constant := 5;
+   SCE_MATLAB_OPERATOR   : constant := 6;
    SCE_MATLAB_IDENTIFIER : constant := 7;
 
-   procedure SetLineState
+   procedure Set_Line_State
      (Control : in out Scintilla_Type; line : Integer; state : Integer);
    --  Used to hold extra styling information for each line.
 
-   function GetLineState
+   function Get_Line_State
      (Control : Scintilla_Type; line : Integer) return Integer;
    --  Retrieve the extra styling information for a line.
 
-   function GetMaxLineState (Control : Scintilla_Type) return Integer;
+   function Get_Max_Line_State (Control : Scintilla_Type) return Integer;
    --  Retrieve the last line number that has line state.
 
-   function GetCaretLineVisible (Control : Scintilla_Type) return Boolean;
+   function Get_Caret_Line_Visible (Control : Scintilla_Type) return Boolean;
    --  Is the background of the line containing the caret in a
    --  different color?
 
-   procedure SetCaretLineVisible
+   procedure Set_Caret_Line_Visible
      (Control : in out Scintilla_Type; show : Boolean);
-   --  Dsplay the background of the line containing the caret in a
+   --  Display the background of the line containing the caret in a
    --  different color.
 
-   function GetCaretLineBack
+   function Get_Caret_Line_Back
      (Control : Scintilla_Type) return GWindows.Colors.Color_Type;
    --  Get the color of the background of the line containing the caret.
 
-   procedure SetCaretLineBack
+   procedure Set_Caret_Line_Back
      (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type);
    --  Set the color of the background of the line containing the caret.
 
-   procedure StyleSetChangeable
+   procedure Style_Set_Changeable
      (Control : in out Scintilla_Type; style : Integer; changeable : Boolean);
    --  Set a style to be changeable or not (read only).
    --  Experimental feature, currently buggy.
 
-   procedure AutoCShow
+   procedure Auto_C_Show
      (Control    : in out Scintilla_Type;
       lenEntered : in     Integer;
       itemList   : in     GString);
@@ -989,198 +1027,214 @@ package GWindows.Scintilla is
    --  indicates how many characters before the caret should be used
    --  to provide context.
 
-   procedure AutoCCancel (Control : in out Scintilla_Type);
+   procedure Auto_C_Cancel (Control : in out Scintilla_Type);
    --  Remove the auto-completion list from the screen.
 
-   function AutoCActive (Control : Scintilla_Type) return Boolean;
+   function Auto_C_Active (Control : Scintilla_Type) return Boolean;
    --  Is there an auto-completion list visible?
 
-   function AutoCPosStart (Control : Scintilla_Type) return Position;
+   function Auto_C_Pos_Start (Control : Scintilla_Type) return Position;
    --  Retrieve the Position of the caret when the auto-completion list was
    --  displayed.
 
-   procedure AutoCComplete (Control : in out Scintilla_Type);
+   procedure Auto_C_Complete (Control : in out Scintilla_Type);
    --  User has selected an item so remove the list and insert the selection.
 
-   procedure AutoCStops
+   procedure Auto_C_Stops
      (Control : in out Scintilla_Type; characterSet : GString);
    --  Define a set of character that when typed cancel the
    --  auto-completion list.
 
-   procedure AutoCSetSeparator
+   procedure Auto_C_Set_Separator
      (Control : in out Scintilla_Type; separatorCharacter : Integer);
    --  Change the separator character in the GString setting up an
    --  auto-completion list. Default is space but can be changed if
    --  items contain space.
 
-   function AutoCGetSeparator (Control : Scintilla_Type) return Integer;
+   function Auto_C_Get_Separator (Control : Scintilla_Type) return Integer;
    --  Retrieve the auto-completion list separator character.
 
-   procedure AutoCSelect (Control : in out Scintilla_Type; text : GString);
+   procedure Auto_C_Select (Control : in out Scintilla_Type; text : GString);
    --  Select the item in the auto-completion list that starts with a GString.
 
-   procedure AutoCSetCancelAtStart
+   procedure Auto_C_Set_Cancel_At_Start
      (Control : in out Scintilla_Type; cancel : Boolean);
    --  Should the auto-completion list be cancelled if the user
    --  backspaces to a Position before where the box was created.
 
-   function AutoCGetCancelAtStart (Control : Scintilla_Type) return Boolean;
+   function Auto_C_Get_Cancel_At_Start
+     (Control : Scintilla_Type) return Boolean;
    --  Retrieve whether auto-completion cancelled by backspacing before start.
 
-   procedure AutoCSetFillUps
+   procedure Auto_C_Set_Fill_Ups
      (Control : in out Scintilla_Type; characterSet : GString);
    --  Define a set of characters that when typed will cause the
-   --  autocompletion to choose the selected item.
+   --  auto-completion to choose the selected item.
 
-   procedure AutoCSetChooseSingle
+   procedure Auto_C_Set_Choose_Single
      (Control : in out Scintilla_Type; chooseSingle : Boolean);
    --  Should a single item auto-completion list automatically choose
    --  the item.
 
-   function AutoCGetChooseSingle (Control : Scintilla_Type) return Boolean;
+   function Auto_C_Get_Choose_Single (Control : Scintilla_Type) return Boolean;
    --  Retrieve whether a single item auto-completion list
    --  automatically choose the item.
 
-   procedure AutoCSetIgnoreCase
+   procedure Auto_C_Set_Ignore_Case
      (Control : in out Scintilla_Type; ignoreCase : Boolean);
    --  Set whether case is significant when performing auto-completion
    --  searches.
 
-   function AutoCGetIgnoreCase (Control : Scintilla_Type) return Boolean;
+   function Auto_C_Get_Ignore_Case (Control : Scintilla_Type) return Boolean;
    --  Retrieve state of ignore case flag.
 
-   procedure UserListShow
+   procedure User_List_Show
      (Control : in out Scintilla_Type; listType : Integer; itemList : GString);
    --  Display a list of GStrings and send notification when user chooses one.
 
-   procedure AutoCSetAutoHide
+   procedure Auto_C_Set_Auto_Hide
      (Control : in out Scintilla_Type; autoHide : Boolean);
    --  Set whether or not autocompletion is hidden automatically when
    --  nothing matches
 
-   function AutoCGetAutoHide (Control : Scintilla_Type) return Boolean;
+   function Auto_C_Get_Auto_Hide (Control : Scintilla_Type) return Boolean;
    --  Retrieve whether or not autocompletion is hidden automatically
    --  when nothing matches
 
-   procedure AutoCSetDropRestOfWord
+   procedure Auto_C_Set_Drop_Rest_Of_Word
      (Control : in out Scintilla_Type; dropRestOfWord : Boolean);
    --  Set whether or not autocompletion deletes any word characters
    --  after the inserted text upon completion
 
-   function AutoCGetDropRestOfWord (Control : Scintilla_Type) return Boolean;
+   function Auto_C_Get_Drop_Rest_Of_Word
+     (Control : Scintilla_Type) return Boolean;
    --  Retrieve whether or not autocompletion deletes any word
    --  characters after the inserted text upon completion
 
-   procedure SetIndent (Control : in out Scintilla_Type; indentSize : Integer);
+   procedure Set_Indent
+     (Control : in out Scintilla_Type; indentSize : Integer);
    --  Set the number of spaces used for one level of indentation.
 
-   function GetIndent (Control : Scintilla_Type) return Integer;
+   function Get_Indent (Control : Scintilla_Type) return Integer;
    --  Retrieve indentation size.
 
-   procedure SetUseTabs (Control : in out Scintilla_Type; useTabs : Boolean);
+   procedure Set_Use_Tabs (Control : in out Scintilla_Type; useTabs : Boolean);
    --  Indentation will only use space characters if useTabs is false,
    --  otherwise it will use a combination of tabs and spaces.
    --  See the Tab and BackTab methods for programatically activating
    --  indentation and dedentation.
 
-   function GetUseTabs (Control : Scintilla_Type) return Boolean;
+   function Get_Use_Tabs (Control : Scintilla_Type) return Boolean;
    --  Retrieve whether tabs will be used in indentation.
 
-   procedure SetLineIndentation
+   procedure Set_Line_Indentation
      (Control : in out Scintilla_Type; line : Integer; indentSize : Integer);
    --  Change the indentation of a line to a number of columns.
 
-   function GetLineIndentation
+   function Get_Line_Indentation
      (Control : Scintilla_Type; line : Integer) return Integer;
    --  Retrieve the number of columns that a line is indented.
 
-   function GetLineIndentPosition
+   function Get_Line_Indent_Position
      (Control : Scintilla_Type; line : Integer) return Position;
    --  Retrieve the Position before the first non indentation
    --  character on a line.
 
-   function GetColumn
+   function Get_Column
      (Control : Scintilla_Type; pos : Position) return Integer;
    --  Retrieve the column number of a Position, taking tab width into account.
 
-   procedure SetHScrollBar (Control : in out Scintilla_Type; show : Boolean);
+   procedure Set_H_Scroll_Bar
+     (Control : in out Scintilla_Type; show : Boolean);
    --  Show or hide the horizontal scroll bar.
 
-   function GetHScrollBar (Control : Scintilla_Type) return Boolean;
+   function Get_H_Scroll_Bar (Control : Scintilla_Type) return Boolean;
    --  Is the horizontal scroll bar visible?
 
-   procedure SetIndentationGuides
+   procedure Set_Indentation_Guides
      (Control : in out Scintilla_Type; show : Boolean);
    --  Show or hide indentation guides.
 
-   function GetIndentationGuides (Control : Scintilla_Type) return Boolean;
+   function Get_Indentation_Guides (Control : Scintilla_Type) return Boolean;
    --  Are the indentation guides visible?
 
-   procedure SetHighlightGuide
+   procedure Set_Highlight_Guide
      (Control : in out Scintilla_Type; column : Integer);
    --  Set the highlighted indentation guide column.
    --  0 = no highlighted guide.
 
-   function GetHighlightGuide (Control : Scintilla_Type) return Integer;
+   function Get_Highlight_Guide (Control : Scintilla_Type) return Integer;
    --  Get the highlighted indentation guide column.
 
-   function GetLineEndPosition
+   function Get_Line_End_Position
      (Control : Scintilla_Type; line : Integer) return Integer;
    --  Get the Position after the last visible characters on a line.
 
-   function GetCodePage (Control : Scintilla_Type) return Integer;
+   function Get_Code_Page (Control : Scintilla_Type) return Integer;
    --  Get the code page used to interpret the bytes of the document
    --  as characters.
 
-   function GetCaretFore (Control : Scintilla_Type)
-                         return GWindows.Colors.Color_Type;
+   function Get_Caret_Fore (Control : Scintilla_Type)
+                           return GWindows.Colors.Color_Type;
    --  Get the foreground color of the caret.
 
-   function GetUsePalette (Control : Scintilla_Type) return Boolean;
+   function Get_Use_Palette (Control : Scintilla_Type) return Boolean;
    --  In palette mode?
 
-   function GetReadOnly (Control : Scintilla_Type) return Boolean;
+   function Get_Read_Only (Control : Scintilla_Type) return Boolean;
    --  In read-only mode?
 
-   procedure SetCurrentPos (Control : in out Scintilla_Type; pos : Position);
+   procedure Set_Current_Pos (Control : in out Scintilla_Type; pos : Position);
    --  Sets the Position of the caret.
 
    -------------------------------------------
    --  Text selection  -  single selection  --
    -------------------------------------------
 
-   procedure SetSelectionStart
+   procedure Set_Selection_Start
      (Control : in out Scintilla_Type; pos : Position);
    --  Sets the Position that starts the selection - this becomes the anchor.
 
-   function GetSelectionStart (Control : Scintilla_Type) return Position;
+   function Get_Selection_Start (Control : Scintilla_Type) return Position;
    --  Returns the Position at the start of the selection.
 
-   procedure SetSelectionEnd (Control : in out Scintilla_Type; pos : Position);
+   procedure Set_Selection_End
+     (Control : in out Scintilla_Type; pos : Position);
    --  Sets the Position that ends the selection - this becomes the
    --  currentPosition.
 
-   function GetSelectionEnd (Control : Scintilla_Type) return Position;
+   function Get_Selection_End (Control : Scintilla_Type) return Position;
    --  Returns the Position at the end of the selection.
 
-   procedure SetSel
-     (Control : in out Scintilla_Type; start : Position; endp : Position);
+   procedure Set_Sel
+     (Control : in out Scintilla_Type; start, endp : Position);
    --  Select a range of text.
 
-   procedure GetSelText
+   procedure Get_Sel_Text
      (Control : in     Scintilla_Type;
       text    :    out GString;
       length  :    out Integer);
    --  Retrieve the selected text.
    --  Return the length of the text.
 
-   procedure HideSelection
+   procedure Hide_Selection
      (Control : in out Scintilla_Type; normal : Boolean);
    --  Draw the selection in normal style or with selection highlighted.
 
    ---------------------------------------------------------------------------
-   --  Text selection  -  multiple selection (incl. rectangular selection)  --
+   --  Text selection  -  multiple selection (including rectangular         --
+   --                     and multi-line editing)                           --
    ---------------------------------------------------------------------------
+
+   procedure Set_Additional_Selection_Typing
+     (Control : in out Scintilla_Type; additional_typing : Boolean := True);
+
+   procedure Set_Multiple_Selection
+     (Control : in out Scintilla_Type; multiple_selection : Boolean := True);
+
+   procedure Set_Mouse_Selection_Rectangular
+     (Control               : in out Scintilla_Type;
+      rectangular_selection : in     Boolean := True);
 
    function Get_Selections (Control : Scintilla_Type) return Positive;
    --  There is always at least one selection - eventually empty: start = end
@@ -1205,19 +1259,25 @@ package GWindows.Scintilla is
    procedure Set_Selection
      (Control       : in out Scintilla_Type;
       caret, anchor :        Position);
-   --  Equivalent of SetSel for first selection - but with inverted positions!
+   --  Equivalent of Set_Sel for first selection - but with inverted positions!
 
    procedure Add_Selection
      (Control       : in out Scintilla_Type;
       caret, anchor :        Position);
    --  This is for supplemental selections after first one.
 
-   procedure SetPrintMagnification
+   function Selection_Is_Rectangle (Control : Scintilla_Type) return Boolean;
+   --  Is the selection a rectangular?
+   --  The alternative is the more common stream selection.
+
+   ---------------------------------------------------------------------------
+
+   procedure Set_Print_Magnification
      (Control : in out Scintilla_Type; magnification : Integer);
    --  Sets the printer magnification added to the poInteger size of
    --  each style for printing.
 
-   function GetPrintMagnification (Control : Scintilla_Type) return Integer;
+   function Get_Print_Magnification (Control : Scintilla_Type) return Integer;
    --  Returns the printer magnification.
 
    SC_PRINT_NORMAL                 : constant := 0;
@@ -1226,11 +1286,11 @@ package GWindows.Scintilla is
    SC_PRINT_COLORONWHITE           : constant := 3;
    SC_PRINT_COLORONWHITEDEFAULTBG  : constant := 4;
 
-   procedure SetPrintColorMode
+   procedure Set_Print_Color_Mode
      (Control : in out Scintilla_Type; mode : Integer);
    --  Modify colors when printing for clearer printed text.
 
-   function GetPrintColorMode (Control : Scintilla_Type) return Integer;
+   function Get_Print_Color_Mode (Control : Scintilla_Type) return Integer;
    --  Returns the printer color mode.
 
    SCFIND_WHOLEWORD               : constant := 2;
@@ -1238,96 +1298,96 @@ package GWindows.Scintilla is
    SCFIND_WORDSTART               : constant := 16#0010_0000#;
    SCFIND_REGEXP                  : constant := 16#0020_0000#;
 
-   function FindText
+   function Find_Text
      (Control : Scintilla_Type; flags : Integer; ft : Find_Text_Access)
      return Position;
    --  Find some text in the document.
 
-   procedure FormatRange
+   procedure Format_Range
      (Control : in out Scintilla_Type; draw : Boolean; fr : Text_Range_Type);
    --  On Windows will draw the document into a display context such
    --  as a printer.
 
-   function GetFirstVisibleLine (Control : Scintilla_Type) return Integer;
+   function Get_First_Visible_Line (Control : Scintilla_Type) return Integer;
    --  Retrieve the line at the top of the display.
 
-   function GetLine
+   function Get_Line
      (Control : in     Scintilla_Type;
       line    : in     Integer)
      return GString;
    --  Retrieve the contents of a line.
 
-   function GetLineCount (Control : Scintilla_Type) return Integer;
+   function Get_Line_Count (Control : Scintilla_Type) return Integer;
    --  Returns the number of lines in the document. There is always at
    --  least one.
 
-   procedure SetMarginLeft
+   procedure Set_Margin_Left
      (Control : in out Scintilla_Type; pixelWidth : Integer);
    --  Sets the size in pixels of the left margin.
 
-   function GetMarginLeft (Control : Scintilla_Type) return Integer;
+   function Get_Margin_Left (Control : Scintilla_Type) return Integer;
    --  Returns the size in pixels of the left margin.
 
-   procedure SetMarginRight
+   procedure Set_Margin_Right
      (Control : in out Scintilla_Type; pixelWidth : Integer);
    --  Sets the size in pixels of the right margin.
 
-   function GetMarginRight (Control : Scintilla_Type) return Integer;
+   function Get_Margin_Right (Control : Scintilla_Type) return Integer;
    --  Returns the size in pixels of the right margin.
 
-   function GetModify (Control : Scintilla_Type) return Boolean;
+   function Get_Modify (Control : Scintilla_Type) return Boolean;
    --  Is the document different from when it was last saved?
 
-   function GetTextRange
+   function Get_Text_Range
      (Control : Scintilla_Type;
-      Min     : Integer;
-      Max     : Integer)
+      Min     : Position;
+      Max     : Position)
      return GString;
 
-   function GetTextRange
+   function Get_Text_Range
      (Control : Scintilla_Type; tr : Text_Range_Type) return Integer;
    --  Retrieve a range of text.
    --  Return the length of the text.
 
-   function PointXFromPosition
+   function Point_X_From_Position
      (Control : Scintilla_Type; pos : Position) return Integer;
    --  Retrieve the x value of the poInteger in the window where a
    --  Position is displayed.
 
-   function PointYFromPosition
+   function Point_Y_From_Position
      (Control : Scintilla_Type; pos : Position) return Integer;
    --  Retrieve the y value of the poInteger in the window where a
    --  Position is displayed.
 
-   function LineFromPosition
+   function Line_From_Position
      (Control : Scintilla_Type; pos : Position) return Integer;
    --  Retrieve the line containing a Position.
 
-   function PositionFromLine
-     (Control : Scintilla_Type; line : Integer) return Integer;
+   function Position_From_Line
+     (Control : Scintilla_Type; line : Integer) return Position;
    --  Retrieve the Position at the start of a line.
 
-   procedure LineScroll
+   procedure Line_Scroll
      (Control : in out Scintilla_Type; columns : Integer; lines : Integer);
    --  Scroll horizontally and vertically.
 
-   procedure ScrollCaret (Control : in out Scintilla_Type);
+   procedure Scroll_Caret (Control : in out Scintilla_Type);
    --  Ensure the caret is visible.
 
-   procedure ReplaceSel (Control : in out Scintilla_Type; text : GString);
+   procedure Replace_Sel (Control : in out Scintilla_Type; text : GString);
    --  Replace the selected text with the argument text.
 
-   procedure SetReadOnly
+   procedure Set_Read_Only
      (Control : in out Scintilla_Type; readOnly : Boolean);
    --  Set to read only or read write.
 
-   function CanPaste (Control : Scintilla_Type) return Boolean;
+   function Can_Paste (Control : Scintilla_Type) return Boolean;
    --  Will a paste succeed?
 
-   function CanUndo (Control : Scintilla_Type) return Boolean;
+   function Can_Undo (Control : Scintilla_Type) return Boolean;
    --  Are there any undoable actions in the undo history.
 
-   procedure EmptyUndoBuffer (Control : in out Scintilla_Type);
+   procedure Empty_Undo_Buffer (Control : in out Scintilla_Type);
    --  Delete the undo history.
 
    procedure Undo (Control : in out Scintilla_Type);
@@ -1346,53 +1406,59 @@ package GWindows.Scintilla is
    procedure Clear (Control : in out Scintilla_Type);
    --  Clear the selection.
 
-   procedure SetText (Control : in out Scintilla_Type; text : GString);
+   procedure Set_Text (Control : in out Scintilla_Type; text : GString);
    --  Replace the contents of the document with the argument text.
 
-   procedure GetText
+   procedure Get_Text
      (Control : in     Scintilla_Type;
       text    :    out GString;
       length  :    out Integer);
    --  Retrieve all the text in the document.
    --  Returns number of characters retrieved.
 
-   function GetTextLength (Control : Scintilla_Type) return Integer;
-   --  Retrieve the number of characters in the document.
+   ---------------------------------
+   --  Overtype vs. insert modes  --
+   ---------------------------------
 
-   procedure SetOvertype (Control : in out Scintilla_Type; overtype : Boolean);
+   procedure Set_Overtype
+     (Control : in out Scintilla_Type; overtype : Boolean);
    --  Set to overtype (true) or insert mode.
 
-   function GetOvertype (Control : Scintilla_Type) return Boolean;
+   function Get_Overtype (Control : Scintilla_Type) return Boolean;
    --  Returns true if overtype mode is active otherwise false is returned.
 
-   procedure SetCaretWidth
+   procedure Edit_Toggle_Overtype (Control : in out Scintilla_Type);
+   --  Switch from insert to overtype mode or the reverse.
+
+   procedure Set_Caret_Width
      (Control : in out Scintilla_Type; pixelWidth : Integer);
    --  Set the width of the insert mode caret.
 
-   function GetCaretWidth (Control : Scintilla_Type) return Integer;
+   function Get_Caret_Width (Control : Scintilla_Type) return Integer;
    --  Returns the width of the insert mode caret
 
-   procedure SetTargetStart (Control : in out Scintilla_Type; pos : Position);
+   procedure Set_Target_Start
+     (Control : in out Scintilla_Type; pos : Position);
    --  Sets the Position that starts the target which is used for updating the
    --  document without affecting the scroll Position.
 
-   function GetTargetStart (Control : Scintilla_Type) return Position;
+   function Get_Target_Start (Control : Scintilla_Type) return Position;
    --  Get the Position that starts the target.
 
-   procedure SetTargetEnd (Control : in out Scintilla_Type; pos : Position);
+   procedure Set_Target_End (Control : in out Scintilla_Type; pos : Position);
    --  Sets the Position that ends the target which is used for updating the
    --  document without affecting the scroll Position.
 
-   function GetTargetEnd (Control : Scintilla_Type) return Position;
+   function Get_Target_End (Control : Scintilla_Type) return Position;
    --  Get the Position that ends the target.
 
-   function ReplaceTarget
+   function Replace_Target
      (Control : Scintilla_Type; text : GString)
      return Integer;
    --  Replace the target text with the argument text.
    --  Returns the length of the replacement text.
 
-   function ReplaceTargetRE
+   function Replace_Target_RE
      (Control : Scintilla_Type; text : GString)
      return Integer;
    --  Replace the target text with the argument text after \d
@@ -1402,157 +1468,171 @@ package GWindows.Scintilla is
    --  surrounded by \( and \).  Returns the length of the replacement
    --  text including any change caused by processing the \d patterns.
 
-   function SearchInTarget
+   function Search_In_Target
      (Control : Scintilla_Type; text : GString)
-     return Integer;
+     return Position;
    --  Search for a counted GString in the target and set the target
    --  to the found range. Text is counted so it can contain nulls.
    --  Returns length of range or -1 for failure in which case target
    --  is not moved.
 
-   procedure SetSearchFlags (Control : in out Scintilla_Type; flags : Integer);
+   procedure Set_Search_Flags
+     (Control : in out Scintilla_Type; flags : Integer);
    --  Set the search flags used by SearchInTarget
 
-   function GetSearchFlags (Control : Scintilla_Type) return Integer;
+   function Get_Search_Flags (Control : Scintilla_Type) return Integer;
    --  Get the search flags used by SearchInTarget
 
-   procedure CallTipShow
+   -----------------
+   --  Call tips  --
+   -----------------
+
+   procedure Call_Tip_Show
      (Control : in out Scintilla_Type; pos : Position; definition : GString);
    --  Show a call tip containing a definition near Position pos.
 
-   procedure CallTipCancel (Control : in out Scintilla_Type);
+   procedure Call_Tip_Cancel (Control : in out Scintilla_Type);
    --  Remove the call tip from the screen.
 
-   function CallTipActive (Control : Scintilla_Type) return Boolean;
+   function Call_Tip_Active (Control : Scintilla_Type) return Boolean;
    --  Is there an active call tip?
 
-   function CallTipPosStart (Control : Scintilla_Type) return Position;
+   function Call_Tip_Pos_Start (Control : Scintilla_Type) return Position;
    --  Retrieve the Position where the caret was before displaying the
    --  call tip.
 
-   procedure CallTipSetHlt
+   procedure Call_Tip_Set_Hlt
      (Control : in out Scintilla_Type; start : Integer; endp : Integer);
    --  Highlight a segment of the definition.
 
-   procedure CallTipSetBack
+   procedure Call_Tip_Set_Back
      (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type);
    --  Set the background color for the call tip.
 
-   function VisibleFromDocLine
+   function Visible_From_Doc_Line
      (Control : Scintilla_Type; line : Integer) return Integer;
    --  Find the display line of a document line taking hidden lines
    --  into account.
 
-   function DocLineFromVisible
+   function Doc_Line_From_Visible
      (Control : Scintilla_Type; lineDisplay : Integer) return Integer;
    --  Find the document line of a display line taking hidden lines
    --  into account.
 
-   SC_FOLDLEVELBASE               : constant := 16#0400#;
-   SC_FOLDLEVELWHITEFLAG          : constant := 16#1000#;
-   SC_FOLDLEVELHEADERFLAG         : constant := 16#2000#;
-   SC_FOLDLEVELNUMBERMASK         : constant := 16#0FFF#;
+   ------------
+   --  Fold  --
+   ------------
 
-   procedure SetFoldLevel
+   SC_FOLDLEVELBASE        : constant := 16#0400#;
+   SC_FOLDLEVELWHITEFLAG   : constant := 16#1000#;
+   SC_FOLDLEVELHEADERFLAG  : constant := 16#2000#;
+   SC_FOLDLEVELNUMBERMASK  : constant := 16#0FFF#;
+
+   procedure Set_Fold_Level
      (Control : in out Scintilla_Type; line : Integer; level : Integer);
    --  Set the fold level of a line.
    --  This encodes an integer level along with flags indicating whether the
    --  line is a header and whether it is effectively white space.
 
-   function GetFoldLevel
+   function Get_Fold_Level
      (Control : Scintilla_Type; line : Integer) return Integer;
    --  Retrieve the fold level of a line.
 
-   function GetLastChild
+   function Get_Last_Child
      (Control : Scintilla_Type; line : Integer; level : Integer)
      return Integer;
    --  Find the last child line of a header line.
 
-   function GetFoldParent
+   function Get_Fold_Parent
      (Control : Scintilla_Type; line : Integer) return Integer;
    --  Find the parent line of a child line.
 
-   procedure ShowLines
+   procedure Show_Lines
      (Control : in out Scintilla_Type; lineStart : Integer; lineEnd : Integer);
    --  Make a range of lines visible.
 
-   procedure HideLines
+   procedure Hide_Lines
      (Control : in out Scintilla_Type; lineStart : Integer; lineEnd : Integer);
    --  Make a range of lines invisible.
 
-   function GetLineVisible
+   function Get_Line_Visible
      (Control : Scintilla_Type; line : Integer) return Boolean;
    --  Is a line visible?
 
-   procedure SetFoldExpanded
+   procedure Set_Fold_Expanded
      (Control : in out Scintilla_Type; line : Integer; expanded : Boolean);
    --  Show the children of a header line.
 
-   function GetFoldExpanded
+   function Get_Fold_Expanded
      (Control : Scintilla_Type; line : Integer) return Boolean;
    --  Is a header line expanded?
 
-   procedure ToggleFold (Control : in out Scintilla_Type; line : Integer);
+   procedure Toggle_Fold (Control : in out Scintilla_Type; line : Integer);
    --  Switch a header line between expanded and contracted.
 
-   procedure EnsureVisible
+   procedure Ensure_Visible
      (Control : in out Scintilla_Type; line : Integer);
    --  Ensure a particular line is visible by expanding any header
    --  line hiding it.
 
-   procedure SetFoldFlags (Control : in out Scintilla_Type; Flags : Integer);
+   procedure Set_Fold_Flags (Control : in out Scintilla_Type; Flags : Integer);
    --  Set some debugging options for folding
 
-   procedure EnsureVisibleEnforcePolicy
+   procedure Ensure_Visible_Enforce_Policy
      (Control : in out Scintilla_Type; line : Integer);
    --  Ensure a particular line is visible by expanding any header
    --  line hiding it.  Use the currently set visibility policy to
    --  determine which range to display.
 
-   procedure SetTabIndents
+   procedure Set_Tab_Indents
      (Control : in out Scintilla_Type; tabIndents : Boolean);
    --  Sets whether a tab pressed when caret is within indentation indents
 
-   function GetTabIndents (Control : Scintilla_Type) return Boolean;
+   function Get_Tab_Indents (Control : Scintilla_Type) return Boolean;
    --  Does a tab pressed when caret is within indentation indent?
 
-   procedure SetBackSpaceUnIndents
+   procedure Set_Back_Space_Un_Indents
      (Control : in out Scintilla_Type; bsUnIndents : Boolean);
    --  Sets whether a backspace pressed when caret is within
    --  indentation unindents
 
-   function GetBackSpaceUnIndents (Control : Scintilla_Type) return Boolean;
+   function Get_Back_Space_Un_Indents
+     (Control : Scintilla_Type) return Boolean;
    --  Does a backspace pressed when caret is within indentation unindent?
 
-   SC_TIME_FOREVER                : constant := 16#0098_9680#;
+   SC_TIME_FOREVER : constant := 16#0098_9680#;
 
-   procedure SetMouseDwellTime
+   procedure Set_Mouse_Dwell_Time
      (Control : in out Scintilla_Type; periodMilliseconds : Integer);
    --  Sets the time the mouse must sit still to generate a mouse
    --  dwell event.  If set to SC_TIME_FOREVER, the default, no dwell
    --  events will be generated.
 
-   function GetMouseDwellTime (Control : Scintilla_Type) return Integer;
+   function Get_Mouse_Dwell_Time (Control : Scintilla_Type) return Integer;
    --  Retrieve the time the mouse must sit still to generate a mouse
    --  dwell event.
 
-   function WordStartPosition
+   -------------
+   --  Words  --
+   -------------
+
+   function Word_Start_Position
      (Control : Scintilla_Type; pos : Position; onlyWordCharacters : Boolean)
      return Integer;
    --  Get Position of start of word.
 
-   function WordEndPosition
+   function Word_End_Position
      (Control : Scintilla_Type; pos : Position; onlyWordCharacters : Boolean)
      return Integer;
    --  Get Position of end of word.
 
-   SC_WRAP_NONE                   : constant := 0;
-   SC_WRAP_WORD                   : constant := 1;
+   SC_WRAP_NONE : constant := 0;
+   SC_WRAP_WORD : constant := 1;
 
-   procedure SetWrapMode (Control : in out Scintilla_Type; mode : Integer);
+   procedure Set_Wrap_Mode (Control : in out Scintilla_Type; mode : Integer);
    --  Sets whether text is word wrapped.
 
-   function GetWrapMode (Control : Scintilla_Type) return Integer;
+   function Get_Wrap_Mode (Control : Scintilla_Type) return Integer;
    --  Retrieve whether text is word wrapped.
 
    SC_CACHE_NONE                  : constant := 0;
@@ -1560,122 +1640,142 @@ package GWindows.Scintilla is
    SC_CACHE_PAGE                  : constant := 2;
    SC_CACHE_DOCUMENT              : constant := 3;
 
-   procedure SetLayoutCache (Control : in out Scintilla_Type; mode : Integer);
+   procedure Set_Layout_Cache
+     (Control : in out Scintilla_Type; mode : Integer);
    --  Sets the degree of caching of layout information.
 
-   function GetLayoutCache (Control : Scintilla_Type) return Integer;
+   function Get_Layout_Cache (Control : Scintilla_Type) return Integer;
    --  Retrieve the degree of caching of layout information.
 
-   procedure SetScrollWidth
+   procedure Set_Scroll_Width
      (Control : in out Scintilla_Type; pixelWidth : Integer);
    --  Sets the document width assumed for scrolling.
 
-   function GetScrollWidth (Control : Scintilla_Type) return Integer;
+   function Get_Scroll_Width (Control : Scintilla_Type) return Integer;
    --  Retrieve the document width assumed for scrolling.
 
-   function TextWidth
+   function Text_Width
      (Control : Scintilla_Type; style : Integer; text : GString)
      return Integer;
    --  Measure the pixel width of some text in a particular style.
    --  Nul terminated text argument.
    --  Does not handle tab or control characters.
 
-   procedure SetEndAtLastLine
+   procedure Set_End_At_Last_Line
      (Control : in out Scintilla_Type; endAtLastLine : Boolean);
    --  Sets the scroll range so that maximum scroll Position has
    --  the last line at the bottom of the view (default).
    --  Setting this to false allows scrolling one page below the last line.
 
-   function GetEndAtLastLine (Control : Scintilla_Type) return Integer;
+   function Get_End_At_Last_Line (Control : Scintilla_Type) return Integer;
    --  Retrieve whether the maximum scroll Position has the last
    --  line at the bottom of the view.
 
-   procedure LineDown (Control : in out Scintilla_Type);
+   ------------------------------------------------------
+   --  Caret movements, by line, character, word, ...  --
+   ------------------------------------------------------
+
+   procedure Line_Down (Control : in out Scintilla_Type);
    --  Start of key messages
    --  Move caret down one line.
 
-   procedure LineDownExtend (Control : in out Scintilla_Type);
+   procedure Line_Down_Extend (Control : in out Scintilla_Type);
    --  Move caret down one line extending selection to new caret Position.
 
-   procedure LineUp (Control : in out Scintilla_Type);
+   procedure Line_Up (Control : in out Scintilla_Type);
    --  Move caret up one line.
 
-   procedure LineUpExtend (Control : in out Scintilla_Type);
+   procedure Line_Up_Extend (Control : in out Scintilla_Type);
    --  Move caret up one line extending selection to new caret Position.
 
-   procedure CharLeft (Control : in out Scintilla_Type);
+   procedure Char_Left (Control : in out Scintilla_Type);
    --  Move caret left one character.
 
-   procedure CharLeftExtend (Control : in out Scintilla_Type);
+   procedure Char_Left_Extend (Control : in out Scintilla_Type);
    --  Move caret left one character extending selection to new caret Position.
 
-   procedure CharRight (Control : in out Scintilla_Type);
+   procedure Char_Right (Control : in out Scintilla_Type);
    --  Move caret right one character.
 
-   procedure CharRightExtend (Control : in out Scintilla_Type);
+   procedure Char_Right_Extend (Control : in out Scintilla_Type);
    --  Move caret right one character extending selection to new caret
    --  Position.
 
-   procedure WordLeft (Control : in out Scintilla_Type);
+   procedure Word_Left (Control : in out Scintilla_Type);
    --  Move caret left one word.
 
-   procedure WordLeftExtend (Control : in out Scintilla_Type);
+   procedure Word_Left_Extend (Control : in out Scintilla_Type);
    --  Move caret left one word extending selection to new caret Position.
 
-   procedure WordRight (Control : in out Scintilla_Type);
+   procedure Word_Part_Left (Control : in out Scintilla_Type);
+   --  Move to the previous change in capitalisation
+
+   procedure Word_Part_Left_Extend (Control : in out Scintilla_Type);
+   --  Move to the previous change in capitalisation extending
+   --  selection to new caret Position.
+
+   procedure Word_Part_Right (Control : in out Scintilla_Type);
+   --  Move to the change next in capitalistion
+
+   procedure Word_Part_Right_Extend (Control : in out Scintilla_Type);
+   --  Move to the next change in capitalistion extending selection to
+   --  new caret Position.
+
+   procedure Word_Right (Control : in out Scintilla_Type);
    --  Move caret right one word.
 
-   procedure WordRightExtend (Control : in out Scintilla_Type);
+   procedure Word_Right_Extend (Control : in out Scintilla_Type);
    --  Move caret right one word extending selection to new caret Position.
 
    procedure Home (Control : in out Scintilla_Type);
    --  Move caret to first Position on line.
 
-   procedure HomeExtend (Control : in out Scintilla_Type);
+   procedure Home_Extend (Control : in out Scintilla_Type);
    --  Move caret to first Position on line extending selection to new
    --  caret Position.
 
-   procedure LineEnd (Control : in out Scintilla_Type);
+   procedure Line_End (Control : in out Scintilla_Type);
    --  Move caret to last Position on line.
 
-   procedure LineEndExtend (Control : in out Scintilla_Type);
+   procedure Line_End_Extend (Control : in out Scintilla_Type);
    --  Move caret to last Position on line extending selection to new
    --  caret Position.
 
-   procedure DocumentStart (Control : in out Scintilla_Type);
+   procedure Document_Start (Control : in out Scintilla_Type);
    --  Move caret to first Position in document.
 
-   procedure DocumentStartExtend (Control : in out Scintilla_Type);
+   procedure Document_Start_Extend (Control : in out Scintilla_Type);
    --  Move caret to first Position in document extending selection to
    --  new caret Position.
 
-   procedure DocumentEnd (Control : in out Scintilla_Type);
+   procedure Document_End (Control : in out Scintilla_Type);
    --  Move caret to last Position in document.
 
-   procedure DocumentEndExtend (Control : in out Scintilla_Type);
+   procedure Document_End_Extend (Control : in out Scintilla_Type);
    --  Move caret to last Position in document extending selection to
    --  new caret Position.
 
-   procedure PageUp (Control : in out Scintilla_Type);
+   procedure Page_Up (Control : in out Scintilla_Type);
    --  Move caret one page up.
 
-   procedure PageUpExtend (Control : in out Scintilla_Type);
+   procedure Page_Up_Extend (Control : in out Scintilla_Type);
    --  Move caret one page up extending selection to new caret Position.
 
-   procedure PageDown (Control : in out Scintilla_Type);
+   procedure Page_Down (Control : in out Scintilla_Type);
    --  Move caret one page down.
 
-   procedure PageDownExtend (Control : in out Scintilla_Type);
+   procedure Page_Down_Extend (Control : in out Scintilla_Type);
    --  Move caret one page down extending selection to new caret Position.
-
-   procedure EditToggleOvertype (Control : in out Scintilla_Type);
-   --  Switch from insert to overtype mode or the reverse.
 
    procedure Cancel (Control : in out Scintilla_Type);
    --  Cancel any modes such as call tip or auto-completion list display.
 
-   procedure DeleteBack (Control : in out Scintilla_Type);
+   procedure Delete_Back (Control : in out Scintilla_Type);
    --  Delete the selection or if no selection, the character before the caret.
+
+   procedure Delete_Back_Not_Line (Control : in out Scintilla_Type);
+   --  Delete the selection or if no selection, the character before the caret.
+   --  Will not delete the character before at the start of a line.
 
    procedure Tab (Control : in out Scintilla_Type);
    --  If selection is empty or all on one line replace the selection
@@ -1683,90 +1783,100 @@ package GWindows.Scintilla is
    --  the editor was set up with SetUseTabs (Control, False).
    --  If more than one line selected, indent the lines.
 
-   procedure BackTab (Control : in out Scintilla_Type);
+   procedure Back_Tab (Control : in out Scintilla_Type);
    --  Dedent the selected lines. Reverse of the Tab method.
 
-   procedure NewLine (Control : in out Scintilla_Type);
+   procedure New_Line (Control : in out Scintilla_Type);
    --  Insert a new line, may use a CRLF, CR or LF depending on EOL mode.
 
-   procedure FormFeed (Control : in out Scintilla_Type);
+   procedure Form_Feed (Control : in out Scintilla_Type);
    --  Insert a Form Feed character.
 
-   procedure VCHome (Control : in out Scintilla_Type);
+   procedure VC_Home (Control : in out Scintilla_Type);
    --  Move caret to before first visible character on line.
    --  If already there move to first character on line.
 
-   procedure VCHomeExtend (Control : in out Scintilla_Type);
-   --  Like VCHome but extending selection to new caret Position.
+   procedure VC_Home_Extend (Control : in out Scintilla_Type);
+   --  Like VC_Home but extending selection to new caret Position.
 
-   procedure ZoomIn (Control : in out Scintilla_Type);
-   --  Magnify the displayed text by increasing the sizes by 1 point.
-
-   procedure ZoomOut (Control : in out Scintilla_Type);
-   --  Make the displayed text smaller by decreasing the sizes by 1 point.
-
-   procedure DelWordLeft (Control : in out Scintilla_Type);
+   procedure Del_Word_Left (Control : in out Scintilla_Type);
    --  Delete the word to the left of the caret.
 
-   procedure DelWordRight (Control : in out Scintilla_Type);
+   procedure Del_Word_Right (Control : in out Scintilla_Type);
    --  Delete the word to the right of the caret.
 
-   procedure LineCut (Control : in out Scintilla_Type);
+   procedure Line_Cut (Control : in out Scintilla_Type);
    --  Cut the line containing the caret.
 
-   procedure LineDelete (Control : in out Scintilla_Type);
+   procedure Line_Delete (Control : in out Scintilla_Type);
    --  Delete the line containing the caret.
 
-   procedure LineTranspose (Control : in out Scintilla_Type);
+   procedure Line_Transpose (Control : in out Scintilla_Type);
    --  Switch the current line with the previous.
 
-   procedure LowerCase (Control : in out Scintilla_Type);
+   procedure Lower_Case (Control : in out Scintilla_Type);
    --  Transform the selection to lower case.
 
-   procedure UpperCase (Control : in out Scintilla_Type);
+   procedure Upper_Case (Control : in out Scintilla_Type);
    --  Transform the selection to upper case.
 
-   procedure LineScrollDown (Control : in out Scintilla_Type);
+   procedure Line_Scroll_Down (Control : in out Scintilla_Type);
    --  Scroll the document down, keeping the caret visible.
 
-   procedure LineScrollUp (Control : in out Scintilla_Type);
+   procedure Line_Scroll_Up (Control : in out Scintilla_Type);
    --  Scroll the document up, keeping the caret visible.
 
-   procedure DeleteBackNotLine (Control : in out Scintilla_Type);
-   --  Delete the selection or if no selection, the character before the caret.
-   --  Will not delete the chraacter before at the start of a line.
-
-   procedure MoveCaretInsideView (Control : in out Scintilla_Type);
+   procedure Move_Caret_Inside_View (Control : in out Scintilla_Type);
    --  Move the caret inside current view if it's not there already
 
-   function LineLength (Control : Scintilla_Type; line : Integer)
-                       return Integer;
-   --  How many characters are on a line, not including end of line characters.
-
-   procedure BraceHighlight
+   procedure Brace_Highlight
      (Control : in out Scintilla_Type; pos1 : Position; ppos2 : Position);
    --  Highlight the characters at two Positions.
 
-   procedure BraceBadLight (Control : in out Scintilla_Type; pos : Position);
+   procedure Brace_Bad_Light (Control : in out Scintilla_Type; pos : Position);
    --  Highlight the character at a Position indicating there is no
    --  matching brace.
 
-   function BraceMatch (Control : Scintilla_Type; pos : Position)
+   function Brace_Match (Control : Scintilla_Type; pos : Position)
                        return Position;
    --  Find the Position of a matching brace or INVALID_POSITION if no match.
 
-   function GetViewEOL (Control : Scintilla_Type) return Boolean;
+   function Get_View_EOL (Control : Scintilla_Type) return Boolean;
    --  Are the end of line characters visible.
 
-   procedure SetViewEOL (Control : in out Scintilla_Type; visible : Boolean);
+   procedure Set_View_EOL (Control : in out Scintilla_Type; visible : Boolean);
    --  Make the end of line characters visible or invisible
 
-   function GetDocPointer (Control : Scintilla_Type) return Integer;
-   --  Retrieve a pointer to the document object.
+   ---------------
+   --  Zooming  --
+   ---------------
 
-   procedure SetDocPointer
-     (Control : in out Scintilla_Type; pointer : Integer);
+   procedure Zoom_In (Control : in out Scintilla_Type);
+   --  Magnify the displayed text by increasing the sizes by 1 point.
+
+   procedure Zoom_Out (Control : in out Scintilla_Type);
+   --  Make the displayed text smaller by decreasing the sizes by 1 point.
+
+   procedure Set_Zoom (Control : in out Scintilla_Type; zoom : Integer);
+   --  Set the zoom level. This number of points is added to the size
+   --  of all fonts.  It may be positive to magnify or negative to
+   --  reduce.
+
+   function Get_Zoom (Control : Scintilla_Type) return Integer;
+   --  Retrieve the zoom level.
+
+   ----------------------
+   --  Multiple views  --
+   ----------------------
+
+   function Get_Doc_Pointer (Control : Scintilla_Type) return Pointer;
+   --  Retrieve a pointer to the document object.
+   --  Used for multiple views of the same document.
+
+   procedure Set_Doc_Pointer
+     (Control : in out Scintilla_Type; doc_pointer : Pointer);
    --  Change the document object used.
+   --  Used for multiple views of the same document.
 
    --  Notifications
    --  Type of modification and the action which caused the
@@ -1787,7 +1897,7 @@ package GWindows.Scintilla is
    SC_MOD_BEFOREDELETE            : constant := 16#0800#;
    SC_MODEVENTMASKALL             : constant := 16#0F77#;
 
-   procedure SetModEventMask
+   procedure Set_Mod_EventMask
      (Control : in out Scintilla_Type; mask : Interfaces.C.unsigned);
    --  Set which document modification events are sent to the container.
 
@@ -1795,40 +1905,41 @@ package GWindows.Scintilla is
    EDGE_LINE                      : constant := 1;
    EDGE_BACKGROUND                : constant := 2;
 
-   function GetEdgeColumn (Control : Scintilla_Type) return Integer;
+   function Get_Edge_Column (Control : Scintilla_Type) return Integer;
    --  Retrieve the column number which text should be kept within.
 
-   procedure SetEdgeColumn (Control : in out Scintilla_Type; column : Integer);
+   procedure Set_Edge_Column
+     (Control : in out Scintilla_Type; column : Integer);
    --  Set the column number of the edge.
    --  If text goes past the edge then it is highlighted.
 
-   function GetEdgeMode (Control : Scintilla_Type) return Integer;
+   function Get_Edge_Mode (Control : Scintilla_Type) return Integer;
    --  Retrieve the edge highlight mode.
 
-   procedure SetEdgeMode (Control : in out Scintilla_Type; mode : Integer);
+   procedure Set_Edge_Mode (Control : in out Scintilla_Type; mode : Integer);
    --  The edge may be displayed by a line (EDGE_LINE) or by highlighting
    --  text that goes beyond it (EDGE_BACKGROUND) or not displayed at all
    --  (EDGE_NONE).
 
-   function GetEdgeColor (Control : Scintilla_Type)
+   function Get_Edge_Color (Control : Scintilla_Type)
                          return GWindows.Colors.Color_Type;
    --  Retrieve the color used in edge indication.
 
-   procedure SetEdgeColor
+   procedure Set_Edge_Color
      (Control   : in out Scintilla_Type;
       edgeColor : in     GWindows.Colors.Color_Type);
    --  Change the color used in edge indication.
 
-   procedure SearchAnchor (Control : in out Scintilla_Type);
+   procedure Search_Anchor (Control : in out Scintilla_Type);
    --  Sets the current caret Position to be the search anchor.
 
-   function SearchNext
+   function Search_Next
      (Control : Scintilla_Type; flags : Integer; text : GString)
      return Integer;
    --  Find some text starting at the search anchor.
    --  Does not ensure the selection is visible.
 
-   function SearchPrev
+   function Search_Prev
      (Control : Scintilla_Type; flags : Integer; text : GString)
      return Integer;
    --  Find some text starting at the search anchor and moving backwards.
@@ -1855,122 +1966,96 @@ package GWindows.Scintilla is
    --  display jumps enough to leave the caret solidly within the
    --  display.
 
-   procedure SetCaretPolicy
+   procedure Set_Caret_Policy
      (Control     : in out Scintilla_Type;
       caretPolicy : in     Integer;
       caretSlop   : in     Integer);
    --  Set the way the line the caret is on is kept visible.
 
-   function LinesOnScreen (Control : Scintilla_Type) return Integer;
-   --  Retrieves the number of lines completely visible.
-
-   procedure UsePopUp (Control : in out Scintilla_Type; allowPopUp : Boolean);
+   procedure Use_Pop_Up
+     (Control : in out Scintilla_Type; Allow_Pop_Up : Boolean);
    --  Set whether a pop up menu is displayed automatically when the
    --  user presses the wrong mouse button.
 
-   function SelectionIsRectangle (Control : Scintilla_Type) return Boolean;
-   --  Is the selection a rectangular. The alternative is the more
-   --  common stream selection.
-
-   procedure SetZoom (Control : in out Scintilla_Type; zoom : Integer);
-   --  Set the zoom level. This number of points is added to the size
-   --  of all fonts.  It may be positive to magnify or negative to
-   --  reduce.
-
-   function GetZoom (Control : Scintilla_Type) return Integer;
-   --  Retrieve the zoom level.
-
-   function CreateDocument (Control : Scintilla_Type) return Integer;
+   function Create_Document (Control : Scintilla_Type) return Integer;
    --  Create a new document object.
    --  Starts with reference count of 1 and not selected into editor.
 
-   procedure AddRefDocument (Control : in out Scintilla_Type; doc : Integer);
+   procedure Add_Ref_Document (Control : in out Scintilla_Type; doc : Integer);
    --  Extend life of document.
 
-   procedure ReleaseDocument (Control : in out Scintilla_Type; doc : Integer);
+   procedure Release_Document (Control : in out Scintilla_Type; doc : Integer);
    --  Release a reference to the document, deleting document if it
    --  fades to black.
 
-   function GetModEventMask (Control : Scintilla_Type) return Integer;
+   function Get_Mod_Event_Mask (Control : Scintilla_Type) return Integer;
    --  Get which document modification events are sent to the container.
 
-   procedure SetFocus (Control : in out Scintilla_Type; focus : Boolean);
+   procedure Set_Focus (Control : in out Scintilla_Type; focus : Boolean);
    --  Change internal focus flag
 
-   function GetFocus (Control : Scintilla_Type) return Boolean;
+   function Get_Focus (Control : Scintilla_Type) return Boolean;
    --  Get internal focus flag
 
-   procedure SetStatus (Control : in out Scintilla_Type; statusCode : Integer);
+   procedure Set_Status
+     (Control : in out Scintilla_Type; statusCode : Integer);
    --  Change error status - 0 = OK
 
-   function GetStatus (Control : Scintilla_Type) return Integer;
+   function Get_Status (Control : Scintilla_Type) return Integer;
    --  Get error status
 
-   procedure SetMouseDownCaptures
+   procedure Set_Mouse_Down_Captures
      (Control : in out Scintilla_Type; captures : Boolean);
    --  Set whether the mouse is captured when its button is pressed
 
-   function GetMouseDownCaptures (Control : Scintilla_Type) return Boolean;
+   function Get_Mouse_Down_Captures (Control : Scintilla_Type) return Boolean;
    --  Get whether mouse gets captured
 
    SC_CURSORNORMAL                : constant := -1;
    SC_CURSORWAIT                  : constant := 3;
 
-   procedure SetCursor (Control : in out Scintilla_Type; cursorType : Integer);
+   procedure Set_Cursor
+     (Control : in out Scintilla_Type; cursorType : Integer);
    --  Sets the cursor to one of the SC_CURSOR* values
 
-   function GetCursor (Control : Scintilla_Type) return Integer;
+   function Get_Cursor (Control : Scintilla_Type) return Integer;
    --  Get cursor type
 
-   procedure SetControlCharSymbol
+   procedure Set_Control_Char_Symbol
      (Control : in out Scintilla_Type; symbol : Integer);
    --  Change the way control characters are displayed:
    --  If symbol is < 32, keep the drawn way, else, use the given character
 
-   function GetControlCharSymbol (Control : Scintilla_Type) return Integer;
+   function Get_Control_Char_Symbol (Control : Scintilla_Type) return Integer;
    --  Get the way control characters are displayed
 
-   procedure WordPartLeft (Control : in out Scintilla_Type);
-   --  Move to the previous change in capitalisation
+   VISIBLE_SLOP     : constant := 16#0001#;
+   VISIBLE_STRICT   : constant := 16#0004#;
 
-   procedure WordPartLeftExtend (Control : in out Scintilla_Type);
-   --  Move to the previous change in capitalisation extending
-   --  selection to new caret Position.
-
-   procedure WordPartRight (Control : in out Scintilla_Type);
-   --  Move to the change next in capitalistion
-
-   procedure WordPartRightExtend (Control : in out Scintilla_Type);
-   --  Move to the next change in capitalistion extending selection to
-   --  new caret Position.
-
-   VISIBLE_SLOP                   : constant := 16#0001#;
-   VISIBLE_STRICT                 : constant := 16#0004#;
-
-   procedure SetVisiblePolicy
+   procedure Set_Visible_Policy
      (Control       : in out Scintilla_Type;
       visiblePolicy : in     Integer;
       visibleSlop   : in     Integer);
    --  Set the way the display area is determined when a particular
    --  line is to be moved to.
 
-   procedure DelLineLeft (Control : in out Scintilla_Type);
+   procedure Del_Line_Left (Control : in out Scintilla_Type);
    --  Delete back from the current Position to the start of the line
 
-   procedure DelLineRight (Control : in out Scintilla_Type);
+   procedure Del_Line_Right (Control : in out Scintilla_Type);
    --  Delete forwards from the current Position to the end of the line
 
-   procedure SetXOffset
+   procedure Set_X_Offset
      (Control : in out Scintilla_Type; newOffset : Integer);
-   --  Get the xOffset (ie, horizontal scroll Position)
+   --  Get the x Offset (ie, horizontal scroll Position)
 
-   function GetXOffset (Control : Scintilla_Type) return Integer;
-   --  Set the xOffset (ie, horizontal scroll Position)
+   function Get_X_Offset (Control : Scintilla_Type) return Integer;
+   --  Set the x Offset (ie, horizontal scroll Position)
 
-   procedure StartRecord (Control : in out Scintilla_Type);
+   procedure Start_Record (Control : in out Scintilla_Type);
    --  Start notifying the container of all key presses and commands.
 
-   procedure StopRecord (Control : in out Scintilla_Type);
+   procedure Stop_Record (Control : in out Scintilla_Type);
    --  Stop notifying the container of all key presses and commands.
 
    SCLEX_CONTAINER  : constant := 0;
@@ -2008,27 +2093,27 @@ package GWindows.Scintilla is
    SCLEX_MATLAB     : constant := 32;
    SCLEX_AUTOMATIC  : constant := 1000;
 
-   procedure SetLexer (Control : in out Scintilla_Type; lexer : Integer);
+   procedure Set_Lexer (Control : in out Scintilla_Type; lexer : Integer);
    --  Set the lexing language of the document.
 
-   function GetLexer (Control : Scintilla_Type) return Integer;
+   function Get_Lexer (Control : Scintilla_Type) return Integer;
    --  Retrieve the lexing language of the document.
 
    procedure Colorise
-     (Control : in out Scintilla_Type; start : Position; endp : Position);
+     (Control : in out Scintilla_Type; start, endp : Position);
    --  Colorise a segment of the document using the current lexing language.
 
-   procedure SetProperty
+   procedure Set_Property
      (Control : in out Scintilla_Type; key : GString; value : GString);
    --  Set up a value that may be used by a lexer for some optional feature.
 
-   procedure SetKeyWords
+   procedure Set_Key_Words
      (Control    : in out Scintilla_Type;
       keywordSet : in     Integer;
       keyWords   : in     GString);
    --  Set up the key words used by the lexer.
 
-   procedure SetLexerLanguage
+   procedure Set_Lexer_Language
      (Control : in out Scintilla_Type; language : GString);
    --  Set the lexing language of the document based on GString name.
 
@@ -2055,18 +2140,6 @@ package GWindows.Scintilla is
    SCMOD_SHIFT                    : constant := 1;
    SCMOD_CTRL                     : constant := 2;
    SCMOD_ALT                      : constant := 4;
-
-   --  Multiple selections - rectangular selections - multi-line editing
-
-   procedure Set_Additional_Selection_Typing
-     (Control : in out Scintilla_Type; additional_typing : Boolean := True);
-
-   procedure Set_Multiple_Selection
-     (Control : in out Scintilla_Type; multiple_selection : Boolean := True);
-
-   procedure Set_Mouse_Selection_Rectangular
-     (Control               : in out Scintilla_Type;
-      rectangular_selection : in     Boolean := True);
 
    --  Virtual space is space beyond the end of each line
 
@@ -2101,8 +2174,8 @@ package GWindows.Scintilla is
    type Macro_Read_Event is access
      procedure (Control : in out GWindows.Base.Base_Window_Type'Class;
                 Message : in     Integer;
-                wParam  : in     Integer;
-                lParam  : in     Integer);
+                wParam  : in     Types.Wparam;
+                lParam  : in     Types.Lparam);
 
    type Margin_Click_Event is access
      procedure (Control : in out GWindows.Base.Base_Window_Type'Class;
@@ -2202,8 +2275,8 @@ package GWindows.Scintilla is
       Handler : in     Macro_Read_Event);
    procedure Fire_On_Macro_Read (Control : in out Scintilla_Type;
                                  Message : in     Integer;
-                                 wParam  : in     Integer;
-                                 lParam  : in     Integer);
+                                 wParam  : in     Types.Wparam;
+                                 lParam  : in     Types.Lparam);
 
    procedure On_Margin_Click_Handler (Control : in out Scintilla_Type;
                                       Handler : in     Margin_Click_Event);
@@ -2329,8 +2402,8 @@ package GWindows.Scintilla is
 
    procedure On_Macro_Read (Control : in out Scintilla_Type;
                             Message : in     Integer;
-                            wParam  : in     Integer;
-                            lParam  : in     Integer);
+                            wParam  : in     Types.Wparam;
+                            lParam  : in     Types.Lparam);
    --  Tell that an operation is being performed so that a choice can
    --  be made to record the fact if it is in a macro recording mode
 

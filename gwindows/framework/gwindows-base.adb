@@ -29,9 +29,8 @@
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
---   http://sf.net/projects/gnavi/                                          --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -768,6 +767,28 @@ package body GWindows.Base is
       SetWindowPos (Handle (Window), Handle (After_Window),
                     fuFlags => SWP_NOMOVE or SWP_NOSIZE);
    end Order;
+
+   -----------------------
+   -- Set_Active_Window --
+   -----------------------
+
+   procedure Set_Active_Window (Window : in out Base_Window_Type) is
+      procedure SetActiveWindow (HWND : GWindows.Types.Handle);
+      pragma Import (StdCall, SetActiveWindow, "SetActiveWindow");
+   begin
+      SetActiveWindow (Handle (Window));
+   end Set_Active_Window;
+
+   ---------------------------
+   -- Set_Foreground_Window --
+   ---------------------------
+
+   procedure Set_Foreground_Window (Window : in out Base_Window_Type) is
+      procedure SetForegroundWindow (HWND : GWindows.Types.Handle);
+      pragma Import (StdCall, SetForegroundWindow, "SetForegroundWindow");
+   begin
+      SetForegroundWindow (Handle (Window));
+   end Set_Foreground_Window;
 
    ------------
    -- Freeze --
@@ -2394,9 +2415,8 @@ package body GWindows.Base is
    is
       pragma Warnings (Off, Window);
       pragma Warnings (Off, message);
-      pragma Warnings (Off, wParam);
-      pragma Warnings (Off, lParam);
-      pragma Warnings (Off, Return_Value);
+      pragma Unreferenced (wParam, lParam);
+      pragma Unmodified (Return_Value);
    begin
       Continue := True;
    end On_Filter_Message;

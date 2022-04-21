@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2020 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -1314,12 +1314,20 @@ package GWindows.Common_Controls is
       Index     :    out Integer);
 
    --  AlKe: added
-   --  Text can be a series of strings seperated by GCharacter'Val (0),
-   --  e.g. to be used for button labels or tooltips.
+   --  Text can (but doesn't need to) be a series of strings
+   --  separated by GCharacter'Val (0).
+   --  You can also add the strings separately.
+   --  Strings can be used for button labels or tooltips.
    --  See Add_Button below with IString.
    procedure Add_String
      (Control     : in out Toolbar_Control_Type;
       Text        : in     GString);
+
+   procedure Get_String
+     (Control     : in out Toolbar_Control_Type;
+      Index       :        Natural;  --  0-based
+      Text        :    out GString;
+      Length      :    out Natural);
 
    procedure Add_Button
      (Control     : in out Toolbar_Control_Type;

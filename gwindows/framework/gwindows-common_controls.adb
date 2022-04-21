@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2020 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -46,11 +46,12 @@ with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 with GWindows.Internal;
 with GWindows.Utilities;
-use GWindows.Utilities;
 
 package body GWindows.Common_Controls is
+   use GWindows.Utilities;
    use type Interfaces.C.unsigned;
    use type Interfaces.C.int;
+   use type GWindows.Types.INT_PTR;
 
    -------------------------------------------------------------------------
    --  Operating System Imports
@@ -328,15 +329,24 @@ package body GWindows.Common_Controls is
    --  * AnSp   TBSTATE_INDETERMINATE : constant := 16#10#;
    --  * AnSp   TBSTYLE_SEP         : constant := 1;
    --  * AnSp: Next 6 constants needed by the new functions
-   TB_GETBUTTONINFOW   : constant := (WM_USER + 63);
-   TB_SETBUTTONINFOW   : constant := (WM_USER + 64);
-   TB_GETBUTTONINFOA   : constant := (WM_USER + 65);
-   TB_SETBUTTONINFOA   : constant := (WM_USER + 66);
+   TB_GETBUTTONINFOW   : constant := WM_USER + 63;
+   TB_SETBUTTONINFOW   : constant := WM_USER + 64;
+   TB_GETBUTTONINFOA   : constant := WM_USER + 65;
+   TB_SETBUTTONINFOA   : constant := WM_USER + 66;
    TB_GETBUTTONSIZE    : constant := WM_USER + 58;
 
    TBIF_STATE          : constant := 16#00000004#;
    TBIF_STYLE          : constant := 16#00000008#;
    --  * AnSp: up to here
+
+   --  https://docs.microsoft.com/en-us/windows/
+   --    win32/api/commctrl/ns-commctrl-tbbutton
+   --  NB: the different sizes of TBBUTTON_Reserved are *not* explained
+   --      there, as well as the need to call TB_BUTTONSTRUCTSIZE
+   --      even if the size is correct, on 64-bit...
+
+   type TBBUTTON_Reserved is
+      array (1 .. Standard'Address_Size / 8 - 2) of Interfaces.C.unsigned_char;
 
    type TBBUTTON is
       record
@@ -344,50 +354,49 @@ package body GWindows.Common_Controls is
          Command        : Integer := 0;
          State          : Interfaces.C.unsigned_char := 0;
          Style          : Interfaces.C.unsigned_char := 0;
-         Reserved1      : Interfaces.C.unsigned_char := 0;
-         Reserved2      : Interfaces.C.unsigned_char := 0;
-         Data           : Integer := 0;
-         IString        : Integer := -1;
+         Reserved       : TBBUTTON_Reserved;
+         Data           : GWindows.Types.Wparam  := 0;
+         IString        : GWindows.Types.INT_PTR := -1;
       end record;
 
---     TTM_ACTIVATE            : constant := (WM_USER + 1);
-   TTM_SETDELAYTIME        : constant := (WM_USER + 3);
-   TTM_ADDTOOLA            : constant := (WM_USER + 4);
-   TTM_ADDTOOLW            : constant := (WM_USER + 50);
-   TTM_DELTOOLA            : constant := (WM_USER + 5);
-   TTM_DELTOOLW            : constant := (WM_USER + 51);
---     TTM_NEWTOOLRECTA        : constant := (WM_USER + 6);
---     TTM_NEWTOOLRECTW        : constant := (WM_USER + 52);
---     TTM_RELAYEVENT          : constant := (WM_USER + 7);
---     TTM_GETTOOLINFOA        : constant := (WM_USER + 8);
---     TTM_GETTOOLINFOW        : constant := (WM_USER + 53);
---     TTM_SETTOOLINFOA        : constant := (WM_USER + 9);
---     TTM_SETTOOLINFOW        : constant := (WM_USER + 54);
---     TTM_HITTESTA            : constant := (WM_USER + 10);
---     TTM_HITTESTW            : constant := (WM_USER + 55);
---     TTM_GETTEXTA            : constant := (WM_USER + 11);
---     TTM_GETTEXTW            : constant := (WM_USER + 56);
---     TTM_UPDATETIPTEXTA      : constant := (WM_USER + 12);
---     TTM_UPDATETIPTEXTW      : constant := (WM_USER + 57);
---     TTM_GETTOOLCOUNT        : constant := (WM_USER + 13);
---     TTM_ENUMTOOLSA          : constant := (WM_USER + 14);
---     TTM_ENUMTOOLSW          : constant := (WM_USER + 58);
---     TTM_GETCURRENTTOOLA     : constant := (WM_USER + 15);
---     TTM_GETCURRENTTOOLW     : constant := (WM_USER + 59);
---     TTM_WINDOWFROMPOINT     : constant := (WM_USER + 16);
---     TTM_TRACKACTIVATE       : constant := (WM_USER + 17);
---     TTM_TRACKPOSITION       : constant := (WM_USER + 18);
---     TTM_SETTIPBKCOLOR       : constant := (WM_USER + 19);
---     TTM_SETTIPTEXTCOLOR     : constant := (WM_USER + 20);
-   TTM_GETDELAYTIME        : constant := (WM_USER + 21);
---     TTM_GETTIPBKCOLOR       : constant := (WM_USER + 22);
---     TTM_GETTIPTEXTCOLOR     : constant := (WM_USER + 23);
-   TTM_SETMAXTIPWIDTH      : constant := (WM_USER + 24);
---     TTM_GETMAXTIPWIDTH      : constant := (WM_USER + 25);
---     TTM_SETMARGIN           : constant := (WM_USER + 26);
---     TTM_GETMARGIN           : constant := (WM_USER + 27);
---     TTM_POP                 : constant := (WM_USER + 28);
---     TTM_UPDATE              : constant := (WM_USER + 29);
+--     TTM_ACTIVATE            : constant := WM_USER + 1;
+   TTM_SETDELAYTIME        : constant := WM_USER + 3;
+   TTM_ADDTOOLA            : constant := WM_USER + 4;
+   TTM_ADDTOOLW            : constant := WM_USER + 50;
+   TTM_DELTOOLA            : constant := WM_USER + 5;
+   TTM_DELTOOLW            : constant := WM_USER + 51;
+--     TTM_NEWTOOLRECTA        : constant := WM_USER + 6;
+--     TTM_NEWTOOLRECTW        : constant := WM_USER + 52;
+--     TTM_RELAYEVENT          : constant := WM_USER + 7;
+--     TTM_GETTOOLINFOA        : constant := WM_USER + 8;
+--     TTM_GETTOOLINFOW        : constant := WM_USER + 53;
+--     TTM_SETTOOLINFOA        : constant := WM_USER + 9;
+--     TTM_SETTOOLINFOW        : constant := WM_USER + 54;
+--     TTM_HITTESTA            : constant := WM_USER + 10;
+--     TTM_HITTESTW            : constant := WM_USER + 55;
+--     TTM_GETTEXTA            : constant := WM_USER + 11;
+--     TTM_GETTEXTW            : constant := WM_USER + 56;
+--     TTM_UPDATETIPTEXTA      : constant := WM_USER + 12;
+--     TTM_UPDATETIPTEXTW      : constant := WM_USER + 57;
+--     TTM_GETTOOLCOUNT        : constant := WM_USER + 13;
+--     TTM_ENUMTOOLSA          : constant := WM_USER + 14;
+--     TTM_ENUMTOOLSW          : constant := WM_USER + 58;
+--     TTM_GETCURRENTTOOLA     : constant := WM_USER + 15;
+--     TTM_GETCURRENTTOOLW     : constant := WM_USER + 59;
+--     TTM_WINDOWFROMPOINT     : constant := WM_USER + 16;
+--     TTM_TRACKACTIVATE       : constant := WM_USER + 17;
+--     TTM_TRACKPOSITION       : constant := WM_USER + 18;
+--     TTM_SETTIPBKCOLOR       : constant := WM_USER + 19;
+--     TTM_SETTIPTEXTCOLOR     : constant := WM_USER + 20;
+   TTM_GETDELAYTIME        : constant := WM_USER + 21;
+--     TTM_GETTIPBKCOLOR       : constant := WM_USER + 22;
+--     TTM_GETTIPTEXTCOLOR     : constant := WM_USER + 23;
+   TTM_SETMAXTIPWIDTH      : constant := WM_USER + 24;
+--     TTM_GETMAXTIPWIDTH      : constant := WM_USER + 25;
+--     TTM_SETMARGIN           : constant := WM_USER + 26;
+--     TTM_GETMARGIN           : constant := WM_USER + 27;
+--     TTM_POP                 : constant := WM_USER + 28;
+--     TTM_UPDATE              : constant := WM_USER + 29;
 
    TTF_IDISHWND            : constant := 16#0001#;
 --     TTF_CENTERTIP           : constant := 16#0002#;
@@ -506,8 +515,8 @@ package body GWindows.Common_Controls is
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
       Return_Value : in out GWindows.Types.Lresult)
    is
-      pragma Warnings (Off, Control);
-      pragma Warnings (Off, Return_Value);
+      pragma Unreferenced (Control);
+      pragma Unmodified (Return_Value);
 
       NM_OUTOFMEMORY               : constant := -1;
       NM_CLICK                     : constant := -2;
@@ -1106,8 +1115,7 @@ package body GWindows.Common_Controls is
                          Control : in
                            GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, ID);
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (ID, Control);
    begin
       case Code is
          when ACN_START =>
@@ -1700,12 +1708,11 @@ package body GWindows.Common_Controls is
                          Control : in
                            GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, ID);
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (ID, Control);
 
-      EN_SETFOCUS                : constant := 256;
-      EN_KILLFOCUS               : constant := 512;
-      EN_CHANGE                  : constant := 768;
+      EN_SETFOCUS    : constant := 256;
+      EN_KILLFOCUS   : constant := 512;
+      EN_CHANGE      : constant := 768;
    begin
       case Code is
          when EN_SETFOCUS =>
@@ -4350,6 +4357,38 @@ package body GWindows.Common_Controls is
    end Add_String;
 
    ----------------
+   -- Get_String --
+   ----------------
+
+   procedure Get_String
+     (Control     : in out Toolbar_Control_Type;
+      Index       :        Natural;
+      Text        :    out GString;
+      Length      :    out Natural)
+   is
+      TB_GETSTRINGA : constant := WM_USER + 92;
+      TB_GETSTRINGW : constant := WM_USER + 91;
+      TB_GETSTRING : constant array (Character_Mode_Type) of
+         Interfaces.C.int :=
+            (ANSI    => TB_GETSTRINGA,
+             Unicode => TB_GETSTRINGW);
+
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := TB_GETSTRING (Character_Mode);
+         wParam : GWindows.Types.Lparam :=
+           GWindows.Types.Lparam (
+             Text'Length - 1 +
+             --  "- 1" is for holding the C NUL character.
+             Index * 2**16);
+         lParam : System.Address        := Text'Address) return Natural;
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      Length := SendMessage;
+   end Get_String;
+
+   ----------------
    -- Add_Button --
    ----------------
 
@@ -4388,6 +4427,7 @@ package body GWindows.Common_Controls is
       type BUTTON_ARRAY is array (1 .. 1) of TBBUTTON;
       TB : BUTTON_ARRAY;
       TBSTYLE_AUTOSIZE : constant := 16#10#;
+
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := TB_ADDBUTTONS;
@@ -4400,7 +4440,7 @@ package body GWindows.Common_Controls is
       TB (1).Command := Command;
       TB (1).Style := TBSTYLE_AUTOSIZE;
       TB (1).State := TBSTATE_ENABLED;
-      TB (1).IString := IString;
+      TB (1).IString := GWindows.Types.INT_PTR (IString);
       SendMessage;
    end Add_Button;
 
@@ -4779,15 +4819,19 @@ package body GWindows.Common_Controls is
 
    procedure On_Create (Control : in out Toolbar_Control_Type)
    is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := TB_BUTTONSTRUCTSIZE;
-         wParam : GWindows.Types.Wparam := 20;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
+      use type Types.Wparam;
+      procedure SendMessage_TB_Button_Struct_Size
+        (hwnd   : Types.Handle     := Handle (Control);
+         uMsg   : Interfaces.C.int := TB_BUTTONSTRUCTSIZE;
+         wParam : Types.Wparam     := TBBUTTON'Size / 8;
+         lParam : Types.Lparam     := 0);
+      pragma Import (StdCall, SendMessage_TB_Button_Struct_Size,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      SendMessage_TB_Button_Struct_Size;
+      --  ^ This call is needed in order to have, for instance, tool
+      --    tips working correctly on 64-bit builds. Obviously there was
+      --    a mess around the TBBUTTON C struct in Windows API's design.
    end On_Create;
 
    procedure On_Command
@@ -4796,7 +4840,7 @@ package body GWindows.Common_Controls is
       ID      : in     Integer;
       Control : in     GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (Control);
    begin
       if Code = 0 then
          On_Button_Select (Toolbar_Control_Type'Class (Window), ID);

@@ -13,7 +13,7 @@ with GNAT.OS_Lib;
 with Interfaces.C;
 with System;
 
-pragma Elaborate_All(GWindows.Drawing_Objects);  --  For GUI_Font initialisation
+pragma Elaborate_All (GWindows.Drawing_Objects);  --  For GUI_Font initialisation
 
 package body GWin_Util is
 
@@ -38,88 +38,88 @@ package body GWin_Util is
     procedure Create_Common_Fonts is
       use Interfaces.C;
 
-      type Face_Name_Type is array(1..32) of GWindows.GChar_C;
+      type Face_Name_Type is array (1 .. 32) of GWindows.GChar_C;
 
       type LOGFONT is record
-        lfHeight: Interfaces.C.long;
-        lfWidth: Interfaces.C.long;
-        lfEscapement: Interfaces.C.long;
-        lfOrientation: Interfaces.C.long;
-        lfWeight: Interfaces.C.long;
-        lfItalic: Interfaces.C.char;
-        lfUnderline: Interfaces.C.char;
-        lfStrikeOut: Interfaces.C.char;
-        lfCharSet: Interfaces.C.char;
-        lfOutPrecision: Interfaces.C.char;
-        lfClipPrecision: Interfaces.C.char;
-        lfQuality: Interfaces.C.char;
-        lfPitchAndFamily: Interfaces.C.char;
-        lfFaceName: Face_Name_Type;
+        lfHeight : Interfaces.C.long;
+        lfWidth  : Interfaces.C.long;
+        lfEscapement : Interfaces.C.long;
+        lfOrientation : Interfaces.C.long;
+        lfWeight : Interfaces.C.long;
+        lfItalic : Interfaces.C.char;
+        lfUnderline : Interfaces.C.char;
+        lfStrikeOut : Interfaces.C.char;
+        lfCharSet : Interfaces.C.char;
+        lfOutPrecision : Interfaces.C.char;
+        lfClipPrecision : Interfaces.C.char;
+        lfQuality : Interfaces.C.char;
+        lfPitchAndFamily : Interfaces.C.char;
+        lfFaceName : Face_Name_Type;
       end record;
 
-      Log_of_current_font: aliased LOGFONT;
+      Log_of_current_font : aliased LOGFONT;
 
       subtype PVOID   is System.Address;                      --  winnt.h
       subtype LPVOID  is PVOID;                               --  windef.h
 
       function GetObject
-        (hgdiobj  : GWindows.Types.Handle  := GWindows.Drawing_Objects.Handle(GUI_Font);
-         cbBufferl: Interfaces.C.int       := LOGFONT'Size / 8;
-         lpvObject: LPVOID                 := Log_of_current_font'Address)
+        (hgdiobj   : GWindows.Types.Handle  := GWindows.Drawing_Objects.Handle (GUI_Font);
+         cbBufferl : Interfaces.C.int       := LOGFONT'Size / 8;
+         lpvObject : LPVOID                 := Log_of_current_font'Address)
         return Interfaces.C.int;
       pragma Import (StdCall, GetObject,
                        "GetObject" & Character_Mode_Identifier);
 
       function CreateFontIndirect
-        (lpvObject: LPVOID                 := Log_of_current_font'Address)
+        (lpvObject : LPVOID                 := Log_of_current_font'Address)
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreateFontIndirect,
                        "CreateFontIndirect" & Character_Mode_Identifier);
 
     begin
-      GWindows.Drawing_Objects.Create_Stock_Font(
+      GWindows.Drawing_Objects.Create_Stock_Font (
         GUI_Font,
         GWindows.Drawing_Objects.Default_GUI
       );
       if GetObject = 0 then
-        GWindows.Drawing_Objects.Create_Font(URL_Font,
+        GWindows.Drawing_Objects.Create_Font (URL_Font,
           "MS Sans Serif",
           14, Underline => True);
             --  !! ^ Not so nice (non-unsharpened font, size ~..., color ?)
       else
-        Log_of_current_font.lfUnderline:= Interfaces.C.char'Val(1);
-        GWindows.Drawing_Objects.Handle(URL_Font, CreateFontIndirect);
+        Log_of_current_font.lfUnderline := Interfaces.C.char'Val (1);
+        GWindows.Drawing_Objects.Handle (URL_Font, CreateFontIndirect);
       end if;
     end Create_Common_Fonts;
 
   end Common_Fonts;
 
-  procedure Use_GUI_Font(Window: in out GWindows.Base.Base_Window_Type'Class)
+  procedure Use_GUI_Font (Window : in out GWindows.Base.Base_Window_Type'Class)
   is
   begin
     --  Use Standard Windows GUI font instead of system font
     GWindows.Base.Set_Font (Window, Common_Fonts.GUI_Font);
   end Use_GUI_Font;
 
-  function To_URL_Encoding (s: String) return String is
-    p: Integer;
-    r: String(1..s'Length*3);
-    j: Integer;
-    hex: String(1..7); -- 16#1AA#
+  function To_URL_Encoding (s : String) return String is
+    p : Integer;
+    r : String (1 .. s'Length * 3);
+    j : Integer;
+    hex : String (1 .. 7); -- 16#1AA#
   begin
-    j:= 0;
+    j := 0;
     for i in s'Range loop
-      p:= Character'Pos(s(i));
+      p := Character'Pos (s (i));
       if p <= 32 then
-        Ada.Integer_Text_IO.Put (hex,p + 16#100#, 16);  --  + 16#100#: ensure both digits!
-        r(j+1..j+3):= '%' & hex(5..6);
-        j:= j + 3;
+        Ada.Integer_Text_IO.Put (hex, p + 16#100#, 16);  --  + 16#100#: ensure both digits!
+        r (j + 1 .. j + 3) := '%' & hex (5 .. 6);
+        j := j + 3;
       else
-        r(j+1):= s(i);
-        j:= j + 1;
+        r (j + 1) := s (i);
+        j := j + 1;
       end if;
     end loop;
-    return r(1..j);
+    return r (1 .. j);
   end To_URL_Encoding;
 
   -----------
@@ -134,11 +134,11 @@ package body GWin_Util is
   is
 
     C_Operation  : aliased Interfaces.C.char_array :=
-                           Interfaces.C.To_C("open");
+                           Interfaces.C.To_C ("open");
     C_Executable : aliased Interfaces.C.char_array :=
-                           Interfaces.C.To_C(File);
+                           Interfaces.C.To_C (File);
     C_Parameter  : aliased Interfaces.C.char_array :=
-                           Interfaces.C.To_C(Parameter);
+                           Interfaces.C.To_C (Parameter);
     --  Parts from Win32Ada:
     subtype PVOID is System.Address;
     subtype HANDLE is PVOID;                    --  winnt.h :144
@@ -150,7 +150,7 @@ package body GWin_Util is
     pragma Unreferenced (Exe);
     SW_ShowNormal    : constant := 1;
     SW_ShowMinimized : constant := 2;
-    sw: constant array( Boolean ) of INT:=
+    sw : constant array (Boolean) of INT :=
       (SW_ShowNormal,
        SW_ShowMinimized);
     function GetFocus return HWND;              --  winuser.h:2939
@@ -181,9 +181,9 @@ package body GWin_Util is
   begin
     Exe := ShellExecute
      (hwnd0        => GetFocus,
-      lpOperation  => C_Operation (C_Operation'First)'Unchecked_Access,
-      lpFile       => C_Executable(C_Executable'First)'Unchecked_Access,
-      lpParameters => C_Parameter (C_Parameter'First)'Unchecked_Access,
+      lpOperation  => C_Operation  (C_Operation'First)'Unchecked_Access,
+      lpFile       => C_Executable (C_Executable'First)'Unchecked_Access,
+      lpParameters => C_Parameter  (C_Parameter'First)'Unchecked_Access,
       lpDirectory  => null,
       nShowCmd     => sw (As_Minimized));
   end Start;
@@ -192,24 +192,24 @@ package body GWin_Util is
   --    Martin C. Carlisle, Asst Prof of Comp Sci,
   --    US Air Force Academy, mcc@cs.usafa.af.mil
 
-  procedure Exec(name: String; param:String:="") is
+  procedure Exec (name : String; param : String := "") is
     num_params : Integer := 1;
     use GNAT.OS_Lib;
   begin
     for i in param'Range loop
-      if param(i) = ' ' then
+      if param (i) = ' ' then
         num_params := num_params + 1;
       end if;
     end loop;
     declare
-      a_param_list : Argument_List(1..num_params);
+      a_param_list : Argument_List (1 .. num_params);
       last_start   : Integer := param'First;
       counter      : Integer := 1;
       ok           : Boolean;
     begin
       for i in param'Range loop
-        if param(i) = ' ' then
-          a_param_list(counter) := new String'(param(last_start..i-1));
+        if param (i) = ' ' then
+          a_param_list (counter) := new String'(param (last_start .. i-1));
           last_start := i+1;
           counter := counter + 1;
         end if;
@@ -434,7 +434,7 @@ package body GWin_Util is
       for s in Tab_enumeration loop
         tabs.Insert_Tab (Tab_enumeration'Pos(s)-Tab_enumeration'Pos(Tab_enumeration'First), Title(s));
         GWindows.Windows.Create_As_Control (
-          tab(s), tabs, "",
+          tab (s), tabs, "",
           0, 0,
           tabs.Client_Area_Width,
           tabs.Client_Area_Height,
@@ -442,7 +442,7 @@ package body GWin_Util is
         );
         --  Link (tab(s), Handle(tab(s)), False, Control_Link);
         --  -- ^ for buttons from a resource file (André van Splunter)
-        tabs.Tab_Window (Tab_enumeration'Pos(s)-Tab_enumeration'Pos(Tab_enumeration'First), tab(s)'Unrestricted_Access);
+        tabs.Tab_Window (Tab_enumeration'Pos (s) - Tab_enumeration'Pos (Tab_enumeration'First), tab (s)'Unrestricted_Access);
       end loop;
       --  3/ Create OK, Cancel buttons:
       Create (ok, Parent, ok_message,

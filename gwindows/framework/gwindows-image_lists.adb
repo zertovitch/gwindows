@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                 G W I N D O W S . I M A G E _ L I S T S                  --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -96,56 +98,80 @@ package body GWindows.Image_Lists is
    -- Create --
    ------------
 
+   ILC_COLOR           : constant := 0;
+   ILC_COLOR4          : constant := 4;
+   ILC_COLOR8          : constant := 8;
+   ILC_COLOR16         : constant := 16#10#;
+   ILC_COLOR24         : constant := 16#18#;
+   ILC_COLOR32         : constant := 16#20#;
+   LR_CREATEDIBSECTION : constant := 16#2000#;
+   LR_COPYFROMRESOURCE : constant := 16#4000#;
+
+   Get_Color_Flag : constant array (Color_Option_Type)
+     of Interfaces.C.unsigned :=
+     (Default            => ILC_COLOR,
+      Depth_4            => ILC_COLOR4,
+      Depth_8            => ILC_COLOR8,
+      Depth_16           => ILC_COLOR16,
+      Depth_24           => ILC_COLOR24,
+      Depth_32           => ILC_COLOR32,
+      Create_DIB_Section => LR_CREATEDIBSECTION,
+      Copy_From_Resource => LR_COPYFROMRESOURCE);
+
    procedure Create (List          : in out Image_List_Type;
                      Width, Height : in     Positive;
                      Initial_Size  : in     Positive;
-                     Grow_By       : in     Natural         := 1)
+                     Grow_By       : in     Natural           := 1;
+                     Color_Option  : in     Color_Option_Type := Default)
    is
       function ImageList_Create
-        (CX    : Positive := Width;
-         XY    : Positive := Height;
-         FLAGS : Natural  := 0;
-         Init  : Positive := Initial_Size;
-         Grow  : Natural  := Grow_By)
+        (CX    : Interfaces.C.int      := Interfaces.C.int (Width);
+         CY    : Interfaces.C.int      := Interfaces.C.int (Height);
+         FLAGS : Interfaces.C.unsigned := 0;
+         Init  : Interfaces.C.int      := Interfaces.C.int (Initial_Size);
+         Grow  : Interfaces.C.int      := Interfaces.C.int (Grow_By))
         return GWindows.Types.Handle;
       pragma Import (StdCall, ImageList_Create, "ImageList_Create");
    begin
-      Handle (List, ImageList_Create);
+      Handle (List, ImageList_Create (FLAGS => Get_Color_Flag (Color_Option)));
    end Create;
 
-   procedure Create (List    : in out Image_List_Type;
-                     Name    : in     GString;
-                     Width   : in     Positive;
-                     Grow_By : in     Natural         := 1)
+   procedure Create
+     (List          : in out Image_List_Type;
+      Name          : in     GString;
+      Width         : in     Positive;
+      Grow_By       : in     Natural           := 1;
+      Color_Option  : in     Color_Option_Type := Create_DIB_Section)
    is
       C_Text : Interfaces.C.char_array :=
         Interfaces.C.To_C (GWindows.GStrings.To_String (Name));
-
-      LR_CREATEDIBSECTION : constant := 16#2000#;
 
       function ImageList_LoadImage
         (HINST : GWindows.Types.Handle :=
            GWindows.Internal.Current_hInstance;
          Name  : access Interfaces.C.char      := C_Text (C_Text'First)'Access;
-         CX    : in     Positive               := Width;
-         Grow  : in     Natural                := Grow_By;
+         CX    : in     Interfaces.C.int       := Interfaces.C.int (Width);
+         Grow  : in     Interfaces.C.int       := Interfaces.C.int (Grow_By);
          CREF  : in     Interfaces.C.unsigned  := 16#FF000000#;
-         UT    : in     Integer                := 0;
-         FLAGS : in     Natural                := LR_CREATEDIBSECTION)
+         UT    : in     Interfaces.C.unsigned  := 0;
+         FLAGS : in     Interfaces.C.unsigned  := LR_CREATEDIBSECTION)
         return GWindows.Types.Handle;
       pragma Import (StdCall, ImageList_LoadImage, "ImageList_LoadImage");
    begin
-      Handle (List, ImageList_LoadImage);
+      Handle (List, ImageList_LoadImage
+        (FLAGS => Get_Color_Flag (Color_Option)));
    end Create;
 
    ----------------------
    -- Create_From_File --
    ----------------------
 
-   procedure Create_From_File (List      : in out Image_List_Type;
-                               File_Name : in     GString;
-                               Width     : in     Positive;
-                               Grow_By   : in     Natural         := 1)
+   procedure Create_From_File
+     (List         : in out Image_List_Type;
+      File_Name    : in     GString;
+      Width        : in     Positive;
+      Grow_By      : in     Natural           := 1;
+      Color_Option : in     Color_Option_Type := Default)
    is
       pragma Warnings (Off, List);
 
@@ -156,15 +182,17 @@ package body GWindows.Image_Lists is
       function ImageList_LoadImage
         (HINST : GWindows.Types.Handle := GWindows.Internal.Current_hInstance;
          Name  : access Interfaces.C.char     := C_Text (C_Text'First)'Access;
-         CX    : in     Positive              := Width;
-         Grow  : in     Natural               := Grow_By;
+         CX    : in     Interfaces.C.int      := Interfaces.C.int (Width);
+         Grow  : in     Interfaces.C.int      := Interfaces.C.int (Grow_By);
          CREF  : in     Interfaces.C.unsigned := 16#FF000000#;
-         UT    : in     Integer               := 0;
-         FLAGS : in     Natural               := LR_LOADFROMFILE)
+         UT    : in     Interfaces.C.int      := 0;
+         FLAGS : in     Interfaces.C.unsigned := LR_LOADFROMFILE)
         return GWindows.Types.Handle;
       pragma Import (StdCall, ImageList_LoadImage, "ImageList_LoadImage");
+      use type Interfaces.C.unsigned;
    begin
-      Handle (List, ImageList_LoadImage);
+      Handle (List, ImageList_LoadImage
+        (FLAGS => LR_LOADFROMFILE + Get_Color_Flag (Color_Option)));
    end Create_From_File;
 
    --------------

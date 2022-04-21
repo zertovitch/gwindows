@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -169,9 +169,9 @@ package GWindows.Windows is
       CClass     : in     GString     := "");
    --  Create as an MDI Top Window
    --  When using MDI windows you should not have any menus with command
-   --  IDs from 5000 to the maximum number of MDI child windows you will
-   --  use.
-   --  For details on creating an MDI application, see the MDI sample
+   --  IDs from IDM_FIRSTCHILD to IDM_FIRSTCHILD - 1 plus the maximum number
+   --  of MDI child windows you will use.
+   --  For details on creating an MDI application, see the MDI sample.
 
    procedure Create_MDI_Child
      (Window     : in out Window_Type;

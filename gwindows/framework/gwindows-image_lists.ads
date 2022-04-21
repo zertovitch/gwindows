@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                 G W I N D O W S . I M A G E _ L I S T S                  --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -47,23 +49,41 @@ package GWindows.Image_Lists is
    procedure Finalize (List : in out Image_List_Type);
    --  Insures that image lists are properly destroyed, etc.
 
+   type Color_Option_Type is
+     (Default,
+      Depth_4, Depth_8, Depth_16, Depth_24, Depth_32,
+      --  Specific color depths.
+      Create_DIB_Section,
+      --  "Creates DIB section bitmap rather than a compatible bitmap.
+      --   This flag is useful for loading a bitmap without mapping it
+      --   to the colors of the display device."
+      Copy_From_Resource
+      --  "Tries to reload an icon or cursor resource from the original
+      --   resource file rather than simply copying the current image."
+      );
+
    procedure Create (List          : in out Image_List_Type;
                      Width, Height : in     Positive;
                      Initial_Size  : in     Positive;
-                     Grow_By       : in     Natural         := 1);
+                     Grow_By       : in     Natural           := 1;
+                     Color_Option  : in     Color_Option_Type := Default);
 
-   procedure Create (List    : in out Image_List_Type;
-                     Name    : in     GString;
-                     Width   : in     Positive;
-                     Grow_By : in     Natural         := 1);
+   procedure Create
+     (List          : in out Image_List_Type;
+      Name          : in     GString;
+      Width         : in     Positive;
+      Grow_By       : in     Natural           := 1;
+      Color_Option  : in     Color_Option_Type := Create_DIB_Section);
    --  Create an image list from a resource use #XXX for numeric resources
    --  Width is the size of each image in a long bitmap, height is height of
    --  bitmap
 
-   procedure Create_From_File (List      : in out Image_List_Type;
-                               File_Name : in     GString;
-                               Width     : in     Positive;
-                               Grow_By   : in     Natural         := 1);
+   procedure Create_From_File
+     (List         : in out Image_List_Type;
+      File_Name    : in     GString;
+      Width        : in     Positive;
+      Grow_By      : in     Natural           := 1;
+      Color_Option : in     Color_Option_Type := Default);
    --  Create an image list from a bitmap file
 
    procedure Duplicate (In_List  : in     Image_List_Type;

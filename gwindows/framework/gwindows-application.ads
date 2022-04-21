@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -162,9 +164,32 @@ package GWindows.Application is
    --  In any other case, the returned string is empty.
 
    function Desktop_Width return Natural;
-   --  Returns width of desktop
+   --  Returns width of desktop (on the primary monitor).
 
    function Desktop_Height return Natural;
-   --  Returns height of desktop
+   --  Returns height of desktop (on the primary monitor).
+
+   type Monitor_Dimensions is access
+      procedure (Rectangle : GWindows.Types.Rectangle_Type);
+
+   procedure Enumerate_Display_Monitors (M : Monitor_Dimensions);
+   --  Reveals the rectangles corresponding to each monitor.
+   --  * The primary monitor matches Desktop_Width, Desktop_Height.
+   --  * The primary monitor is not always the first monitor
+   --      in the enumeration!
+   --
+   --  A version of Enumerate_Display_Monitors using generics
+   --  instead of a call-back causes an unexpected exit with
+   --  GNAT GPL 2017, the last 32-bit version of GNAT.
+
+   type Screen_Visibility_Type is (Good, Fair, Poor);
+
+   function Screen_Visibility
+     (Left_Top_Corner : Types.Point_Type;
+      Minimum_Width   : Positive := 200;
+      Minimum_Height  : Positive := 50)
+      return Screen_Visibility_Type;
+   --  Determines the potential visibility of a window's (left, top) corner.
+   --  The check is done for all available monitors.
 
 end GWindows.Application;

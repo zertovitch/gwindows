@@ -35,10 +35,12 @@ procedure Game_of_Life_Interactive is
    type Map_Array is array (0 .. 1) of Fixed_Map;
 
    protected GoL_Map is
-      procedure Clear;
+      procedure Clear_All;
+      procedure Clear_Current;
       procedure Set (x, y : Integer; f : GoL.Figure; s : GoL.State);
       function Is_Changed (x, y : Integer) return Boolean;
       function Get (x, y : Integer) return GoL.State;
+      procedure Swap;
       procedure Evolve;
    private
       current : Natural := 0;
@@ -47,11 +49,16 @@ procedure Game_of_Life_Interactive is
 
    protected body GoL_Map is
       --
-      procedure Clear is
+      procedure Clear_All is
       begin
         GoL.Clear (Map (current));
         GoL.Clear (Map (1 - current));
-      end Clear;
+      end Clear_All;
+      --
+      procedure Clear_Current is
+      begin
+        GoL.Clear (Map (current));
+      end Clear_Current;
       --
       procedure Set (x, y : Integer; f : GoL.Figure; s : GoL.State) is
       begin
@@ -69,10 +76,15 @@ procedure Game_of_Life_Interactive is
         return Map (current) (x, y);
       end Get;
       --
+      procedure Swap is
+      begin
+        current := 1 - current;
+      end Swap;
+      --
       procedure Evolve is
       begin
         GoL.Move (Map (current), Map (1 - current));
-        current := 1 - current;
+        Swap;
       end Evolve;
    end GoL_Map;
 
@@ -150,7 +162,9 @@ procedure Game_of_Life_Interactive is
    procedure Refresh_Titles is
    begin
       Main.Text (
-        "Game of Life - Hand of God: left-click: add life, right-click: remove - " &
+        "The Game of Life.       " &
+        "Hand of God  -->   " &
+        "Left-click: add life.   Right-click: remove.       " &
         "Wait time =" & To_GString_From_String (Duration'Image (wait))
       );
       Figure_Button.Text (To_GString_From_String (GoL.Figure'Image (current_figure)));
@@ -186,6 +200,32 @@ procedure Game_of_Life_Interactive is
          end select;
       end loop;
    end Animation;
+
+   procedure Instructions (x0, y0 : Integer) is
+     subtype Row_Range is Natural range 1 .. 47;
+     subtype Row_Text is String (Row_Range);
+     bitmap : constant array (1 .. 10) of Row_Text :=
+       ("                                               ",
+        "  ##   #     #        #                      # ",
+        " #  #  #              #                      # ",
+        " #     #    ##    ##  # ##     ## #    #     # ",
+        " #     #     #   #    ##       # # #  # #    # ",
+        " #     #     #   #    ##       # # #  ###    # ",
+        " #  #  #  #  #   #    # #      # # #  #        ",
+        "  ##    ##  ###   ##  #  #     # # #   ##    # ",
+        "                                               ",
+        " - - - - - - - - - - - - - - - - - - - - -     "
+        );
+   begin
+     GoL_Map.Clear_Current;
+     for y in bitmap'Range loop
+       for x in Row_Range loop
+         if bitmap (y) (x) /= ' ' then
+           GoL_Map.Set (x + x0, y + y0, GoL.Point, GoL.Alive);
+         end if;
+       end loop;
+     end loop;
+   end Instructions;
 
    procedure Do_Mouse_Move
      (Window : in out GWindows.Base.Base_Window_Type'Class;
@@ -274,7 +314,7 @@ procedure Game_of_Life_Interactive is
    is
    pragma Unreferenced (Window);
    begin
-      GoL_Map.Clear;
+      GoL_Map.Clear_All;
       Draw_Map (full => True);
    end Do_Clear_Button;
 
@@ -289,7 +329,7 @@ procedure Game_of_Life_Interactive is
    button_width : constant := 130;
 
 begin
-   GoL_Map.Clear;
+   GoL_Map.Clear_All;
 
    On_Destroy_Handler (Main, Do_Close'Unrestricted_Access);
 
@@ -340,6 +380,8 @@ begin
    Figure_Button.Create      (Buttons_Panel, "(figure)",       button_width * 3, 0, button_width, 40);
    Clear_Button.Create       (Buttons_Panel, "Clear",          button_width * 4, 0, button_width, 40);
 
+   --  Callbacks. Note: in a larger application, you can prefer overriding
+   --  the methods and avoid pointers (access types) completely.
    On_Click_Handler (Play_Pause_Button,  Do_Play_Pause_Button'Unrestricted_Access);
    On_Click_Handler (Speed_Plus_Button,  Do_Speed_Plus_Button'Unrestricted_Access);
    On_Click_Handler (Speed_Minus_Button, Do_Speed_Minus_Button'Unrestricted_Access);
@@ -359,9 +401,22 @@ begin
    Main.Dock_Children;
    Buttons_Panel.Dock_Children;
 
-   Show (Main);
+   Main.Show;
    Refresh_Titles;
 
+   Draw_Map (full => True);
+   Main.Redraw (Redraw_Now => True);
+   Instructions (40, 20);
+   GoL_Map.Swap;
+   Instructions (20, 40);
+   for blinks in 1 .. 5 loop
+     GoL_Map.Swap;
+     Draw_Map (full => False);
+     Main.Redraw (Redraw_Now => True);
+     Message_Check;
+     delay 0.3;
+   end loop;
+   delay 1.0;
    Animation.Start;
    Message_Loop;
    Animation.Quit;

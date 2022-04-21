@@ -7,13 +7,33 @@ Major changes - numbers below refer to svn repository revisions
       https://sourceforge.net/p/gnavi/code/
     From SVN, you can see all changes between two revisions A and B with "svn log -rA:B".
 
-GWindows upcoming release
-=========================
+    The repository is mirrored at https://github.com/zertovitch/gwindows
 
+GWindows, upcoming release
+==========================
+
+
+GWindows release, 29-Jan-2022 [rev. 429]
+========================================
+
+427: GWindows.Image_Lists: added color options;
+        includes features of "extended" Ex_Image_List_Type
+        in package GWindows.Image_Lists.Ex_Image_Lists, which
+        is marked as obsolescent.
+424: GWindows.Application: added function Screen_Visibility.
+423: GWindows.Application: added Enumerate_Display_Monitors.
+422: GWindows.Base: added Set_Foreground_Window.
+421: GWindows.Base: added Set_Active_Window.
+417: GWindows.Common_Controls.Ex_Tb (toolbar): is now 64-bit compatible;
+        see LEA http://l-e-a.sf.net/ , LEA_GWin.Toolbars for an example.
+414: GWindows.Scintilla: method names are "de-camel-cased":
+        e.g.: "Move_Caret_Inside_View" instead of "MoveCaretInsideView".
+412: GWindows.Scintilla: works on both Intel x86 32-bit and x64 64-bit
+        types of platforms.
 411: GWindows.Common_Controls.Ex_List_View: method On_Free_Payload
         is now public and can be overriden with effect.
 410: GWindows.Common_Controls.Ex_List_View: Sort can use a comparison
-        method not based on strings.
+        method not based on strings (e.g. a numerical comparison).
 
 GWindows release, 01-Jan-2021 [rev. 397]
 ========================================

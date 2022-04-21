@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 --  GUI contents of resource script file: GWenerator.rc
---  Transcription time: 2021/04/14  14:16:39
+--  Transcription time: 2021/12/20  17:31:08
 --
 --  Translated by the RC2GW or by the GWenerator tool.
 --  URL: http://sf.net/projects/gnavi
@@ -34,7 +34,7 @@ package body GWenerator_Resource_GUI is
     Append_Item (New_Menu.Popup_0001, "&Save" & To_GString_From_String((1=>ASCII.HT)) & "Ctrl+S", Save_GWen);
     Append_Item (New_Menu.Popup_0001, "Save &as...", Save_GWen_as);
     Append_Separator (New_Menu.Popup_0001);
-    Append_Item (New_Menu.Popup_0001, "&Quit", Quit);
+    Append_Item (New_Menu.Popup_0001, "&Quit" & To_GString_From_String((1=>ASCII.HT)) & "Ctrl+W", Quit);
     New_Menu.Popup_0002 := Create_Popup;
     Append_Menu (New_Menu.Main, "&Actions", New_Menu.Popup_0002);
     Append_Item (New_Menu.Popup_0002, "&Generate test application", Generate_test_app);
@@ -81,13 +81,13 @@ package body GWenerator_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False)
   is
-    x,y,w,h: Integer;
+    x, y, w, h: Integer;
   begin
     Dlg_to_Scn ( 0, 0, 256, 196, x,y,w,h);
-    if Left   /= Use_Default then x:= Left;   end if;
-    if Top    /= Use_Default then y:= Top;    end if;
-    if Width  /= Use_Default then w:= Width;  end if;
-    if Height /= Use_Default then h:= Height; end if;
+    if Left   /= Use_Default then x := Left;   end if;
+    if Top    /= Use_Default then y := Top;    end if;
+    if Width  /= Use_Default then w := Width;  end if;
+    if Height /= Use_Default then h := Height; end if;
     Create_As_Dialog(
       Window => Window_Type(Window),
       Parent => Parent,
@@ -122,7 +122,7 @@ package body GWenerator_Resource_GUI is
       Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
-    Dlg_to_Scn ( 109, 174, 50, 14, x,y,w,h);
+    Dlg_to_Scn ( 109, 172, 50, 18, x,y,w,h);
     --  Both versions of the button are created.
     --  The more meaningful one is made visible, but this choice
     --  can be reversed, for instance on a "Browse" button.
@@ -138,7 +138,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn ( 47, 10, 165, 8, x,y,w,h);
     Create_Label (Window, "GWenerator: a code generator for GWindows", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn ( 47, 25, 196, 8, x,y,w,h);
-    Create_Label (Window, "Copyright © Gautier de Montmollin 2008 .. 2018", x,y,w,h, GWindows.Static_Controls.Left, None);
+    Create_Label (Window, "Copyright © Gautier de Montmollin 2008 .. 2021", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn ( 47, 40, 100, 8, x,y,w,h);
     Create_Label (Window, "MIT Open Source License", x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn ( 11, 55, 30, 8, x,y,w,h);
@@ -154,9 +154,9 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn ( 23, 134, 118, 8, x,y,w,h);
     Create (Window.GNAVI_URL, Window, "GNAVI / GWindows", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAVI_URL);
     Dlg_to_Scn ( 23, 149, 170, 8, x,y,w,h);
-    Create (Window.ResEdit_URL, Window, "ResEdit", x,y,w,h, GWindows.Static_Controls.Left, None, ID => ResEdit_URL);
+    Create (Window.ResEdit_URL, Window, "ResEdit (freeware)", x,y,w,h, GWindows.Static_Controls.Left, None, ID => ResEdit_URL);
     Dlg_to_Scn ( 5, 105, 247, 62, x,y,w,h);
-    Create( Window.Static_0006, Window, "Software made with the following free open source components:", x,y,w,h);
+    Create( Window.Static_0006, Window, "Software made with the following free open source components:", x, y, w, h);
     Dlg_to_Scn ( 133, 119, 113, 8, x,y,w,h);
     Create (Window.GNAT_Version, Window, "GNAT_Version", x,y,w,h, GWindows.Static_Controls.Left, None, ID => GNAT_Version);
   end Create_Contents;  --  About_box_Type
@@ -176,13 +176,13 @@ package body GWenerator_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False)
   is
-    x,y,w,h: Integer;
+    x, y, w, h: Integer;
   begin
     Dlg_to_Scn ( 0, 0, 314, 282, x,y,w,h);
-    if Left   /= Use_Default then x:= Left;   end if;
-    if Top    /= Use_Default then y:= Top;    end if;
-    if Width  /= Use_Default then w:= Width;  end if;
-    if Height /= Use_Default then h:= Height; end if;
+    if Left   /= Use_Default then x := Left;   end if;
+    if Top    /= Use_Default then y := Top;    end if;
+    if Width  /= Use_Default then w := Width;  end if;
+    if Height /= Use_Default then h := Height; end if;
     Create_As_Dialog(
       Window => Window_Type(Window),
       Parent => Parent,
@@ -217,7 +217,7 @@ package body GWenerator_Resource_GUI is
       Client_Area_Size(Window, w, h);
     end if;
     Use_GUI_Font(Window);
-    Dlg_to_Scn ( 195, 255, 50, 14, x,y,w,h);
+    Dlg_to_Scn ( 195, 255, 50, 18, x,y,w,h);
     --  Both versions of the button are created.
     --  The more meaningful one is made visible, but this choice
     --  can be reversed, for instance on a "Browse" button.
@@ -228,7 +228,7 @@ package body GWenerator_Resource_GUI is
     else  --  Hide the closing button
       Hide (Window.IDOK);
     end if;
-    Dlg_to_Scn ( 250, 255, 50, 14, x,y,w,h);
+    Dlg_to_Scn ( 250, 255, 50, 18, x,y,w,h);
     --  Both versions of the button are created.
     --  The more meaningful one is made visible, but this choice
     --  can be reversed, for instance on a "Browse" button.
@@ -259,7 +259,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn ( 130, 42, 131, 10, x,y,w,h);
     Create (Window.Auto_translate, Window, "Automatically translate when newer", x,y,w,h, ID => Auto_translate);
     Dlg_to_Scn ( 10, 5, 290, 80, x,y,w,h);
-    Create( Window.Static_0002, Window, "Resource file", x,y,w,h);
+    Create( Window.Static_0002, Window, "Resource file", x, y, w, h);
     Dlg_to_Scn ( 130, 198, 131, 10, x,y,w,h);
     Create (Window.Auto_build, Window, "Automatically build when GUI newer", x,y,w,h, ID => Auto_build);
     Dlg_to_Scn ( 83, 173, 168, 15, x,y,w,h);
@@ -278,7 +278,7 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn ( 20, 198, 107, 10, x,y,w,h);
     Create (Window.Listen_Ada, Window, "Listen for newer GUI version", x,y,w,h, ID => Listen_Ada);
     Dlg_to_Scn ( 10, 161, 290, 55, x,y,w,h);
-    Create( Window.Static_0003, Window, "Main application ( facultative )", x,y,w,h);
+    Create( Window.Static_0003, Window, "Main application ( facultative )", x, y, w, h);
     Dlg_to_Scn ( 23, 110, 270, 10, x,y,w,h);
     Create (Window.Separate_items, Window, "Produce a separate package for each item", x,y,w,h, ID => Separate_items);
     Dlg_to_Scn ( 63, 125, 20, 15, x,y,w,h);
@@ -292,9 +292,9 @@ package body GWenerator_Resource_GUI is
     Dlg_to_Scn ( 128, 125, 55, 10, x,y,w,h);
     Create (Window.Use_base_defs, Window, "use defaults", x,y,w,h, ID => Use_base_defs);
     Dlg_to_Scn ( 10, 97, 290, 60, x,y,w,h);
-    Create( Window.Static_0006, Window, "RC2GW - RC to GWindows transcription engine", x,y,w,h);
+    Create( Window.Static_0006, Window, "RC2GW - RC to GWindows transcription engine", x, y, w, h);
     Dlg_to_Scn ( 10, 220, 288, 30, x,y,w,h);
-    Create( Window.Static_0007, Window, "Ada builder command line ( facultative )", x,y,w,h);
+    Create( Window.Static_0007, Window, "Ada builder command line ( facultative )", x, y, w, h);
     Dlg_to_Scn ( 15, 230, 275, 14, x,y,w,h);
     Create (Window.Ada_cmd, Window, "", x,y,w,h, Horizontal_Scroll => True, Read_Only => False, ID => Ada_cmd);
     Dlg_to_Scn ( 18, 178, 60, 8, x,y,w,h);
@@ -322,13 +322,13 @@ package body GWenerator_Resource_GUI is
       Help_Button : in     Boolean := False;
       Is_Dynamic  : in     Boolean := False)
   is
-    x,y,w,h: Integer;
+    x, y, w, h: Integer;
   begin
     Dlg_to_Scn ( 0, 0, 469, 246, x,y,w,h);
-    if Left   /= Use_Default then x:= Left;   end if;
-    if Top    /= Use_Default then y:= Top;    end if;
-    if Width  /= Use_Default then w:= Width;  end if;
-    if Height /= Use_Default then h:= Height; end if;
+    if Left   /= Use_Default then x := Left;   end if;
+    if Top    /= Use_Default then y := Top;    end if;
+    if Width  /= Use_Default then w := Width;  end if;
+    if Height /= Use_Default then h := Height; end if;
     Create_As_Dialog(
       Window => Window_Type(Window),
       Parent => Parent,
@@ -364,7 +364,7 @@ package body GWenerator_Resource_GUI is
     end if;
     Use_GUI_Font(Window);
     Dlg_to_Scn ( 5, 105, 456, 135, x,y,w,h);
-    Create( Window.Details_frame, Window, "Details", x,y,w,h);
+    Create( Window.Details_frame, Window, "Details", x, y, w, h);
     Dlg_to_Scn ( 12, 132, 188, 105, x,y,w,h);
     Create (Window.RC_to_GWindows_messages, Window, x,y,w,h, False, ID => RC_to_GWindows_messages);
     Dlg_to_Scn ( 210, 132, 245, 105, x,y,w,h);
@@ -426,8 +426,8 @@ package body GWenerator_Resource_GUI is
     Create (Window.Ada_file_icon, Window, Num_resource (Ada_file), x,y,w,h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn ( 367, 37, 21, 20, x,y,w,h);
     Create (Window.Exe_file_icon, Window, Num_resource (Exe_file), x,y,w,h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn ( 180, 80, 45, 10, x,y,w,h);
-    Create (Window.Show_Ada_build, Window, "Ada build", x,y,w,h, ID => Show_Ada_build);
+    Dlg_to_Scn ( 150, 80, 75, 10, x,y,w,h);
+    Create (Window.Show_Ada_build, Window, "Show Ada build", x,y,w,h, ID => Show_Ada_build);
     Dlg_to_Scn ( 275, 80, 120, 25, x,y,w,h);
     Create (Window.Auto_build_lift_msg, Window, "Last build failed or was stopped. Auto build is temporarily disabled.", x,y,w,h, GWindows.Static_Controls.Left, None, ID => Auto_build_lift_msg);
     Dlg_to_Scn ( 250, 80, 11, 10, x,y,w,h);
@@ -558,6 +558,6 @@ package body GWenerator_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  --  Last line of resource script file: 270
+  --  Last line of resource script file: 271
 
 end GWenerator_Resource_GUI;

@@ -71,7 +71,7 @@ package body GWindows.Image_Lists.Ex_Image_Lists is
                        Grow_By : in     Natural         := 1;
                        Color_Depth  : in Color_Depth_Type    := Depth_32)
    is
-      C_Text : Interfaces.C.char_array :=
+      C_Text : constant Interfaces.C.char_array :=
         Interfaces.C.To_C (GWindows.GStrings.To_String (Name));
 
       function ImageList_LoadImage

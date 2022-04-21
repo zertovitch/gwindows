@@ -1,12 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
---                     Gwindows.Common_controls.Ex_Tb                       --
+--                     GWindows.Common_controls.Ex_Tb                       --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                   Copyright (C) 1999 - 2021 KonAd GmbH                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -26,30 +27,33 @@
 -- however invalidate  any other reasons why  the executable file  might be --
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
--- More information about GWINDOWS and the most current public version can  --
--- be located on the web at http://www.adapower.com/gwindows                --
+-- More information about GWindows and the latest current release can       --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with GWindows.Base; use GWindows.Base;
-with Interfaces.C;
-with Interfaces.C.Strings; use Interfaces.C.Strings;
-with GWindows.GStrings; use GWindows.GStrings;
+with Interfaces.C.Strings;
+with GWindows.GStrings;
+with GWindows.Types;
 
 package body GWindows.Common_Controls.Ex_Tb is
 
    CCS_NORESIZE        : constant := 4;
+   --
    WM_USER             : constant := 16#400#;
    TB_ADDBUTTONS       : constant := WM_USER + 20;
-   Tbstate_Enabled     : constant := 16#4#;
+   --  TB_AUTOSIZE         : constant := WM_USER + 33;
+   TB_BUTTONSTRUCTSIZE : constant := WM_USER + 30;
+   TBSTATE_ENABLED     : constant := 16#4#;
    TBSTYLE_FLAT        : constant := 16#800#;
    TBSTYLE_LIST        : constant := 16#1000#;
+   TBSTYLE_TOOLTIPS    : constant := 16#100#;
+   --
    BTNS_CHECK          : constant := 2;
-   TB_BUTTONSTRUCTSIZE : constant := (WM_USER + 30);
    BTNS_AUTOSIZE       : constant := 16#10#;
    I_IMAGENONE         : constant := (-2);
-   TBSTYLE_TOOLTIPS    : constant := 16#100#;
---   TB_AUTOSIZE         : constant := (WM_USER + 33);
 
    type Tbbutton is
       record
@@ -59,8 +63,8 @@ package body GWindows.Common_Controls.Ex_Tb is
          Style   : Interfaces.C.unsigned_char := 0;
          Pad1    : Interfaces.C.unsigned_char := 0;
          pad2    : Interfaces.C.unsigned_char := 0;
-         Data    : Integer                    := 0;
-         Istring : chars_ptr;
+         Data    : GWindows.Types.Wparam      := 0;
+         Istring : Interfaces.C.Strings.chars_ptr;
       end record;
 
    --------------
@@ -81,14 +85,15 @@ package body GWindows.Common_Controls.Ex_Tb is
       Is_Dynamic    : in     Boolean                              := False) is
 
       use Interfaces.C;
+      use type GWindows.Types.Wparam;
 
       Styles : Interfaces.C.unsigned := CCS_NORESIZE + TBSTYLE_TOOLTIPS;
 
       procedure Sendmessage_Buttonstructsize
         (Hwnd   : GWindows.Types.Handle := Handle (Control);
-         Umsg   : Interfaces.C.int  := TB_BUTTONSTRUCTSIZE;
-         Wparam : Integer           := 20;
-         Lparam : Integer           := 0);
+         Umsg   : Interfaces.C.int      := TB_BUTTONSTRUCTSIZE;
+         Wparam : GWindows.Types.Wparam := Tbbutton'Size / 8;
+         Lparam : GWindows.Types.Lparam := 0);
       pragma Import (Stdcall, Sendmessage_Buttonstructsize,
                        "SendMessage" & Character_Mode_Identifier);
 
@@ -100,7 +105,7 @@ package body GWindows.Common_Controls.Ex_Tb is
          Styles := Styles + TBSTYLE_FLAT;
       end if;
 
-      GWindows.Base.Create_Control (Base_Window_Type (Control),
+      GWindows.Base.Create_Control (GWindows.Base.Base_Window_Type (Control),
                                     Parent,
                                     "ToolbarWindow32",
                                     "",
@@ -122,8 +127,9 @@ package body GWindows.Common_Controls.Ex_Tb is
    -- Set_Image_list --
    --------------------
 
-   procedure Set_Image_List (Control : in out Ex_Toolbar_Control_Type;
-                             List    : in     Ex_Image_List_Type)
+   procedure Set_Image_List
+     (Control : in out Ex_Toolbar_Control_Type;
+      List    : in     GWindows.Image_Lists.Ex_Image_Lists.Ex_Image_List_Type)
    is
       use GWindows.Image_Lists;
    begin
@@ -149,9 +155,9 @@ package body GWindows.Common_Controls.Ex_Tb is
 
       procedure Sendmessage_Addbutton
         (Hwnd   : GWindows.Types.Handle := Handle (Control);
-         Umsg   : Interfaces.C.int  := TB_ADDBUTTONS;
-         Wparam : Integer           := 1;
-         Lparam : Button_Array      := Tb);
+         Umsg   : Interfaces.C.int      := TB_ADDBUTTONS;
+         Wparam : GWindows.Types.Lparam := 1;
+         Lparam : Button_Array          := Tb);
       pragma Import (Stdcall, Sendmessage_Addbutton,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -162,11 +168,11 @@ package body GWindows.Common_Controls.Ex_Tb is
             Tb (1).Style := 0;
       end case;
 
-      Tb (1).Style := Tb (1).Style + BTNS_AUTOSIZE;
-      Tb (1).Istring := New_String (To_String (Text));
-      Tb (1).Image := Image_Index;
+      Tb (1).Style   := Tb (1).Style + BTNS_AUTOSIZE;
+      Tb (1).Istring := Interfaces.C.Strings.New_String (GWindows.GStrings.To_String (Text));
+      Tb (1).Image   := Image_Index;
       Tb (1).Command := Command;
-      Tb (1).State := Tbstate_Enabled;
+      Tb (1).State   := TBSTATE_ENABLED;
 
       if None_Image then
          Tb (1).Image := I_IMAGENONE;

@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                 G W I N D O W S . S C R O L L _ B A R S                  --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -325,7 +325,7 @@ package body GWindows.Scroll_Bars is
       Request : in     GWindows.Base.Scroll_Request_Type;
       Control : in     GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (Control);
    begin
       On_Scroll (Scroll_Bar_Type'Class (Window), Request);
    end On_Horizontal_Scroll;
@@ -339,7 +339,7 @@ package body GWindows.Scroll_Bars is
       Request : in     GWindows.Base.Scroll_Request_Type;
       Control : in     GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, Control);
+      pragma Unreferenced (Control);
    begin
       On_Scroll (Scroll_Bar_Type'Class (Window), Request);
    end On_Vertical_Scroll;

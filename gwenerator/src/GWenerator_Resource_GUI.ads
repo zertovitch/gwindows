@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 --  GUI contents of resource script file: GWenerator.rc
---  Transcription time: 2021/04/14  14:16:39
+--  Transcription time: 2021/12/20  17:31:08
 --
 --  Translated by the RC2GW or by the GWenerator tool.
 --  URL: http://sf.net/projects/gnavi
@@ -212,7 +212,7 @@ package GWenerator_Resource_GUI is
     Authors: constant String:= "Gautier de Montmollin";
     FileDescription: constant String:= "GWenerator - Resource script (.rc) to GWindows Ada code translator";
     FileVersion: constant String:= "1.11";
-    LegalCopyright: constant String:= "© 2008 .. 2018 G. de Montmollin (MIT license)";
+    LegalCopyright: constant String:= "© 2008 .. 2021 G. de Montmollin (MIT license)";
     ProductName: constant String:= "GWenerator";
     Translation: constant:= 1033;
   end Version_info;
@@ -308,6 +308,6 @@ package GWenerator_Resource_GUI is
 
   function Num_resource (id : Natural) return GString;  --  Just turn 123 into "#123".
 
-  --  Last line of resource script file: 270
+  --  Last line of resource script file: 271
 
 end GWenerator_Resource_GUI;

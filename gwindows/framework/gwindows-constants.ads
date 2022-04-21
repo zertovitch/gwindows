@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
 --                                                                          --
 --                   G W I N D O W S . C O N S T A N T S                    --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -48,5 +48,10 @@ package GWindows.Constants is
    IDCLOSE                    : constant := 8;
    IDHELP                     : constant := 9;
    --  Common Win32 IDs
+
+   IDM_FIRSTCHILD             : constant := 5000;
+   --  When using MDI windows you should not have any menus with command
+   --  IDs from IDM_FIRSTCHILD to IDM_FIRSTCHILD - 1 plus the maximum number
+   --  of MDI child windows you will use.
 
 end GWindows.Constants;

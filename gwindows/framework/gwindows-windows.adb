@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -212,8 +212,9 @@ package body GWindows.Windows is
 
    type CLIENTCREATESTRUCT is
       record
-         hWindowMenu  : Interfaces.C.long := 0;
-         idFirstChild : Interfaces.C.int  := 5000;
+         hWindowMenu  : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         idFirstChild : Interfaces.C.unsigned :=
+           GWindows.Constants.IDM_FIRSTCHILD;
       end record;
 
    Client_Create_Struct : CLIENTCREATESTRUCT;

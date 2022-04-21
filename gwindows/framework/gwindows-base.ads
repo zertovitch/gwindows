@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2021 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,9 +29,8 @@
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
---   http://sf.net/projects/gnavi/                                          --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -144,6 +143,24 @@ package GWindows.Base is
    procedure Order (Window       : in out Base_Window_Type;
                     After_Window : in     Base_Window_Type'Class);
    --  Move window to position After_Window in layout order
+
+   procedure Set_Active_Window (Window : in out Base_Window_Type);
+   --  Activate a window of an application which is in the foreground.
+   --
+   --  The Set_Active_Window procedure activates a window,
+   --  but not if the application is in the background.
+   --  The window will be brought into the foreground (top of Z-Order)
+   --  if its application is in the foreground when the system activates
+   --  the window.
+
+   procedure Set_Foreground_Window (Window : in out Base_Window_Type);
+   --  Bring a window and its application to the foreground.
+   --
+   --  Brings the thread that created the specified window into the
+   --  foreground and activates the window. Keyboard input is directed
+   --  to the window, and various visual cues are changed for the user.
+   --  The system assigns a slightly higher priority to the thread that
+   --  created the foreground window than it does to other threads.
 
    procedure Horizontal_Scroll_Bar (Window : in out Base_Window_Type;
                                     State  : in     Boolean := True);
