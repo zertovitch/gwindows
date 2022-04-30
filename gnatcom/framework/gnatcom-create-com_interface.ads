@@ -60,7 +60,7 @@ package GNATCOM.Create.COM_Interface is
 
    type CoClass_Type (IID_Map : Pointer_To_GUID_Record_Array) is tagged
       record
-         Ref_Count : aliased Interfaces.C.long := 1;
+         Ref_Count : aliased Interfaces.Unsigned_32 := 1;
          IUnknown  : Pointer_To_COM_Interface_Type := null;
       end record;
    --  New COM objects extend CoClass_Type with their own implementation
@@ -157,7 +157,7 @@ package GNATCOM.Create.COM_Interface is
       record
          Vtbl           : System.Address := IUnknown_Vtbl'Address;
          CoClass        : Pointer_To_CoClass;
-         Ref_Count      : aliased Interfaces.C.long := 1;
+         Ref_Count      : aliased Interfaces.Unsigned_32 := 1;
       end record;
    pragma Convention (C_PASS_BY_COPY, COM_Interface_Type);
    --  The COM_Interface_Type is constructed so that the first element

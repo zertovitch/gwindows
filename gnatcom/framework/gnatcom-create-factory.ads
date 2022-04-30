@@ -140,7 +140,7 @@ package GNATCOM.Create.Factory is
       record
          Vtbl      : Pointer_To_IClassFactory_Vtbl :=
            IClassFactory_Vtbl'Access;
-         Ref_Count : aliased Interfaces.C.long := 1;
+         Ref_Count : aliased Interfaces.Unsigned_32 := 1;
          Create    : Creation_Function;
       end record;
    pragma Convention (C, IClassFactory);

@@ -44,7 +44,7 @@ package body GNATCOM.Create is
    -- Can_Close --
 
    procedure Can_Close is
-      use type Interfaces.C.long;
+      use type Interfaces.Unsigned_32;
    begin
       if
         (InProcServer = False) and then
