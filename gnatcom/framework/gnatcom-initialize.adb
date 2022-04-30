@@ -60,23 +60,36 @@ package body GNATCOM.Initialize is
    RPC_E_CHANGED_MODE : constant := 16#80010106#;
    --  Attempt to re-initilalize in wrong mode
 
-   function sync_fetch_and_add (Ref : access Integer;
-                                Add : Integer) return Integer;
-   pragma Import (Intrinsic, sync_fetch_and_add,
-                  "__sync_fetch_and_add_4");
+   function sync_fetch_and_add
+     (Ref : access Interfaces.Unsigned_32;
+      Add : Interfaces.Unsigned_32)
+      return Interfaces.Unsigned_32
+   with
+       Import,
+       Convention => Intrinsic,
+       External_Name => "__sync_fetch_and_add_4";
 
-   procedure InterlockedIncrement (Ref : access Integer) is
-      Old : Integer;
+   function sync_fetch_and_sub
+     (Ref : access Interfaces.Unsigned_32;
+      Add : Interfaces.Unsigned_32)
+      return Interfaces.Unsigned_32
+     with
+       Import,
+       External_Name => "__sync_fetch_and_sub_4",
+       Convention => Intrinsic;
+
+   procedure InterlockedIncrement (Ref : access Interfaces.Unsigned_32) is
+      Old : Interfaces.Unsigned_32;
       pragma Unreferenced (Old);
    begin
       Old := sync_fetch_and_add (Ref, 1);
    end InterlockedIncrement;
 
-   procedure InterlockedDecrement (Ref : access Integer) is
-      Old : Integer;
+   procedure InterlockedDecrement (Ref : access Interfaces.Unsigned_32) is
+      Old : Interfaces.Unsigned_32;
       pragma Unreferenced (Old);
    begin
-      Old := sync_fetch_and_add (Ref, -1);
+      Old := sync_fetch_and_sub (Ref, 1);
    end InterlockedDecrement;
 
    -- Initialize_COM --

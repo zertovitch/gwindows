@@ -41,21 +41,34 @@ package body GNATCOM.Create.COM_Interface is
 
    procedure Free_Interface (Pointer : in System.Address);
 
-   function sync_add_and_fetch (Ref : access Interfaces.C.long;
-                                Add : Integer) return Interfaces.C.long;
-   pragma Import (Intrinsic, sync_add_and_fetch,
-                  "__sync_add_and_fetch_4");
+   function sync_add_and_fetch
+     (Ref : access Interfaces.Unsigned_32;
+      Add : Interfaces.Unsigned_32)
+      return Interfaces.Unsigned_32
+     with
+       Import,
+       Convention => Intrinsic,
+       External_Name => "__sync_add_and_fetch_4";
 
-   function InterlockedIncrement (Ref : access Interfaces.C.long)
-                                  return Interfaces.C.long is
+   function sync_sub_and_fetch
+     (Ref : access Interfaces.Unsigned_32;
+      Add : Interfaces.Unsigned_32)
+      return Interfaces.Unsigned_32
+     with
+       Import,
+       Convention => Intrinsic,
+       External_Name => "__sync_sub_and_fetch_4";
+
+   function InterlockedIncrement (Ref : access Interfaces.Unsigned_32)
+                                  return Interfaces.Unsigned_32 is
    begin
       return sync_add_and_fetch (Ref, 1);
    end InterlockedIncrement;
 
-   function InterlockedDecrement (Ref : access Interfaces.C.long)
-                                  return Interfaces.C.long is
+   function InterlockedDecrement (Ref : access Interfaces.Unsigned_32)
+                                  return Interfaces.Unsigned_32 is
    begin
-      return sync_add_and_fetch (Ref, -1);
+      return sync_sub_and_fetch (Ref, 1);
    end InterlockedDecrement;
 
    ------------
@@ -65,7 +78,7 @@ package body GNATCOM.Create.COM_Interface is
    function AddRef (This : access COM_Interface_Type)
                    return Interfaces.C.unsigned_long
    is
-      Result : Interfaces.C.long;
+      Result : Interfaces.Unsigned_32;
       pragma Warnings (Off, Result);
    begin
       --  Object wide reference increment
@@ -90,7 +103,7 @@ package body GNATCOM.Create.COM_Interface is
       use type GNATCOM.Types.GUID;
 
       New_Interface : aliased Pointer_To_COM_Interface_Type;
-      Result        :         Interfaces.C.long;
+      Result        :         Interfaces.Unsigned_32;
       pragma Warnings (Off, Result);
    begin
       --  GNATCOM implements COM objects using a technique often
@@ -191,9 +204,9 @@ package body GNATCOM.Create.COM_Interface is
    function Release (This : access COM_Interface_Type)
                     return Interfaces.C.unsigned_long
    is
-      use type Interfaces.C.long;
+      use type Interfaces.Unsigned_32;
 
-      Result : Interfaces.C.long;
+      Result : Interfaces.Unsigned_32;
       pragma Warnings (Off, Result);
    begin
 
@@ -253,7 +266,7 @@ package body GNATCOM.Create.COM_Interface is
    --------------------
 
    procedure Free_Interface (Pointer : in System.Address) is
-      use type Interfaces.C.long;
+      use type Interfaces.Unsigned_32;
 
       function To_Pointer_To_COM_Interface_Type is
          new Ada.Unchecked_Conversion (System.Address,
@@ -264,7 +277,7 @@ package body GNATCOM.Create.COM_Interface is
 
       P_Interface : Pointer_To_COM_Interface_Type;
       CoClass   : Pointer_To_CoClass;
-      Result    : Interfaces.C.long;
+      Result    : Interfaces.Unsigned_32;
       pragma Warnings (Off, Result);
    begin
       P_Interface := To_Pointer_To_COM_Interface_Type (Pointer);

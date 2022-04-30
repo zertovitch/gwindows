@@ -61,7 +61,7 @@ package body GNATCOM.Create.Inproc is
    ---------------------
 
    function DllCanUnloadNow return GNATCOM.Types.HRESULT is
-      use type Interfaces.C.long;
+      use type Interfaces.Unsigned_32;
    begin
       if
         (GNATCOM.Create.Server_Lock_Count = 0) and

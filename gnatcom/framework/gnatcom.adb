@@ -40,6 +40,7 @@ package body GNATCOM is
 
    procedure Finalize (This : in out COM_Uninitialize_Type) is
       pragma Warnings (Off, This);
+      use type Interfaces.Unsigned_32;
    begin
       if Initialize_Count > 0 then
          GNATCOM.Initialize.Uninitialize_COM;

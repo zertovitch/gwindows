@@ -43,15 +43,35 @@ package body GNATCOM.Create.Factory is
    procedure Free (Pointer : in System.Address);
    --  Free Factory
 
-   function InterlockedIncrement
-     (lpAddend : access Interfaces.C.long) return Interfaces.C.long;
-   pragma Import (StdCall, InterlockedIncrement, "_InterlockedIncrement");
-   --  Win32 API for protected increment of a long
+   function sync_add_and_fetch
+     (Ref : access Interfaces.Unsigned_32;
+      Add : Interfaces.Unsigned_32)
+      return Interfaces.Unsigned_32
+     with
+       Import,
+       Convention => Intrinsic,
+       External_Name => "__sync_add_and_fetch_4";
 
-   function InterlockedDecrement
-     (lpAddend : access Interfaces.C.long) return Interfaces.C.long;
-   pragma Import (StdCall, InterlockedDecrement, "_InterlockedDecrement");
-   --  Win32 API for protected decrement of a long
+   function sync_sub_and_fetch
+     (Ref : access Interfaces.Unsigned_32;
+      Add : Interfaces.Unsigned_32)
+      return Interfaces.Unsigned_32
+     with
+       Import,
+       Convention => Intrinsic,
+       External_Name => "__sync_sub_and_fetch_4";
+
+   function InterlockedIncrement (Ref : access Interfaces.Unsigned_32)
+                                  return Interfaces.Unsigned_32 is
+   begin
+      return sync_add_and_fetch (Ref, 1);
+   end InterlockedIncrement;
+
+   function InterlockedDecrement (Ref : access Interfaces.Unsigned_32)
+                                  return Interfaces.Unsigned_32 is
+   begin
+      return sync_sub_and_fetch (Ref, 1);
+   end InterlockedDecrement;
 
    -- AddRef --
 
@@ -59,7 +79,7 @@ package body GNATCOM.Create.Factory is
      (This : access IClassFactory)
       return Interfaces.C.unsigned_long
    is
-      Result : Interfaces.C.long;
+      Result : Interfaces.Unsigned_32;
       pragma Warnings (Off, Result);
    begin
       --  Add a ref count to the interface, which in this case
@@ -82,7 +102,7 @@ package body GNATCOM.Create.Factory is
 
       Object   : GNATCOM.Create.COM_Interface.Pointer_To_COM_Interface_Type;
       hr       : GNATCOM.Types.HRESULT;
-      Result   : Interfaces.C.long;
+      Result   : Interfaces.Unsigned_32;
       pragma Warnings (Off, Result);
 
       Refcount : Interfaces.C.unsigned_long;
@@ -126,7 +146,7 @@ package body GNATCOM.Create.Factory is
 
       pragma Warnings (Off, This);
 
-      Result : Interfaces.C.long;
+      Result : Interfaces.Unsigned_32;
       pragma Warnings (Off, Result);
    begin
       if fLock /= 0 then
@@ -154,7 +174,7 @@ package body GNATCOM.Create.Factory is
    is
       use type GNATCOM.Types.GUID;
 
-      Result : Interfaces.C.long;
+      Result : Interfaces.Unsigned_32;
       pragma Warnings (Off, Result);
    begin
       if riid.all = GNATCOM.Types.IID_IUnknown then
@@ -180,7 +200,7 @@ package body GNATCOM.Create.Factory is
      (This : access IClassFactory)
       return Interfaces.C.unsigned_long
    is
-      use type Interfaces.C.long;
+      use type Interfaces.Unsigned_32;
    begin
       if InterlockedDecrement (This.Ref_Count'Access) /= 0 then
          return Interfaces.C.unsigned_long (This.Ref_Count);

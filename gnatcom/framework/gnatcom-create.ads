@@ -38,10 +38,10 @@ with Interfaces.C;
 
 package GNATCOM.Create is
 
-   Component_Count   : aliased Interfaces.C.long := 0;
+   Component_Count   : aliased Interfaces.Unsigned_32 := 0;
    --  Number of components created that have not been deallocated
 
-   Server_Lock_Count : aliased Interfaces.C.long := 0;
+   Server_Lock_Count : aliased Interfaces.Unsigned_32 := 0;
    --  Number of locks requested by clients on the server requesting the
    --  server not shut down even if there are no outstanding components,
    --  i.e. Component_Count > 0
