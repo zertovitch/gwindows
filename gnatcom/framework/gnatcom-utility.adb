@@ -47,12 +47,13 @@ package body GNATCOM.Utility is
 
    type MSG is
       record
-         hwnd    : System.Address;
-         message : Interfaces.C.int;
-         wParam  : Interfaces.C.int;
-         lParam  : Interfaces.C.long;
-         time    : Interfaces.C.unsigned_long;
-         pt      : POINTL;
+         hwnd     : System.Address;
+         message  : Interfaces.C.int;
+         wParam   : Interfaces.C.int;
+         lParam   : Interfaces.C.long;
+         time     : Interfaces.C.unsigned_long;
+         pt       : POINTL;
+         lPrivate : Interfaces.C.unsigned_long;
       end record;
    pragma Convention (C_PASS_BY_COPY, MSG);
    type Pointer_To_MSG is access all MSG;
