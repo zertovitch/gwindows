@@ -129,6 +129,11 @@ package GNATCOM.Iinterface is
    --  Performs a Query on the IUnknown to convert it to the curretly set IID
 
    procedure Attach
+     (This    : in out Interface_Type;
+      From    : in     GNATCOM.Types.Pointer_To_IUnknown;
+      Success : in out Boolean);
+
+   procedure Attach
      (This : in out Interface_Type;
       From : in     GNATCOM.Types.VARIANT);
    --  Attaches an IUnknown COM interface contained in a VARIANT to an
