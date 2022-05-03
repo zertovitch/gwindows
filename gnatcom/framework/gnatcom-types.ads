@@ -53,6 +53,7 @@ package GNATCOM.Types is
    type Void is null record;
    subtype Pointer_To_Void is System.Address;
    type Pointer_To_Pointer_To_Void is access all Pointer_To_Void;
+   pragma No_Strict_Aliasing (Pointer_To_Pointer_To_Void);
    --  C style Void pointers
 
    type Pointer_To_char is access all Interfaces.C.char;
@@ -218,6 +219,8 @@ package GNATCOM.Types is
    type ITypeComp;
    type ICreateTypeInfo;
    type ICreateTypeLib;
+   type IProvideClassInfo;
+   type IProvideClassInfo2;
    type IClassFactory;
    type IClassFactory2;
    type IConnectionPointContainer;
@@ -1644,6 +1647,101 @@ package GNATCOM.Types is
          SaveAllChanges  : af_ICreateTypeLib_SaveAllChanges;
       end record;
    pragma Convention (C_Pass_By_Copy, ICreateTypeLibVtbl);
+
+   --  IProvideClassInfo
+   --  {B196B283-BAB4-101A-B69C-00AA00341D07}
+
+   IID_IProvideClassInfo : aliased GUID :=
+     (16#B196B283#, 16#BAB4#, 16#101A#,
+      (C.unsigned_char'Val (16#B6#), C.unsigned_char'Val (16#9C#),
+       C.unsigned_char'Val (16#00#), C.unsigned_char'Val (16#AA#),
+       C.unsigned_char'Val (16#00#), C.unsigned_char'Val (16#34#),
+       C.unsigned_char'Val (16#1D#), C.unsigned_char'Val (16#07#)));
+
+   type af_IProvideClassInfo_QueryInterface is access
+     function (This   : access IProvideClassInfo;
+               riid   : Pointer_To_GUID;
+               ppvObj : Pointer_To_Pointer_To_Void)
+     return HRESULT with Convention => Stdcall;
+
+   type af_IProvideClassInfo_AddRef is access
+     function (This : access IProvideClassInfo)
+     return Interfaces.C.unsigned_long with Convention => Stdcall;
+
+   type af_IProvideClassInfo_Release is access
+     function (This : access IProvideClassInfo)
+     return Interfaces.C.unsigned_long with Convention => Stdcall;
+
+   type af_IProvideClassInfo_GetClassInfo is access
+     function (This : access IProvideClassInfo;
+               ppTI : Pointer_To_Pointer_To_Void)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type IProvideClassInfoVtbl is
+      record
+         QueryInterface  : af_IProvideClassInfo_QueryInterface;
+         AddRef          : af_IProvideClassInfo_AddRef;
+         Release         : af_IProvideClassInfo_Release;
+         GetClassInfo    : af_IProvideClassInfo_GetClassInfo;
+      end record
+     with Convention => C_Pass_By_Copy;
+
+   type Pointer_To_IProvideClassInfoVtbl is access all IProvideClassInfoVtbl;
+
+   type IProvideClassInfo is
+      record
+         Vtbl : Pointer_To_IProvideClassInfoVtbl;
+      end record
+   with Convention => C_Pass_By_Copy;
+
+   --  IProvideClassInfo2
+   --  {A6BC3AC0-DBAA-11CE-9DE3-00AA004BB851}
+
+   IID_IProvideClassInfo2 : aliased GUID :=
+     (16#A6BC3AC0#, 16#DBAA#, 16#11CE#,
+      (C.unsigned_char'Val (16#9D#), C.unsigned_char'Val (16#E3#),
+       C.unsigned_char'Val (16#00#), C.unsigned_char'Val (16#AA#),
+       C.unsigned_char'Val (16#00#), C.unsigned_char'Val (16#4B#),
+       C.unsigned_char'Val (16#B8#), C.unsigned_char'Val (16#51#)));
+
+   type af_IProvideClassInfo2_QueryInterface is access
+     function (This   : access IProvideClassInfo2;
+               riid   : Pointer_To_GUID;
+               ppvObj : Pointer_To_Pointer_To_Void)
+     return HRESULT with Convention => Stdcall;
+
+   type af_IProvideClassInfo2_AddRef is access
+     function (This : access IProvideClassInfo2)
+     return Interfaces.C.unsigned_long with Convention => Stdcall;
+
+   type af_IProvideClassInfo2_Release is access
+     function (This : access IProvideClassInfo2)
+     return Interfaces.C.unsigned_long with Convention => Stdcall;
+
+   type af_IProvideClassInfo2_GetGUID is access
+     function (This       : access IProvideClassInfo2;
+               dwGuidKind : DWORD;
+               pGUID      : Pointer_To_GUID)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type IProvideClassInfo2Vtbl is
+      record
+         QueryInterface : af_IProvideClassInfo2_QueryInterface;
+         AddRef         : af_IProvideClassInfo2_AddRef;
+         Release        : af_IProvideClassInfo2_Release;
+         GetGUID        : af_IProvideClassInfo2_GetGUID;
+      end record
+     with Convention => C_Pass_By_Copy;
+
+   type Pointer_To_IProvideClassInfo2Vtbl is access all IProvideClassInfo2Vtbl;
+
+   type IProvideClassInfo2 is
+      record
+         Vtbl : Pointer_To_IProvideClassInfo2Vtbl;
+      end record
+   with Convention => C_Pass_By_Copy;
 
    --  IClassFactory2 Interface
    --  {B196B28F-BAB4-101A-B69C-00AA00341D07}
