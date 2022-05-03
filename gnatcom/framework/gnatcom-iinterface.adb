@@ -180,6 +180,18 @@ package body GNATCOM.Iinterface is
       Query (This, Temp);
    end Attach;
 
+   procedure Attach
+     (This    : in out Interface_Type;
+      From    : in     GNATCOM.Types.Pointer_To_IUnknown;
+      Success : in out Boolean)
+   is
+      Temp : Interface_Type;
+   begin
+      Free (This);
+      Attach (Temp, From.all'Address);
+      Query (This, Temp, Success);
+   end Attach;
+
    ------------
    -- Attach --
    ------------
