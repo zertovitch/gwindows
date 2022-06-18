@@ -13,6 +13,17 @@ GWindows, upcoming release
 ==========================
 
 
+GWindows release, 18-Jun-2022 [rev. 440]
+========================================
+
+  * Installer: ResEdit.xml configuration file is automatically created
+        and set up for current GNAT installation(s), GWindows and
+        GWenerator.
+  * Fixed a few 32/64 bit incompatibilities in GWindows.Windows and
+        GWindows.Common_Controls.Ex_List_View (application example:
+        see https://azip.sourceforge.io/ ).
+  * Fixed various GNATCOM issues.
+
 GWindows release, 29-Jan-2022 [rev. 429]
 ========================================
 

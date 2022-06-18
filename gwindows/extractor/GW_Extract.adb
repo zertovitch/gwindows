@@ -50,7 +50,7 @@ procedure GW_Extract is
       Copy_File (xml, bak);
     end if;
     Create (f, Out_File, xml);
-    Put_Line (f, "<!-- ResEdit configuration file, with some presets for GWenerator -->");
+    Put_Line (f, "<!-- ResEdit configuration file, with some presets for GNAT, GWindows and GWenerator -->");
     Put_Line (f, "<config>");
     Put_Line (f, "  <wizard value=""false"" />");
     Put_Line (f, "  <createProjectFolder value=""false"" />");
