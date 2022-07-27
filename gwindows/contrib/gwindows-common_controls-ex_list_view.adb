@@ -49,7 +49,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    Cdrf_Newfont                 : constant := 2;
    Cdrf_Notifysubitemdraw       : constant := 16#00000020#;
    Cdds_Subitem                 : constant := 16#00020000#;
-   Nm_Header_Click              : constant := - 108;
+   Nm_Header_Click              : constant := -108;
    --  HDI_width                   : constant := 1;
    --  HDI_height                   : constant := HDI_WIDTH;
    HDI_TEXT                   : constant := 2;
@@ -151,7 +151,7 @@ package body GWindows.Common_Controls.Ex_List_View is
          Cxy       : Interfaces.C.int      := 0;
          pszText   : LPTSTR                := null;
          HBitmap   : Types.Handle          := Types.Null_Handle;
-         CchTextMax: Interfaces.C.int      := 0;
+         CchTextMax : Interfaces.C.int      := 0;
          Fmt       : Interfaces.C.int      := 0;
          Lparam    : Types.Lparam          := 0;
          IImage    : Interfaces.C.int      := 0;
@@ -196,23 +196,23 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    function Address_To_Lparam is new Ada.Unchecked_Conversion (System.Address, GWindows.Types.Lparam);
 
-   function Color_To_Lparam (C: Color_Type) return GWindows.Types.Lparam is
+   function Color_To_Lparam (C : Color_Type) return GWindows.Types.Lparam is
    begin
       return GWindows.Types.Lparam (C);
    end Color_To_Lparam;
 
-   function Message_To_Nmlvcustomdraw_Pointer is new Ada.Unchecked_Conversion(GWindows.Base.Pointer_To_Notification,
+   function Message_To_Nmlvcustomdraw_Pointer is new Ada.Unchecked_Conversion (GWindows.Base.Pointer_To_Notification,
                                                                               Pointer_To_Nmlvcustomdraw_Type);
-   function Message_To_Nmlistview_Pointer is new Ada.Unchecked_Conversion(GWindows.Base.Pointer_To_Notification,
+   function Message_To_Nmlistview_Pointer is new Ada.Unchecked_Conversion (GWindows.Base.Pointer_To_Notification,
                                                                           Pointer_To_Nmlistview_Type);
 
    function Handle_To_Wparam is new Ada.Unchecked_Conversion (GWindows.Types.Handle, GWindows.Types.Wparam);
 
    function To_PBuffer is new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
 
-   procedure Free_Color_Array is new Ada.Unchecked_Deallocation(Internal_Color_Array_Type,
+   procedure Free_Color_Array is new Ada.Unchecked_Deallocation (Internal_Color_Array_Type,
                                                                 Internal_Color_Array_Access);
-   procedure Free_Internal is new Ada.Unchecked_Deallocation(Internal_Type,
+   procedure Free_Internal is new Ada.Unchecked_Deallocation (Internal_Type,
                                                              Internal_Access);
 
    function Sendmessage (Hwnd   : GWindows.Types.Handle;
@@ -229,67 +229,67 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    procedure Redraw_subitem (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                              Control      : in out Ex_List_View_Control_Type;
-                             Return_Value : in out GWindows.Types.Lresult               );
+                             Return_Value : in out GWindows.Types.Lresult);
 
    procedure Redraw_item (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                           Control      : in out Ex_List_View_Control_Type;
-                          Return_Value : in out GWindows.Types.Lresult              );
+                          Return_Value : in out GWindows.Types.Lresult);
 
    procedure On_Header_Click (Control : in out Ex_List_View_Control_Type;
-                              Column  : in     Integer                    );
+                              Column  : in     Integer);
 
-   procedure Header_sorticon(Control: in out Ex_List_View_Control_Type;
-                             Column: in Natural;
-                             Direction: in Integer;
-                             Enable: in Boolean := True);
-   procedure Ownerdraw_flag(Control: in out Ex_List_View_Control_Type;
-                            Column: in Natural;
-                            Enable: in Boolean := True);
-   procedure Draw_sorticon(Control: in out Ex_List_View_Control_Type;
-                           Drawitem: in Drawitem_Type;
-                           Direction: in Integer);
+   procedure Header_sorticon (Control : in out Ex_List_View_Control_Type;
+                             Column : in Natural;
+                             Direction : in Integer;
+                             Enable : in Boolean := True);
+   procedure Ownerdraw_flag (Control : in out Ex_List_View_Control_Type;
+                            Column : in Natural;
+                            Enable : in Boolean := True);
+   procedure Draw_sorticon (Control : in out Ex_List_View_Control_Type;
+                           Drawitem : in Drawitem_Type;
+                           Direction : in Integer);
 
    -----------------------------------------------------------------------------------------
    function Get_Comctl_Version return Natural is
 
-      function Getmodulehandle(LpModulname: in LPTSTR) return GWindows.Types.Handle;
-      pragma Import(Stdcall, Getmodulehandle, "GetModuleHandle" & Character_Mode_Identifier);
+      function Getmodulehandle (LpModulname : in LPTSTR) return GWindows.Types.Handle;
+      pragma Import (Stdcall, Getmodulehandle, "GetModuleHandle" & Character_Mode_Identifier);
 
       type Dllversioninfo is
          record
-            Cbsize: Interfaces.C.long := 0;
-            majorversion: Interfaces.C.long := 0;
-            minorversion: Interfaces.C.long := 0;
-            buildnumber: Interfaces.C.long := 0;
-            platformid: Interfaces.C.long := 0;
+            Cbsize : Interfaces.C.long := 0;
+            majorversion : Interfaces.C.long := 0;
+            minorversion : Interfaces.C.long := 0;
+            buildnumber : Interfaces.C.long := 0;
+            platformid : Interfaces.C.long := 0;
          end record;
       type Dllversioninfo_Pointer is access all Dllversioninfo;
 
       type Dll_Get_Version_Func is access
-        function (Versioninfo: in Dllversioninfo_Pointer) return Interfaces.C.unsigned_long;
-      pragma Convention(C, Dll_Get_Version_Func);
+        function (Versioninfo : in Dllversioninfo_Pointer) return Interfaces.C.unsigned_long;
+      pragma Convention (C, Dll_Get_Version_Func);
 
       use Interfaces.C;
 
-      function Getprocaddress(hmodule: in GWindows.Types.Handle;
-                              Lpprocname: in char_array)
+      function Getprocaddress (hmodule : in GWindows.Types.Handle;
+                              Lpprocname : in char_array)
                              return Dll_Get_Version_Func;
-      pragma Import(Stdcall, Getprocaddress, "GetProcAddress");
+      pragma Import (Stdcall, Getprocaddress, "GetProcAddress");
 
-      libname: GString_C := GWindows.GStrings.To_GString_C("comctl32");
-      Procname: aliased constant char_array := To_C("DllGetVersion");
-      ModHandle: GWindows.Types.Handle;
-      FuncPtr: Dll_Get_Version_Func;
+      libname : GString_C := GWindows.GStrings.To_GString_C ("comctl32");
+      Procname : aliased constant char_array := To_C ("DllGetVersion");
+      ModHandle : GWindows.Types.Handle;
+      FuncPtr : Dll_Get_Version_Func;
       pragma Unreferenced (FuncPtr);
-      Info: aliased Dllversioninfo;
-      Ret_Func: Interfaces.C.unsigned_long;
+      Info : aliased Dllversioninfo;
+      Ret_Func : Interfaces.C.unsigned_long;
       pragma Unreferenced (Ret_Func);
 
    begin
       --  get dll
-      ModHandle := Getmodulehandle(LpModulname => libname(0)'Unchecked_Access);
+      ModHandle := Getmodulehandle (LpModulname => libname (0)'Unchecked_Access);
       --  get dllgetversion
-      FuncPtr := Getprocaddress(hmodule => ModHandle,
+      FuncPtr := Getprocaddress (hmodule => ModHandle,
                                 Lpprocname => Procname);
       --  call dllgetversion
       Info.Cbsize := Info'Size / 8;
@@ -305,25 +305,25 @@ package body GWindows.Common_Controls.Ex_List_View is
          return 0;
    end Get_Comctl_Version;
    -----------------------------------------------------------------------------------------
-   function Create_Internal(Control: in Ex_List_View_Control_Type) return Internal_Access is
-      Int: Internal_Access;
-      nullColors: constant Internal_Color_Type := (Textcolor => NullColor,
+   function Create_Internal (Control : in Ex_List_View_Control_Type) return Internal_Access is
+      Int : Internal_Access;
+      nullColors : constant Internal_Color_Type := (Textcolor => NullColor,
                                                    Backcolor => NullColor);
    begin
       Int := new Internal_Type;
-      if Column_Count(Control) > 0 then
-         Int.Colors := new Internal_Color_Array_Type(0..Column_Count(Control)-1);
+      if Column_Count (Control) > 0 then
+         Int.Colors := new Internal_Color_Array_Type (0 .. Column_Count (Control) - 1);
          Int.Colors.all := (others => nullColors);
       end if;
 
       return Int;
    end Create_Internal;
    -----------------------------------------------------------------------------------------
-   procedure On_Create(Control: in out Ex_List_View_Control_Type)is
+   procedure On_Create (Control : in out Ex_List_View_Control_Type) is
    begin
-      GWindows.Common_Controls.On_Create(Control => List_View_Control_Type(Control));
+      GWindows.Common_Controls.On_Create (Control => List_View_Control_Type (Control));
       --  pen for sort
-      GWindows.Drawing_Objects.Create_Pen(Pen => Control.Sort_Object.Sort_Pen,
+      GWindows.Drawing_Objects.Create_Pen (Pen => Control.Sort_Object.Sort_Pen,
                                           Style => GWindows.Drawing_Objects.Solid,
                                           Width => 1,
                                           Color => Sort_Icon_Pen_Color);
@@ -341,10 +341,10 @@ package body GWindows.Common_Controls.Ex_List_View is
                          return Internal_Access is
 
       Item : Lvitem;
-      L_Umsg: Interfaces.C.int;
+      L_Umsg : Interfaces.C.int;
    begin
       Item.Mask := Lvif_Param;
-      Item.Item := Interfaces.C.int(Index);
+      Item.Item := Interfaces.C.int (Index);
       Item.Subitem := 0;
 
       case Character_Mode is
@@ -354,12 +354,12 @@ package body GWindows.Common_Controls.Ex_List_View is
             L_Umsg := Lvm_Getitema;
       end case;
 
-      Sendmessage_proc(Hwnd   => Handle(Control),
+      Sendmessage_proc (Hwnd   => Handle (Control),
                        Umsg   => L_Umsg,
                        Wparam => 0,
-                       Lparam => Lvitem_To_Lparam(Item'Unrestricted_Access));
+                       Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
 
-      return Lparam_To_Internal(Item.Lparam);
+      return Lparam_To_Internal (Item.Lparam);
    exception
       when others =>
          return null;
@@ -371,14 +371,14 @@ package body GWindows.Common_Controls.Ex_List_View is
                                  new_colors : in Internal_Color_Type)
    is
       Item : Lvitem;
-      get_Umsg: Interfaces.C.int;
-      internal: Internal_Access := null;
-      nullColors: constant Internal_Color_Type := (Textcolor => NullColor,
+      get_Umsg : Interfaces.C.int;
+      internal : Internal_Access := null;
+      nullColors : constant Internal_Color_Type := (Textcolor => NullColor,
                                                    Backcolor => NullColor);
    begin
       --  get the lparam
       Item.Mask := Lvif_Param;
-      Item.Item := Interfaces.C.int(Index);
+      Item.Item := Interfaces.C.int (Index);
       Item.Subitem := 0;
 
       case Character_Mode is
@@ -388,28 +388,28 @@ package body GWindows.Common_Controls.Ex_List_View is
             get_Umsg := Lvm_Getitema;
       end case;
 
-      Sendmessage_proc(Hwnd => Handle(Control),
+      Sendmessage_proc (Hwnd => Handle (Control),
                        Umsg => get_Umsg,
                        Wparam => 0,
-                       Lparam => Lvitem_To_Lparam(Item'Unrestricted_Access));
+                       Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
 
-      internal := Lparam_To_Internal(Item.Lparam);
+      internal := Lparam_To_Internal (Item.Lparam);
 
       --  range?
       if internal.Colors.all'Last < Sub_Index then
          declare
-            Tmp_Colors: constant Internal_Color_Array_Access :=
-               new Internal_Color_Array_Type(0..Column_Count(Control)-1);
+            Tmp_Colors : constant Internal_Color_Array_Access :=
+               new Internal_Color_Array_Type (0 .. Column_Count (Control) - 1);
          begin
             Tmp_Colors.all := (others => nullColors);
-            Tmp_Colors(0..internal.Colors.all'Last) := internal.Colors.all;
+            Tmp_Colors (0 .. internal.Colors.all'Last) := internal.Colors.all;
             --  free the old array
-            Free_Color_Array(internal.Colors);
+            Free_Color_Array (internal.Colors);
             internal.Colors := Tmp_Colors;
          end;
       end if;
 
-      internal.Colors(Sub_Index) := new_colors;
+      internal.Colors (Sub_Index) := new_colors;
 
    end Set_Internal_color;
    -----------------------------------------------------------------------------------------
@@ -418,12 +418,12 @@ package body GWindows.Common_Controls.Ex_List_View is
                                    payload : in Data_Access)
    is
       Item : Lvitem;
-      get_Umsg: Interfaces.C.int;
-      internal: Internal_Access := null;
+      get_Umsg : Interfaces.C.int;
+      internal : Internal_Access := null;
    begin
       --  get the lparam
       Item.Mask := Lvif_Param;
-      Item.Item := Interfaces.C.int(Index);
+      Item.Item := Interfaces.C.int (Index);
       Item.Subitem := 0;
 
       case Character_Mode is
@@ -433,19 +433,19 @@ package body GWindows.Common_Controls.Ex_List_View is
             get_Umsg := Lvm_Getitema;
       end case;
 
-      Sendmessage_proc(Hwnd => Handle(Control),
+      Sendmessage_proc (Hwnd => Handle (Control),
                        Umsg => get_Umsg,
                        Wparam => 0,
-                       Lparam => Lvitem_To_Lparam(Item'Unrestricted_Access));
+                       Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
 
-      internal := Lparam_To_Internal(Item.Lparam);
+      internal := Lparam_To_Internal (Item.Lparam);
 
       --  set payload
       internal.User_Data := payload;
 
    end Set_Internal_Payload;
    -----------------------------------------------------------------------------------------
-   procedure On_Message(Control      : in out Ex_List_View_Control_Type;
+   procedure On_Message (Control      : in out Ex_List_View_Control_Type;
                         message      : in     Interfaces.C.unsigned;
                         wParam       : in     GWindows.Types.Wparam;
                         lParam       : in     GWindows.Types.Lparam;
@@ -459,9 +459,9 @@ package body GWindows.Common_Controls.Ex_List_View is
          when WM_DRAWITEM =>
             --  ab comctl 6 direkt hdm_setitem rufen für sorticons
             declare
-               Drawitem: Drawitem_Pointer := null;
+               Drawitem : Drawitem_Pointer := null;
             begin
-               Drawitem := Lparam_To_Drawitem(lParam);
+               Drawitem := Lparam_To_Drawitem (lParam);
                if Drawitem /= null and then Drawitem.all.CtlType = ODT_HEADER then
                   Draw_sorticon (Control, Drawitem.all, Control.Sort_Object.Sort_Direction);
                end if;
@@ -476,11 +476,11 @@ package body GWindows.Common_Controls.Ex_List_View is
    procedure On_Notify (Window       : in out Ex_List_View_Control_Type;
                         Message      : in     GWindows.Base.Pointer_To_Notification;
                         Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out GWindows.Types.Lresult    )
+                        Return_Value : in out GWindows.Types.Lresult)
    is
       pragma Warnings (Off, Return_Value);
 
-      Nm_Customdraw   : constant := - 12;
+      Nm_Customdraw   : constant := -12;
    begin
       --  customdraw subitem
       if Message.Code = Nm_Customdraw and then
@@ -490,7 +490,7 @@ package body GWindows.Common_Controls.Ex_List_View is
             Lvcd_Ptr : constant Pointer_To_Nmlvcustomdraw_Type :=
               Message_To_Nmlvcustomdraw_Pointer (Message);
          begin
-            Redraw_subitem(Lvcd_Ptr, Window, Return_Value);
+            Redraw_subitem (Lvcd_Ptr, Window, Return_Value);
          end;
          --  customdraw item
       elsif Message.Code = Nm_Customdraw and then
@@ -500,60 +500,60 @@ package body GWindows.Common_Controls.Ex_List_View is
             Lvcd_Ptr : constant Pointer_To_Nmlvcustomdraw_Type :=
               Message_To_Nmlvcustomdraw_Pointer (Message);
          begin
-            Redraw_item(Lvcd_Ptr, Window, Return_Value);
+            Redraw_item (Lvcd_Ptr, Window, Return_Value);
          end;
          --  header click
       elsif Message.Code = Nm_Header_Click then
          declare
             Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type :=
-              Message_To_Nmlistview_Pointer(Message);
+              Message_To_Nmlistview_Pointer (Message);
          begin
             On_Header_Click (Window,
-                             Integer(Nmlistview_Pointer.Isubitem));
+                             Integer (Nmlistview_Pointer.Isubitem));
          end;
       elsif Message.Code = LVN_INSERTITEM then
          declare
-            Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type := Message_To_Nmlistview_Pointer(Message);
+            Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type := Message_To_Nmlistview_Pointer (Message);
             Item : Lvitem;
-            L_Umsg: Interfaces.C.int;
+            L_Umsg : Interfaces.C.int;
          begin
             --  setitem
             Item.Mask := Lvif_Param;
             Item.Item := Nmlistview_Pointer.Iitem;
-            Item.Lparam := Internal_To_Lparam(Create_Internal(Window));
+            Item.Lparam := Internal_To_Lparam (Create_Internal (Window));
             case Character_Mode is
                when Unicode =>
                   L_Umsg := Lvm_Setitemw;
                when ANSI =>
                   L_Umsg := Lvm_Setitema;
             end case;
-            Sendmessage_proc(Hwnd => Handle(Window),
+            Sendmessage_proc (Hwnd => Handle (Window),
                              Umsg => L_Umsg,
                              Wparam => 0,
-                             Lparam => Lvitem_To_Lparam(Item'Unrestricted_Access));
+                             Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
          exception
             when others =>
                null;
          end;
       elsif Message.Code = LVN_DELETEITEM then
          declare
-            Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type := Message_To_Nmlistview_Pointer(Message);
+            Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type := Message_To_Nmlistview_Pointer (Message);
          begin
             if Window.Color_Mode = Item_Alternately then
                --  redraw on items
-              Sendmessage_proc (Hwnd => Handle(Window),
+              Sendmessage_proc (Hwnd => Handle (Window),
                                 Umsg => LVM_REDRAWITEMS,
-                                Wparam => GWindows.Types.Wparam(Nmlistview_Pointer.Iitem),
-                                Lparam => GWindows.Types.Lparam(Item_Count(Window)-1));
+                                Wparam => GWindows.Types.Wparam (Nmlistview_Pointer.Iitem),
+                                Lparam => GWindows.Types.Lparam (Item_Count (Window) - 1));
             end if;
          end;
       else
-         GWindows.Common_Controls.On_Notify(List_View_Control_Type(Window), Message, Control, Return_Value);
+         GWindows.Common_Controls.On_Notify (List_View_Control_Type (Window), Message, Control, Return_Value);
       end if;
 
    end On_Notify;
    -----------------------------------------------------------------------------------------
-   procedure Destroy_Row (Control : in out Ex_List_View_Control_Type; Index: Integer) is
+   procedure Destroy_Row (Control : in out Ex_List_View_Control_Type; Index : Integer) is
       Int : Internal_Access := Get_Internal (Control, Index);
    begin
       if Int /= null then
@@ -575,7 +575,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       end loop;
    end Destroy_All_Rows;
 
-   procedure On_Destroy (Control : in out Ex_List_View_Control_Type)is
+   procedure On_Destroy (Control : in out Ex_List_View_Control_Type) is
    begin
       Destroy_All_Rows (Control);
       On_Destroy (List_View_Control_Type (Control));  --  Call parent method
@@ -585,18 +585,18 @@ package body GWindows.Common_Controls.Ex_List_View is
                           Index   : in     Integer) is
    begin
       Destroy_Row (Control, Index);
-      Delete_Item (List_View_Control_Type(Control), Index);  --  Call parent method
+      Delete_Item (List_View_Control_Type (Control), Index);  --  Call parent method
    end Delete_Item;
 
    procedure Clear (Control : in out Ex_List_View_Control_Type) is
    begin
       Destroy_All_Rows (Control);
-      Clear (List_View_Control_Type(Control));  --  Call parent method
+      Clear (List_View_Control_Type (Control));  --  Call parent method
     end Clear;
    -----------------------------------------------------------------------------------------
    procedure Redraw_subitem (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                              Control      : in out Ex_List_View_Control_Type;
-                             Return_Value : in out GWindows.Types.Lresult              ) is
+                             Return_Value : in out GWindows.Types.Lresult) is
    begin
       --  set color in redraw according to color_mode
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
@@ -606,8 +606,8 @@ package body GWindows.Common_Controls.Ex_List_View is
             Return_Value := Cdrf_Notifysubitemdraw;
          when Interfaces.C.long (Cdds_Itemprepaint + Cdds_Subitem) =>
             declare
-               internal: constant Internal_Access :=
-                  Get_Internal(Control => Control,
+               internal : constant Internal_Access :=
+                  Get_Internal (Control => Control,
                                Index   => Integer (Lvcd_Ptr.Nmcd.Dwitemspec));
                i_color : constant Integer := Integer (Lvcd_Ptr.Isubitem);
             begin
@@ -638,15 +638,15 @@ package body GWindows.Common_Controls.Ex_List_View is
    -----------------------------------------------------------------------------------------
    procedure Redraw_item (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                           Control      : in out Ex_List_View_Control_Type;
-                          Return_Value : in out GWindows.Types.Lresult              ) is
+                          Return_Value : in out GWindows.Types.Lresult) is
    begin
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
             Return_Value := Cdrf_Notifyitemdraw;
-         when Interfaces.C.long(Cdds_Itemprepaint) =>
+         when Interfaces.C.long (Cdds_Itemprepaint) =>
             Return_Value := Cdrf_Notifysubitemdraw;
             Lvcd_Ptr.Clrtext := Control.Control_Textcolor;
-            if Integer(Lvcd_Ptr.Nmcd.Dwitemspec) mod 2 = 0 then
+            if Integer (Lvcd_Ptr.Nmcd.Dwitemspec) mod 2 = 0 then
                Lvcd_Ptr.Clrtextbk := Control.Alt_Color1;
             else
                Lvcd_Ptr.Clrtextbk := Control.Alt_Color2;
@@ -658,33 +658,33 @@ package body GWindows.Common_Controls.Ex_List_View is
    end Redraw_item;
    ----------------------------------------------------------------------------------------------------
    procedure On_Header_Click (Control : in out Ex_List_View_Control_Type;
-                              Column  : in     Integer                    ) is
+                              Column  : in     Integer) is
    begin
       --  Call Sort, defined here or overriden.
-      Sort(
-        Control   => Ex_List_View_Control_Type'Class(Control),
+      Sort (
+        Control   => Ex_List_View_Control_Type'Class (Control),
         Column    => Column,
         Direction => Auto,
         Show_Icon => True);
    end On_Header_Click;
    ----------------------------------------------------------------------------------------------------
-   procedure Draw_sorticon(Control: in out Ex_List_View_Control_Type;
-                           Drawitem: in Drawitem_Type;
-                           Direction: in Integer)is
-      Canvas: GWindows.Drawing.Canvas_Type;
-      Paint_Left: Integer;
-      Max_Width: Integer;
-      Columntext: constant GString := Column_Text (Control => Control, Index => Integer(Drawitem.CtlItemID));
-      Columntext_Last: Natural := Columntext'Last;
-      Size: GWindows.Types.Size_Type;
-      Icon_Width, Icon_Height: Natural;
+   procedure Draw_sorticon (Control : in out Ex_List_View_Control_Type;
+                           Drawitem : in Drawitem_Type;
+                           Direction : in Integer) is
+      Canvas : GWindows.Drawing.Canvas_Type;
+      Paint_Left : Integer;
+      Max_Width : Integer;
+      Columntext : constant GString := Column_Text (Control => Control, Index => Integer (Drawitem.CtlItemID));
+      Columntext_Last : Natural := Columntext'Last;
+      Size : GWindows.Types.Size_Type;
+      Icon_Width, Icon_Height : Natural;
    begin
-      GWindows.Drawing.Handle(Canvas, Drawitem.Hdc);
+      GWindows.Drawing.Handle (Canvas, Drawitem.Hdc);
 
       --  get left for paint
       Paint_Left := Drawitem.RcItem.Left + 1;
 
-      Icon_Height := Natural(Drawitem.RcItem.Bottom / 3);
+      Icon_Height := Natural (Drawitem.RcItem.Bottom / 3);
       Icon_Width := Icon_Height;
       if Icon_Width mod 2 > 0 then
          Icon_Width := Icon_Width + 1;
@@ -700,7 +700,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       while Columntext_Last > 0 loop
          if Columntext_Last < Columntext'Last then
             Size := GWindows.Drawing.Text_Output_Size (Canvas => Canvas,
-                                                       Text => Columntext(1..Columntext_Last) & "...");
+                                                       Text => Columntext (1 .. Columntext_Last) & "...");
          else
             Size := GWindows.Drawing.Text_Output_Size (Canvas => Canvas,
                                                        Text => Columntext);
@@ -713,41 +713,41 @@ package body GWindows.Common_Controls.Ex_List_View is
 
       --  put the string
       if Columntext_Last = Columntext'Last then
-         GWindows.Drawing.Put(Canvas => Canvas,
+         GWindows.Drawing.Put (Canvas => Canvas,
                               X => Paint_Left + (3 * Icon_Width),
                               Y => 2,
                               Text => Columntext);
       elsif Columntext_Last > 0 then
-         GWindows.Drawing.Put(Canvas => Canvas,
+         GWindows.Drawing.Put (Canvas => Canvas,
                               X => Paint_Left + (3 * Icon_Width),
                               Y => 2,
-                              Text => Columntext(1..Columntext_Last) & "...");
+                              Text => Columntext (1 .. Columntext_Last) & "...");
       end if;
 
       --  paint the polygon
-      GWindows.Drawing.Select_Object(Canvas => Canvas, Object => Control.Sort_Object.Sort_Pen);
-      GWindows.Drawing.Select_Object(Canvas => Canvas, Object => Control.Sort_Object.Sort_Brush);
+      GWindows.Drawing.Select_Object (Canvas => Canvas, Object => Control.Sort_Object.Sort_Pen);
+      GWindows.Drawing.Select_Object (Canvas => Canvas, Object => Control.Sort_Object.Sort_Brush);
 
       declare
-         Pt_Array  : GWindows.Types.Point_Array_Type(1..3);
+         Pt_Array  : GWindows.Types.Point_Array_Type (1 .. 3);
          Pt_Top    : constant Natural := Icon_Height;
-         Pt_Bottom : constant Natural := Drawitem.RcItem.Bottom - Icon_Height -1;
+         Pt_Bottom : constant Natural := Drawitem.RcItem.Bottom - Icon_Height - 1;
          Pt_Left   : constant Natural := Icon_Width;
          Pt_Right  : constant Natural := 2 * Icon_Width;
       begin
          if Icon_Height > 5 then
-            Icon_Height := Icon_Height -1;
+            Icon_Height := Icon_Height - 1;
          end if;
          --  up
          if Direction = 1 then
-            Pt_Array(1).X := Pt_Left + Paint_Left + Natural(Icon_Width / 2); Pt_Array(1).Y := Pt_Top; ---1;
-            Pt_Array(2).X := Pt_Right + Paint_Left; Pt_Array(2).Y := Pt_Bottom; ---1;
-            Pt_Array(3).X := Pt_Left + Paint_Left; Pt_Array(3).Y := Pt_Bottom; ---1;
+            Pt_Array (1).X := Pt_Left + Paint_Left + Natural (Icon_Width / 2); Pt_Array (1).Y := Pt_Top; ---1;
+            Pt_Array (2).X := Pt_Right + Paint_Left; Pt_Array (2).Y := Pt_Bottom; ---1;
+            Pt_Array (3).X := Pt_Left + Paint_Left; Pt_Array (3).Y := Pt_Bottom; ---1;
          else
             --  down
-            Pt_Array(1).X := Pt_Left + Paint_Left; Pt_Array(1).Y := Pt_Top;
-            Pt_Array(2).X := Pt_Right + Paint_Left; Pt_Array(2).Y := Pt_Top;
-            Pt_Array(3).X := Pt_Left + Paint_Left + Natural(Icon_Width / 2); Pt_Array(3).Y := Pt_Bottom;
+            Pt_Array (1).X := Pt_Left + Paint_Left; Pt_Array (1).Y := Pt_Top;
+            Pt_Array (2).X := Pt_Right + Paint_Left; Pt_Array (2).Y := Pt_Top;
+            Pt_Array (3).X := Pt_Left + Paint_Left + Natural (Icon_Width / 2); Pt_Array (3).Y := Pt_Bottom;
          end if;
 
          GWindows.Drawing.Polygon (Canvas => Canvas, Vertices => Pt_Array);
@@ -825,17 +825,17 @@ package body GWindows.Common_Controls.Ex_List_View is
    --
    --  end Column_text;
    ----------------------------------------------------------------------------------------------------
-   procedure Header_sorticon(Control: in out Ex_List_View_Control_Type;
-                             Column: in Natural;
-                             Direction: in Integer;
-                             Enable: in Boolean := True)is
+   procedure Header_sorticon (Control : in out Ex_List_View_Control_Type;
+                             Column : in Natural;
+                             Direction : in Integer;
+                             Enable : in Boolean := True) is
       use Interfaces.C;
       use GWindows.GStrings;
-      Header: GWindows.Types.Handle;
-      Hd: aliased Hditem_type;
-      C_Text: Buffer;
-      L_setUmsg: Interfaces.C.int;
-      L_getUmsg: Interfaces.C.int;
+      Header : GWindows.Types.Handle;
+      Hd : aliased Hditem_type;
+      C_Text : Buffer;
+      L_setUmsg : Interfaces.C.int;
+      L_getUmsg : Interfaces.C.int;
    begin
       C_Text (C_Text'First) := Interfaces.C.wchar_t'Val (0);
       case Character_Mode is
@@ -846,7 +846,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       end case;
 
       --  get the header
-      Header := GWindows.Types.To_Handle(Sendmessage(Hwnd => Handle(Control),
+      Header := GWindows.Types.To_Handle (Sendmessage (Hwnd => Handle (Control),
                                                      Umsg => LVM_GETHEADER,
                                                      Wparam => 0,
                                                      Lparam => 0));
@@ -855,18 +855,18 @@ package body GWindows.Common_Controls.Ex_List_View is
       Hd.Mask := HDI_FORMAT + HDI_TEXT;
       Hd.pszText := C_Text (0)'Unchecked_Access;
       Hd.CchTextMax := 255;
-      Sendmessage_proc(Hwnd => Header,
+      Sendmessage_proc (Hwnd => Header,
                        Umsg => L_getUmsg,
-                       Wparam => GWindows.Types.To_Wparam(Column),
-                       Lparam => Hditem_To_Lparam(Hd'Unchecked_Access));
+                       Wparam => GWindows.Types.To_Wparam (Column),
+                       Lparam => Hditem_To_Lparam (Hd'Unchecked_Access));
 
       --  update item
       Hd.Mask := HDI_FORMAT + HDI_TEXT;
       --  remove the old icon flag
-      if (unsigned(Hd.Fmt) and unsigned(HDF_SORTUP)) > 0 then
+      if (unsigned (Hd.Fmt) and unsigned (HDF_SORTUP)) > 0 then
          Hd.Fmt := Hd.Fmt - HDF_SORTUP;
       end if;
-      if (unsigned(Hd.Fmt) and unsigned(HDF_SORTDOWN)) > 0 then
+      if (unsigned (Hd.Fmt) and unsigned (HDF_SORTDOWN)) > 0 then
          Hd.Fmt := Hd.Fmt - HDF_SORTDOWN;
       end if;
 
@@ -880,25 +880,25 @@ package body GWindows.Common_Controls.Ex_List_View is
       end if;
 
       --  text
-      Hd.CchTextMax := int(To_GString_From_C(GString_C(To_PBuffer(Hd.pszText).all))'Last + 1);
+      Hd.CchTextMax := int (To_GString_From_C (GString_C (To_PBuffer (Hd.pszText).all))'Last + 1);
       --  set the new item
-      Sendmessage_proc(Hwnd => Header,
+      Sendmessage_proc (Hwnd => Header,
                        Umsg => L_setUmsg,
-                       Wparam => GWindows.Types.To_Wparam(Column),
-                       Lparam => Hditem_To_Lparam(Hd'Unchecked_Access));
+                       Wparam => GWindows.Types.To_Wparam (Column),
+                       Lparam => Hditem_To_Lparam (Hd'Unchecked_Access));
 
    end Header_sorticon;
 
-   procedure Ownerdraw_flag(Control: in out Ex_List_View_Control_Type;
-                            Column: in Natural;
-                            Enable: in Boolean := True)is
+   procedure Ownerdraw_flag (Control : in out Ex_List_View_Control_Type;
+                            Column : in Natural;
+                            Enable : in Boolean := True) is
       use Interfaces.C;
-      Header: GWindows.Types.Handle;
-      Hd: aliased Hditem_type;
-      L_Umsg: Interfaces.C.int;
+      Header : GWindows.Types.Handle;
+      Hd : aliased Hditem_type;
+      L_Umsg : Interfaces.C.int;
    begin
       --  get the header
-      Header := GWindows.Types.To_Handle(Sendmessage(Hwnd => Handle(Control),
+      Header := GWindows.Types.To_Handle (Sendmessage (Hwnd => Handle (Control),
                                                      Umsg => LVM_GETHEADER,
                                                      Wparam => 0,
                                                      Lparam => 0));
@@ -915,35 +915,35 @@ package body GWindows.Common_Controls.Ex_List_View is
             L_Umsg := HDM_SETITEMA;
       end case;
 
-      Sendmessage_proc(Hwnd => Header,
+      Sendmessage_proc (Hwnd => Header,
                        Umsg => L_Umsg,
-                       Wparam => GWindows.Types.To_Wparam(Column),
-                       Lparam => Hditem_To_Lparam(Hd'Unchecked_Access));
+                       Wparam => GWindows.Types.To_Wparam (Column),
+                       Lparam => Hditem_To_Lparam (Hd'Unchecked_Access));
 
    end Ownerdraw_flag;
    ----------------------------------------------------------------------------------------------------
    ----------------------------------------------------------------------------------------------------
    ----------------------------------------------------------------------------------------------------
-   function Column_Count(Control    : in Ex_List_View_Control_Type) return Natural is
+   function Column_Count (Control    : in Ex_List_View_Control_Type) return Natural is
       use GWindows.Types;
-      Header: GWindows.Types.Handle;
-      Count: GWindows.Types.Lparam;
+      Header : GWindows.Types.Handle;
+      Count : GWindows.Types.Lparam;
    begin
-      Header := GWindows.Types.To_Handle(Sendmessage(Hwnd => Handle(Control),
+      Header := GWindows.Types.To_Handle (Sendmessage (Hwnd => Handle (Control),
                                                      Umsg => LVM_GETHEADER));
 
-      Count := Sendmessage(Hwnd => Header,
+      Count := Sendmessage (Hwnd => Header,
                            Umsg => HDM_GETITEMCOUNT);
-      if To_Integer(Lresult(Count)) < 0 then
-         Raise_Exception(Elv_Exception'Identity, "Error on HDM_GETITEMCOUNT.");
+      if To_Integer (Lresult (Count)) < 0 then
+         Raise_Exception (Elv_Exception'Identity, "Error on HDM_GETITEMCOUNT.");
       end if;
 
-      return Natural(Count);
+      return Natural (Count);
    end Column_Count;
    ----------------------------------------------------------------------------------------------------
-   procedure Autosize(Control: in out Ex_List_View_Control_Type;
+   procedure Autosize (Control : in out Ex_List_View_Control_Type;
                       Column : in Natural;
-                      Sizing: in Autosize_Type := Headersize)is
+                      Sizing : in Autosize_Type := Headersize) is
 
       LVSCW_AUTOSIZE            : constant := -1;
       LVSCW_AUTOSIZE_USEHEADER  : constant := -2;
@@ -952,22 +952,22 @@ package body GWindows.Common_Controls.Ex_List_View is
          when Columnsize =>
             Sendmessage_proc (Hwnd => Handle (Control),
                               Umsg => LVM_SETCOLUMNWIDTH,
-                              Wparam => GWindows.Types.To_Wparam(Column),
-                              Lparam  => GWindows.Types.To_Lparam(LVSCW_AUTOSIZE));
+                              Wparam => GWindows.Types.To_Wparam (Column),
+                              Lparam  => GWindows.Types.To_Lparam (LVSCW_AUTOSIZE));
          when Headersize =>
             if Control.Sort_Object.Sort_Column = Column and then
               Control.Sort_Object.Icon_Visible
             then
                --  width manually calculate
                declare
-                  Canvas: GWindows.Drawing.Canvas_Type;
-                  Font: GWindows.Drawing_Objects.Font_Type;
-                  Size: GWindows.Types.Size_Type;
-                  Offset: Natural;
+                  Canvas : GWindows.Drawing.Canvas_Type;
+                  Font : GWindows.Drawing_Objects.Font_Type;
+                  Size : GWindows.Types.Size_Type;
+                  Offset : Natural;
                begin
-                  Get_Canvas(Control, Canvas);
-                  Get_Font(Control, Font);
-                  GWindows.Drawing.Select_Object(Canvas, Font);
+                  Get_Canvas (Control, Canvas);
+                  Get_Font (Control, Font);
+                  GWindows.Drawing.Select_Object (Canvas, Font);
                   Size := GWindows.Drawing.Text_Output_Size (Canvas, Column_Text (Control, Column));
                   Offset := (Size.Height + 4) / 3;
                   if Offset mod 2 > 0 then
@@ -976,57 +976,57 @@ package body GWindows.Common_Controls.Ex_List_View is
                   Offset := Offset * 4;
                   Sendmessage_proc (Hwnd => Handle (Control),
                                     Umsg => LVM_SETCOLUMNWIDTH,
-                                    Wparam => GWindows.Types.To_Wparam(Column),
-                                    Lparam  => GWindows.Types.To_Lparam(Size.Width + Offset));
+                                    Wparam => GWindows.Types.To_Wparam (Column),
+                                    Lparam  => GWindows.Types.To_Lparam (Size.Width + Offset));
                end;
             else
                Sendmessage_proc (Hwnd => Handle (Control),
                                  Umsg => LVM_SETCOLUMNWIDTH,
-                                 Wparam => GWindows.Types.To_Wparam(Column),
-                                 Lparam  => GWindows.Types.To_Lparam(LVSCW_AUTOSIZE_USEHEADER));
+                                 Wparam => GWindows.Types.To_Wparam (Column),
+                                 Lparam  => GWindows.Types.To_Lparam (LVSCW_AUTOSIZE_USEHEADER));
             end if;
       end case;
    end Autosize;
    ----------------------------------------------------------------------------------------------------
-   function Color_Mode(Control : in Ex_List_View_Control_Type) return Color_Mode_Type is
+   function Color_Mode (Control : in Ex_List_View_Control_Type) return Color_Mode_Type is
    begin
       return Control.Color_Mode;
    end Color_Mode;
    ----------------------------------------------------------------------------------------------------
    procedure Text_Color (Control : in  out Ex_List_View_Control_Type;
-                         Color   : in     Color_Type                 ) is
+                         Color   : in     Color_Type) is
    begin
-      Sendmessage_proc(Hwnd => Handle(Control),
+      Sendmessage_proc (Hwnd => Handle (Control),
                        Umsg => Lvm_Settextcolor,
                        Wparam => 0,
-                       Lparam => Color_To_Lparam(Color));
+                       Lparam => Color_To_Lparam (Color));
       Control.Color_Mode := All_Items;
       Control.Control_Textcolor := Color;
    end Text_Color;
    ----------------------------------------------------------------------------------------------------
    procedure Back_Color (Control : in  out  Ex_List_View_Control_Type;
-                         Color   : in     Color_Type                 ) is
+                         Color   : in     Color_Type) is
    begin
-      Sendmessage_proc(Hwnd => Handle(Control),
+      Sendmessage_proc (Hwnd => Handle (Control),
                        Umsg => LVM_SETTEXTBKCOLOR,
                        Wparam => 0,
-                       Lparam => Color_To_Lparam(Color));
+                       Lparam => Color_To_Lparam (Color));
       Control.Color_Mode := All_Items;
       Control.Control_Backcolor := Color;
    end Back_Color;
    ----------------------------------------------------------------------------------------------------
    procedure Control_Back_Color (Control : in  out  Ex_List_View_Control_Type;
-                                 Color   : in     Color_Type                 ) is
+                                 Color   : in     Color_Type) is
    begin
-      Sendmessage_proc(Hwnd => Handle(Control),
+      Sendmessage_proc (Hwnd => Handle (Control),
                        Umsg => LVM_SETBKCOLOR,
                        Wparam => 0,
-                       Lparam => Color_To_Lparam(Color));
+                       Lparam => Color_To_Lparam (Color));
    end Control_Back_Color;
    ----------------------------------------------------------------------------------------------------
-   procedure Set_Alternately_Colors(Control : in  out  Ex_List_View_Control_Type;
-                                    Color1: in Color_Type;
-                                    Color2:in Color_Type)is
+   procedure Set_Alternately_Colors (Control : in  out  Ex_List_View_Control_Type;
+                                    Color1 : in Color_Type;
+                                    Color2 : in Color_Type) is
    begin
       Control.Alt_Color1 := Color1;
       Control.Alt_Color2 := Color2;
@@ -1037,16 +1037,16 @@ package body GWindows.Common_Controls.Ex_List_View is
                             Text_Color : in     Color_Type := Black;
                             Back_Color : in     Color_Type := White;
                             Index      : in     Integer := -1;
-                            Sub_Index  : in     Integer := -1            )is
+                            Sub_Index  : in     Integer := -1) is
 
-      new_colors: Internal_Color_Type;
+      new_colors : Internal_Color_Type;
    begin
-      if Column_Count(Control) = 0 then
-         Ada.Exceptions.Raise_Exception(Elv_Exception'Identity, "No columns!");
+      if Column_Count (Control) = 0 then
+         Ada.Exceptions.Raise_Exception (Elv_Exception'Identity, "No columns!");
       end if;
 
       if Index < 0 and Sub_Index < 0 then
-         Ada.Exceptions.Raise_Exception(Elv_Exception'Identity, "No index/subindex!");
+         Ada.Exceptions.Raise_Exception (Elv_Exception'Identity, "No index/subindex!");
       end if;
 
       new_colors.Textcolor := Text_Color;
@@ -1058,14 +1058,14 @@ package body GWindows.Common_Controls.Ex_List_View is
                              Sub_Index => Sub_Index,
                              new_colors => new_colors);
       elsif Index >= 0 then -- row
-         for P_Sub_Index in 0..Column_Count(Control)-1 loop
+         for P_Sub_Index in 0 .. Column_Count (Control) - 1 loop
             Set_Internal_color (Control => Control,
                                 Index   => Index,
                                 Sub_Index => P_Sub_Index,
                                 new_colors => new_colors);
          end loop;
       elsif Sub_Index >= 0 then -- column
-         for P_Index in 0..Item_Count(Control)-1 loop
+         for P_Index in 0 .. Item_Count (Control) - 1 loop
             Set_Internal_color (Control => Control,
                                 Index   => P_Index,
                                 Sub_Index => Sub_Index,
@@ -1075,33 +1075,33 @@ package body GWindows.Common_Controls.Ex_List_View is
       Control.Color_Mode := Subitem;
    end Subitem_Color;
    ----------------------------------------------------------------------------------------------------
-   procedure Color_Mode(Control : in out Ex_List_View_Control_Type;
-                        Mode: in Color_Mode_Type;
-                        Redraw: in Boolean := True)is
+   procedure Color_Mode (Control : in out Ex_List_View_Control_Type;
+                        Mode : in Color_Mode_Type;
+                        Redraw : in Boolean := True) is
    begin
       Control.Color_Mode := Mode;
       if Redraw then
-         GWindows.Common_Controls.Ex_List_View.Redraw(Control);
+         GWindows.Common_Controls.Ex_List_View.Redraw (Control);
       end if;
    end Color_Mode;
    ----------------------------------------------------------------------------------------------------
-   procedure Item_Data(Control : in Ex_List_View_Control_Type;
-                       Index: in Natural;
-                       Payload: in Data_Access)is
+   procedure Item_Data (Control : in Ex_List_View_Control_Type;
+                       Index : in Natural;
+                       Payload : in Data_Access) is
 
    begin
-      Set_Internal_Payload(Control, Index, Payload);
+      Set_Internal_Payload (Control, Index, Payload);
    end Item_Data;
    ----------------------------------------------------------------------------------------------------
-   function Item_Data(Control : in Ex_List_View_Control_Type;
-                      Index: in Natural) return Data_Access is
+   function Item_Data (Control : in Ex_List_View_Control_Type;
+                      Index : in Natural) return Data_Access is
 
    begin
-      return Get_Internal(Control, Index).User_Data;
+      return Get_Internal (Control, Index).User_Data;
    end Item_Data;
    ----------------------------------------------------------------------------------------------------
-   procedure On_Free_Payload (Control: in out Ex_List_View_Control_Type;
-                              Payload: out Data_Access)
+   procedure On_Free_Payload (Control : in out Ex_List_View_Control_Type;
+                              Payload : out Data_Access)
    is
    begin
       if Control.On_Free_Payload /= null then
@@ -1109,37 +1109,37 @@ package body GWindows.Common_Controls.Ex_List_View is
       end if;
    end On_Free_Payload;
    ----------------------------------------------------------------------------------------------------
-   procedure On_Free_Payload_Handler(Control: in out Ex_List_View_Control_Type;
-                                     Event: in Free_Payload_Event)is
+   procedure On_Free_Payload_Handler (Control : in out Ex_List_View_Control_Type;
+                                     Event : in Free_Payload_Event) is
    begin
       Control.On_Free_Payload := Event;
    end On_Free_Payload_Handler;
    ----------------------------------------------------------------------------------------------------
-   function On_Compare(
-               Control: in Ex_List_View_Control_Type;
+   function On_Compare (
+               Control : in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer
    is
    begin
-     return Fire_On_Compare(Control, Column, Value1, Value2);
+     return Fire_On_Compare (Control, Column, Value1, Value2);
    end On_Compare;
    --
-   procedure On_Compare_Handler(Control: in out Ex_List_View_Control_Type;
-                                Event: in Compare_Event)is
+   procedure On_Compare_Handler (Control : in out Ex_List_View_Control_Type;
+                                Event : in Compare_Event) is
    begin
       Control.On_Compare_Event := Event;
    end On_Compare_Handler;
    --
-   function Fire_On_Compare(
-               Control: in Ex_List_View_Control_Type;
+   function Fire_On_Compare (
+               Control : in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer
    is
    begin
       if Control.On_Compare_Event /= null then
-         return Control.On_Compare_Event(
+         return Control.On_Compare_Event (
             Control, Column, Value1, Value2
          );
       end if;
@@ -1162,7 +1162,7 @@ package body GWindows.Common_Controls.Ex_List_View is
      return Fire_On_Compare (Control, Column, Index_1, Index_2);
    end On_Compare;
    --
-   procedure On_Compare_Handler(Control       : in out Ex_List_View_Control_Type;
+   procedure On_Compare_Handler (Control       : in out Ex_List_View_Control_Type;
                                  General_Event : in General_Compare_Event)
    is
    begin
@@ -1221,8 +1221,8 @@ package body GWindows.Common_Controls.Ex_List_View is
       is
          use GWindows.Types;
          Findinfo  : Findinfo_Type;
-         Index1, Index2: Natural;
-         L_Umsg: Interfaces.C.int;
+         Index1, Index2 : Natural;
+         L_Umsg : Interfaces.C.int;
       begin
          --  Get the index from lparam
          case Character_Mode is
@@ -1232,24 +1232,24 @@ package body GWindows.Common_Controls.Ex_List_View is
                L_Umsg := Lvm_Finditema;
          end case;
          Findinfo.Lparam := Lparam1;
-         Index1 := Integer(Sendmessage(Hwnd => Lparamsort,
+         Index1 := Integer (Sendmessage (Hwnd => Lparamsort,
                                        Umsg => L_Umsg,
                                        Wparam => -1,
-                                       Lparam => Address_To_Lparam(Findinfo'Address)));
+                                       Lparam => Address_To_Lparam (Findinfo'Address)));
 
          Findinfo.Lparam := Lparam2;
-         Index2 := Integer(Sendmessage(Hwnd => Lparamsort,
+         Index2 := Integer (Sendmessage (Hwnd => Lparamsort,
                                        Umsg => L_Umsg,
                                        Wparam => -1,
-                                       Lparam => Address_To_Lparam(Findinfo'Address)));
+                                       Lparam => Address_To_Lparam (Findinfo'Address)));
          case Technique is
             when As_Strings =>
                --  values
                declare
-                  Value1: constant GString := Text(Control => Control,
+                  Value1 : constant GString := Text (Control => Control,
                                                    Item => Index1,
                                                    SubItem => Control.Sort_Object.Sort_Column);
-                  Value2: constant GString := Text(Control => Control,
+                  Value2 : constant GString := Text (Control => Control,
                                                    Item => Index2,
                                                    SubItem => Control.Sort_Object.Sort_Column);
                begin
@@ -1258,7 +1258,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                   --  applies a default alphabetical sorting.
                   return Interfaces.C.int (
                      On_Compare (
-                        Control => Ex_List_View_Control_Type'Class(Control),
+                        Control => Ex_List_View_Control_Type'Class (Control),
                         Column  => Control.Sort_Object.Sort_Column,
                         Value1  => Value1,
                         Value2  => Value2)
@@ -1268,7 +1268,7 @@ package body GWindows.Common_Controls.Ex_List_View is
             when General =>
                return Interfaces.C.int (
                   On_Compare (
-                     Control  => Ex_List_View_Control_Type'Class(Control),
+                     Control  => Ex_List_View_Control_Type'Class (Control),
                      Column   => Control.Sort_Object.Sort_Column,
                      Index_1  => Index1,
                      Index_2  => Index2)
@@ -1276,8 +1276,8 @@ package body GWindows.Common_Controls.Ex_List_View is
                 );
          end case;
       exception
-         when E:others =>
-            Raise_Exception(Elv_Exception'Identity, "error on on_compare: " & Exception_Information(E));
+         when E : others =>
+            Raise_Exception (Elv_Exception'Identity, "error on on_compare: " & Exception_Information (E));
       end On_compare_internal;
    --
    begin
@@ -1290,9 +1290,9 @@ package body GWindows.Common_Controls.Ex_List_View is
                if Control.Sort_Object.Sort_Column >= 0 then
                   --  reset the Icon
                   if Control.Comctl_Version <= 5 then
-                     Ownerdraw_flag(Control, Control.Sort_Object.Sort_Column, False);
+                     Ownerdraw_flag (Control, Control.Sort_Object.Sort_Column, False);
                   else
-                     Header_sorticon(Control, Control.Sort_Object.Sort_Column, 0, False);
+                     Header_sorticon (Control, Control.Sort_Object.Sort_Column, 0, False);
                   end if;
                end if;
 
@@ -1309,27 +1309,27 @@ package body GWindows.Common_Controls.Ex_List_View is
       end case;
 
       --  start sorting
-      Sendmessage_proc(Hwnd => Handle(Control),
+      Sendmessage_proc (Hwnd => Handle (Control),
                        Umsg => Lvm_Sortitems,
-                       Wparam => Handle_To_Wparam(Handle(Control)),
-                       Lparam => Address_To_Lparam(On_compare_internal'Address));
+                       Wparam => Handle_To_Wparam (Handle (Control)),
+                       Lparam => Address_To_Lparam (On_compare_internal'Address));
 
       Control.Sort_Object.Icon_Visible := Show_Icon;
 
       --  draw the sort icon
       if Show_Icon then
          if Control.Comctl_Version <= 5 then
-            Ownerdraw_flag(Control, Column, True);
+            Ownerdraw_flag (Control, Column, True);
          else
-            Header_sorticon(Control, Column, Control.Sort_Object.Sort_Direction, True);
+            Header_sorticon (Control, Column, Control.Sort_Object.Sort_Direction, True);
          end if;
       end if;
 
    end Sort;
 
-   procedure Sort_Info(Control   : in Ex_List_View_Control_Type;
+   procedure Sort_Info (Control   : in Ex_List_View_Control_Type;
                        Column    : out Integer;
-                       Direction : out Sort_Direction_Type)is
+                       Direction : out Sort_Direction_Type) is
    begin
       Column := Control.Sort_Object.Sort_Column;
       case Control.Sort_Object.Sort_Direction is

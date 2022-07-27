@@ -50,10 +50,10 @@ package GWindows.Common_Controls.Ex_List_View is
    type Ex_List_View_Control_Access is access all Ex_List_View_Control_Type;
    type Pointer_To_Ex_List_View_Control_Class is access all Ex_List_View_Control_Type'Class;
 
-   Elv_Exception: exception;
+   Elv_Exception : exception;
 
    --  Return the colum count
-   function Column_Count(Control    : in Ex_List_View_Control_Type) return Natural;
+   function Column_Count (Control    : in Ex_List_View_Control_Type) return Natural;
 
    type Autosize_Type is (Columnsize, Headersize);
    --  Automatically adjust column width according to content
@@ -72,24 +72,24 @@ package GWindows.Common_Controls.Ex_List_View is
    type Color_Mode_Type is (All_Items, Item_Alternately, Subitem);
 
    --  Get the active color-mode
-   function Color_Mode(Control : in Ex_List_View_Control_Type) return Color_Mode_Type;
+   function Color_Mode (Control : in Ex_List_View_Control_Type) return Color_Mode_Type;
 
    --  Set the text/backcolor for color_mode = All_Items
    --  is another color_mode active, it automatically switches to color_mode = All_Items
    --  after create of the control the default text color is black and background color is white
    procedure Text_Color (Control : in  out Ex_List_View_Control_Type;
-                         Color   : in     Color_Type                 );
+                         Color   : in     Color_Type);
    procedure Back_Color (Control : in  out  Ex_List_View_Control_Type;
-                         Color   : in     Color_Type                 );
+                         Color   : in     Color_Type);
 
    --  Set the background color of the control in the area, where there are no items/subitems
    --  the color_mode is not changed!
    procedure Control_Back_Color (Control : in  out  Ex_List_View_Control_Type;
-                                 Color   : in       Color_Type               );
+                                 Color   : in       Color_Type);
 
    --  Set the backcolors for color_mode = item_alternately
    --  is another color_mode active, it automatically switches to color_mode = item_alternately
-   procedure Set_Alternately_Colors(Control : in out Ex_List_View_Control_Type;
+   procedure Set_Alternately_Colors (Control : in out Ex_List_View_Control_Type;
                                     Color1  : in Color_Type;
                                     Color2  : in Color_Type);
 
@@ -103,7 +103,7 @@ package GWindows.Common_Controls.Ex_List_View is
                             Text_Color : in     Color_Type := Black;
                             Back_Color : in     Color_Type := White;
                             Index      : in     Integer := -1;
-                            Sub_Index  : in     Integer := -1            );
+                            Sub_Index  : in     Integer := -1);
 
    --  Change the color_mode manually
    --  when the mode is changed (either explicitly or utomatically by library) retained the old color settings,
@@ -132,8 +132,8 @@ package GWindows.Common_Controls.Ex_List_View is
    --  Alternative: use an event handler for freeing a row's payload.
    --  Define an event to free the payload by the user of the library.
    type Free_Payload_Event is access
-     procedure (Control: in out Ex_List_View_Control_Type;
-                Payload: out Data_Access);
+     procedure (Control : in out Ex_List_View_Control_Type;
+                Payload : out Data_Access);
 
    --  Here we can set the handler for the event.
    procedure On_Free_Payload_Handler (Control : in out Ex_List_View_Control_Type;
@@ -145,8 +145,8 @@ package GWindows.Common_Controls.Ex_List_View is
    --  gui sorting is automatically active when the control is created with parameter sort /= no_sort
 
    --  colors for paint the sort icon
-   Sort_Icon_Pen_Color: Color_Type := To_Color(100,100,100);
-   Sort_Icon_Brush_Color: Color_Type := To_Color(100,100,100);
+   Sort_Icon_Pen_Color : Color_Type := To_Color (100, 100, 100);
+   Sort_Icon_Brush_Color : Color_Type := To_Color (100, 100, 100);
 
    --  The control use an alphabetical sorting by default.
    --  if you want another sorting then your own sorting routine can be set here
@@ -160,25 +160,25 @@ package GWindows.Common_Controls.Ex_List_View is
    --  You can override On_Compare for a derived type, and define there your
    --  custom sorting.
    function On_Compare (
-               Control: in Ex_List_View_Control_Type;
+               Control : in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer;
 
    --  Alternatively, you can dynamically set a handler.
    type Compare_Event is access
-     function (Control: in Ex_List_View_Control_Type;
+     function (Control : in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer;
 
-   procedure On_Compare_Handler (Control: in out Ex_List_View_Control_Type;
+   procedure On_Compare_Handler (Control : in out Ex_List_View_Control_Type;
                                  Event  : in Compare_Event);
 
    --  Use the handler, if available.
    --  If not available, it defaults to alphabetical sorting.
    function Fire_On_Compare (
-               Control: in Ex_List_View_Control_Type;
+               Control : in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer;
@@ -235,19 +235,19 @@ package GWindows.Common_Controls.Ex_List_View is
 
 private
 
-   NullColor: Color_Type := 17000000; -- out of RGB-range
+   NullColor : Color_Type := 17000000; -- out of RGB-range
 
    --  internal
    type Internal_Color_Type is record
-      Textcolor: Color_Type := NullColor;
-      Backcolor: Color_Type := NullColor;
+      Textcolor : Color_Type := NullColor;
+      Backcolor : Color_Type := NullColor;
    end record;
    type Internal_Color_Array_Type is array (Natural range <>) of Internal_Color_Type;
    type Internal_Color_Array_Access is access all Internal_Color_Array_Type;
    type Internal_Type is
       record
-         Colors: Internal_Color_Array_Access := null;
-         User_Data: Data_Access := null;
+         Colors : Internal_Color_Array_Access := null;
+         User_Data : Data_Access := null;
       end record;
    type Internal_Access is access all Internal_Type;
    pragma No_Strict_Aliasing (Internal_Access);
@@ -255,27 +255,27 @@ private
    --  sorting_object
    type Sorting_Object is
       record
-         Sort_Column: Integer := -1;
-         Sort_Direction: Integer := 0;
-         Icon_Visible: Boolean := True;
-         Sort_Pen: GWindows.Drawing_Objects.Pen_Type;
-         Sort_Brush: GWindows.Drawing_Objects.Brush_Type;
+         Sort_Column : Integer := -1;
+         Sort_Direction : Integer := 0;
+         Icon_Visible : Boolean := True;
+         Sort_Pen : GWindows.Drawing_Objects.Pen_Type;
+         Sort_Brush : GWindows.Drawing_Objects.Brush_Type;
       end record;
 
    --  control_type
    type Ex_List_View_Control_Type is new List_View_Control_Type with record
-      Color_Mode: Color_Mode_Type := All_Items;
-      Control_Textcolor: Color_Type := Black;
-      Control_Backcolor: Color_Type := White;
-      Alt_Color1: Color_Type;
-      Alt_Color2: Color_Type;
-      Comctl_Version: Natural := 0;
+      Color_Mode : Color_Mode_Type := All_Items;
+      Control_Textcolor : Color_Type := Black;
+      Control_Backcolor : Color_Type := White;
+      Alt_Color1 : Color_Type;
+      Alt_Color2 : Color_Type;
+      Comctl_Version : Natural := 0;
       --  events
       On_Free_Payload : Free_Payload_Event := null;
       On_Compare_Event : Compare_Event := null;
       On_General_Compare_Event : General_Compare_Event := null;
       --  for callback
-      Sort_Object: Sorting_Object;
+      Sort_Object : Sorting_Object;
    end record;
 
    procedure On_Create (Control : in out Ex_List_View_Control_Type);
@@ -287,7 +287,7 @@ private
    procedure On_Notify (Window       : in out Ex_List_View_Control_Type;
                         Message      : in     GWindows.Base.Pointer_To_Notification;
                         Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out GWindows.Types.Lresult    );
+                        Return_Value : in out GWindows.Types.Lresult);
    procedure On_Destroy (Control : in out Ex_List_View_Control_Type);
    procedure Delete_Item (Control : in out Ex_List_View_Control_Type;
                           Index   : in     Integer);

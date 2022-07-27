@@ -36,7 +36,7 @@ if not exist obj\small\libwin32ada.a copy /B obj\debug\libwin32ada.a obj\small\l
 gnatmake -P GW_Install.gpr -XBuild_Mode=Small
 copy /B gw_extract.exe gw_extract_small_no_upx.exe
 
-upx --ultra-brute gw_extract.exe
+REM upx --ultra-brute gw_extract.exe
 if exist *.upx del *.upx
 if exist *.000 del *.000
 if exist *.001 del *.001
