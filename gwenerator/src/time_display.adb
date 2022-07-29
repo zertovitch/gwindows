@@ -13,29 +13,29 @@
 
 with Calendar;
 
-function Time_display(
-  T        : Calendar.Time:= Calendar.Clock;
+function Time_display (
+  T        : Calendar.Time := Calendar.Clock;
   Seconds  : Boolean      := True;
-  Intra_day: Boolean      := True
+  Intra_day : Boolean      := True
 )
   return String
 is
   use Calendar;
   subtype Sec_int is Long_Integer; -- must contain 86_400
-  s : constant Sec_int:= Sec_int( Calendar.Seconds(T) );
-  m : constant Sec_int:= s / 60;
+  s : constant Sec_int := Sec_int (Calendar.Seconds (T));
+  m : constant Sec_int := s / 60;
   --  + 100: trick for obtaining 0x
-  sY : constant String:= Integer'Image( Year(T));
-  sM : constant String:= Integer'Image( Month(T) + 100);
-  sD : constant String:= Integer'Image(  Day(T)  + 100);
-  shr: constant String:= Sec_int'Image( m  /  60 + 100);
-  smn: constant String:= Sec_int'Image( m mod 60 + 100);
-  ssc: constant String:= Sec_int'Image( s mod 60 + 100);
+  sY : constant String := Integer'Image (Year (T));
+  sM : constant String := Integer'Image (Month (T) + 100);
+  sD : constant String := Integer'Image (Day (T)  + 100);
+  shr : constant String := Sec_int'Image (m  /  60 + 100);
+  smn : constant String := Sec_int'Image (m mod 60 + 100);
+  ssc : constant String := Sec_int'Image (s mod 60 + 100);
   --
   function Optional_seconds return String is
   begin
     if Seconds then
-      return ':' & ssc( ssc'Last-1 .. ssc'Last );
+      return ':' & ssc (ssc'Last - 1 .. ssc'Last);
     else
       return "";
     end if;
@@ -46,8 +46,8 @@ is
     if Intra_day then
       return
         "  " &
-        shr( shr'Last-1 .. shr'Last ) & ':' &
-        smn( smn'Last-1 .. smn'Last ) & Optional_seconds;
+        shr (shr'Last - 1 .. shr'Last) & ':' &
+        smn (smn'Last - 1 .. smn'Last) & Optional_seconds;
     else
       return "";
     end if;
@@ -55,8 +55,8 @@ is
 
 begin
   return
-    sY( sY'Last-3 .. sY'Last ) & '/' &  -- not Year 10'000 compliant.
-    sM( sM'Last-1 .. sM'Last ) & '/' &
-    sD( sD'Last-1 .. sD'Last ) &
+    sY (sY'Last - 3 .. sY'Last) & '/' &  -- not Year 10'000 compliant.
+    sM (sM'Last - 1 .. sM'Last) & '/' &
+    sD (sD'Last - 1 .. sD'Last) &
     Optional_intra_day;
 end Time_display;

@@ -90,7 +90,7 @@ FONT 8, "Ms Shell Dlg 2", 400, 0, 1
     DEFPUSHBUTTON   "Close", IDOK, 109, 172, 50, 18, 0, WS_EX_LEFT
     ICON            gwenerator_icon, IDC_STATIC, 5, 5, 32, 30, SS_ICON, WS_EX_LEFT
     LTEXT           "GWenerator: a code generator for GWindows", IDC_STATIC, 47, 10, 165, 8, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Copyright © Gautier de Montmollin 2008 .. 2021", IDC_STATIC, 47, 25, 196, 8, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Copyright © Gautier de Montmollin 2008 .. 2022", IDC_STATIC, 47, 25, 196, 8, SS_LEFT, WS_EX_LEFT
     LTEXT           "MIT Open Source License", IDC_STATIC, 47, 40, 100, 8, SS_LEFT, WS_EX_LEFT
     LTEXT           "Internet:", IDC_STATIC, 11, 55, 30, 8, SS_LEFT, WS_EX_LEFT
     LTEXT           "http://sf.net/projects/gnavi", URL, 58, 55, 120, 8, SS_LEFT, WS_EX_LEFT
@@ -259,7 +259,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
             VALUE "Authors", "Gautier de Montmollin"
             VALUE "FileDescription", "GWenerator - Resource script (.rc) to GWindows Ada code translator"
             VALUE "FileVersion", "1.11"
-            VALUE "LegalCopyright", "© 2008 .. 2021 G. de Montmollin (MIT license)"
+            VALUE "LegalCopyright", "© 2008 .. 2022 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWenerator"
         }
     }

@@ -550,16 +550,16 @@ window_class:
       | WC_COMBOBOX_t
       | WC_COMBOBOXEX_t
       | WC_EDIT_t
-      | WC_HEADER_t -- Creates header controls (headings at the top of columns).
+      | WC_HEADER_t         -- Creates header controls (headings at the top of columns).
       | WC_LISTBOX_t
-      | WC_IPADDRESS_t -- Creates IP address controls.
-      | WC_LINK_t          -- Creates SysLink controls. These controls contain hypertext links.
+      | WC_IPADDRESS_t      -- Creates IP address controls.
+      | WC_LINK_t           -- Creates SysLink controls. These controls contain hypertext links.
       | WC_LISTVIEW_t
         -- Creates list-view controls.
         { control := list_view;}
-      | WC_NATIVEFONTCTL_t -- Creates native font controls (invisible)
-      | WC_PAGESCROLLER_t  -- Creates pager controls (contain and scroll another window).
-      | WC_SCROLLBAR_t     -- Creates scrollbar controls (scroll the contents of a window).
+      | WC_NATIVEFONTCTL_t  -- Creates native font controls (invisible)
+      | WC_PAGESCROLLER_t   -- Creates pager controls (contain and scroll another window).
+      | WC_SCROLLBAR_t      -- Creates scrollbar controls (scroll the contents of a window).
       | WC_STATIC_t
         -- Creates static controls. These controls contain noneditable text.
         -- ResEdit seems to use WC_STATIC for pictures; some sources use STATIC
@@ -825,13 +825,13 @@ cbs_style_only
 
 groupbox  : GROUPBOX_t
             ctrl_properties
-            gbs_styles_optional -- also with optional extended styles
+            gbs_styles_optional  --  also with optional extended styles
             {
-              Ada_Put_Line(to_spec, "    " & S(last_Ada_ident) & ": Group_Box_Type;");
-              Ada_Coord_conv(last_rect);
-              Ada_Put_Line(to_body,
-                "    Create( Window." & S(last_Ada_ident) & ", Window, " &
-                S(last_text) & ", x, y, w, h);"
+              Ada_Put_Line (to_spec, "    " & S (last_Ada_ident) & " : Group_Box_Type;");
+              Ada_Coord_conv (last_rect);
+              Ada_Put_Line (to_body,
+                "    Create (Window." & S (last_Ada_ident) & ", Window, " &
+                S (last_text) & ", x, y, w, h);"
               );}
             ;
 
@@ -932,7 +932,7 @@ pushbutton  :
             ctrl_properties
             bs_styles_optional  --  also with optional extended styles
             {
-              style_switch (push):= True;
+              style_switch (push) := True;
               Ada_button_control;}
             ;
 
@@ -1133,12 +1133,12 @@ menu : RC_Ident
          menu_popup_counter := 0;
          popup_top := 0;
          Ada_Put_Line (to_spec,
-           "    Main: Menu_Type;  --  Root of the whole menu tree"
+           "    Main : Menu_Type;  --  Root of the whole menu tree"
          );
          Ada_New_Line (to_body);
          Ada_Proc_Menu (
             to_body,
-            S(last_dialog_ident) & "_Type"
+            S (last_dialog_ident) & "_Type"
          );
          Ada_New_Line (to_body);
          Ada_Put_Line (to_body, "  is");
@@ -1208,7 +1208,7 @@ popup :     POPUP_t
               Ada_Put_Line (to_body,
                 "    Append_Menu (New_Menu." &
                 Popup_num_to_Ada_ident (popup_stack(popup_top)) &
-                ", " & S(last_popup_title) &
+                ", " & S (last_popup_title) &
                 ", New_Menu." &
                 Popup_num_to_Ada_ident (menu_popup_counter) &
                 ");"
@@ -1450,7 +1450,7 @@ value_arg_list:
           ;
 
 value_arg :  RCString
-             {RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
+             {RC_Help.version_info_value_counter := RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
                   declare
@@ -1459,17 +1459,17 @@ value_arg :  RCString
                     Ada_Put(to_spec, "    " & item(item'First+1..item'Last-1));
                   end;
                 when 2 =>
-                  Ada_Put_Line(to_spec, ": constant String:= " & yytext & ';');
+                  Ada_Put_Line(to_spec, " : constant String := " & yytext & ';');
                 when others =>
                   null;
               end case;}
            | NUMBER
-             {RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
+             {RC_Help.version_info_value_counter := RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
                   null; -- should not happen...
                 when 2 =>
-                  Ada_Put_Line(to_spec, ": constant:=" & Long_Long_Integer'Image(YYLVal.intval) & ';');
+                  Ada_Put_Line(to_spec, " : constant :=" & Long_Long_Integer'Image(YYLVal.intval) & ';');
                 when others =>
                   null;
               end case;}

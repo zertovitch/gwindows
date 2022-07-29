@@ -31,30 +31,31 @@
 with GWindows.Static_Controls,
      GWindows.Common_Controls;
 
-with Ada.Strings.Unbounded;             use Ada.Strings.Unbounded;
-with Ada.Text_IO;
+with Ada.Strings.Unbounded,
+     Ada.Text_IO;
 
 package RC_Help is
+  use Ada.Strings.Unbounded;
 
-  Grammar_Version: constant String:= "14-Apr-2021";
-  Web: constant String:= "http://sf.net/projects/gnavi";
+  Grammar_Version : constant String := "29-Jul-2022";
+  Web : constant String := "http://sf.net/projects/gnavi";
 
-  function S(Source: Unbounded_String) return String
+  function S (Source : Unbounded_String) return String
     renames Ada.Strings.Unbounded.To_String;
-  function U(Source: String) return Unbounded_String
+  function U (Source : String) return Unbounded_String
     renames Ada.Strings.Unbounded.To_Unbounded_String;
 
-  function Ada_ify(s: String) return Unbounded_String;
-  function Replace_special_characters(str: String) return String;
+  function Ada_ify (s : String) return Unbounded_String;
+  function Replace_special_characters (str : String) return String;
 
-  function RC_to_Package_name(
+  function RC_to_Package_name (
     rc_name         : String;
     has_input_param : Boolean; -- False => ignores rc_name and uses a default name
     as_file_name    : Boolean
   ) return String;
 
-  has_input: Boolean;
-  source_name: Unbounded_String;
+  has_input : Boolean;
+  source_name : Unbounded_String;
 
   linenum : Integer;
 
@@ -66,11 +67,11 @@ package RC_Help is
   base_unit_y        : Positive;
   separate_items     : Boolean;
   generate_test      : Boolean;
-  initialize_controls: Boolean; -- Analogy: Ada's pragma Initialize_Scalars
+  initialize_controls : Boolean; -- Analogy: Ada's pragma Initialize_Scalars
 
   type Pkg_output is (to_spec, to_body);
 
-  GWen_proj: Unbounded_String;
+  GWen_proj : Unbounded_String;
 
   ------------------------
   -- Style combinations --
@@ -79,7 +80,7 @@ package RC_Help is
   --  from styles BS_AUTORADIOBUTTON
 
   type Style_switch_type is
-    ( auto,
+    (auto,
       disabled,
       hidden,       -- = not visible (not ws_visible)
       radio,        -- buttons
@@ -119,9 +120,9 @@ package RC_Help is
       right_justify
     );
 
-  type Set_of_styles is array(Style_switch_type) of Boolean;
+  type Set_of_styles is array (Style_switch_type) of Boolean;
 
-  dialog_style_switch, style_switch: Set_of_styles;
+  dialog_style_switch, style_switch : Set_of_styles;
 
   ------------------------------------------------------------
   -- Static controls - very standard Windows                --
@@ -129,7 +130,7 @@ package RC_Help is
   ------------------------------------------------------------
 
   type Control_type is
-    ( unknown,
+    (unknown,
       --  "Static controls":
       static,
       icon,
@@ -147,68 +148,68 @@ package RC_Help is
       calendar
     );
 
-  control: Control_type;
+  control : Control_type;
 
   type Control_Direction_Type is (Horizontal, Vertical);
-  Control_Direction: Control_Direction_Type; -- direction of various controls
+  Control_Direction : Control_Direction_Type; -- direction of various controls
 
   type Trackbar_Control_Ticks_Type is (Top_Ticks,
                                        Bottom_Ticks,
                                        Both_Ticks,
                                        No_Ticks);
 
-  Trackbar_Control_Ticks: Trackbar_Control_Ticks_Type;
+  Trackbar_Control_Ticks : Trackbar_Control_Ticks_Type;
 
-  last_alignment: GWindows.Static_Controls.Alignment_Type:= GWindows.Static_Controls.Left;
+  last_alignment : GWindows.Static_Controls.Alignment_Type := GWindows.Static_Controls.Left;
   --
   --  List view options
   --
   lv_type  : GWindows.Common_Controls.List_View_Control_View_Type;
-  lv_select: GWindows.Common_Controls.List_View_Control_Select_Type;
+  lv_select : GWindows.Common_Controls.List_View_Control_Select_Type;
   lv_sort  : GWindows.Common_Controls.List_View_Control_Sort_Type;
   lv_align : GWindows.Common_Controls.List_View_Control_Alignment_Type;
-  lv_auto_arrange: Boolean;
+  lv_auto_arrange : Boolean;
 
   type Combo_type is (no_drop, drop_down, drop_down_list);
-  combo: Combo_type;
+  combo : Combo_type;
 
   type Rect_type is record
-    x,y,w,h: Long_Long_Integer;
+    x, y, w, h : Long_Long_Integer;
   end record;
 
   last_rect, last_dialog_rect : Rect_type;
 
-  function Image(rect: Rect_type) return String;
+  function Image (rect : Rect_type) return String;
 
   last_ident, last_Ada_ident, last_Ada_constant : Unbounded_String;
-  anonymous_item: Boolean;
-  empty_dialog_record: Boolean;
-  last_text, last_class, last_control_text: Unbounded_String;
-  last_dialog_ident: Unbounded_String;
-  last_caption, last_dialog_caption: Unbounded_String;
-  version_info_value_counter: Natural;
-  version_info_value: Unbounded_String;
+  anonymous_item : Boolean;
+  empty_dialog_record : Boolean;
+  last_text, last_class, last_control_text : Unbounded_String;
+  last_dialog_ident : Unbounded_String;
+  last_caption, last_dialog_caption : Unbounded_String;
+  version_info_value_counter : Natural;
+  version_info_value : Unbounded_String;
 
-  static_counter: Natural;
+  static_counter : Natural;
   --  Counter for objects labelled as static (-1, ID_STATIC) but
   --  that cannot be anonymous like labels.
   --  Essentially Group_Boxes are concerned.
   procedure New_static_item;
 
-  anonymous_dialog_counter: Natural;
-  anonymous_menu_counter: Natural;
+  anonymous_dialog_counter : Natural;
+  anonymous_menu_counter : Natural;
 
-  menu_popup_counter, popup_top: Natural;
-  popup_stack: array(0..1000) of Natural; -- recall parent popups
-  function Popup_num_to_Ada_ident(n: Natural) return String;
-  last_popup_title: Unbounded_String;
+  menu_popup_counter, popup_top : Natural;
+  popup_stack : array (0 .. 1000) of Natural; -- recall parent popups
+  function Popup_num_to_Ada_ident (n : Natural) return String;
+  last_popup_title : Unbounded_String;
   append_item_cmd : Unbounded_String;
 
-  procedure Insert_symbol(sym_name: String; value: Integer);
+  procedure Insert_symbol (sym_name : String; value : Integer);
   procedure Insert_last_symbol;
-  procedure Treat_include(fn: String);
+  procedure Treat_include (fn : String);
 
-  Ada_files: array(Pkg_output) of Ada.Text_IO.File_Type;
+  Ada_files : array (Pkg_output) of Ada.Text_IO.File_Type;
   Syntax_Error : exception;
   procedure Ada_Begin;
 
@@ -216,26 +217,26 @@ package RC_Help is
   procedure YY_Abort;
   procedure YY_Terminate;
 
-  procedure Open_if_separate(item: String; with_body: Boolean:= True);
-  procedure Close_if_separate(item: String; with_body: Boolean:= True);
+  procedure Open_if_separate (item : String; with_body : Boolean := True);
+  procedure Close_if_separate (item : String; with_body : Boolean := True);
 
-  procedure Ada_Put(to: Pkg_output; s: String);
-  procedure Ada_Put_Line(to: Pkg_output; s: String);
-  procedure Ada_New_Line(to: Pkg_output);
-  procedure Ada_Comment(to: Pkg_output; s: String);
-  procedure Ada_Proc_Dialog(
+  procedure Ada_Put (to : Pkg_output; s : String);
+  procedure Ada_Put_Line (to : Pkg_output; s : String);
+  procedure Ada_New_Line (to : Pkg_output);
+  procedure Ada_Comment (to : Pkg_output; s : String);
+  procedure Ada_Proc_Dialog (
     to       : Pkg_output;
-    type_name: String;
+    type_name : String;
     title    : String
   );
-  procedure Ada_Proc_Menu(
+  procedure Ada_Proc_Menu (
     to       : Pkg_output;
-    type_name: String
+    type_name : String
   );
-  procedure Ada_Coord_conv(rect: Rect_type);
+  procedure Ada_Coord_conv (rect : Rect_type);
 
-  procedure Ada_normal_control_create(comma_text, extra: String:= ""; with_id: Boolean:= True);
-  procedure Ada_normal_control(type_name: String; comma_text, extra: String:= ""; with_id: Boolean:= True);
+  procedure Ada_normal_control_create (comma_text, extra : String := ""; with_id : Boolean := True);
+  procedure Ada_normal_control (type_name : String; comma_text, extra : String := ""; with_id : Boolean := True);
   procedure Ada_label_control; -- Static text
   procedure Ada_icon_control;
   procedure Ada_bitmap_control;
@@ -251,9 +252,9 @@ package RC_Help is
   procedure Ada_optional_disabling;
 
   --  Control class is given as a string, not a token (e.g. "Button")
-  procedure Identify_control_class(RC_String: String);
+  procedure Identify_control_class (RC_String : String);
 
-  procedure RC_Comment(s: String);
+  procedure RC_Comment (s : String);
 
   procedure Reset_Globals;
 

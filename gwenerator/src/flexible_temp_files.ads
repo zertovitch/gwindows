@@ -15,5 +15,5 @@ package Flexible_temp_files is
   function Radix return String;
 
 private
-  radix_temp_file: Ada.Text_IO.File_Type;
+  radix_temp_file : Ada.Text_IO.File_Type;
 end Flexible_temp_files;

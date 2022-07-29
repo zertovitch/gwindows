@@ -26,24 +26,24 @@ with Interfaces.C, System;
 package Windows_pipes is
 
    --  Output a line to anywhere: a terminal (Text_IO), a message box,...
-   type Output_Line is access procedure (l: String);
+   type Output_Line is access procedure (l : String);
 
-   Cannot_create_pipe: exception;
-   Cannot_start      : exception;
-   Output_is_null    : exception;
-   Still_active      : exception; -- raised if exit code is queried too early
+   Cannot_create_pipe : exception;
+   Cannot_start       : exception;
+   Output_is_null     : exception;
+   Still_active       : exception;  --  raised if exit code is queried too early
 
    type Piped_process is private;
 
-   procedure Start(
+   procedure Start (
      p            : in out Piped_process;
-     command, path: String;
+     command, path : String;
      text_output  : Output_Line
    );
-   procedure Stop(p: in out Piped_process);
-   procedure Check_progress(p: in out Piped_process);
-   function Alive(p: Piped_process) return Boolean;
-   function Last_exit_code(p: Piped_process) return Integer;
+   procedure Stop (p : in out Piped_process);
+   procedure Check_progress (p : in out Piped_process);
+   function Alive (p : Piped_process) return Boolean;
+   function Last_exit_code (p : Piped_process) return Integer;
 
 private
 

@@ -15,8 +15,8 @@ package GWen_Windows is
     proj               : GWens.GWen;
     short_name         : GString_Unbounded;
     menus              : GWenerator_Resource_GUI.Main_Menu_Type;
-    RC_new             : Boolean:= False;
-    Ada_new            : Boolean:= False;
+    RC_new             : Boolean := False;
+    Ada_new            : Boolean := False;
     last_save_success  : Boolean;
     ear, no_ear,
     wheels             : GWindows.Drawing_Objects.Bitmap_Type;
@@ -25,8 +25,8 @@ package GWen_Windows is
     more_build,
     less_build         : GWindows.Drawing_Objects.Bitmap_Type;
     build_process      : Windows_pipes.Piped_process;
-    last_seen_running  : Boolean:= False;
-    last_build_failed  : Boolean:= False;
+    last_seen_running  : Boolean := False;
+    last_build_failed  : Boolean := False;
   end record;
 
   --------------------------------------------
