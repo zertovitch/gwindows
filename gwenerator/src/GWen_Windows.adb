@@ -1,19 +1,16 @@
 with Flexible_temp_files;
 
-with GWindows.Application;              use GWindows.Application;
+with GWindows.Application;
 with GWindows.Base;                     use GWindows.Base;
-with GWindows.Edit_Boxes;               use GWindows.Edit_Boxes;
+with GWindows.Edit_Boxes;
 with GWindows.List_Boxes;               use GWindows.List_Boxes;
-with GWindows.Buttons;                  use GWindows.Buttons;
-with GWindows.Buttons.Graphic;
+with GWindows.Buttons.Graphic;          use GWindows.Buttons;
 with GWindows.Common_Dialogs;           use GWindows.Common_Dialogs;
 with GWindows.Constants;                use GWindows.Constants;
 with GWindows.Common_Controls;          use GWindows.Common_Controls;
 with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
-with GWindows.Static_Controls;          use GWindows.Static_Controls;
-with GWindows.Static_Controls.Web;      use GWindows.Static_Controls.Web;
-with GWindows.GStrings;                 use GWindows.GStrings;
-with GWindows.Windows;                  use GWindows.Windows;
+with GWindows.Static_Controls.Web;
+with GWindows.GStrings;
 
 with GWenerator_Resource_GUI;           use GWenerator_Resource_GUI;
 
@@ -36,6 +33,8 @@ with GWin_Util;
 with GNAT.Compiler_Version;
 
 package body GWen_Windows is
+
+  use GWindows, GWindows.GStrings;
 
   function S2G (Value : String) return GString renames To_GString_From_String;
   function G2S (Value : GString) return String renames To_String;
@@ -167,14 +166,14 @@ package body GWen_Windows is
   --------------------------------------
 
   procedure On_Options (Window : in out GWen_Window_Type) is
-    dlg    : GWen_properties_Type;
-    candidate  : GWen  := Window.proj;
+    dlg       : GWen_properties_Type;
+    candidate : GWens.GWen := Window.proj;
 
     procedure Update_base_units (dummy : in out GWindows.Base.Base_Window_Type'Class) is
-      use_defaults_checked  : constant Boolean  := dlg.Use_base_defs.State = Checked;
+      use_defaults_is_checked  : constant Boolean  := dlg.Use_base_defs.State = Checked;
     begin
-      Enabled  (dlg.Basx, not use_defaults_checked);
-      Enabled  (dlg.Basy, not use_defaults_checked);
+      dlg.Basx.Enabled (not use_defaults_is_checked);
+      dlg.Basy.Enabled (not use_defaults_is_checked);
     end Update_base_units;
 
     procedure Select_RC (dummy : in out GWindows.Base.Base_Window_Type'Class) is
@@ -220,7 +219,8 @@ package body GWen_Windows is
       end if;
     end Select_Ada;
 
-    function Img  (ch  : GWens.RC_compiler_choice) return GString is
+    function Img (ch : GWens.RC_compiler_choice) return GString is
+      use GWens;
     begin
       case ch is
         when none =>
@@ -256,6 +256,8 @@ package body GWen_Windows is
 
     modified  : Boolean;
     Bool_to_Check  : constant array  (Boolean) of Check_State_Type  := (Unchecked, Checked);
+
+    use GWens;
 
   begin
     dlg.Create_Full_Dialog  (Window);
@@ -306,7 +308,7 @@ package body GWen_Windows is
     case GWindows.Application.Show_Dialog (dlg, Window) is
       when IDOK =>
         --
-        modified  := Window.proj /= candidate;
+        modified := Window.proj /= candidate;
         --  ^ True if any option has changed, False if no change.
         --
         if modified then
@@ -349,8 +351,8 @@ package body GWen_Windows is
   end Process_unsaved_changes;
 
   procedure On_New (Window : in out GWen_Window_Type) is
-    fresh_gwen  : GWen; -- initialized with defaults
-    Success   : Boolean;
+    fresh_gwen : GWens.GWen;  --  Initialized with defaults
+    Success    : Boolean;
   begin
     Process_unsaved_changes  (Window, Success);
     if Success then
@@ -361,13 +363,39 @@ package body GWen_Windows is
     end if;
   end On_New;
 
+  procedure Load_GWen
+    (Window        : in out GWen_Window_Type;
+     New_File_Name :        GWindows.GString_Unbounded;
+     File_Title    :        GWindows.GString_Unbounded)
+  is
+    Success : Boolean;
+  begin
+    GWens.IO.Load  (
+      file_name  => G2S  (GU2G  (New_File_Name)),
+      proj       => Window.proj,
+      is_success => Success
+    );
+    if Success then
+      Window.short_name  := File_Title;
+      Update_status_display (Window);
+    else
+      Message_Box  (
+        Window,
+        "Error", GU2G  (New_File_Name) &
+        " is not a GWen project file.",
+        OK_Box,
+        Error_Icon
+      );
+    end if;
+  end Load_GWen;
+
   procedure On_Open (Window : in out GWen_Window_Type) is
     New_File_Name : GWindows.GString_Unbounded;
     File_Title    : GWindows.GString_Unbounded;
-    Success       : Boolean;
+    is_success    : Boolean;
   begin
-    Process_unsaved_changes  (Window, Success);
-    if Success then
+    Process_unsaved_changes (Window, is_success);
+    if is_success then
       Open_File (
         Window,
         "Open...",
@@ -377,26 +405,10 @@ package body GWen_Windows is
          ),
          ".gwen",
          File_Title,
-         Success
+         is_success
       );
-      if Success then
-        GWens.IO.Load  (
-          file_name => G2S  (GU2G  (New_File_Name)),
-          proj      => Window.proj,
-          success   => Success
-        );
-        if Success then
-          Window.short_name  := File_Title;
-          Update_status_display (Window);
-        else
-          Message_Box  (
-            Window,
-            "Error", GU2G  (New_File_Name) &
-            " is not a GWen project file.",
-            OK_Box,
-            Error_Icon
-          );
-        end if;
+      if is_success then
+        Load_GWen (Window, New_File_Name, File_Title);
       end if;
     end if;
   end On_Open;
@@ -416,7 +428,7 @@ package body GWen_Windows is
   procedure On_Save_As (Window : in out GWen_Window_Type) is
     New_File_Name : GWindows.GString_Unbounded;
     File_Title    : GWindows.GString_Unbounded;
-    Success       : Boolean;
+    is_success    : Boolean;
   begin
     Window.last_save_success  := False;
     Save_File (
@@ -428,9 +440,9 @@ package body GWen_Windows is
        ),
        ".gwen",
        File_Title,
-       Success
+       is_success
     );
-    if Success then
+    if is_success then
       if Ada.Directories.Exists  (G2S  (GU2G  (New_File_Name)))
       and then
         Message_Box (Window,
@@ -453,39 +465,40 @@ package body GWen_Windows is
   end On_Save_As;
 
   procedure On_About (Window : in out GWen_Window_Type) is
+    use GWindows.Static_Controls.Web;
     box  : About_box_Type;
     url_gnat, url_gnavi_1, url_gnavi_2, url_resedit  : URL_Type;
     package CVer is new GNAT.Compiler_Version;
   begin
-    box.Create_Full_Dialog  (Window);
+    box.Create_Full_Dialog (Window);
     GWindows.Static_Controls.Web.Create_and_Swap  (
       To_Show => url_gnavi_1,
       To_Hide => box.URL,
       Parent  => box,
-      URL     => S2G  (RC_Help.Web)
+      URL     => S2G (RC_Help.Web)
     );
-    Text  (url_gnavi_1, S2G  (RC_Help.Web)); -- Here the text and the URL are the same
-    Create_and_Swap  (url_gnat, box.GNAT_URL, box, "http://libre.adacore.com");
-    Text  (box.GNAT_Version, S2G  ("version " & CVer.Version));
+    url_gnavi_1.Text (S2G (RC_Help.Web));  --  Here the text and the URL are the same
+    Create_and_Swap  (url_gnat, box.GNAT_URL, box, "https://www.adacore.com/download");
+    box.GNAT_Version.Text (S2G  ("version " & CVer.Version));
     Create_and_Swap  (url_gnavi_2, box.GNAVI_URL, box, S2G  (RC_Help.Web));
     --  Complete the Grammar version info:
     box.RC_gramm_ver.Text  (box.RC_gramm_ver.Text & S2G  (RC_Help.Grammar_Version));
     --  Complete the GWenerator version info:
     box.GWen_ver.Text  (box.GWen_ver.Text & S2G  (Version_info.FileVersion));
     box.Center;
-    if Show_Dialog (box, Window) = IDOK then
+    if GWindows.Application.Show_Dialog (box, Window) = IDOK then
       null;
     end if;
   end On_About;
 
-  procedure Call_windres (gw  : in out GWen_Window_Type) is
-    sn  : constant String  := S  (gw.proj.RC_name);                         --  proj.rc
-    on  : constant String  := To_Lower (sn  (sn'First  ..  sn'Last  -  1)) & "bj";  --  proj.rbj
+  procedure Call_windres (gw : in out GWen_Window_Type) is
+    sn : constant String := S (gw.proj.RC_name);                             --  proj.rc
+    on : constant String := To_Lower (sn (sn'First .. sn'Last - 1)) & "bj";  --  proj.rbj
     Command : constant String :=
       "windres -v " & sn & ' ' & on;
     procedure Output_a_line  (l  : String) is
     begin
-      Add  (gw.RC_to_GWindows_messages, S2G  (l));
+      Add (gw.RC_to_GWindows_messages, S2G (l));
     end Output_a_line;
     p  : Windows_pipes.Piped_process;
   begin
@@ -516,6 +529,7 @@ package body GWen_Windows is
 
   procedure Resource_compilation (gw  : in out GWen_Window_Type; optional  : Boolean) is
     ok  : Boolean;
+    use GWens;
   begin
     Check_resource_name  (gw, ok);
     if ok then
@@ -741,10 +755,10 @@ package body GWen_Windows is
   is
     pragma Unmodified (Window);
     pragma Unmodified (dwExStyle);
-    WS_BORDER     : constant  := 16#0080_0000#;
-    WS_SYSMENU    : constant  := 16#0008_0000#; -- Get the [x] closing box
-    WS_MINIMIZEBOX  : constant  := 16#0002_0000#;
-    custom_style  : constant  := WS_BORDER + WS_SYSMENU + WS_MINIMIZEBOX;
+    WS_BORDER      : constant  := 16#0080_0000#;
+    WS_SYSMENU     : constant  := 16#0008_0000#; -- Get the [x] closing box
+    WS_MINIMIZEBOX : constant  := 16#0002_0000#;
+    custom_style   : constant  := WS_BORDER + WS_SYSMENU + WS_MINIMIZEBOX;
     --  essentially, we want a window the user cannot resize
   begin
     dwStyle  := custom_style;
@@ -754,7 +768,7 @@ package body GWen_Windows is
 
   procedure On_Create (Window : in out GWen_Window_Type) is
   --  Handles setting up icons, menus, etc.
-    use Ada.Command_Line, GWindows.Buttons.Graphic;
+    use Ada.Command_Line;
     successful  : Boolean;
   begin
     Window.ear.Load_Bitmap  (Num_resource  (Listen_32x32));
@@ -774,9 +788,9 @@ package body GWen_Windows is
       Window.On_New;
     else
       GWens.IO.Load  (
-        file_name => Argument  (1),
-        proj      => Window.proj,
-        success   => successful
+        file_name  => Argument (1),
+        proj       => Window.proj,
+        is_success => successful
       );
       if successful then
         Window.short_name  := G2GU  (S2G  (Simple_Name  (Argument  (1))));
@@ -793,16 +807,24 @@ package body GWen_Windows is
     end if;
     Update_status_display  (Window);
     Window.Center;
-    On_Click_Handler  (Window.Show_Details, On_Details_Check_Box_Click'Access);
-    Window.More_less_details.Set_Bitmap  (Window.more_details);
-    On_Click_Handler  (Window.More_less_details, On_Details_Button_Click'Access);
-    On_Click_Handler  (Window.Show_Ada_build, On_Build_Check_Box_Click'Access);
-    Window.More_less_build.Set_Bitmap  (Window.more_build);
-    On_Click_Handler  (Window.More_less_build, On_Build_Button_Click'Access);
-    On_Click_Handler  (Window.Button_Translate_permanent, Do_Translate'Access);
-    On_Click_Handler  (Window.Button_Build_permanent, Do_Start_Stop_Build'Access);
-    On_Click_Handler  (Window.Button_Run_permanent, Do_Run_from_button'Access);
-    Windows_Timers.Set_Timer  (Window, timer_id, 1000);
+    --  Check box with "Show details":
+    Window.Show_Details.On_Click_Handler (On_Details_Check_Box_Click'Access);
+    --  Expand/collapse button for "Show details":
+    Window.More_less_details.Set_Bitmap (Window.more_details);
+    Window.More_less_details.On_Click_Handler (On_Details_Button_Click'Access);
+    --  Check box with "Show Ada build":
+    Window.Show_Ada_build.On_Click_Handler (On_Build_Check_Box_Click'Access);
+    --  Expand/collapse button for "Show Ada build":
+    Window.More_less_build.Set_Bitmap (Window.more_build);
+    Window.More_less_build.On_Click_Handler (On_Build_Button_Click'Access);
+    --  Button "Translate now":
+    Window.Button_Translate_permanent.On_Click_Handler (Do_Translate'Access);
+    --  Button "Build now":
+    Window.Button_Build_permanent.On_Click_Handler (Do_Start_Stop_Build'Access);
+    --  Button "Run":
+    Window.Button_Run_permanent.On_Click_Handler (Do_Run_from_button'Access);
+    --
+    Windows_Timers.Set_Timer (Window, timer_id, 1000);
     --
     Window.Visible;
     --
@@ -810,16 +832,33 @@ package body GWen_Windows is
     Window.last_build_failed  := False;
     --
     Flexible_temp_files.Initialize;
+    Window.Accept_File_Drag_And_Drop;
   end On_Create;
 
   procedure On_Destroy (Window : in out GWen_Window_Type) is
   --  Method taken from GWindows.Windows.Main
   begin
     GWindows.Application.End_Loop;
-    Window_Type (Window).On_Destroy;
+    GWindows.Windows.Window_Type (Window).On_Destroy;
   end On_Destroy;
 
-  function Is_RC_newer  (proj  : GWen) return Boolean is
+  procedure On_File_Drop
+    (Window      : in out GWen_Window_Type;
+     File_Names : in     GWindows.Windows.Array_Of_File_Names)
+  is
+    is_success : Boolean;
+  begin
+    Window.Focus;
+    for File_Name of File_Names loop
+      Process_unsaved_changes (Window, is_success);
+      if is_success then
+        Load_GWen (Window, File_Name, G2GU (S2G (Simple_Name (G2S (GU2G (File_Name))))));
+      end if;
+      exit;  --  We take only the first item.
+    end loop;
+  end On_File_Drop;
+
+  function Is_RC_newer  (proj : GWens.GWen) return Boolean is
     use Ada.Calendar;
     rn  : constant String  := S  (proj.RC_name);
     an  : constant String  := RC_to_Package_name  (rn,  True,  True) & ".ads";
@@ -833,7 +872,7 @@ package body GWen_Windows is
       );
   end Is_RC_newer;
 
-  function Is_Ada_newer  (proj  : GWen) return Boolean is
+  function Is_Ada_newer (proj : GWens.GWen) return Boolean is
     use Ada.Calendar;
     en  : constant String  := S  (proj.Ada_main);
     rn  : constant String  := S  (proj.RC_name);
@@ -948,13 +987,11 @@ package body GWen_Windows is
       end if;
     end if;
     --  Call parent method
-    On_Message  (
-      Window_Type  (Window),
-      message,
-      wParam,
-      lParam,
-      Return_Value
-    );
+    GWindows.Windows.Window_Type (Window).On_Message
+      (message,
+       wParam,
+       lParam,
+       Return_Value);
   end On_Message;
 
   procedure On_Menu_Select

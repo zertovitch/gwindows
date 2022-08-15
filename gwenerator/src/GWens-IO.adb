@@ -17,17 +17,13 @@ package body GWens.IO is
   -- Load --
   ----------
 
-  procedure Load (file_name : in String; proj : out GWen; success : out Boolean) is
+  procedure Load (file_name : in String; proj : in out GWen; is_success : out Boolean) is
     f : File_Type;
     k : Key;
-    fresh_gwen : GWen;
-    --  ^ initialized with defaults;
-    --  for the case of an incomplete .gwen file,
-    --  e.g. saved with an older version
+    fresh_gwen : GWen;  --  New GWen initialized with defaults.
     dummy : Character;
     is_gwen_file : Boolean := False;
   begin
-    proj := fresh_gwen;
     Open (f, In_File, file_name);
     Skip_Line (f);
     while not End_Of_File (f) loop
@@ -35,43 +31,43 @@ package body GWens.IO is
         Get (f, k);
         case k is
           when RC_name =>
-            Get (f, dummy); -- absorb the first separating ' '
-            Get_Line (f, proj.RC_name);
+            Get (f, dummy);  --  absorb the first separating ' '
+            Get_Line (f, fresh_gwen.RC_name);
             is_gwen_file := True;
           when RC_listen =>
-            Get (f, proj.RC_listen);
+            Get (f, fresh_gwen.RC_listen);
           when RC_auto_trans =>
-            Get (f, proj.RC_auto_trans);
+            Get (f, fresh_gwen.RC_auto_trans);
           when RC_compile =>
-            Get (f, proj.RC_compile);
+            Get (f, fresh_gwen.RC_compile);
           --
           when separate_items =>
-            Get (f, proj.separate_items);
+            Get (f, fresh_gwen.separate_items);
           when base_x =>
-            Get (f, proj.base_x);
+            Get (f, fresh_gwen.base_x);
           when base_y =>
-            Get (f, proj.base_y);
+            Get (f, fresh_gwen.base_y);
           when base_defaults =>
-            Get (f, proj.base_defaults);
+            Get (f, fresh_gwen.base_defaults);
           when initialize_controls =>
-            Get (f, proj.initialize_controls);
+            Get (f, fresh_gwen.initialize_controls);
           --
           when Ada_main =>
             Get (f, dummy); -- absorb the first separating ' '
-            Get_Line (f, proj.Ada_main);
+            Get_Line (f, fresh_gwen.Ada_main);
           when Ada_listen =>
-            Get (f, proj.Ada_listen);
+            Get (f, fresh_gwen.Ada_listen);
           when Ada_auto_build =>
-            Get (f, proj.Ada_auto_build);
+            Get (f, fresh_gwen.Ada_auto_build);
           --
           when Ada_command =>
             Get (f, dummy); -- absorb the first separating ' '
-            Get_Line (f, proj.Ada_command);
+            Get_Line (f, fresh_gwen.Ada_command);
           --
           when show_details =>
-            Get (f, proj.show_details);
+            Get (f, fresh_gwen.show_details);
           when show_ada_build =>
-            Get (f, proj.show_ada_build);
+            Get (f, fresh_gwen.show_ada_build);
         end case;
       exception
         when Data_Error => -- item from a later version
@@ -80,10 +76,11 @@ package body GWens.IO is
     end loop;
     Close (f);
     if is_gwen_file then
-      proj.name := U (file_name);
+      proj        := fresh_gwen;
+      proj.name   := U (file_name);
       proj.titled := True; -- project has at least now a file name
     end if;
-    success := is_gwen_file;
+    is_success := is_gwen_file;
   end Load;
 
   ----------
