@@ -244,8 +244,8 @@ Warning_icon       ICON           "warning.ico"
 //
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1 VERSIONINFO
-    FILEVERSION     1,1,1,0
-    PRODUCTVERSION  1,1,1,0
+    FILEVERSION     1,1,2,0
+    PRODUCTVERSION  1,1,2,0
     FILEOS          VOS_UNKNOWN
     FILETYPE        VFT_UNKNOWN
     FILESUBTYPE     VFT2_UNKNOWN
@@ -258,7 +258,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
         {
             VALUE "Authors", "Gautier de Montmollin"
             VALUE "FileDescription", "GWenerator - Resource script (.rc) to GWindows Ada code translator"
-            VALUE "FileVersion", "1.11"
+            VALUE "FileVersion", "1.12"
             VALUE "LegalCopyright", "© 2008 .. 2022 G. de Montmollin (MIT license)"
             VALUE "ProductName", "GWenerator"
         }
