@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 --  GUI contents of resource script file: GWenerator.rc
---  Transcription time: 2022/07/29  22:52:52
+--  Transcription time: 2022/08/18  22:17:54
 --  GWenerator project file: GWenerator.gwen
 --
 --  Translated by the RC2GW or by the GWenerator tool.
@@ -212,7 +212,7 @@ package GWenerator_Resource_GUI is
   package Version_info is
     Authors : constant String := "Gautier de Montmollin";
     FileDescription : constant String := "GWenerator - Resource script (.rc) to GWindows Ada code translator";
-    FileVersion : constant String := "1.11";
+    FileVersion : constant String := "1.12";
     LegalCopyright : constant String := "© 2008 .. 2022 G. de Montmollin (MIT license)";
     ProductName : constant String := "GWenerator";
     Translation : constant := 1033;

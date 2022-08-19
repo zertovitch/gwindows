@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 --  GUI contents of resource script file: GWenerator.rc
---  Transcription time: 2022/07/29  22:52:52
+--  Transcription time: 2022/08/18  22:17:54
 --  GWenerator project file: GWenerator.gwen
 --
 --  Translated by the RC2GW or by the GWenerator tool.

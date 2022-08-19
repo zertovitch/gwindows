@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -249,7 +249,7 @@ package body GWindows.Common_Dialogs is
    type BROWSEINFO is
       record
          hwndOwner      : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         pidlRoot       : Interfaces.C.long := 0;
+         pidlRoot       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          pszDisplayName : gLPSTR;
          lpszTitle      : gLPSTR;
          ulFlags        : Interfaces.C.unsigned := 0;
