@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -747,7 +747,6 @@ package body GWindows.Edit_Boxes is
                        Line : Positive)
                       return GString
    is
-      use Interfaces.C;
       type Pointer_To_Integer is access all Integer;
 
       function To_PINT is new Ada.Unchecked_Conversion (Pointer_To_GChar_C,
