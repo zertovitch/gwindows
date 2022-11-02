@@ -221,10 +221,10 @@ package GWindows.Common_Controls.Ex_List_View is
    type Comparison_Technique_Type is (As_Strings, General);
    --  Start the sort by procedure call
    procedure Sort (Control    : in out Ex_List_View_Control_Type;
-                   Column     : in Natural;
-                   Direction  : in Sort_Direction_Type;
-                   Show_Icon  : in Boolean := True;
-                   Technique  : in Comparison_Technique_Type := As_Strings
+                   Column     : in     Natural;
+                   Direction  : in     Sort_Direction_Type;
+                   Show_Icon  : in     Boolean := True;
+                   Technique  : in     Comparison_Technique_Type := As_Strings
                   );
 
    --  Get the information of actual sorting.

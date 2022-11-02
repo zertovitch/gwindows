@@ -1162,37 +1162,37 @@ package body GWindows.Common_Controls.Ex_List_View is
       begin
          --  Note 01-Nov-2022:
          --  -----------------
-         --  A new approach, since revision #447, is using
-         --  Lvm_SortItemsEx instead of Lvm_SortItems.
+         --  A new approach, since revision #447, is using the
+         --  Windows API message Lvm_SortItemsEx instead of Lvm_SortItems.
          --  In the callback given to Lvm_SortItemsEx, Lparam1 and Lparam2
-         --  contain the row indices, instead to pointers to complex structures.
-         --  Thus, two calls to LVM_FindItem can be removed in this place.
+         --  contain the current row indices, instead of pointers to LVITEM structures
+         --  which contain unusable information about row indices (we have tested it).
+         --
+         --  Consequently, two calls to LVM_FindItem can be removed in this place.
          --  Result: the entire sorting is *six* times faster on a list of ~20,000 items.
+         --
          --  See AZip, the Zip archive manager, for testing (constant timing := True).
          --  You can use rt.jar (the Java runtime) as test data.
          case Technique is
             when As_Strings =>
                --  String values.
-               declare
-                  Value1 : constant GString := Text (Control => Control,
-                                                     Item    => Integer (Lparam1),
-                                                     SubItem => Integer (Lparamsort));
-                  Value2 : constant GString := Text (Control => Control,
-                                                     Item    => Integer (Lparam2),
-                                                     SubItem => Integer (Lparamsort));
-               begin
-                  --  We call the method, which is either overriden, or calls
-                  --  Fire_On_Compare which in turn calls the handler, if available, or
-                  --  applies a default alphabetical sorting.
-                  return Interfaces.C.int (
-                     On_Compare (
-                        Control => Ex_List_View_Control_Type'Class (Control),
-                        Column  => Integer (Lparamsort),
-                        Value1  => Value1,
-                        Value2  => Value2)
-                     * Local_Sort_Direction
-                   );
-               end;
+               --  We call the On_Compare method (strings variant), which is either
+               --  overriden, or calls Fire_On_Compare which in turn calls the handler,
+               --  if available, or applies a default alphabetical sorting.
+               return Interfaces.C.int (
+                  On_Compare (
+                     Control => Ex_List_View_Control_Type'Class (Control),
+                     Column  => Integer (Lparamsort),
+                     Value1  =>
+                        Text (Control => Control,
+                              Item    => Integer (Lparam1),
+                              SubItem => Integer (Lparamsort)),
+                     Value2  =>
+                        Text (Control => Control,
+                              Item    => Integer (Lparam2),
+                              SubItem => Integer (Lparamsort)))
+                  * Local_Sort_Direction
+                );
             when General =>
                return Interfaces.C.int (
                   On_Compare (
