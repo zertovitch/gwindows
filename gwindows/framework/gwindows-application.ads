@@ -192,4 +192,8 @@ package GWindows.Application is
    --  Determines the potential visibility of a window's (left, top) corner.
    --  The check is done for all available monitors.
 
+   procedure Add_To_Recent_Documents (File_Name : GString);
+   --  Add a file name to various "recent document" lists
+   --  on Windows Explorer / Desktop. For instance, Windows 7+'s Task Bar.
+
 end GWindows.Application;

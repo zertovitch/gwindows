@@ -333,6 +333,31 @@ package body GWindows.Application is
       return Result;
    end Screen_Visibility;
 
+   -----------------------------
+   -- Add_To_Recent_Documents --
+   -----------------------------
+
+   procedure Add_To_Recent_Documents (File_Name : GString) is
+
+      procedure SHAddToRecentDocs
+        (uFlags : Interfaces.C.unsigned;
+         pv     : Types.Handle);
+      pragma Import (StdCall, SHAddToRecentDocs, "SHAddToRecentDocs");
+
+      SHARD_Value : Interfaces.C.unsigned;
+      File_Name_C : GString_C := GStrings.To_GString_C (File_Name);
+
+   begin
+      pragma Warnings (Off);
+      if Character_Mode_Identifier = "A" then
+        SHARD_Value := 2;
+      else
+        SHARD_Value := 3;
+      end if;
+      pragma Warnings (On);
+      SHAddToRecentDocs (SHARD_Value, Types.Handle (File_Name_C'Address));
+   end Add_To_Recent_Documents;
+
    -------------------------
    -- Detach_From_Console --
    -------------------------
