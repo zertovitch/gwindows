@@ -1,3 +1,39 @@
+------------------------------------------------------------------------------
+--                                                                          --
+--            GWINDOWS - Ada 95 Framework for Windows Development           --
+--                                                                          --
+-- G W I N D O W S . C O M M O N _ C O N T R O L S . E X _ L I S T _ V I E W--
+--                                                                          --
+--                                 B o d y                                  --
+--                                                                          --
+--                                                                          --
+--                 Copyright (C) 2007 - 2022 Falk Maier                     --
+--                                                                          --
+-- This is free software;  you can  redistribute it  and/or modify it under --
+-- terms of the  GNU General Public License as published  by the Free Soft- --
+-- ware  Foundation;  either version 2,  or (at your option) any later ver- --
+-- sion. It is distributed in the hope that it will be useful,  but WITHOUT --
+-- ANY WARRANTY;  without  even the  implied warranty of MERCHANTABILITY or --
+-- FITNESS FOR A PARTICULAR PURPOSE.    See the GNU General  Public License --
+-- for  more details.  You should have  received  a copy of the GNU General --
+-- Public License  distributed with this;  see file COPYING.  If not, write --
+-- to  the Free Software Foundation,  59 Temple Place - Suite 330,  Boston, --
+-- MA 02111-1307, USA.                                                      --
+--                                                                          --
+-- As a special exception,  if other files  instantiate  generics from this --
+-- unit, or you link  this unit with other files  to produce an executable, --
+-- this  unit  does not  by itself cause  the resulting  executable  to  be --
+-- covered  by the  GNU  General  Public  License.  This exception does not --
+-- however invalidate  any other reasons why  the executable file  might be --
+-- covered by the  GNU Public License.                                      --
+--                                                                          --
+-- More information about GWindows and the latest current release can       --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   https://github.com/zertovitch/gwindows                                 --
+--                                                                          --
+------------------------------------------------------------------------------
+
 with System;
 with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
@@ -74,34 +110,27 @@ package body GWindows.Common_Controls.Ex_List_View is
    type Lvitem is
       record
          Mask      : Interfaces.C.unsigned := 0;
-         Item      : Interfaces.C.int               := 0;
-         Subitem   : Interfaces.C.int               := 0;
+         Item      : Interfaces.C.int      := 0;
+         Subitem   : Interfaces.C.int      := 0;
          State     : Interfaces.C.unsigned := 0;
          Statemask : Interfaces.C.unsigned := 0;
-         Text      : LPTSTR                := null;
-         Textmax   : Interfaces.C.int               := 0;
+         Text      : Types.LPTSTR          := null;
+         Textmax   : Interfaces.C.int      := 0;
          Image     : Interfaces.C.int;
-         Lparam    : GWindows.Types.Lparam;
+         Lparam    : Types.Lparam;
          Indent    : Interfaces.C.int;
       end record;
    type Lvitem_Access is access all Lvitem;
 
-   type DWORD_PTR is mod 2 ** Standard'Address_Size;
-   --  From the Windows documentation:
-   --    "An unsigned long type for pointer precision. Use when casting
-   --     a pointer to a long type to perform pointer arithmetic. (Also
-   --     commonly used for general 32-bit parameters that have been
-   --     extended to 64 bits in 64-bit Windows.)"
-
    type Nmcustomdraw_Type is
       record
-         Hdr         : GWindows.Base.Notification;
+         Hdr         : Base.Notification;
          Dwdrawstage : Interfaces.C.long;
-         Hdc         : GWindows.Types.Handle;
-         Rect        : GWindows.Types.Rectangle_Type;
-         Dwitemspec  : DWORD_PTR;  --  Fix 2020-07-10: was Interfaces.C.long;
+         Hdc         : Types.Handle;
+         Rect        : Types.Rectangle_Type;
+         Dwitemspec  : Types.DWORD_PTR;  --  Fix 2020-07-10: was Interfaces.C.long;
          Uitemstate  : Interfaces.C.unsigned;
-         Litemlparam : GWindows.Types.Lparam;
+         Litemlparam : Types.Lparam;
       end record;
    --  type Pointer_To_Nmcustomdraw_Type is access all Nmcustomdraw_Type;
    type Nmlvcustomdraw_Type is
@@ -115,14 +144,14 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    type Nmlistview_Type is
       record
-         Hdr       : GWindows.Base.Notification;
+         Hdr       : Base.Notification;
          Iitem     : Interfaces.C.int;
          Isubitem  : Interfaces.C.int;
          Unewstate : Interfaces.C.int;
          Uoldstate : Interfaces.C.int;
          Uchanged  : Interfaces.C.int;
-         Point     : GWindows.Types.Point_Type;
-         Lparam    : GWindows.Types.Lparam;
+         Point     : Types.Point_Type;
+         Lparam    : Types.Lparam;
       end record;
    type Pointer_To_Nmlistview_Type is access all Nmlistview_Type;
 
@@ -152,7 +181,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       record
          Mask       : Interfaces.C.unsigned := 0;
          Cxy        : Interfaces.C.int      := 0;
-         pszText    : LPTSTR                := null;
+         pszText    : Types.LPTSTR          := null;
          HBitmap    : Types.Handle          := Types.Null_Handle;
          CchTextMax : Interfaces.C.int      := 0;
          Fmt        : Interfaces.C.int      := 0;
@@ -172,36 +201,36 @@ package body GWindows.Common_Controls.Ex_List_View is
          CtlItemID     : Interfaces.C.unsigned;
          CtlItemAction : Interfaces.C.unsigned;
          CtlItemState  : Interfaces.C.unsigned;
-         HwndItem      : GWindows.Types.Handle;
-         Hdc           : GWindows.Types.Handle;
-         RcItem        : GWindows.Types.Rectangle_Type;
+         HwndItem      : Types.Handle;
+         Hdc           : Types.Handle;
+         RcItem        : Types.Rectangle_Type;
          ItemData      : System.Address;
       end record;
    type Drawitem_Pointer is access all Drawitem_Type;
 
-   type Buffer is new GString_C (0 .. 255);
+   type Buffer is new GString_C (0 .. Constants.Max_Text);
    type PBuffer is access all Buffer;
 
-   function Lvitem_To_Lparam is new Ada.Unchecked_Conversion (Lvitem_Access, GWindows.Types.Lparam);
-   --  function Lparam_To_tvitem is new Ada.Unchecked_Conversion (Gwindows.Types.Lparam, Lvitem_access);
+   function Lvitem_To_Lparam is new Ada.Unchecked_Conversion (Lvitem_Access, Types.Lparam);
+   --  function Lparam_To_tvitem is new Ada.Unchecked_Conversion (Types.Lparam, Lvitem_access);
 
-   function Internal_To_Lparam is new Ada.Unchecked_Conversion (Internal_Access, GWindows.Types.Lparam);
-   function Lparam_To_Internal is new Ada.Unchecked_Conversion (GWindows.Types.Lparam, Internal_Access);
+   function Internal_To_Lparam is new Ada.Unchecked_Conversion (Internal_Access, Types.Lparam);
+   function Lparam_To_Internal is new Ada.Unchecked_Conversion (Types.Lparam, Internal_Access);
 
-   --  function Lvcolumn_To_Lparam is new Ada.Unchecked_Conversion (Lvcolumn_Pointer, GWindows.Types.Lparam);
-   --  function Lparam_To_lvcolumn is new Ada.Unchecked_Conversion (Gwindows.Types.Lparam, Lvcolumn_pointer);
+   --  function Lvcolumn_To_Lparam is new Ada.Unchecked_Conversion (Lvcolumn_Pointer, Types.Lparam);
+   --  function Lparam_To_lvcolumn is new Ada.Unchecked_Conversion (Types.Lparam, Lvcolumn_pointer);
 
-   function Hditem_To_Lparam is new Ada.Unchecked_Conversion (Hditem_Pointer, GWindows.Types.Lparam);
-   --  function Lparam_To_hditem is new Ada.Unchecked_Conversion (Gwindows.Types.Lparam, Hditem_pointer);
+   function Hditem_To_Lparam is new Ada.Unchecked_Conversion (Hditem_Pointer, Types.Lparam);
+   --  function Lparam_To_hditem is new Ada.Unchecked_Conversion (Types.Lparam, Hditem_pointer);
 
-   --  function drawitem_To_Lparam is new Ada.Unchecked_Conversion (drawitem_pointer, Gwindows.Types.Lparam);
-   function Lparam_To_Drawitem is new Ada.Unchecked_Conversion (GWindows.Types.Lparam, Drawitem_Pointer);
+   --  function drawitem_To_Lparam is new Ada.Unchecked_Conversion (drawitem_pointer, Types.Lparam);
+   function Lparam_To_Drawitem is new Ada.Unchecked_Conversion (Types.Lparam, Drawitem_Pointer);
 
-   function Address_To_Lparam is new Ada.Unchecked_Conversion (System.Address, GWindows.Types.Lparam);
+   function Address_To_Lparam is new Ada.Unchecked_Conversion (System.Address, Types.Lparam);
 
-   function Color_To_Lparam (C : Color_Type) return GWindows.Types.Lparam is
+   function Color_To_Lparam (C : Color_Type) return Types.Lparam is
    begin
-      return GWindows.Types.Lparam (C);
+      return Types.Lparam (C);
    end Color_To_Lparam;
 
    function Message_To_Nmlvcustomdraw_Pointer is
@@ -211,28 +240,28 @@ package body GWindows.Common_Controls.Ex_List_View is
       new Ada.Unchecked_Conversion
          (GWindows.Base.Pointer_To_Notification, Pointer_To_Nmlistview_Type);
 
-   function To_PBuffer is new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
+   function To_PBuffer is new Ada.Unchecked_Conversion (Types.LPTSTR, PBuffer);
 
    procedure Free_Color_Array is
       new Ada.Unchecked_Deallocation (Internal_Color_Array_Type, Internal_Color_Array_Access);
    procedure Free_Internal is
       new Ada.Unchecked_Deallocation (Internal_Type, Internal_Access);
 
-   function Sendmessage (Hwnd   : GWindows.Types.Handle;
+   function Sendmessage (Hwnd   : Types.Handle;
                          Umsg   : Interfaces.C.int;
-                         Wparam : GWindows.Types.Wparam := 0;
-                         Lparam : GWindows.Types.Lparam := 0) return GWindows.Types.Lparam;
+                         Wparam : Types.Wparam := 0;
+                         Lparam : Types.Lparam := 0) return Types.Lparam;
    pragma Import (Stdcall, Sendmessage, "SendMessage" & Character_Mode_Identifier);
 
-   procedure Sendmessage_proc (Hwnd   : GWindows.Types.Handle;
+   procedure Sendmessage_proc (Hwnd   : Types.Handle;
                                Umsg   : Interfaces.C.int;
-                               Wparam : GWindows.Types.Wparam := 0;
-                               Lparam : GWindows.Types.Lparam := 0);
+                               Wparam : Types.Wparam := 0;
+                               Lparam : Types.Lparam := 0);
    pragma Import (Stdcall, Sendmessage_proc, "SendMessage" & Character_Mode_Identifier);
 
    procedure Redraw_subitem (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                              Control      : in out Ex_List_View_Control_Type;
-                             Return_Value : in out GWindows.Types.Lresult);
+                             Return_Value : in out Types.Lresult);
 
    procedure Redraw_item (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                           Control      : in out Ex_List_View_Control_Type;
@@ -255,7 +284,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    -----------------------------------------------------------------------------------------
    function Get_Comctl_Version return Natural is
 
-      function Getmodulehandle (LpModulname : in LPTSTR) return GWindows.Types.Handle;
+      function Getmodulehandle (LpModulname : in Types.LPTSTR) return Types.Handle;
       pragma Import (Stdcall, Getmodulehandle, "GetModuleHandle" & Character_Mode_Identifier);
 
       type Dllversioninfo is

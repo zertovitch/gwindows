@@ -58,9 +58,6 @@ package GWindows.Common_Controls is
    type Pointer_To_Common_Control_Class is
      access all Common_Control_Type'Class;
 
-   --  AnSp: moved from body, needed by TVITEM
-   type LPTSTR is access all GChar_C;
-
    -------------------------------------------------------------------------
    --  Common_Control_Type - Event Handlers
    -------------------------------------------------------------------------
@@ -927,7 +924,7 @@ package GWindows.Common_Controls is
          HItem          : Tree_Item_Node        := 0;
          State          : Interfaces.C.unsigned := 0;
          State_Mask     : Interfaces.C.unsigned := 0;
-         Text           : LPTSTR := null;
+         Text           : Types.LPTSTR := null;
          TextMax        : Integer := 0;
          Image          : Integer := 0;
          Selected_Image : Integer := 0;

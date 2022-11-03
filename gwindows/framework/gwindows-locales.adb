@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                    Copyright (C) 2014 Gautier de Montmollin              --
+--               Copyright (C) 2014 - 2022 Gautier de Montmollin            --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,13 +30,13 @@
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
 --   http://sf.net/projects/gnavi/                                          --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
 with GWindows.Constants;
 with GWindows.GStrings;
+with GWindows.Types;
 
 package body GWindows.Locales is
 
@@ -68,12 +68,10 @@ package body GWindows.Locales is
 
       Buffer : GString_C (0 .. Constants.Max_Text);
 
-      type LPTSTR is access all GChar_C;
-
       function GetLocaleInfo
         (Locale   : Interfaces.C.long  := LOCALE_USER_DEFAULT;
          LCType   : Interfaces.C.long  := Interfaces.C.long (Locale_Info_Code);
-         lpLCData : LPTSTR             := Buffer (0)'Access;
+         lpLCData : Types.LPTSTR       := Buffer (0)'Unchecked_Access;
          cchData  : Interfaces.C.int   := Constants.Max_Text)
       return Interfaces.C.int;
 

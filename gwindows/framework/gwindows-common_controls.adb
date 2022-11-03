@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -196,14 +196,14 @@ package body GWindows.Common_Controls is
          SubItem   : Integer := 0;
          State     : Interfaces.C.unsigned := 0;
          StateMask : Interfaces.C.unsigned := 0;
-         Text      : LPTSTR := null;
+         Text      : Types.LPTSTR := null;
          TextMax   : Integer := 0;
          Image     : Integer;
-         lParam    : GWindows.Types.Lparam := 0;
+         lParam    : Types.Lparam := 0;
          Indent    : Integer;
          iGroupId  : Integer;
          cColumns  : Interfaces.C.unsigned := 0;
-         PuColumns : LPTSTR := null;
+         PuColumns : Types.LPTSTR := null;
       end record;
 
 --     LVCF_FMT                : constant := 16#0001#;
@@ -226,7 +226,7 @@ package body GWindows.Common_Controls is
          Mask      : Interfaces.C.unsigned := 0;
          Format    : Interfaces.C.unsigned := 0;
          Width     : Integer               := 0;
-         Text      : LPTSTR                := null;
+         Text      : Types.LPTSTR          := null;
          TextMax   : Integer               := 0;
          SubItem   : Integer               := 0;
          Image     : Integer               := 0;
@@ -306,10 +306,10 @@ package body GWindows.Common_Controls is
          Mask           : Interfaces.C.unsigned := 0;
          State          : Interfaces.C.unsigned := 0;
          State_Mask     : Interfaces.C.unsigned := 0;
-         Text           : LPTSTR := null;
+         Text           : Types.LPTSTR := null;
          TextMax        : Integer := 0;
          Image          : Integer := 0;
-         LPARAM         : GWindows.Base.Pointer_To_Base_Window_Class := null;
+         LPARAM         : Base.Pointer_To_Base_Window_Class := null;
       end record;
 
    --  WM_USER = 16#400#
@@ -410,15 +410,14 @@ package body GWindows.Common_Controls is
 
    type TOOLINFO is
       record
-         Size       : Integer := TOOLINFO'Size / 8;
-         Flags      : Interfaces.C.unsigned := 0;
-         HWND       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         UID        : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         Rect       : GWindows.Types.Rectangle_Type := (0, 0, 0, 0);
-         hInst      : GWindows.Types.Handle :=
-            GWindows.Internal.Current_hInstance;
-         Text       : LPTSTR := null;
-         lParam     : GWindows.Types.Lparam := 0;
+         Size   : Integer               := TOOLINFO'Size / 8;
+         Flags  : Interfaces.C.unsigned := 0;
+         HWND   : Types.Handle          := Types.Null_Handle;
+         UID    : Types.Handle          := Types.Null_Handle;
+         Rect   : Types.Rectangle_Type  := (0, 0, 0, 0);
+         hInst  : Types.Handle          := Internal.Current_hInstance;
+         Text   : Types.LPTSTR          := null;
+         lParam : Types.Lparam          := 0;
       end record;
 
    -------------------------------------------------------------------------
@@ -2365,7 +2364,7 @@ package body GWindows.Common_Controls is
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
-         new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
+         new Ada.Unchecked_Conversion (Types.LPTSTR, PBuffer);
 
       C_Text   : Buffer;
       LVI      : LVITEM;
@@ -2510,7 +2509,7 @@ package body GWindows.Common_Controls is
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
-         new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
+         new Ada.Unchecked_Conversion (Types.LPTSTR, PBuffer);
 
       C_Text   : Buffer;
       LVC      : LVCOLUMN;
@@ -2983,7 +2982,7 @@ package body GWindows.Common_Controls is
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
-         new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
+         new Ada.Unchecked_Conversion (Types.LPTSTR, PBuffer);
 
       C_Text   : Buffer;
       TV       : TVITEM;
@@ -3880,7 +3879,7 @@ package body GWindows.Common_Controls is
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
-         new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
+         new Ada.Unchecked_Conversion (Types.LPTSTR, PBuffer);
 
       C_Text   : Buffer;
       TC       : TCITEM;
@@ -4678,8 +4677,8 @@ package body GWindows.Common_Controls is
       State   : Interfaces.C.unsigned_char := 0;
       Style   : Interfaces.C.unsigned_char := 0;
       Cx      : Interfaces.C.short := 0;
-      Param   : GWindows.Types.Lparam := 0;
-      Text    : LPTSTR := null;
+      Param   : Types.Lparam := 0;
+      Text    : Types.LPTSTR := null;
       TxtLen  : Interfaces.C.int := 0;
    end record;
 
