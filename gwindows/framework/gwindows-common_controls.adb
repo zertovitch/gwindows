@@ -644,13 +644,10 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessageW, "SendMessageW");
 
    begin
-      pragma Warnings (Off);
-      if Character_Mode_Identifier = "A" then
-         SendMessageA;
-      else
-         SendMessageW;
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode => SendMessageW;
+         when ANSI    => SendMessageA;
+      end case;
    end Text;
 
    ----------------------
@@ -3169,15 +3166,12 @@ package body GWindows.Common_Controls is
       TV.Selected_Image := SelectedImage;
       TV.State := Interfaces.C.unsigned (State);
       TV.State_Mask := Interfaces.C.unsigned (StateMask);
-      TV.LPARAM := GWindows.Types.Lparam (Param);
+      TV.LPARAM := Types.Lparam (Param);
 
-      pragma Warnings (Off);
-      if Character_Mode = Unicode then
-         SendMessageW;
-      else
-         SendMessageA;
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode => SendMessageW;
+         when ANSI    => SendMessageA;
+      end case;
    end Set_Item;
 
    procedure Set_Image_List
@@ -4704,13 +4698,10 @@ package body GWindows.Common_Controls is
                        "SendMessage" & Character_Mode_Identifier);
 
    begin
-      pragma Warnings (Off);
-      if Character_Mode = Unicode then
-         SendMessageW (lParam => Info);
-      else
-         SendMessageA (lParam => Info);
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode => SendMessageW (lParam => Info);
+         when ANSI    => SendMessageA (lParam => Info);
+      end case;
    end Get_Button_Info;
 
    procedure Set_Button_Info
@@ -4735,13 +4726,10 @@ package body GWindows.Common_Controls is
                        "SendMessage" & Character_Mode_Identifier);
 
    begin
-      pragma Warnings (Off);
-      if Character_Mode = Unicode then
-         SendMessageW (lParam => Info);
-      else
-         SendMessageA (lParam => Info);
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode => SendMessageW (lParam => Info);
+         when ANSI    => SendMessageA (lParam => Info);
+      end case;
    end Set_Button_Info;
 
    ----------------------
@@ -4981,16 +4969,13 @@ package body GWindows.Common_Controls is
                        "SendMessage" & Character_Mode_Identifier);
    begin
       Info.Flags := TTF_IDISHWND or TTF_SUBCLASS;
-      Info.HWND := GWindows.Base.Handle (Parent (Control).all);
-      Info.UID := GWindows.Base.Handle (Window);
+      Info.HWND := Base.Handle (Parent (Control).all);
+      Info.UID  := Base.Handle (Window);
       Info.Text := C_Text (0)'Unchecked_Access;
-      pragma Warnings (Off);
-      if Character_Mode = Unicode then
-         SendMessageW;
-      else
-         SendMessageA;
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode => SendMessageW;
+         when ANSI    => SendMessageA;
+      end case;
    end Update_Tool_Tip;
 
    ---------------------
@@ -5019,15 +5004,12 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Info.HWND := GWindows.Base.Handle (Parent (Control).all);
-      Info.UID := GWindows.Base.Handle (Window);
-      pragma Warnings (Off);
-      if Character_Mode = Unicode then
-         SendMessageW;
-      else
-         SendMessageA;
-      end if;
-      pragma Warnings (On);
+      Info.HWND := Base.Handle (Parent (Control).all);
+      Info.UID  := Base.Handle (Window);
+      case Character_Mode is
+         when Unicode => SendMessageW;
+         when ANSI    => SendMessageA;
+      end case;
    end Delete_Tool_Tip;
 
    -------------------
