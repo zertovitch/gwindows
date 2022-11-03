@@ -40,6 +40,7 @@ with Ada.Unchecked_Conversion;
 
 with System;
 
+with GWindows.Constants;
 with GWindows.Drawing;
 with GWindows.Drawing_Objects;
 with GWindows.GStrings;
@@ -2360,8 +2361,7 @@ package body GWindows.Common_Controls is
          Unicode => LVM_FIRST + 75);
       LVIF_TEXT    : constant := 16#0001#;
 
-      Max_Text : constant := 255;
-      type Buffer is new GString_C (0 .. Max_Text);
+      type Buffer is new GString_C (0 .. Constants.Max_Text);
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
@@ -2383,7 +2383,7 @@ package body GWindows.Common_Controls is
       LVI.Item    := Item;
       LVI.SubItem := SubItem;
       LVI.Text    := C_Text (0)'Unchecked_Access;
-      LVI.TextMax := Max_Text;
+      LVI.TextMax := Constants.Max_Text;
       SendMessage (lParam => LVI);
       return GWindows.GStrings.To_GString_From_C
         (GString_C (To_PBuffer (LVI.Text).all));
@@ -2506,8 +2506,7 @@ package body GWindows.Common_Controls is
         (ANSI    => LVM_FIRST + 25,
          Unicode => LVM_FIRST + 95);
 
-      Max_Text : constant := 255;
-      type Buffer is new GString_C (0 .. Max_Text);
+      type Buffer is new GString_C (0 .. Constants.Max_Text);
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
@@ -2528,7 +2527,7 @@ package body GWindows.Common_Controls is
       LVC.Mask := LVCF_TEXT;
       C_Text (0) := GChar_C'Val (0);  --  Empty C string in case of failure.
       LVC.Text := C_Text (0)'Unchecked_Access;
-      LVC.TextMax := Max_Text;
+      LVC.TextMax := Constants.Max_Text;
       SendMessage (lParam => LVC);
       return GWindows.GStrings.To_GString_From_C
         (GString_C (To_PBuffer (LVC.Text).all));
@@ -2980,8 +2979,7 @@ package body GWindows.Common_Controls is
                   Where   : in Tree_Item_Node)
                  return GString
    is
-      Max_Text : constant := 255;
-      type Buffer is new GString_C (0 .. Max_Text);
+      type Buffer is new GString_C (0 .. Constants.Max_Text);
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
@@ -3009,7 +3007,7 @@ package body GWindows.Common_Controls is
       TV.Mask := TVIF_TEXT;
       TV.HItem := Where;
       TV.Text := C_Text (0)'Unchecked_Access;
-      TV.TextMax := Max_Text;
+      TV.TextMax := Constants.Max_Text;
 
       case Character_Mode is
          when Unicode =>
@@ -3878,8 +3876,7 @@ package body GWindows.Common_Controls is
                   Where   : in Integer)
                  return GString
    is
-      Max_Text : constant := 255;
-      type Buffer is new GString_C (0 .. Max_Text);
+      type Buffer is new GString_C (0 .. Constants.Max_Text);
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
@@ -3907,7 +3904,7 @@ package body GWindows.Common_Controls is
    begin
       TC.Mask := TCIF_TEXT;
       TC.Text := C_Text (0)'Unchecked_Access;
-      TC.TextMax := Max_Text;
+      TC.TextMax := Constants.Max_Text;
 
       case Character_Mode is
          when Unicode =>

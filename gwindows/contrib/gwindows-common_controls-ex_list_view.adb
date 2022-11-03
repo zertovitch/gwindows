@@ -3,6 +3,7 @@ with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
 with Ada.Exceptions; use Ada.Exceptions;
 
+with GWindows.Constants;
 with GWindows.GStrings;
 with GWindows.Drawing;
 with GWindows.Utilities;
@@ -1073,8 +1074,7 @@ package body GWindows.Common_Controls.Ex_List_View is
          Unicode => Lvm_First + 75);
       LVIF_TEXT    : constant := 16#0001#;
 
-      Max_Text : constant := 255;
-      type Buffer is new GString_C (0 .. Max_Text);
+      type Buffer is new GString_C (0 .. Constants.Max_Text);
 
       C_Text_1 : Buffer;
       C_Text_2 : Buffer;
@@ -1092,7 +1092,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       LVI.Mask    := LVIF_TEXT;
       LVI.Item    := Interfaces.C.int (Index_1);
       LVI.Subitem := Interfaces.C.int (Column);
-      LVI.Textmax := Max_Text;
+      LVI.Textmax := Constants.Max_Text;
       LVI.Text    := C_Text_1 (0)'Unchecked_Access;
       SendMessage (lParam => LVI);
       LVI.Item    := Interfaces.C.int (Index_2);

@@ -54,4 +54,7 @@ package GWindows.Constants is
    --  IDs from IDM_FIRSTCHILD to IDM_FIRSTCHILD - 1 plus the maximum number
    --  of MDI child windows you will use.
 
+   Max_Text : constant := 255;
+   --  Maximum text size in various controls.
+
 end GWindows.Constants;

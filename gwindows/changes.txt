@@ -16,9 +16,12 @@ GWindows, upcoming release
 GWindows release, *Upcoming* [rev. ---]
 =======================================
 
+451: GWindows.Common_Controls.Ex_List_View: added `As_Strings_Default`
+        to the enumerated type `Comparison_Technique_Type` (sorting runs
+        faster if default alphabetical sorting is desired).
 449: GWindows.Application: added procedure `Add_To_Recent_Documents`.
 447: GWindows.Common_Controls.Ex_List_View: massive speedup on sorting
-        of large lists (e.g. 6x faster for 20,000 items)
+        of large lists (e.g. 6x faster for 20,000 items).
 
 GWindows release, 18-Jun-2022 [rev. 440]
 ========================================
