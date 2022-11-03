@@ -218,7 +218,10 @@ package GWindows.Common_Controls.Ex_List_View is
                Index_2 : in Natural) return Integer;
 
    type Sort_Direction_Type is (Up, Down, Auto);
-   type Comparison_Technique_Type is (As_Strings, General);
+   type Comparison_Technique_Type is
+      (As_Strings,          --  Use the On_Compare method with string parameters.
+       As_Strings_Default,  --  Use default: fast alphabetical / lexicographical comparison.
+       General);            --  Use the On_Compare method with index parameters.
    --  Start the sort by procedure call
    procedure Sort (Control    : in out Ex_List_View_Control_Type;
                    Column     : in     Natural;

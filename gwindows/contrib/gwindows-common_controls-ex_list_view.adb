@@ -5,6 +5,7 @@ with Ada.Exceptions; use Ada.Exceptions;
 
 with GWindows.GStrings;
 with GWindows.Drawing;
+with GWindows.Utilities;
 
 package body GWindows.Common_Controls.Ex_List_View is
 
@@ -1058,6 +1059,67 @@ package body GWindows.Common_Controls.Ex_List_View is
       Control.On_Free_Payload := Event;
    end On_Free_Payload_Handler;
    ----------------------------------------------------------------------------------------------------
+   function Compare_Texts
+               (Control          : in Ex_List_View_Control_Type;
+                Column           : in Natural;
+                Index_1, Index_2 : in Natural) return Integer
+   is
+      pragma Inline (Compare_Texts);
+      --  Fast internal comparison method, which does the comparison of
+      --  both C strings instead of converting them into Ada strings, then comparing.
+      use Interfaces.C;
+      LVM_GETITEM : constant GWindows.Utilities.AU_Choice :=
+        (ANSI    => Lvm_First + 5,
+         Unicode => Lvm_First + 75);
+      LVIF_TEXT    : constant := 16#0001#;
+
+      Max_Text : constant := 255;
+      type Buffer is new GString_C (0 .. Max_Text);
+
+      C_Text_1 : Buffer;
+      C_Text_2 : Buffer;
+      LVI      : Lvitem;
+
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := LVM_GETITEM (Character_Mode);
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : in out Lvitem);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+      diff : Integer;
+   begin
+      LVI.Mask    := LVIF_TEXT;
+      LVI.Item    := Interfaces.C.int (Index_1);
+      LVI.Subitem := Interfaces.C.int (Column);
+      LVI.Textmax := Max_Text;
+      LVI.Text    := C_Text_1 (0)'Unchecked_Access;
+      SendMessage (lParam => LVI);
+      LVI.Item    := Interfaces.C.int (Index_2);
+      LVI.Text    := C_Text_2 (0)'Unchecked_Access;
+      SendMessage (lParam => LVI);
+      pragma Assert (Integer'Size > GChar_C'Size);
+      --  ^ GChar_C is 8 or 16 bits, and, on GNAT/Windows, Integer is min 32 bits.
+      for i in Buffer'Range loop
+         diff := wchar_t'Pos (C_Text_1 (i)) - wchar_t'Pos (C_Text_2 (i));
+         if diff /= 0 then
+            --  After a common part, C strings have a different character at position i.
+            --  This includes the case where one string has the null character.
+            --  Then, that string is shorter than the other.
+            return diff;
+         end if;
+         --  So far, the C strings are identical.
+         if C_Text_1 (i) = GString_C_Null then
+            --  For both strings, the end is reached.
+            return 0;
+         end if;
+      end loop;
+      --  This point should not be reached: both C strings are not
+      --  null-terminated. In C, the strcmp function would just continue
+      --  running in uncharted waters...
+      return 0;
+   end Compare_Texts;
+
    function On_Compare
               (Control : in Ex_List_View_Control_Type;
                Column  : in Natural;
@@ -1124,22 +1186,7 @@ package body GWindows.Common_Controls.Ex_List_View is
          );
       end if;
       --  Default behaviour: alphabetic.
-      declare
-         Value_1 : constant GString := Text (Control => Control,
-                                             Item    => Index_1,
-                                             SubItem => Column);
-         Value_2 : constant GString := Text (Control => Control,
-                                             Item    => Index_2,
-                                             SubItem => Column);
-      begin
-         if Value_1 = Value_2 then
-            return 0;
-         elsif Value_1 > Value_2 then
-            return 1;
-         else
-            return -1;
-         end if;
-      end;
+      return Compare_Texts (Control, Column, Index_1, Index_2);
    end Fire_On_Compare;
    ----------------------------------------------------------------------------------------------------
    procedure Sort (Control   : in out Ex_List_View_Control_Type;
@@ -1193,6 +1240,18 @@ package body GWindows.Common_Controls.Ex_List_View is
                               SubItem => Integer (Lparamsort)))
                   * Local_Sort_Direction
                 );
+            when As_Strings_Default =>
+               declare
+               begin
+                  return
+                     Interfaces.C.int
+                        (Compare_Texts
+                           (Control,
+                            Integer (Lparamsort),
+                            Integer (Lparam1),
+                            Integer (Lparam2))
+                         * Local_Sort_Direction);
+               end;
             when General =>
                return Interfaces.C.int (
                   On_Compare (
