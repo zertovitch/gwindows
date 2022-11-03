@@ -38,6 +38,7 @@ with GWindows.GStrings;
 with GWindows.Internal;
 with GWindows.Windows;
 with GWindows.Constants;
+with GWindows.Utilities;
 
 with Ada.Strings.Wide_Fixed;
 with GNAT.OS_Lib;
@@ -340,22 +341,17 @@ package body GWindows.Application is
    procedure Add_To_Recent_Documents (File_Name : GString) is
 
       procedure SHAddToRecentDocs
-        (uFlags : Interfaces.C.unsigned;
+        (uFlags : Interfaces.C.int;
          pv     : Types.Handle);
       pragma Import (StdCall, SHAddToRecentDocs, "SHAddToRecentDocs");
 
-      SHARD_Value : Interfaces.C.unsigned;
+      SHARD_Value : constant GWindows.Utilities.AU_Choice :=
+        (ANSI => 2, Unicode => 3);
       File_Name_C : GString_C := GStrings.To_GString_C (File_Name);
 
    begin
-      pragma Warnings (Off);
-      if Character_Mode_Identifier = "A" then
-        SHARD_Value := 2;
-      else
-        SHARD_Value := 3;
-      end if;
-      pragma Warnings (On);
-      SHAddToRecentDocs (SHARD_Value, Types.Handle (File_Name_C'Address));
+      SHAddToRecentDocs
+         (SHARD_Value (Character_Mode), Types.Handle (File_Name_C'Address));
    end Add_To_Recent_Documents;
 
    -------------------------
