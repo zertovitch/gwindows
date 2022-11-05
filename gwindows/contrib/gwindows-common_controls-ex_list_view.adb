@@ -42,45 +42,37 @@ with Ada.Exceptions; use Ada.Exceptions;
 with GWindows.Constants;
 with GWindows.GStrings;
 with GWindows.Drawing;
-with GWindows.Utilities;
 
 package body GWindows.Common_Controls.Ex_List_View is
 
-   Lvm_First                    : constant := 16#1000#;
    --  Lvs_Ex_Gridlines             : constant := 1;
    --  Lvs_Ex_Headerdragdrop        : constant := 16;
    --  Lvs_Ex_Fullrowselect         : constant := 32;
    --  Lvs_Ex_Flatsb                : constant := 256;
-   Lvm_Getitema                 : constant := Lvm_First + 5;
-   Lvm_Setitema                 : constant := Lvm_First + 6;
    --  Lvm_Insertitema              : constant := Lvm_First + 7;
    --  Lvm_Finditema                : constant := Lvm_First + 13;
    --  Lvm_Sortitems                : constant := Lvm_First + 48;
    --  Lvm_Setextendedlistviewstyle : constant := Lvm_First + 54;
-   Lvm_Getitemw                 : constant := Lvm_First + 75;
-   Lvm_Setitemw                 : constant := Lvm_First + 76;
    --  Lvm_Insertitemw              : constant := Lvm_First + 77;
-   Lvm_SortItemsEx              : constant := Lvm_First + 81;
+   Lvm_SortItemsEx              : constant := LVM_FIRST + 81;
    --  Lvm_Finditemw                : constant := Lvm_First + 83;
    --  LVM_GETCOLUMNA               : constant := Lvm_First + 25;
    --  LVM_GETCOLUMNW               : constant := Lvm_First + 95;
    --  LVM_SETCOLUMNA               : constant := LVM_FIRST + 26;
    --  LVM_SETCOLUMNW               : constant := LVM_FIRST + 96;
    --  LVM_GETSUBITEMRECT           : constant := LVM_FIRST + 56;
-   LVM_SETCOLUMNWIDTH           : constant := Lvm_First + 30;
+   LVM_SETCOLUMNWIDTH           : constant := LVM_FIRST + 30;
+
    LVN_FIRST                    : constant := -100;
    LVN_INSERTITEM               : constant := LVN_FIRST - 2;
    LVN_DELETEITEM               : constant := LVN_FIRST - 3;
    --  Lvfi_Param                   : constant := 1;
-   --  Lvif_Text                    : constant := 16#0001#;
-   --  Lvif_Image                   : constant := 16#0002#;
-   Lvif_Param                   : constant := 16#0004#;
    --  LVCF_TEXT                    : constant := 16#0004#;
-   LVM_SETBKCOLOR               : constant := Lvm_First + 1;
-   LVM_REDRAWITEMS              : constant := Lvm_First + 21;
-   LVM_GETHEADER                : constant := Lvm_First + 31;
-   Lvm_Settextcolor             : constant := Lvm_First + 36;
-   LVM_SETTEXTBKCOLOR           : constant := Lvm_First + 38;
+   LVM_SETBKCOLOR               : constant := LVM_FIRST + 1;
+   LVM_REDRAWITEMS              : constant := LVM_FIRST + 21;
+   LVM_GETHEADER                : constant := LVM_FIRST + 31;
+   Lvm_Settextcolor             : constant := LVM_FIRST + 36;
+   LVM_SETTEXTBKCOLOR           : constant := LVM_FIRST + 38;
    Cdrf_Notifyitemdraw          : constant := 16#00000020#;
    Cdds_Prepaint                : constant := 16#0001#;
    Cdds_Item                    : constant := 16#00010000#;
@@ -107,20 +99,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    HDM_GETITEMCOUNT             : constant := HDM_FIRST;
    --  HDM_GETITEMRECT              : constant := HDM_FIRST + 7;
 
-   type Lvitem is
-      record
-         Mask      : Interfaces.C.unsigned := 0;
-         Item      : Interfaces.C.int      := 0;
-         Subitem   : Interfaces.C.int      := 0;
-         State     : Interfaces.C.unsigned := 0;
-         Statemask : Interfaces.C.unsigned := 0;
-         Text      : Types.LPTSTR          := null;
-         Textmax   : Interfaces.C.int      := 0;
-         Image     : Interfaces.C.int;
-         Lparam    : Types.Lparam;
-         Indent    : Interfaces.C.int;
-      end record;
-   type Lvitem_Access is access all Lvitem;
+   type LVITEM_Access is access all LVITEM;
 
    type Nmcustomdraw_Type is
       record
@@ -211,7 +190,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    type Buffer is new GString_C (0 .. Constants.Max_Text);
    type PBuffer is access all Buffer;
 
-   function Lvitem_To_Lparam is new Ada.Unchecked_Conversion (Lvitem_Access, Types.Lparam);
+   function Lvitem_To_Lparam is new Ada.Unchecked_Conversion (LVITEM_Access, Types.Lparam);
    --  function Lparam_To_tvitem is new Ada.Unchecked_Conversion (Types.Lparam, Lvitem_access);
 
    function Internal_To_Lparam is new Ada.Unchecked_Conversion (Internal_Access, Types.Lparam);
@@ -369,25 +348,21 @@ package body GWindows.Common_Controls.Ex_List_View is
    end On_Create;
    -----------------------------------------------------------------------------------------
 
-   LVM_GETITEM : constant Utilities.ANSI_Unicode_Choice :=
-      (ANSI    => Lvm_Getitema,
-       Unicode => Lvm_Getitemw);
-
    function Get_Internal (Control   : in     Ex_List_View_Control_Type;
                           Index     : in     Natural)
                          return Internal_Access is
-      Item   : Lvitem;
+      Item : LVITEM;
    begin
-      Item.Mask    := Lvif_Param;
+      Item.Mask    := LVIF_PARAM;
       Item.Item    := Interfaces.C.int (Index);
-      Item.Subitem := 0;
+      Item.SubItem := 0;
 
       Sendmessage_proc (Hwnd   => Handle (Control),
                         Umsg   => LVM_GETITEM (Character_Mode),
                         Wparam => 0,
                         Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
 
-      return Lparam_To_Internal (Item.Lparam);
+      return Lparam_To_Internal (Item.lParam);
    exception
       when others =>
          return null;
@@ -398,22 +373,22 @@ package body GWindows.Common_Controls.Ex_List_View is
                                  Sub_Index  : in Natural;
                                  new_colors : in Internal_Color_Type)
    is
-      Item : Lvitem;
+      Item : LVITEM;
       internal : Internal_Access := null;
       nullColors : constant Internal_Color_Type := (Textcolor => NullColor,
                                                     Backcolor => NullColor);
    begin
       --  get the lparam
-      Item.Mask    := Lvif_Param;
+      Item.Mask    := LVIF_PARAM;
       Item.Item    := Interfaces.C.int (Index);
-      Item.Subitem := 0;
+      Item.SubItem := 0;
 
-      Sendmessage_proc (Hwnd => Handle (Control),
-                        Umsg => LVM_GETITEM (Character_Mode),
+      Sendmessage_proc (Hwnd   => Handle (Control),
+                        Umsg   => LVM_GETITEM (Character_Mode),
                         Wparam => 0,
                         Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
 
-      internal := Lparam_To_Internal (Item.Lparam);
+      internal := Lparam_To_Internal (Item.lParam);
 
       --  range?
       if internal.Colors.all'Last < Sub_Index then
@@ -437,20 +412,20 @@ package body GWindows.Common_Controls.Ex_List_View is
                                    Index   : in Natural;
                                    payload : in Data_Access)
    is
-      Item     : Lvitem;
+      Item     : LVITEM;
       internal : Internal_Access := null;
    begin
       --  get the lparam
-      Item.Mask    := Lvif_Param;
+      Item.Mask    := LVIF_PARAM;
       Item.Item    := Interfaces.C.int (Index);
-      Item.Subitem := 0;
+      Item.SubItem := 0;
 
-      Sendmessage_proc (Hwnd => Handle (Control),
-                        Umsg => LVM_GETITEM (Character_Mode),
+      Sendmessage_proc (Hwnd   => Handle (Control),
+                        Umsg   => LVM_GETITEM (Character_Mode),
                         Wparam => 0,
                         Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
 
-      internal := Lparam_To_Internal (Item.Lparam);
+      internal := Lparam_To_Internal (Item.lParam);
 
       --  set payload
       internal.User_Data := payload;
@@ -527,21 +502,14 @@ package body GWindows.Common_Controls.Ex_List_View is
          declare
             Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type :=
                Message_To_Nmlistview_Pointer (Message);
-            Item : Lvitem;
-            L_Umsg : Interfaces.C.int;
+            Item : LVITEM;
          begin
             --  setitem
-            Item.Mask := Lvif_Param;
-            Item.Item := Nmlistview_Pointer.Iitem;
-            Item.Lparam := Internal_To_Lparam (Create_Internal (Window));
-            case Character_Mode is
-               when Unicode =>
-                  L_Umsg := Lvm_Setitemw;
-               when ANSI =>
-                  L_Umsg := Lvm_Setitema;
-            end case;
-            Sendmessage_proc (Hwnd => Handle (Window),
-                              Umsg => L_Umsg,
+            Item.Mask   := LVIF_PARAM;
+            Item.Item   := Nmlistview_Pointer.Iitem;
+            Item.lParam := Internal_To_Lparam (Create_Internal (Window));
+            Sendmessage_proc (Hwnd   => Handle (Window),
+                              Umsg   => LVM_SETITEM (Character_Mode),
                               Wparam => 0,
                               Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
          exception
@@ -1078,30 +1046,26 @@ package body GWindows.Common_Controls.Ex_List_View is
       --  Fast internal comparison method, which does the comparison of
       --  both C strings instead of converting them into Ada strings, then comparing.
       use Interfaces.C;
-      LVM_GETITEM : constant GWindows.Utilities.ANSI_Unicode_Choice :=
-        (ANSI    => Lvm_First + 5,
-         Unicode => Lvm_First + 75);
-      LVIF_TEXT    : constant := 16#0001#;
 
       type Buffer is new GString_C (0 .. Constants.Max_Text);
 
       C_Text_1 : Buffer;
       C_Text_2 : Buffer;
-      LVI      : Lvitem;
+      LVI      : LVITEM;
 
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := LVM_GETITEM (Character_Mode);
          wParam : GWindows.Types.Wparam := 0;
-         lParam : in out Lvitem);
+         lParam : in out LVITEM);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
       diff : Integer;
    begin
       LVI.Mask    := LVIF_TEXT;
       LVI.Item    := Interfaces.C.int (Index_1);
-      LVI.Subitem := Interfaces.C.int (Column);
-      LVI.Textmax := Constants.Max_Text;
+      LVI.SubItem := Interfaces.C.int (Column);
+      LVI.TextMax := Constants.Max_Text;
       LVI.Text    := C_Text_1 (0)'Unchecked_Access;
       SendMessage (lParam => LVI);
       LVI.Item    := Interfaces.C.int (Index_2);

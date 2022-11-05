@@ -31,8 +31,6 @@
 -- be located on the web at one of the following places:                    --
 --   https://sourceforge.net/projects/gnavi/                                --
 --   https://github.com/zertovitch/gwindows                                 --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -46,7 +44,6 @@ with GWindows.Drawing_Objects;
 with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 with GWindows.Internal;
-with GWindows.Utilities;
 
 package body GWindows.Common_Controls is
 
@@ -135,10 +132,7 @@ package body GWindows.Common_Controls is
 --     TBM_GETTOOLTIPS         : constant := (WM_USER + 30);
 --     TBM_SETTIPSIDE          : constant := (WM_USER + 31);
 
-   LVM_FIRST               : constant := 16#1000#;
    LVM_GETITEMCOUNT        : constant := LVM_FIRST + 4;
-   LVM_SETITEMA            : constant := LVM_FIRST + 6;
-   LVM_SETITEMW            : constant := LVM_FIRST + 76;
 --     LVM_DELETEITEM          : constant := LVM_FIRST + 8;
    LVM_DELETEALLITEMS      : constant := LVM_FIRST + 9;
    LVM_SETCOLUMN           : constant Utilities.ANSI_Unicode_Choice :=
@@ -182,29 +176,10 @@ package body GWindows.Common_Controls is
    function SYSTEMTIME_To_Calendar (Time : SYSTEMTIME)
                                    return Ada.Calendar.Time;
 
-   LVIF_TEXT               : constant := 16#0001#;
-   LVIF_IMAGE              : constant := 16#0002#;
 --     LVIF_PARAM              : constant := 16#0004#;
 --     LVIF_STATE              : constant := 16#0008#;
 --     LVIF_INDENT             : constant := 16#0010#;
 --     LVIF_NORECOMPUTE        : constant := 16#0800#;
-
-   type LVITEM is
-      record
-         Mask      : Interfaces.C.unsigned := 0;
-         Item      : Integer := 0;
-         SubItem   : Integer := 0;
-         State     : Interfaces.C.unsigned := 0;
-         StateMask : Interfaces.C.unsigned := 0;
-         Text      : Types.LPTSTR := null;
-         TextMax   : Integer := 0;
-         Image     : Integer;
-         lParam    : Types.Lparam := 0;
-         Indent    : Integer;
-         iGroupId  : Integer;
-         cColumns  : Interfaces.C.unsigned := 0;
-         PuColumns : Types.LPTSTR := null;
-      end record;
 
 --     LVCF_FMT                : constant := 16#0001#;
    LVCF_WIDTH              : constant := 16#0002#;
@@ -2022,10 +1997,10 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Item.Mask := LVIF_TEXT or LVIF_IMAGE;
-      Item.Item := Index;
-      Item.Image := Icon;
-      Item.Text := C_Text (0)'Unchecked_Access;
+      Item.Mask  := LVIF_TEXT or LVIF_IMAGE;
+      Item.Item  := Interfaces.C.int (Index);
+      Item.Image := Interfaces.C.int (Icon);
+      Item.Text  := C_Text (0)'Unchecked_Access;
 
       case Character_Mode is
          when Unicode =>
@@ -2064,10 +2039,10 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Item.Mask := LVIF_TEXT;
-      Item.Item := Index;
-      Item.SubItem := Sub_Index;
-      Item.Text := C_Text (0)'Unchecked_Access;
+      Item.Mask    := LVIF_TEXT;
+      Item.Item    := Interfaces.C.int (Index);
+      Item.SubItem := Interfaces.C.int (Sub_Index);
+      Item.Text    := C_Text (0)'Unchecked_Access;
 
       case Character_Mode is
          when Unicode =>
@@ -2105,8 +2080,8 @@ package body GWindows.Common_Controls is
                        "SendMessage" & Character_Mode_Identifier);
    begin
       Item.Mask    := LVIF_TEXT or LVIF_IMAGE;
-      Item.Item    := Index;
-      Item.Image   := Icon;
+      Item.Item    := Interfaces.C.int (Index);
+      Item.Image   := Interfaces.C.int (Icon);
       Item.Text    := C_Text (0)'Unchecked_Access;
       Sorted_Index := Integer (SendMessage);
    end Insert_Item;
@@ -2352,11 +2327,6 @@ package body GWindows.Common_Controls is
       SubItem : in Integer)
      return GString
    is
-      LVM_GETITEM : constant Utilities.ANSI_Unicode_Choice :=
-        (ANSI    => LVM_FIRST + 5,
-         Unicode => LVM_FIRST + 75);
-      LVIF_TEXT    : constant := 16#0001#;
-
       type Buffer is new GString_C (0 .. Constants.Max_Text);
       type PBuffer is access all Buffer;
 
@@ -2376,8 +2346,8 @@ package body GWindows.Common_Controls is
                        "SendMessage" & Character_Mode_Identifier);
    begin
       LVI.Mask    := LVIF_TEXT;
-      LVI.Item    := Item;
-      LVI.SubItem := SubItem;
+      LVI.Item    := Interfaces.C.int (Item);
+      LVI.SubItem := Interfaces.C.int (SubItem);
       LVI.Text    := C_Text (0)'Unchecked_Access;
       LVI.TextMax := Constants.Max_Text;
       SendMessage (lParam => LVI);
