@@ -345,7 +345,7 @@ package body GWindows.Application is
          pv     : Types.Handle);
       pragma Import (StdCall, SHAddToRecentDocs, "SHAddToRecentDocs");
 
-      SHARD_Value : constant GWindows.Utilities.AU_Choice :=
+      SHARD_Value : constant GWindows.Utilities.ANSI_Unicode_Choice :=
         (ANSI => 2, Unicode => 3);
       File_Name_C : GString_C := GStrings.To_GString_C (File_Name);
 

@@ -39,6 +39,7 @@ with Interfaces.C;
 with GWindows.Application;
 with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
+with GWindows.Utilities;
 
 package body GWindows.Common_Dialogs is
    pragma Linker_Options ("-lcomdlg32");
@@ -978,15 +979,14 @@ package body GWindows.Common_Dialogs is
          WM_USER : constant := 1024;
          BFFM_SETSELECTIONA : constant := WM_USER + 102;
          BFFM_SETSELECTIONW : constant := WM_USER + 103;
-         BFFM_SETSELECTION  : constant array (Character_Mode_Type) of
-            Interfaces.C.unsigned :=
+         BFFM_SETSELECTION  : constant Utilities.ANSI_Unicode_Choice :=
             (ANSI    => BFFM_SETSELECTIONA,
              Unicode => BFFM_SETSELECTIONW);
          BFFM_INITIALIZED : constant := 1;
          BFFM_SELCHANGED  : constant := 2;
          procedure SendMessage
             (hwnd     : GWindows.Types.Handle := handle_bpc;
-             uMsg     : Interfaces.C.unsigned :=
+             uMsg     : Interfaces.C.int :=
                            BFFM_SETSELECTION (Character_Mode);
              wParam   : GWindows.Types.Wparam := 1; -- (windef's TRUE)
              s_lParam : GWindows.Types.Lparam := Cvt (ini));

@@ -368,26 +368,22 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    end On_Create;
    -----------------------------------------------------------------------------------------
+
+   LVM_GETITEM : constant Utilities.ANSI_Unicode_Choice :=
+      (ANSI    => Lvm_Getitema,
+       Unicode => Lvm_Getitemw);
+
    function Get_Internal (Control   : in     Ex_List_View_Control_Type;
                           Index     : in     Natural)
                          return Internal_Access is
-
       Item   : Lvitem;
-      L_Umsg : Interfaces.C.int;
    begin
-      Item.Mask := Lvif_Param;
-      Item.Item := Interfaces.C.int (Index);
+      Item.Mask    := Lvif_Param;
+      Item.Item    := Interfaces.C.int (Index);
       Item.Subitem := 0;
 
-      case Character_Mode is
-         when Unicode =>
-            L_Umsg := Lvm_Getitemw;
-         when ANSI =>
-            L_Umsg := Lvm_Getitema;
-      end case;
-
       Sendmessage_proc (Hwnd   => Handle (Control),
-                        Umsg   => L_Umsg,
+                        Umsg   => LVM_GETITEM (Character_Mode),
                         Wparam => 0,
                         Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
 
@@ -403,25 +399,17 @@ package body GWindows.Common_Controls.Ex_List_View is
                                  new_colors : in Internal_Color_Type)
    is
       Item : Lvitem;
-      get_Umsg : Interfaces.C.int;
       internal : Internal_Access := null;
       nullColors : constant Internal_Color_Type := (Textcolor => NullColor,
                                                     Backcolor => NullColor);
    begin
       --  get the lparam
-      Item.Mask := Lvif_Param;
-      Item.Item := Interfaces.C.int (Index);
+      Item.Mask    := Lvif_Param;
+      Item.Item    := Interfaces.C.int (Index);
       Item.Subitem := 0;
 
-      case Character_Mode is
-         when Unicode =>
-            get_Umsg := Lvm_Getitemw;
-         when ANSI =>
-            get_Umsg := Lvm_Getitema;
-      end case;
-
       Sendmessage_proc (Hwnd => Handle (Control),
-                        Umsg => get_Umsg,
+                        Umsg => LVM_GETITEM (Character_Mode),
                         Wparam => 0,
                         Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
 
@@ -450,23 +438,15 @@ package body GWindows.Common_Controls.Ex_List_View is
                                    payload : in Data_Access)
    is
       Item     : Lvitem;
-      get_Umsg : Interfaces.C.int;
       internal : Internal_Access := null;
    begin
       --  get the lparam
-      Item.Mask := Lvif_Param;
-      Item.Item := Interfaces.C.int (Index);
+      Item.Mask    := Lvif_Param;
+      Item.Item    := Interfaces.C.int (Index);
       Item.Subitem := 0;
 
-      case Character_Mode is
-         when Unicode =>
-            get_Umsg := Lvm_Getitemw;
-         when ANSI =>
-            get_Umsg := Lvm_Getitema;
-      end case;
-
       Sendmessage_proc (Hwnd => Handle (Control),
-                        Umsg => get_Umsg,
+                        Umsg => LVM_GETITEM (Character_Mode),
                         Wparam => 0,
                         Lparam => Lvitem_To_Lparam (Item'Unrestricted_Access));
 
@@ -1098,7 +1078,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       --  Fast internal comparison method, which does the comparison of
       --  both C strings instead of converting them into Ada strings, then comparing.
       use Interfaces.C;
-      LVM_GETITEM : constant GWindows.Utilities.AU_Choice :=
+      LVM_GETITEM : constant GWindows.Utilities.ANSI_Unicode_Choice :=
         (ANSI    => Lvm_First + 5,
          Unicode => Lvm_First + 75);
       LVIF_TEXT    : constant := 16#0001#;

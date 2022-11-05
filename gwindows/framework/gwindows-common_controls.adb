@@ -49,7 +49,7 @@ with GWindows.Internal;
 with GWindows.Utilities;
 
 package body GWindows.Common_Controls is
-   use GWindows.Utilities;
+
    use type Interfaces.C.unsigned;
    use type Interfaces.C.int;
    use type GWindows.Types.INT_PTR;
@@ -141,10 +141,10 @@ package body GWindows.Common_Controls is
    LVM_SETITEMW            : constant := LVM_FIRST + 76;
 --     LVM_DELETEITEM          : constant := LVM_FIRST + 8;
    LVM_DELETEALLITEMS      : constant := LVM_FIRST + 9;
-   LVM_SETCOLUMN           : constant AU_Choice :=
+   LVM_SETCOLUMN           : constant Utilities.ANSI_Unicode_Choice :=
                              (ANSI    => LVM_FIRST + 26,
                               Unicode => LVM_FIRST + 96);
-   LVM_INSERTCOLUMN        : constant AU_Choice :=
+   LVM_INSERTCOLUMN        : constant Utilities.ANSI_Unicode_Choice :=
                              (ANSI    => LVM_FIRST + 27,
                               Unicode => LVM_FIRST + 97);
    LVM_GETITEMSTATE        : constant := LVM_FIRST + 44;
@@ -2091,7 +2091,7 @@ package body GWindows.Common_Controls is
 
       Item : LVITEM;
 
-      LVM_INSERTITEM : constant AU_Choice :=
+      LVM_INSERTITEM : constant Utilities.ANSI_Unicode_Choice :=
         (ANSI    => LVM_FIRST + 7,
          Unicode => LVM_FIRST + 77);
 
@@ -2352,7 +2352,7 @@ package body GWindows.Common_Controls is
       SubItem : in Integer)
      return GString
    is
-      LVM_GETITEM : constant AU_Choice :=
+      LVM_GETITEM : constant Utilities.ANSI_Unicode_Choice :=
         (ANSI    => LVM_FIRST + 5,
          Unicode => LVM_FIRST + 75);
       LVIF_TEXT    : constant := 16#0001#;
@@ -2498,7 +2498,7 @@ package body GWindows.Common_Controls is
       Index   : in Integer)
      return GString
    is
-      LVM_GETCOLUMN : constant AU_Choice :=
+      LVM_GETCOLUMN : constant Utilities.ANSI_Unicode_Choice :=
         (ANSI    => LVM_FIRST + 25,
          Unicode => LVM_FIRST + 95);
 
@@ -4327,8 +4327,7 @@ package body GWindows.Common_Controls is
       use GWindows.GStrings;
       TB_ADDSTRINGA : constant := WM_USER + 28;
       TB_ADDSTRINGW : constant := WM_USER + 77;
-      TB_ADDSTRING : constant array (Character_Mode_Type) of
-         Interfaces.C.int :=
+      TB_ADDSTRING : constant Utilities.ANSI_Unicode_Choice :=
             (ANSI    => TB_ADDSTRINGA,
              Unicode => TB_ADDSTRINGW);
       C_Text : GString_C := To_GString_C (Text & GCharacter'Val (0));
@@ -4358,8 +4357,7 @@ package body GWindows.Common_Controls is
    is
       TB_GETSTRINGA : constant := WM_USER + 92;
       TB_GETSTRINGW : constant := WM_USER + 91;
-      TB_GETSTRING : constant array (Character_Mode_Type) of
-         Interfaces.C.int :=
+      TB_GETSTRING : constant Utilities.ANSI_Unicode_Choice :=
             (ANSI    => TB_GETSTRINGA,
              Unicode => TB_GETSTRINGW);
 
