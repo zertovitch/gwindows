@@ -2327,32 +2327,42 @@ package body GWindows.Common_Controls is
       SubItem : in Integer)
      return GString
    is
-      type Buffer is new GString_C (0 .. Constants.Max_Text);
+      subtype Buffer is GString (1 .. 1 + Constants.Max_Text);
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
          new Ada.Unchecked_Conversion (Types.LPTSTR, PBuffer);
 
-      C_Text   : Buffer;
-      LVI      : LVITEM;
+      function To_LPTSTR is
+         new Ada.Unchecked_Conversion (PBuffer, Types.LPTSTR);
 
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle :=
+      LVI    : LVITEM;
+      A_Text : Buffer;
+      Length : Natural;
+
+      function SendMessage
+        (hwnd   : Types.Handle :=
            GWindows.Common_Controls.Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_GETITEM (Character_Mode);
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : in out LVITEM);
+         uMsg   : Interfaces.C.int := LVM_GETITEMTEXT (Character_Mode);
+         wParam : Types.Wparam     := Types.Wparam (Item);
+         lParam : in out LVITEM) return Interfaces.C.int;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
       LVI.Mask    := LVIF_TEXT;
       LVI.Item    := Interfaces.C.int (Item);
       LVI.SubItem := Interfaces.C.int (SubItem);
-      LVI.Text    := C_Text (0)'Unchecked_Access;
+      LVI.Text    := To_LPTSTR (A_Text'Unrestricted_Access);
       LVI.TextMax := Constants.Max_Text;
-      SendMessage (lParam => LVI);
-      return GWindows.GStrings.To_GString_From_C
-        (GString_C (To_PBuffer (LVI.Text).all));
+      Length := Natural (SendMessage (lParam => LVI));
+      --  Until revision #456, the message LVM_GETITEM was used and
+      --  the length of the null-terminated C string, to which LVI.Text
+      --  is pointing, was unknown after the call.
+      --  The information about the string's length which is obtained
+      --  with the LVM_GETITEMTEXT call, allows to have an Ada string
+      --  directly available, by using the length and ignoring the
+      --  null terminator. A copy of the string is saved.
+      return To_PBuffer (LVI.Text).all (1 .. Length);
    end Text;
 
    procedure Ensure_Visible

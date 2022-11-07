@@ -25,7 +25,8 @@ procedure Demo_Exlv2 is
    List : My_List_View_Type;
    Labelr,
    Labelg,
-   Labelb : GWindows.Static_Controls.Label_Type;
+   Labelb,
+   Label_Text : GWindows.Static_Controls.Label_Type;
 
    procedure Do_On_List_Click (Window : in out GWindows.Base.Base_Window_Type'Class) is
       use My_List_View_Pkg;
@@ -55,6 +56,10 @@ procedure Demo_Exlv2 is
             Text (Labelb, To_GString_From_String ("RGB blue =" & Color_Range'Image (Payload.Rgb1.Blue)));
          end if;
       end if;
+
+      Text
+        (Label_Text,
+         "Cell contents: """ & Text (My_List_View_Type (Window), L_Item, L_Subitem) & '"');
 
    end Do_On_List_Click;
 
@@ -184,6 +189,13 @@ begin
           Text => "RGB blue = ?",
           Left => 380,
           Top => 150,
+          Width => 250,
+          Height => 22);
+   Create (Static => Label_Text,
+          Parent => Main,
+          Text => "Cell contents = ?",
+          Left => 380,
+          Top => 175,
           Width => 250,
           Height => 22);
 

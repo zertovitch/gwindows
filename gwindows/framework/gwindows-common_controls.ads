@@ -1620,11 +1620,13 @@ private
 
    LVM_FIRST    : constant := 16#1000#;
 
-   LVM_GETITEMA : constant := LVM_FIRST + 5;
-   LVM_SETITEMA : constant := LVM_FIRST + 6;
+   LVM_GETITEMA     : constant := LVM_FIRST +   5;
+   LVM_SETITEMA     : constant := LVM_FIRST +   6;
+   LVM_GETITEMTEXTA : constant := LVM_FIRST +  45;
 
-   LVM_GETITEMW : constant := LVM_FIRST + 75;
-   LVM_SETITEMW : constant := LVM_FIRST + 76;
+   LVM_GETITEMW     : constant := LVM_FIRST +  75;
+   LVM_SETITEMW     : constant := LVM_FIRST +  76;
+   LVM_GETITEMTEXTW : constant := LVM_FIRST + 115;
 
    LVM_GETITEM : constant Utilities.ANSI_Unicode_Choice :=
       (ANSI    => LVM_GETITEMA,
@@ -1633,5 +1635,9 @@ private
    LVM_SETITEM : constant Utilities.ANSI_Unicode_Choice :=
       (ANSI    => LVM_SETITEMA,
        Unicode => LVM_SETITEMW);
+
+   LVM_GETITEMTEXT : constant Utilities.ANSI_Unicode_Choice :=
+      (ANSI    => LVM_GETITEMTEXTA,
+       Unicode => LVM_GETITEMTEXTW);
 
 end GWindows.Common_Controls;

@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -58,6 +60,7 @@ package GWindows.Types is
    for INT_PTR'Size use Standard'Address_Size;
 
    type LPTSTR is access all GChar_C;
+   pragma No_Strict_Aliasing (LPTSTR);
 
    function To_Handle (I : Integer) return Handle;
    function To_Handle (I : Interfaces.C.long) return Handle;
