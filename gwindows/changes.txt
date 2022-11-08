@@ -16,6 +16,9 @@ GWindows, upcoming release
 GWindows release, *Upcoming* [rev. ---]
 =======================================
 
+458: GWindows.Common_Controls.Ex_List_View: added `Using_Payloads`
+        to the enumerated type `Comparison_Technique_Type` (sorting
+        runs 100x faster than the other choices).
 451: GWindows.Common_Controls.Ex_List_View: added `As_Strings_Default`
         to the enumerated type `Comparison_Technique_Type` (sorting runs
         faster if default alphabetical sorting is desired).

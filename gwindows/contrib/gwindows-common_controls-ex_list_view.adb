@@ -51,10 +51,10 @@ package body GWindows.Common_Controls.Ex_List_View is
    --  Lvs_Ex_Flatsb                : constant := 256;
    --  Lvm_Insertitema              : constant := Lvm_First + 7;
    --  Lvm_Finditema                : constant := Lvm_First + 13;
-   --  Lvm_Sortitems                : constant := Lvm_First + 48;
+   LVM_SortItems                : constant := LVM_FIRST + 48;
    --  Lvm_Setextendedlistviewstyle : constant := Lvm_First + 54;
    --  Lvm_Insertitemw              : constant := Lvm_First + 77;
-   Lvm_SortItemsEx              : constant := LVM_FIRST + 81;
+   LVM_SortItemsEx              : constant := LVM_FIRST + 81;
    --  Lvm_Finditemw                : constant := Lvm_First + 83;
    --  LVM_GETCOLUMNA               : constant := Lvm_First + 25;
    --  LVM_GETCOLUMNW               : constant := Lvm_First + 95;
@@ -1140,7 +1140,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    end On_Compare;
    --
    procedure On_Compare_Handler (Control       : in out Ex_List_View_Control_Type;
-                                 General_Event : in General_Compare_Event)
+                                 General_Event : in     General_Compare_Event)
    is
    begin
       Control.On_General_Compare_Event := General_Event;
@@ -1161,13 +1161,46 @@ package body GWindows.Common_Controls.Ex_List_View is
       --  Default behaviour: alphabetic.
       return Compare_Texts (Control, Column, Index_1, Index_2);
    end Fire_On_Compare;
+   --
+   function On_Compare
+              (Control   : in Ex_List_View_Control_Type;
+               Column    : in Natural;
+               Payload_1 : in Data;
+               Payload_2 : in Data) return Integer
+   is
+   begin
+     return Fire_On_Compare (Control, Column, Payload_1, Payload_2);
+   end On_Compare;
+   --
+   procedure On_Compare_Handler (Control       : in out Ex_List_View_Control_Type;
+                                 Payload_Event : in     Payload_Compare_Event)
+   is
+   begin
+      Control.On_Payload_Compare_Event := Payload_Event;
+   end On_Compare_Handler;
+   --
+   function Fire_On_Compare (
+               Control   : in Ex_List_View_Control_Type;
+               Column    : in Natural;
+               Payload_1 : in Data;
+               Payload_2 : in Data) return Integer
+   is
+   begin
+      if Control.On_Payload_Compare_Event /= null then
+         return Control.On_Payload_Compare_Event
+            (Control, Column, Payload_1, Payload_2);
+      end if;
+      --  There is no default behaviour.
+      Raise_Exception
+        (Program_Error'Identity,
+         "On_Compare (with Payload parameters) has to be overriden, or a handler must be set.");
+   end Fire_On_Compare;
    ----------------------------------------------------------------------------------------------------
    procedure Sort (Control   : in out Ex_List_View_Control_Type;
                    Column    : in     Natural;
                    Direction : in     Sort_Direction_Type;
                    Show_Icon : in     Boolean := True;
-                   Technique : in     Comparison_Technique_Type := As_Strings
-                  )
+                   Technique : in     Comparison_Technique_Type := As_Strings)
    is
       function On_compare_internal (Lparam1, Lparam2, Lparamsort : GWindows.Types.Lparam)
          return Interfaces.C.int;
@@ -1180,19 +1213,23 @@ package body GWindows.Common_Controls.Ex_List_View is
          return Interfaces.C.int
       is
       begin
-         --  Note 01-Nov-2022:
-         --  -----------------
+         --  Until revision #446, the procedure Sort was using only the
+         --  Windows API message LVM_SortItems. In the callback given to
+         --  LVM_SortItems, Lparam1 and Lparam2 contain pointers to user
+         --  data. Two calls to LVM_FindItem were needed to obtain the
+         --  current indices.
+         --
          --  A new approach, since revision #447, is using the
-         --  Windows API message Lvm_SortItemsEx instead of Lvm_SortItems.
-         --  In the callback given to Lvm_SortItemsEx, Lparam1 and Lparam2
-         --  contain the current row indices, instead of pointers to LVITEM structures
-         --  which contain unusable information about row indices (we have tested it).
+         --  Windows API message LVM_SortItemsEx instead of LVM_SortItems.
+         --  In the callback given to LVM_SortItemsEx, Lparam1 and Lparam2
+         --  contain the current row indices instead of pointers.
          --
          --  Consequently, two calls to LVM_FindItem can be removed in this place.
-         --  Result: the entire sorting is *six* times faster on a list of ~20,000 items.
+         --  Result: the entire sorting is *six* times faster on a list of ~20,000 items
+         --  for the comparison techniques As_Strings, As_Strings_Default and General.
+         --  If the comparison rely on payload data (Technique = Using_Payloads)
+         --  the sorting is again ~100 times faster, whatever the amount of items.
          --
-         --  See AZip, the Zip archive manager, for testing (constant timing := True).
-         --  You can use rt.jar (the Java runtime) as test data.
          case Technique is
             when As_Strings =>
                --  String values.
@@ -1205,11 +1242,11 @@ package body GWindows.Common_Controls.Ex_List_View is
                      Column  => Integer (Lparamsort),
                      Value1  =>
                         Text (Control => Control,
-                              Item    => Integer (Lparam1),
+                              Item    => Integer (Lparam1),      --  lparam1 is an index here.
                               SubItem => Integer (Lparamsort)),
                      Value2  =>
                         Text (Control => Control,
-                              Item    => Integer (Lparam2),
+                              Item    => Integer (Lparam2),      --  lparam2 is an index here.
                               SubItem => Integer (Lparamsort)))
                   * Local_Sort_Direction
                 );
@@ -1221,8 +1258,8 @@ package body GWindows.Common_Controls.Ex_List_View is
                         (Compare_Texts
                            (Control,
                             Integer (Lparamsort),
-                            Integer (Lparam1),
-                            Integer (Lparam2))
+                            Integer (Lparam1),  --  lparam1 is an index here.
+                            Integer (Lparam2))  --  lparam2 is an index here.
                          * Local_Sort_Direction);
                end;
             when General =>
@@ -1230,10 +1267,18 @@ package body GWindows.Common_Controls.Ex_List_View is
                   On_Compare (
                      Control  => Ex_List_View_Control_Type'Class (Control),
                      Column   => Integer (Lparamsort),
-                     Index_1  => Integer (Lparam1),
-                     Index_2  => Integer (Lparam2))
+                     Index_1  => Integer (Lparam1),  --  lparam1 is an index here.
+                     Index_2  => Integer (Lparam2))  --  lparam2 is an index here.
                   * Local_Sort_Direction
                 );
+            when Using_Payloads =>
+               return Interfaces.C.int
+                 (On_Compare
+                    (Control   => Ex_List_View_Control_Type'Class (Control),
+                     Column    => Integer (Lparamsort),
+                     Payload_1 => Lparam_To_Internal (Lparam1).User_Data.all,
+                     Payload_2 => Lparam_To_Internal (Lparam2).User_Data.all)
+                  * Local_Sort_Direction);
          end case;
       exception
          when E : others =>
@@ -1241,6 +1286,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                (Elv_Exception'Identity, "error on on_compare: " & Exception_Information (E));
       end On_compare_internal;
    --
+      Umsg : Interfaces.C.int;
    begin
       case Direction is
          when Auto =>
@@ -1269,10 +1315,15 @@ package body GWindows.Common_Controls.Ex_List_View is
             Control.Sort_Object.Sort_Direction := -1;
       end case;
       Local_Sort_Direction := Control.Sort_Object.Sort_Direction;
+      if Technique = Using_Payloads then
+         Umsg := LVM_SortItems;    --  On_compare_internal gets pointers to internal data.
+      else
+         Umsg := LVM_SortItemsEx;  --  On_compare_internal gets index numbers.
+      end if;
 
       --  Start sorting:
       Sendmessage_proc (Hwnd   => Handle (Control),
-                        Umsg   => Lvm_SortItemsEx,
+                        Umsg   => Umsg,
                         Wparam => Types.To_Wparam (Control.Sort_Object.Sort_Column),
                         Lparam => Address_To_Lparam (On_compare_internal'Address));
 
