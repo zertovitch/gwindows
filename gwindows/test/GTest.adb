@@ -1,9 +1,11 @@
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Strings.Unbounded;
 
-with GNAT.IO; use GNAT.IO;
+with GNAT.IO;
 with GWindows.GStrings;
 
 package body GTest is
+
+   use Ada.Strings.Unbounded;
 
    Module_Name : Unbounded_String;
 
@@ -13,7 +15,8 @@ package body GTest is
 
    procedure End_Test is
    begin
-      Put_Line ("++ Test completed for module : " & To_String (Module_Name));
+       GNAT.IO.Put_Line
+          ("++ Test completed for module : " & To_String (Module_Name));
    end End_Test;
 
    ----------------
@@ -22,7 +25,8 @@ package body GTest is
 
    procedure Put_Failed is
    begin
-      Put_Line ("-- Test FAILED for module : " & To_String (Module_Name));
+      GNAT.IO.Put_Line
+         ("-- Test FAILED for module : " & To_String (Module_Name));
    end Put_Failed;
 
    ----------------
@@ -32,8 +36,9 @@ package body GTest is
    procedure Put_Failed (Test_Name : String)
    is
    begin
-      Put_Line ("-- Test " & Test_Name &
-                " FAILED in module : " & To_String (Module_Name));
+      GNAT.IO.Put_Line
+        ("-- Test " & Test_Name &
+         " FAILED in module : " & To_String (Module_Name));
    end Put_Failed;
 
    ----------------
@@ -42,7 +47,8 @@ package body GTest is
 
    procedure Put_Passed is
    begin
-      Put_Line ("++ Test PASSED for module : " & To_String (Module_Name));
+      GNAT.IO.Put_Line
+         ("++ Test PASSED for module : " & To_String (Module_Name));
    end Put_Passed;
 
    ----------------
@@ -52,8 +58,8 @@ package body GTest is
    procedure Start_Test (Module_Name : String) is
    begin
       GTest.Module_Name := To_Unbounded_String (Module_Name);
-      Put_Line ("++ Test started for module : " &
-                To_String (GTest.Module_Name));
+      GNAT.IO.Put_Line ("++ Test started for module : " &
+                        To_String (GTest.Module_Name));
    end Start_Test;
 
    --------------

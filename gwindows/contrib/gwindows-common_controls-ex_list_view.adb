@@ -757,7 +757,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       L_setUmsg : Interfaces.C.int;
       L_getUmsg : Interfaces.C.int;
    begin
-      C_Text (C_Text'First) := Interfaces.C.wchar_t'Val (0);
+      C_Text (C_Text'First) := GString_C_Null;
       case Character_Mode is
          when Unicode =>
             L_setUmsg := HDM_SETITEMW;
@@ -1074,7 +1074,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       pragma Assert (Integer'Size > GChar_C'Size);
       --  ^ GChar_C is 8 or 16 bits, and, on GNAT/Windows, Integer is min 32 bits.
       for i in Buffer'Range loop
-         diff := wchar_t'Pos (C_Text_1 (i)) - wchar_t'Pos (C_Text_2 (i));
+         diff := GChar_C'Pos (C_Text_1 (i)) - GChar_C'Pos (C_Text_2 (i));
          if diff /= 0 then
             --  After a common part, C strings have a different character at position i.
             --  This includes the case where one string has the null character.
