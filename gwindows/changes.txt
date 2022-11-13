@@ -13,21 +13,23 @@ GWindows, upcoming release
 ==========================
 
 
-GWindows release, *Upcoming* [rev. ---]
-=======================================
+GWindows release, 13-Nov-2022 [revision 459]
+============================================
 
 458: GWindows.Common_Controls.Ex_List_View: added `Using_Payloads`
-        to the enumerated type `Comparison_Technique_Type` (sorting
-        runs 100x faster than the other choices).
+        to the enumerated type `Comparison_Technique_Type`.
+        With this choice, sorting runs 100x faster.
 451: GWindows.Common_Controls.Ex_List_View: added `As_Strings_Default`
         to the enumerated type `Comparison_Technique_Type` (sorting runs
         faster if default alphabetical sorting is desired).
 449: GWindows.Application: added procedure `Add_To_Recent_Documents`.
+        Windows Explorer & Desktop puts the name on top of various
+        "recent documents" lists, for instance in the task bar.
 447: GWindows.Common_Controls.Ex_List_View: massive speedup on sorting
         of large lists (e.g. 6x faster for 20,000 items).
 
-GWindows release, 18-Jun-2022 [rev. 440]
-========================================
+GWindows release, 18-Jun-2022 [revision 440]
+============================================
 
   * Installer: ResEdit.xml configuration file is automatically created
         and set up for current GNAT installation(s), GWindows and
@@ -37,8 +39,8 @@ GWindows release, 18-Jun-2022 [rev. 440]
         see https://azip.sourceforge.io/ ).
   * Fixed various GNATCOM issues.
 
-GWindows release, 29-Jan-2022 [rev. 429]
-========================================
+GWindows release, 29-Jan-2022 [revision 429]
+============================================
 
 427: GWindows.Image_Lists: added color options;
         includes features of "extended" Ex_Image_List_Type
@@ -59,8 +61,8 @@ GWindows release, 29-Jan-2022 [rev. 429]
 410: GWindows.Common_Controls.Ex_List_View: Sort can use a comparison
         method not based on strings (e.g. a numerical comparison).
 
-GWindows release, 01-Jan-2021 [rev. 397]
-========================================
+GWindows release, 01-Jan-2021 [revision 397]
+============================================
 
 391: GWindows.Common_Controls.List_View: added Ensure_Visible.
 387: (contrib) GWin_Util package: added Explorer_Context_Menu.
@@ -68,8 +70,8 @@ GWindows release, 01-Jan-2021 [rev. 397]
 385: GWindows.Windows.MDI: added function Count_MDI_Children.
 384: (contrib) Added GWin_Util package.
 
-GWindows release, 31-Jul-2020 [rev. 383]
-========================================
+GWindows release, 31-Jul-2020 [revision 383]
+============================================
 
 379: Moved type Extended_Style_Type and methods Set_Extended_Style
         and Remove_Extended_Style for type Ex_List_View_Control_Type in
@@ -79,8 +81,8 @@ GWindows release, 31-Jul-2020 [rev. 383]
 377: GWindows.Common_Dialogs: Choose_[Default_]Printer works
         in 64-bit mode too.
 
-GWindows release, 01-Sep-2019 [rev. 376]
-========================================
+GWindows release, 01-Sep-2019 [revision 376]
+============================================
 
 371: Moved function Select_Item from GWindows.Common_Controls.Ex_TV
      and GWindows.Common_Controls.Ex_TV_Generic to parent type
@@ -90,8 +92,8 @@ GWindows release, 01-Sep-2019 [rev. 376]
 359: Moved Paint_Transparent_Bitmap to new GWindows.Drawing.Extended
      from GWindows.Drawing (some versions of GCC issue a linker error)
 
-GWindows release, 30-Aug-2018 [rev. 357]
-========================================
+GWindows release, 30-Aug-2018 [revision 357]
+============================================
 
 354: GWenerator: implemented BS_MULTILINE style for buttons, call to Multi_Line is generated
 353: GWindows.Buttons: added Multi_Line method for Button_Type

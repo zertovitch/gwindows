@@ -1,7 +1,7 @@
 @echo off
 
 rem Version should match the field VALUE "FileVersion" in GW_Install.rc
-set version=18-Jun-2022
+set version=13-Nov-2022
 
 if not exist GW_Install_Resource_GUI.ads goto gen
 if not exist GW_Install_Resource_GUI.adb goto gen
@@ -17,6 +17,8 @@ cd ..\..\gwindows\extractor
 if "%1"=="-gen" shift
 
 :no_gen
+
+windres gw_install.rc gw_install.rbj
 
 if not exist ..\..\gwin.zip echo The archive gwin.zip is missing.
 if not exist ..\..\gwin.zip echo Consequence, the new installer executable can't work.

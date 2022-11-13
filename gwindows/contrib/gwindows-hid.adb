@@ -1,4 +1,4 @@
---  Include Ada specification file(s)
+--  Ada specification file(s)
 --  with Ada.Text_IO;                       use Ada.Text_IO;
 with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
@@ -11,7 +11,7 @@ with System;                            use System;
 --  with Win32.Winnt;
 --  with Win32.Windef;
 
---  Include GNAVI specification file(s)
+--  GNAVI specification file(s)
 with GWindows.GStrings;                 use GWindows.GStrings;
 with GWindows.Registry;                 use GWindows.Registry;
 with GWindows.Types;                    use GWindows.Types;
