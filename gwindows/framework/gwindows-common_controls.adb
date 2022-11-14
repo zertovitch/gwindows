@@ -4191,8 +4191,8 @@ package body GWindows.Common_Controls is
       if Current /= null then
          Left (Current.all, Area.Left);
          Top (Current.all, Area.Top);
-         Width (Current.all, Area.Right - Area.Left);
-         Height (Current.all, Area.Bottom - Area.Top);
+         Width (Current.all, Integer'Max (0, Area.Right - Area.Left));
+         Height (Current.all, Integer'Max (0, Area.Bottom - Area.Top));
          Show (Current.all);
       end if;
       On_Change (Tab_Control_Type (Control));                        --  *AnSp
