@@ -292,6 +292,39 @@ package body GWin_Util is
     end case;
   end Explorer_Context_Menu;
 
+  function Menu_Entry_Title_to_Toolbar_Label (s : GString) return GString is
+    use type GString_Unbounded;
+    u : GString_Unbounded;
+    after_tab : Integer := s'Last + 1;
+  begin
+    for i in s'Range loop
+      case s (i) is
+        when GCharacter'Val (0) =>
+          null;
+        when '&' =>
+          if i < s'Last and then s (i + 1) = '&' then
+            --  "&&" is translated as "&&&" in order to be displayed as a '&' !...
+            u := u & "&&&";
+          else
+            --  Not a "&&": Skip the leading '&' which is the keyboard shortcut.
+            null;
+          end if;
+        when GCharacter'Val (9) =>  --  Tab
+          after_tab := i + 1;
+        when '\' =>  --  Tab written as "\t".
+          if i < s'Last and then s (i + 1) = 't' then
+            after_tab := i + 2;
+          end if;
+        when others =>
+          if i = after_tab then
+            u := u & NL & NL & "Shortcut: ";
+          end if;
+          u := u & s (i);
+      end case;
+    end loop;
+    return GWindows.GStrings.To_GString_From_Unbounded (u);
+  end Menu_Entry_Title_to_Toolbar_Label;
+
   procedure Get_Windows_version (
     major, minor : out Integer;
     family      : out Windows_family
