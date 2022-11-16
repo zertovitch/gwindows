@@ -1156,12 +1156,12 @@ package GWindows.Common_Controls is
    -------------------------------------------------------------------------
    --  See Event Methods for details on each event
 
-   procedure On_Change_Handler (Control    : in out Tab_Control_Type;
+   procedure On_Change_Handler (Control : in out Tab_Control_Type;
                                 Handler : in     GWindows.Base.Action_Event);
    procedure Fire_On_Change (Control : in out Tab_Control_Type);
 
-   procedure On_Changing_Handler (Control    : in out Tab_Control_Type;
-                                Handler : in     GWindows.Base.Action_Event);
+   procedure On_Changing_Handler (Control : in out Tab_Control_Type;
+                                  Handler : in     GWindows.Base.Action_Event);
    procedure Fire_On_Changing (Control : in out Tab_Control_Type);
 
    -------------------------------------------------------------------------
