@@ -266,6 +266,7 @@ package body GWindows.Common_Controls is
    TCM_DELETEALLITEMS      : constant := (TCM_FIRST + 9);
    TCM_GETCURSEL           : constant := (TCM_FIRST + 11);
    TCM_SETCURSEL           : constant := (TCM_FIRST + 12);
+   TCM_HITTEST             : constant := (TCM_FIRST + 13);
    --  TCM_SETCURFOCUS         : constant := (TCM_FIRST + 48);
    TCM_ADJUSTRECT          : constant := (TCM_FIRST + 40);
    TCM_GETROWCOUNT         : constant := (TCM_FIRST + 44);
@@ -2279,9 +2280,9 @@ package body GWindows.Common_Controls is
       Switch_Extended_Style (Control, Style, False);
    end Remove_Extended_Style;
 
-   ------------------
-   -- Clicked_Item --
-   ------------------
+   ----------------------
+   -- Item_At_Position --
+   -----------------------
 
    procedure Item_At_Position
      (Control  : in     List_View_Control_Type;
@@ -2912,21 +2913,21 @@ package body GWindows.Common_Controls is
    --  GdM 25-Jul-2013: added similar as for List_View.
    --  Code from Ex_TV, under the name Tree_Hit_Test.
    function Item_At_Position
-     (Control  : in     Tree_View_Control_Type;
-      Position : in     GWindows.Types.Point_Type)
+     (Control  : in Tree_View_Control_Type;
+      Position : in Types.Point_Type)
    return Tree_Item_Node
    is
-      type Tv_Hit_Test_Info_Type is
+      type TV_Hit_Test_Info_Type is
          record
-            Point : GWindows.Types.Point_Type     := Position;
-            Flags : Integer;
+            Point : Types.Point_Type       := Position;
+            Flags : Interfaces.C.unsigned;
             Hitem : Tree_Item_Node;
          end record;
 
-      Hit_Test_Structure : Tv_Hit_Test_Info_Type;
+      Hit_Test_Structure : TV_Hit_Test_Info_Type;
 
       procedure Sendmessage
-        (Hwnd   : GWindows.Types.Handle := Handle (Control);
+        (Hwnd   : Types.Handle      := Handle (Control);
          Umsg   : Interfaces.C.int  := TVM_HITTEST;
          Wparam : Integer           := 0;
          Lparam : System.Address    := Hit_Test_Structure'Address);
@@ -2940,11 +2941,11 @@ package body GWindows.Common_Controls is
 
    procedure Item_At_Position
      (Control  : in     Tree_View_Control_Type;
-      Position : in     GWindows.Types.Point_Type;
+      Position : in     Types.Point_Type;
       Item     :    out Tree_Item_Node)
    is
    begin
-     Item := Item_At_Position (Control, Position);
+      Item := Item_At_Position (Control, Position);
    end Item_At_Position;
 
    ----------
@@ -4014,6 +4015,42 @@ package body GWindows.Common_Controls is
       SendMessage (lParam => RT);
       return RT;
    end Display_Area;
+
+   function Item_At_Position
+     (Control  : in Tab_Control_Type;
+      Position : in Types.Point_Type)
+   return Integer
+   is
+      type TC_Hit_Test_Info_Type is
+         --  Windows API name: TCHITTESTINFO.
+         record
+            Point : Types.Point_Type      := Position;
+            Flags : Interfaces.C.unsigned;
+         end record;
+
+      Hit_Test_Structure : TC_Hit_Test_Info_Type;
+
+      function Sendmessage
+        (Hwnd   : Types.Handle     := Handle (Control);
+         Umsg   : Interfaces.C.int := TCM_HITTEST;
+         Wparam : Integer          := 0;
+         Lparam : System.Address   := Hit_Test_Structure'Address)
+      return Interfaces.C.int;
+      pragma Import (Stdcall, Sendmessage, "SendMessage" &
+         Character_Mode_Identifier);
+
+   begin
+      return Integer (Sendmessage);
+   end Item_At_Position;
+
+   procedure Item_At_Position
+     (Control  : in     Tab_Control_Type;
+      Position : in     Types.Point_Type;
+      Item     :    out Integer)
+   is
+   begin
+      Item := Item_At_Position (Control, Position);
+   end Item_At_Position;
 
    ---------------
    -- On_Create --

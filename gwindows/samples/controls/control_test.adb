@@ -10,6 +10,10 @@ with GWindows.Image_Lists; use GWindows.Image_Lists;
 with GWindows.GStrings; use GWindows.GStrings;
 with GWindows.Message_Boxes;
 with GWindows.Application;
+with GWindows.Static_Controls;
+with GWindows.Cursors;
+with GWindows.Types;
+with GWindows.Drawing_Objects;
 
 procedure Control_Test is
    --  Resource with the toolbar bitmap.
@@ -36,6 +40,9 @@ procedure Control_Test is
    W2           : aliased Window_Type;
    Toolbar      : Toolbar_Control_Type;
    Images       : Image_List_Type;
+   Message      : array (1 .. 3) of GWindows.Static_Controls.Label_Type;
+
+   use GWindows.Drawing_Objects, GWindows.Static_Controls;
 
    procedure Do_Change (Window : in out Base_Window_Type'Class) is
    begin
@@ -79,13 +86,73 @@ procedure Control_Test is
         ("Command Sent", To_GString_From_String (Item'Img));
    end Do_Menu_Select;
 
+   procedure On_Mouse_Move_Callback
+      (Window : in out Base_Window_Type'Class;
+       X, Y   : in     Integer;
+       Keys   : in     Mouse_Key_States)
+   is
+   pragma Unreferenced (Keys, Window);
+      use GWindows.Types;
+      Mouse_Point : constant Point_Type := GWindows.Cursors.Get_Cursor_Position;
+      Point_Tab   : constant Point_Type := Point_To_Client (Tab_Control, Mouse_Point);
+      Tab_Index : Integer;
+   begin
+      Tab_Index := Item_At_Position (Tab_Control, Point_Tab);  --  Doesn't seem to work...
+      Text
+         (Message (1),
+          To_GString_From_String
+             ("X = " & Integer'Image (X) &
+              "; Y = " & Integer'Image (Y)));
+      Text
+         (Message (2),
+          To_GString_From_String
+             ("Mouse X = " & Integer'Image (Mouse_Point.X) &
+              "; Y = " & Integer'Image (Mouse_Point.Y)));
+      Text
+         (Message (3),
+          To_GString_From_String
+             ("Tab = " & Integer'Image (Tab_Index) &
+              ", X_Tab = " & Integer'Image (Point_Tab.X) &
+              ", Y_Tab = " & Integer'Image (Point_Tab.Y)));
+   end On_Mouse_Move_Callback;
+
+   procedure On_Tab_Hover_Callback
+      (Window : in out Base_Window_Type'Class)
+   is
+   pragma Unreferenced (Window);
+      use GWindows.Types;
+      Mouse_Point : constant Point_Type := GWindows.Cursors.Get_Cursor_Position;
+      Point_Tab   : constant Point_Type := Point_To_Client (Tab_Control, Mouse_Point);
+      Tab_Index : Integer;
+   begin
+      Tab_Index := Item_At_Position (Tab_Control, Point_Tab);
+      Text (Message (1), "Hover on Tab");
+      Text
+         (Message (2),
+          To_GString_From_String
+             ("Mouse X = " & Integer'Image (Mouse_Point.X) &
+              "; Y = " & Integer'Image (Mouse_Point.Y)));
+      Text
+         (Message (3),
+          To_GString_From_String
+             ("Tab = " & Integer'Image (Tab_Index) &
+              ", X_Tab = " & Integer'Image (Point_Tab.X) &
+              ", Y_Tab = " & Integer'Image (Point_Tab.Y)));
+   end On_Tab_Hover_Callback;
+
    Start_Date : constant Ada.Calendar.Time := Ada.Calendar.Clock;
    End_Date   : constant Ada.Calendar.Time := Ada.Calendar.Time_Of (2030, 3, 22);
+
+   GUI_Font : Font_Type;
 
 begin
    Create (Top_Window, "Control Test");
 
    Create_As_Control (Window, Top_Window, "", 0, 0, 0, 0);
+
+   Create_Stock_Font (GUI_Font, Default_GUI);
+   Set_Font (Window, GUI_Font);
+
    Keyboard_Support (Window);
    Border (Window);
    Dock (Window, Fill);
@@ -105,6 +172,8 @@ begin
 
    Create (Date_Control, Window, 0, 0, 400, 25);
    On_Focus_Handler (Date_Control, Do_Change'Unrestricted_Access);
+   On_Mouse_Move_Handler
+      (Window, On_Mouse_Move_Callback'Unrestricted_Access);
 
    Date_Time_Format
       (Date_Control, "'Today is: 'HH':'m':'s dddd MMM dd', 'yyyy");
@@ -167,6 +236,10 @@ begin
    On_Position_Changing_Handler (Up_Control,
                                  Do_Pos_Change'Unrestricted_Access);
 
+   -------------------
+   --  Tab Control  --
+   -------------------
+
    Create (Tab_Control, Window, 300, 375, 300, 150);
    Insert_Tab (Tab_Control, 0, "Tab1");
    Insert_Tab (Tab_Control, 1, "Tab2");
@@ -182,15 +255,26 @@ begin
 --      BB : Button_Access;
    begin
       EB := new Edit_Box_Type;
-      Create (EB.all, W1, "Window 1", 10, 10, 100, 25, Is_Dynamic => True);
+      Create (EB.all, W1, "Window for Tab 1", 10, 10, 100, 25, Is_Dynamic => True);
       EB := new Edit_Box_Type;
-      Create (EB.all, W2, "Window 2", 10, 10, 100, 25, Is_Dynamic => True);
+      Create (EB.all, W2, "Window for Tab 2", 10, 10, 100, 25, Is_Dynamic => True);
 
 --        BB := new Button_Type;
 --        Create (BB.all, W1, "Button 1", 10, 50, 75, 25, Is_Dynamic => True);
 --        BB := new Button_Type;
 --        Create (BB.all, W2, "Button 2", 10, 50, 75, 25, Is_Dynamic => True);
    end;
+
+   On_Hover_Handler
+      (Tab_Control, On_Tab_Hover_Callback'Unrestricted_Access);
+
+   for Index in Message'Range loop
+      Create
+         (Message (Index),
+          Window,
+          To_GString_From_String ("Some message" & Integer'Image (Index)),
+          10, 375 + 20 * Index, 280, 20);
+   end loop;
 
    Dock_Children (Top_Window);
    Show (Top_Window);

@@ -939,13 +939,13 @@ package GWindows.Common_Controls is
 
    procedure Item_At_Position
      (Control  : in     Tree_View_Control_Type;
-      Position : in     GWindows.Types.Point_Type;
+      Position : in     Types.Point_Type;
       Item     :    out Tree_Item_Node);
    --  Item under screen position, in client coordinates
 
    function Item_At_Position
-     (Control  : in     Tree_View_Control_Type;
-      Position : in     GWindows.Types.Point_Type)
+     (Control  : in Tree_View_Control_Type;
+      Position : in Types.Point_Type)
    return Tree_Item_Node;
    --  Item under screen position, in client coordinates
 
@@ -1137,6 +1137,18 @@ package GWindows.Common_Controls is
 
    function Display_Area (Control : in Tab_Control_Type)
                          return GWindows.Types.Rectangle_Type;
+
+   procedure Item_At_Position
+     (Control  : in     Tab_Control_Type;
+      Position : in     Types.Point_Type;
+      Item     :    out Integer);
+   --  Item under screen position, in client coordinates
+
+   function Item_At_Position
+     (Control  : in Tab_Control_Type;
+      Position : in Types.Point_Type)
+   return Integer;
+   --  Item under screen position, in client coordinates
 
    -------------------------------------------------------------------------
    --  Tab_Control_Type - Methods

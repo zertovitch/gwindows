@@ -29,22 +29,24 @@ procedure Cap_Test is
    Arrow_Cursor : Cursor_Type;
    In_Capture   : Boolean := False;
 
-   procedure Do_Mouse_Down (Window : in out Base_Window_Type'Class;
-                            X, Y   : in     Integer;
-                            Keys   : in     Mouse_Key_States)
+   procedure On_Mouse_Down_Callback
+      (Window : in out Base_Window_Type'Class;
+       X, Y   : in     Integer;
+       Keys   : in     Mouse_Key_States)
    is
    pragma Unreferenced (X, Y, Keys);
    begin
       Set_Cursor (Cross_Cursor);
       Capture_Mouse (Window);
       In_Capture := True;
-   end Do_Mouse_Down;
+   end On_Mouse_Down_Callback;
 
    NL : constant GString := GCharacter'Val (13) & GCharacter'Val (10);
 
-   procedure Do_Mouse_Move (Window : in out Base_Window_Type'Class;
-                            X, Y   : in     Integer;
-                            Keys   : in     Mouse_Key_States)
+   procedure On_Mouse_Move_Callback
+      (Window : in out Base_Window_Type'Class;
+       X, Y   : in     Integer;
+       Keys   : in     Mouse_Key_States)
    is
    pragma Unreferenced (Keys);
    begin
@@ -80,18 +82,19 @@ procedure Cap_Test is
       else
          Text (Status, To_GString_From_String ("Location:" & X'Img & Y'Img));
       end if;
-   end Do_Mouse_Move;
+   end On_Mouse_Move_Callback;
 
-   procedure Do_Mouse_Up (Window : in out Base_Window_Type'Class;
-                          X, Y   : in     Integer;
-                          Keys   : in     Mouse_Key_States)
+   procedure On_Mouse_Up_Callback
+      (Window : in out Base_Window_Type'Class;
+       X, Y   : in     Integer;
+       Keys   : in     Mouse_Key_States)
    is
    pragma Unreferenced (Window, X, Y, Keys);
    begin
       Release_Mouse;
       Set_Cursor (Arrow_Cursor);
       In_Capture := False;
-   end Do_Mouse_Up;
+   end On_Mouse_Up_Callback;
 
    GUI_Font : Font_Type;
 
@@ -103,10 +106,11 @@ begin
    Create_Stock_Font (GUI_Font, Default_GUI);
    Set_Font (Window, GUI_Font);
    On_Left_Mouse_Button_Down_Handler
-     (Window, Do_Mouse_Down'Unrestricted_Access);
+     (Window, On_Mouse_Down_Callback'Unrestricted_Access);
    On_Left_Mouse_Button_Up_Handler
-     (Window, Do_Mouse_Up'Unrestricted_Access);
-   On_Mouse_Move_Handler (Window, Do_Mouse_Move'Unrestricted_Access);
+     (Window, On_Mouse_Up_Callback'Unrestricted_Access);
+   On_Mouse_Move_Handler
+     (Window, On_Mouse_Move_Callback'Unrestricted_Access);
 
    Create (Label, Window,
            "Click on the window's empty space below, " &
