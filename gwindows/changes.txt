@@ -12,6 +12,8 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
+466: Contribution: initial release of package Office_Applications
+        for helping creating office-like applications.
 
 GWindows release, 13-Nov-2022 [revision 459]
 ============================================
