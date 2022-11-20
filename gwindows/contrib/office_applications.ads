@@ -27,6 +27,10 @@ package Office_Applications is
    type Classic_Main_Window_Type is
       new GWindows.Windows.MDI.MDI_Main_Window_Type with null record;
 
+   type Classic_Main_Window_Access is access all Classic_Main_Window_Type;
+   type Access_To_Classic_Main_Window_Class is
+      access all Classic_Main_Window_Type'Class;
+
    --  Close the document (usually blank) that might be created on
    --  application's startup. If that document was modified by the
    --  user, we give up closing it.
@@ -41,9 +45,10 @@ package Office_Applications is
    type Classic_Document_Window_Type is
       abstract new GWindows.Windows.MDI.MDI_Child_Window_Type with
          record
-            --  New document appearing on startup is closed
-            --  if it was kept virgin when the user opened
-            --  another document.
+            --  Set Extra_First_Doc = True for the new document
+            --  that is appearing on startup and should be closed
+            --  if it was kept virgin at the moment the user opened
+            --  another document:
             Extra_First_Doc : Boolean := False;
          end record;
 

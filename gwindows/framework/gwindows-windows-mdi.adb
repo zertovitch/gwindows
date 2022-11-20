@@ -2,12 +2,12 @@
 --                                                                          --
 --         GWINDOWS - Ada 95 Framework for Windows GUI Development          --
 --                                                                          --
---                G W I N D O W S . W I N D O W S . M A I N                 --
+--                 G W I N D O W S . W I N D O W S . M D I                  --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
