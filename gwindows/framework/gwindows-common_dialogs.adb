@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2022 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -52,7 +52,7 @@ package body GWindows.Common_Dialogs is
    ------------------------------------------------------------------------
 
    CC_RGBINIT              : constant := 1;
---     CC_FULLOPEN             : constant := 2;
+   CC_FULLOPEN             : constant := 2;
 --     CC_PREVENTFULLOPEN      : constant := 4;
 --     CC_SHOWHELP             : constant := 8;
 --     CC_ENABLEHOOK           : constant := 16;
@@ -83,17 +83,32 @@ package body GWindows.Common_Dialogs is
 --     OFN_NODEREFERENCELINKS   : constant := 1048576;
 --     OFN_LONGNAMES            : constant := 2097152;
 
-   type TCHOOSECOLOR is
+   type PCCH is access constant Interfaces.C.char;
+   subtype LPCSTR is PCCH;
+
+   type Dummy_Callback_Access is access
+      function (
+         handle_bpc : GWindows.Types.Handle;
+         uMsg       : Interfaces.C.unsigned;
+         lParam     : GWindows.Types.Lparam;
+         lpData     : GWindows.Types.Handle
+      )
+      return Types.INT_PTR;
+      pragma Convention (StdCall, Dummy_Callback_Access);
+   --  Definition: look for LPCCHOOKPROC.
+
+   type TCHOOSECOLOR is  --  Windows API name: CHOOSECOLORA.
       record
-         lStructSize    : Interfaces.C.long := 36;
-         hwndOwner      : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         hInstance      : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         rgbResult      : GWindows.Colors.Color_Type := 0;
+         lStructSize    : Types.DWORD;
+         hwndOwner      : Types.Handle          := Types.Null_Handle;
+         hInstance      : Types.Handle          := Types.Null_Handle;
+         rgbResult      : Colors.Color_Type     := 0;
          lpCustColors   : Pointer_To_Color_Array;
-         flags          : Interfaces.C.unsigned  := CC_ANYCOLOR or CC_RGBINIT;
-         lCustData      : Interfaces.C.long := 0;
-         lpfnHook       : Interfaces.C.long := 0;
-         lpTemplateName : Interfaces.C.long := 0;
+         flags          : Types.DWORD           :=
+            CC_ANYCOLOR or CC_RGBINIT or CC_FULLOPEN;
+         lCustData      : Types.Lparam          := 0;
+         lpfnHook       : Dummy_Callback_Access := null;
+         lpTemplateName : LPCSTR                := null;
       end record;
 
    function ChooseColor
@@ -305,12 +320,13 @@ package body GWindows.Common_Dialogs is
      (Window  : in     GWindows.Base.Base_Window_Type'Class;
       Color   : in out GWindows.Colors.Color_Type;
       Success :    out Boolean;
-      Custom  : in     Pointer_To_Color_Array          :=
+      Custom  : in     Pointer_To_Color_Array :=
         Global_Color_Array'Access)
    is
       CC     : TCHOOSECOLOR;
       Result : Integer;
    begin
+      CC.lStructSize  := TCHOOSECOLOR'Size / 8;
       CC.hwndOwner    := GWindows.Base.Handle (Window);
       CC.lpCustColors := Custom;
       CC.rgbResult    := Color;
