@@ -2,6 +2,17 @@ with GWindows.Base;
 
 package body Office_Applications is
 
+   overriding procedure On_Button_Select
+      (Control : in out Classic_Main_Tool_Bar_Type;
+       Item    : in     Integer)
+   is
+      Parent : constant Access_To_Classic_Main_Window_Class :=
+         Access_To_Classic_Main_Window_Class (Controlling_Parent (Control));
+  begin
+     --  A click simulates a menu entry selection.
+     On_Menu_Select (Parent.all, Item);
+  end On_Button_Select;
+
    procedure Close_Initial_Document
       (Main_Window : in out Classic_Main_Window_Type)
    is
