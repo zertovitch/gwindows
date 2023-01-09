@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---            GWINDOWS - Ada 95 Framework for Windows Development           --
+--             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
---                  O F F I C E   A P P L I C A T I O N S                   --
+--                   O F F I C E   A P P L I C A T I O N S                  --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
@@ -72,6 +72,11 @@ package Office_Applications is
       (Control : in out Classic_Main_Tool_Bar_Type;
        Item    : in     Integer);
 
+   --  MRU (Most Recently Used) files names:
+   subtype MRU_Range is Integer range 1 .. 9;
+
+   type IDM_MRU_List is array (MRU_Range) of Natural;
+
    ------------------------------------------------
    --  Main "Classic Office" application window  --
    ------------------------------------------------
@@ -80,6 +85,9 @@ package Office_Applications is
       new GWindows.Windows.MDI.MDI_Main_Window_Type with
    record
       Tool_Bar : Classic_Main_Tool_Bar_Type;
+      --  Menu ID's for MRU's (Most Recently Used) files names
+      --  are stored into a handy array:
+      IDM_MRU  : IDM_MRU_List;
    end record;
 
    type Classic_Main_Window_Access is access all Classic_Main_Window_Type;
