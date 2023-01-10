@@ -47,15 +47,57 @@
 
 with GWindows.Common_Controls,
      GWindows.Image_Lists,
+     GWindows.Menus,
      GWindows.Windows.MDI;
 
 package Office_Applications is
 
+   function Shorten_File_Name
+      (S : GWindows.GString; Max_Length : Positive) return GWindows.GString;
+
+   --------------------------------------------
+   --  MRU (Most Recently Used) files names  --
+   --------------------------------------------
+
+   subtype MRU_Range is Integer range 1 .. 9;
+
+   type MRU_Item is record
+      Name : GWindows.GString_Unbounded := GWindows.Null_GString_Unbounded;
+      Line : Natural := 0;
+   end record;
+
+   type MRU_List is array (MRU_Range) of MRU_Item;
+   type IDM_MRU_List is array (MRU_Range) of Natural;
+
+   type MRU_Info is record
+      Item    : MRU_List;
+      ID_Menu : IDM_MRU_List;
+   end record;
+
+   --  Add a file name and an eventual line
+   --  number (for text documents) to a MRU list.
+   --
+   procedure Add_MRU
+      (MRU            : in out MRU_Info;
+       Name           :        GWindows.GString;
+       Line           :        Integer := -1;
+       Add_To_Desktop :        Boolean := True);
+
+   --  Update a menu, having entries ID matching those in MRU.ID_Menu,
+   --  with data contained in the MRU.Item array.
+   --
+   procedure Update_MRU_Menu
+      (MRU  : MRU_Info;
+       Menu : GWindows.Menus.Menu_Type);
+
    -------------------------------------------------------------------
-   --  "Classic Office" window layout: multiple sub-windows within  --
-   --  a main window. Eventually the sub-windows are maximized,     --
-   --  so only one sub-window is visible at a time. For instance    --
-   --  in Notepad++ the sub-windows are always maximized            --
+   --                "Classic Office" window layout                 --
+   -------------------------------------------------------------------
+   --  Multiple sub-windows within a main window.                   --
+   --  Eventually the sub-windows are maximized, so only one        --
+   --  sub-window is visible at a time.                             --
+   --  For instance, in Notepad++, the sub-windows are always       --
+   --  maximized.                                                   --
    -------------------------------------------------------------------
 
    type Classic_Main_Tool_Bar_Type is
@@ -72,11 +114,6 @@ package Office_Applications is
       (Control : in out Classic_Main_Tool_Bar_Type;
        Item    : in     Integer);
 
-   --  MRU (Most Recently Used) files names:
-   subtype MRU_Range is Integer range 1 .. 9;
-
-   type IDM_MRU_List is array (MRU_Range) of Natural;
-
    ------------------------------------------------
    --  Main "Classic Office" application window  --
    ------------------------------------------------
@@ -85,9 +122,7 @@ package Office_Applications is
       new GWindows.Windows.MDI.MDI_Main_Window_Type with
    record
       Tool_Bar : Classic_Main_Tool_Bar_Type;
-      --  Menu ID's for MRU's (Most Recently Used) files names
-      --  are stored into a handy array:
-      IDM_MRU  : IDM_MRU_List;
+      MRU      : MRU_Info;
    end record;
 
    type Classic_Main_Window_Access is access all Classic_Main_Window_Type;
