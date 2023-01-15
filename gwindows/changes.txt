@@ -12,6 +12,8 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
+   * Fixes: color picker dialog, mouse wheel
+
 466: Contribution: initial release of package Office_Applications
         for helping creating office-like applications.
 
@@ -33,13 +35,13 @@ GWindows release, 13-Nov-2022 [revision 459]
 GWindows release, 18-Jun-2022 [revision 440]
 ============================================
 
-  * Installer: ResEdit.xml configuration file is automatically created
-        and set up for current GNAT installation(s), GWindows and
-        GWenerator.
-  * Fixed a few 32/64 bit incompatibilities in GWindows.Windows and
-        GWindows.Common_Controls.Ex_List_View (application example:
-        see https://azip.sourceforge.io/ ).
-  * Fixed various GNATCOM issues.
+   * Installer: ResEdit.xml configuration file is automatically created
+         and set up for current GNAT installation(s), GWindows and
+         GWenerator.
+   * Fixed a few 32/64 bit incompatibilities in GWindows.Windows and
+         GWindows.Common_Controls.Ex_List_View (application example:
+         see https://azip.sourceforge.io/ ).
+   * Fixed various GNATCOM issues.
 
 GWindows release, 29-Jan-2022 [revision 429]
 ============================================
@@ -164,9 +166,6 @@ GWindows release, 22-Dec-2012
 GWindows release, 10-Jul-2012
 =============================
 
-Release notes.
-Improvements compared to the March 7th version are (numbers below refer to svn repository revisions):
-
 147: GWindows.Simple_sheet: added clipboard functionalities
 139: GWindows.Clipboard is part of the release installer package
 137: Edit_Box'es have the Read_Only option on creation
@@ -182,28 +181,6 @@ New Features and major fixes:
 -----------------------------
 
 101: Added support for 64-bits Windows.
-109: Corrected (harmless) parameter bug in the GWindows framework
-
-----------------
-Minor additions:
-----------------
-
-28: GWindows.Clipboard: Added interfaces to use the Windows clipboard (only available through SVN checkout, win32ada dependency to be fixed).
-59: GWindows.Common_Controls: added Select_Item for the Tree_View_Control_Type
-60: GWindows-Image_lists.adb: flag to enable more than 16 colors
-62: GWindows.Common_Controls: improvements to Tree_View_Control_Type: + Text(treeview, node, text), + On_Selection_Change
-63: GWindows.Static_Controls: Label_Type.Create and Create_Label with a Border option
-64: GWindows.Static_Controls: Labl_Type and Borders: fixes
-68: GWindows.Common_Controls: made Size_Grip optional (irrelevant on unsizable windows)
-70: GWindows: added Direction and Smooth options to progress bar control
-74: GWindows.Common_Dialogs: Added options to extend the standard windows file dialog with a resource template and callback function.
-88: GWindows: added GWindows.Static_Controls.Web
-89: GWindows: added GWindows.Buttons.Owner_Drawn 
-92: GWindows: added GWindows.Buttons.Graphic (technically, buttons with BS_BITMAP or BS_ICON)
-108: Added a contributed package GWindows.Simple_sheet, a spreadsheet widget
-125: Updated main GWindows headers (comments only)
-
-
 
 Changes Since 1.2
 =================

@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -2442,6 +2442,8 @@ package body GWindows.Base is
       SetProp;
    end Set_GWindow_Object;
 
+   --  Flag (fictitious mouse key) for signalling that a
+   --  mouse wheel message is being dispatched:
    MK_DISPATCHED : constant := 16#4000#;
 
    --  Send mouse wheel message to a window the mouse pointer is on and
@@ -2457,9 +2459,11 @@ package body GWindows.Base is
       Found : Boolean := False;
 
       --  Check if point (with desktop coordinates) is on a window
-      function On_Window (Window : Pointer_To_Base_Window_Class;
-                          X, Y   : Integer)
-         return Boolean is
+      function Is_Within_Window_Client_Area
+        (Window : Pointer_To_Base_Window_Class;
+         X, Y   : Integer)
+         return Boolean
+      is
          Point : GWindows.Types.Point_Type;
          X_Min : Integer;
          X_Max : Integer;
@@ -2469,43 +2473,62 @@ package body GWindows.Base is
          Point.X := X;
          Point.Y := Y;
          Point := Point_To_Client (Window.all, Point);
-         X_Min := Integer'Max (0, -Left (Window.all));
-         if Parent (Window.all) = null then
-            X_Max := Point.X;
-         else
-            X_Max := Integer'Min (Width (Window.all) + Left (Window.all),
-                                  Width (Parent (Window.all).all)) -
-                     Left (Window.all);
-         end if;
-         Y_Min := Integer'Max (0, -Top (Window.all));
-         if Parent (Window.all) = null then
-            Y_Max := Point.Y;
-         else
-            Y_Max := Integer'Min (Height (Window.all) + Top (Window.all),
-                                  Height (Parent (Window.all).all)) -
-                     Top (Window.all);
-         end if;
+         --
+         X_Min := 0;
+         Y_Min := 0;
+         X_Max := Client_Area_Width (Window.all) - 1;
+         Y_Max := Client_Area_Height (Window.all) - 1;
+         --
+         ------
+         --  Following is the previous code, since its introduction
+         --  in revision #44.
+         --  The check is wrong on non-trivial client areas (when X, Y is
+         --  in some parts of the client area, the function returns False).
+         --  This can be tested with TeXCAD.
+         ------
+         --
+         --  X_Min := Integer'Max (0, -Left (Window.all));
+         --  if Parent (Window.all) = null then
+         --     X_Max := Point.X;
+         --  else
+         --     X_Max := Integer'Min (Width (Window.all) + Left (Window.all),
+         --                           Width (Parent (Window.all).all)) -
+         --              Left (Window.all);
+         --  end if;
+         --  Y_Min := Integer'Max (0, -Top (Window.all));
+         --  if Parent (Window.all) = null then
+         --     Y_Max := Point.Y;
+         --  else
+         --     Y_Max := Integer'Min (Height (Window.all) + Top (Window.all),
+         --                           Height (Parent (Window.all).all)) -
+         --              Top (Window.all);
+         --  end if;
          return Point.X in X_Min .. X_Max and
                 Point.Y in Y_Min .. Y_Max;
-      end On_Window;
+      end Is_Within_Window_Client_Area;
 
-      procedure Dispatch_Mouse_Wheel
+      procedure Dispatch_Mouse_Wheel_On_Children
                    (Window : Pointer_To_Base_Window_Class) is
          procedure Handle_Child (Child : Pointer_To_Base_Window_Class) is
             use GWindows.Types;
             Return_Value : GWindows.Types.Lresult := 0;
             P            : Pointer_To_Base_Window_Class;
          begin
-            Dispatch_Mouse_Wheel (Child);
+            Dispatch_Mouse_Wheel_On_Children (Child);
+            --  Each child (plus, by recursion, grand-child, etc.)
+            --  is checked, and its parent, grand-parent, etc.
+            --  As a result, some windows are likely checked many
+            --  times.
             P := Child;
             while P /= null and not Found loop
-               if P.all in Base_Window_Type'Class then
-                  if On_Window (P, X, Y) and P.Use_Mouse_Wheel then
-                     On_Message (P.all, message, wParam + MK_DISPATCHED,
-                                 lParam, Return_Value);
-                     if Return_Value = 0 then
-                        Found := True;
-                     end if;
+               if P.all in Base_Window_Type'Class
+                  and then P.Use_Mouse_Wheel
+                  and then Is_Within_Window_Client_Area (P, X, Y)
+               then
+                  On_Message (P.all, message, wParam + MK_DISPATCHED,
+                              lParam, Return_Value);
+                  if Return_Value = 0 then
+                     Found := True;
                   end if;
                end if;
                P := Parent (P.all);
@@ -2513,17 +2536,18 @@ package body GWindows.Base is
          end Handle_Child;
       begin
          Enumerate_Children (Window.all, Handle_Child'Unrestricted_Access);
-      end Dispatch_Mouse_Wheel;
+      end Dispatch_Mouse_Wheel_On_Children;
    begin
+      --  The mouse wheel event is dispatched on the
+      --  entire application's visual elements.
       while Parent (P.all) /= null loop
          P := Parent (P.all);
       end loop;
-      Dispatch_Mouse_Wheel (P);
+      Dispatch_Mouse_Wheel_On_Children (P);
    end Dispatch_Mouse_Wheel;
 
-   function Mouse_Wheel_Dispatched (wParam : GWindows.Types.Wparam)
-                                    return Boolean is
-      use GWindows.Types;
+   function Mouse_Wheel_Dispatched (wParam : Types.Wparam) return Boolean is
+      use Types;
    begin
       return (wParam and MK_DISPATCHED) = MK_DISPATCHED;
    end Mouse_Wheel_Dispatched;
