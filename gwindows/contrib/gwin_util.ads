@@ -123,9 +123,12 @@ package GWin_Util is
   cannot_get_Windows_version : exception;
 
   --  Toolbar styles (for GWindows.Common_Controls):
-  TBSTYLE_WRAPABLE : constant := 16#200#;
-  TBSTYLE_FLAT     : constant := 16#800#;
-  TBSTYLE_LIST     : constant := 16#1000#;
+  TBSTYLE_TOOLTIPS        : constant := 16#0100#;
+  TBSTYLE_WRAPABLE        : constant := 16#0200#;
+  TBSTYLE_FLAT            : constant := 16#0800#;
+  TBSTYLE_LIST            : constant := 16#1000#;
+
+  TBSTYLE_EX_MIXEDBUTTONS : constant := 16#0008#;
 
   function Temp_dir return String;
 
