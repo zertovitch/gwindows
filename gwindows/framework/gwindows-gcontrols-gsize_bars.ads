@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2013 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -47,12 +47,11 @@
 --  is used if control text is specified. If the font is not a true type font
 --  Arial is used with the same size as the font.
 
-with GWindows.GControls;
-with GWindows.Windows;
 with GWindows.Base;
 with GWindows.Colors;
 with GWindows.Drawing;
 with GWindows.Types;
+with GWindows.Windows;
 
 package GWindows.GControls.GSize_Bars is
 

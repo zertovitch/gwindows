@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---                   GWINDOWS - Ada 95 RAD GUI Framework                    --
+--         GWINDOWS - Ada 95 Framework for Windows GUI Development          --
 --                                                                          --
 --         G W I N D O W S . G C O N T R O L S . D U R A T I O N            --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -50,8 +50,8 @@
 --  This means the user can also break things.
 
 with Ada.Calendar;
+
 with GWindows.Drawing;
-with GWindows.GControls;
 with GWindows.Types;
 
 package GWindows.GControls.Duration is

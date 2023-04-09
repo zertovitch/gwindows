@@ -1,8 +1,10 @@
-with GWindows.Colors;               use GWindows.Colors;
-with GWindows.Drawing;              use GWindows.Drawing;
-with GWindows.Drawing_Objects;      use GWindows.Drawing_Objects;
-with GWindows.Types;                use GWindows.Types;
+with GWindows.Colors;
+with GWindows.Drawing;
+with GWindows.Drawing_Objects;
+with GWindows.Types;
+
 with Interfaces.C;
+
 with System;
 
 package GWindows.DIBitmaps is
@@ -149,10 +151,10 @@ package GWindows.DIBitmaps is
    type DIB_Color_List_Type is array (Natural range <>) of DIB_Color_Type;
 
    type VGA_Image_Type is array (Integer range <>, Integer range <>)
-     of aliased Color_Range;
+     of aliased Colors.Color_Range;
    for VGA_Image_Type'Alignment use 4;
 
-   type VGA_Color_Index_Ptr_Type is access all Color_Range;
+   type VGA_Color_Index_Ptr_Type is access all Colors.Color_Range;
 
    type VGA_DIBitmap_Type (Height, Width : Integer) is
      new Basic_DIBitmap_Type (Height, Width) with
@@ -175,7 +177,7 @@ package GWindows.DIBitmaps is
       end record;
    type Pextended_DIBitmap_Type is access Extended_DIBitmap_Type;
 
-   function Get_Size (Bitmap : in VGA_DIBitmap_Type) return Size_Type;
+   function Get_Size (Bitmap : in VGA_DIBitmap_Type) return Types.Size_Type;
    --  Return the size in pixel counts of the bitmap.
 
    procedure Set_Windows_Components (Bitmap : in out VGA_DIBitmap_Type);
@@ -184,7 +186,7 @@ package GWindows.DIBitmaps is
    --  This routine is intended to be used only by Claw.
    --
    procedure Create_DIB_Section
-     (Canvas   : Canvas_Type'Class;
+     (Canvas   : Drawing.Canvas_Type'Class;
       Bminfo   : DIB_Info_Header_Type;
       Bitmap   : in out GWindows.Drawing_Objects.Bitmap_Type;
       Pxls     : out System.Address);
@@ -199,30 +201,31 @@ package GWindows.DIBitmaps is
    --  This routine is intended to be used only by Claw.
    --
 
-   procedure Copy (Canvas : in     Canvas_Type'Class;
+   procedure Copy (Canvas : in     Drawing.Canvas_Type'Class;
                    Target : in out Extended_DIBitmap_Type;
-                   Source : in     Bitmap_Type'Class);
+                   Source : in     Drawing_Objects.Bitmap_Type'Class);
    --
    --  Retrieves the bits of the specified bitmap and copies them with 24bit
    --  colors in specified DIB.  (Note that the DIB's size was specified when
    --  it was created).
 
-   procedure Copy (Canvas : in     Canvas_Type'Class;
+   procedure Copy (Canvas : in     Drawing.Canvas_Type'Class;
                    Target : in out VGA_DIBitmap_Type;
-                   Source : in     Bitmap_Type'Class);
+                   Source : in     Drawing_Objects.Bitmap_Type'Class);
    --
    --  Retrieves the bits of the specified bitmap and copies them into the
    --  specified DIB.  (Note that the DIB's size was specified when it
    --  was created).
 
-   procedure Stretch_To_Canvas (Canvas :       in     Canvas_Type'Class;
-                                Target_Point : in     Point_Type;
-                                Target_Size :  in     Size_Type;
-                                Source_Point : in     Point_Type;
-                                Source_Size :  in     Size_Type;
-                                DIBitmap :     in out VGA_DIBitmap_Type;
-                                Raster_Oper :  in   Interfaces.C.unsigned_long
-                                  := SOURCE_COPY);
+   procedure Stretch_To_Canvas
+      (Canvas :       in     Drawing.Canvas_Type'Class;
+       Target_Point : in     Types.Point_Type;
+       Target_Size :  in     Types.Size_Type;
+       Source_Point : in     Types.Point_Type;
+       Source_Size :  in     Types.Size_Type;
+       DIBitmap :     in out VGA_DIBitmap_Type;
+       Raster_Oper :  in   Interfaces.C.unsigned_long
+         := SOURCE_COPY);
    --
    --  Copies the color data for a rectangle of pixels in a
    --  device-independent bitmap (DIB) to the specified destination
