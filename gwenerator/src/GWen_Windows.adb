@@ -1,26 +1,23 @@
 with Flexible_temp_files;
 
-with GWindows.Application;
-with GWindows.Base;                     use GWindows.Base;
-with GWindows.Edit_Boxes;
-with GWindows.List_Boxes;               use GWindows.List_Boxes;
-with GWindows.Buttons.Graphic;          use GWindows.Buttons;
-with GWindows.Common_Dialogs;           use GWindows.Common_Dialogs;
-with GWindows.Constants;                use GWindows.Constants;
-with GWindows.Common_Controls;          use GWindows.Common_Controls;
-with GWindows.Message_Boxes;            use GWindows.Message_Boxes;
-with GWindows.Static_Controls.Web;
-with GWindows.GStrings;
+with GWindows.Application,
+     GWindows.Base,
+     GWindows.Buttons.Graphic,
+     GWindows.Common_Controls,
+     GWindows.Common_Dialogs,
+     GWindows.Constants,
+     GWindows.Edit_Boxes,
+     GWindows.GStrings,
+     GWindows.List_Boxes,
+     GWindows.Message_Boxes,
+     GWindows.Static_Controls.Web;
 
-with GWenerator_Resource_GUI;           use GWenerator_Resource_GUI;
-
-with Ada.Characters.Handling;           use Ada.Characters.Handling;
-with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
-with Ada.Directories;                   use Ada.Directories;
-with Ada.Command_Line;
-with Ada.Text_IO;                       use Ada.Text_IO;
-with Ada.Text_IO.Unbounded_IO;          use Ada.Text_IO.Unbounded_IO;
-with Ada.Calendar;
+with Ada.Calendar,
+     Ada.Characters.Handling,
+     Ada.Command_Line,
+     Ada.Directories,
+     Ada.Strings.Fixed,
+     Ada.Text_IO.Unbounded_IO;
 
 with rc_io, RC_Help, YYParse, Resource_Header;
 use RC_Help;
@@ -34,7 +31,11 @@ with GNAT.Compiler_Version;
 
 package body GWen_Windows is
 
-  use GWindows, GWindows.GStrings;
+  use GWindows, GWindows.Base, GWindows.Buttons,
+      GWindows.Common_Dialogs, GWindows.Common_Controls,
+      GWindows.GStrings, GWindows.Message_Boxes;
+
+  use Ada.Directories, Ada.Strings, Ada.Strings.Fixed;
 
   function S2G (Value : String) return GString renames To_GString_From_String;
   function G2S (Value : GString) return String renames To_String;
@@ -166,7 +167,7 @@ package body GWen_Windows is
   --------------------------------------
 
   procedure On_Options (Window : in out GWen_Window_Type) is
-    dlg       : GWen_properties_Type;
+    dlg       : GWenerator_Resource_GUI.GWen_properties_Type;
     candidate : GWens.GWen := Window.proj;
 
     procedure Update_base_units (dummy : in out GWindows.Base.Base_Window_Type'Class) is
@@ -299,14 +300,14 @@ package body GWen_Windows is
     --
     dlg.Center;
     --
-    On_Destroy_Handler (dlg, Get_Data'Unrestricted_Access);
+    dlg.On_Destroy_Handler (Get_Data'Unrestricted_Access);
     On_Click_Handler (dlg.Use_base_defs, Update_base_units'Unrestricted_Access);
     On_Click_Handler (dlg.Button_Browse_RC_permanent, Select_RC'Unrestricted_Access);
     On_Click_Handler (dlg.Button_Browse_Ada_permanent, Select_Ada'Unrestricted_Access);
     Update_base_units (Window);
     --
     case GWindows.Application.Show_Dialog (dlg, Window) is
-      when IDOK =>
+      when GWindows.Constants.IDOK =>
         --
         modified := Window.proj /= candidate;
         --  ^ True if any option has changed, False if no change.
@@ -466,7 +467,7 @@ package body GWen_Windows is
 
   procedure On_About (Window : in out GWen_Window_Type) is
     use GWindows.Static_Controls.Web;
-    box : About_box_Type;
+    box : GWenerator_Resource_GUI.About_box_Type;
     url_gnat, url_gnavi_1, url_gnavi_2, url_resedit : URL_Type;
     package CVer is new GNAT.Compiler_Version;
   begin
@@ -484,32 +485,33 @@ package body GWen_Windows is
     --  Complete the Grammar version info:
     box.RC_gramm_ver.Text (box.RC_gramm_ver.Text & S2G (RC_Help.Grammar_Version));
     --  Complete the GWenerator version info:
-    box.GWen_ver.Text (box.GWen_ver.Text & S2G (Version_info.FileVersion));
+    box.GWen_ver.Text (box.GWen_ver.Text & S2G (GWenerator_Resource_GUI.Version_info.FileVersion));
     box.Center;
-    if GWindows.Application.Show_Dialog (box, Window) = IDOK then
+    if GWindows.Application.Show_Dialog (box, Window) = GWindows.Constants.IDOK then
       null;
     end if;
   end On_About;
 
   procedure Call_windres (gw : in out GWen_Window_Type) is
+    use Ada.Characters.Handling;
     sn : constant String := S (gw.proj.RC_name);                             --  proj.rc
     on : constant String := To_Lower (sn (sn'First .. sn'Last - 1)) & "bj";  --  proj.rbj
     Command : constant String :=
       "windres -v " & sn & ' ' & on;
     procedure Output_a_line (l : String) is
     begin
-      Add (gw.RC_to_GWindows_messages, S2G (l));
+      gw.RC_to_GWindows_messages.Add (S2G (l));
     end Output_a_line;
     p : Windows_pipes.Piped_process;
   begin
-    Add (gw.RC_to_GWindows_messages, "");
-    Add (gw.RC_to_GWindows_messages, "Compiling resource... " & S2G (Time_display));
-    Add (gw.RC_to_GWindows_messages, S2G (Command));
+    gw.RC_to_GWindows_messages.Add ("");
+    gw.RC_to_GWindows_messages.Add ("Compiling resource... " & S2G (Time_display));
+    gw.RC_to_GWindows_messages.Add (S2G (Command));
     Windows_pipes.Start (p, Command, ".", Output_a_line'Unrestricted_Access);
     while Windows_pipes.Alive (p) loop
       Windows_pipes.Check_progress (p);
     end loop;
-    Add (gw.RC_to_GWindows_messages, "Resource compiled. " & S2G (Time_display));
+    gw.RC_to_GWindows_messages.Add ("Resource compiled. " & S2G (Time_display));
   end Call_windres;
 
   procedure Check_resource_name (gw : in out GWen_Window_Type; ok : out Boolean) is
@@ -554,10 +556,11 @@ package body GWen_Windows is
     end if;
   end Resource_compilation;
 
-  procedure Translation (gw : in out GWen_Window_Type; generate_test_option : Boolean) is
+  procedure Translation_RC_to_Ada (gw : in out GWen_Window_Type; generate_test_option : Boolean) is
     --  We "de"route the standard output & error -
     --  anyway, there is no terminal in the first place!
     se : constant String := Flexible_temp_files.Radix & "_se.tmp";
+    use Ada.Text_IO, Ada.Text_IO.Unbounded_IO;
     fe, fo : File_Type;
     ok : Boolean;
   begin
@@ -615,9 +618,9 @@ package body GWen_Windows is
       --  Output the rc2gw messages into the left box
       --
       Open (fe, In_File, se);
-      Clear (gw.RC_to_GWindows_messages);
+      gw.RC_to_GWindows_messages.Clear;
       while not End_Of_File (fe) loop
-        Add (gw.RC_to_GWindows_messages, S2G (S (Get_Line (fe))));
+        gw.RC_to_GWindows_messages.Add (S2G (S (Get_Line (fe))));
       end loop;
       Delete (fe);
       --
@@ -638,11 +641,11 @@ package body GWen_Windows is
     else
       gw.Ear_RC.Set_Bitmap (gw.no_ear);
     end if;
-  end Translation;
+  end Translation_RC_to_Ada;
 
   procedure Do_Translate (Window : in out GWindows.Base.Base_Window_Type'Class) is
   begin
-    Translation (GWen_Window_Type (Parent (Window).all), generate_test_option => False);
+    Translation_RC_to_Ada (GWen_Window_Type (Parent (Window).all), generate_test_option => False);
   end Do_Translate;
 
   --  Not nice (we reasonably suppose there is only *one* main window)
@@ -686,7 +689,7 @@ package body GWen_Windows is
       gw.Bar_Ada.Position (0);
       gw.last_seen_running := False;
     else
-      Clear (gw.GNATMake_messages);
+      gw.GNATMake_messages.Clear;
       gw.last_build_failed := False;
       gw.Bar_Ada.Progress_Range (0, 100);
       the_main := gw'Unchecked_Access;
@@ -768,7 +771,7 @@ package body GWen_Windows is
 
   procedure On_Create (Window : in out GWen_Window_Type) is
   --  Handles setting up icons, menus, etc.
-    use Ada.Command_Line;
+    use Ada.Command_Line, GWenerator_Resource_GUI;
     successful : Boolean;
   begin
     Window.ear.Load_Bitmap (Num_resource (Listen_32x32));
@@ -998,6 +1001,7 @@ package body GWen_Windows is
     (Window : in out GWen_Window_Type;
      Item   : in     Integer)
   is
+    use GWenerator_Resource_GUI;
   begin
     case Item is
       when New_GWen =>
@@ -1012,7 +1016,7 @@ package body GWen_Windows is
         Window.Close;
       --  Action menu:
       when Generate_test_app =>
-        Translation (Window, generate_test_option => True);
+        Translation_RC_to_Ada (Window, generate_test_option => True);
       when Start_main_app =>
         Do_Run (Window);
       when Compile_resource_only =>

@@ -1,8 +1,8 @@
-with Ada.Text_IO;                       use Ada.Text_IO;
-with Ada.Text_IO.Unbounded_IO;          use Ada.Text_IO.Unbounded_IO;
-with Ada.Integer_Text_IO;               use Ada.Integer_Text_IO;
+with Ada.Integer_Text_IO, Ada.Text_IO.Unbounded_IO;
 
 package body GWens.IO is
+
+  use Ada.Integer_Text_IO, Ada.Text_IO, Ada.Text_IO.Unbounded_IO;
 
   package Key_IO is new Enumeration_IO (Key); use Key_IO;
   package Bool_IO is new Enumeration_IO (Boolean); use Bool_IO;
