@@ -14,6 +14,7 @@ GWindows, upcoming release
 
    * Fixes: color picker dialog, mouse wheel
 
+478: Contribution: added package Windows_Pipes
 477: Contribution: added package Windows_Timers
 476: Contribution: added package Windows_Persistence_IO
 466: Contribution: initial release of package Office_Applications

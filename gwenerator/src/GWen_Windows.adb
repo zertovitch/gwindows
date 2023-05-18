@@ -109,7 +109,7 @@ package body GWen_Windows is
       else
         Window.Newer_Ada.Hide;
       end if;
-      if Windows_pipes.Alive (Window.build_process) then
+      if Windows_Pipes.Is_Alive (Window.build_process) then
         Window.Button_Build_permanent.Text ("Stop build");
       else
         Window.Button_Build_permanent.Text ("Build now");
@@ -502,14 +502,14 @@ package body GWen_Windows is
     begin
       gw.RC_to_GWindows_messages.Add (S2G (l));
     end Output_a_line;
-    p : Windows_pipes.Piped_process;
+    p : Windows_Pipes.Piped_Process;
   begin
     gw.RC_to_GWindows_messages.Add ("");
     gw.RC_to_GWindows_messages.Add ("Compiling resource... " & S2G (Time_display));
     gw.RC_to_GWindows_messages.Add (S2G (Command));
-    Windows_pipes.Start (p, Command, ".", Output_a_line'Unrestricted_Access);
-    while Windows_pipes.Alive (p) loop
-      Windows_pipes.Check_progress (p);
+    Windows_Pipes.Start (p, Command, ".", Output_a_line'Unrestricted_Access);
+    while Windows_Pipes.Is_Alive (p) loop
+      Windows_Pipes.Check_Progress (p);
     end loop;
     gw.RC_to_GWindows_messages.Add ("Resource compiled. " & S2G (Time_display));
   end Call_windres;
@@ -678,10 +678,10 @@ package body GWen_Windows is
   end Output_build_line;
 
   procedure Do_Start_Stop_Build (Window : in out GWindows.Base.Base_Window_Type'Class) is
-    use Windows_pipes;
+    use Windows_Pipes;
     gw : GWen_Window_Type renames GWen_Window_Type (Parent (Window).all);
   begin
-    if Alive (gw.build_process) then
+    if Is_Alive (gw.build_process) then
       Stop (gw.build_process);
       gw.GNATMake_messages.Add ("Stopped! ");
       gw.GNATMake_messages.Add ("Time : " & S2G (Time_display));
@@ -701,7 +701,7 @@ package body GWen_Windows is
         Start (gw.build_process, cmd, ".", Output_build_line'Access);
         gw.last_seen_running := True;
       exception
-        when Cannot_create_pipe =>
+        when Cannot_Create_Pipe =>
           Message_Box (
             Window,
             "Process error",
@@ -709,7 +709,7 @@ package body GWen_Windows is
             OK_Box,
             Error_Icon
           );
-        when Cannot_start =>
+        when Cannot_Start =>
           Message_Box (
             Window,
             "Process error",
@@ -901,7 +901,7 @@ package body GWen_Windows is
                         lParam       : in     GWindows.Types.Lparam;
                         Return_Value : in out GWindows.Types.Lresult)
   is
-    use Interfaces.C, Windows_pipes;
+    use Interfaces.C, Windows_Pipes;
 
     procedure Update_RC_newer_flag_and_message is
     begin
@@ -950,20 +950,20 @@ package body GWen_Windows is
         if Window.Ada_new and Window.proj.Ada_auto_build
           and Window.proj.show_ada_build
           and not Window.last_build_failed
-          and not Alive (Window.build_process)
+          and not Is_Alive (Window.build_process)
           --  ^avoid stopping a running build!
         then
           Do_Start_Stop_Build (Window.Button_Build_permanent);
         end if;
         --  In case there is new messages from a running Ada build,
         --  it is the occasion to empty the pipe
-        if Alive (Window.build_process) then
-          Check_progress (Window.build_process);
+        if Is_Alive (Window.build_process) then
+          Check_Progress (Window.build_process);
         end if;
-        if Window.last_seen_running and not Alive (Window.build_process) then
+        if Window.last_seen_running and not Is_Alive (Window.build_process) then
           --  Process just died
           Window.last_seen_running := False;
-          exit_code := Last_exit_code (Window.build_process);
+          exit_code := Last_Exit_Code (Window.build_process);
           if exit_code = 0 then
             Window.GNATMake_messages.Add (
               S2G ("Completed (exit code:" & Integer'Image (exit_code) & "). ")
@@ -1037,12 +1037,12 @@ package body GWen_Windows is
                       Can_Close :    out Boolean)
   is
     Success : Boolean;
-    use Windows_pipes;
+    use Windows_Pipes;
   begin
     --
     --  1/ Check running processes
     --
-    if Alive (Window.build_process) then
+    if Is_Alive (Window.build_process) then
       case Message_Box (
         Window,
         "Build process active",

@@ -8,7 +8,7 @@ with GWindows,
      GWindows.Windows;
 
 with Interfaces.C;
-with Windows_pipes;
+with Windows_Pipes;
 
 package GWen_Windows is
 
@@ -25,7 +25,7 @@ package GWen_Windows is
     less_details,
     more_build,
     less_build         : GWindows.Drawing_Objects.Bitmap_Type;
-    build_process      : Windows_pipes.Piped_process;
+    build_process      : Windows_Pipes.Piped_Process;
     last_seen_running  : Boolean := False;
     last_build_failed  : Boolean := False;
   end record;
