@@ -10,7 +10,8 @@ with GWindows.Application,
      GWindows.GStrings,
      GWindows.List_Boxes,
      GWindows.Message_Boxes,
-     GWindows.Static_Controls.Web;
+     GWindows.Static_Controls.Web,
+     GWindows.Timers;
 
 with Ada.Calendar,
      Ada.Characters.Handling,
@@ -23,9 +24,8 @@ with rc_io, RC_Help, YYParse, Resource_Header;
 use RC_Help;
 
 with GWens.IO;
-with Time_display;
-with Windows_Timers;
 with GWin_Util;
+with Time_display;
 
 with GNAT.Compiler_Version;
 
@@ -109,7 +109,7 @@ package body GWen_Windows is
       else
         Window.Newer_Ada.Hide;
       end if;
-      if Windows_Pipes.Is_Alive (Window.build_process) then
+      if GWindows.Pipes.Is_Alive (Window.build_process) then
         Window.Button_Build_permanent.Text ("Stop build");
       else
         Window.Button_Build_permanent.Text ("Build now");
@@ -502,14 +502,14 @@ package body GWen_Windows is
     begin
       gw.RC_to_GWindows_messages.Add (S2G (l));
     end Output_a_line;
-    p : Windows_Pipes.Piped_Process;
+    p : GWindows.Pipes.Piped_Process;
   begin
     gw.RC_to_GWindows_messages.Add ("");
     gw.RC_to_GWindows_messages.Add ("Compiling resource... " & S2G (Time_display));
     gw.RC_to_GWindows_messages.Add (S2G (Command));
-    Windows_Pipes.Start (p, Command, ".", Output_a_line'Unrestricted_Access);
-    while Windows_Pipes.Is_Alive (p) loop
-      Windows_Pipes.Check_Progress (p);
+    GWindows.Pipes.Start (p, Command, ".", Output_a_line'Unrestricted_Access);
+    while GWindows.Pipes.Is_Alive (p) loop
+      GWindows.Pipes.Check_Progress (p);
     end loop;
     gw.RC_to_GWindows_messages.Add ("Resource compiled. " & S2G (Time_display));
   end Call_windres;
@@ -678,11 +678,10 @@ package body GWen_Windows is
   end Output_build_line;
 
   procedure Do_Start_Stop_Build (Window : in out GWindows.Base.Base_Window_Type'Class) is
-    use Windows_Pipes;
     gw : GWen_Window_Type renames GWen_Window_Type (Parent (Window).all);
   begin
-    if Is_Alive (gw.build_process) then
-      Stop (gw.build_process);
+    if GWindows.Pipes.Is_Alive (gw.build_process) then
+      GWindows.Pipes.Stop (gw.build_process);
       gw.GNATMake_messages.Add ("Stopped! ");
       gw.GNATMake_messages.Add ("Time : " & S2G (Time_display));
       gw.last_build_failed := True;
@@ -698,26 +697,24 @@ package body GWen_Windows is
       begin
         gw.GNATMake_messages.Add ("Starting build... [" & S2G (cmd) & "] ");
         gw.GNATMake_messages.Add ("Time : " & S2G (Time_display));
-        Start (gw.build_process, cmd, ".", Output_build_line'Access);
+        GWindows.Pipes.Start (gw.build_process, cmd, ".", Output_build_line'Access);
         gw.last_seen_running := True;
       exception
-        when Cannot_Create_Pipe =>
-          Message_Box (
-            Window,
-            "Process error",
-            "Cannot create pipe",
-            OK_Box,
-            Error_Icon
-          );
-        when Cannot_Start =>
-          Message_Box (
-            Window,
-            "Process error",
-            "Cannot start process:" & NL &
-            S2G (S ((gw.proj.Ada_command))),
-            OK_Box,
-            Error_Icon
-          );
+        when GWindows.Pipes.Cannot_Create_Pipe =>
+          Message_Box
+            (Window,
+             "Process error",
+             "Cannot create pipe",
+             OK_Box,
+             Error_Icon);
+        when GWindows.Pipes.Cannot_Start =>
+          Message_Box
+            (Window,
+             "Process error",
+             "Cannot start process:" & NL &
+             S2G (S ((gw.proj.Ada_command))),
+             OK_Box,
+             Error_Icon);
           On_Options (gw);
       end;
     end if;
@@ -827,7 +824,7 @@ package body GWen_Windows is
     --  Button "Run":
     Window.Button_Run_permanent.On_Click_Handler (Do_Run_from_button'Access);
     --
-    Windows_Timers.Set_Timer (Window, timer_id, 1000);
+    GWindows.Timers.Set_Timer (Window, timer_id, 1000);
     --
     Window.Visible;
     --
@@ -901,7 +898,7 @@ package body GWen_Windows is
                         lParam       : in     GWindows.Types.Lparam;
                         Return_Value : in out GWindows.Types.Lresult)
   is
-    use Interfaces.C, Windows_Pipes;
+    use Interfaces.C;
 
     procedure Update_RC_newer_flag_and_message is
     begin
@@ -928,7 +925,7 @@ package body GWen_Windows is
     exit_code : Integer;
 
   begin
-    if message = Windows_Timers.WM_TIMER then
+    if message = GWindows.Timers.WM_TIMER then
       --  Window.RC_to_GWindows_messages.Add("tick!");
       if not busy_listening then
         --  Lock the listener in case the timer ticks again during what follows
@@ -950,20 +947,20 @@ package body GWen_Windows is
         if Window.Ada_new and Window.proj.Ada_auto_build
           and Window.proj.show_ada_build
           and not Window.last_build_failed
-          and not Is_Alive (Window.build_process)
+          and not GWindows.Pipes.Is_Alive (Window.build_process)
           --  ^avoid stopping a running build!
         then
           Do_Start_Stop_Build (Window.Button_Build_permanent);
         end if;
         --  In case there is new messages from a running Ada build,
         --  it is the occasion to empty the pipe
-        if Is_Alive (Window.build_process) then
-          Check_Progress (Window.build_process);
+        if GWindows.Pipes.Is_Alive (Window.build_process) then
+          GWindows.Pipes.Check_Progress (Window.build_process);
         end if;
-        if Window.last_seen_running and not Is_Alive (Window.build_process) then
+        if Window.last_seen_running and not GWindows.Pipes.Is_Alive (Window.build_process) then
           --  Process just died
           Window.last_seen_running := False;
-          exit_code := Last_Exit_Code (Window.build_process);
+          exit_code := GWindows.Pipes.Last_Exit_Code (Window.build_process);
           if exit_code = 0 then
             Window.GNATMake_messages.Add (
               S2G ("Completed (exit code:" & Integer'Image (exit_code) & "). ")
@@ -1037,12 +1034,11 @@ package body GWen_Windows is
                       Can_Close :    out Boolean)
   is
     Success : Boolean;
-    use Windows_Pipes;
   begin
     --
     --  1/ Check running processes
     --
-    if Is_Alive (Window.build_process) then
+    if GWindows.Pipes.Is_Alive (Window.build_process) then
       case Message_Box (
         Window,
         "Build process active",
@@ -1053,7 +1049,7 @@ package body GWen_Windows is
       )
       is
         when Yes    =>
-          Stop (Window.build_process);
+          GWindows.Pipes.Stop (Window.build_process);
           Success := True;
         when others =>
           Success := False;
@@ -1067,7 +1063,7 @@ package body GWen_Windows is
     if Success then
       Process_unsaved_changes (Window, Success);
       if Success then
-        Windows_Timers.Kill_Timer (Window, timer_id);
+        GWindows.Timers.Kill_Timer (Window, timer_id);
       end if;
     end if;
     Can_Close := Success;

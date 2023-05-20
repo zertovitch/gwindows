@@ -2,7 +2,7 @@
 --                                                                          --
 --             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
---                W I N D O W S _ P E R S I S T E N C E _ I O               --
+--               G W I N D O W S . P E R S I S T E N C E _ I O              --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
@@ -47,7 +47,7 @@ with Ada.Command_Line,
      Ada.IO_Exceptions,
      Ada.Text_IO;
 
-package body Windows_Persistence_IO is
+package body GWindows.Persistence_IO is
 
   use GWindows, GWindows.GStrings;
 
@@ -58,12 +58,12 @@ package body Windows_Persistence_IO is
   kname : constant GString := "Software\" & To_GString_From_String (app_display_name);
   use GWindows.Registry;
 
-  function Read_Reg_Key (key : Persistence_Key) return Wide_String is
+  function Read_Reg_Key (key : Persistence_Key) return GString is
   begin
     return Get_Value (kname, To_GString_From_String (key'Image), HKEY_CURRENT_USER);
   end Read_Reg_Key;
 
-  procedure Write_Reg_Key (key : Persistence_Key; value : Wide_String) is
+  procedure Write_Reg_Key (key : Persistence_Key; value : GString) is
   begin
     Register (kname, To_GString_From_String (key'Image), value, HKEY_CURRENT_USER);
   end Write_Reg_Key;
@@ -104,14 +104,14 @@ package body Windows_Persistence_IO is
     Close (nf);
   end Create_New_Config;
 
-  function Read_Cfg_Key (key : Persistence_Key) return Wide_String is
+  function Read_Cfg_Key (key : Persistence_Key) return GString is
     cfg : Config.Configuration;
   begin
     cfg.Init (Config_Name);
     return To_GString_From_String (cfg.Value_Of ("*", key'Image));
   end Read_Cfg_Key;
 
-  procedure Write_Cfg_Key (key : Persistence_Key; value : Wide_String) is
+  procedure Write_Cfg_Key (key : Persistence_Key; value : GString) is
     cfg : Config.Configuration;
   begin
     cfg.Init (Config_Name);
@@ -137,7 +137,7 @@ package body Windows_Persistence_IO is
     return Ada.Directories.Exists (Config_Name);
   end Is_Config_File_Available;
 
-  function Read_Key (key : Persistence_Key) return Wide_String is
+  function Read_Key (key : Persistence_Key) return GString is
   begin
     if Is_Config_File_Available then
       return Read_Cfg_Key (key);
@@ -146,7 +146,7 @@ package body Windows_Persistence_IO is
     end if;
   end Read_Key;
 
-  procedure Write_Key (key : Persistence_Key; value : Wide_String) is
+  procedure Write_Key (key : Persistence_Key; value : GString) is
   begin
     if Is_Config_File_Available then
       Write_Cfg_Key (key, value);
@@ -155,4 +155,4 @@ package body Windows_Persistence_IO is
     end if;
   end Write_Key;
 
-end Windows_Persistence_IO;
+end GWindows.Persistence_IO;

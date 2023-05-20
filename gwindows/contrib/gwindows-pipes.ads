@@ -2,12 +2,12 @@
 --                                                                          --
 --             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
---                        W I N D O W S _ P I P E S                         --
+--                       G W I N D O W S . P I P E S                        --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 2010 - 2023 Gautier de Montmollin          --
+--              Copyright (C) 2010 - 2023 Gautier de Montmollin             --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -42,7 +42,7 @@
 --    Ada.Text_IO.Put_Line ('[' & l & ']');
 --  end;
 --
---  with Output_a_line, Windows_Pipes;
+--  with Output_a_line, GWindows.Pipes;
 --
 --  procedure Win_Pipe_Test is
 --    use Windows_Pipes;
@@ -57,7 +57,7 @@
 with Ada.Strings.Unbounded;
 with Interfaces.C, System;
 
-package Windows_Pipes is
+package GWindows.Pipes is
 
    --  Output a line to anywhere: a terminal (Text_IO), a message box,...
    type Output_Line is access procedure (l : String);
@@ -168,4 +168,4 @@ private
      exit_code   : Integer;
    end record;
 
-end Windows_Pipes;
+end GWindows.Pipes;

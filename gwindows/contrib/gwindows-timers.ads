@@ -2,12 +2,12 @@
 --                                                                          --
 --             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
---                       W I N D O W S _ T I M E R S                        --
+--                      G W I N D O W S . T I M E R S                       --
 --                                                                          --
---                                 B o d y                                  --
+--                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 2023 Gautier de Montmollin                 --
+--              Copyright (C) 2010 - 2023 Gautier de Montmollin             --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -34,67 +34,29 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with GWindows.Types, Interfaces.C;
+--  Set_Timer... makes the system produce a periodic message of value WM_TIMER
+--                 to the specified window.
+--
+--  Kill_Timer.. removes the timer.
 
-package body Windows_Timers is
+--  GWindows.Timers is used in the following open-source projects:
+--
+--    GWenerator : (shipped with GWindows)
+--    LEA        : https://l-e-a.sourceforge.io/
 
-  use GWindows.Base, Interfaces.C;
+with GWindows.Base;
 
-  --  Windows interfacing part.
-  --  Functionalities from Windows API's Winuser.
+package GWindows.Timers is
 
-  type TIMERPROC is access procedure (hwnd    : GWindows.Types.Handle;
-                                      uMsg    : Interfaces.C.unsigned;
-                                      idEvent : Interfaces.C.unsigned;
-                                      dwTime  : Interfaces.C.unsigned_long);
-  pragma Convention (Stdcall, TIMERPROC);
+  WM_TIMER : constant := 16#113#;
 
-  function SetTimer (hWnd        : GWindows.Types.Handle;
-                     nIDEvent    : Interfaces.C.unsigned;
-                     uElapse     : Interfaces.C.unsigned;
-                     lpTimerFunc : TIMERPROC)
-                    return Interfaces.C.unsigned;
-
-  function KillTimer (hWnd     : GWindows.Types.Handle;
-                      uIDEvent : Interfaces.C.unsigned)
-                     return Interfaces.C.int;
-
-  pragma Import (Stdcall, SetTimer, "SetTimer");
-  pragma Import (Stdcall, KillTimer, "KillTimer");
-
-  ---------------
-  -- Set_Timer --
-  ---------------
-
-  procedure Set_Timer (Window       : GWindows.Base.Base_Window_Type'Class;
+  procedure Set_Timer (Window       : Base.Base_Window_Type'Class;
                        ID_Event     : Natural;
-                       Milliseconds : Natural)
-  is
-    res : Interfaces.C.unsigned;
-  begin
-    res := SetTimer (hWnd        => Handle (Window),
-                     nIDEvent    => Interfaces.C.unsigned (ID_Event),
-                     uElapse     => Interfaces.C.unsigned (Milliseconds),
-                     lpTimerFunc => null);
-    if res = 0 then
-      raise error;
-    end if;
-  end Set_Timer;
+                       Milliseconds : Natural);
 
-  ----------------
-  -- Kill_Timer --
-  ----------------
+  procedure Kill_Timer (Window   : Base.Base_Window_Type'Class;
+                        ID_Event : Natural);
 
-  procedure Kill_Timer (Window   : GWindows.Base.Base_Window_Type'Class;
-                        ID_Event : Natural)
-  is
-    res : Interfaces.C.int;
-  begin
-    res := KillTimer (hWnd     => Handle (Window),
-                      uIDEvent => Interfaces.C.unsigned (ID_Event));
-    if res = 0 then
-      raise error;
-    end if;
-  end Kill_Timer;
+  error : exception;
 
-end Windows_Timers;
+end GWindows.Timers;

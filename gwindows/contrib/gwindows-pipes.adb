@@ -2,12 +2,12 @@
 --                                                                          --
 --             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
---                        W I N D O W S _ P I P E S                         --
+--                       G W I N D O W S . P I P E S                        --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 2010 - 2023 Gautier de Montmollin          --
+--              Copyright (C) 2010 - 2023 Gautier de Montmollin             --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -34,7 +34,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-package body Windows_Pipes is
+package body GWindows.Pipes is
 
    type PHANDLE is access all HANDLE;
    function CreatePipe (hReadPipe : PHANDLE;
@@ -350,4 +350,4 @@ package body Windows_Pipes is
     return p.exit_code;
   end Last_Exit_Code;
 
-end Windows_Pipes;
+end GWindows.Pipes;

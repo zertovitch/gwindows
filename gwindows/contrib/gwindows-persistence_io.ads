@@ -2,7 +2,7 @@
 --                                                                          --
 --             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
---                W I N D O W S _ P E R S I S T E N C E _ I O               --
+--               G W I N D O W S . P E R S I S T E N C E _ I O              --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
@@ -71,14 +71,14 @@ generic
 
   type Persistence_Key is (<>);
 
-package Windows_Persistence_IO is
+package GWindows.Persistence_IO is
 
-  function Read_Key (key : Persistence_Key) return Wide_String;
+  function Read_Key (key : Persistence_Key) return GString;
 
-  procedure Write_Key (key : Persistence_Key; value : Wide_String);
+  procedure Write_Key (key : Persistence_Key; value : GString);
 
   function Is_Config_File_Available return Boolean;
   --  ^ When True, we are in "stealth mode" and don't want to
   --    leave any trace in the registry!
 
-end Windows_Persistence_IO;
+end GWindows.Persistence_IO;
