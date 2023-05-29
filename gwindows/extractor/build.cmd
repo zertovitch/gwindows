@@ -1,7 +1,7 @@
 @echo off
 
 rem Version should match the field VALUE "FileVersion" in GW_Install.rc
-set version=13-Nov-2022
+set version=29-May-2023
 
 if not exist GW_Install_Resource_GUI.ads goto gen
 if not exist GW_Install_Resource_GUI.adb goto gen
@@ -28,14 +28,16 @@ if not exist ..\..\gwin.zip echo.
 if not exist ..\..\gwin.zip echo Press any key to continue, or Ctrl-Break or Ctrl-C to stop.
 if not exist ..\..\gwin.zip pause
 
+if exist gw_extract.exe del gw_extract.exe
 gnatmake -P GW_Install.gpr -XBuild_Mode=Debug
 copy /B gw_extract.exe + ..\..\gwin.zip "Extract Test (Debug mode).exe"
-del gw_extract_deb.exe
-ren gw_extract.exe gw_extract_deb.exe
+if exist gw_extract_debug.exe del gw_extract_debug.exe
+ren gw_extract.exe gw_extract_debug.exe
 
-if not exist obj\small\libwin32ada.a copy /B obj\debug\libwin32ada.a obj\small\libwin32ada.a
+REM if not exist obj\small\libwin32ada.a copy /B obj\debug\libwin32ada.a obj\small\libwin32ada.a
 
 gnatmake -P GW_Install.gpr -XBuild_Mode=Small
+strip -s gw_extract.exe
 copy /B gw_extract.exe gw_extract_small_no_upx.exe
 
 REM upx --ultra-brute gw_extract.exe
@@ -46,3 +48,4 @@ if exist *.001 del *.001
 copy /B gw_extract.exe + ..\..\gwin.zip "GWindows %version%.exe"
 copy /B                  ..\..\gwin.zip "GWindows Archive %version%.zip"
 
+if exist gw_extract.exe del gw_extract.exe

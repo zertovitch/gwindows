@@ -49,7 +49,7 @@ with Ada.Command_Line,
 
 package body GWindows.Persistence_IO is
 
-  use GWindows, GWindows.GStrings;
+  use GWindows.GStrings;
 
   ----------------------------------------------
   --  Persistence using the Windows Registry  --

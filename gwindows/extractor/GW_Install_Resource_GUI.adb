@@ -1,6 +1,7 @@
 ---------------------------------------------------------------------------
 --  GUI contents of resource script file: GW_Install.rc
---  Transcription time: 2022/11/13  10:03:01
+--  Transcription time: 2023/05/29  15:09:01
+--  GWenerator project file: GW_Install.gwen
 --
 --  Translated by the RC2GW or by the GWenerator tool.
 --  URL: http://sf.net/projects/gnavi

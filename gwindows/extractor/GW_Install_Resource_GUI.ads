@@ -1,6 +1,7 @@
 ---------------------------------------------------------------------------
 --  GUI contents of resource script file: GW_Install.rc
---  Transcription time: 2022/11/13  10:03:01
+--  Transcription time: 2023/05/29  15:09:01
+--  GWenerator project file: GW_Install.gwen
 --
 --  Translated by the RC2GW or by the GWenerator tool.
 --  URL: http://sf.net/projects/gnavi
@@ -240,8 +241,8 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors : constant String := "Gautier de Montmollin";
     FileDescription : constant String := "File extractor for the GWindows programming framework";
-    FileVersion : constant String := "13-Nov-2022";
-    LegalCopyright : constant String := "© 2012 .. 2022 G. de Montmollin (MIT license)";
+    FileVersion : constant String := "29-May-2023";
+    LegalCopyright : constant String := "© 2012 .. 2023 G. de Montmollin (MIT license)";
     ProductName : constant String := "GWindows Extractor";
     Translation : constant := 1033;
   end Version_info;

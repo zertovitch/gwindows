@@ -161,8 +161,8 @@ procedure GW_Extract is
     --
     procedure Tell_data
                (name               : String;
-                compressed_bytes   : Zip.File_size_type;
-                uncompressed_bytes : Zip.File_size_type;
+                compressed_bytes   : Zip.Zip_64_Data_Size_Type;
+                uncompressed_bytes : Zip.Zip_64_Data_Size_Type;
                 method             : Zip.PKZip_method)
     is
     pragma Unreferenced (compressed_bytes, uncompressed_bytes, method);

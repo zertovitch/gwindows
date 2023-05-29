@@ -12,7 +12,10 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
-   * Fixes: color picker dialog, mouse wheel
+GWindows release, 29-May-2023 [revision 480]
+============================================
+
+   * Fixes: color picker dialog, mouse wheel methods
 
 478: Contribution: added package GWindows.Pipes
 477: Contribution: added package GWindows.Timers
