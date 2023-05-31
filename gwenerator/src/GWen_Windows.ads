@@ -2,8 +2,7 @@ with GWenerator_Resource_GUI;
 
 with GWens;
 
-with GWindows,
-     GWindows.Drawing_Objects,
+with GWindows.Drawing_Objects,
      GWindows.Pipes,
      GWindows.Types,
      GWindows.Windows;
