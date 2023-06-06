@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script grammar file (for AYACC)
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2021
+--  Copyright (c) Gautier de Montmollin 2008 .. 2023
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -168,7 +168,8 @@
        LVS_SHOWSELALWAYS_t, LVS_SORTASCENDING_t, LVS_SORTDESCENDING_t,
        LVS_AUTOARRANGE_t, LVS_NOCOLUMNHEADER_t, LVS_NOSORTHEADER_t, LVS_LIST_t,
        LVS_SINGLESEL_t, LVS_EDITLABELS_t, LVS_NOLABELWRAP_t,
-       LVS_SHAREIMAGELISTS_t
+       LVS_SHAREIMAGELISTS_t,
+       LVS_EX_CHECKBOXES_t
 -- Treeview styles
 %token TVS_INFOTIP_t, TVS_NOSCROLL_t, TVS_HASLINES_t,
        TVS_SHOWSELALWAYS_t, TVS_HASBUTTONS_t, TVS_LINESATROOT_t,
@@ -182,7 +183,7 @@
 %token TCS_HOTTRACK_t, TCS_BUTTONS_t, TCS_MULTILINE_t
 -- Grid Styles
 %token GS_COLUMNLABELS_t, GS_READONLY_t
--- Extended styles
+-- Window Extended Styles
 %token WS_EX_CLIENTEDGE_t, WS_EX_STATICEDGE_t, WS_EX_ACCEPTFILES_t,
        WS_EX_APPWINDOW_t, WS_EX_TOOLWINDOW_t,
        WS_EX_CONTROLPARENT_t, WS_EX_NOPARENTNOTIFY_t,
@@ -618,6 +619,7 @@ ctrl_style: ws_style
           | LVS_NOSORTHEADER_t
           | LVS_NOLABELWRAP_t
           | LVS_SINGLESEL_t               {lv_select := GWindows.Common_Controls.Single;}          
+          | LVS_EX_CHECKBOXES_t
           | LVS_SHAREIMAGELISTS_t
           | TVS_INFOTIP_t                 {style_switch (tips):= True;}
           | TVS_NOSCROLL_t

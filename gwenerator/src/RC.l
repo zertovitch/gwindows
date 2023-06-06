@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script lexer file (AFLEX)
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2021
+--  Copyright (c) Gautier de Montmollin 2008 .. 2023
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -399,6 +399,7 @@ LVS_SHOWSELALWAYS              { return LVS_SHOWSELALWAYS_t;}
 LVS_SINGLESEL                  { return LVS_SINGLESEL_t;}
 LVS_SORTASCENDING              { return LVS_SORTASCENDING_t;}
 LVS_SORTDESCENDING             { return LVS_SORTDESCENDING_t;}
+LVS_EX_CHECKBOXES              { return LVS_EX_CHECKBOXES_t;}
 
 -- Treeview styles
 TVS_DISABLEDRAGDROP            { return TVS_DISABLEDRAGDROP_t;}
