@@ -127,6 +127,26 @@ package body GNATCOM.Register is
                         Value'Length + 1));         -- 1 added for C Null
    end Register;
 
+   -------------------------------------
+   -- Register_Implemented_Categories --
+   -------------------------------------
+
+   procedure Register_Implemented_Categories
+     (Class_ID               : in String;
+      Implemented_Categories : in GNATCOM.Types.GUID_Array)
+   is
+   begin
+      for CATID of Implemented_Categories loop
+         declare
+            Category_ID : constant String := GNATCOM.GUID.To_String (CATID);
+         begin
+            Register
+              ("CLSID\" & Class_ID & "\Implemented Categories\" & Category_ID,
+               "", "");
+         end;
+      end loop;
+   end Register_Implemented_Categories;
+
    ----------------------------
    -- Register_Inproc_Server --
    ----------------------------
@@ -137,7 +157,8 @@ package body GNATCOM.Register is
       Name         : in String;
       Version      : in String;
       Description  : in String;
-      Thread_Model : in String := "Apartment")
+      Thread_Model : in String := "Apartment";
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>))
    is
       use type Interfaces.C.int;
 
@@ -153,6 +174,7 @@ package body GNATCOM.Register is
 
       Register ("CLSID\" & Class_ID, "", Description);
       Register ("CLSID\" & Class_ID, "AppID", Class_ID);
+      Register_Implemented_Categories (Class_ID, Implemented_Categories);
       Register ("CLSID\" & Class_ID & "\InProcServer32", "",
                 Interfaces.C.To_Ada (ServerPath));
       Register ("CLSID\" & Class_ID & "\InProcServer32",
@@ -188,7 +210,8 @@ package body GNATCOM.Register is
       CLSID        : in GNATCOM.Types.GUID;
       Name         : in String;
       Version      : in String;
-      Description  : in String)
+      Description  : in String;
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>))
    is
       use type Interfaces.C.int;
 
@@ -204,6 +227,7 @@ package body GNATCOM.Register is
 
       Register ("CLSID\" & Class_ID, "", Description);
       Register ("CLSID\" & Class_ID, "AppID", Class_ID);
+      Register_Implemented_Categories (Class_ID, Implemented_Categories);
       Register ("CLSID\" & Class_ID & "\LocalServer32", "",
                 Interfaces.C.To_Ada (ServerPath));
       Register ("CLSID\" & Class_ID & "\ProgID",
@@ -235,12 +259,14 @@ package body GNATCOM.Register is
       Name           : in String;
       Version        : in String;
       Description    : in String;
-      Remote_Machine : in String)
+      Remote_Machine : in String;
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>))
    is
       Class_ID  : constant String := GNATCOM.GUID.To_String (CLSID);
    begin
       Register ("CLSID\" & Class_ID, "", "Beep Class");
       Register ("CLSID\" & Class_ID, "AppID", Class_ID);
+      Register_Implemented_Categories (Class_ID, Implemented_Categories);
       Register ("CLSID\" & Class_ID & "\ProgID",
                 "",
                 Name & "." & Version);
@@ -325,7 +351,8 @@ package body GNATCOM.Register is
    procedure Unregister_Server
      (CLSID   : in GNATCOM.Types.GUID;
       Name    : in String;
-      Version : in String)
+      Version : in String;
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>))
    is
       Class_ID  : constant String := GNATCOM.GUID.To_String (CLSID);
    begin
@@ -333,6 +360,17 @@ package body GNATCOM.Register is
       Unregister ("CLSID\" & Class_ID & "\LocalServer32");
       Unregister ("CLSID\" & Class_ID & "\ProgID");
       Unregister ("CLSID\" & Class_ID & "\VersionIndependentProgID");
+
+      for CATID of Implemented_Categories loop
+         declare
+            Category_ID : constant String := GNATCOM.GUID.To_String (CATID);
+         begin
+            Unregister
+              ("CLSID\" & Class_ID & "\Implemented Categories\" & Category_ID);
+         end;
+      end loop;
+      Unregister ("CLSID\" & Class_ID & "\Implemented Categories");
+
       Unregister ("CLSID\" & Class_ID);
       Unregister (Name & "\CLSID");
       Unregister (Name & "\CurVer");
@@ -341,6 +379,18 @@ package body GNATCOM.Register is
       Unregister (Name & "." & Version);
       Unregister ("AppID\" & Class_ID);
    end Unregister_Server;
+
+   ---------------------------------
+   -- Register_Component_Category --
+   ---------------------------------
+
+   procedure Register_Component_Category (CATID       : in GNATCOM.Types.GUID;
+                                          Description : in String)
+   is
+      Category_ID : constant String := GNATCOM.GUID.To_String (CATID);
+   begin
+      Register ("Component Categories\" & Category_ID, "409", Description);
+   end Register_Component_Category;
 
    -----------------------------
    -- Unregister_Type_Library --
