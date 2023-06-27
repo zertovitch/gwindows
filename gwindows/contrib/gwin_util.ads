@@ -110,6 +110,11 @@ package GWin_Util is
     Icon_Path   : GString := ""   --  "" for no icon.
   );
 
+  --  Turn a menu entry title into a toolbar label with keyboard shortcut
+  --  indication.
+  --
+  function Menu_Entry_Title_to_Toolbar_Label (s : GString) return GString;
+
   type Windows_family is (Win32s, Win9x, NT);
   procedure Get_Windows_version (
     major, minor : out Integer;
@@ -118,9 +123,12 @@ package GWin_Util is
   cannot_get_Windows_version : exception;
 
   --  Toolbar styles (for GWindows.Common_Controls):
-  TBSTYLE_WRAPABLE : constant := 16#200#;
-  TBSTYLE_FLAT     : constant := 16#800#;
-  TBSTYLE_LIST     : constant := 16#1000#;
+  TBSTYLE_TOOLTIPS        : constant := 16#0100#;
+  TBSTYLE_WRAPABLE        : constant := 16#0200#;
+  TBSTYLE_FLAT            : constant := 16#0800#;
+  TBSTYLE_LIST            : constant := 16#1000#;
+
+  TBSTYLE_EX_MIXEDBUTTONS : constant := 16#0008#;
 
   function Temp_dir return String;
 

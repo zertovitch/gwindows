@@ -1,4 +1,4 @@
---  Include Ada specification file(s)
+--  Ada specification file(s)
 --  with Ada.Text_IO;                       use Ada.Text_IO;
 with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
@@ -11,7 +11,7 @@ with System;                            use System;
 --  with Win32.Winnt;
 --  with Win32.Windef;
 
---  Include GNAVI specification file(s)
+--  GNAVI specification file(s)
 with GWindows.GStrings;                 use GWindows.GStrings;
 with GWindows.Registry;                 use GWindows.Registry;
 with GWindows.Types;                    use GWindows.Types;
@@ -240,26 +240,25 @@ package body GWindows.HID is
    begin
       Err := GetRawInputDeviceInfoA.all (HID.Device, RIDI_DEVICENAME, null,
                                          Sze'Access);
-      pragma Warnings (Off);
-      if Character_Mode_Identifier = "W" then
-         declare
-            Name : GString (1 .. Sze);
-         begin
-            Err := GetRawInputDeviceInfoW.all (HID.Device, RIDI_DEVICENAME,
-               Name'Unrestricted_Access, Sze'Access);
-            HID.Name :=  To_GString_Unbounded (Name (1 .. Err));
-         end;
-      else
-         declare
-            Name : String (1 .. Sze);
-         begin
-            Err := GetRawInputDeviceInfoA.all (HID.Device, RIDI_DEVICENAME,
-               Name'Unrestricted_Access, Sze'Access);
-            HID.Name :=
-               To_GString_Unbounded (To_GString_From_String (Name (1 .. Err)));
-         end;
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode =>
+            declare
+               Name : GString (1 .. Sze);
+            begin
+               Err := GetRawInputDeviceInfoW.all (HID.Device, RIDI_DEVICENAME,
+                  Name'Unrestricted_Access, Sze'Access);
+               HID.Name :=  To_GString_Unbounded (Name (1 .. Err));
+            end;
+         when ANSI =>
+            declare
+               Name : String (1 .. Sze);
+            begin
+               Err := GetRawInputDeviceInfoA.all (HID.Device, RIDI_DEVICENAME,
+                  Name'Unrestricted_Access, Sze'Access);
+               HID.Name :=
+                  To_GString_Unbounded (To_GString_From_String (Name (1 .. Err)));
+            end;
+      end case;
    end Get_HID_Name;
 
    procedure Get_HID_Info
@@ -552,10 +551,10 @@ package body GWindows.HID is
       return HINSTANCE;
    pragma Import (Stdcall, LoadLibrary, "LoadLibrary" & Character_Mode_Identifier);
 
-   user: GString_C:= To_GString_C("user32.dll");
+   user : GString_C := To_GString_C ("user32.dll");
 
 begin
-   Dll:= LoadLibrary (user'Address);
+   Dll := LoadLibrary (user'Address);
    GetRawInputDeviceList   := GetProcAddress (Dll,
       Name_GetRawInputDeviceList'Address);
    GetRawInputDeviceInfoW  := GetProcAddress (Dll,

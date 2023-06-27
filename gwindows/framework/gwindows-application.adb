@@ -38,6 +38,7 @@ with GWindows.GStrings;
 with GWindows.Internal;
 with GWindows.Windows;
 with GWindows.Constants;
+with GWindows.Utilities;
 
 with Ada.Strings.Wide_Fixed;
 with GNAT.OS_Lib;
@@ -332,6 +333,26 @@ package body GWindows.Application is
       Enumerate_Display_Monitors (Check_Point_In_Monitor'Unrestricted_Access);
       return Result;
    end Screen_Visibility;
+
+   -----------------------------
+   -- Add_To_Recent_Documents --
+   -----------------------------
+
+   procedure Add_To_Recent_Documents (File_Name : GString) is
+
+      procedure SHAddToRecentDocs
+        (uFlags : Interfaces.C.int;
+         pv     : Types.Handle);
+      pragma Import (StdCall, SHAddToRecentDocs, "SHAddToRecentDocs");
+
+      SHARD_Value : constant GWindows.Utilities.ANSI_Unicode_Choice :=
+        (ANSI => 2, Unicode => 3);
+      File_Name_C : GString_C := GStrings.To_GString_C (File_Name);
+
+   begin
+      SHAddToRecentDocs
+         (SHARD_Value (Character_Mode), Types.Handle (File_Name_C'Address));
+   end Add_To_Recent_Documents;
 
    -------------------------
    -- Detach_From_Console --

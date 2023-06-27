@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -40,6 +42,12 @@ package GWindows.Types is
    type BYTE is new Interfaces.C.unsigned_char;
    type WORD is new Interfaces.C.unsigned_short;
    type DWORD is new Interfaces.C.unsigned;
+   type DWORD_PTR is mod 2 ** Standard'Address_Size;
+   --  From the Windows documentation:
+   --    "An unsigned long type for pointer precision. Use when casting
+   --     a pointer to a long type to perform pointer arithmetic. (Also
+   --     commonly used for general 32-bit parameters that have been
+   --     extended to 64 bits in 64-bit Windows.)"
 
    type Handle is new System.Address;
    Null_Handle : constant Handle := Handle (System.Null_Address);
@@ -50,6 +58,9 @@ package GWindows.Types is
      -(2 ** (Standard'Address_Size - 1)) ..
       (2 ** (Standard'Address_Size - 1)) - 1;
    for INT_PTR'Size use Standard'Address_Size;
+
+   type LPTSTR is access all GChar_C;
+   pragma No_Strict_Aliasing (LPTSTR);
 
    function To_Handle (I : Integer) return Handle;
    function To_Handle (I : Interfaces.C.long) return Handle;

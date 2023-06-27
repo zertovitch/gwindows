@@ -1,6 +1,6 @@
 with Ada.Unchecked_Conversion;
-with GWindows.Errors;               use GWindows.Errors;
-with GWindows;                      use GWindows;
+
+with GWindows.Errors;
 
 package body GWindows.DIBitmaps is
 
@@ -14,7 +14,7 @@ package body GWindows.DIBitmaps is
       Target => Pixel_Byte_Ptr_Type);
 
    function Get_Size (Bitmap : in VGA_DIBitmap_Type)
-     return Size_Type is
+     return Types.Size_Type is
       --  Return the size in pixel counts of the bitmap.
    begin
       return
@@ -62,7 +62,7 @@ package body GWindows.DIBitmaps is
    ------------------------
 
    procedure Create_DIB_Section
-     (Canvas   : Canvas_Type'Class;
+     (Canvas   : Drawing.Canvas_Type'Class;
       Bminfo   : DIB_Info_Header_Type;
       Bitmap   : in out GWindows.Drawing_Objects.Bitmap_Type;
       Pxls     : out System.Address) is
@@ -120,9 +120,9 @@ package body GWindows.DIBitmaps is
 
    pragma Import (StdCall, Get_DIBits, "GetDIBits");
 
-   procedure Copy (Canvas : in     Canvas_Type'Class;
+   procedure Copy (Canvas : in     Drawing.Canvas_Type'Class;
                    Target : in out Extended_DIBitmap_Type;
-                   Source : in     Bitmap_Type'Class) is
+                   Source : in     Drawing_Objects.Bitmap_Type'Class) is
       use type Interfaces.C.int;
       --
       --  Retrieves the bits of the specified bitmap and copies them with 24bit
@@ -132,9 +132,10 @@ package body GWindows.DIBitmaps is
       Info_Ptr  : constant DIB_Info_Header_Ptr_Type
         := Target.Bitmap_Info_Header'Unchecked_Access;
      Image_Ptr : Pixel_Byte_Ptr_Type;
+     use Types;
    begin
-      if GWindows.Drawing.Handle (Canvas) = GWindows.Types.Null_Handle or else
-         GWindows.Drawing_Objects.Handle (Source) = GWindows.Types.Null_Handle
+      if Drawing.Handle (Canvas) = Types.Null_Handle or else
+         Drawing_Objects.Handle (Source) = Types.Null_Handle
       then
          raise Not_Valid_Error;
       end if;
@@ -148,13 +149,13 @@ package body GWindows.DIBitmaps is
                             Info_Ptr,
                             DIB_Color_Meaning_Type'Pos (DIB_RGB_COLORS));
       if Result = 0 then
-         Error_Check (3);
+         Errors.Error_Check (3);
       end if;
    end Copy;
 
-   procedure Copy (Canvas : in     Canvas_Type'Class;
+   procedure Copy (Canvas : in     Drawing.Canvas_Type'Class;
                    Target : in out VGA_DIBitmap_Type;
-                   Source : in     Bitmap_Type'Class) is
+                   Source : in     Drawing_Objects.Bitmap_Type'Class) is
       use type Interfaces.C.int;
       --
       --  Retrieves the bits of the specified bitmap and copies them into the
@@ -164,9 +165,10 @@ package body GWindows.DIBitmaps is
       Info_Ptr  : constant DIB_Info_Header_Ptr_Type
         := Target.Bitmap_Info_Header'Unchecked_Access;
       Image_Ptr : Pixel_Byte_Ptr_Type;
+      use Types;
    begin
-      if GWindows.Drawing.Handle (Canvas) = GWindows.Types.Null_Handle or else
-         GWindows.Drawing_Objects.Handle (Source) = GWindows.Types.Null_Handle
+      if Drawing.Handle (Canvas) = Types.Null_Handle or else
+         Drawing_Objects.Handle (Source) = Types.Null_Handle
       then
          raise Not_Valid_Error;
       end if;
@@ -180,7 +182,7 @@ package body GWindows.DIBitmaps is
                             Info_Ptr,
                             DIB_Color_Meaning_Type'Pos (DIB_RGB_COLORS));
       if Result = 0 then
-         Error_Check (3);
+         Errors.Error_Check (3);
       end if;
    end Copy;
 
@@ -200,14 +202,16 @@ package body GWindows.DIBitmaps is
      return Interfaces.C.int;
    pragma Import (StdCall, Stretch_DIBits, "StretchDIBits");
 
-   procedure Stretch_To_Canvas (Canvas :       in     Canvas_Type'Class;
-                                Target_Point : in     Point_Type;
-                                Target_Size :  in     Size_Type;
-                                Source_Point : in     Point_Type;
-                                Source_Size :  in     Size_Type;
-                                DIBitmap :     in out VGA_DIBitmap_Type;
-                                Raster_Oper :  in   Interfaces.C.unsigned_long
-                                  := SOURCE_COPY) is
+   procedure Stretch_To_Canvas
+      (Canvas :       in     Drawing.Canvas_Type'Class;
+       Target_Point : in     Types.Point_Type;
+       Target_Size :  in     Types.Size_Type;
+       Source_Point : in     Types.Point_Type;
+       Source_Size :  in     Types.Size_Type;
+       DIBitmap :     in out VGA_DIBitmap_Type;
+       Raster_Oper :  in   Interfaces.C.unsigned_long
+         := SOURCE_COPY)
+   is
       --
       --  Copies the color data for a rectangle of pixels in a
       --  device-independent bitmap (DIB) to the specified destination
@@ -217,8 +221,9 @@ package body GWindows.DIBitmaps is
       Info_Ptr  : constant DIB_Info_Header_Ptr_Type
         := DIBitmap.Bitmap_Info_Header'Unchecked_Access;
       Image_Ptr : Pixel_Byte_Ptr_Type;
+      use Types;
    begin
-      if GWindows.Drawing.Handle (Canvas) = GWindows.Types.Null_Handle then
+      if Drawing.Handle (Canvas) = Types.Null_Handle then
          raise Not_Valid_Error;
       end if;
       Set_Windows_Components (DIBitmap);      --  Dispatches
@@ -238,7 +243,7 @@ package body GWindows.DIBitmaps is
                                 DIB_Color_Meaning_Type'Pos (DIB_RGB_COLORS),
                                 Raster_Oper);
       if Result = 0 then
-         Error_Check (3);
+         Errors.Error_Check (3);
       end if;
    end Stretch_To_Canvas;
 

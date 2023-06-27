@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -31,8 +31,6 @@
 -- be located on the web at one of the following places:                    --
 --   https://sourceforge.net/projects/gnavi/                                --
 --   https://github.com/zertovitch/gwindows                                 --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -42,9 +40,10 @@ with Interfaces.C;
 
 with GWindows.Base;
 with GWindows.Colors;
-with GWindows.Types;
-with GWindows.Windows;
 with GWindows.Image_Lists;
+with GWindows.Types;
+with GWindows.Utilities;
+with GWindows.Windows;
 
 package GWindows.Common_Controls is
 
@@ -57,9 +56,6 @@ package GWindows.Common_Controls is
      new GWindows.Base.Base_Window_Type with private;
    type Pointer_To_Common_Control_Class is
      access all Common_Control_Type'Class;
-
-   --  AnSp: moved from body, needed by TVITEM
-   type LPTSTR is access all GChar_C;
 
    -------------------------------------------------------------------------
    --  Common_Control_Type - Event Handlers
@@ -927,11 +923,11 @@ package GWindows.Common_Controls is
          HItem          : Tree_Item_Node        := 0;
          State          : Interfaces.C.unsigned := 0;
          State_Mask     : Interfaces.C.unsigned := 0;
-         Text           : LPTSTR := null;
-         TextMax        : Integer := 0;
-         Image          : Integer := 0;
-         Selected_Image : Integer := 0;
-         Children       : Integer := 0;
+         Text           : Types.LPTSTR          := null;
+         TextMax        : Integer               := 0;
+         Image          : Integer               := 0;
+         Selected_Image : Integer               := 0;
+         Children       : Integer               := 0;
          LPARAM         : GWindows.Types.Lparam := 0;
       end record;
 
@@ -943,13 +939,13 @@ package GWindows.Common_Controls is
 
    procedure Item_At_Position
      (Control  : in     Tree_View_Control_Type;
-      Position : in     GWindows.Types.Point_Type;
+      Position : in     Types.Point_Type;
       Item     :    out Tree_Item_Node);
    --  Item under screen position, in client coordinates
 
    function Item_At_Position
-     (Control  : in     Tree_View_Control_Type;
-      Position : in     GWindows.Types.Point_Type)
+     (Control  : in Tree_View_Control_Type;
+      Position : in Types.Point_Type)
    return Tree_Item_Node;
    --  Item under screen position, in client coordinates
 
@@ -1142,6 +1138,18 @@ package GWindows.Common_Controls is
    function Display_Area (Control : in Tab_Control_Type)
                          return GWindows.Types.Rectangle_Type;
 
+   procedure Item_At_Position
+     (Control  : in     Tab_Control_Type;
+      Position : in     Types.Point_Type;
+      Item     :    out Integer);
+   --  Item under screen position, in client coordinates
+
+   function Item_At_Position
+     (Control  : in Tab_Control_Type;
+      Position : in Types.Point_Type)
+   return Integer;
+   --  Item under screen position, in client coordinates
+
    -------------------------------------------------------------------------
    --  Tab_Control_Type - Methods
    -------------------------------------------------------------------------
@@ -1160,12 +1168,12 @@ package GWindows.Common_Controls is
    -------------------------------------------------------------------------
    --  See Event Methods for details on each event
 
-   procedure On_Change_Handler (Control    : in out Tab_Control_Type;
+   procedure On_Change_Handler (Control : in out Tab_Control_Type;
                                 Handler : in     GWindows.Base.Action_Event);
    procedure Fire_On_Change (Control : in out Tab_Control_Type);
 
-   procedure On_Changing_Handler (Control    : in out Tab_Control_Type;
-                                Handler : in     GWindows.Base.Action_Event);
+   procedure On_Changing_Handler (Control : in out Tab_Control_Type;
+                                  Handler : in     GWindows.Base.Action_Event);
    procedure Fire_On_Changing (Control : in out Tab_Control_Type);
 
    -------------------------------------------------------------------------
@@ -1600,5 +1608,48 @@ private
       end record;
 
    type Tool_Tip_Type is new Common_Control_Type with null record;
+
+   type LVITEM is
+      record
+         Mask      : Interfaces.C.unsigned := 0;
+         Item      : Interfaces.C.int      := 0;
+         SubItem   : Interfaces.C.int      := 0;
+         State     : Interfaces.C.unsigned := 0;
+         StateMask : Interfaces.C.unsigned := 0;
+         Text      : Types.LPTSTR := null;
+         TextMax   : Interfaces.C.int      := 0;
+         Image     : Interfaces.C.int;
+         lParam    : Types.Lparam := 0;
+         Indent    : Interfaces.C.int;
+         iGroupId  : Interfaces.C.int;
+         cColumns  : Interfaces.C.unsigned := 0;
+         PuColumns : Types.LPTSTR := null;
+      end record;
+
+   LVIF_TEXT  : constant := 16#0001#;
+   LVIF_IMAGE : constant := 16#0002#;
+   LVIF_PARAM : constant := 16#0004#;
+
+   LVM_FIRST    : constant := 16#1000#;
+
+   LVM_GETITEMA     : constant := LVM_FIRST +   5;
+   LVM_SETITEMA     : constant := LVM_FIRST +   6;
+   LVM_GETITEMTEXTA : constant := LVM_FIRST +  45;
+
+   LVM_GETITEMW     : constant := LVM_FIRST +  75;
+   LVM_SETITEMW     : constant := LVM_FIRST +  76;
+   LVM_GETITEMTEXTW : constant := LVM_FIRST + 115;
+
+   LVM_GETITEM : constant Utilities.ANSI_Unicode_Choice :=
+      (ANSI    => LVM_GETITEMA,
+       Unicode => LVM_GETITEMW);
+
+   LVM_SETITEM : constant Utilities.ANSI_Unicode_Choice :=
+      (ANSI    => LVM_SETITEMA,
+       Unicode => LVM_SETITEMW);
+
+   LVM_GETITEMTEXT : constant Utilities.ANSI_Unicode_Choice :=
+      (ANSI    => LVM_GETITEMTEXTA,
+       Unicode => LVM_GETITEMTEXTW);
 
 end GWindows.Common_Controls;

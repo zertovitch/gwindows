@@ -50,7 +50,7 @@ procedure GW_Extract is
       Copy_File (xml, bak);
     end if;
     Create (f, Out_File, xml);
-    Put_Line (f, "<!-- ResEdit configuration file, with some presets for GWenerator -->");
+    Put_Line (f, "<!-- ResEdit configuration file, with some presets for GNAT, GWindows and GWenerator -->");
     Put_Line (f, "<config>");
     Put_Line (f, "  <wizard value=""false"" />");
     Put_Line (f, "  <createProjectFolder value=""false"" />");
@@ -161,8 +161,8 @@ procedure GW_Extract is
     --
     procedure Tell_data
                (name               : String;
-                compressed_bytes   : Zip.File_size_type;
-                uncompressed_bytes : Zip.File_size_type;
+                compressed_bytes   : Zip.Zip_64_Data_Size_Type;
+                uncompressed_bytes : Zip.Zip_64_Data_Size_Type;
                 method             : Zip.PKZip_method)
     is
     pragma Unreferenced (compressed_bytes, uncompressed_bytes, method);

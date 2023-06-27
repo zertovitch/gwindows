@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -2466,9 +2466,16 @@ package GWindows.Scintilla is
 
    function SCI_Lexer_DLL_Successfully_Loaded return Boolean;
 
-   --  This is for retrying if first attempt (automatically done
-   --  on package initialization) was not successful:
    procedure Try_Loading_Lexer_DLL;
+   --  Retry loading scilexer.dll if first attempt (automatically
+   --  done on package initialization) was not successful.
+   --  It lets time to copy or unpack the missing DLL.
+   --
+   --  Alternatively, the DLL could be loaded from memory using
+   --  MemoryModule.c ( https://github.com/fancycode/MemoryModule ).
+   --  Then, the DLL is never existing as a "physical" file;
+   --  the executable is standalone and can be run from a read-only drive.
+   --  See the project LEA ( http://l-e-a.sf.net ) for an example.
 
 private
    type Scintilla_Type is new GWindows.Base.Base_Window_Type with

@@ -626,11 +626,11 @@ when 300 => -- #line 813
 
 when 307 => -- #line 829
 
-              Ada_Put_Line(to_spec, "    " & S(last_Ada_ident) & ": Group_Box_Type;");
-              Ada_Coord_conv(last_rect);
-              Ada_Put_Line(to_body,
-                "    Create( Window." & S(last_Ada_ident) & ", Window, " &
-                S(last_text) & ", x, y, w, h);"
+              Ada_Put_Line (to_spec, "    " & S (last_Ada_ident) & " : Group_Box_Type;");
+              Ada_Coord_conv (last_rect);
+              Ada_Put_Line (to_body,
+                "    Create (Window." & S (last_Ada_ident) & ", Window, " &
+                S (last_text) & ", x, y, w, h);"
               );
 
 when 315 => -- #line 863
@@ -662,7 +662,7 @@ when 341 => -- #line 922
 
 when 342 => -- #line 934
 
-              style_switch (push):= True;
+              style_switch (push) := True;
               Ada_button_control;
 
 when 344 => -- #line 942
@@ -777,12 +777,12 @@ when 404 => -- #line 1127
          menu_popup_counter := 0;
          popup_top := 0;
          Ada_Put_Line (to_spec,
-           "    Main: Menu_Type;  --  Root of the whole menu tree"
+           "    Main : Menu_Type;  --  Root of the whole menu tree"
          );
          Ada_New_Line (to_body);
          Ada_Proc_Menu (
             to_body,
-            S(last_dialog_ident) & "_Type"
+            S (last_dialog_ident) & "_Type"
          );
          Ada_New_Line (to_body);
          Ada_Put_Line (to_body, "  is");
@@ -836,7 +836,7 @@ when 415 => -- #line 1193
               Ada_Put_Line (to_body,
                 "    Append_Menu (New_Menu." &
                 Popup_num_to_Ada_ident (popup_stack(popup_top)) &
-                ", " & S(last_popup_title) &
+                ", " & S (last_popup_title) &
                 ", New_Menu." &
                 Popup_num_to_Ada_ident (menu_popup_counter) &
                 ");"
@@ -922,7 +922,7 @@ when 480 => -- #line 1438
 RC_Help.version_info_value_counter:= 0;
 
 when 485 => -- #line 1453
-RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
+RC_Help.version_info_value_counter := RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
                   declare
@@ -931,18 +931,18 @@ RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
                     Ada_Put(to_spec, "    " & item(item'First+1..item'Last-1));
                   end;
                 when 2 =>
-                  Ada_Put_Line(to_spec, ": constant String:= " & yytext & ';');
+                  Ada_Put_Line(to_spec, " : constant String := " & yytext & ';');
                 when others =>
                   null;
               end case;
 
 when 486 => -- #line 1467
-RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
+RC_Help.version_info_value_counter := RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
                   null; -- should not happen...
                 when 2 =>
-                  Ada_Put_Line(to_spec, ": constant:=" & Long_Long_Integer'Image(YYLVal.intval) & ';');
+                  Ada_Put_Line(to_spec, " : constant :=" & Long_Long_Integer'Image(YYLVal.intval) & ';');
                 when others =>
                   null;
               end case;

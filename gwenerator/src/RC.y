@@ -3,7 +3,7 @@
 --
 --  Resource Compiler script grammar file (for AYACC)
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2021
+--  Copyright (c) Gautier de Montmollin 2008 .. 2023
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -168,7 +168,8 @@
        LVS_SHOWSELALWAYS_t, LVS_SORTASCENDING_t, LVS_SORTDESCENDING_t,
        LVS_AUTOARRANGE_t, LVS_NOCOLUMNHEADER_t, LVS_NOSORTHEADER_t, LVS_LIST_t,
        LVS_SINGLESEL_t, LVS_EDITLABELS_t, LVS_NOLABELWRAP_t,
-       LVS_SHAREIMAGELISTS_t
+       LVS_SHAREIMAGELISTS_t,
+       LVS_EX_CHECKBOXES_t
 -- Treeview styles
 %token TVS_INFOTIP_t, TVS_NOSCROLL_t, TVS_HASLINES_t,
        TVS_SHOWSELALWAYS_t, TVS_HASBUTTONS_t, TVS_LINESATROOT_t,
@@ -182,7 +183,7 @@
 %token TCS_HOTTRACK_t, TCS_BUTTONS_t, TCS_MULTILINE_t
 -- Grid Styles
 %token GS_COLUMNLABELS_t, GS_READONLY_t
--- Extended styles
+-- Window Extended Styles
 %token WS_EX_CLIENTEDGE_t, WS_EX_STATICEDGE_t, WS_EX_ACCEPTFILES_t,
        WS_EX_APPWINDOW_t, WS_EX_TOOLWINDOW_t,
        WS_EX_CONTROLPARENT_t, WS_EX_NOPARENTNOTIFY_t,
@@ -550,16 +551,16 @@ window_class:
       | WC_COMBOBOX_t
       | WC_COMBOBOXEX_t
       | WC_EDIT_t
-      | WC_HEADER_t -- Creates header controls (headings at the top of columns).
+      | WC_HEADER_t         -- Creates header controls (headings at the top of columns).
       | WC_LISTBOX_t
-      | WC_IPADDRESS_t -- Creates IP address controls.
-      | WC_LINK_t          -- Creates SysLink controls. These controls contain hypertext links.
+      | WC_IPADDRESS_t      -- Creates IP address controls.
+      | WC_LINK_t           -- Creates SysLink controls. These controls contain hypertext links.
       | WC_LISTVIEW_t
         -- Creates list-view controls.
         { control := list_view;}
-      | WC_NATIVEFONTCTL_t -- Creates native font controls (invisible)
-      | WC_PAGESCROLLER_t  -- Creates pager controls (contain and scroll another window).
-      | WC_SCROLLBAR_t     -- Creates scrollbar controls (scroll the contents of a window).
+      | WC_NATIVEFONTCTL_t  -- Creates native font controls (invisible)
+      | WC_PAGESCROLLER_t   -- Creates pager controls (contain and scroll another window).
+      | WC_SCROLLBAR_t      -- Creates scrollbar controls (scroll the contents of a window).
       | WC_STATIC_t
         -- Creates static controls. These controls contain noneditable text.
         -- ResEdit seems to use WC_STATIC for pictures; some sources use STATIC
@@ -618,6 +619,7 @@ ctrl_style: ws_style
           | LVS_NOSORTHEADER_t
           | LVS_NOLABELWRAP_t
           | LVS_SINGLESEL_t               {lv_select := GWindows.Common_Controls.Single;}          
+          | LVS_EX_CHECKBOXES_t
           | LVS_SHAREIMAGELISTS_t
           | TVS_INFOTIP_t                 {style_switch (tips):= True;}
           | TVS_NOSCROLL_t
@@ -825,13 +827,13 @@ cbs_style_only
 
 groupbox  : GROUPBOX_t
             ctrl_properties
-            gbs_styles_optional -- also with optional extended styles
+            gbs_styles_optional  --  also with optional extended styles
             {
-              Ada_Put_Line(to_spec, "    " & S(last_Ada_ident) & ": Group_Box_Type;");
-              Ada_Coord_conv(last_rect);
-              Ada_Put_Line(to_body,
-                "    Create( Window." & S(last_Ada_ident) & ", Window, " &
-                S(last_text) & ", x, y, w, h);"
+              Ada_Put_Line (to_spec, "    " & S (last_Ada_ident) & " : Group_Box_Type;");
+              Ada_Coord_conv (last_rect);
+              Ada_Put_Line (to_body,
+                "    Create (Window." & S (last_Ada_ident) & ", Window, " &
+                S (last_text) & ", x, y, w, h);"
               );}
             ;
 
@@ -932,7 +934,7 @@ pushbutton  :
             ctrl_properties
             bs_styles_optional  --  also with optional extended styles
             {
-              style_switch (push):= True;
+              style_switch (push) := True;
               Ada_button_control;}
             ;
 
@@ -1133,12 +1135,12 @@ menu : RC_Ident
          menu_popup_counter := 0;
          popup_top := 0;
          Ada_Put_Line (to_spec,
-           "    Main: Menu_Type;  --  Root of the whole menu tree"
+           "    Main : Menu_Type;  --  Root of the whole menu tree"
          );
          Ada_New_Line (to_body);
          Ada_Proc_Menu (
             to_body,
-            S(last_dialog_ident) & "_Type"
+            S (last_dialog_ident) & "_Type"
          );
          Ada_New_Line (to_body);
          Ada_Put_Line (to_body, "  is");
@@ -1208,7 +1210,7 @@ popup :     POPUP_t
               Ada_Put_Line (to_body,
                 "    Append_Menu (New_Menu." &
                 Popup_num_to_Ada_ident (popup_stack(popup_top)) &
-                ", " & S(last_popup_title) &
+                ", " & S (last_popup_title) &
                 ", New_Menu." &
                 Popup_num_to_Ada_ident (menu_popup_counter) &
                 ");"
@@ -1450,7 +1452,7 @@ value_arg_list:
           ;
 
 value_arg :  RCString
-             {RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
+             {RC_Help.version_info_value_counter := RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
                   declare
@@ -1459,17 +1461,17 @@ value_arg :  RCString
                     Ada_Put(to_spec, "    " & item(item'First+1..item'Last-1));
                   end;
                 when 2 =>
-                  Ada_Put_Line(to_spec, ": constant String:= " & yytext & ';');
+                  Ada_Put_Line(to_spec, " : constant String := " & yytext & ';');
                 when others =>
                   null;
               end case;}
            | NUMBER
-             {RC_Help.version_info_value_counter:= RC_Help.version_info_value_counter + 1;
+             {RC_Help.version_info_value_counter := RC_Help.version_info_value_counter + 1;
               case RC_Help.version_info_value_counter is
                 when 1 =>
                   null; -- should not happen...
                 when 2 =>
-                  Ada_Put_Line(to_spec, ": constant:=" & Long_Long_Integer'Image(YYLVal.intval) & ';');
+                  Ada_Put_Line(to_spec, " : constant :=" & Long_Long_Integer'Image(YYLVal.intval) & ';');
                 when others =>
                   null;
               end case;}

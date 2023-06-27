@@ -2,10 +2,9 @@
 
 with Interfaces.C;
 
-with GWindows.Buttons;
+with GWindows.Base;
 with GWindows.Drawing;
 with GWindows.Types;
-with GWindows.Base;
 
 package GWindows.Buttons.Owner_Drawn is
 

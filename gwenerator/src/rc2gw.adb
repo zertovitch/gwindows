@@ -48,42 +48,42 @@ procedure RC2GW is
 
   procedure Syntax is
   begin
-    Put_Line( Current_Error, "Syntax: RC2GW [option] input_file" );
-    New_Line( Current_Error );
-    Put_Line( Current_Error, "RC2GW translates a Resource Compiler script file (.rc or .dlg)" );
-    Put_Line( Current_Error, "into an Ada package for the GWindows GUI system." );
-    New_Line( Current_Error );
-    Put_Line( Current_Error, "options:  -x# : set base_unit_x as # (default:" & Positive'Image(RC_Help.base_unit_x) & ')' );
-    Put_Line( Current_Error, "          -y# : set base_unit_y as # (default:" & Positive'Image(RC_Help.base_unit_y) & ')' );
-    Put_Line( Current_Error, "          -s  : put each item (dialog, menu) in a separate package");
-    Put_Line( Current_Error, "          -t  : generate test procedure");
-    Put_Line( Current_Error, "          -c  : initialize some controls with fake contents, for test/debug");
-    New_Line( Current_Error );
-    Put_Line( Current_Error, "RC Grammar version: " & RC_Help.Grammar_Version);
+    Put_Line (Current_Error, "Syntax: RC2GW [option] input_file");
+    New_Line (Current_Error);
+    Put_Line (Current_Error, "RC2GW translates a Resource Compiler script file (.rc or .dlg)");
+    Put_Line (Current_Error, "into an Ada package for the GWindows GUI system.");
+    New_Line (Current_Error);
+    Put_Line (Current_Error, "options:  -x# : set base_unit_x as # (default:" & Positive'Image (RC_Help.base_unit_x) & ')');
+    Put_Line (Current_Error, "          -y# : set base_unit_y as # (default:" & Positive'Image (RC_Help.base_unit_y) & ')');
+    Put_Line (Current_Error, "          -s  : put each item (dialog, menu) in a separate package");
+    Put_Line (Current_Error, "          -t  : generate test procedure");
+    Put_Line (Current_Error, "          -c  : initialize some controls with fake contents, for test/debug");
+    New_Line (Current_Error);
+    Put_Line (Current_Error, "RC Grammar version: " & RC_Help.Grammar_Version);
   end Syntax;
 
 begin
   RC_Help.Reset_Globals;
 
-  for i in 1..Argument_Count loop
+  for i in 1 .. Argument_Count loop
     declare
-      arg: constant String:= Argument(i);
-      u_arg: constant String:= To_Upper( arg );
+      arg : constant String := Argument (i);
+      u_arg : constant String := To_Upper (arg);
     begin
       if u_arg'Length > 1 and then
-        (u_arg(1) = '-' or u_arg(1) = '/')
+        (u_arg (1) = '-' or u_arg (1) = '/')
       then
-        case u_arg(2) is
+        case u_arg (2) is
           when 'X' =>
-            RC_Help.base_unit_x:= Positive'Value(u_arg(3..u_arg'Last));
+            RC_Help.base_unit_x := Positive'Value (u_arg (3 .. u_arg'Last));
           when 'Y' =>
-            RC_Help.base_unit_y:= Positive'Value(u_arg(3..u_arg'Last));
+            RC_Help.base_unit_y := Positive'Value (u_arg (3 .. u_arg'Last));
           when 'S' =>
-            RC_Help.separate_items:= True;
+            RC_Help.separate_items := True;
           when 'T' =>
-            RC_Help.generate_test:= True;
+            RC_Help.generate_test := True;
           when 'C' =>
-            RC_Help.initialize_controls:= True;
+            RC_Help.initialize_controls := True;
           when others =>  -- includes "-h", "/?" etc.
             Syntax;
             return;
@@ -94,19 +94,19 @@ begin
           Syntax;
           return;
         else
-          RC_Help.source_name:= RC_Help.U(arg);
+          RC_Help.source_name := RC_Help.U (arg);
           begin
             rc_io.Open_Input (fname => arg);
             Inp_Opened := True;
-            Put_Line(Current_Error,
+            Put_Line (Current_Error,
               "RC2GW: transcripting '" & arg &
-              "' to GWindows Ada sources." );
-            Put_Line(Current_Error,
+              "' to GWindows Ada sources.");
+            Put_Line (Current_Error,
               " . . . . RC Grammar version: " & RC_Help.Grammar_Version);
           exception
             when Name_Error =>
-              Put_Line( Current_Error, "Input file '" & arg &
-                "' not found." );
+              Put_Line (Current_Error, "Input file '" & arg &
+                "' not found.");
               Syntax;
               return;
           end;
@@ -116,12 +116,12 @@ begin
   end loop;
 
   if not Inp_Opened then
-    Put_Line(Current_Error,"Missing input file!");
+    Put_Line (Current_Error, "Missing input file!");
     Syntax;
     return;
   end if;
 
-  RC_Help.has_input:= Inp_Opened;
+  RC_Help.has_input := Inp_Opened;
 
   RC_Help.Ada_Begin;
 
@@ -131,5 +131,5 @@ begin
     rc_io.Close_Input;
   end if;
 
-  Put_Line(Current_Error, "RC2GW is done." );
+  Put_Line (Current_Error, "RC2GW is done.");
 end RC2GW;

@@ -8,10 +8,10 @@
 --
 --
 
---  Include Ada specification file(s)
+--  Ada specification file(s)
 with Ada.Strings.Unbounded;
 
---  Include GNAVI specification file(s)
+--  GNAVI specification file(s)
 with GWindows;
 with GWindows.Base;
 with GWindows.Types;

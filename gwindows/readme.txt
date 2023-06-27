@@ -6,7 +6,7 @@
 --                                                                          --
 --                               R E A D M E                                --
 --                                                                          --
---                  Copyright (C) 1999 - 2020 David Botton                  --
+--                  Copyright (C) 1999 - 2023 David Botton                  --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,8 +30,6 @@
 -- be located on the web at one of the following places:                    --
 --   https://sourceforge.net/projects/gnavi/                                --
 --   https://github.com/zertovitch/gwindows                                 --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 

@@ -209,14 +209,14 @@ package body GWin_Util is
     begin
       for i in param'Range loop
         if param (i) = ' ' then
-          a_param_list (counter) := new String'(param (last_start .. i-1));
-          last_start := i+1;
+          a_param_list (counter) := new String'(param (last_start .. i - 1));
+          last_start := i + 1;
           counter := counter + 1;
         end if;
       end loop;
-      a_param_list(num_params) :=
-        new String'(param(last_start..param'Last));
-      Spawn(name, a_param_list, ok);
+      a_param_list (num_params) :=
+        new String'(param (last_start .. param'Last));
+      Spawn (name, a_param_list, ok);
       if not ok then
         raise Exec_failed with name & " " & param;
       end if;
@@ -226,7 +226,7 @@ package body GWin_Util is
   procedure Exec_Command (the_command : String) is
     use Ada.Environment_Variables;
   begin
-    Exec( Value ("ComSpec")     --  E.g. "C:\WINDOWS\system32\cmd.exe"
+    Exec (Value ("ComSpec")     --  E.g. "C:\WINDOWS\system32\cmd.exe"
           , "/C " & the_command);
   end Exec_Command;
 
@@ -292,8 +292,41 @@ package body GWin_Util is
     end case;
   end Explorer_Context_Menu;
 
-  procedure Get_Windows_version(
-    major, minor: out Integer;
+  function Menu_Entry_Title_to_Toolbar_Label (s : GString) return GString is
+    use type GString_Unbounded;
+    u : GString_Unbounded;
+    after_tab : Integer := s'Last + 1;
+  begin
+    for i in s'Range loop
+      case s (i) is
+        when GCharacter'Val (0) =>
+          null;
+        when '&' =>
+          if i < s'Last and then s (i + 1) = '&' then
+            --  "&&" is translated as "&&&" in order to be displayed as a '&' !...
+            u := u & "&&&";
+          else
+            --  Not a "&&": Skip the leading '&' which is the keyboard shortcut.
+            null;
+          end if;
+        when GCharacter'Val (9) =>  --  Tab
+          after_tab := i + 1;
+        when '\' =>  --  Tab written as "\t".
+          if i < s'Last and then s (i + 1) = 't' then
+            after_tab := i + 2;
+          end if;
+        when others =>
+          if i = after_tab then
+            u := u & NL & NL & "Shortcut: ";
+          end if;
+          u := u & s (i);
+      end case;
+    end loop;
+    return GWindows.GStrings.To_GString_From_Unbounded (u);
+  end Menu_Entry_Title_to_Toolbar_Label;
+
+  procedure Get_Windows_version (
+    major, minor : out Integer;
     family      : out Windows_family
   )
   is
@@ -322,15 +355,15 @@ package body GWin_Util is
     function GetVersionEx (lpVersionInformation : LPOSVERSIONINFOA)
                           return BOOL renames GetVersionExA;
     --  ^^^^ Parts from Win32Ada
-    res:  BOOL;
-    info: aliased OSVERSIONINFO;
+    res :  BOOL;
+    info : aliased OSVERSIONINFO;
   begin
-    info.dwOSVersionInfoSize:= DWORD(info'Size / 8);
-    res:= GetVersionEx(info'Access);
+    info.dwOSVersionInfoSize := DWORD (info'Size / 8);
+    res := GetVersionEx (info'Access);
     if res = 1 then
-      major:= Integer( info.dwMajorVersion );
-      minor:= Integer( info.dwMinorVersion );
-      family:= Windows_family'Val(info.dwPlatformId);
+      major := Integer (info.dwMajorVersion);
+      minor := Integer (info.dwMinorVersion);
+      family := Windows_family'Val (info.dwPlatformId);
     else
       raise cannot_get_Windows_version;
     end if;
@@ -338,7 +371,7 @@ package body GWin_Util is
 
   function Temp_dir return String is
     use GNAT.OS_Lib;
-    tempdir: constant String_Access:= Getenv ("temp");
+    tempdir : constant String_Access := Getenv ("temp");
   begin
     if tempdir = null or else tempdir.all'Length < 2 then
       return "";
@@ -347,14 +380,14 @@ package body GWin_Util is
     end if;
   end Temp_dir;
 
-  function Minimized(Window: GWindows.Base.Base_Window_Type'Class)
+  function Minimized (Window : GWindows.Base.Base_Window_Type'Class)
     return Boolean
   is
   begin
-    return GWindows.Base.Left(Window) <= -32000;
+    return GWindows.Base.Left (Window) <= -32000;
   end Minimized;
 
-  function Valid_Left_Top(Left, Top: Integer)
+  function Valid_Left_Top (Left, Top : Integer)
     return Boolean
   is
     use GWindows.Application;
@@ -364,7 +397,7 @@ package body GWin_Util is
   end Valid_Left_Top;
 
   --  GdM 22-Feb-2003
-  function Find_short_path_name( long: String ) return String is
+  function Find_short_path_name (long : String) return String is
     --  Parts from Win32Ada:
     subtype ULONG is Interfaces.C.unsigned_long;      --  windef.h
     subtype DWORD is ULONG;                           --  windef.h
@@ -386,26 +419,26 @@ package body GWin_Util is
                               return DWORD
     renames GetShortPathNameA;
     --  ^^^^ Parts from Win32Ada
-    ls: Integer;
+    ls : Integer;
     --  mcc : 18-Mar-2005
     --  short path name may be longer than long
-    short_CH : array(0..255) of aliased CHAR :=
+    short_CH : array (0 .. 255) of aliased CHAR :=
       (others => CHAR'First);
-    long_CH : array(0..long'Length) of aliased CHAR :=
+    long_CH : array (0 .. long'Length) of aliased CHAR :=
       (others => CHAR'First);
-    short: String(1..long'Length*2);
+    short : String (1 .. long'Length * 2);
   begin
     for i in long'Range loop
-      long_CH(i-long'First):= CHAR(long(i));
+      long_CH (i - long'First) := CHAR (long (i));
     end loop;
-    ls:= Integer(GetShortPathName(
-           long_CH(0)'Unchecked_Access,
-           short_CH(0)'Unchecked_Access,
-           DWORD(short_CH'Last+1))); -- 18-Mar-2005:  alf (add +1)
-    for i in 1..ls loop
-      short(i):= Character(short_CH(i-1));
+    ls := Integer (GetShortPathName (
+           long_CH (0)'Unchecked_Access,
+           short_CH (0)'Unchecked_Access,
+           DWORD (short_CH'Last + 1))); -- 18-Mar-2005:  alf (add +1)
+    for i in 1 .. ls loop
+      short (i) := Character (short_CH (i - 1));
     end loop;
-    return short(1..ls);
+    return short (1 .. ls);
   exception
     when others =>
       return long;
@@ -417,9 +450,9 @@ package body GWin_Util is
 
   package body Property_Tabs_Package is
     --
-    tabs: GWindows.Common_Controls.Tab_Window_Control_Type;
+    tabs : GWindows.Common_Controls.Tab_Window_Control_Type;
     --
-    procedure Create(Parent: in out GWindows.Base.Base_Window_Type'Class) is
+    procedure Create (Parent : in out GWindows.Base.Base_Window_Type'Class) is
       margin : constant := 6;
     begin
       --  1/ Create the tabs holder
@@ -432,7 +465,7 @@ package body GWin_Util is
       tabs.Set_As_Control_Parent; -- <- Avoid button press hanging the app.
       --  2/ Create each tab
       for s in Tab_enumeration loop
-        tabs.Insert_Tab (Tab_enumeration'Pos(s)-Tab_enumeration'Pos(Tab_enumeration'First), Title(s));
+        tabs.Insert_Tab (Tab_enumeration'Pos (s) - Tab_enumeration'Pos (Tab_enumeration'First), Title (s));
         GWindows.Windows.Create_As_Control (
           tab (s), tabs, "",
           0, 0,

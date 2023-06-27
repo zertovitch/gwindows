@@ -1256,9 +1256,7 @@ package body GWindows.Windows is
                       Top    : in     Integer)
    is
    begin
-      pragma Warnings (Off);
       Fire_On_Move (Window, Left, Top);
-      pragma Warnings (On);
    end On_Move;
 
    -------------------

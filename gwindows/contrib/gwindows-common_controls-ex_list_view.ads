@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 2007 - 2021 Falk Maier                     --
+--                 Copyright (C) 2007 - 2022 Falk Maier                     --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -50,10 +50,10 @@ package GWindows.Common_Controls.Ex_List_View is
    type Ex_List_View_Control_Access is access all Ex_List_View_Control_Type;
    type Pointer_To_Ex_List_View_Control_Class is access all Ex_List_View_Control_Type'Class;
 
-   Elv_Exception: exception;
+   Elv_Exception : exception;
 
    --  Return the colum count
-   function Column_Count(Control    : in Ex_List_View_Control_Type) return Natural;
+   function Column_Count (Control    : in Ex_List_View_Control_Type) return Natural;
 
    type Autosize_Type is (Columnsize, Headersize);
    --  Automatically adjust column width according to content
@@ -72,24 +72,24 @@ package GWindows.Common_Controls.Ex_List_View is
    type Color_Mode_Type is (All_Items, Item_Alternately, Subitem);
 
    --  Get the active color-mode
-   function Color_Mode(Control : in Ex_List_View_Control_Type) return Color_Mode_Type;
+   function Color_Mode (Control : in Ex_List_View_Control_Type) return Color_Mode_Type;
 
    --  Set the text/backcolor for color_mode = All_Items
    --  is another color_mode active, it automatically switches to color_mode = All_Items
    --  after create of the control the default text color is black and background color is white
    procedure Text_Color (Control : in  out Ex_List_View_Control_Type;
-                         Color   : in     Color_Type                 );
+                         Color   : in     Color_Type);
    procedure Back_Color (Control : in  out  Ex_List_View_Control_Type;
-                         Color   : in     Color_Type                 );
+                         Color   : in     Color_Type);
 
    --  Set the background color of the control in the area, where there are no items/subitems
    --  the color_mode is not changed!
    procedure Control_Back_Color (Control : in  out  Ex_List_View_Control_Type;
-                                 Color   : in       Color_Type               );
+                                 Color   : in       Color_Type);
 
    --  Set the backcolors for color_mode = item_alternately
    --  is another color_mode active, it automatically switches to color_mode = item_alternately
-   procedure Set_Alternately_Colors(Control : in out Ex_List_View_Control_Type;
+   procedure Set_Alternately_Colors (Control : in out Ex_List_View_Control_Type;
                                     Color1  : in Color_Type;
                                     Color2  : in Color_Type);
 
@@ -103,7 +103,7 @@ package GWindows.Common_Controls.Ex_List_View is
                             Text_Color : in     Color_Type := Black;
                             Back_Color : in     Color_Type := White;
                             Index      : in     Integer := -1;
-                            Sub_Index  : in     Integer := -1            );
+                            Sub_Index  : in     Integer := -1);
 
    --  Change the color_mode manually
    --  when the mode is changed (either explicitly or utomatically by library) retained the old color settings,
@@ -132,8 +132,8 @@ package GWindows.Common_Controls.Ex_List_View is
    --  Alternative: use an event handler for freeing a row's payload.
    --  Define an event to free the payload by the user of the library.
    type Free_Payload_Event is access
-     procedure (Control: in out Ex_List_View_Control_Type;
-                Payload: out Data_Access);
+     procedure (Control : in out Ex_List_View_Control_Type;
+                Payload : out Data_Access);
 
    --  Here we can set the handler for the event.
    procedure On_Free_Payload_Handler (Control : in out Ex_List_View_Control_Type;
@@ -145,8 +145,8 @@ package GWindows.Common_Controls.Ex_List_View is
    --  gui sorting is automatically active when the control is created with parameter sort /= no_sort
 
    --  colors for paint the sort icon
-   Sort_Icon_Pen_Color: Color_Type := To_Color(100,100,100);
-   Sort_Icon_Brush_Color: Color_Type := To_Color(100,100,100);
+   Sort_Icon_Pen_Color : Color_Type := To_Color (100, 100, 100);
+   Sort_Icon_Brush_Color : Color_Type := To_Color (100, 100, 100);
 
    --  The control use an alphabetical sorting by default.
    --  if you want another sorting then your own sorting routine can be set here
@@ -154,42 +154,71 @@ package GWindows.Common_Controls.Ex_List_View is
    --  if value1 = value2 then return 0
    --  if value1 < value2 then return -1
 
-   --  Comparison technique 1: custom comparison using ONLY the list view cells'
-   --                          contents (the Text function).
+   --  There are different comparison techniques for sorting.
+   --  Note that you can choose the technique depending on the column
+   --  *before* calling Sort, since you know which column will be sorted.
+   --  For instance, you may want to use `Using_Payloads` for a certain
+   --  set of columns with dates or numbers, and As_Strings for other
+   --  columns containing names. Note that the `Using_Payloads` approach
+   --  can be around 100 times faster than the other techniques. For large
+   --  lists (10,000 items or more) it is valuable to consider storing
+   --  the strings into the payload (although it is duplication of data)
+   --  and do the string comparison from the On_Compare method, technique
+   --  #3 variant, instead of using `As_Strings` or `As_Strings_Default`
+   --  techniques that do API calls for retrieving the strings from the
+   --  widget for each comparison.
+   --
+   --  See AZip, the Zip archive manager (https://azip.sourceforge.io/),
+   --  for experimenting (set the constant timing := True).
+   --  You can use rt.jar (the Java runtime) as test data.
+
+   type Comparison_Technique_Type is
+      (As_Strings,           --  Use the On_Compare method with
+                             --     *string* parameters (technique #1).
+       General,              --  Use the On_Compare method with
+                             --     *index* parameters (technique #2).
+       Using_Payloads,       --  Use the On_Compare method with
+                             --     *payload* parameters (technique #3).
+       As_Strings_Default);  --  Use default string comparison, a fast
+                             --     alphabetical / lexicographical comparison.
+
+   --  Comparison technique 1:  custom comparison using ONLY the list view cells'
+   --  ----------------------   contents (the Text function).
+   --  `As_Strings`
 
    --  You can override On_Compare for a derived type, and define there your
    --  custom sorting.
    function On_Compare (
-               Control: in Ex_List_View_Control_Type;
+               Control : in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer;
 
    --  Alternatively, you can dynamically set a handler.
    type Compare_Event is access
-     function (Control: in Ex_List_View_Control_Type;
+     function (Control : in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer;
 
-   procedure On_Compare_Handler (Control: in out Ex_List_View_Control_Type;
-                                 Event  : in Compare_Event);
+   procedure On_Compare_Handler (Control : in out Ex_List_View_Control_Type;
+                                 Event   : in     Compare_Event);
 
    --  Use the handler, if available.
    --  If not available, it defaults to alphabetical sorting.
    function Fire_On_Compare (
-               Control: in Ex_List_View_Control_Type;
+               Control : in Ex_List_View_Control_Type;
                Column : in Natural;
                Value1 : in GString;
                Value2 : in GString) return Integer;
 
-   --  Comparison technique 2: custom comparison using the list view cells'
-   --                          coordinates. Depending on the column, you can
-   --                          opt to compare the Text, or use the Payload if
-   --                          it is more practical or faster. For instance,
-   --                          you may have numerical informations in some
-   --                          columns. Then you can store the numbers
-   --                          directly in the payload record.
+   --  Comparison technique 2:  custom comparison using the list view cells'
+   --  ----------------------   coordinates. Depending on the column, you can
+   --  `General`                opt to compare the Text, or use the Payload if
+   --                           it is more practical or faster. For instance,
+   --                           you may have numerical informations in some
+   --                           columns. Then you can store the numbers
+   --                           directly in the payload record.
 
    --  You can override On_Compare for a derived type, and define there your
    --  custom sorting.
@@ -207,7 +236,7 @@ package GWindows.Common_Controls.Ex_List_View is
                Index_2 : in Natural) return Integer;
 
    procedure On_Compare_Handler (Control       : in out Ex_List_View_Control_Type;
-                                 General_Event : in General_Compare_Event);
+                                 General_Event : in     General_Compare_Event);
 
    --  Use the handler, if available.
    --  If not available, it defaults to alphabetical sorting.
@@ -217,15 +246,45 @@ package GWindows.Common_Controls.Ex_List_View is
                Index_1 : in Natural;
                Index_2 : in Natural) return Integer;
 
+   --  Comparison technique 3: custom comparison using ONLY the payloads.
+   --  ----------------------
+   --  `Using_Payloads`
+
+   --  You can override On_Compare for a derived type, and define there your
+   --  custom sorting.
+   function On_Compare
+     (Control   : in Ex_List_View_Control_Type;
+      Column    : in Natural;
+      Payload_1 : in Data;
+      Payload_2 : in Data) return Integer;
+
+   --  Alternatively, you can dynamically set a handler.
+   type Payload_Compare_Event is access
+     function (Control   : in Ex_List_View_Control_Type;
+               Column    : in Natural;
+               Payload_1 : in Data;
+               Payload_2 : in Data) return Integer;
+
+   procedure On_Compare_Handler (Control       : in out Ex_List_View_Control_Type;
+                                 Payload_Event : in     Payload_Compare_Event);
+
+   --  Use the handler, if available.
+   --  If not available, it raises a Program_Error exception.
+   function Fire_On_Compare
+     (Control   : in Ex_List_View_Control_Type;
+      Column    : in Natural;
+      Payload_1 : in Data;
+      Payload_2 : in Data) return Integer;
+
    type Sort_Direction_Type is (Up, Down, Auto);
-   type Comparison_Technique_Type is (As_Strings, General);
+
    --  Start the sort by procedure call
-   procedure Sort (Control    : in out Ex_List_View_Control_Type;
-                   Column     : in Natural;
-                   Direction  : in Sort_Direction_Type;
-                   Show_Icon  : in Boolean := True;
-                   Technique  : in Comparison_Technique_Type := As_Strings
-                  );
+   procedure Sort
+     (Control    : in out Ex_List_View_Control_Type;
+      Column     : in     Natural;
+      Direction  : in     Sort_Direction_Type;
+      Show_Icon  : in     Boolean := True;
+      Technique  : in     Comparison_Technique_Type := As_Strings);
 
    --  Get the information of actual sorting.
    --  If sorting is inactive -> OUT-Parameter column = -1
@@ -235,19 +294,19 @@ package GWindows.Common_Controls.Ex_List_View is
 
 private
 
-   NullColor: Color_Type := 17000000; -- out of RGB-range
+   NullColor : Color_Type := 17000000; -- out of RGB-range
 
    --  internal
    type Internal_Color_Type is record
-      Textcolor: Color_Type := NullColor;
-      Backcolor: Color_Type := NullColor;
+      Textcolor : Color_Type := NullColor;
+      Backcolor : Color_Type := NullColor;
    end record;
    type Internal_Color_Array_Type is array (Natural range <>) of Internal_Color_Type;
    type Internal_Color_Array_Access is access all Internal_Color_Array_Type;
    type Internal_Type is
       record
-         Colors: Internal_Color_Array_Access := null;
-         User_Data: Data_Access := null;
+         Colors : Internal_Color_Array_Access := null;
+         User_Data : Data_Access := null;
       end record;
    type Internal_Access is access all Internal_Type;
    pragma No_Strict_Aliasing (Internal_Access);
@@ -255,27 +314,28 @@ private
    --  sorting_object
    type Sorting_Object is
       record
-         Sort_Column: Integer := -1;
-         Sort_Direction: Integer := 0;
-         Icon_Visible: Boolean := True;
-         Sort_Pen: GWindows.Drawing_Objects.Pen_Type;
-         Sort_Brush: GWindows.Drawing_Objects.Brush_Type;
+         Sort_Column : Integer := -1;
+         Sort_Direction : Integer := 0;
+         Icon_Visible : Boolean := True;
+         Sort_Pen : GWindows.Drawing_Objects.Pen_Type;
+         Sort_Brush : GWindows.Drawing_Objects.Brush_Type;
       end record;
 
    --  control_type
    type Ex_List_View_Control_Type is new List_View_Control_Type with record
-      Color_Mode: Color_Mode_Type := All_Items;
-      Control_Textcolor: Color_Type := Black;
-      Control_Backcolor: Color_Type := White;
-      Alt_Color1: Color_Type;
-      Alt_Color2: Color_Type;
-      Comctl_Version: Natural := 0;
+      Color_Mode : Color_Mode_Type := All_Items;
+      Control_Textcolor : Color_Type := Black;
+      Control_Backcolor : Color_Type := White;
+      Alt_Color1 : Color_Type;
+      Alt_Color2 : Color_Type;
+      Comctl_Version : Natural := 0;
       --  events
       On_Free_Payload : Free_Payload_Event := null;
-      On_Compare_Event : Compare_Event := null;
+      On_Compare_Event         : Compare_Event := null;
       On_General_Compare_Event : General_Compare_Event := null;
+      On_Payload_Compare_Event : Payload_Compare_Event := null;
       --  for callback
-      Sort_Object: Sorting_Object;
+      Sort_Object : Sorting_Object;
    end record;
 
    procedure On_Create (Control : in out Ex_List_View_Control_Type);
@@ -287,7 +347,7 @@ private
    procedure On_Notify (Window       : in out Ex_List_View_Control_Type;
                         Message      : in     GWindows.Base.Pointer_To_Notification;
                         Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out GWindows.Types.Lresult    );
+                        Return_Value : in out GWindows.Types.Lresult);
    procedure On_Destroy (Control : in out Ex_List_View_Control_Type);
    procedure Delete_Item (Control : in out Ex_List_View_Control_Type;
                           Index   : in     Integer);

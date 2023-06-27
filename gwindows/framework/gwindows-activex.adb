@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -96,7 +96,7 @@ package body GWindows.ActiveX is
                      Height  : in     Integer;
                      Key     : in     GNATCOM.Types.BSTR := null)
    is
-      Class_ID : GNATCOM.Types.GUID :=
+      Class_ID : constant GNATCOM.Types.GUID :=
         GNATCOM.GUID.To_GUID (GWindows.GStrings.To_String (ProgID));
    begin
       Create (Control, Parent, Class_ID, Left, Top, Width, Height, Key);
@@ -156,10 +156,11 @@ package body GWindows.ActiveX is
 
       OleObject : GNATOCX.IOleObject_Interface.IOleObject_Type;
 
-      SiteObject_Interface :
+      SiteObject_Interface : constant
         GNATCOM.Create.COM_Interface.Pointer_To_COM_Interface_Type :=
         GNATOCX_Site.Class.Create;
-      SiteObject_CoClass   : GNATOCX_Site.Class.Pointer_To_GNATOCXClass_Type :=
+      SiteObject_CoClass   : constant
+        GNATOCX_Site.Class.Pointer_To_GNATOCXClass_Type :=
         GNATOCX_Site.Class.Pointer_To_GNATOCXClass_Type
         (SiteObject_Interface.CoClass);
 
@@ -167,6 +168,7 @@ package body GWindows.ActiveX is
 
       RIID    : aliased GNATCOM.Types.GUID;
       Result  : GNATCOM.Types.HRESULT;
+      pragma Unreferenced (Result);
       WHandle : aliased GWindows.Types.Handle;
       WRect   : aliased GNATOCX.RECT;
    begin

@@ -71,15 +71,13 @@ package body GWindows.Common_Controls.Ex_TV is
 --   Cdrf_Dodefault      : constant := 0;
 --   Cdrf_Skipdefault    : constant := 4;
 
-   type Lptstr is access all GChar_C;
-
    type TVITEM is
       record
          Mask           : Interfaces.C.unsigned := 0;
          Hitem          : Tree_Item_Node        := 0;
          State          : Interfaces.C.unsigned := 0;
          State_Mask     : Interfaces.C.unsigned := 0;
-         Text           : Lptstr                := null;
+         Text           : Types.LPTSTR          := null;
          Textmax        : Integer               := 0;
          Image          : Integer               := 0;
          Selected_Image : Integer               := 0;

@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                    Copyright (C) 2014 Gautier de Montmollin              --
+--               Copyright (C) 2014 - 2022 Gautier de Montmollin            --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,12 +30,13 @@
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
 --   http://sf.net/projects/gnavi/                                          --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with GWindows.Constants;
 with GWindows.GStrings;
+with GWindows.Types;
 
 package body GWindows.Locales is
 
@@ -65,16 +66,13 @@ package body GWindows.Locales is
 
    function Get_Locale_Info (Locale_Info_Code : Integer) return GString is
 
-      Max_Text : constant := 255;
-      Buffer : GString_C (0 .. Max_Text);
-
-      type LPTSTR is access all GChar_C;
+      Buffer : GString_C (0 .. Constants.Max_Text);
 
       function GetLocaleInfo
         (Locale   : Interfaces.C.long  := LOCALE_USER_DEFAULT;
          LCType   : Interfaces.C.long  := Interfaces.C.long (Locale_Info_Code);
-         lpLCData : LPTSTR             := Buffer (0)'Access;
-         cchData  : Interfaces.C.int   := Max_Text)
+         lpLCData : Types.LPTSTR       := Buffer (0)'Unchecked_Access;
+         cchData  : Interfaces.C.int   := Constants.Max_Text)
       return Interfaces.C.int;
 
       pragma Import (StdCall, GetLocaleInfo,

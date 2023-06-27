@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -31,8 +31,6 @@
 -- be located on the web at one of the following places:                    --
 --   https://sourceforge.net/projects/gnavi/                                --
 --   https://github.com/zertovitch/gwindows                                 --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -40,15 +38,15 @@ with Ada.Unchecked_Conversion;
 
 with System;
 
+with GWindows.Constants;
 with GWindows.Drawing;
 with GWindows.Drawing_Objects;
 with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 with GWindows.Internal;
-with GWindows.Utilities;
 
 package body GWindows.Common_Controls is
-   use GWindows.Utilities;
+
    use type Interfaces.C.unsigned;
    use type Interfaces.C.int;
    use type GWindows.Types.INT_PTR;
@@ -134,16 +132,13 @@ package body GWindows.Common_Controls is
 --     TBM_GETTOOLTIPS         : constant := (WM_USER + 30);
 --     TBM_SETTIPSIDE          : constant := (WM_USER + 31);
 
-   LVM_FIRST               : constant := 16#1000#;
    LVM_GETITEMCOUNT        : constant := LVM_FIRST + 4;
-   LVM_SETITEMA            : constant := LVM_FIRST + 6;
-   LVM_SETITEMW            : constant := LVM_FIRST + 76;
 --     LVM_DELETEITEM          : constant := LVM_FIRST + 8;
    LVM_DELETEALLITEMS      : constant := LVM_FIRST + 9;
-   LVM_SETCOLUMN           : constant AU_Choice :=
+   LVM_SETCOLUMN           : constant Utilities.ANSI_Unicode_Choice :=
                              (ANSI    => LVM_FIRST + 26,
                               Unicode => LVM_FIRST + 96);
-   LVM_INSERTCOLUMN        : constant AU_Choice :=
+   LVM_INSERTCOLUMN        : constant Utilities.ANSI_Unicode_Choice :=
                              (ANSI    => LVM_FIRST + 27,
                               Unicode => LVM_FIRST + 97);
    LVM_GETITEMSTATE        : constant := LVM_FIRST + 44;
@@ -181,29 +176,10 @@ package body GWindows.Common_Controls is
    function SYSTEMTIME_To_Calendar (Time : SYSTEMTIME)
                                    return Ada.Calendar.Time;
 
-   LVIF_TEXT               : constant := 16#0001#;
-   LVIF_IMAGE              : constant := 16#0002#;
 --     LVIF_PARAM              : constant := 16#0004#;
 --     LVIF_STATE              : constant := 16#0008#;
 --     LVIF_INDENT             : constant := 16#0010#;
 --     LVIF_NORECOMPUTE        : constant := 16#0800#;
-
-   type LVITEM is
-      record
-         Mask      : Interfaces.C.unsigned := 0;
-         Item      : Integer := 0;
-         SubItem   : Integer := 0;
-         State     : Interfaces.C.unsigned := 0;
-         StateMask : Interfaces.C.unsigned := 0;
-         Text      : LPTSTR := null;
-         TextMax   : Integer := 0;
-         Image     : Integer;
-         lParam    : GWindows.Types.Lparam := 0;
-         Indent    : Integer;
-         iGroupId  : Integer;
-         cColumns  : Interfaces.C.unsigned := 0;
-         PuColumns : LPTSTR := null;
-      end record;
 
 --     LVCF_FMT                : constant := 16#0001#;
    LVCF_WIDTH              : constant := 16#0002#;
@@ -225,7 +201,7 @@ package body GWindows.Common_Controls is
          Mask      : Interfaces.C.unsigned := 0;
          Format    : Interfaces.C.unsigned := 0;
          Width     : Integer               := 0;
-         Text      : LPTSTR                := null;
+         Text      : Types.LPTSTR          := null;
          TextMax   : Integer               := 0;
          SubItem   : Integer               := 0;
          Image     : Integer               := 0;
@@ -290,6 +266,7 @@ package body GWindows.Common_Controls is
    TCM_DELETEALLITEMS      : constant := (TCM_FIRST + 9);
    TCM_GETCURSEL           : constant := (TCM_FIRST + 11);
    TCM_SETCURSEL           : constant := (TCM_FIRST + 12);
+   TCM_HITTEST             : constant := (TCM_FIRST + 13);
    --  TCM_SETCURFOCUS         : constant := (TCM_FIRST + 48);
    TCM_ADJUSTRECT          : constant := (TCM_FIRST + 40);
    TCM_GETROWCOUNT         : constant := (TCM_FIRST + 44);
@@ -305,10 +282,10 @@ package body GWindows.Common_Controls is
          Mask           : Interfaces.C.unsigned := 0;
          State          : Interfaces.C.unsigned := 0;
          State_Mask     : Interfaces.C.unsigned := 0;
-         Text           : LPTSTR := null;
+         Text           : Types.LPTSTR := null;
          TextMax        : Integer := 0;
          Image          : Integer := 0;
-         LPARAM         : GWindows.Base.Pointer_To_Base_Window_Class := null;
+         LPARAM         : Base.Pointer_To_Base_Window_Class := null;
       end record;
 
    --  WM_USER = 16#400#
@@ -409,15 +386,14 @@ package body GWindows.Common_Controls is
 
    type TOOLINFO is
       record
-         Size       : Integer := TOOLINFO'Size / 8;
-         Flags      : Interfaces.C.unsigned := 0;
-         HWND       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         UID        : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         Rect       : GWindows.Types.Rectangle_Type := (0, 0, 0, 0);
-         hInst      : GWindows.Types.Handle :=
-            GWindows.Internal.Current_hInstance;
-         Text       : LPTSTR := null;
-         lParam     : GWindows.Types.Lparam := 0;
+         Size   : Integer               := TOOLINFO'Size / 8;
+         Flags  : Interfaces.C.unsigned := 0;
+         HWND   : Types.Handle          := Types.Null_Handle;
+         UID    : Types.Handle          := Types.Null_Handle;
+         Rect   : Types.Rectangle_Type  := (0, 0, 0, 0);
+         hInst  : Types.Handle          := Internal.Current_hInstance;
+         Text   : Types.LPTSTR          := null;
+         lParam : Types.Lparam          := 0;
       end record;
 
    -------------------------------------------------------------------------
@@ -644,13 +620,10 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessageW, "SendMessageW");
 
    begin
-      pragma Warnings (Off);
-      if Character_Mode_Identifier = "A" then
-         SendMessageA;
-      else
-         SendMessageW;
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode => SendMessageW;
+         when ANSI    => SendMessageA;
+      end case;
    end Text;
 
    ----------------------
@@ -2025,10 +1998,10 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Item.Mask := LVIF_TEXT or LVIF_IMAGE;
-      Item.Item := Index;
-      Item.Image := Icon;
-      Item.Text := C_Text (0)'Unchecked_Access;
+      Item.Mask  := LVIF_TEXT or LVIF_IMAGE;
+      Item.Item  := Interfaces.C.int (Index);
+      Item.Image := Interfaces.C.int (Icon);
+      Item.Text  := C_Text (0)'Unchecked_Access;
 
       case Character_Mode is
          when Unicode =>
@@ -2067,10 +2040,10 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Item.Mask := LVIF_TEXT;
-      Item.Item := Index;
-      Item.SubItem := Sub_Index;
-      Item.Text := C_Text (0)'Unchecked_Access;
+      Item.Mask    := LVIF_TEXT;
+      Item.Item    := Interfaces.C.int (Index);
+      Item.SubItem := Interfaces.C.int (Sub_Index);
+      Item.Text    := C_Text (0)'Unchecked_Access;
 
       case Character_Mode is
          when Unicode =>
@@ -2094,7 +2067,7 @@ package body GWindows.Common_Controls is
 
       Item : LVITEM;
 
-      LVM_INSERTITEM : constant AU_Choice :=
+      LVM_INSERTITEM : constant Utilities.ANSI_Unicode_Choice :=
         (ANSI    => LVM_FIRST + 7,
          Unicode => LVM_FIRST + 77);
 
@@ -2108,8 +2081,8 @@ package body GWindows.Common_Controls is
                        "SendMessage" & Character_Mode_Identifier);
    begin
       Item.Mask    := LVIF_TEXT or LVIF_IMAGE;
-      Item.Item    := Index;
-      Item.Image   := Icon;
+      Item.Item    := Interfaces.C.int (Index);
+      Item.Image   := Interfaces.C.int (Icon);
       Item.Text    := C_Text (0)'Unchecked_Access;
       Sorted_Index := Integer (SendMessage);
    end Insert_Item;
@@ -2307,9 +2280,9 @@ package body GWindows.Common_Controls is
       Switch_Extended_Style (Control, Style, False);
    end Remove_Extended_Style;
 
-   ------------------
-   -- Clicked_Item --
-   ------------------
+   ----------------------
+   -- Item_At_Position --
+   -----------------------
 
    procedure Item_At_Position
      (Control  : in     List_View_Control_Type;
@@ -2355,38 +2328,42 @@ package body GWindows.Common_Controls is
       SubItem : in Integer)
      return GString
    is
-      LVM_GETITEM : constant AU_Choice :=
-        (ANSI    => LVM_FIRST + 5,
-         Unicode => LVM_FIRST + 75);
-      LVIF_TEXT    : constant := 16#0001#;
-
-      Max_Text : constant := 255;
-      type Buffer is new GString_C (0 .. Max_Text);
+      subtype Buffer is GString (1 .. 1 + Constants.Max_Text);
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
-         new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
+         new Ada.Unchecked_Conversion (Types.LPTSTR, PBuffer);
 
-      C_Text   : Buffer;
-      LVI      : LVITEM;
+      function To_LPTSTR is
+         new Ada.Unchecked_Conversion (PBuffer, Types.LPTSTR);
 
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle :=
+      LVI    : LVITEM;
+      A_Text : Buffer;
+      Length : Natural;
+
+      function SendMessage
+        (hwnd   : Types.Handle :=
            GWindows.Common_Controls.Handle (Control);
-         uMsg   : Interfaces.C.int      := LVM_GETITEM (Character_Mode);
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : in out LVITEM);
+         uMsg   : Interfaces.C.int := LVM_GETITEMTEXT (Character_Mode);
+         wParam : Types.Wparam     := Types.Wparam (Item);
+         lParam : in out LVITEM) return Interfaces.C.int;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
       LVI.Mask    := LVIF_TEXT;
-      LVI.Item    := Item;
-      LVI.SubItem := SubItem;
-      LVI.Text    := C_Text (0)'Unchecked_Access;
-      LVI.TextMax := Max_Text;
-      SendMessage (lParam => LVI);
-      return GWindows.GStrings.To_GString_From_C
-        (GString_C (To_PBuffer (LVI.Text).all));
+      LVI.Item    := Interfaces.C.int (Item);
+      LVI.SubItem := Interfaces.C.int (SubItem);
+      LVI.Text    := To_LPTSTR (A_Text'Unrestricted_Access);
+      LVI.TextMax := Constants.Max_Text;
+      Length := Natural (SendMessage (lParam => LVI));
+      --  Until revision #456, the message LVM_GETITEM was used and
+      --  the length of the null-terminated C string, to which LVI.Text
+      --  is pointing, was unknown after the call.
+      --  The information about the string's length which is obtained
+      --  with the LVM_GETITEMTEXT call, allows to have an Ada string
+      --  directly available, by using the length and ignoring the
+      --  null terminator. A copy of the string is saved.
+      return To_PBuffer (LVI.Text).all (1 .. Length);
    end Text;
 
    procedure Ensure_Visible
@@ -2502,16 +2479,15 @@ package body GWindows.Common_Controls is
       Index   : in Integer)
      return GString
    is
-      LVM_GETCOLUMN : constant AU_Choice :=
+      LVM_GETCOLUMN : constant Utilities.ANSI_Unicode_Choice :=
         (ANSI    => LVM_FIRST + 25,
          Unicode => LVM_FIRST + 95);
 
-      Max_Text : constant := 255;
-      type Buffer is new GString_C (0 .. Max_Text);
+      type Buffer is new GString_C (0 .. Constants.Max_Text);
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
-         new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
+         new Ada.Unchecked_Conversion (Types.LPTSTR, PBuffer);
 
       C_Text   : Buffer;
       LVC      : LVCOLUMN;
@@ -2528,7 +2504,7 @@ package body GWindows.Common_Controls is
       LVC.Mask := LVCF_TEXT;
       C_Text (0) := GChar_C'Val (0);  --  Empty C string in case of failure.
       LVC.Text := C_Text (0)'Unchecked_Access;
-      LVC.TextMax := Max_Text;
+      LVC.TextMax := Constants.Max_Text;
       SendMessage (lParam => LVC);
       return GWindows.GStrings.To_GString_From_C
         (GString_C (To_PBuffer (LVC.Text).all));
@@ -2937,21 +2913,21 @@ package body GWindows.Common_Controls is
    --  GdM 25-Jul-2013: added similar as for List_View.
    --  Code from Ex_TV, under the name Tree_Hit_Test.
    function Item_At_Position
-     (Control  : in     Tree_View_Control_Type;
-      Position : in     GWindows.Types.Point_Type)
+     (Control  : in Tree_View_Control_Type;
+      Position : in Types.Point_Type)
    return Tree_Item_Node
    is
-      type Tv_Hit_Test_Info_Type is
+      type TV_Hit_Test_Info_Type is
          record
-            Point : GWindows.Types.Point_Type     := Position;
-            Flags : Integer;
+            Point : Types.Point_Type       := Position;
+            Flags : Interfaces.C.unsigned;
             Hitem : Tree_Item_Node;
          end record;
 
-      Hit_Test_Structure : Tv_Hit_Test_Info_Type;
+      Hit_Test_Structure : TV_Hit_Test_Info_Type;
 
       procedure Sendmessage
-        (Hwnd   : GWindows.Types.Handle := Handle (Control);
+        (Hwnd   : Types.Handle      := Handle (Control);
          Umsg   : Interfaces.C.int  := TVM_HITTEST;
          Wparam : Integer           := 0;
          Lparam : System.Address    := Hit_Test_Structure'Address);
@@ -2965,11 +2941,11 @@ package body GWindows.Common_Controls is
 
    procedure Item_At_Position
      (Control  : in     Tree_View_Control_Type;
-      Position : in     GWindows.Types.Point_Type;
+      Position : in     Types.Point_Type;
       Item     :    out Tree_Item_Node)
    is
    begin
-     Item := Item_At_Position (Control, Position);
+      Item := Item_At_Position (Control, Position);
    end Item_At_Position;
 
    ----------
@@ -2980,12 +2956,11 @@ package body GWindows.Common_Controls is
                   Where   : in Tree_Item_Node)
                  return GString
    is
-      Max_Text : constant := 255;
-      type Buffer is new GString_C (0 .. Max_Text);
+      type Buffer is new GString_C (0 .. Constants.Max_Text);
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
-         new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
+         new Ada.Unchecked_Conversion (Types.LPTSTR, PBuffer);
 
       C_Text   : Buffer;
       TV       : TVITEM;
@@ -3009,7 +2984,7 @@ package body GWindows.Common_Controls is
       TV.Mask := TVIF_TEXT;
       TV.HItem := Where;
       TV.Text := C_Text (0)'Unchecked_Access;
-      TV.TextMax := Max_Text;
+      TV.TextMax := Constants.Max_Text;
 
       case Character_Mode is
          when Unicode =>
@@ -3172,15 +3147,12 @@ package body GWindows.Common_Controls is
       TV.Selected_Image := SelectedImage;
       TV.State := Interfaces.C.unsigned (State);
       TV.State_Mask := Interfaces.C.unsigned (StateMask);
-      TV.LPARAM := GWindows.Types.Lparam (Param);
+      TV.LPARAM := Types.Lparam (Param);
 
-      pragma Warnings (Off);
-      if Character_Mode = Unicode then
-         SendMessageW;
-      else
-         SendMessageA;
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode => SendMessageW;
+         when ANSI    => SendMessageA;
+      end case;
    end Set_Item;
 
    procedure Set_Image_List
@@ -3878,12 +3850,11 @@ package body GWindows.Common_Controls is
                   Where   : in Integer)
                  return GString
    is
-      Max_Text : constant := 255;
-      type Buffer is new GString_C (0 .. Max_Text);
+      type Buffer is new GString_C (0 .. Constants.Max_Text);
       type PBuffer is access all Buffer;
 
       function To_PBuffer is
-         new Ada.Unchecked_Conversion (LPTSTR, PBuffer);
+         new Ada.Unchecked_Conversion (Types.LPTSTR, PBuffer);
 
       C_Text   : Buffer;
       TC       : TCITEM;
@@ -3907,7 +3878,7 @@ package body GWindows.Common_Controls is
    begin
       TC.Mask := TCIF_TEXT;
       TC.Text := C_Text (0)'Unchecked_Access;
-      TC.TextMax := Max_Text;
+      TC.TextMax := Constants.Max_Text;
 
       case Character_Mode is
          when Unicode =>
@@ -4044,6 +4015,42 @@ package body GWindows.Common_Controls is
       SendMessage (lParam => RT);
       return RT;
    end Display_Area;
+
+   function Item_At_Position
+     (Control  : in Tab_Control_Type;
+      Position : in Types.Point_Type)
+   return Integer
+   is
+      type TC_Hit_Test_Info_Type is
+         --  Windows API name: TCHITTESTINFO.
+         record
+            Point : Types.Point_Type      := Position;
+            Flags : Interfaces.C.unsigned;
+         end record;
+
+      Hit_Test_Structure : TC_Hit_Test_Info_Type;
+
+      function Sendmessage
+        (Hwnd   : Types.Handle     := Handle (Control);
+         Umsg   : Interfaces.C.int := TCM_HITTEST;
+         Wparam : Integer          := 0;
+         Lparam : System.Address   := Hit_Test_Structure'Address)
+      return Interfaces.C.int;
+      pragma Import (Stdcall, Sendmessage, "SendMessage" &
+         Character_Mode_Identifier);
+
+   begin
+      return Integer (Sendmessage);
+   end Item_At_Position;
+
+   procedure Item_At_Position
+     (Control  : in     Tab_Control_Type;
+      Position : in     Types.Point_Type;
+      Item     :    out Integer)
+   is
+   begin
+      Item := Item_At_Position (Control, Position);
+   end Item_At_Position;
 
    ---------------
    -- On_Create --
@@ -4221,8 +4228,8 @@ package body GWindows.Common_Controls is
       if Current /= null then
          Left (Current.all, Area.Left);
          Top (Current.all, Area.Top);
-         Width (Current.all, Area.Right - Area.Left);
-         Height (Current.all, Area.Bottom - Area.Top);
+         Width (Current.all, Integer'Max (0, Area.Right - Area.Left));
+         Height (Current.all, Integer'Max (0, Area.Bottom - Area.Top));
          Show (Current.all);
       end if;
       On_Change (Tab_Control_Type (Control));                        --  *AnSp
@@ -4337,8 +4344,7 @@ package body GWindows.Common_Controls is
       use GWindows.GStrings;
       TB_ADDSTRINGA : constant := WM_USER + 28;
       TB_ADDSTRINGW : constant := WM_USER + 77;
-      TB_ADDSTRING : constant array (Character_Mode_Type) of
-         Interfaces.C.int :=
+      TB_ADDSTRING : constant Utilities.ANSI_Unicode_Choice :=
             (ANSI    => TB_ADDSTRINGA,
              Unicode => TB_ADDSTRINGW);
       C_Text : GString_C := To_GString_C (Text & GCharacter'Val (0));
@@ -4368,8 +4374,7 @@ package body GWindows.Common_Controls is
    is
       TB_GETSTRINGA : constant := WM_USER + 92;
       TB_GETSTRINGW : constant := WM_USER + 91;
-      TB_GETSTRING : constant array (Character_Mode_Type) of
-         Interfaces.C.int :=
+      TB_GETSTRING : constant Utilities.ANSI_Unicode_Choice :=
             (ANSI    => TB_GETSTRINGA,
              Unicode => TB_GETSTRINGW);
 
@@ -4681,8 +4686,8 @@ package body GWindows.Common_Controls is
       State   : Interfaces.C.unsigned_char := 0;
       Style   : Interfaces.C.unsigned_char := 0;
       Cx      : Interfaces.C.short := 0;
-      Param   : GWindows.Types.Lparam := 0;
-      Text    : LPTSTR := null;
+      Param   : Types.Lparam := 0;
+      Text    : Types.LPTSTR := null;
       TxtLen  : Interfaces.C.int := 0;
    end record;
 
@@ -4708,13 +4713,10 @@ package body GWindows.Common_Controls is
                        "SendMessage" & Character_Mode_Identifier);
 
    begin
-      pragma Warnings (Off);
-      if Character_Mode = Unicode then
-         SendMessageW (lParam => Info);
-      else
-         SendMessageA (lParam => Info);
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode => SendMessageW (lParam => Info);
+         when ANSI    => SendMessageA (lParam => Info);
+      end case;
    end Get_Button_Info;
 
    procedure Set_Button_Info
@@ -4739,13 +4741,10 @@ package body GWindows.Common_Controls is
                        "SendMessage" & Character_Mode_Identifier);
 
    begin
-      pragma Warnings (Off);
-      if Character_Mode = Unicode then
-         SendMessageW (lParam => Info);
-      else
-         SendMessageA (lParam => Info);
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode => SendMessageW (lParam => Info);
+         when ANSI    => SendMessageA (lParam => Info);
+      end case;
    end Set_Button_Info;
 
    ----------------------
@@ -4985,16 +4984,13 @@ package body GWindows.Common_Controls is
                        "SendMessage" & Character_Mode_Identifier);
    begin
       Info.Flags := TTF_IDISHWND or TTF_SUBCLASS;
-      Info.HWND := GWindows.Base.Handle (Parent (Control).all);
-      Info.UID := GWindows.Base.Handle (Window);
+      Info.HWND := Base.Handle (Parent (Control).all);
+      Info.UID  := Base.Handle (Window);
       Info.Text := C_Text (0)'Unchecked_Access;
-      pragma Warnings (Off);
-      if Character_Mode = Unicode then
-         SendMessageW;
-      else
-         SendMessageA;
-      end if;
-      pragma Warnings (On);
+      case Character_Mode is
+         when Unicode => SendMessageW;
+         when ANSI    => SendMessageA;
+      end case;
    end Update_Tool_Tip;
 
    ---------------------
@@ -5023,15 +5019,12 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      Info.HWND := GWindows.Base.Handle (Parent (Control).all);
-      Info.UID := GWindows.Base.Handle (Window);
-      pragma Warnings (Off);
-      if Character_Mode = Unicode then
-         SendMessageW;
-      else
-         SendMessageA;
-      end if;
-      pragma Warnings (On);
+      Info.HWND := Base.Handle (Parent (Control).all);
+      Info.UID  := Base.Handle (Window);
+      case Character_Mode is
+         when Unicode => SendMessageW;
+         when ANSI    => SendMessageA;
+      end case;
    end Delete_Tool_Tip;
 
    -------------------

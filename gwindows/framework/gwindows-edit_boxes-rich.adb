@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -259,7 +259,7 @@ package body GWindows.Edit_Boxes.Rich is
                        Line : Positive)
                       return GString
    is
-      Return_String : GString :=
+      Return_String : constant GString :=
         Line_Text (Multi_Line_Edit_Box_Type (Edit), Line);
    begin
       if Return_String = "" then

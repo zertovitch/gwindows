@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2022 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -48,7 +48,7 @@ package body GWindows.Databases.Controls is
    procedure Do_Add
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      P : Pointer_To_Database_Control_Class :=
+      P : constant Pointer_To_Database_Control_Class :=
         Pointer_To_Database_Control_Class (Parent (Window));
    begin
       Add_New (P.Recordset);
@@ -68,7 +68,7 @@ package body GWindows.Databases.Controls is
    procedure Do_Delete
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      P : Pointer_To_Database_Control_Class :=
+      P : constant Pointer_To_Database_Control_Class :=
         Pointer_To_Database_Control_Class (Parent (Window));
    begin
       begin
@@ -100,7 +100,7 @@ package body GWindows.Databases.Controls is
    procedure Do_Next
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      P : Pointer_To_Database_Control_Class :=
+      P : constant Pointer_To_Database_Control_Class :=
         Pointer_To_Database_Control_Class (Parent (Window));
    begin
       if not EOF (P.Recordset) then
@@ -125,7 +125,7 @@ package body GWindows.Databases.Controls is
    procedure Do_Previous
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      P : Pointer_To_Database_Control_Class :=
+      P : constant Pointer_To_Database_Control_Class :=
         Pointer_To_Database_Control_Class (Parent (Window));
    begin
       if not BOF (P.Recordset) then
@@ -150,7 +150,7 @@ package body GWindows.Databases.Controls is
    procedure Do_First
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      P : Pointer_To_Database_Control_Class :=
+      P : constant Pointer_To_Database_Control_Class :=
         Pointer_To_Database_Control_Class (Parent (Window));
    begin
       if not BOF (P.Recordset) then
@@ -171,7 +171,7 @@ package body GWindows.Databases.Controls is
    procedure Do_Last
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      P : Pointer_To_Database_Control_Class :=
+      P : constant Pointer_To_Database_Control_Class :=
         Pointer_To_Database_Control_Class (Parent (Window));
    begin
       if not EOF (P.Recordset) then
@@ -192,7 +192,7 @@ package body GWindows.Databases.Controls is
    procedure Do_Update
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      P : Pointer_To_Database_Control_Class :=
+      P : constant Pointer_To_Database_Control_Class :=
         Pointer_To_Database_Control_Class (Parent (Window));
    begin
       Update (P.Recordset);
@@ -273,7 +273,7 @@ package body GWindows.Databases.Controls is
       Control     : in     GWindows.Base.Pointer_To_Base_Window_Class;
       Permissions : in     Permissions_Type := Read_Write)
    is
-      Rec : Pointer_To_Text_Bind_Record := new Text_Bind_Record;
+      Rec : constant Pointer_To_Text_Bind_Record := new Text_Bind_Record;
    begin
       Rec.Field_Name  := To_GString_Unbounded (Field_Name);
       Rec.Control     := Control;

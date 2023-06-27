@@ -33,13 +33,13 @@
 --    extension to the Tree_view_control_type (David Botton):
 --    implemented features:
 --
--- -> TreeHitTest, returns which node is at point
--- -> nodes with icons
--- -> catch the change-event
+--  -> TreeHitTest, returns which node is at point
+--  -> nodes with icons
+--  -> catch the change-event
 --
--- attention: since this package uses the type tree_item_node
---            from gwindows.common_controls, the client-package has to
---            with it.
+--  attention: since this package uses the type tree_item_node
+--             from gwindows.common_controls, the client-package has to
+--             with it.
 ------------------------------------------------------------------------------
 
 with GWindows.Types;
@@ -68,23 +68,23 @@ package GWindows.Common_Controls.Ex_TV_Generic is
       Single_Expand : in     Boolean                              := False;
       Show          : in     Boolean                              := True;
       Is_Dynamic    : in     Boolean                              := False);
-   -- create an Ex_Tree_View_control
+   --  create an Ex_Tree_View_control
 
-   procedure Set_Image_List(Control : in Ex_Tree_View_Control_Type;
-                            Image_List : in Ex_Image_List_Type);
-   -- sets imagelist
+   procedure Set_Image_List (Control    : in Ex_Tree_View_Control_Type;
+                             Image_List : in Ex_Image_List_Type);
+   --  sets imagelist
 
    procedure Insert_Item (Control     : in out Ex_Tree_View_Control_Type;
                           Text        : in     GString;
                           Parent_Node : in     Tree_Item_Node;
                           New_Node    :    out Tree_Item_Node;
-                          Where       : in     Tree_Item_Node          );
+                          Where       : in     Tree_Item_Node);
    procedure Insert_Item (Control     : in out Ex_Tree_View_Control_Type;
                           Text        : in     GString;
                           Parent_Node : in     Tree_Item_Node;
                           New_Node    :    out Tree_Item_Node;
-                          Where       : in     Tree_View_List_Location_Type := Sort );
-   -- insert an item
+                          Where       : in     Tree_View_List_Location_Type := Sort);
+   --  insert an item
 
    procedure Set_Item_Id(Control: in Ex_Tree_View_Control_Type;
                          Node : in Tree_Item_Node;

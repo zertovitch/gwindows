@@ -29,7 +29,7 @@ begin
         Action      => Add,
         Entry_Label => "GWin_Util Demo for " & (if Subject = Any_File then "File" else "Folder"),
         Command     => S2G (Command_Name) & " ""%1""",
-        Icon_Path   => S2G (Value("windir")) & "\regedit.exe"
+        Icon_Path   => S2G (Value ("windir")) & "\regedit.exe"
       );
     end loop;
   else

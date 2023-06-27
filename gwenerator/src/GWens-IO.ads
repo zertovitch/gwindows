@@ -28,8 +28,8 @@ package GWens.IO is
 
   --  Load / Save through files
 
-  procedure Load(file_name: in String; proj: out GWen; success: out Boolean);
+  procedure Load (file_name : in String; proj : in out GWen; is_success : out Boolean);
 
-  procedure Save(proj: in out GWen);
+  procedure Save (proj : in out GWen);
 
 end GWens.IO;

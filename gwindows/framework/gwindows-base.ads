@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -753,6 +753,9 @@ package GWindows.Base is
    --        the various win32 controls.
 
    procedure Use_Mouse_Wheel (Window : in out Base_Window_Type);
+   --  Activate mouse wheel events for Window.
+   --  Note that you need to set the global variable `Mouse_Wheel_Target`
+   --  to `Mouse_Window` for having any real effect.
 
    -------------------------------------------------------------------------
    --  Advanced Specs for Customizing GWindows

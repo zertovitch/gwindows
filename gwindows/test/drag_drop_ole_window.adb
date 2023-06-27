@@ -136,7 +136,8 @@ package body Drag_Drop_OLE_Window is
          when DRAGDROP_S_CANCEL =>
             return "Cancelled"; -- !!
          when others =>
-            return "Drop error:" & GNATCOM.Types.HRESULT'Wide_Image (res);
+            return "Drop error:" &
+               To_GString_From_String (GNATCOM.Types.HRESULT'Image (res));
             --  !! raise exception here
       end case;
    end Drop_to_Explorer;
