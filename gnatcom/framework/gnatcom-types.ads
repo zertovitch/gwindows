@@ -197,6 +197,8 @@ package GNATCOM.Types is
    --  GUIDs are used through in COM to uniquely identify types, interfaces,
    --  objects, and libraries. See GNATCOM.GUID
 
+   type GUID_Array is array (Positive) of GUID;
+
    GUID_NULL : aliased GUID :=
      (0, 0, 0,
        (C.unsigned_char'Val (0), C.unsigned_char'Val (0),

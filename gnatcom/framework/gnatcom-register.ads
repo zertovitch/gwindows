@@ -78,27 +78,35 @@ package GNATCOM.Register is
                                      Name         : in String;
                                      Version      : in String;
                                      Description  : in String;
-                                     Thread_Model : in String := "Apartment");
+                                     Thread_Model : in String := "Apartment";
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>));
    --  Register COM object contained in an Inproc (DLL) Server
 
    procedure Register_Local_Server (hInstance    : in Interfaces.C.ptrdiff_t;
                                     CLSID        : in GNATCOM.Types.GUID;
                                     Name         : in String;
                                     Version      : in String;
-                                    Description  : in String);
+                                    Description  : in String;
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>));
    --  Register COM object contained in a Local (EXE) Server
 
    procedure Register_Remote_Server (CLSID          : in GNATCOM.Types.GUID;
                                      Name           : in String;
                                      Version        : in String;
                                      Description    : in String;
-                                     Remote_Machine : in String);
+                                     Remote_Machine : in String;
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>));
    --  Register type library and settings to access a COM object remotely
 
    procedure Unregister_Server (CLSID   : in GNATCOM.Types.GUID;
                                 Name    : in String;
-                                Version : in String);
+                                Version : in String;
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>));
    --  Remove COM object settings in registry
+
+   procedure Register_Component_Category (CATID       : in GNATCOM.Types.GUID;
+                                          Description : in String);
+   --  Register Component Category.
 
    FILE_NAME_ERROR : exception;
    --  Unable to determine the file name of the server, perhaps the hInstance
