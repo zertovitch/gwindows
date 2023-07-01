@@ -33,8 +33,13 @@ rem --- Old and new Ayacc
 ayacc.exe rc.y off off on on >ayacc.log
 type ayacc.log
 rem --- New Ayacc (Ada France)
-rem     Waiting for the resolution of https://github.com/Ada-France/ayacc/issues/8
+rem     Roadblock: https://github.com/Ada-France/ayacc/issues/8
 rem     (Issue with private packages)
+rem     Cannot make a completely backwards compatible solution.
+rem     For using Ada France's version, one needs to wrap yyparse and yylex
+rem     within a package, which is a bit nicer. Unfortunately the "old" ayacc
+rem     shipped here inserts then a WITH within the parser package.
+rem
 rem ayacc.exe rc.y -s -v
 
 rem Add verbose details to log file.

@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2022 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -72,6 +72,17 @@ package GWindows.Common_Controls is
    procedure Fire_On_Double_Click
      (Control : in out Common_Control_Type);
 
+   procedure On_Middle_Click_Handler
+     (Control : in out Common_Control_Type;
+      Handler : in     GWindows.Base.Action_Event);
+   procedure Fire_On_Middle_Click (Control : in out Common_Control_Type);
+
+   procedure On_Middle_Double_Click_Handler
+     (Control : in out Common_Control_Type;
+      Handler : in     GWindows.Base.Action_Event);
+   procedure Fire_On_Middle_Double_Click
+     (Control : in out Common_Control_Type);
+
    procedure On_Right_Click_Handler
      (Control  : in out Common_Control_Type;
       Handler : in GWindows.Base.Action_Event);
@@ -116,6 +127,12 @@ package GWindows.Common_Controls is
    procedure On_Double_Click (Control : in out Common_Control_Type);
    --  Double Clicked
 
+   procedure On_Middle_Click (Control : in out Common_Control_Type);
+   --  Middle Clicked
+
+   procedure On_Middle_Double_Click (Control : in out Common_Control_Type);
+   --  Middle Double Clicked
+
    procedure On_Right_Click (Control : in out Common_Control_Type);
    --  Right Clicked
 
@@ -142,6 +159,13 @@ package GWindows.Common_Controls is
    -------------------------------------------------------------------------
    --  These should be overiden with caution and only with a full
    --  understanding of the internals of the entire GWindows framework
+
+   procedure On_Message
+     (Window       : in out Common_Control_Type;
+      message      : in     Interfaces.C.unsigned;
+      wParam       : in     GWindows.Types.Wparam;
+      lParam       : in     GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult);
 
    procedure On_Notify
      (Window       : in out Common_Control_Type;
@@ -1541,15 +1565,17 @@ package GWindows.Common_Controls is
 private
    type Common_Control_Type is new GWindows.Base.Base_Window_Type with
       record
-         On_Click_Event              : GWindows.Base.Action_Event := null;
-         On_Double_Click_Event       : GWindows.Base.Action_Event := null;
-         On_Right_Click_Event        : GWindows.Base.Action_Event := null;
-         On_Right_Double_Click_Event : GWindows.Base.Action_Event := null;
-         On_Return_Event             : GWindows.Base.Action_Event := null;
-         On_Out_Of_Memory_Event      : GWindows.Base.Action_Event := null;
-         On_Focus_Event              : GWindows.Base.Action_Event := null;
-         On_Lost_Focus_Event         : GWindows.Base.Action_Event := null;
-         On_Hover_Event              : GWindows.Base.Action_Event := null;
+         On_Click_Event               : GWindows.Base.Action_Event := null;
+         On_Double_Click_Event        : GWindows.Base.Action_Event := null;
+         On_Middle_Click_Event        : GWindows.Base.Action_Event := null;
+         On_Middle_Double_Click_Event : GWindows.Base.Action_Event := null;
+         On_Right_Click_Event         : GWindows.Base.Action_Event := null;
+         On_Right_Double_Click_Event  : GWindows.Base.Action_Event := null;
+         On_Return_Event              : GWindows.Base.Action_Event := null;
+         On_Out_Of_Memory_Event       : GWindows.Base.Action_Event := null;
+         On_Focus_Event               : GWindows.Base.Action_Event := null;
+         On_Lost_Focus_Event          : GWindows.Base.Action_Event := null;
+         On_Hover_Event               : GWindows.Base.Action_Event := null;
       end record;
 
    type Animation_Control_Type is new Common_Control_Type with
