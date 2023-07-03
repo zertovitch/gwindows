@@ -255,21 +255,22 @@ package body GWindows.Common_Controls is
 --     TVIS_USERMASK           : constant := 16#F000#;
 
    TCM_FIRST               : constant := 16#1300#;
-   TCM_GETITEMCOUNT        : constant := (TCM_FIRST + 4);
-   TCM_GETITEMA            : constant := (TCM_FIRST + 5);
-   TCM_SETITEMA            : constant := (TCM_FIRST + 6);
-   TCM_INSERTITEMA         : constant := (TCM_FIRST + 7);
-   TCM_GETITEMW            : constant := (TCM_FIRST + 60);
-   TCM_SETITEMW            : constant := (TCM_FIRST + 61);
-   TCM_INSERTITEMW         : constant := (TCM_FIRST + 62);
-   TCM_DELETEITEM          : constant := (TCM_FIRST + 8);
-   TCM_DELETEALLITEMS      : constant := (TCM_FIRST + 9);
-   TCM_GETCURSEL           : constant := (TCM_FIRST + 11);
-   TCM_SETCURSEL           : constant := (TCM_FIRST + 12);
-   TCM_HITTEST             : constant := (TCM_FIRST + 13);
-   --  TCM_SETCURFOCUS         : constant := (TCM_FIRST + 48);
-   TCM_ADJUSTRECT          : constant := (TCM_FIRST + 40);
-   TCM_GETROWCOUNT         : constant := (TCM_FIRST + 44);
+   TCM_GETITEMCOUNT        : constant := TCM_FIRST + 4;
+   TCM_GETITEMA            : constant := TCM_FIRST + 5;
+   TCM_SETITEMA            : constant := TCM_FIRST + 6;
+   TCM_INSERTITEMA         : constant := TCM_FIRST + 7;
+   TCM_GETITEMW            : constant := TCM_FIRST + 60;
+   TCM_SETITEMW            : constant := TCM_FIRST + 61;
+   TCM_INSERTITEMW         : constant := TCM_FIRST + 62;
+   TCM_DELETEITEM          : constant := TCM_FIRST + 8;
+   TCM_DELETEALLITEMS      : constant := TCM_FIRST + 9;
+   TCM_GETCURSEL           : constant := TCM_FIRST + 11;
+   TCM_SETCURSEL           : constant := TCM_FIRST + 12;
+   TCM_HITTEST             : constant := TCM_FIRST + 13;
+   TCM_ADJUSTRECT          : constant := TCM_FIRST + 40;
+   TCM_GETROWCOUNT         : constant := TCM_FIRST + 44;
+   TCM_SETTOOLTIPS         : constant := TCM_FIRST + 46;
+   --  TCM_SETCURFOCUS         : constant := TCM_FIRST + 48;
 
    TCIF_TEXT               : constant := 16#0001#;
 --     TCIF_IMAGE              : constant := 16#0002#;
@@ -4034,6 +4035,25 @@ package body GWindows.Common_Controls is
    begin
       SendMessage;
    end Delete_All_Tabs;
+
+   ------------------
+   -- Set_Tool_Tip --
+   ------------------
+
+   procedure Set_Tool_Tips
+     (Control : in Tab_Control_Type;
+      Tips    : in Tool_Tip_Type)
+   is
+      procedure SendMessage
+        (hwnd   : Types.Handle     := Handle (Control);
+         uMsg   : Interfaces.C.int := TCM_SETTOOLTIPS;
+         wParam : Types.Handle     := Handle (Tips);
+         lParam : Types.Lparam     := 0);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Set_Tool_Tips;
 
    ------------------
    -- Display_Area --

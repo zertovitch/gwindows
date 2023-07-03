@@ -1187,6 +1187,12 @@ package GWindows.Common_Controls is
 
    procedure Delete_All_Tabs (Control : in out Tab_Control_Type);
 
+   type Tool_Tip_Type;
+
+   procedure Set_Tool_Tips
+     (Control : in Tab_Control_Type;
+      Tips    : in Tool_Tip_Type);
+
    -------------------------------------------------------------------------
    --  Tab_Control_Type - Event Handlers
    -------------------------------------------------------------------------
