@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2022 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -154,7 +154,7 @@ package GWindows.Scintilla is
 
    function Line_Length (Control : Scintilla_Type; line : Integer)
                        return Integer;
-   --  How many characters are on a line, not including end of line characters.
+   --  Returns the length of a line, *including* any line end characters.
 
    function Lines_On_Screen (Control : Scintilla_Type) return Integer;
    --  Retrieves the number of lines completely visible.
@@ -162,6 +162,9 @@ package GWindows.Scintilla is
    function Get_Char_At
      (Control : Scintilla_Type; pos : Position) return Integer;
    --  Returns the character byte at the position
+
+   function Get_Current_Line_Number (Control : Scintilla_Type) return Integer;
+   --  Returns the current line number
 
    function Get_Current_Pos (Control : Scintilla_Type) return Position;
    --  Returns the position of the caret
@@ -1167,8 +1170,8 @@ package GWindows.Scintilla is
    --  Get the highlighted indentation guide column.
 
    function Get_Line_End_Position
-     (Control : Scintilla_Type; line : Integer) return Integer;
-   --  Get the Position after the last visible characters on a line.
+     (Control : Scintilla_Type; line : Integer) return Position;
+   --  Get the position at the end of the line, before any line end characters.
 
    function Get_Code_Page (Control : Scintilla_Type) return Integer;
    --  Get the code page used to interpret the bytes of the document
@@ -1361,7 +1364,7 @@ package GWindows.Scintilla is
 
    function Line_From_Position
      (Control : Scintilla_Type; pos : Position) return Integer;
-   --  Retrieve the line containing a Position.
+   --  Retrieve the line number containing a Position.
 
    function Position_From_Line
      (Control : Scintilla_Type; line : Integer) return Position;

@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2022 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -1971,6 +1971,16 @@ package body GWindows.Scintilla is
         (S (S'First .. S'Last - 1));
    end Get_Cur_Line;
 
+   ----------------------
+   -- Get_Current_Line --
+   ----------------------
+
+   function Get_Current_Line_Number (Control : Scintilla_Type) return Integer
+   is
+   begin
+      return Line_From_Position (Control, Get_Current_Pos (Control));
+   end Get_Current_Line_Number;
+
    ---------------------
    -- Get_Current_Pos --
    ---------------------
@@ -2415,7 +2425,7 @@ package body GWindows.Scintilla is
    function Get_Line_End_Position
      (Control : Scintilla_Type;
       line : Integer)
-      return Integer
+      return Position
    is
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -2426,7 +2436,7 @@ package body GWindows.Scintilla is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return GWindows.Types.To_Integer (SendMessage);
+      return To_Int (SendMessage);
    end Get_Line_End_Position;
 
    --------------------------
