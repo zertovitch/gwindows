@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2022 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -255,21 +255,22 @@ package body GWindows.Common_Controls is
 --     TVIS_USERMASK           : constant := 16#F000#;
 
    TCM_FIRST               : constant := 16#1300#;
-   TCM_GETITEMCOUNT        : constant := (TCM_FIRST + 4);
-   TCM_GETITEMA            : constant := (TCM_FIRST + 5);
-   TCM_SETITEMA            : constant := (TCM_FIRST + 6);
-   TCM_INSERTITEMA         : constant := (TCM_FIRST + 7);
-   TCM_GETITEMW            : constant := (TCM_FIRST + 60);
-   TCM_SETITEMW            : constant := (TCM_FIRST + 61);
-   TCM_INSERTITEMW         : constant := (TCM_FIRST + 62);
-   TCM_DELETEITEM          : constant := (TCM_FIRST + 8);
-   TCM_DELETEALLITEMS      : constant := (TCM_FIRST + 9);
-   TCM_GETCURSEL           : constant := (TCM_FIRST + 11);
-   TCM_SETCURSEL           : constant := (TCM_FIRST + 12);
-   TCM_HITTEST             : constant := (TCM_FIRST + 13);
-   --  TCM_SETCURFOCUS         : constant := (TCM_FIRST + 48);
-   TCM_ADJUSTRECT          : constant := (TCM_FIRST + 40);
-   TCM_GETROWCOUNT         : constant := (TCM_FIRST + 44);
+   TCM_GETITEMCOUNT        : constant := TCM_FIRST + 4;
+   TCM_GETITEMA            : constant := TCM_FIRST + 5;
+   TCM_SETITEMA            : constant := TCM_FIRST + 6;
+   TCM_INSERTITEMA         : constant := TCM_FIRST + 7;
+   TCM_GETITEMW            : constant := TCM_FIRST + 60;
+   TCM_SETITEMW            : constant := TCM_FIRST + 61;
+   TCM_INSERTITEMW         : constant := TCM_FIRST + 62;
+   TCM_DELETEITEM          : constant := TCM_FIRST + 8;
+   TCM_DELETEALLITEMS      : constant := TCM_FIRST + 9;
+   TCM_GETCURSEL           : constant := TCM_FIRST + 11;
+   TCM_SETCURSEL           : constant := TCM_FIRST + 12;
+   TCM_HITTEST             : constant := TCM_FIRST + 13;
+   TCM_ADJUSTRECT          : constant := TCM_FIRST + 40;
+   TCM_GETROWCOUNT         : constant := TCM_FIRST + 44;
+   TCM_SETTOOLTIPS         : constant := TCM_FIRST + 46;
+   --  TCM_SETCURFOCUS         : constant := TCM_FIRST + 48;
 
    TCIF_TEXT               : constant := 16#0001#;
 --     TCIF_IMAGE              : constant := 16#0002#;
@@ -400,36 +401,34 @@ package body GWindows.Common_Controls is
    --  Package Body
    -------------------------------------------------------------------------
 
-   --------------
-   -- On_Click --
-   --------------
+   ---------------------------------------
+   -- On_[Double_][Middle_|Right_]Click --
+   ---------------------------------------
 
    procedure On_Click (Control : in out Common_Control_Type) is
    begin
       Fire_On_Click (Control);
    end On_Click;
 
-   ---------------------
-   -- On_Double_Click --
-   ---------------------
-
    procedure On_Double_Click (Control : in out Common_Control_Type) is
    begin
       Fire_On_Double_Click (Control);
    end On_Double_Click;
 
-   --------------------
-   -- On_Right_Click --
-   --------------------
+   procedure On_Middle_Click (Control : in out Common_Control_Type) is
+   begin
+      Fire_On_Middle_Click (Control);
+   end On_Middle_Click;
+
+   procedure On_Middle_Double_Click (Control : in out Common_Control_Type) is
+   begin
+      Fire_On_Middle_Double_Click (Control);
+   end On_Middle_Double_Click;
 
    procedure On_Right_Click (Control : in out Common_Control_Type) is
    begin
       Fire_On_Right_Click (Control);
    end On_Right_Click;
-
-   ---------------------------
-   -- On_Right_Double_Click --
-   ---------------------------
 
    procedure On_Right_Double_Click (Control : in out Common_Control_Type) is
    begin
@@ -481,6 +480,43 @@ package body GWindows.Common_Controls is
       Fire_On_Hover (Control);
    end On_Hover;
 
+   ----------------
+   -- On_Message --
+   ----------------
+
+   procedure On_Message
+     (Window       : in out Common_Control_Type;
+      message      : in     Interfaces.C.unsigned;
+      wParam       : in     GWindows.Types.Wparam;
+      lParam       : in     GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult)
+   is
+      --  Middle mouse button messages.
+      --  The left and right buttons are handled by On_Notify.
+      --
+      WM_MBUTTONUP     : constant := 520;
+      WM_MBUTTONDBLCLK : constant := 521;
+   begin
+      case message is
+         when WM_MBUTTONUP     =>
+            On_Middle_Click (Common_Control_Type'Class (Window));
+            --  ^ 'Class is for re-dispatching
+            Return_Value := 0;
+         when WM_MBUTTONDBLCLK =>
+            On_Middle_Double_Click (Common_Control_Type'Class (Window));
+            --  ^ 'Class is for re-dispatching
+            Return_Value := 0;
+         when others =>
+            --  Call parent method:
+            Base.On_Message
+               (Base.Base_Window_Type (Window),
+                message,
+                wParam,
+                lParam,
+                Return_Value);
+      end case;
+   end On_Message;
+
    ---------------
    -- On_Notify --
    ---------------
@@ -526,7 +562,6 @@ package body GWindows.Common_Controls is
          when others =>
             null;
       end case;
-
    end On_Notify;
 
    ------------
@@ -643,9 +678,9 @@ package body GWindows.Common_Controls is
       SendMessageA;
    end Background_Color;
 
-   ----------------------
-   -- On_Click_Handler --
-   ----------------------
+   --------------------
+   -- Click Handlers --
+   --------------------
 
    procedure On_Click_Handler (Control : in out Common_Control_Type;
                                Handler : in     GWindows.Base.Action_Event)
@@ -653,10 +688,6 @@ package body GWindows.Common_Controls is
    begin
       Control.On_Click_Event := Handler;
    end On_Click_Handler;
-
-   -------------------
-   -- Fire_On_Click --
-   -------------------
 
    procedure Fire_On_Click (Control : in out Common_Control_Type)
    is
@@ -667,10 +698,6 @@ package body GWindows.Common_Controls is
       end if;
    end Fire_On_Click;
 
-   -----------------------------
-   -- On_Double_Click_Handler --
-   -----------------------------
-
    procedure On_Double_Click_Handler
      (Control : in out Common_Control_Type;
       Handler : in     GWindows.Base.Action_Event)
@@ -678,10 +705,6 @@ package body GWindows.Common_Controls is
    begin
       Control.On_Double_Click_Event := Handler;
    end On_Double_Click_Handler;
-
-   --------------------------
-   -- Fire_On_Double_Click --
-   --------------------------
 
    procedure Fire_On_Double_Click (Control : in out Common_Control_Type)
    is
@@ -692,9 +715,40 @@ package body GWindows.Common_Controls is
       end if;
    end Fire_On_Double_Click;
 
-   ----------------------------
-   -- On_Right_Click_Handler --
-   ----------------------------
+   procedure On_Middle_Click_Handler
+     (Control : in out Common_Control_Type;
+      Handler : in     GWindows.Base.Action_Event)
+   is
+   begin
+      Control.On_Middle_Click_Event := Handler;
+   end On_Middle_Click_Handler;
+
+   procedure Fire_On_Middle_Click (Control : in out Common_Control_Type)
+   is
+      use GWindows.Base;
+   begin
+      if Control.On_Middle_Click_Event /= null then
+         Control.On_Middle_Click_Event (Base_Window_Type'Class (Control));
+      end if;
+   end Fire_On_Middle_Click;
+
+   procedure On_Middle_Double_Click_Handler
+     (Control : in out Common_Control_Type;
+      Handler : in     GWindows.Base.Action_Event)
+   is
+   begin
+      Control.On_Middle_Double_Click_Event := Handler;
+   end On_Middle_Double_Click_Handler;
+
+   procedure Fire_On_Middle_Double_Click (Control : in out Common_Control_Type)
+   is
+      use GWindows.Base;
+   begin
+      if Control.On_Middle_Double_Click_Event /= null then
+         Control.On_Middle_Double_Click_Event
+           (Base_Window_Type'Class (Control));
+      end if;
+   end Fire_On_Middle_Double_Click;
 
    procedure On_Right_Click_Handler
      (Control : in out Common_Control_Type;
@@ -703,10 +757,6 @@ package body GWindows.Common_Controls is
    begin
       Control.On_Right_Click_Event := Handler;
    end On_Right_Click_Handler;
-
-   -------------------------
-   -- Fire_On_Right_Click --
-   -------------------------
 
    procedure Fire_On_Right_Click (Control : in out Common_Control_Type)
    is
@@ -717,10 +767,6 @@ package body GWindows.Common_Controls is
       end if;
    end Fire_On_Right_Click;
 
-   -----------------------------------
-   -- On_Right_Double_Click_Handler --
-   -----------------------------------
-
    procedure On_Right_Double_Click_Handler
      (Control : in out Common_Control_Type;
       Handler : in     GWindows.Base.Action_Event)
@@ -728,10 +774,6 @@ package body GWindows.Common_Controls is
    begin
       Control.On_Right_Double_Click_Event := Handler;
    end On_Right_Double_Click_Handler;
-
-   --------------------------------
-   -- Fire_On_Right_Double_Click --
-   --------------------------------
 
    procedure Fire_On_Right_Double_Click (Control : in out Common_Control_Type)
    is
@@ -3993,6 +4035,25 @@ package body GWindows.Common_Controls is
    begin
       SendMessage;
    end Delete_All_Tabs;
+
+   ------------------
+   -- Set_Tool_Tip --
+   ------------------
+
+   procedure Set_Tool_Tips
+     (Control : in Tab_Control_Type;
+      Tips    : in Tool_Tip_Type)
+   is
+      procedure SendMessage
+        (hwnd   : Types.Handle     := Handle (Control);
+         uMsg   : Interfaces.C.int := TCM_SETTOOLTIPS;
+         wParam : Types.Handle     := Handle (Tips);
+         lParam : Types.Lparam     := 0);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Set_Tool_Tips;
 
    ------------------
    -- Display_Area --
