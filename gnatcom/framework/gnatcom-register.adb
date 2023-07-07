@@ -158,7 +158,7 @@ package body GNATCOM.Register is
       Version      : in String;
       Description  : in String;
       Thread_Model : in String := "Apartment";
-      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>))
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>))
    is
       use type Interfaces.C.int;
 
@@ -211,7 +211,7 @@ package body GNATCOM.Register is
       Name         : in String;
       Version      : in String;
       Description  : in String;
-      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>))
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>))
    is
       use type Interfaces.C.int;
 
@@ -260,7 +260,7 @@ package body GNATCOM.Register is
       Version        : in String;
       Description    : in String;
       Remote_Machine : in String;
-      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>))
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>))
    is
       Class_ID  : constant String := GNATCOM.GUID.To_String (CLSID);
    begin
@@ -352,7 +352,7 @@ package body GNATCOM.Register is
      (CLSID   : in GNATCOM.Types.GUID;
       Name    : in String;
       Version : in String;
-      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>))
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>))
    is
       Class_ID  : constant String := GNATCOM.GUID.To_String (CLSID);
    begin

@@ -124,6 +124,7 @@ package body GNATCOM.Create.Inproc is
 
    function DllRegisterServer return GNATCOM.Types.HRESULT is
       use Ada.Strings.Unbounded;
+      use type GNATCOM.Types.GUID_Array_Pointer;
       Threads : Unbounded_String;
    begin
       Adainit;
@@ -149,7 +150,11 @@ package body GNATCOM.Create.Inproc is
             Name         => To_String (Factory_Map (N).Name),
             Version      => To_String (Factory_Map (N).Version),
             Description  => To_String (Factory_Map (N).Description),
-            Thread_Model => To_String (Threads));
+            Thread_Model => To_String (Threads),
+            Implemented_Categories =>
+              (if Factory_Map (N).Implemented_Categories /= null then
+                    Factory_Map (N).Implemented_Categories.all
+               else GNATCOM.Types.GUID_Array'(2 .. 1 => <>)));
       end loop;
 
       return S_OK;
@@ -161,6 +166,7 @@ package body GNATCOM.Create.Inproc is
 
    function DllUnregisterServer return GNATCOM.Types.HRESULT is
       use Ada.Strings.Unbounded;
+      use type GNATCOM.Types.GUID_Array_Pointer;
    begin
       Adainit;
 
@@ -172,7 +178,11 @@ package body GNATCOM.Create.Inproc is
          GNATCOM.Register.Unregister_Server
            (CLSID       => Factory_Map (N).CLSID,
             Name        => To_String (Factory_Map (N).Name),
-            Version     => To_String (Factory_Map (N).Version));
+            Version     => To_String (Factory_Map (N).Version),
+            Implemented_Categories =>
+              (if Factory_Map (N).Implemented_Categories /= null then
+                    Factory_Map (N).Implemented_Categories.all
+               else GNATCOM.Types.GUID_Array'(2 .. 1 => <>)));
       end loop;
 
       return S_OK;
