@@ -103,6 +103,7 @@ package body GNATCOM.Create.Local_Server is
 
    procedure Init_Object (LIBID : in GNATCOM.Types.GUID) is
       use type Interfaces.C.unsigned_long;
+      use type GNATCOM.Types.GUID_Array_Pointer;
 
       function To_Pointer_To_IUnknown is
          new Ada.Unchecked_Conversion
@@ -198,7 +199,11 @@ package body GNATCOM.Create.Local_Server is
                   CLSID        => Factory_Map (N).CLSID,
                   Name         => To_String (Factory_Map (N).Name),
                   Version      => To_String (Factory_Map (N).Version),
-                  Description  => To_String (Factory_Map (N).Description));
+                  Description  => To_String (Factory_Map (N).Description),
+                  Implemented_Categories =>
+                    (if Factory_Map (N).Implemented_Categories /= null then
+                          Factory_Map (N).Implemented_Categories.all
+                     else GNATCOM.Types.GUID_Array'(2 .. 1 => <>)));
             end loop;
          elsif
            (Argument (1) = "/UnregServer")
@@ -215,7 +220,11 @@ package body GNATCOM.Create.Local_Server is
                   GNATCOM.Register.Unregister_Server
                     (CLSID   => Factory_Map (N).CLSID,
                      Name    => To_String (Factory_Map (N).Name),
-                     Version => To_String (Factory_Map (N).Version));
+                     Version => To_String (Factory_Map (N).Version),
+                     Implemented_Categories =>
+                       (if Factory_Map (N).Implemented_Categories /= null then
+                             Factory_Map (N).Implemented_Categories.all
+                        else GNATCOM.Types.GUID_Array'(2 .. 1 => <>)));
                end loop;
             exception
                when GNATCOM.Register.REGISTRY_ERROR =>

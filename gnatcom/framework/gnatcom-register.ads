@@ -79,7 +79,7 @@ package GNATCOM.Register is
                                      Version      : in String;
                                      Description  : in String;
                                      Thread_Model : in String := "Apartment";
-      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>));
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>));
    --  Register COM object contained in an Inproc (DLL) Server
 
    procedure Register_Local_Server (hInstance    : in Interfaces.C.ptrdiff_t;
@@ -87,7 +87,7 @@ package GNATCOM.Register is
                                     Name         : in String;
                                     Version      : in String;
                                     Description  : in String;
-      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>));
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>));
    --  Register COM object contained in a Local (EXE) Server
 
    procedure Register_Remote_Server (CLSID          : in GNATCOM.Types.GUID;
@@ -95,13 +95,13 @@ package GNATCOM.Register is
                                      Version        : in String;
                                      Description    : in String;
                                      Remote_Machine : in String;
-      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>));
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>));
    --  Register type library and settings to access a COM object remotely
 
    procedure Unregister_Server (CLSID   : in GNATCOM.Types.GUID;
                                 Name    : in String;
                                 Version : in String;
-      Implemented_Categories : in GNATCOM.Types.GUID_Array := (1 .. 0 => <>));
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>));
    --  Remove COM object settings in registry
 
    procedure Register_Component_Category (CATID       : in GNATCOM.Types.GUID;
