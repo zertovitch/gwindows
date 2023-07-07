@@ -54,6 +54,7 @@ package GNATCOM.Create.Local_Server is
          Description : Ada.Strings.Unbounded.Unbounded_String;
          pFactory    : GNATCOM.Create.Factory.Pointer_To_IClassFactory := null;
          dwRegister  : aliased Interfaces.C.unsigned_long := 0;
+         Implemented_Categories : GNATCOM.Types.GUID_Array_Pointer := null;
       end record;
    --  Map for CLSIDs to COM object creation infromation and functions
 

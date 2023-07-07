@@ -114,6 +114,9 @@ package GNATCOM.Types is
    type DWORD is new Interfaces.C.unsigned;
    type Pointer_To_DWORD is access all DWORD;
 
+   type ULONG is new Interfaces.C.unsigned_long;
+   type Pointer_To_ULONG is access all ULONG;
+
    Size_Of_DWORDLONG : constant := 64;
 
    type DWORDLONG is record
@@ -197,7 +200,8 @@ package GNATCOM.Types is
    --  GUIDs are used through in COM to uniquely identify types, interfaces,
    --  objects, and libraries. See GNATCOM.GUID
 
-   type GUID_Array is array (Positive) of GUID;
+   type GUID_Array is array (Positive range <>) of GUID;
+   type GUID_Array_Pointer is access all GUID_Array;
 
    GUID_NULL : aliased GUID :=
      (0, 0, 0,

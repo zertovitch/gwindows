@@ -81,6 +81,7 @@ package GNATCOM.Create.Inproc is
          Name        : Ada.Strings.Unbounded.Unbounded_String;
          Version     : Ada.Strings.Unbounded.Unbounded_String;
          Description : Ada.Strings.Unbounded.Unbounded_String;
+         Implemented_Categories : GNATCOM.Types.GUID_Array_Pointer := null;
       end record;
    --  Map for CLSIDs to COM object creation functions
 
