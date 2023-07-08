@@ -12,7 +12,8 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
-   * Fixes: Scintilla
+   * Fixes on GWindows.Scintilla
+   * Improvements on GNATCOM.
 
 482: GWindows.Common_Controls: added support for middle mouse button
         clicks on controls. Example: for closing tabs.
