@@ -1,18 +1,18 @@
-with GWindows.Message_Boxes;
-with GWindows.Windows.Main;
-with GWindows.Application;
+with GWindows.Application,
+     GWindows.Message_Boxes,
+     GWindows.Windows.Main;
 
 procedure Hello_World is
 begin
-   GWindows.Message_Boxes.Message_Box ("Hello_World", "Hello World!");
+   GWindows.Message_Boxes.Message_Box
+      ("Hello World Message", "Hello World!");
 
    declare
       use GWindows.Windows.Main;
-
-      Top : GWindows.Windows.Main.Main_Window_Type;
+      Top : Main_Window_Type;
    begin
-      Create (Top, "Hello World");
-      Size (Top, 300, 100);
+      Create (Top, "Hello World Window");
+      Size (Top, 500, 300);
       Visible (Top);
       GWindows.Application.Message_Loop;
    end;

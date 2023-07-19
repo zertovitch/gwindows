@@ -14,11 +14,16 @@ project GWindows_Samples is
 
    for Main use (
      "cap_test.adb",                  --  .\mouse\       Demo for mouse capture, drag & drop, and Get_Window_At_Location
+     "context_menu_example.adb",      --  .\simple\
      "control_test.adb",              --  .\controls\    Controls
+     "dock_test.adb",                 --  .\simple\
      "droptest.adb",                  --  .\mouse\       Demo for dragging files from Explorer onto our window
      "game_of_life_interactive.adb",  --  .\drawing\     Passive *and* active drawing demo
+     "hello_world.adb",               --  .\simple\
+     "menu_example.adb",              --  .\simple\
      "mdi_example.adb",               --  .\mdi\         Multi-document example (see AZip, LEA or TeXCAD for full apps)
      "point_test.adb",                --  .\simple\      Shows mouse pointer coordinates
+     "print_hello.adb",               --  .\printing\
      "sci_example.adb",               --  .\scintilla\   Scintilla editor demo  (see LEA for full app)
      "scribble.adb",                  --  .\drawing\     Active drawing demo
      "scribble2.adb",                 --  .\drawing\     Active drawing demo
@@ -35,10 +40,6 @@ project GWindows_Samples is
    package Compiler is
       for Default_Switches ("ada") use (
          "-Os", "-g",
-         "-fipa-cp-clone", "-fgcse-after-reload", 
-         "-funroll-loops", "-fpeel-loops", "-funswitch-loops", 
-         "-ftracer", "-fweb", "-ftree-vectorize",
-         "-frename-registers", "-ffunction-sections",
          "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
          "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
          "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines

@@ -151,7 +151,7 @@ GWindows release, 27-Oct-2014
 GWindows release,  5-Apr-2014
 =============================
 
-228: Added GWindows.Menus.Immediate_Popup_Menu
+228: Added GWindows.Menus.Immediate_Popup_Menu, for context menus
 225: Added GWindows.Taskbar and Test_Taskbar
 216: Added GWindows.System_Tray and Test_System_Tray
 213: Added GWindows.Locales and Test_Locales
