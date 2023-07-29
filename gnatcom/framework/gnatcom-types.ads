@@ -117,6 +117,10 @@ package GNATCOM.Types is
    type ULONG is new Interfaces.C.unsigned_long;
    type Pointer_To_ULONG is access all ULONG;
 
+   type LONG is new Interfaces.C.long;
+   type PSECURITY_DESCRIPTOR is new Pointer_To_Void;
+   type SOLE_AUTHENTICATION_SERVICE is null record;
+
    Size_Of_DWORDLONG : constant := 64;
 
    type DWORDLONG is record
@@ -235,6 +239,7 @@ package GNATCOM.Types is
    type IEnumConnections;
    type IEnumVARIANT;
    type IGlobalInterfaceTable;
+   type ICatRegister;
    --  Forward references to COM Interfaces and types
 
    type Pointer_To_int is access all Interfaces.C.int;
@@ -287,9 +292,13 @@ package GNATCOM.Types is
      access all Pointer_To_IEnumConnections;
    type Pointer_To_IEnumVARIANT is access all IEnumVARIANT;
    pragma No_Strict_Aliasing (Pointer_To_IEnumVARIANT);
-   type Pointer_To_Pointer_To_IEnumVARIANT is access all IEnumVARIANT;
+   type Pointer_To_Pointer_To_IEnumVARIANT is
+     access all Pointer_To_IEnumVARIANT;
    type Pointer_To_IGlobalInterfaceTable is access all IGlobalInterfaceTable;
    pragma No_Strict_Aliasing (Pointer_To_IGlobalInterfaceTable);
+   type Pointer_To_ICatRegister is access all ICatRegister;
+   type Pointer_To_Pointer_To_ICatRegister is
+     access all Pointer_To_ICatRegister;
    --  Pointer types used by COM
 
    VT_EMPTY           : constant := 0;
@@ -440,6 +449,19 @@ package GNATCOM.Types is
       end record;
    pragma Convention (C_Pass_By_Copy, Variant_Union);
    pragma Unchecked_Union (Variant_Union);
+
+   subtype LCID is DWORD;
+   subtype OLECHAR_Array is Interfaces.C.wchar_array;
+
+   type CATEGORYINFO is
+      record
+         catid         : GUID;
+         lcid          : GNATCOM.Types.LCID;
+         szDescription : OLECHAR_Array (0 .. 127);
+      end record
+     with Convention => C_Pass_By_Copy;
+
+   type CATEGORYINFO_Array is array (Natural range <>) of aliased CATEGORYINFO;
 
    Size_Of_VARIANT : constant := 64 + 2 * Standard'Address_Size;
 
@@ -2262,6 +2284,24 @@ package GNATCOM.Types is
       end record;
    pragma Convention (C_Pass_By_Copy, IEnumVARIANTVtbl);
 
+   --  {0002E005-0000-0000-C000-000000000046}
+
+   CLSID_StdComponentCategoriesMgr : aliased GUID :=
+     (188421, 0, 0,
+      (C.unsigned_char'Val (192), C.unsigned_char'Val (0),
+       C.unsigned_char'Val (0),   C.unsigned_char'Val (0),
+       C.unsigned_char'Val (0),   C.unsigned_char'Val (0),
+       C.unsigned_char'Val (0),   C.unsigned_char'Val (70)));
+
+   --  {0002E012-0000-0000-C000-000000000046}
+
+   IID_ICatRegister : aliased GUID :=
+     (188434, 0, 0,
+      (C.unsigned_char'Val (192), C.unsigned_char'Val (0),
+       C.unsigned_char'Val (0),   C.unsigned_char'Val (0),
+       C.unsigned_char'Val (0),   C.unsigned_char'Val (0),
+       C.unsigned_char'Val (0),   C.unsigned_char'Val (70)));
+
    --  StdGlobalInterfaceTable CoClass
    --  {00000323-0000-0000-C000-000000000046}
 
@@ -2347,5 +2387,94 @@ package GNATCOM.Types is
            af_IGlobalInterfaceTable_GetInterfaceFromGlobal;
       end record;
    pragma Convention (C_Pass_By_Copy, IGlobalInterfaceTableVtbl);
+
+   type af_ICatRegister_QueryInterface is access
+     function (This   : access ICatRegister;
+               riid   : Pointer_To_GUID;
+               ppvObj : Pointer_To_Pointer_To_Void)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type af_ICatRegister_AddRef is access
+     function (This : access ICatRegister)
+               return Interfaces.C.unsigned_long
+     with Convention => Stdcall;
+
+   type af_ICatRegister_Release is access
+     function (This : access ICatRegister)
+               return Interfaces.C.unsigned_long;
+
+   type af_ICatRegister_RegisterCategories is access
+     function (This           : access ICatRegister;
+               cCategories    : ULONG;
+               rgCategoryInfo : access CATEGORYINFO)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type af_ICatRegister_UnRegisterCategories is access
+     function (This        : access ICatRegister;
+               cCategories : ULONG;
+               rgcatid     : access GUID)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type af_ICatRegister_RegisterClassImplCategories is access
+     function (This        : access ICatRegister;
+               rclsid      : access GUID;
+               cCategories : ULONG;
+               rgcatid     : access GUID)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type af_ICatRegister_UnRegisterClassImplCategories is access
+     function (This        : access ICatRegister;
+               rclsid      : access GUID;
+               cCategories : ULONG;
+               rgcatid     : access GUID)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type af_ICatRegister_RegisterClassReqCategories is access
+     function (This        : access ICatRegister;
+               rclsid      : access GUID;
+               cCategories : ULONG;
+               rgcatid     : access GUID)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type af_ICatRegister_UnRegisterClassReqCategories is access
+     function (This        : access ICatRegister;
+               rclsid      : access GUID;
+               cCategories : ULONG;
+               rgcatid     : access GUID)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type ICatRegisterVtbl;
+   type Pointer_To_ICatRegisterVtbl is access all ICatRegisterVtbl;
+
+   type ICatRegister is
+      record
+         Vtbl : Pointer_To_ICatRegisterVtbl;
+      end record
+     with Convention => C_Pass_By_Copy;
+
+   type ICatRegisterVtbl is
+      record
+         QueryInterface                : af_ICatRegister_QueryInterface;
+         AddRef                        : af_ICatRegister_AddRef;
+         Release                       : af_ICatRegister_Release;
+         RegisterCategories            : af_ICatRegister_RegisterCategories;
+         UnRegisterCategories          : af_ICatRegister_UnRegisterCategories;
+         RegisterClassImplCategories   :
+         af_ICatRegister_RegisterClassImplCategories;
+         UnRegisterClassImplCategories :
+         af_ICatRegister_UnRegisterClassImplCategories;
+         RegisterClassReqCategories    :
+         af_ICatRegister_RegisterClassReqCategories;
+         UnRegisterClassReqCategories  :
+         af_ICatRegister_UnRegisterClassReqCategories;
+      end record
+     with Convention => C_Pass_By_Copy;
 
 end GNATCOM.Types;

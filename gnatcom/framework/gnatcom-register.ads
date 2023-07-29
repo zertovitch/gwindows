@@ -87,7 +87,9 @@ package GNATCOM.Register is
                                     Name         : in String;
                                     Version      : in String;
                                     Description  : in String;
-      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>));
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>);
+      Service_Name : in String := "";
+      APPID        : in GNATCOM.Types.GUID := GNATCOM.Types.GUID_NULL);
    --  Register COM object contained in a Local (EXE) Server
 
    procedure Register_Remote_Server (CLSID          : in GNATCOM.Types.GUID;
@@ -104,8 +106,8 @@ package GNATCOM.Register is
       Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>));
    --  Remove COM object settings in registry
 
-   procedure Register_Component_Category (CATID       : in GNATCOM.Types.GUID;
-                                          Description : in String);
+   procedure Register_Component_Category
+     (Categories : access GNATCOM.Types.CATEGORYINFO_Array);
    --  Register Component Category.
 
    FILE_NAME_ERROR : exception;

@@ -57,6 +57,7 @@ package GNATCOM is
    E_ABORT                   : constant := 16#80004004#;
    E_ACCESSDENIED            : constant := 16#80070005#;
    E_UNEXPECTED              : constant := 16#8000ffff#;
+   E_BOUNDS                  : constant := 16#8000000B#;
 
    DISP_E_TYPEMISMATCH       : constant := 16#80020005#;
    DISP_E_BADVARTYPE         : constant := 16#80020008#;
@@ -106,6 +107,7 @@ private
    type COM_Uninitialize_Type is
      new Ada.Finalization.Controlled with null record;
 
+   overriding
    procedure Finalize (This : in out COM_Uninitialize_Type);
 
    Main_Program_Uninitialize : COM_Uninitialize_Type;
