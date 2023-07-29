@@ -2,10 +2,11 @@
 --                                                                          --
 --      GNATCOM - Ada 95 COM/DCOM/COM+ Development Framework and Tools      --
 --                                                                          --
+--                              G N A T C O M                               --
+--                                                                          --
 --                           R E A D M E . T X T                            --
 --                                                                          --
---                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -18,11 +19,17 @@
 -- to  the Free Software Foundation,  59 Temple Place - Suite 330,  Boston, --
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
+-- As a special exception,  if other files  instantiate  generics from this --
+-- unit, or you link  this unit with other files  to produce an executable, --
+-- this  unit  does not  by itself cause  the resulting  executable  to  be --
+-- covered  by the  GNU  General  Public  License.  This exception does not --
+-- however invalidate  any other reasons why  the executable file  might be --
+-- covered by the  GNU Public License.                                      --
+--                                                                          --
 -- More information about GNATCOM and the most current public version can   --
 -- be located on the web at one of the following places:                    --
---   http://sf.net/projects/gnavi/                                          --
---   http://www.gnavi.org/gnatcom                                           --
---   http://www.adapower.com/gnatcom                                        --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -85,4 +92,4 @@ of the appropriate source files.
 Submitting Bug Reports
 ======================
 
-Please see http://www.gnavi.org
+Please check the Web links above.

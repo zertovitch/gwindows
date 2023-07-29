@@ -1,11 +1,13 @@
-with GWindows.Windows; use GWindows.Windows;
-with GWindows.Windows.Main; use GWindows.Windows.Main;
-with GWindows.Base; use GWindows.Base;
-with GWindows.Static_Controls; use GWindows.Static_Controls;
-with GWindows.Buttons; use GWindows.Buttons;
-with GWindows.Application;
+with GWindows.Application,
+     GWindows.Base,
+     GWindows.Buttons,
+     GWindows.Static_Controls,
+     GWindows.Windows.Main;
 
 procedure Dock_Test is
+   use GWindows.Base, GWindows.Buttons, GWindows.Static_Controls,
+       GWindows.Windows, GWindows.Windows.Main;
+
    Window : Main_Window_Type;
    Button : Cancel_Button_Type;
    L1     : Label_Type;
@@ -27,7 +29,7 @@ procedure Dock_Test is
    end Do_On_Click;
 
 begin
-   Create (Window, "Dock Test Window");
+   Create (Window, "Dock Test Window - Please resize me!");
 
    Create (Button, Window, "&Done", 0, 0, 25, 25);
    Dock (Button, Fill);
