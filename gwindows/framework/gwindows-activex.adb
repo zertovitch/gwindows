@@ -178,8 +178,8 @@ package body GWindows.ActiveX is
 
       WRect.left := 0;
       WRect.top := 0;
-      WRect.right := Interfaces.C.long (GWindows.ActiveX.Width (Window));
-      WRect.bottom := Interfaces.C.long (GWindows.ActiveX.Height (Window));
+      WRect.right := Interfaces.C.int (GWindows.ActiveX.Width (Window));
+      WRect.bottom := Interfaces.C.int (GWindows.ActiveX.Height (Window));
 
       RIID := GNATOCX.IID_IOleClientSite;
       Result := GNATCOM.Create.COM_Interface.QueryInterface
@@ -225,8 +225,8 @@ package body GWindows.ActiveX is
 
       WRect.left := 0;
       WRect.top := 0;
-      WRect.right := Interfaces.C.long (Width);
-      WRect.bottom := Interfaces.C.long (Height);
+      WRect.right := Interfaces.C.int (Width);
+      WRect.bottom := Interfaces.C.int (Height);
 
       SetObjectRects (OleObject,
                       WRect'Unchecked_Access,
