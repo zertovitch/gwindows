@@ -2,6 +2,14 @@ with GNATCOM.Errors;
 
 package body GNATOCX.IRunningObjectTable_Interface is
 
+   function GetRunningObjectTable
+     (reserved : GNATCOM.Types.DWORD;
+      pprot    : Pointer_To_Pointer_To_IRunningObjectTable)
+      return GNATCOM.Types.HRESULT
+     with
+       Import, External_Name => "GetRunningObjectTable", Convention => StdCall;
+
+   overriding
    procedure Initialize (This : in out IRunningObjectTable_Type) is
    begin
       Set_IID (This, IID_IRunningObjectTable);
@@ -27,7 +35,7 @@ package body GNATOCX.IRunningObjectTable_Interface is
       grfFlags      : Interfaces.C.unsigned_long;
       punkObject    : GNATCOM.Types.Pointer_To_IUnknown;
       pmkObjectName : Pointer_To_IMoniker;
-      pdwRegister   : GNATCOM.Types.Pointer_To_unsigned_long)
+      pdwRegister   : GNATCOM.Types.Pointer_To_DWORD)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -42,7 +50,7 @@ package body GNATOCX.IRunningObjectTable_Interface is
 
    procedure Revoke
      (This       : IRunningObjectTable_Type;
-      dwRegister : Interfaces.C.unsigned_long)
+      dwRegister : GNATCOM.Types.DWORD)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -117,5 +125,17 @@ package body GNATOCX.IRunningObjectTable_Interface is
           ppenumMoniker));
 
    end EnumRunning;
+
+   function GetRunningObjectTable return IRunningObjectTable_Type
+   is
+      prot : aliased Pointer_To_IRunningObjectTable;
+      hr   : GNATCOM.Types.HRESULT;
+      rot  : IRunningObjectTable_Type;
+   begin
+      hr := GetRunningObjectTable (0, prot'Access);
+      GNATCOM.Errors.Error_Check (hr);
+      Attach (rot, prot);
+      return rot;
+   end GetRunningObjectTable;
 
 end GNATOCX.IRunningObjectTable_Interface;

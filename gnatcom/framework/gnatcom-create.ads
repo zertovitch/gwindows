@@ -35,8 +35,11 @@
 --  Base package for creation of COM objects
 
 with Interfaces.C;
+with GNATCOM.Types;
 
 package GNATCOM.Create is
+
+   type Run_Mode is (Embedding, Regserver, Unregserver, None);
 
    Component_Count   : aliased Interfaces.Unsigned_32 := 0;
    --  Number of components created that have not been deallocated
@@ -177,5 +180,7 @@ package GNATCOM.Create is
    --  Removing the Component_Count reduction will cause a LocalServer to
    --  remain in memory once started even if no interfaces are in use
    --  and the original process that created it has since died.
+
+   Component_Categories : access GNATCOM.Types.CATEGORYINFO_Array := null;
 
 end GNATCOM.Create;

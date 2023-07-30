@@ -243,15 +243,14 @@ package GNATOCX is
 
    type uFILETIME is
       record
-         dwLowDateTime  : Interfaces.C.unsigned_long;
-         dwHighDateTime : Interfaces.C.unsigned_long;
+         dwLowDateTime  : Interfaces.C.unsigned;
+         dwHighDateTime : Interfaces.C.unsigned;
       end record;
    pragma Convention (C_Pass_By_Copy, uFILETIME);
    for uFILETIME use
       record
-         dwLowDateTime at 0 range 0 .. 0 + Interfaces.C.unsigned_long'Size - 1;
-         dwHighDateTime at 0 range 32 .. 32 +
-           Interfaces.C.unsigned_long'Size - 1;
+         dwLowDateTime at 0 range 0 .. 31;
+         dwHighDateTime at 4 range 0 .. 31;
       end record;
    for uFILETIME'Size use Size_Of_uFILETIME;
    for uFILETIME'Alignment use 4;
@@ -561,13 +560,13 @@ package GNATOCX is
                grfFlags      : Interfaces.C.unsigned_long;
                punkObject    : GNATCOM.Types.Pointer_To_IUnknown;
                pmkObjectName : Pointer_To_IMoniker;
-               pdwRegister   : GNATCOM.Types.Pointer_To_unsigned_long)
+               pdwRegister   : GNATCOM.Types.Pointer_To_DWORD)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_Register);
 
    type af_IRunningObjectTable_Revoke is access
      function (This       : access IRunningObjectTable;
-               dwRegister : Interfaces.C.unsigned_long)
+               dwRegister : GNATCOM.Types.DWORD)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_Revoke);
 
@@ -2074,9 +2073,9 @@ package GNATOCX is
       record
          case Which is
             when 1 =>
-               hInproc : Interfaces.C.long;
+               hInproc : Interfaces.C.int;
             when 2 =>
-               hRemote : Interfaces.C.long;
+               hRemote : Interfaces.C.int;
          end case;
       end record;
    pragma Convention (C_Pass_By_Copy, u_MIDL_IWinTypes_0009);
@@ -2090,14 +2089,14 @@ package GNATOCX is
 
    type uRemotableHandle is
       record
-         fContext : Interfaces.C.long;
+         fContext : Interfaces.C.int;
          u        : u_MIDL_IWinTypes_0009;
       end record;
    pragma Convention (C_Pass_By_Copy, uRemotableHandle);
    for uRemotableHandle use
       record
-         fContext at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
-         u        at 0 range 32 .. 32 + Size_Of_u_MIDL_IWinTypes_0009 - 1;
+         fContext at 0 range 0 .. 31;
+         u        at 4 range 0 .. Size_Of_u_MIDL_IWinTypes_0009 - 1;
       end record;
    for uRemotableHandle'Size use Size_Of_uRemotableHandle;
    for uRemotableHandle'Alignment use 4;
@@ -2109,14 +2108,14 @@ package GNATOCX is
 
    type POINT is
       record
-         x : Interfaces.C.long;
-         y : Interfaces.C.long;
+         x : Interfaces.C.int;
+         y : Interfaces.C.int;
       end record;
    pragma Convention (C_Pass_By_Copy, POINT);
    for POINT use
       record
-         x at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
-         y at 0 range 32 .. 32 + Interfaces.C.long'Size - 1;
+         x at 0 range 0 .. 31;
+         y at 4 range 0 .. 31;
       end record;
    for POINT'Size use Size_Of_POINT;
    for POINT'Alignment use 4;
@@ -2142,18 +2141,18 @@ package GNATOCX is
 
    type RECT is
       record
-         left   : Interfaces.C.long;
-         top    : Interfaces.C.long;
-         right  : Interfaces.C.long;
-         bottom : Interfaces.C.long;
+         left   : Interfaces.C.int;
+         top    : Interfaces.C.int;
+         right  : Interfaces.C.int;
+         bottom : Interfaces.C.int;
       end record;
    pragma Convention (C_Pass_By_Copy, RECT);
    for RECT use
       record
-         left   at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
-         top    at 0 range 32 .. 32 + Interfaces.C.long'Size - 1;
-         right  at 0 range 64 .. 64 + Interfaces.C.long'Size - 1;
-         bottom at 0 range 96 .. 96 + Interfaces.C.long'Size - 1;
+         left   at  0 range 0 .. 31;
+         top    at  4 range 0 .. 31;
+         right  at  8 range 0 .. 31;
+         bottom at 12 range 0 .. 31;
       end record;
    for RECT'Size use Size_Of_RECT;
    for RECT'Alignment use 4;
@@ -2250,14 +2249,14 @@ package GNATOCX is
 
    type SIZEL is
       record
-         cx : Interfaces.C.long;
-         cy : Interfaces.C.long;
+         cx : Interfaces.C.int;
+         cy : Interfaces.C.int;
       end record;
    pragma Convention (C_Pass_By_Copy, SIZEL);
    for SIZEL use
       record
-         cx at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
-         cy at 0 range 32 .. 32 + Interfaces.C.long'Size - 1;
+         cx at 0 range 0 .. 31;
+         cy at 0 range 32 .. 63;
       end record;
    for SIZEL'Size use Size_Of_SIZEL;
    for SIZEL'Alignment use 4;

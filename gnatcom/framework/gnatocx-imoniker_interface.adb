@@ -2,6 +2,13 @@ with GNATCOM.Errors;
 
 package body GNATOCX.IMoniker_Interface is
 
+   function CreateClassMoniker
+     (rclsid : GNATCOM.Types.Pointer_To_GUID;
+      ppmk   : GNATOCX.Pointer_To_Pointer_To_IMoniker)
+      return GNATCOM.Types.HRESULT
+   with Import, External_Name => "CreateClassMoniker", Convention => StdCall;
+
+   overriding
    procedure Initialize (This : in out IMoniker_Type) is
    begin
       Set_IID (This, IID_IMoniker);
@@ -309,5 +316,18 @@ package body GNATOCX.IMoniker_Interface is
           pdwMksys));
 
    end IsSystemMoniker;
+
+   function CreateClassMoniker (CLSID : GNATCOM.Types.GUID)
+                                return IMoniker_Type
+   is
+      pmk : aliased Pointer_To_IMoniker;
+      hr  : GNATCOM.Types.HRESULT;
+      mk  : IMoniker_Type;
+   begin
+      hr := CreateClassMoniker (CLSID'Unrestricted_Access, pmk'Access);
+      GNATCOM.Errors.Error_Check (hr);
+      Attach (mk, pmk);
+      return mk;
+   end CreateClassMoniker;
 
 end GNATOCX.IMoniker_Interface;

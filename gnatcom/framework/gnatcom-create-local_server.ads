@@ -42,7 +42,7 @@ with GNATCOM.Types;
 
 package GNATCOM.Create.Local_Server is
 
-   procedure Init_Object (LIBID : in GNATCOM.Types.GUID);
+   procedure Init_Object (LIBID : in GNATCOM.Types.GUID; Run : Run_Mode);
    --  Initialize Object containter paramters
 
    type Factory_Record is
@@ -55,6 +55,10 @@ package GNATCOM.Create.Local_Server is
          pFactory    : GNATCOM.Create.Factory.Pointer_To_IClassFactory := null;
          dwRegister  : aliased Interfaces.C.unsigned_long := 0;
          Implemented_Categories : GNATCOM.Types.GUID_Array_Pointer := null;
+         Service_Name : Ada.Strings.Unbounded.Unbounded_String :=
+           Ada.Strings.Unbounded.Null_Unbounded_String;
+         APPID       : aliased GNATCOM.Types.GUID := GNATCOM.Types.GUID_NULL;
+         dwRegisterROT : aliased GNATCOM.Types.DWORD := 0;
       end record;
    --  Map for CLSIDs to COM object creation infromation and functions
 
