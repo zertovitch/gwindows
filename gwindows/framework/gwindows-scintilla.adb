@@ -372,9 +372,11 @@ package body GWindows.Scintilla is
    SCI_DELLINERIGHT               : constant := 16#095C#;
    SCI_SETXOFFSET                 : constant := 16#095D#;
    SCI_GETXOFFSET                 : constant := 16#095E#;
-   --   SCI_GRABFOCUS                  : constant := 16#0960#;
    SCI_INDICATORFILLRANGE         : constant := 16#09C8#;
    SCI_INDICATORCLEARRANGE        : constant := 16#09C9#;
+   --   SCI_GRABFOCUS                  : constant := 16#0960#;
+   SCI_LINEDUPLICATE              : constant := 16#0964#;
+   SCI_SELECTIONDUPLICATE         : constant := 16#09A5#;
    SCI_SETMULTIPLESELECTION               : constant := 16#0A03#;
    SCI_SETADDITIONALSELECTIONTYPING       : constant := 16#0A05#;
    SCI_GETSELECTIONS                      : constant := 16#0A0A#;
@@ -405,6 +407,24 @@ package body GWindows.Scintilla is
    function To_Int is new Ada.Unchecked_Conversion (Lresult, Scintilla.Int);
    function To_Wparam is new Ada.Unchecked_Conversion (Int, Wparam);
    function To_Lparam is new Ada.Unchecked_Conversion (Int, Lparam);
+
+   -------------------------------------------------------------
+   -- Simple_Command - internal; typically a keyboard command --
+   -------------------------------------------------------------
+
+   procedure Simple_Command
+     (Control : in out Scintilla_Type; Command : Interfaces.C.int)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := Command;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0);
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Simple_Command;
 
    ----------------------
    -- Add_Ref_Document --
@@ -508,15 +528,8 @@ package body GWindows.Scintilla is
    -------------------
 
    procedure Auto_C_Cancel (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_AUTOCCANCEL;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_AUTOCCANCEL);
    end Auto_C_Cancel;
 
    ---------------------
@@ -524,15 +537,8 @@ package body GWindows.Scintilla is
    ---------------------
 
    procedure Auto_C_Complete (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_AUTOCCOMPLETE;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_AUTOCCOMPLETE);
    end Auto_C_Complete;
 
    --------------------------
@@ -867,15 +873,8 @@ package body GWindows.Scintilla is
    --------------
 
    procedure Back_Tab (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_BACKTAB;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_BACKTAB);
    end Back_Tab;
 
    -----------------------
@@ -883,15 +882,8 @@ package body GWindows.Scintilla is
    -----------------------
 
    procedure Begin_Undo_Action (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_BEGINUNDOACTION;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_BEGINUNDOACTION);
    end Begin_Undo_Action;
 
    ---------------------
@@ -1266,15 +1258,8 @@ package body GWindows.Scintilla is
    --------------------------
 
    procedure Clear_Document_Style (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_CLEARDOCUMENTSTYLE;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_CLEARDOCUMENTSTYLE);
    end Clear_Document_Style;
 
    --------------
@@ -1320,15 +1305,8 @@ package body GWindows.Scintilla is
    ----------
 
    procedure Copy (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_COPY;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_COPY);
    end Copy;
 
    ------------
@@ -1389,15 +1367,8 @@ package body GWindows.Scintilla is
    ---------
 
    procedure Cut (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_CUT;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_CUT);
    end Cut;
 
    -----------------
@@ -1405,15 +1376,8 @@ package body GWindows.Scintilla is
    -----------------
 
    procedure Delete_Back (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_DELETEBACK;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_DELETEBACK);
    end Delete_Back;
 
    --------------------------
@@ -1421,15 +1385,8 @@ package body GWindows.Scintilla is
    --------------------------
 
    procedure Delete_Back_Not_Line (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_DELETEBACKNOTLINE;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_DELETEBACKNOTLINE);
    end Delete_Back_Not_Line;
 
    -------------------
@@ -1437,15 +1394,8 @@ package body GWindows.Scintilla is
    -------------------
 
    procedure Del_Line_Left (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_DELLINELEFT;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_DELLINELEFT);
    end Del_Line_Left;
 
    --------------------
@@ -1453,15 +1403,8 @@ package body GWindows.Scintilla is
    --------------------
 
    procedure Del_Line_Right (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_DELLINERIGHT;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_DELLINERIGHT);
    end Del_Line_Right;
 
    -------------------
@@ -1469,15 +1412,8 @@ package body GWindows.Scintilla is
    -------------------
 
    procedure Del_Word_Left (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_DELWORDLEFT;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_DELWORDLEFT);
    end Del_Word_Left;
 
    --------------------
@@ -1485,15 +1421,8 @@ package body GWindows.Scintilla is
    --------------------
 
    procedure Del_Word_Right (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_DELWORDRIGHT;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_DELWORDRIGHT);
    end Del_Word_Right;
 
    ---------------------------
@@ -1522,15 +1451,8 @@ package body GWindows.Scintilla is
    ------------------
 
    procedure Document_End (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_DOCUMENTEND;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_DOCUMENTEND);
    end Document_End;
 
    -------------------------
@@ -1538,15 +1460,8 @@ package body GWindows.Scintilla is
    -------------------------
 
    procedure Document_End_Extend (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_DOCUMENTENDEXTEND;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_DOCUMENTENDEXTEND);
    end Document_End_Extend;
 
    --------------------
@@ -1554,15 +1469,8 @@ package body GWindows.Scintilla is
    --------------------
 
    procedure Document_Start (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_DOCUMENTSTART;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_DOCUMENTSTART);
    end Document_Start;
 
    ---------------------------
@@ -1570,15 +1478,8 @@ package body GWindows.Scintilla is
    ---------------------------
 
    procedure Document_Start_Extend (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_DOCUMENTSTARTEXTEND;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_DOCUMENTSTARTEXTEND);
    end Document_Start_Extend;
 
    --------------------------
@@ -1586,15 +1487,8 @@ package body GWindows.Scintilla is
    --------------------------
 
    procedure Edit_Toggle_Overtype (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_EDITTOGGLEOVERTYPE;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_EDITTOGGLEOVERTYPE);
    end Edit_Toggle_Overtype;
 
    -----------------------
@@ -1602,15 +1496,8 @@ package body GWindows.Scintilla is
    -----------------------
 
    procedure Empty_Undo_Buffer (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_EMPTYUNDOBUFFER;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_EMPTYUNDOBUFFER);
    end Empty_Undo_Buffer;
 
    ---------------------
@@ -1618,15 +1505,8 @@ package body GWindows.Scintilla is
    ---------------------
 
    procedure End_Undo_Action (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_ENDUNDOACTION;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_ENDUNDOACTION);
    end End_Undo_Action;
 
    --------------------
@@ -3410,15 +3290,8 @@ package body GWindows.Scintilla is
    ----------
 
    procedure Home (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_HOME;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_HOME);
    end Home;
 
    -----------------
@@ -3426,15 +3299,8 @@ package body GWindows.Scintilla is
    -----------------
 
    procedure Home_Extend (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_HOMEEXTEND;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_HOMEEXTEND);
    end Home_Extend;
 
    --------------------
@@ -3586,15 +3452,8 @@ package body GWindows.Scintilla is
    --------------
 
    procedure Line_Cut (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_LINECUT;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_LINECUT);
    end Line_Cut;
 
    -----------------
@@ -3602,16 +3461,18 @@ package body GWindows.Scintilla is
    -----------------
 
    procedure Line_Delete (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_LINEDELETE;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_LINEDELETE);
    end Line_Delete;
+
+   --------------------
+   -- Line_Duplicate --
+   --------------------
+
+   procedure Line_Duplicate (Control : in out Scintilla_Type) is
+   begin
+      Simple_Command (Control, SCI_LINEDUPLICATE);
+   end Line_Duplicate;
 
    ---------------
    -- Line_Down --
@@ -3841,15 +3702,8 @@ package body GWindows.Scintilla is
    ----------------
 
    procedure Lower_Case (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_LOWERCASE;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_LOWERCASE);
    end Lower_Case;
 
    ----------------
@@ -4083,15 +3937,8 @@ package body GWindows.Scintilla is
    ---------------------------
 
    procedure Move_Caret_Inside_View (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_MOVECARETINSIDEVIEW;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_MOVECARETINSIDEVIEW);
    end Move_Caret_Inside_View;
 
    --------------
@@ -4099,15 +3946,8 @@ package body GWindows.Scintilla is
    --------------
 
    procedure New_Line (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_NEWLINE;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_NEWLINE);
    end New_Line;
 
    ----------------
@@ -4321,15 +4161,8 @@ package body GWindows.Scintilla is
    ---------------
 
    procedure Page_Down (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_PAGEDOWN;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_PAGEDOWN);
    end Page_Down;
 
    ----------------------
@@ -4337,15 +4170,8 @@ package body GWindows.Scintilla is
    ----------------------
 
    procedure Page_Down_Extend (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_PAGEDOWNEXTEND;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_PAGEDOWNEXTEND);
    end Page_Down_Extend;
 
    -------------
@@ -4353,15 +4179,8 @@ package body GWindows.Scintilla is
    -------------
 
    procedure Page_Up (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_PAGEUP;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_PAGEUP);
    end Page_Up;
 
    --------------------
@@ -4369,15 +4188,8 @@ package body GWindows.Scintilla is
    --------------------
 
    procedure Page_Up_Extend (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_PAGEUPEXTEND;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_PAGEUPEXTEND);
    end Page_Up_Extend;
 
    -----------
@@ -4385,15 +4197,8 @@ package body GWindows.Scintilla is
    -----------
 
    procedure Paste (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_PASTE;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_PASTE);
    end Paste;
 
    ---------------------------
@@ -4508,15 +4313,8 @@ package body GWindows.Scintilla is
    ----------
 
    procedure Redo (Control : in out Scintilla_Type) is
-      procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (Control);
-         uMsg   : Interfaces.C.int      := SCI_REDO;
-         wParam : GWindows.Types.Wparam := 0;
-         lParam : GWindows.Types.Lparam := 0);
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      Simple_Command (Control, SCI_REDO);
    end Redo;
 
    ----------------------
@@ -4723,6 +4521,15 @@ package body GWindows.Scintilla is
    begin
       SendMessage;
    end Select_All;
+
+   -------------------------
+   -- Selection_Duplicate --
+   -------------------------
+
+   procedure Selection_Duplicate (Control : in out Scintilla_Type) is
+   begin
+      Simple_Command (Control, SCI_SELECTIONDUPLICATE);
+   end Selection_Duplicate;
 
    ----------------------------
    -- Selection_Is_Rectangle --

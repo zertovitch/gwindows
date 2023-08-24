@@ -1269,6 +1269,9 @@ package GWindows.Scintilla is
       caret, anchor :        Position);
    --  This is for supplemental selections after first one.
 
+   procedure Selection_Duplicate (Control : in out Scintilla_Type);
+   --  Duplicate selection(s).
+
    function Selection_Is_Rectangle (Control : Scintilla_Type) return Boolean;
    --  Is the selection a rectangular?
    --  The alternative is the more common stream selection.
@@ -1813,6 +1816,9 @@ package GWindows.Scintilla is
 
    procedure Line_Delete (Control : in out Scintilla_Type);
    --  Delete the line containing the caret.
+
+   procedure Line_Duplicate (Control : in out Scintilla_Type);
+   --  Duplicate the line containing the caret.
 
    procedure Line_Transpose (Control : in out Scintilla_Type);
    --  Switch the current line with the previous.
