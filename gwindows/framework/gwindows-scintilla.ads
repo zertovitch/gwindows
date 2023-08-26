@@ -38,10 +38,10 @@
 
 with System;
 
-with GWindows.Base;
-with GWindows.Windows;
-with GWindows.Colors;
-with GWindows.Types;
+with GWindows.Base,
+     GWindows.Colors,
+     GWindows.Types,
+     GWindows.Windows;
 
 package GWindows.Scintilla is
 
@@ -231,8 +231,7 @@ package GWindows.Scintilla is
    --  Find the position from a point within the window but return
    --  INVALID_POSITION if not close to text.
 
-   procedure Go_To_Line
-     (Control : in out Scintilla_Type; line : Integer);
+   procedure Go_To_Line (Control : in out Scintilla_Type; line : Integer);
    --  Set caret to start of a line and ensure it is visible.
 
    procedure Go_To_Pos (Control : in out Scintilla_Type; pos : Position);
@@ -528,10 +527,10 @@ package GWindows.Scintilla is
 
    procedure Assign_Cmd_Key
      (Control : in out Scintilla_Type; km : Key_Mod; msg : Integer);
-   --  When key+modifier combination km is pressed perform msg.
+   --  When key+modifier combination km is pressed, perform msg.
 
    procedure Clear_Cmd_Key (Control : in out Scintilla_Type; km : Key_Mod);
-   --  When key+modifier combination km do nothing.
+   --  When key+modifier combination km, do nothing.
 
    procedure Clear_All_Cmd_Keys (Control : in out Scintilla_Type);
    --  Drop all key mappings.
@@ -544,13 +543,13 @@ package GWindows.Scintilla is
      (Control : in out Scintilla_Type; style : Integer; visible : Boolean);
    --  Set a style to be visible or not.
 
-   procedure Get_Caret_Period (Control : in out Scintilla_Type);
+   function Get_Caret_Period (Control : in out Scintilla_Type) return Integer;
    --  Get the time in milliseconds that the caret is on and off.
 
    procedure Set_Caret_Period
      (Control : in out Scintilla_Type; periodMilliseconds : Integer);
-   --  Get the time in milliseconds that the caret is on and off. 0 =
-   --  steady on.
+   --  Get the time in milliseconds that the caret is on and off.
+   --  0 = steady on.
 
    procedure Set_Word_Chars
      (Control : in out Scintilla_Type; characters : GString);
@@ -596,8 +595,8 @@ package GWindows.Scintilla is
      (Control : in out Scintilla_Type; indic : Integer; style : Integer);
    --  Set an indicator to plain, squiggle or TT.
 
-   procedure Indic_Get_Style
-     (Control : in out Scintilla_Type; indic : Integer);
+   function Indic_Get_Style
+     (Control : in out Scintilla_Type; indic : Integer) return Integer;
    --  Retrieve the style of an indicator.
 
    procedure Indic_Set_Fore
@@ -1673,7 +1672,7 @@ package GWindows.Scintilla is
    --  the last line at the bottom of the view (default).
    --  Setting this to false allows scrolling one page below the last line.
 
-   function Get_End_At_Last_Line (Control : Scintilla_Type) return Integer;
+   function Get_End_At_Last_Line (Control : Scintilla_Type) return Boolean;
    --  Retrieve whether the maximum scroll Position has the last
    --  line at the bottom of the view.
 
@@ -2056,10 +2055,10 @@ package GWindows.Scintilla is
 
    procedure Set_X_Offset
      (Control : in out Scintilla_Type; newOffset : Integer);
-   --  Get the x Offset (ie, horizontal scroll Position)
+   --  Set the x Offset (ie, horizontal scroll Position)
 
    function Get_X_Offset (Control : Scintilla_Type) return Integer;
-   --  Set the x Offset (ie, horizontal scroll Position)
+   --  Get the x Offset (ie, horizontal scroll Position)
 
    procedure Start_Record (Control : in out Scintilla_Type);
    --  Start notifying the container of all key presses and commands.
