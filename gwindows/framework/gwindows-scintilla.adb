@@ -2239,6 +2239,30 @@ package body GWindows.Scintilla is
       return Integer (Query (Control, SCI_GETVIEWWS));
    end Get_View_WS;
 
+   -----------------
+   -- Get_Word_At --
+   -----------------
+
+   function Get_Word_At
+     (Control              : Scintilla_Type;
+      pos                  : Position;
+      only_word_characters : Boolean) return GString
+   is
+      word_start, word_end : Position;
+   begin
+      if pos >= 0 then
+         word_start :=
+            Word_Start_Position (Control, pos, only_word_characters);
+         word_end :=
+            Word_End_Position (Control, pos, only_word_characters);
+         if word_start < word_end then
+            return
+               Get_Text_Range (Control, word_start, word_end);
+         end if;
+      end if;
+      return "";
+   end Get_Word_At;
+
    -------------------
    -- Get_Wrap_Mode --
    -------------------
@@ -4597,11 +4621,11 @@ package body GWindows.Scintilla is
 
    function Word_End_Position
      (Control : Scintilla_Type; pos : Position; onlyWordCharacters : Boolean)
-      return Integer
+      return Position
    is
    begin
       return
-        Integer
+        To_Int
           (Query
             (Control,
              SCI_WORDENDPOSITION,
@@ -4687,11 +4711,11 @@ package body GWindows.Scintilla is
 
    function Word_Start_Position
      (Control : Scintilla_Type; pos : Position; onlyWordCharacters : Boolean)
-      return Integer
+      return Position
    is
    begin
       return
-        Integer
+        To_Int
           (Query
             (Control,
              SCI_WORDSTARTPOSITION,

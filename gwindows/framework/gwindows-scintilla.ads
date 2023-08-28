@@ -1488,9 +1488,9 @@ package GWindows.Scintilla is
    function Get_Search_Flags (Control : Scintilla_Type) return Integer;
    --  Get the search flags used by SearchInTarget
 
-   -----------------
-   --  Call tips  --
-   -----------------
+   --------------------------------------------------
+   --  Call tips: rectangles with contextual help  --
+   --------------------------------------------------
 
    procedure Call_Tip_Show
      (Control : in out Scintilla_Type; pos : Position; definition : GString);
@@ -1513,6 +1513,10 @@ package GWindows.Scintilla is
    procedure Call_Tip_Set_Back
      (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type);
    --  Set the background color for the call tip.
+
+   ---------------------------------
+   --  Doc line <-> display line  --
+   ---------------------------------
 
    function Visible_From_Doc_Line
      (Control : Scintilla_Type; line : Integer) return Integer;
@@ -1623,13 +1627,19 @@ package GWindows.Scintilla is
 
    function Word_Start_Position
      (Control : Scintilla_Type; pos : Position; onlyWordCharacters : Boolean)
-     return Integer;
+     return Position;
    --  Get Position of start of word.
 
    function Word_End_Position
      (Control : Scintilla_Type; pos : Position; onlyWordCharacters : Boolean)
-     return Integer;
+     return Position;
    --  Get Position of end of word.
+
+   function Get_Word_At
+     (Control              : Scintilla_Type;
+      pos                  : Position;
+      only_word_characters : Boolean) return GString;
+   --  Get the word at position pos.
 
    SC_WRAP_NONE : constant := 0;
    SC_WRAP_WORD : constant := 1;
