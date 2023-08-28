@@ -1,22 +1,24 @@
---  Scintilla editor sample with Ada syntax.
+--  Scintilla editor sample, preset with the Ada syntax.
+--------------------------------------------------------
 --
 --  Sci_Example.exe will work only if SciLexer.dll is in the same path.
---  SciLexer.dll can be found @ http://www.scintilla.org/, or in the redist directory,
---  or with the Notepad++ installation ( https://notepad-plus-plus.org/ ).
+--  SciLexer.dll can be found @ http://www.scintilla.org/, or in the
+--  redist directory, or with the Notepad++ installation
+--  ( https://notepad-plus-plus.org/ ).
 --
 --  For a complete open-source application using GWindows.Scintilla, see
 --  the LEA (Lightweight Editor for Ada) project @
 --      https://sf.net/projects/l-e-a/
 --      https://github.com/zertovitch/lea
 
-with GWindows.Application;
-with GWindows.Base;
-with GWindows.Colors;
-with GWindows.GStrings;
-with GWindows.Message_Boxes;
-with GWindows.Scintilla;
-with GWindows.Types;
-with GWindows.Windows.Main;
+with GWindows.Application,
+     GWindows.Base,
+     GWindows.Colors,
+     GWindows.GStrings,
+     GWindows.Message_Boxes,
+     GWindows.Scintilla,
+     GWindows.Types,
+     GWindows.Windows.Main;
 
 with Ada.Strings.Fixed;
 
@@ -33,11 +35,15 @@ procedure Sci_Example is
    TAB_WIDTH : constant := 3;
 
    Key_Words : constant GWindows.GString :=
-     "abort abs abstract accept access aliased all and array at begin body case " &
-     "constant declare delay delta digits do else elsif end entry exception " &
-     "exit for function generic goto if in interface is limited loop mod new not null of " &
-     "or others out overriding package pragma private procedure protected raise range " &
-     "record rem renames requeue return reverse select separate some subtype synchronized " &
+     "abort abs abstract accept access aliased all and array at " &
+     "begin body case constant " &
+     "declare delay delta digits do else elsif end entry exception " &
+     "exit for function generic goto " &
+     "if in interface is limited loop " &
+     "mod new not null of or others out overriding " &
+     "package pragma private procedure protected " &
+     "raise range record rem renames requeue return reverse " &
+     "select separate some subtype synchronized " &
      "tagged task terminate then type until use when while with xor";
 
    procedure Do_Character_Added
@@ -48,7 +54,15 @@ procedure Sci_Example is
 
    procedure Do_Create
      (Window : in out GWindows.Base.Base_Window_Type'Class);
-   --  Set up color highlighting
+   --  Set up the editor widget
+
+   procedure Do_Dwell_Start
+     (Control : in out GWindows.Base.Base_Window_Type'Class;
+      Pos     : in     Position);
+
+   procedure Do_Dwell_End
+     (Control : in out GWindows.Base.Base_Window_Type'Class;
+      Pos     : in     Position);
 
    procedure Do_Create
      (Window : in out GWindows.Base.Base_Window_Type'Class)
@@ -60,7 +74,13 @@ procedure Sci_Example is
       --
       SW : Scintilla_Type renames Scintilla_Type (Window);
    begin
+      --  Setting up some handlers for interaction.
+      --  On a larger application, it is better to derive Scintilla_Type
+      --  and override the methods On_Character_Added, On_Dwell_Start, etc.
+      --  instead of using handlers and type conversions.
       SW.On_Character_Added_Handler (Do_Character_Added'Unrestricted_Access);
+      SW.On_Dwell_Start_Handler (Do_Dwell_Start'Unrestricted_Access);
+      SW.On_Dwell_End_Handler (Do_Dwell_End'Unrestricted_Access);
 
       --  Set up editor
       SW.Set_EOL_Mode (SC_EOL_LF);
@@ -69,6 +89,7 @@ procedure Sci_Example is
       SW.Set_Edge_Column (100);
       SW.Set_Edge_Mode (EDGE_LINE);
       SW.Set_Indentation_Guides (True);
+      SW.Set_Mouse_Dwell_Time (500);
       --
       --  Enable sexy features like in Notepad++  :
       --    multi-line edit, rectangular selections, ...
@@ -126,40 +147,93 @@ procedure Sci_Example is
       Value       : in     GWindows.GCharacter)
    is
       pragma Unreferenced (Special_Key);
-      CurPos : constant Position := Get_Current_Pos (Scintilla_Type (Window));
       SW : Scintilla_Type renames Scintilla_Type (Window);
-      Line, Prev_Loc : Integer;
+      CurPos : constant Position := Get_Current_Pos (SW);
+      Line, Indent_Previous_Line : Integer;
+      Back_Pos : Position;
+      Max_Backwards_Lines : constant := 5;
    begin
-      if Value = LF then
-         Line     := SW.Line_From_Position (CurPos);
-         Prev_Loc := SW.Get_Line_Indentation (Line - 1);
-         if Line > 0 and Prev_Loc > 0 then
-            SW.Add_Text (To_GString_From_String (Prev_Loc * ' '));
-         end if;
-      end if;
+      case Value is
+         when LF =>
+            --  Auto-indent on new line.
+            Line := SW.Line_From_Position (CurPos);
+            if Line > 0 then
+               Indent_Previous_Line := SW.Get_Line_Indentation (Line - 1);
+               if Indent_Previous_Line > 0 then
+                  SW.Add_Text
+                    (To_GString_From_String (Indent_Previous_Line * ' '));
+               end if;
+            end if;
+         when '(' =>
+            --  Search backwards for an identifier
+            Line :=
+               Integer'Max
+                 (0, SW.Line_From_Position (CurPos) - Max_Backwards_Lines);
+            Back_Pos := SW.Position_From_Line (Line);
+            for Pos in reverse Back_Pos .. CurPos - 1 loop
+                if SW.Get_Style_At (Pos) = SCE_ADA_IDENTIFIER then
+                   --  Call tip for hypothetical subprogram parameters...
+                   SW.Call_Tip_Show
+                      (CurPos, SW.Get_Word_At (Pos, True) &
+                       " (A : Integer, B : Float)");
+                   exit;
+                end if;
+            end loop;
+         when ')' =>
+            SW.Call_Tip_Cancel;
+         when others =>
+            null;
+      end case;
    end Do_Character_Added;
+
+   procedure Do_Dwell_Start
+     (Control : in out GWindows.Base.Base_Window_Type'Class;
+      Pos     : in     Position)
+   is
+      SW : Scintilla_Type renames Scintilla_Type (Control);
+   begin
+      if SW.Get_Style_At (Pos) = SCE_ADA_IDENTIFIER then
+         --  Mouse hover tool tip
+         SW.Call_Tip_Show
+           (Pos, SW.Get_Word_At (Pos, True) & NL & "___" & NL & "Defined somewhere");
+      end if;
+   end Do_Dwell_Start;
+
+   procedure Do_Dwell_End
+     (Control : in out GWindows.Base.Base_Window_Type'Class;
+      Pos     : in     Position)
+   is
+   pragma Unreferenced (Pos);
+   begin
+      Scintilla_Type (Control).Call_Tip_Cancel;
+   end Do_Dwell_End;
 
 begin
    Main_Window.Create ("Scintilla Example");
 
    if not SCI_Lexer_DLL_Successfully_Loaded then
-     Message_Box (
-       "DLL error - could not load scilexer.dll",
-       "Either the file scilexer.dll doesn't exist, or there is a 32 vs. 64 bit mismatch." & NL &
-       "You can copy scilexer.dll from the .\gwindows\redist directory." & NL &
-       "This program is a" &
-       GWindows.GStrings.To_GString_From_String (Integer'Image (GWindows.Types.Wparam'Size)) &
-       " bit application.",
-       Icon => Error_Icon
-     );
+     Message_Box
+       ("DLL error - could not load: ""scilexer.dll""",
+        "Either the file ""scilexer.dll"" doesn't exist, or there is" &
+        " a 32 vs. 64 bit compatibility mismatch." & NL &
+        "You can copy ""scilexer.dll"" from the" &
+        " .\gwindows\redist directory to .\gwindows\samples ." &
+        NL & NL &
+        "This program is built as a" &
+        GWindows.GStrings.To_GString_From_String
+          (Integer'Image (GWindows.Types.Wparam'Size)) &
+        " bit application.",
+        Icon => Error_Icon);
    end if;
 
    Sci_Control.On_Create_Handler (Do_Create'Unrestricted_Access);
    Sci_Control.Create (Main_Window, 1, 1, 1, 1);
 
    Sci_Control.Add_Text (
-     "with Ada.Text_IO; use Ada.Text_IO;" & NL & NL &
+     "with Ada.Text_IO;"                  & NL &
+     NL &
      "procedure Hello is"                 & NL &
+     "   use Ada.Text_IO;"                & NL &
      "begin"                              & NL &
      "    "                               & NL &
      "   Put_Line (""World!"");"          & NL &
@@ -174,7 +248,8 @@ begin
      "   --      https://sf.net/projects/l-e-a/"                       & NL &
      "   --      https://github.com/zertovitch/lea"                    & NL
    );
-   --  NB: at some places we have put extra spaces to show off indentation guides...
+   --  NB: at some places we have put extra spaces to
+   --      show off indentation guides...
 
    Sci_Control.Dock (GWindows.Base.Fill);
 
