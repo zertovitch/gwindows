@@ -192,6 +192,8 @@ procedure Sci_Example is
    is
       SW : Scintilla_Type renames Scintilla_Type (Control);
    begin
+      --  The Set_Mouse_Dwell_Time method needs to be have
+      --  been called previously with a positive dwell time.
       if SW.Get_Style_At (Pos) = SCE_ADA_IDENTIFIER then
          --  Mouse hover tool tip
          SW.Call_Tip_Show
