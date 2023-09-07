@@ -246,6 +246,8 @@ package body GWindows.Scintilla is
    SCI_CALLTIPPOSSTART                    : constant := 16#089B#;
    SCI_CALLTIPSETHLT                      : constant := 16#089C#;
    SCI_CALLTIPSETBACK                     : constant := 16#089D#;
+   SCI_CALLTIPSETFORE                     : constant := 16#089E#;
+   SCI_CALLTIPSETFOREHLT                  : constant := 16#089F#;
    SCI_VISIBLEFROMDOCLINE                 : constant := 16#08AC#;
    SCI_DOCLINEFROMVISIBLE                 : constant := 16#08AD#;
    SCI_SETFOLDLEVEL                       : constant := 16#08AE#;
@@ -879,12 +881,34 @@ package body GWindows.Scintilla is
       Command (Control, SCI_CALLTIPSETBACK, Types.Wparam (back));
    end Call_Tip_Set_Back;
 
+   -----------------------------
+   -- Call_Tip_Set_Foreground --
+   -----------------------------
+
+   procedure Call_Tip_Set_Foreground_Color
+     (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type)
+   is
+   begin
+      Command (Control, SCI_CALLTIPSETFORE, Types.Wparam (back));
+   end Call_Tip_Set_Foreground_Color;
+
+   -----------------------------------------
+   -- Call_Tip_Set_Foreground_Highlighted --
+   -----------------------------------------
+
+   procedure Call_Tip_Set_Foreground_Color_Highlighted
+     (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type)
+   is
+   begin
+      Command (Control, SCI_CALLTIPSETFOREHLT, Types.Wparam (back));
+   end Call_Tip_Set_Foreground_Color_Highlighted;
+
    ----------------------
    -- Call_Tip_Set_Hlt --
    ----------------------
 
    procedure Call_Tip_Set_Hlt
-     (Control : in out Scintilla_Type; start : Integer; endp : Integer)
+     (Control : in out Scintilla_Type; start : Natural; endp : Natural)
    is
    begin
       Command

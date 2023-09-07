@@ -1489,7 +1489,7 @@ package GWindows.Scintilla is
    --  Get the search flags used by SearchInTarget
 
    --------------------------------------------------
-   --  Call tips: rectangles with contextual help  --
+   --  Call tips: Rectangles with contextual help  --
    --------------------------------------------------
 
    procedure Call_Tip_Show
@@ -1507,12 +1507,26 @@ package GWindows.Scintilla is
    --  call tip.
 
    procedure Call_Tip_Set_Hlt
-     (Control : in out Scintilla_Type; start : Integer; endp : Integer);
+     (Control : in out Scintilla_Type; start : Natural; endp : Natural);
+   procedure Call_Tip_Set_Highlight
+     (Control : in out Scintilla_Type; start : Natural; endp : Natural)
+     renames Call_Tip_Set_Hlt;
    --  Highlight a segment of the definition.
 
    procedure Call_Tip_Set_Back
      (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type);
+   procedure Call_Tip_Set_Background_Color
+     (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type)
+     renames Call_Tip_Set_Back;
    --  Set the background color for the call tip.
+
+   procedure Call_Tip_Set_Foreground_Color
+     (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type);
+   --  Set the forground color for the call tip.
+
+   procedure Call_Tip_Set_Foreground_Color_Highlighted
+     (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type);
+   --  Set the forground color for highlighted parts of the call tip.
 
    ---------------------------------
    --  Doc line <-> display line  --
