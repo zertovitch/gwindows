@@ -223,11 +223,11 @@ package GWindows.Scintilla is
    --  visible outside indentation.
 
    function Position_From_Point
-     (Control : Scintilla_Type; x : Integer; y : Integer) return Integer;
+     (Control : Scintilla_Type; x : Integer; y : Integer) return Position;
    --  Find the position from a point within the window.
 
    function Position_From_Point_Close
-     (Control : Scintilla_Type; x : Integer; y : Integer) return Integer;
+     (Control : Scintilla_Type; x : Integer; y : Integer) return Position;
    --  Find the position from a point within the window but return
    --  INVALID_POSITION if not close to text.
 

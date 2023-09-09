@@ -3123,11 +3123,11 @@ package body GWindows.Scintilla is
    -------------------------
 
    function Position_From_Point
-     (Control : Scintilla_Type; x : Integer; y : Integer) return Integer
+     (Control : Scintilla_Type; x : Integer; y : Integer) return Position
    is
    begin
       return
-        Integer
+        To_Int
           (Query
             (Control, SCI_POSITIONFROMPOINT, To_Wparam (x), To_Lparam (y)));
    end Position_From_Point;
@@ -3137,11 +3137,11 @@ package body GWindows.Scintilla is
    -------------------------------
 
    function Position_From_Point_Close
-     (Control : Scintilla_Type; x : Integer; y : Integer) return Integer
+     (Control : Scintilla_Type; x : Integer; y : Integer) return Position
    is
    begin
       return
-        Integer
+        To_Int
           (Query
             (Control,
              SCI_POSITIONFROMPOINTCLOSE,
