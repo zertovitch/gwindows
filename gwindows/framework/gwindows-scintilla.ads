@@ -1912,26 +1912,46 @@ package GWindows.Scintilla is
 
    --  Notifications
    --  Type of modification and the action which caused the
-   --  modification These are defined as a bit mask to make it easy to
+   --  modification. These are defined as a bit mask to make it easy to
    --  specify which notifications are wanted.  One bit is set from
    --  each of SC_MOD_* and SC_PERFORMED_*.
 
-   SC_MOD_INSERTTEXT              : constant := 16#0001#;
-   SC_MOD_DELETETEXT              : constant := 16#0002#;
-   SC_MOD_CHANGESTYLE             : constant := 16#0004#;
-   SC_MOD_CHANGEFOLD              : constant := 16#0008#;
-   SC_PERFORMED_USER              : constant := 16#0010#;
-   SC_PERFORMED_UNDO              : constant := 16#0020#;
-   SC_PERFORMED_REDO              : constant := 16#0040#;
-   SC_LASTSTEPINUNDOREDO          : constant := 16#0100#;
-   SC_MOD_CHANGEMARKER            : constant := 16#0200#;
-   SC_MOD_BEFOREINSERT            : constant := 16#0400#;
-   SC_MOD_BEFOREDELETE            : constant := 16#0800#;
-   SC_MODEVENTMASKALL             : constant := 16#0F77#;
+   SC_MOD_INSERTTEXT              : constant := 16#00_0001#;
+   SC_MOD_DELETETEXT              : constant := 16#00_0002#;
+   SC_MOD_CHANGESTYLE             : constant := 16#00_0004#;
+   SC_MOD_CHANGEFOLD              : constant := 16#00_0008#;
+   SC_PERFORMED_USER              : constant := 16#00_0010#;
+   SC_PERFORMED_UNDO              : constant := 16#00_0020#;
+   SC_PERFORMED_REDO              : constant := 16#00_0040#;
+   SC_LASTSTEPINUNDOREDO          : constant := 16#00_0100#;
+   SC_MOD_CHANGEMARKER            : constant := 16#00_0200#;
+   SC_MOD_BEFOREINSERT            : constant := 16#00_0400#;
+   SC_MOD_BEFOREDELETE            : constant := 16#00_0800#;
+   SC_MULTILINEUNDOREDO           : constant := 16#00_1000#;
+   SC_STARTACTION                 : constant := 16#00_2000#;
+   SC_MOD_CHANGEINDICATOR         : constant := 16#00_4000#;
+   SC_MOD_CHANGELINESTATE         : constant := 16#00_8000#;
+   SC_MOD_CHANGEMARGIN            : constant := 16#01_0000#;
+   SC_MOD_CHANGEANNOTATION        : constant := 16#02_0000#;
+   SC_MOD_CONTAINER               : constant := 16#04_0000#;
+   SC_MOD_LEXERSTATE              : constant := 16#08_0000#;
+   SC_MOD_INSERTCHECK             : constant := 16#10_0000#;
+   SC_MOD_CHANGETABSTOPS          : constant := 16#20_0000#;
+   SC_MODEVENTMASKALL             : constant := 16#3F_FFFF#;
 
-   procedure Set_Mod_EventMask
-     (Control : in out Scintilla_Type; mask : Interfaces.C.unsigned);
+   procedure Set_Mod_Event_Mask
+     (Control : in out Scintilla_Type; Mask : Interfaces.Unsigned_32);
    --  Set which document modification events are sent to the container.
+
+   function Get_Mod_Event_Mask (Control : Scintilla_Type)
+      return Interfaces.Unsigned_32;
+   --  Get which document modification events are sent to the container.
+
+   generic
+      with procedure Show_Line (S : String);
+   procedure Show_Details (Mask : Interfaces.Unsigned_32);
+   --  Display via Show_Line "Mod Insert Text" if the bit SC_MOD_INSERTTEXT
+   --  is set, and so on.
 
    EDGE_NONE                      : constant := 0;
    EDGE_LINE                      : constant := 1;
@@ -2019,9 +2039,6 @@ package GWindows.Scintilla is
    procedure Release_Document (Control : in out Scintilla_Type; doc : Integer);
    --  Release a reference to the document, deleting document if it
    --  fades to black.
-
-   function Get_Mod_Event_Mask (Control : Scintilla_Type) return Integer;
-   --  Get which document modification events are sent to the container.
 
    procedure Set_Focus (Control : in out Scintilla_Type; focus : Boolean);
    --  Change internal focus flag
@@ -2196,7 +2213,7 @@ package GWindows.Scintilla is
    type Modified_Event is access procedure
      (Control             : in out GWindows.Base.Base_Window_Type'Class;
       Pos                 : in     Position;
-      Modification_Type   : in     Integer;
+      Modification_Type   : in     Interfaces.Unsigned_32;
       Text                : in     GString;
       Lines_Added         : in     Integer;
       Line                : in     Integer;
@@ -2295,7 +2312,7 @@ package GWindows.Scintilla is
    procedure Fire_On_Modified
      (Control             : in out Scintilla_Type;
       Pos                 : in     Position;
-      Modification_Type   : in     Integer;
+      Modification_Type   : in     Interfaces.Unsigned_32;
       Text                : in     GString;
       Lines_Added         : in     Integer;
       Line                : in     Integer;
@@ -2412,7 +2429,7 @@ package GWindows.Scintilla is
 
    procedure On_Modified (Control             : in out Scintilla_Type;
                           Pos                 : in     Position;
-                          Modification_Type   : in     Integer;
+                          Modification_Type   : in     Interfaces.Unsigned_32;
                           Text                : in     GString;
                           Lines_Added         : in     Integer;
                           Line                : in     Integer;
@@ -2424,13 +2441,13 @@ package GWindows.Scintilla is
    --  changed, how the change occurred and whether this changed the
    --  number of lines in the document. __NO__ modifications may be
    --  performed while handling this event.  It can be masked by the
-   --  SetModEventMask function which sets which notification types
+   --  Set_Mod_Event_Mask function which sets which notification types
    --  are sent to the container. For example, a container may decide
    --  to see only notifications about changes to text and not styling
    --  changes by calling:
 
-   --  SetModEventMask
-   --     (Control, (SC_MOD_INSERTTEXT or SC_MOD_DELETETEXT))
+   --  Set_Mod_Event_Mask
+   --     (Control, SC_MOD_INSERTTEXT or SC_MOD_DELETETEXT)
 
    procedure On_Macro_Read (Control : in out Scintilla_Type;
                             Message : in     Integer;

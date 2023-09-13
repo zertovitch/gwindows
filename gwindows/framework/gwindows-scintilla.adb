@@ -1886,9 +1886,10 @@ package body GWindows.Scintilla is
    -- Get_Mod_Event_Mask --
    ------------------------
 
-   function Get_Mod_Event_Mask (Control : Scintilla_Type) return Integer is
+   function Get_Mod_Event_Mask (Control : Scintilla_Type)
+      return Interfaces.Unsigned_32 is
    begin
-      return Integer (Query (Control, SCI_GETMODEVENTMASK));
+      return Interfaces.Unsigned_32 (Query (Control, SCI_GETMODEVENTMASK));
    end Get_Mod_Event_Mask;
 
    ----------------
@@ -2963,7 +2964,7 @@ package body GWindows.Scintilla is
                   begin
                      On_Modified (Scintilla_Type'Class (Window),
                                   NM.Pos,
-                                  Integer (NM.modificationType),
+                                  Interfaces.Unsigned_32 (NM.modificationType),
                                   T (T'First .. T'Last - 1),
                                   Integer (NM.linesAdded),
                                   Integer (NM.line),
@@ -2973,7 +2974,7 @@ package body GWindows.Scintilla is
                else
                   On_Modified (Scintilla_Type'Class (Window),
                                NM.Pos,
-                               Integer (NM.modificationType),
+                               Interfaces.Unsigned_32 (NM.modificationType),
                                "",
                                Integer (NM.linesAdded),
                                Integer (NM.line),
@@ -3865,12 +3866,12 @@ package body GWindows.Scintilla is
    -- Set_Mod_EventMask --
    -----------------------
 
-   procedure Set_Mod_EventMask
-     (Control : in out Scintilla_Type; mask : Interfaces.C.unsigned)
+   procedure Set_Mod_Event_Mask
+     (Control : in out Scintilla_Type; Mask : Interfaces.Unsigned_32)
    is
    begin
-      Command (Control, SCI_SETMODEVENTMASK, Types.Wparam (mask));
-   end Set_Mod_EventMask;
+      Command (Control, SCI_SETMODEVENTMASK, Types.Wparam (Mask));
+   end Set_Mod_Event_Mask;
 
    -----------------------------
    -- Set_Mouse_Down_Captures --
@@ -4297,6 +4298,38 @@ package body GWindows.Scintilla is
    begin
       Command (Control, SCI_SETZOOM, To_Wparam (zoom));
    end Set_Zoom;
+
+   procedure Show_Details (Mask : Interfaces.Unsigned_32) is
+      procedure Show_Bit (The_Bit : Interfaces.Unsigned_32; Title : String) is
+        use Interfaces;
+      begin
+         if (Mask and The_Bit) /= 0 then
+            Show_Line (Title);
+         end if;
+      end Show_Bit;
+   begin
+      Show_Bit (SC_MOD_INSERTTEXT,       "Mod Insert Text");
+      Show_Bit (SC_MOD_DELETETEXT,       "Mod Delete Text");
+      Show_Bit (SC_MOD_CHANGESTYLE,      "Mod Change Style");
+      Show_Bit (SC_MOD_CHANGEFOLD,       "Mod Change Fold");
+      Show_Bit (SC_PERFORMED_USER,       "Performed User");
+      Show_Bit (SC_PERFORMED_UNDO,       "Performed Undo");
+      Show_Bit (SC_PERFORMED_REDO,       "Performed Redo");
+      Show_Bit (SC_LASTSTEPINUNDOREDO,   "Last Step In Undo Redo");
+      Show_Bit (SC_MOD_CHANGEMARKER,     "Mod Change Marker");
+      Show_Bit (SC_MOD_BEFOREINSERT,     "Mod Before Insert");
+      Show_Bit (SC_MOD_BEFOREDELETE,     "Mod Before Delete");
+      Show_Bit (SC_MULTILINEUNDOREDO,    "Multiline Undo Redo");
+      Show_Bit (SC_STARTACTION,          "Start Action");
+      Show_Bit (SC_MOD_CHANGEINDICATOR,  "Mod Change Indicator");
+      Show_Bit (SC_MOD_CHANGELINESTATE,  "Mod Change Line State");
+      Show_Bit (SC_MOD_CHANGEMARGIN,     "Mod Change Margin");
+      Show_Bit (SC_MOD_CHANGEANNOTATION, "Mod Change Annotation");
+      Show_Bit (SC_MOD_CONTAINER,        "Mod Container");
+      Show_Bit (SC_MOD_LEXERSTATE,       "Mod Lexer State");
+      Show_Bit (SC_MOD_INSERTCHECK,      "Mod Insert Check");
+      Show_Bit (SC_MOD_CHANGETABSTOPS,   "Mod Change Tab Stops");
+   end Show_Details;
 
    ----------------
    -- Show_Lines --
@@ -5243,7 +5276,7 @@ package body GWindows.Scintilla is
 
    procedure On_Modified (Control             : in out Scintilla_Type;
                           Pos                 : in     Position;
-                          Modification_Type   : in     Integer;
+                          Modification_Type   : in     Interfaces.Unsigned_32;
                           Text                : in     GString;
                           Lines_Added         : in     Integer;
                           Line                : in     Integer;
@@ -5279,7 +5312,7 @@ package body GWindows.Scintilla is
    procedure Fire_On_Modified
      (Control             : in out Scintilla_Type;
       Pos                 : in     Position;
-      Modification_Type   : in     Integer;
+      Modification_Type   : in     Interfaces.Unsigned_32;
       Text                : in     GString;
       Lines_Added         : in     Integer;
       Line                : in     Integer;
