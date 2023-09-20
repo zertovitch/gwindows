@@ -72,68 +72,68 @@ procedure Sci_Example is
       App_default_font      : constant GString := "Courier New";
       App_default_font_size : constant := 10;
       --
-      SW : Scintilla_Type renames Scintilla_Type (Window);
+      Editor : Scintilla_Type renames Scintilla_Type (Window);
    begin
       --  Setting up some handlers for interaction.
       --  On a larger application, it is better to derive Scintilla_Type
       --  and override the methods On_Character_Added, On_Dwell_Start, etc.
       --  instead of using handlers and type conversions.
-      SW.On_Character_Added_Handler (Do_Character_Added'Unrestricted_Access);
-      SW.On_Dwell_Start_Handler (Do_Dwell_Start'Unrestricted_Access);
-      SW.On_Dwell_End_Handler (Do_Dwell_End'Unrestricted_Access);
+      Editor.On_Character_Added_Handler (Do_Character_Added'Unrestricted_Access);
+      Editor.On_Dwell_Start_Handler (Do_Dwell_Start'Unrestricted_Access);
+      Editor.On_Dwell_End_Handler (Do_Dwell_End'Unrestricted_Access);
 
       --  Set up editor
-      SW.Set_EOL_Mode (SC_EOL_LF);
-      SW.Set_Tab_Width (TAB_WIDTH);
-      SW.Set_Use_Tabs (False);
-      SW.Set_Edge_Column (100);
-      SW.Set_Edge_Mode (EDGE_LINE);
-      SW.Set_Indentation_Guides (True);
-      SW.Set_Mouse_Dwell_Time (500);
+      Editor.Set_EOL_Mode (SC_EOL_LF);
+      Editor.Set_Tab_Width (TAB_WIDTH);
+      Editor.Set_Use_Tabs (False);
+      Editor.Set_Edge_Column (100);
+      Editor.Set_Edge_Mode (EDGE_LINE);
+      Editor.Set_Indentation_Guides (True);
+      Editor.Set_Mouse_Dwell_Time (500);
       --
       --  Enable sexy features like in Notepad++  :
       --    multi-line edit, rectangular selections, ...
-      SW.Set_Multiple_Selection;
-      SW.Set_Mouse_Selection_Rectangular;
-      SW.Set_Additional_Selection_Typing;
-      SW.Set_Virtual_Space_Options (SCVS_RECTANGULARSELECTION);
+      Editor.Set_Multiple_Selection;
+      Editor.Set_Mouse_Selection_Rectangular;
+      Editor.Set_Additional_Selection_Typing;
+      Editor.Set_Virtual_Space_Options (SCVS_RECTANGULARSELECTION);
 
       --  Define the lexer.
-      SW.Set_Lexer (SCLEX_ADA);
-      SW.Set_Key_Words (0, Key_Words);
+      Editor.Set_Lexer (SCLEX_ADA);
+      Editor.Set_Key_Words (0, Key_Words);
 
-      SW.Style_Set_Fore (STYLE_DEFAULT, Black);
-      SW.Style_Set_Back (STYLE_DEFAULT, White);
-      SW.Style_Set_Size (STYLE_DEFAULT, App_default_font_size);
-      SW.Style_Set_Font (STYLE_DEFAULT, App_default_font);
-      SW.Style_Clear_All;
+      Editor.Style_Set_Fore (STYLE_DEFAULT, Black);
+      Editor.Style_Set_Back (STYLE_DEFAULT, White);
+      Editor.Style_Set_Size (STYLE_DEFAULT, App_default_font_size);
+      Editor.Style_Set_Font (STYLE_DEFAULT, App_default_font);
+      Editor.Style_Clear_All;
 
-      SW.Style_Set_Fore (SCE_ADA_DEFAULT, Black);
-      SW.Style_Set_Back (SCE_ADA_DEFAULT, White);
-      SW.Style_Set_Size (SCE_ADA_DEFAULT, App_default_font_size);
-      SW.Style_Set_Font (SCE_ADA_DEFAULT, App_default_font);
+      Editor.Style_Set_Fore (SCE_ADA_DEFAULT, Black);
+      Editor.Style_Set_Back (SCE_ADA_DEFAULT, White);
+      Editor.Style_Set_Size (SCE_ADA_DEFAULT, App_default_font_size);
+      Editor.Style_Set_Font (SCE_ADA_DEFAULT, App_default_font);
 
-      SW.Style_Set_Fore (SCE_ADA_COMMENTLINE, Dark_Green);
-      SW.Style_Set_Fore (SCE_ADA_NUMBER,      Blue);
-      SW.Style_Set_Fore (SCE_ADA_WORD,        Dark_Blue);
-      SW.Style_Set_Fore (SCE_ADA_STRING,      Dark_Red);
-      SW.Style_Set_Fore (SCE_ADA_CHARACTER,   Blue);
-      SW.Style_Set_Fore (SCE_ADA_IDENTIFIER,  Black);
+      Editor.Style_Set_Fore (SCE_ADA_COMMENTLINE, Dark_Green);
+      Editor.Style_Set_Fore (SCE_ADA_NUMBER,      Blue);
+      Editor.Style_Set_Fore (SCE_ADA_WORD,        Dark_Blue);
+      Editor.Style_Set_Fore (SCE_ADA_STRING,      Dark_Red);
+      Editor.Style_Set_Fore (SCE_ADA_CHARACTER,   Blue);
+      Editor.Style_Set_Fore (SCE_ADA_IDENTIFIER,  Black);
 
       --  Cases where the text is obviously wrong
       --  (unfinished character or string, illegal identifier)
-      SW.Style_Set_Fore (SCE_ADA_CHARACTEREOL, White);
-      SW.Style_Set_Back (SCE_ADA_CHARACTEREOL, Dark_Red);
-      SW.Style_Set_Fore (SCE_ADA_STRINGEOL, White);
-      SW.Style_Set_Back (SCE_ADA_STRINGEOL, Dark_Red);
-      SW.Style_Set_Fore (SCE_ADA_ILLEGAL, White);
-      SW.Style_Set_Back (SCE_ADA_ILLEGAL, Dark_Red);
+      Editor.Style_Set_Fore (SCE_ADA_CHARACTEREOL, White);
+      Editor.Style_Set_Back (SCE_ADA_CHARACTEREOL, Dark_Red);
+      Editor.Style_Set_Fore (SCE_ADA_STRINGEOL, White);
+      Editor.Style_Set_Back (SCE_ADA_STRINGEOL, Dark_Red);
+      Editor.Style_Set_Fore (SCE_ADA_ILLEGAL, White);
+      Editor.Style_Set_Back (SCE_ADA_ILLEGAL, Dark_Red);
 
-      SW.Set_Margin_Type_N (1, SC_MARGIN_NUMBER);
-      SW.Set_Margin_Width_N (1, 40);
-      SW.Set_Margin_Width_N (2, 10);
+      Editor.Set_Margin_Type_N (1, SC_MARGIN_NUMBER);
+      Editor.Set_Margin_Width_N (1, 40);
+      Editor.Set_Margin_Width_N (2, 10);
 
-      SW.Focus;
+      Editor.Focus;
    end Do_Create;
 
    --  CR : constant GWindows.GCharacter := GWindows.GCharacter'Val (13);
@@ -147,8 +147,8 @@ procedure Sci_Example is
       Value       : in     GWindows.GCharacter)
    is
       pragma Unreferenced (Special_Key);
-      SW : Scintilla_Type renames Scintilla_Type (Window);
-      CurPos : constant Position := Get_Current_Pos (SW);
+      Editor : Scintilla_Type renames Scintilla_Type (Window);
+      Cur_Pos : constant Position := Get_Current_Pos (Editor);
       Line, Indent_Previous_Line : Integer;
       Back_Pos : Position;
       Max_Backwards_Lines : constant := 5;
@@ -156,11 +156,11 @@ procedure Sci_Example is
       case Value is
          when LF =>
             --  Auto-indent on new line.
-            Line := SW.Line_From_Position (CurPos);
+            Line := Editor.Line_From_Position (Cur_Pos);
             if Line > 0 then
-               Indent_Previous_Line := SW.Get_Line_Indentation (Line - 1);
+               Indent_Previous_Line := Editor.Get_Line_Indentation (Line - 1);
                if Indent_Previous_Line > 0 then
-                  SW.Add_Text
+                  Editor.Add_Text
                     (To_GString_From_String (Indent_Previous_Line * ' '));
                end if;
             end if;
@@ -168,19 +168,26 @@ procedure Sci_Example is
             --  Search backwards for an identifier
             Line :=
                Integer'Max
-                 (0, SW.Line_From_Position (CurPos) - Max_Backwards_Lines);
-            Back_Pos := SW.Position_From_Line (Line);
-            for Pos in reverse Back_Pos .. CurPos - 1 loop
-                if SW.Get_Style_At (Pos) = SCE_ADA_IDENTIFIER then
+                 (0, Editor.Line_From_Position (Cur_Pos) - Max_Backwards_Lines);
+            Back_Pos := Editor.Position_From_Line (Line);
+            for Pos in reverse Back_Pos .. Cur_Pos - 1 loop
+                if Editor.Get_Style_At (Pos) = SCE_ADA_IDENTIFIER then
                    --  Call tip for hypothetical subprogram parameters...
-                   SW.Call_Tip_Show
-                      (CurPos, SW.Get_Word_At (Pos, True) &
+                   Editor.Call_Tip_Show
+                      (Cur_Pos, Editor.Get_Word_At (Pos, True) &
                        " (A : Integer, B : Float)");
                    exit;
                 end if;
             end loop;
          when ')' =>
-            SW.Call_Tip_Cancel;
+            Editor.Call_Tip_Cancel;
+         when 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' =>
+            Editor.Auto_C_Set_Ignore_Case (True);
+            Editor.Auto_C_Show
+              (Integer (Cur_Pos - Editor.Word_Start_Position (Cur_Pos, False)),
+               --  ^ Characters to word's begin are used for context.
+               --    We should include digits in order to be complete...
+               "algo Alpha A4 A42 beta Bravo cargo Charlie Id_42_7 id_eal");
          when others =>
             null;
       end case;
@@ -190,14 +197,12 @@ procedure Sci_Example is
      (Control : in out GWindows.Base.Base_Window_Type'Class;
       Pos     : in     Position)
    is
-      SW : Scintilla_Type renames Scintilla_Type (Control);
+      Editor : Scintilla_Type renames Scintilla_Type (Control);
    begin
-      --  The Set_Mouse_Dwell_Time method needs to be have
-      --  been called previously with a positive dwell time.
-      if SW.Get_Style_At (Pos) = SCE_ADA_IDENTIFIER then
+      if Editor.Get_Style_At (Pos) = SCE_ADA_IDENTIFIER then
          --  Mouse hover tool tip
-         SW.Call_Tip_Show
-           (Pos, SW.Get_Word_At (Pos, True) & NL & "___" & NL & "Defined somewhere");
+         Editor.Call_Tip_Show
+           (Pos, Editor.Get_Word_At (Pos, True) & NL & "___" & NL & "Defined somewhere");
       end if;
    end Do_Dwell_Start;
 

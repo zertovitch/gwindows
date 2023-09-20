@@ -1021,6 +1021,10 @@ package GWindows.Scintilla is
    --  Set a style to be changeable or not (read only).
    --  Experimental feature, currently buggy.
 
+   -----------------------------
+   --  Auto-completion lists  --
+   -----------------------------
+
    procedure Auto_C_Show
      (Control    : in out Scintilla_Type;
       lenEntered : in     Integer;
@@ -1112,6 +1116,10 @@ package GWindows.Scintilla is
      (Control : Scintilla_Type) return Boolean;
    --  Retrieve whether or not autocompletion deletes any word
    --  characters after the inserted text upon completion
+
+   -------------------
+   --  Indentation  --
+   -------------------
 
    procedure Set_Indent
      (Control : in out Scintilla_Type; indentSize : Integer);
