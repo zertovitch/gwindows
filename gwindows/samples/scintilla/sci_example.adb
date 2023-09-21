@@ -1,5 +1,7 @@
 --  Scintilla editor sample, preset with the Ada syntax.
---------------------------------------------------------
+--  We feature some goodies: mouse-hover help, call tips,
+--  auto-complete, auto-insert of ')' and '"'.
+---------------------------------------------------------
 --
 --  Sci_Example.exe will work only if SciLexer.dll is in the same path.
 --  SciLexer.dll can be found @ http://www.scintilla.org/, or in the
@@ -149,7 +151,7 @@ procedure Sci_Example is
       pragma Unreferenced (Special_Key);
       Editor : Scintilla_Type renames Scintilla_Type (Window);
       Cur_Pos : constant Position := Get_Current_Pos (Editor);
-      Line, Indent_Previous_Line : Integer;
+      Line, Indent_Previous_Line, Context_Length : Integer;
       Back_Pos : Position;
       Max_Backwards_Lines : constant := 5;
    begin
@@ -171,23 +173,39 @@ procedure Sci_Example is
                  (0, Editor.Line_From_Position (Cur_Pos) - Max_Backwards_Lines);
             Back_Pos := Editor.Position_From_Line (Line);
             for Pos in reverse Back_Pos .. Cur_Pos - 1 loop
-                if Editor.Get_Style_At (Pos) = SCE_ADA_IDENTIFIER then
-                   --  Call tip for hypothetical subprogram parameters...
-                   Editor.Call_Tip_Show
-                      (Cur_Pos, Editor.Get_Word_At (Pos, True) &
-                       " (A : Integer, B : Float)");
-                   exit;
-                end if;
+               if Editor.Get_Style_At (Pos) = SCE_ADA_IDENTIFIER then
+                  --  Call tip for hypothetical subprogram parameters...
+                  Editor.Call_Tip_Show
+                     (Cur_Pos, Editor.Get_Word_At (Pos, True) &
+                      " (A : Integer, B : Float)");
+                  exit;
+               end if;
             end loop;
          when ')' =>
             Editor.Call_Tip_Cancel;
          when 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' =>
-            Editor.Auto_C_Set_Ignore_Case (True);
-            Editor.Auto_C_Show
-              (Integer (Cur_Pos - Editor.Word_Start_Position (Cur_Pos, False)),
-               --  ^ Characters to word's begin are used for context.
-               --    We should include digits in order to be complete...
-               "algo Alpha A4 A42 beta Bravo cargo Charlie Id_42_7 id_eal");
+            Line := Editor.Line_From_Position (Cur_Pos);
+            Back_Pos := Position'Max (0, Editor.Position_From_Line (Line));
+            for Pos_First in reverse Back_Pos .. Cur_Pos loop
+               if Pos_First = 0 or else Editor.Get_Char_At (Pos_First - 1) not in
+                  'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9'
+               then
+                  --  Auto-complete menu:
+                  Editor.Auto_C_Set_Ignore_Case (True);
+                  Context_Length := Integer (Cur_Pos - Pos_First);
+                  --  Ada.Text_IO.Put_Line
+                  --    (Back_Pos'Image & Pos_First'Image & Cur_Pos'Image &
+                  --     " context length =" & Context_Length'Image &
+                  --     "  [" &
+                  --     To_String (Editor.Get_Text_Range (Pos_First, Cur_Pos)) &
+                  --     ']');
+                  Editor.Auto_C_Show
+                     (Context_Length,
+                      --  ^ Characters towards identifer's begin are used for context.
+                      "A4 A42_31415 a42_pi algo Alpha beta Bravo cargo Charlie Id_42_7 id_eal");
+                  exit;
+               end if;
+            end loop;
          when others =>
             null;
       end case;
@@ -246,14 +264,13 @@ begin
      "   Put_Line (""World!"");"          & NL &
      "    "                               & NL &
      "   for i in 1 .. 10 loop"           & NL &
-     "      "                             & NL &
-     "      --  Now, it's your turn!"     & NL &
-     "       "                            & NL &
      "        "                           & NL &
      "   --  For a complete application using GWindows.Scintilla, see" & NL &
      "   --  the LEA (Lightweight Editor for Ada) project @"           & NL &
      "   --      https://sf.net/projects/l-e-a/"                       & NL &
-     "   --      https://github.com/zertovitch/lea"                    & NL
+     "   --      https://github.com/zertovitch/lea"                    & NL &
+     "      "                             & NL &
+     "--  Now, it's your turn!"     & NL & NL
    );
    --  NB: at some places we have put extra spaces to
    --      show off indentation guides...
