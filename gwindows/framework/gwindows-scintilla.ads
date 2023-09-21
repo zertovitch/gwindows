@@ -160,8 +160,9 @@ package GWindows.Scintilla is
    --  Retrieves the number of lines completely visible.
 
    function Get_Char_At
-     (Control : Scintilla_Type; pos : Position) return Integer;
-   --  Returns the character byte at the position
+     (Control : Scintilla_Type; pos : Position) return GCharacter;
+   --  Returns the character at the position pos, or GCharacter'Val (0)
+   --  if pos is negative or past the end of the document.
 
    function Get_Current_Line_Number (Control : Scintilla_Type) return Integer;
    --  Returns the current line number
@@ -1352,15 +1353,16 @@ package GWindows.Scintilla is
    --  Is the document different from when it was last saved?
 
    function Get_Text_Range
+     (Control : Scintilla_Type; tr : Text_Range_Type) return Integer;
+   --  Retrieve a range of text (low level routine).
+   --  Return the length of the text.
+
+   function Get_Text_Range
      (Control : Scintilla_Type;
       Min     : Position;
       Max     : Position)
      return GString;
-
-   function Get_Text_Range
-     (Control : Scintilla_Type; tr : Text_Range_Type) return Integer;
    --  Retrieve a range of text.
-   --  Return the length of the text.
 
    function Point_X_From_Position
      (Control : Scintilla_Type; pos : Position) return Integer;

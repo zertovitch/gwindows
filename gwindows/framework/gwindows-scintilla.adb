@@ -1428,10 +1428,10 @@ package body GWindows.Scintilla is
    -----------------
 
    function Get_Char_At
-     (Control : Scintilla_Type; pos : Position) return Integer
+     (Control : Scintilla_Type; pos : Position) return GCharacter
    is
    begin
-      return Integer (Query (Control, SCI_GETCHARAT, To_Wparam (pos)));
+      return GCharacter'Val (Query (Control, SCI_GETCHARAT, To_Wparam (pos)));
    end Get_Char_At;
 
    -------------------
@@ -2188,22 +2188,6 @@ package body GWindows.Scintilla is
 
    function Get_Text_Range
      (Control : Scintilla_Type;
-      Min     : Position;
-      Max     : Position)
-     return GString
-   is
-      Buffer : String (1 .. Integer (Max) - Integer (Min));
-      TR     : constant Text_Range_Type :=
-        (Int_32 (Min), Int_32 (Max), Buffer (Buffer'First)'Address);
-      Length : Integer;
-      pragma Unreferenced (Length);
-   begin
-      Length := Get_Text_Range (Control, TR);
-      return GStrings.To_GString_From_String (Buffer);
-   end Get_Text_Range;
-
-   function Get_Text_Range
-     (Control : Scintilla_Type;
       tr : Text_Range_Type)
       return Integer
    is
@@ -2217,6 +2201,36 @@ package body GWindows.Scintilla is
                        "SendMessage" & Character_Mode_Identifier);
    begin
       return Integer (SendMessage);
+   end Get_Text_Range;
+
+   function Get_Text_Range_Non_Empty
+     (Control : Scintilla_Type;
+      Min     : Position;
+      Max     : Position)
+     return GString
+   is
+      Buffer : String (1 .. Integer (Max) - Integer (Min));
+      TR     : constant Text_Range_Type :=
+        (Int_32 (Min), Int_32 (Max), Buffer (Buffer'First)'Address);
+      Length : Integer;
+      pragma Unreferenced (Length);
+   begin
+      Length := Get_Text_Range (Control, TR);
+      return GStrings.To_GString_From_String (Buffer);
+   end Get_Text_Range_Non_Empty;
+
+   function Get_Text_Range
+     (Control : Scintilla_Type;
+      Min     : Position;
+      Max     : Position)
+     return GString
+   is
+   begin
+      if Max > Min then
+         return Get_Text_Range_Non_Empty (Control, Min, Max);
+      else
+         return "";
+      end if;
    end Get_Text_Range;
 
    -------------------------
