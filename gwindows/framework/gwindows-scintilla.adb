@@ -4322,27 +4322,27 @@ package body GWindows.Scintilla is
          end if;
       end Show_Bit;
    begin
-      Show_Bit (SC_MOD_INSERTTEXT,       "Mod Insert Text");
-      Show_Bit (SC_MOD_DELETETEXT,       "Mod Delete Text");
-      Show_Bit (SC_MOD_CHANGESTYLE,      "Mod Change Style");
-      Show_Bit (SC_MOD_CHANGEFOLD,       "Mod Change Fold");
-      Show_Bit (SC_PERFORMED_USER,       "Performed User");
-      Show_Bit (SC_PERFORMED_UNDO,       "Performed Undo");
-      Show_Bit (SC_PERFORMED_REDO,       "Performed Redo");
-      Show_Bit (SC_LASTSTEPINUNDOREDO,   "Last Step In Undo Redo");
-      Show_Bit (SC_MOD_CHANGEMARKER,     "Mod Change Marker");
-      Show_Bit (SC_MOD_BEFOREINSERT,     "Mod Before Insert");
-      Show_Bit (SC_MOD_BEFOREDELETE,     "Mod Before Delete");
-      Show_Bit (SC_MULTILINEUNDOREDO,    "Multiline Undo Redo");
-      Show_Bit (SC_STARTACTION,          "Start Action");
-      Show_Bit (SC_MOD_CHANGEINDICATOR,  "Mod Change Indicator");
-      Show_Bit (SC_MOD_CHANGELINESTATE,  "Mod Change Line State");
-      Show_Bit (SC_MOD_CHANGEMARGIN,     "Mod Change Margin");
-      Show_Bit (SC_MOD_CHANGEANNOTATION, "Mod Change Annotation");
-      Show_Bit (SC_MOD_CONTAINER,        "Mod Container");
-      Show_Bit (SC_MOD_LEXERSTATE,       "Mod Lexer State");
-      Show_Bit (SC_MOD_INSERTCHECK,      "Mod Insert Check");
-      Show_Bit (SC_MOD_CHANGETABSTOPS,   "Mod Change Tab Stops");
+      Show_Bit (SC_MOD_INSERTTEXT,       " SC: Modified: Insert Text");
+      Show_Bit (SC_MOD_DELETETEXT,       " SC: Modified: Delete Text");
+      Show_Bit (SC_MOD_CHANGESTYLE,      " SC: Modified: Change Style");
+      Show_Bit (SC_MOD_CHANGEFOLD,       " SC: Modified: Change Fold");
+      Show_Bit (SC_PERFORMED_USER,       " SC: Performed: User");
+      Show_Bit (SC_PERFORMED_UNDO,       " SC: Performed: Undo");
+      Show_Bit (SC_PERFORMED_REDO,       " SC: Performed: Redo");
+      Show_Bit (SC_LASTSTEPINUNDOREDO,   " SC: Last Step In Undo Redo");
+      Show_Bit (SC_MOD_CHANGEMARKER,     " SC: Modified: Change Marker");
+      Show_Bit (SC_MOD_BEFOREINSERT,     " SC: Modified: Before Insert");
+      Show_Bit (SC_MOD_BEFOREDELETE,     " SC: Modified: Before Delete");
+      Show_Bit (SC_MULTILINEUNDOREDO,    " SC: Multiline Undo Redo");
+      Show_Bit (SC_STARTACTION,          " SC: Start Action");
+      Show_Bit (SC_MOD_CHANGEINDICATOR,  " SC: Modified: Change Indicator");
+      Show_Bit (SC_MOD_CHANGELINESTATE,  " SC: Modified: Change Line State");
+      Show_Bit (SC_MOD_CHANGEMARGIN,     " SC: Modified: Change Margin");
+      Show_Bit (SC_MOD_CHANGEANNOTATION, " SC: Modified: Change Annotation");
+      Show_Bit (SC_MOD_CONTAINER,        " SC: Modified: Container");
+      Show_Bit (SC_MOD_LEXERSTATE,       " SC: Modified: Lexer State");
+      Show_Bit (SC_MOD_INSERTCHECK,      " SC: Modified: Insert Check");
+      Show_Bit (SC_MOD_CHANGETABSTOPS,   " SC: Modified: Change Tab Stops");
    end Show_Details;
 
    ----------------
