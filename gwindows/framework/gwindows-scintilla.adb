@@ -2912,7 +2912,7 @@ package body GWindows.Scintilla is
             Pos              : Position;
             ch               : Int_32;
             modifiers        : Int_32;
-            modificationType : Int_32;
+            modificationType : Interfaces.Unsigned_32;
             text             : System.Address;
             length           : Position;
             linesAdded       : Position;
@@ -2980,7 +2980,7 @@ package body GWindows.Scintilla is
                   begin
                      On_Modified (Scintilla_Type'Class (Window),
                                   NM.Pos,
-                                  Interfaces.Unsigned_32 (NM.modificationType),
+                                  NM.modificationType,
                                   T (T'First .. T'Last - 1),
                                   Integer (NM.linesAdded),
                                   Integer (NM.line),
@@ -2990,7 +2990,7 @@ package body GWindows.Scintilla is
                else
                   On_Modified (Scintilla_Type'Class (Window),
                                NM.Pos,
-                               Interfaces.Unsigned_32 (NM.modificationType),
+                               NM.modificationType,
                                "",
                                Integer (NM.linesAdded),
                                Integer (NM.line),
