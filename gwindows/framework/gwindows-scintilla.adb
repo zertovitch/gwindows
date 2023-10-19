@@ -409,8 +409,8 @@ package body GWindows.Scintilla is
 
    --  The following are conversions between Adress_Size-bit types .
 
-   function To_Int is
-     new Ada.Unchecked_Conversion (Types.Lresult, Scintilla.Int);
+   --  function To_Int is
+   --    new Ada.Unchecked_Conversion (Types.Lresult, Scintilla.Int);
    function To_Wparam is
      new Ada.Unchecked_Conversion (Scintilla.Int, Types.Wparam);
    function To_Lparam is
@@ -425,14 +425,14 @@ package body GWindows.Scintilla is
       Action  : Interfaces.C.int;
       Param_1 : Types.Wparam := 0;
       Param_2 : Types.Lparam := 0)
-     return Types.Lresult
+     return Types.INT_PTR
    is
       function SendMessage
         (hwnd   : Types.Handle     := Handle (Control);
          uMsg   : Interfaces.C.int := Action;
          wParam : Types.Wparam     := Param_1;
          lParam : Types.Lparam     := Param_2)
-        return Types.Lresult;
+        return Types.INT_PTR;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -458,7 +458,7 @@ package body GWindows.Scintilla is
       Param_1 : Types.Wparam := 0;
       Param_2 : Types.Lparam := 0)
    is
-      dummy : Types.Lresult;
+      dummy : Types.INT_PTR;
    begin
       dummy := Query (Control, Action, Param_1, Param_2);
    end Command;
@@ -640,7 +640,7 @@ package body GWindows.Scintilla is
 
    function Auto_C_Pos_Start (Control : Scintilla_Type) return Position is
    begin
-      return To_Int (Query (Control, SCI_AUTOCPOSSTART));
+      return Position (Query (Control, SCI_AUTOCPOSSTART));
    end Auto_C_Pos_Start;
 
    -------------------
@@ -840,7 +840,7 @@ package body GWindows.Scintilla is
       return Position
    is
    begin
-      return To_Int (Query (Control, SCI_BRACEMATCH, To_Wparam (pos)));
+      return Position (Query (Control, SCI_BRACEMATCH, To_Wparam (pos)));
    end Brace_Match;
 
    -------------------
@@ -867,7 +867,7 @@ package body GWindows.Scintilla is
 
    function Call_Tip_Pos_Start (Control : Scintilla_Type) return Position is
    begin
-      return To_Int (Query (Control, SCI_CALLTIPPOSSTART));
+      return Position (Query (Control, SCI_CALLTIPPOSSTART));
    end Call_Tip_Pos_Start;
 
    -----------------------
@@ -1308,11 +1308,11 @@ package body GWindows.Scintilla is
          uMsg   : Interfaces.C.int := SCI_FINDTEXT;
          wParam : Types.Wparam     := To_Wparam (flags);
          lParam : Find_Text_Access := ft)
-        return Types.Lresult;
+        return Int;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return To_Int (SendMessage);
+      return SendMessage;
    end Find_Text;
 
    ------------------
@@ -1350,7 +1350,7 @@ package body GWindows.Scintilla is
 
    function Get_Anchor (Control : Scintilla_Type) return Position is
    begin
-      return To_Int (Query (Control, SCI_GETANCHOR));
+      return Position (Query (Control, SCI_GETANCHOR));
    end Get_Anchor;
 
    -------------------------------
@@ -1504,7 +1504,7 @@ package body GWindows.Scintilla is
 
    function Get_Current_Pos (Control : Scintilla_Type) return Position is
    begin
-      return To_Int (Query (Control, SCI_GETCURRENTPOS));
+      return Position (Query (Control, SCI_GETCURRENTPOS));
    end Get_Current_Pos;
 
    ----------------
@@ -1577,7 +1577,7 @@ package body GWindows.Scintilla is
 
    function Get_End_Styled (Control : Scintilla_Type) return Position is
    begin
-      return To_Int (Query (Control, SCI_GETENDSTYLED));
+      return Position (Query (Control, SCI_GETENDSTYLED));
    end Get_End_Styled;
 
    ------------------
@@ -1706,7 +1706,7 @@ package body GWindows.Scintilla is
 
    function Get_Length (Control : Scintilla_Type) return Position is
    begin
-      return To_Int (Query (Control, SCI_GETLENGTH));
+      return Position (Query (Control, SCI_GETLENGTH));
    end Get_Length;
 
    ---------------
@@ -1761,7 +1761,7 @@ package body GWindows.Scintilla is
    is
    begin
       return
-        To_Int (Query (Control, SCI_GETLINEENDPOSITION, To_Wparam (line)));
+        Position (Query (Control, SCI_GETLINEENDPOSITION, To_Wparam (line)));
    end Get_Line_End_Position;
 
    --------------------------
@@ -1785,7 +1785,8 @@ package body GWindows.Scintilla is
    is
    begin
       return
-        To_Int (Query (Control, SCI_GETLINEINDENTPOSITION, To_Wparam (line)));
+        Position
+          (Query (Control, SCI_GETLINEINDENTPOSITION, To_Wparam (line)));
    end Get_Line_Indent_Position;
 
    --------------------
@@ -1981,7 +1982,7 @@ package body GWindows.Scintilla is
 
    function Get_Selection_End (Control : Scintilla_Type) return Position is
    begin
-      return To_Int (Query (Control, SCI_GETSELECTIONEND));
+      return Position (Query (Control, SCI_GETSELECTIONEND));
    end Get_Selection_End;
 
    -----------------------
@@ -1990,7 +1991,7 @@ package body GWindows.Scintilla is
 
    function Get_Selection_Start (Control : Scintilla_Type) return Position is
    begin
-      return To_Int (Query (Control, SCI_GETSELECTIONSTART));
+      return Position (Query (Control, SCI_GETSELECTIONSTART));
    end Get_Selection_Start;
 
    -----------------------------------------------------------------------
@@ -2009,7 +2010,7 @@ package body GWindows.Scintilla is
    is
    begin
       return
-        To_Int (Query (Control, SCI_GETSELECTIONNSTART, To_Wparam (N - 1)));
+        Position (Query (Control, SCI_GETSELECTIONNSTART, To_Wparam (N - 1)));
    end Get_Selection_N_Start;
 
    function Get_Selection_N_End
@@ -2018,7 +2019,8 @@ package body GWindows.Scintilla is
       return Position
    is
    begin
-      return To_Int (Query (Control, SCI_GETSELECTIONNEND, To_Wparam (N - 1)));
+      return
+        Position (Query (Control, SCI_GETSELECTIONNEND, To_Wparam (N - 1)));
    end Get_Selection_N_End;
 
    function Get_Selection_N_Caret
@@ -2027,7 +2029,7 @@ package body GWindows.Scintilla is
    is
    begin
       return
-        To_Int (Query (Control, SCI_GETSELECTIONNCARET, To_Wparam (N - 1)));
+        Position (Query (Control, SCI_GETSELECTIONNCARET, To_Wparam (N - 1)));
    end Get_Selection_N_Caret;
 
    procedure Set_Selection
@@ -2146,7 +2148,7 @@ package body GWindows.Scintilla is
 
    function Get_Target_End (Control : Scintilla_Type) return Position is
    begin
-      return To_Int (Query (Control, SCI_GETTARGETEND));
+      return Position (Query (Control, SCI_GETTARGETEND));
    end Get_Target_End;
 
    ----------------------
@@ -2155,7 +2157,7 @@ package body GWindows.Scintilla is
 
    function Get_Target_Start (Control : Scintilla_Type) return Position is
    begin
-      return To_Int (Query (Control, SCI_GETTARGETSTART));
+      return Position (Query (Control, SCI_GETTARGETSTART));
    end Get_Target_Start;
 
    --------------
@@ -3130,7 +3132,8 @@ package body GWindows.Scintilla is
      (Control : Scintilla_Type; line : Integer) return Position
    is
    begin
-      return To_Int (Query (Control, SCI_POSITIONFROMLINE, To_Wparam (line)));
+      return
+        Position (Query (Control, SCI_POSITIONFROMLINE, To_Wparam (line)));
    end Position_From_Line;
 
    -------------------------
@@ -3142,7 +3145,7 @@ package body GWindows.Scintilla is
    is
    begin
       return
-        To_Int
+        Position
           (Query
             (Control, SCI_POSITIONFROMPOINT, To_Wparam (x), To_Lparam (y)));
    end Position_From_Point;
@@ -3156,7 +3159,7 @@ package body GWindows.Scintilla is
    is
    begin
       return
-        To_Int
+        Position
           (Query
             (Control,
              SCI_POSITIONFROMPOINTCLOSE,
@@ -3280,11 +3283,11 @@ package body GWindows.Scintilla is
          uMsg   : Interfaces.C.int := SCI_SEARCHINTARGET;
          wParam : Types.Wparam     := text'Length;
          lParam : System.Address   := S (S'First)'Address)
-        return Types.Lresult;
+        return Int;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      return To_Int (SendMessage);
+      return SendMessage;
    end Search_In_Target;
 
    -----------------
@@ -4696,7 +4699,7 @@ package body GWindows.Scintilla is
    is
    begin
       return
-        To_Int
+        Position
           (Query
             (Control,
              SCI_WORDENDPOSITION,
@@ -4786,7 +4789,7 @@ package body GWindows.Scintilla is
    is
    begin
       return
-        To_Int
+        Position
           (Query
             (Control,
              SCI_WORDSTARTPOSITION,

@@ -388,8 +388,8 @@ package GWindows.Scintilla is
      return Integer;
    --  Find the previous line before lineStart that includes a marker in mask.
 
-   SC_MARGIN_SYMBOL            : constant := 0;
-   SC_MARGIN_NUMBER            : constant := 1;
+   SC_MARGIN_SYMBOL : constant := 0;
+   SC_MARGIN_NUMBER : constant := 1;
 
    procedure Set_Margin_Type_N
      (Control : in out Scintilla_Type; margin : Integer; marginType : Integer);
