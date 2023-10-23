@@ -628,13 +628,15 @@ package body GWindows.Common_Controls is
    is
       SB_SETTEXTA   : constant := 16#401#;
       SB_SETTEXTW   : constant := 16#40B#;
-      SBT_NOBORDERS : constant := 16#100#;
-      SBT_POPOUT    : constant := 16#200#;
+      SBT_NOBORDERS : constant := 16#0100#;
+      SBT_POPOUT    : constant := 16#0200#;
+      SBT_OWNERDRAW : constant := 16#1000#;
 
       Format : constant array (Status_Kind_Type) of Integer :=
-        (Flat   => SBT_NOBORDERS,
-         Sunken => 0,
-         Raised => SBT_POPOUT);
+        (Flat       => SBT_NOBORDERS,
+         Sunken     => 0,
+         Raised     => SBT_POPOUT,
+         Owner_Draw => SBT_OWNERDRAW);
 
       C_Text : GString_C := GWindows.GStrings.To_GString_C (Text);
 

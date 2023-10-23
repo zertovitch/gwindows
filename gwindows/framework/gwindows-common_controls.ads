@@ -204,7 +204,7 @@ package GWindows.Common_Controls is
    --  the right edge of the corresponding part extends to the border of
    --  the window
 
-   type Status_Kind_Type is (Flat, Sunken, Raised);
+   type Status_Kind_Type is (Flat, Sunken, Raised, Owner_Draw);
    procedure Text (Bar  : in out Status_Bar_Type;
                    Text : in     GString;
                    Part : in     Natural;
