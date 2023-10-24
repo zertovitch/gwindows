@@ -633,10 +633,10 @@ package body GWindows.Common_Controls is
       SBT_OWNERDRAW : constant := 16#1000#;
 
       Format : constant array (Status_Kind_Type) of Integer :=
-        (Flat       => SBT_NOBORDERS,
-         Sunken     => 0,
-         Raised     => SBT_POPOUT,
-         Owner_Draw => SBT_OWNERDRAW);
+        (Flat        => SBT_NOBORDERS,
+         Sunken      => 0,
+         Raised      => SBT_POPOUT,
+         Owner_Drawn => SBT_OWNERDRAW);
 
       C_Text : GString_C := GWindows.GStrings.To_GString_C (Text);
 
