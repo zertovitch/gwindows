@@ -1691,11 +1691,11 @@ package body GWindows.Windows is
          else
             declare
                use GWindows.Drawing_Objects;
-               B : Brush_Type renames Window.Background_Color_Brush;
+               B : Brush_Type;
             begin
                Create_Solid_Brush (B, Window.Background_Color);
-               --  ^ Old brush is deleted.
                Fill_Rectangle (Canvas, Area, B);
+               Delete (B);
             end;
          end if;
       else

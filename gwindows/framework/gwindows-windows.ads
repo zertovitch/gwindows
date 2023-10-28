@@ -1047,10 +1047,9 @@ private
          All_Keys : Boolean := False;
 
          Font_Handle : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         Default_Cursor         : GWindows.Cursors.Cursor_Type := 0;
-         Background_Color       : GWindows.Colors.Color_Type;
-         Background_Color_Brush : Drawing_Objects.Brush_Type;
-         Background_Color_Sys   : Boolean := True;
+         Default_Cursor       : GWindows.Cursors.Cursor_Type := 0;
+         Background_Color     : GWindows.Colors.Color_Type;
+         Background_Color_Sys : Boolean := True;
       end record;
 
    Empty_Array_Of_File_Names : constant Array_Of_File_Names :=
