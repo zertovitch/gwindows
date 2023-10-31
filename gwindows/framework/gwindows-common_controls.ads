@@ -44,8 +44,11 @@ with GWindows.Image_Lists;
 with GWindows.Types;
 with GWindows.Utilities;
 with GWindows.Windows;
+with GWindows.Drawing;
 
 package GWindows.Common_Controls is
+
+   Not_Set_Error : exception;
 
    -------------------------------------------------------------------------
    --  Common_Control_Type
@@ -56,6 +59,27 @@ package GWindows.Common_Controls is
      new GWindows.Base.Base_Window_Type with private;
    type Pointer_To_Common_Control_Class is
      access all Common_Control_Type'Class;
+
+   procedure Background_Color (Window : in out Common_Control_Type;
+                               Color  : in     GWindows.Colors.Color_Type);
+   --  Set background color of control
+
+   function Background_Color (Window : in Common_Control_Type)
+                             return GWindows.Colors.Color_Type;
+   --  Get background color of control
+
+   -------------------------------------------------------------------------
+   --  Common_Control_Type - Event Types
+   -------------------------------------------------------------------------
+
+   type Event_Call_Default_Handler_Type is (Not_Set, Yes, No);
+
+   type Paint_Event is access
+     procedure
+        (Window               : in out GWindows.Base.Base_Window_Type'Class;
+         Canvas               : in out GWindows.Drawing.Canvas_Type;
+         Area                 : in     GWindows.Types.Rectangle_Type;
+         Call_Default_Handler : in out Event_Call_Default_Handler_Type);
 
    -------------------------------------------------------------------------
    --  Common_Control_Type - Event Handlers
@@ -117,6 +141,22 @@ package GWindows.Common_Controls is
                                Handler : in     GWindows.Base.Action_Event);
    procedure Fire_On_Hover (Control : in out Common_Control_Type);
 
+   procedure On_Paint_Handler (Window  : in out Common_Control_Type;
+                               Handler : in Paint_Event);
+   procedure Fire_On_Paint
+      (Window               : in out Common_Control_Type;
+       Canvas               : in out GWindows.Drawing.Canvas_Type;
+       Area                 : in     GWindows.Types.Rectangle_Type;
+       Call_Default_Handler : in out Event_Call_Default_Handler_Type);
+
+   procedure On_Erase_Background_Handler (Window  : in out Common_Control_Type;
+                                          Handler : in Paint_Event);
+   procedure Fire_On_Erase_Background
+     (Window               : in out Common_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type);
+
    -------------------------------------------------------------------------
    --  Common_Control_Type - Event Methods
    -------------------------------------------------------------------------
@@ -153,6 +193,20 @@ package GWindows.Common_Controls is
 
    procedure On_Hover (Control : in out Common_Control_Type);
    --  Mouse hover over control
+
+   procedure On_Paint
+      (Window               : in out Common_Control_Type;
+       Canvas               : in out GWindows.Drawing.Canvas_Type;
+       Area                 : in     GWindows.Types.Rectangle_Type;
+       Call_Default_Handler : in out Event_Call_Default_Handler_Type);
+   --  Paint
+
+   procedure On_Erase_Background
+     (Window               : in out Common_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type);
+   --  Erase Background
 
    -------------------------------------------------------------------------
    --  Common_Control_Type - Event Framework Methods
@@ -1582,6 +1636,10 @@ private
          On_Focus_Event               : GWindows.Base.Action_Event := null;
          On_Lost_Focus_Event          : GWindows.Base.Action_Event := null;
          On_Hover_Event               : GWindows.Base.Action_Event := null;
+         On_Paint_Event               : Paint_Event                := null;
+         On_Erase_Background_Event    : Paint_Event                := null;
+         Background_Color             : GWindows.Colors.Color_Type;
+         Background_Color_Sys         : Boolean := True;
       end record;
 
    type Animation_Control_Type is new Common_Control_Type with
