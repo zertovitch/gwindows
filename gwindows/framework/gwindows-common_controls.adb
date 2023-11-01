@@ -601,7 +601,8 @@ package body GWindows.Common_Controls is
                Return_Value := 0;
 
                if Call_Default_Handler = Not_Set then
-                  raise Not_Set_Error with "Call_Default_Handler not Set";
+                  raise Not_Set_Error with "Call_Default_Handler not Set," &
+                                           " should be Yes or No";
                elsif Call_Default_Handler = Yes then
                  InvalidateRect (Handle (Window),
                                  PS.rcPaint'Unrestricted_Access,
@@ -636,7 +637,8 @@ package body GWindows.Common_Controls is
                Return_Value := 0;
 
                if Call_Default_Handler = Not_Set then
-                  raise Not_Set_Error with "Call_Default_Handler not Set";
+                  raise Not_Set_Error with "Call_Default_Handler not Set," &
+                                           " should be Yes or No";
                elsif Call_Default_Handler = Yes then
                  --  Call parent method:
                  Base.On_Message
