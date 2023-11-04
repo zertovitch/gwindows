@@ -1144,6 +1144,10 @@ package GWindows.Common_Controls is
    --  Tree_View_Control_Type - Event Handlers
    -------------------------------------------------------------------------
    --  See Event Methods for details on each event
+   type Tree_Item_Action_Event is access
+     procedure (Control   : in out Tree_View_Control_Type'Class;
+                Item_Node : in     Tree_Item_Node;
+                Action    : Interfaces.C.unsigned);
 
    procedure On_Selection_Change_Handler
      (Control : in out Tree_View_Control_Type;
@@ -1151,11 +1155,33 @@ package GWindows.Common_Controls is
    procedure Fire_On_Selection_Change
      (Control : in out Tree_View_Control_Type);
 
+   procedure On_Item_Expanding_Handler
+     (Control : in out Tree_View_Control_Type;
+      Handler : in     Tree_Item_Action_Event);
+   procedure Fire_On_Item_Expanding
+     (Control   : in out Tree_View_Control_Type;
+      Item_Node : in     Tree_Item_Node;
+      Action    : Interfaces.C.unsigned);
+
+   procedure On_Item_Expanded_Handler
+     (Control : in out Tree_View_Control_Type;
+      Handler : in     Tree_Item_Action_Event);
+   procedure Fire_On_Item_Expanded
+     (Control   : in out Tree_View_Control_Type;
+      Item_Node : in     Tree_Item_Node;
+      Action    : Interfaces.C.unsigned);
+
    -------------------------------------------------------------------------
    --  Tree_View_Control_Type - Event Methods
    -------------------------------------------------------------------------
 
    procedure On_Selection_Change (Control : in out Tree_View_Control_Type);
+   procedure On_Item_Expanding   (Control   : in out Tree_View_Control_Type;
+                                  Item_Node : in     Tree_Item_Node;
+                                  Action    : Interfaces.C.unsigned);
+   procedure On_Item_Expanded    (Control   : in out Tree_View_Control_Type;
+                                  Item_Node : in     Tree_Item_Node;
+                                  Action    : Interfaces.C.unsigned);
 
    -------------------------------------------------------------------------
    --  Tree_View_Control_Type - Event Framework Methods
@@ -1674,7 +1700,9 @@ private
 
    type Tree_View_Control_Type is new Common_Control_Type with
       record
-         On_Selection_Change_Event  : GWindows.Base.Action_Event := null;
+         On_Selection_Change_Event : GWindows.Base.Action_Event := null;
+         On_Item_Expanding_Event   : Tree_Item_Action_Event := null;
+         On_Item_Expanded_Event    : Tree_Item_Action_Event := null;
       end record;
 
    type Trackbar_Control_Type is new Common_Control_Type with null record;
