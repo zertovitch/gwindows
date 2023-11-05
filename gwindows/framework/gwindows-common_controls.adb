@@ -34,8 +34,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Unchecked_Conversion;
-
 with System;
 
 with GWindows.Constants;
@@ -3563,21 +3561,6 @@ package body GWindows.Common_Controls is
    -- On_Notify --
    ---------------
 
-   type NMTREEVIEW is
-      record
-         Hdr     : GWindows.Base.Notification;
-         Action  : Interfaces.C.unsigned;
-         ItemOld : TVITEM;
-         ItemNew : TVITEM;
-         PtDrag  : GWindows.Types.Point_Type;
-      end record;
-
-   type NMTREEVIEW_Ptr is access all NMTREEVIEW;
-
-   function Message_To_NmTreeView_Ptr is
-      new Ada.Unchecked_Conversion (GWindows.Base.Pointer_To_Notification,
-                                    NMTREEVIEW_Ptr);
-
    procedure On_Notify
      (Window       : in out Tree_View_Control_Type;
       Message      : in     GWindows.Base.Pointer_To_Notification;
@@ -3599,7 +3582,8 @@ package body GWindows.Common_Controls is
 
         when TVN_ITEMEXPANDINGA | TVN_ITEMEXPANDINGW =>
           declare
-            Nmtv_Ptr : NMTREEVIEW_Ptr := Message_To_NmTreeView_Ptr (Message);
+            Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type
+                       := Message_To_NmTreeView_Pointer (Message);
           begin
             On_Item_Expanding (Tree_View_Control_Type'Class (Window),
                                Nmtv_Ptr.ItemNew.HItem,
@@ -3608,7 +3592,8 @@ package body GWindows.Common_Controls is
 
         when TVN_ITEMEXPANDEDA | TVN_ITEMEXPANDEDW =>
           declare
-            Nmtv_Ptr : NMTREEVIEW_Ptr := Message_To_NmTreeView_Ptr (Message);
+            Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type
+                       := Message_To_NmTreeView_Pointer (Message);
           begin
             On_Item_Expanded (Tree_View_Control_Type'Class (Window),
                               Nmtv_Ptr.ItemNew.HItem,

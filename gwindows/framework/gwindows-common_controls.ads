@@ -35,6 +35,7 @@
 ------------------------------------------------------------------------------
 
 with Ada.Calendar;
+with Ada.Unchecked_Conversion;
 
 with Interfaces.C;
 
@@ -1769,5 +1770,20 @@ private
    LVM_GETITEMTEXT : constant Utilities.ANSI_Unicode_Choice :=
       (ANSI    => LVM_GETITEMTEXTA,
        Unicode => LVM_GETITEMTEXTW);
+
+   type NMTREEVIEW is
+      record
+         Hdr     : GWindows.Base.Notification;
+         Action  : Interfaces.C.unsigned;
+         ItemOld : TVITEM;
+         ItemNew : TVITEM;
+         PtDrag  : GWindows.Types.Point_Type;
+      end record;
+
+   type Pointer_To_NMTREEVIEW_Type is access all NMTREEVIEW;
+
+   function Message_To_NmTreeView_Pointer is
+      new Ada.Unchecked_Conversion (GWindows.Base.Pointer_To_Notification,
+                                    Pointer_To_NMTREEVIEW_Type);
 
 end GWindows.Common_Controls;
