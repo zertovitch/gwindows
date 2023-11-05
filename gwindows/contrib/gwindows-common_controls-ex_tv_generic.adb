@@ -86,17 +86,6 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
          Lparam         : System.Address;
       end record;
 
-   type Nmtreeview is
-      record
-         Hdr : Notification;
-         Action : Interfaces.C.unsigned;
-         ItemOld : Tvitem;
-         ItemNew : Tvitem;
-         PtDrag : GWindows.Types.Point_Type;
-      end record;
-
-   type Pointer_To_NmTreeView_type is access all Nmtreeview;
-
    type Nmcustomdraw_Type is
       record
          Hdr         : Notification;
@@ -119,10 +108,6 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
      end record;
 
    type Pointer_To_NmTvcustomdraw_Type is access all NMTVCUSTOMDRAW_type;
-
-   function Message_To_NmtreeView_Pointer is
-      new Ada.Unchecked_Conversion (GWindows.Base.Pointer_To_Notification,
-                               Pointer_To_NmTreeView_type);
 
    function Message_To_NmTvCustomdraw_Pointer is
       new Ada.Unchecked_Conversion (GWindows.Base.Pointer_To_Notification,
