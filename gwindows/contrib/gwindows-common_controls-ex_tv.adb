@@ -6,7 +6,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---              Copyright (C) 1999 - 2019 David Botton / KonAd              --
+--              Copyright (C) 1999 - 2023 David Botton / KonAd              --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -518,7 +518,7 @@ package body GWindows.Common_Controls.Ex_TV is
                  Message_To_NmTreeView_Pointer (Message);
             begin
                On_Change (Ex_Tree_View_Control_Type'Class (Window),
-                          Nmtv_Ptr.ItemNew.Hitem);
+                          Nmtv_Ptr.ItemNew.HItem);
             end;
          when Nm_Changedw =>
             declare
@@ -526,7 +526,7 @@ package body GWindows.Common_Controls.Ex_TV is
                  Message_To_NmTreeView_Pointer (Message);
             begin
                On_Change (Ex_Tree_View_Control_Type'Class (Window),
-                          Nmtv_Ptr.ItemNew.Hitem);
+                          Nmtv_Ptr.ItemNew.HItem);
             end;
          when Nm_CustomDraw =>
                declare

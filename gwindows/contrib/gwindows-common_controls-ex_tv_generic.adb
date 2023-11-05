@@ -6,7 +6,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---              Copyright (C) 1999 - 2019 David Botton / KonAd              --
+--              Copyright (C) 1999 - 2023 David Botton / KonAd              --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -188,15 +188,16 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    end CreateEx;
 
    --------------------
-   -- set_image_list --
+   -- Set_Image_List --
    --------------------
 
    procedure Set_Image_List (Control    : in     Ex_Tree_View_Control_Type;
-                             Image_List : in     Ex_Image_List_Type) is
-      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
-                             Umsg   : Interfaces.C.int  := Tvm_Setimagelist;
-                             Wparam : Integer           := Tvsil_Normal;
-                             Lparam : GWindows.Types.Handle := Handle (Image_List));
+                             Image_List : in     Ex_Image_List_Type)
+   is
+      procedure Sendmessage (Hwnd   : Types.Handle     := Handle (Control);
+                             Umsg   : Interfaces.C.int := Tvm_Setimagelist;
+                             Wparam : Integer          := Tvsil_Normal;
+                             Lparam : Types.Handle     := Handle (Image_List));
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -384,15 +385,16 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    end Set_Line_Color;
 
    --------------------
-   -- set_Text_color --
+   -- Set_Text_color --
    --------------------
 
-   procedure Set_Text_Color(Control: in Ex_Tree_View_Control_Type;
-                            Color : in Color_Type)is
+   procedure Set_Text_Color (Control : in Ex_Tree_View_Control_Type;
+                             Color   : in Color_Type)
+   is
       procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
                              Umsg   : Interfaces.C.int  := TVM_SETTEXTCOLOR;
                              Wparam : Integer           := 0;
-                             Lparam : Color_Type        := Color );
+                             Lparam : Color_Type        := Color);
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -400,15 +402,16 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    end Set_Text_Color;
 
    ----------------------
-   -- set_Bk_color --
+   -- Set_Bk_color --
    ----------------------
 
-   procedure Set_Bk_Color(Control: in Ex_Tree_View_Control_Type;
-                              Color : in Color_Type)is
+   procedure Set_Bk_Color (Control : in Ex_Tree_View_Control_Type;
+                           Color   : in Color_Type)
+   is
       procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Control);
                              Umsg   : Interfaces.C.int  := TVM_SETBKCOLOR;
                              Wparam : Integer           := 0;
-                             Lparam : Color_Type        := Color );
+                             Lparam : Color_Type        := Color);
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -419,13 +422,13 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    -- set_item_color --
    --------------------
 
-   procedure Set_Item_Color(Control: in out Ex_Tree_View_Control_Type;
-                            Text_Color : in Color_Type;
-                            Bk_Color : in Color_Type;
-                            Item : in Tree_Item_Node)is
+   procedure Set_Item_Color (Control    : in out Ex_Tree_View_Control_Type;
+                             Text_Color : in Color_Type;
+                             Bk_Color   : in Color_Type;
+                             Item       : in Tree_Item_Node) is
       Data_access : Extended_Data_Access;
    begin
-      Data_access := Address_Conversion.To_Pointer(Get_Lparam(Control, Item));
+      Data_access := Address_Conversion.To_Pointer (Get_Lparam (Control, Item));
       Data_access.Text_Color := Text_Color;
       Data_access.Back_Color := Bk_Color;
    end Set_Item_Color;
@@ -437,14 +440,14 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    procedure Set_Item_Data (Control   : in out Ex_Tree_View_Control_Type;
                             Data      : in     T;
                             Node      : in     Tree_Item_Node;
-                            Redraw    : in     Boolean                   :=False)
+                            Redraw    : in     Boolean                   := False)
    is
       Data_access : Extended_Data_Access;
    begin
-      Data_access := Address_Conversion.To_Pointer(Get_Lparam(Control, Node));
+      Data_access := Address_Conversion.To_Pointer (Get_Lparam (Control, Node));
       Data_access.More_Data := Data;
       if Redraw then
-         GWindows.Common_Controls.Redraw(Tree_View_Control_Type(Control));
+         GWindows.Common_Controls.Redraw (Tree_View_Control_Type (Control));
       end if;
 
    exception
@@ -457,11 +460,11 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    -------------------
 
    function Get_Item_Data (Control   : in Ex_Tree_View_Control_Type;
-                           Node: in Tree_Item_Node)
+                           Node : in Tree_Item_Node)
                           return T is
       Data_access : Extended_Data_Access;
    begin
-      Data_access := Address_Conversion.To_Pointer(Get_Lparam(Control, Node));
+      Data_access := Address_Conversion.To_Pointer (Get_Lparam (Control, Node));
       return Data_access.More_Data;
    end Get_Item_Data;
 
@@ -474,7 +477,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    -----------------------
 
    procedure On_change_Handler (Control : in out Ex_Tree_View_Control_Type'Class;
-                                Handler : in     Change_Event         ) is
+                                Handler : in     Change_Event) is
    begin
       Control.On_Change_Event := Handler;
    end On_change_Handler;
@@ -496,7 +499,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    --------------
 
    procedure On_Change (Control : in out Ex_Tree_View_Control_Type'Class;
-                        Node : in Tree_Item_Node)is
+                        Node : in Tree_Item_Node) is
    begin
       Fire_On_Change (Control, Node);
    end On_Change;
@@ -508,7 +511,8 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    procedure On_Notify (Window       : in out Ex_Tree_View_Control_Type;
                         Message      : in     GWindows.Base.Pointer_To_Notification;
                         Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out GWindows.Types.Lresult                      ) is
+                        Return_Value : in out GWindows.Types.Lresult)
+   is
       pragma Warnings (Off, Control);
       pragma Warnings (Off, Return_Value);
 
@@ -519,31 +523,30 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
       case Message.Code is
          when Nm_ChangedA =>
             declare
-               Nmtv_Ptr : Pointer_To_NmTreeView_type :=
-                 Message_To_NmtreeView_Pointer(Message);
+               Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type :=
+                 Message_To_NmTreeView_Pointer (Message);
             begin
-               On_Change(Ex_Tree_View_Control_Type'Class (Window),
-                         Nmtv_Ptr.ItemNew.Hitem);
+               On_Change (Ex_Tree_View_Control_Type'Class (Window),
+                          Nmtv_Ptr.ItemNew.HItem);
             end;
          when Nm_Changedw =>
             declare
-               Nmtv_Ptr : Pointer_To_NmTreeView_type :=
-                 Message_To_NmtreeView_Pointer(Message);
+               Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type :=
+                 Message_To_NmTreeView_Pointer (Message);
             begin
-               On_Change(Ex_Tree_View_Control_Type'Class (Window),
-                         Nmtv_Ptr.ItemNew.Hitem);
+               On_Change (Ex_Tree_View_Control_Type'Class (Window),
+                          Nmtv_Ptr.ItemNew.HItem);
             end;
          when Nm_CustomDraw =>
                declare
                   Tvcd_Ptr : Pointer_To_NmTvcustomdraw_Type :=
-                    Message_To_NmTvCustomdraw_Pointer(Message);
+                    Message_To_NmTvCustomdraw_Pointer (Message);
                begin
-                  Do_On_Redraw_Items(Tvcd_Ptr, Window, Return_Value);
+                  Do_On_Redraw_Items (Tvcd_Ptr, Window, Return_Value);
                end;
          when others =>
-            GWindows.Common_Controls.On_Notify(
-               Tree_View_Control_Type(Window), Message, Control, Return_Value
-            );
+            GWindows.Common_Controls.On_Notify
+              (Tree_View_Control_Type (Window), Message, Control, Return_Value);
       end case;
 
    end On_Notify;
@@ -552,9 +555,9 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    -- on_destroy --
    ----------------
 
-   procedure On_Destroy (Window : in out Ex_Tree_View_Control_Type)is
+   procedure On_Destroy (Window : in out Ex_Tree_View_Control_Type) is
    begin
-      Make_Free(Window, Get_Root_Item(Window));
+      Make_Free (Window, Get_Root_Item (Window));
    end On_Destroy;
 
    --------------------
@@ -565,20 +568,20 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    -- make_free --
    ---------------
 
-   procedure Make_Free(Tree: in Ex_Tree_View_Control_Type;
-                       Node: in Tree_Item_Node)is
-      New_Node: Tree_Item_Node;
-      Data_Access: Extended_Data_Access;
+   procedure Make_Free (Tree : in Ex_Tree_View_Control_Type;
+                        Node : in Tree_Item_Node) is
+      New_Node    : Tree_Item_Node;
+      Data_Access : Extended_Data_Access;
    begin
-      New_Node := Get_First_Child_Item(Tree, Node);
+      New_Node := Get_First_Child_Item (Tree, Node);
 
       while New_Node /= 0 loop
-         Make_Free(Tree, New_Node);
-         New_Node := Get_Next_Item(Tree, New_Node);
+         Make_Free (Tree, New_Node);
+         New_Node := Get_Next_Item (Tree, New_Node);
       end loop;
 
-      Data_Access := Address_Conversion.To_Pointer(Get_Lparam(Tree, Node));
-      Free(Data_Access);
+      Data_Access := Address_Conversion.To_Pointer (Get_Lparam (Tree, Node));
+      Free (Data_Access);
    end Make_Free;
 
    ----------------
