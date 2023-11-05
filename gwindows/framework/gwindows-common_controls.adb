@@ -34,8 +34,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Unchecked_Conversion;
-
 with System;
 
 with GWindows.Constants;
@@ -3485,6 +3483,80 @@ package body GWindows.Common_Controls is
       end if;
    end Fire_On_Selection_Change;
 
+   -----------------------
+   -- On_Item_Expanding --
+   -----------------------
+
+   procedure On_Item_Expanding (Control   : in out Tree_View_Control_Type;
+                                Item_Node : in     Tree_Item_Node;
+                                Action    : Interfaces.C.unsigned) is
+   begin
+      Fire_On_Item_Expanding (Control, Item_Node, Action);
+   end On_Item_Expanding;
+
+   -------------------------------
+   -- On_Item_Expanding_Handler --
+   -------------------------------
+
+   procedure On_Item_Expanding_Handler
+      (Control : in out Tree_View_Control_Type;
+       Handler : in     Tree_Item_Action_Event)
+   is
+   begin
+      Control.On_Item_Expanding_Event := Handler;
+   end On_Item_Expanding_Handler;
+
+   ----------------------------
+   -- Fire_On_Item_Expanding --
+   ----------------------------
+
+   procedure Fire_On_Item_Expanding (Control   : in out Tree_View_Control_Type;
+                                     Item_Node : in     Tree_Item_Node;
+                                     Action    : Interfaces.C.unsigned)
+   is
+   begin
+      if Control.On_Item_Expanding_Event /= null then
+         Control.On_Item_Expanding_Event (Control, Item_Node, Action);
+      end if;
+   end Fire_On_Item_Expanding;
+
+   ----------------------
+   -- On_Item_Expanded --
+   ----------------------
+
+   procedure On_Item_Expanded (Control   : in out Tree_View_Control_Type;
+                               Item_Node : in     Tree_Item_Node;
+                               Action    : Interfaces.C.unsigned) is
+   begin
+      Fire_On_Item_Expanded (Control, Item_Node, Action);
+   end On_Item_Expanded;
+
+   ------------------------------
+   -- On_Item_Expanded_Handler --
+   ------------------------------
+
+   procedure On_Item_Expanded_Handler
+      (Control : in out Tree_View_Control_Type;
+       Handler : in     Tree_Item_Action_Event)
+   is
+   begin
+      Control.On_Item_Expanded_Event := Handler;
+   end On_Item_Expanded_Handler;
+
+   ---------------------------
+   -- Fire_On_Item_Expanded --
+   ---------------------------
+
+   procedure Fire_On_Item_Expanded (Control   : in out Tree_View_Control_Type;
+                                    Item_Node : in     Tree_Item_Node;
+                                    Action    : Interfaces.C.unsigned)
+   is
+   begin
+      if Control.On_Item_Expanded_Event /= null then
+         Control.On_Item_Expanded_Event (Control, Item_Node, Action);
+      end if;
+   end Fire_On_Item_Expanded;
+
    ---------------
    -- On_Notify --
    ---------------
@@ -3498,13 +3570,39 @@ package body GWindows.Common_Controls is
       TVN_FIRST       : constant := -400;
       TVN_SELCHANGEDA : constant := TVN_FIRST - 2;
       TVN_SELCHANGEDW : constant := TVN_FIRST - 51;
+
+      TVN_ITEMEXPANDINGA  : constant := TVN_FIRST - 5;
+      TVN_ITEMEXPANDINGW  : constant := TVN_FIRST - 54;
+      TVN_ITEMEXPANDEDA   : constant := TVN_FIRST - 6;
+      TVN_ITEMEXPANDEDW   : constant := TVN_FIRST - 55;
    begin
       case Message.Code is
-         when TVN_SELCHANGEDA | TVN_SELCHANGEDW =>
-            On_Selection_Change (Tree_View_Control_Type'Class (Window));
-         when others =>
-            On_Notify (Common_Control_Type (Window),
-                       Message, Control, Return_Value);
+        when TVN_SELCHANGEDA | TVN_SELCHANGEDW =>
+          On_Selection_Change (Tree_View_Control_Type'Class (Window));
+
+        when TVN_ITEMEXPANDINGA | TVN_ITEMEXPANDINGW =>
+          declare
+            Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type
+                       := Message_To_NmTreeView_Pointer (Message);
+          begin
+            On_Item_Expanding (Tree_View_Control_Type'Class (Window),
+                               Nmtv_Ptr.ItemNew.HItem,
+                               Nmtv_Ptr.Action);
+          end;
+
+        when TVN_ITEMEXPANDEDA | TVN_ITEMEXPANDEDW =>
+          declare
+            Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type
+                       := Message_To_NmTreeView_Pointer (Message);
+          begin
+            On_Item_Expanded (Tree_View_Control_Type'Class (Window),
+                              Nmtv_Ptr.ItemNew.HItem,
+                              Nmtv_Ptr.Action);
+          end;
+
+        when others =>
+          On_Notify (Common_Control_Type (Window),
+                     Message, Control, Return_Value);
       end case;
    end On_Notify;
 
