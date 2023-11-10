@@ -34,12 +34,9 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Unchecked_Conversion;
-
 with System;
 
 with GWindows.Constants;
-with GWindows.Drawing;
 with GWindows.Drawing_Objects;
 with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
@@ -397,6 +394,32 @@ package body GWindows.Common_Controls is
          lParam : Types.Lparam          := 0;
       end record;
 
+   type PS_RESERVE_TYPE is array (1 .. 32) of Character;
+   type PAINTSTRUCT_Type is
+      record
+         HDC         : GWindows.Types.Handle;
+         fErase      : Interfaces.C.long;
+         rcPaint     : GWindows.Types.Rectangle_Type;
+         fRestore    : Interfaces.C.long;
+         fIncUpdate  : Interfaces.C.long;
+         rgbReserved : PS_RESERVE_TYPE;
+      end record;
+
+   procedure BeginPaint (HWND    : GWindows.Types.Handle;
+                         lpPaint : out PAINTSTRUCT_Type);
+   pragma Import (StdCall, BeginPaint, "BeginPaint");
+
+   procedure EndPaint (HWND    : GWindows.Types.Handle;
+                       lpPaint : in PAINTSTRUCT_Type);
+   pragma Import (StdCall, EndPaint, "EndPaint");
+
+   type Rectangle_Access is access all GWindows.Types.Rectangle_Type;
+   procedure InvalidateRect
+      (Hwnd   : GWindows.Types.Handle;
+       lpRect : Rectangle_Access;
+       bErase : Integer);
+   pragma Import (StdCall, InvalidateRect, "InvalidateRect");
+
    -------------------------------------------------------------------------
    --  Package Body
    -------------------------------------------------------------------------
@@ -480,6 +503,51 @@ package body GWindows.Common_Controls is
       Fire_On_Hover (Control);
    end On_Hover;
 
+   --------------
+   -- On_Paint --
+   --------------
+
+   procedure On_Paint
+      (Window               : in out Common_Control_Type;
+       Canvas               : in out GWindows.Drawing.Canvas_Type;
+       Area                 : in     GWindows.Types.Rectangle_Type;
+       Call_Default_Handler : in out Event_Call_Default_Handler_Type)
+   is
+   begin
+      Fire_On_Paint (Window, Canvas, Area, Call_Default_Handler);
+   end On_Paint;
+
+   -------------------------
+   -- On_Erase_Background --
+   -------------------------
+
+   procedure On_Erase_Background
+     (Window               : in out Common_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type)
+   is
+      use GWindows.Drawing;
+   begin
+      if Window.On_Erase_Background_Event = null then
+         if Window.Background_Color_Sys then
+            Call_Default_Handler := Yes;
+         else
+            declare
+               use GWindows.Drawing_Objects;
+               B : Brush_Type;
+            begin
+               Create_Solid_Brush (B, Window.Background_Color);
+               Fill_Rectangle (Canvas, Area, B);
+               Delete (B);
+               Call_Default_Handler := No;
+            end;
+         end if;
+      else
+         Fire_On_Erase_Background (Window, Canvas, Area, Call_Default_Handler);
+      end if;
+   end On_Erase_Background;
+
    ----------------
    -- On_Message --
    ----------------
@@ -496,6 +564,8 @@ package body GWindows.Common_Controls is
       --
       WM_MBUTTONUP     : constant := 520;
       WM_MBUTTONDBLCLK : constant := 521;
+      WM_PAINT         : constant := 15;
+      WM_ERASEBKGND    : constant := 20;
    begin
       case message is
          when WM_MBUTTONUP     =>
@@ -506,6 +576,78 @@ package body GWindows.Common_Controls is
             On_Middle_Double_Click (Common_Control_Type'Class (Window));
             --  ^ 'Class is for re-dispatching
             Return_Value := 0;
+
+         when WM_PAINT =>
+            declare
+               PS : PAINTSTRUCT_Type;
+               CV : GWindows.Drawing.Canvas_Type;
+               ST : GWindows.Drawing.Canvas_State_Type;
+               Call_Default_Handler : Event_Call_Default_Handler_Type
+                                      := Not_Set;
+            begin
+               BeginPaint (Handle (Window), PS);
+               GWindows.Drawing.Handle (CV, PS.HDC);
+               ST := GWindows.Drawing.Save_State (CV);
+               On_Paint (Common_Control_Type'Class (Window),
+                         CV,
+                         PS.rcPaint,
+                         Call_Default_Handler);
+               GWindows.Drawing.Load_State (CV, ST);
+               GWindows.Drawing.Handle (CV, GWindows.Types.Null_Handle);
+               EndPaint (Handle (Window), PS);
+
+               Return_Value := 0;
+
+               if Call_Default_Handler = Not_Set then
+                  raise Not_Set_Error with "Call_Default_Handler not Set," &
+                                           " should be Yes or No";
+               elsif Call_Default_Handler = Yes then
+                 InvalidateRect (Handle (Window),
+                                 PS.rcPaint'Unrestricted_Access,
+                                 Integer (PS.fErase));
+
+                 --  Call parent method:
+                 Base.On_Message
+                    (Base.Base_Window_Type (Window),
+                     message,
+                     wParam,
+                     lParam,
+                     Return_Value);
+               end if;
+            end;
+
+         when WM_ERASEBKGND =>
+            declare
+               use GWindows.Types;
+               CV : GWindows.Drawing.Canvas_Type;
+               Call_Default_Handler : Event_Call_Default_Handler_Type
+                                      := Not_Set;
+            begin
+               GWindows.Drawing.Handle (CV, To_Handle (wParam));
+
+               On_Erase_Background (Common_Control_Type'Class (Window),
+                                    CV,
+                                    (0, 0,
+                                     Client_Area_Width (Window),
+                                     Client_Area_Height (Window)),
+                                     Call_Default_Handler);
+
+               Return_Value := 0;
+
+               if Call_Default_Handler = Not_Set then
+                  raise Not_Set_Error with "Call_Default_Handler not Set," &
+                                           " should be Yes or No";
+               elsif Call_Default_Handler = Yes then
+                 --  Call parent method:
+                 Base.On_Message
+                    (Base.Base_Window_Type (Window),
+                     message,
+                     wParam,
+                     lParam,
+                     Return_Value);
+               end if;
+            end;
+
          when others =>
             --  Call parent method:
             Base.On_Message
@@ -628,13 +770,15 @@ package body GWindows.Common_Controls is
    is
       SB_SETTEXTA   : constant := 16#401#;
       SB_SETTEXTW   : constant := 16#40B#;
-      SBT_NOBORDERS : constant := 16#100#;
-      SBT_POPOUT    : constant := 16#200#;
+      SBT_NOBORDERS : constant := 16#0100#;
+      SBT_POPOUT    : constant := 16#0200#;
+      SBT_OWNERDRAW : constant := 16#1000#;
 
       Format : constant array (Status_Kind_Type) of Integer :=
-        (Flat   => SBT_NOBORDERS,
-         Sunken => 0,
-         Raised => SBT_POPOUT);
+        (Flat        => SBT_NOBORDERS,
+         Sunken      => 0,
+         Raised      => SBT_POPOUT,
+         Owner_Drawn => SBT_OWNERDRAW);
 
       C_Text : GString_C := GWindows.GStrings.To_GString_C (Text);
 
@@ -668,14 +812,30 @@ package body GWindows.Common_Controls is
    procedure Background_Color (Bar   : in out Status_Bar_Type;
                                Color : GWindows.Colors.Color_Type) is
       SB_SETBKCOLOR : constant := 16#2001#;
-      procedure SendMessageA
+      procedure SendMessage
          (hwnd   : GWindows.Types.Handle := Handle (Bar);
           uMsg   : Interfaces.C.int      := SB_SETBKCOLOR;
           wParam : GWindows.Types.Wparam := 0;
           lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Color));
-      pragma Import (StdCall, SendMessageA, "SendMessageA");
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessageA;
+      SendMessage;
+   end Background_Color;
+
+   procedure Background_Color (Window : in out Common_Control_Type;
+                               Color  : in     GWindows.Colors.Color_Type)
+   is
+   begin
+      Window.Background_Color_Sys := False;
+      Window.Background_Color     := Color;
+   end Background_Color;
+
+   function Background_Color (Window : in Common_Control_Type)
+                             return GWindows.Colors.Color_Type
+   is
+   begin
+      return Window.Background_Color;
    end Background_Color;
 
    --------------------
@@ -906,6 +1066,72 @@ package body GWindows.Common_Controls is
          Control.On_Hover_Event (Base_Window_Type'Class (Control));
       end if;
    end Fire_On_Hover;
+
+   ----------------------
+   -- On_Paint_Handler --
+   ----------------------
+
+   procedure On_Paint_Handler (Window  : in out Common_Control_Type;
+                               Handler : in     Paint_Event)
+   is
+   begin
+      Window.On_Paint_Event := Handler;
+   end On_Paint_Handler;
+
+   -------------------
+   -- Fire_On_Paint --
+   -------------------
+
+   procedure Fire_On_Paint
+     (Window               : in out Common_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type)
+   is
+      use GWindows.Base;
+   begin
+      if Window.On_Paint_Event /= null then
+         Window.On_Paint_Event (Base_Window_Type'Class (Window),
+                                Canvas,
+                                Area,
+                                Call_Default_Handler);
+      else
+        Call_Default_Handler := Yes;
+      end if;
+   end Fire_On_Paint;
+
+   ---------------------------------
+   -- On_Erase_Background_Handler --
+   ---------------------------------
+
+   procedure On_Erase_Background_Handler (Window  : in out Common_Control_Type;
+                                          Handler : in     Paint_Event)
+   is
+   begin
+      Window.On_Erase_Background_Event := Handler;
+   end On_Erase_Background_Handler;
+
+   ------------------------------
+   -- Fire_On_Erase_Background --
+   ------------------------------
+
+   procedure Fire_On_Erase_Background
+     (Window               : in out Common_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type)
+   is
+      use GWindows.Base;
+   begin
+      if Window.On_Erase_Background_Event /= null then
+         Window.On_Erase_Background_Event (Base_Window_Type'Class (Window),
+                                           Canvas,
+                                           Area,
+                                           Call_Default_Handler);
+      else
+        Call_Default_Handler := Yes;
+      end if;
+   end Fire_On_Erase_Background;
 
    ------------
    -- Create --
@@ -3257,6 +3483,80 @@ package body GWindows.Common_Controls is
       end if;
    end Fire_On_Selection_Change;
 
+   -----------------------
+   -- On_Item_Expanding --
+   -----------------------
+
+   procedure On_Item_Expanding (Control   : in out Tree_View_Control_Type;
+                                Item_Node : in     Tree_Item_Node;
+                                Action    : Interfaces.C.unsigned) is
+   begin
+      Fire_On_Item_Expanding (Control, Item_Node, Action);
+   end On_Item_Expanding;
+
+   -------------------------------
+   -- On_Item_Expanding_Handler --
+   -------------------------------
+
+   procedure On_Item_Expanding_Handler
+      (Control : in out Tree_View_Control_Type;
+       Handler : in     Tree_Item_Action_Event)
+   is
+   begin
+      Control.On_Item_Expanding_Event := Handler;
+   end On_Item_Expanding_Handler;
+
+   ----------------------------
+   -- Fire_On_Item_Expanding --
+   ----------------------------
+
+   procedure Fire_On_Item_Expanding (Control   : in out Tree_View_Control_Type;
+                                     Item_Node : in     Tree_Item_Node;
+                                     Action    : Interfaces.C.unsigned)
+   is
+   begin
+      if Control.On_Item_Expanding_Event /= null then
+         Control.On_Item_Expanding_Event (Control, Item_Node, Action);
+      end if;
+   end Fire_On_Item_Expanding;
+
+   ----------------------
+   -- On_Item_Expanded --
+   ----------------------
+
+   procedure On_Item_Expanded (Control   : in out Tree_View_Control_Type;
+                               Item_Node : in     Tree_Item_Node;
+                               Action    : Interfaces.C.unsigned) is
+   begin
+      Fire_On_Item_Expanded (Control, Item_Node, Action);
+   end On_Item_Expanded;
+
+   ------------------------------
+   -- On_Item_Expanded_Handler --
+   ------------------------------
+
+   procedure On_Item_Expanded_Handler
+      (Control : in out Tree_View_Control_Type;
+       Handler : in     Tree_Item_Action_Event)
+   is
+   begin
+      Control.On_Item_Expanded_Event := Handler;
+   end On_Item_Expanded_Handler;
+
+   ---------------------------
+   -- Fire_On_Item_Expanded --
+   ---------------------------
+
+   procedure Fire_On_Item_Expanded (Control   : in out Tree_View_Control_Type;
+                                    Item_Node : in     Tree_Item_Node;
+                                    Action    : Interfaces.C.unsigned)
+   is
+   begin
+      if Control.On_Item_Expanded_Event /= null then
+         Control.On_Item_Expanded_Event (Control, Item_Node, Action);
+      end if;
+   end Fire_On_Item_Expanded;
+
    ---------------
    -- On_Notify --
    ---------------
@@ -3270,13 +3570,39 @@ package body GWindows.Common_Controls is
       TVN_FIRST       : constant := -400;
       TVN_SELCHANGEDA : constant := TVN_FIRST - 2;
       TVN_SELCHANGEDW : constant := TVN_FIRST - 51;
+
+      TVN_ITEMEXPANDINGA  : constant := TVN_FIRST - 5;
+      TVN_ITEMEXPANDINGW  : constant := TVN_FIRST - 54;
+      TVN_ITEMEXPANDEDA   : constant := TVN_FIRST - 6;
+      TVN_ITEMEXPANDEDW   : constant := TVN_FIRST - 55;
    begin
       case Message.Code is
-         when TVN_SELCHANGEDA | TVN_SELCHANGEDW =>
-            On_Selection_Change (Tree_View_Control_Type'Class (Window));
-         when others =>
-            On_Notify (Common_Control_Type (Window),
-                       Message, Control, Return_Value);
+        when TVN_SELCHANGEDA | TVN_SELCHANGEDW =>
+          On_Selection_Change (Tree_View_Control_Type'Class (Window));
+
+        when TVN_ITEMEXPANDINGA | TVN_ITEMEXPANDINGW =>
+          declare
+            Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type
+                       := Message_To_NmTreeView_Pointer (Message);
+          begin
+            On_Item_Expanding (Tree_View_Control_Type'Class (Window),
+                               Nmtv_Ptr.ItemNew.HItem,
+                               Nmtv_Ptr.Action);
+          end;
+
+        when TVN_ITEMEXPANDEDA | TVN_ITEMEXPANDEDW =>
+          declare
+            Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type
+                       := Message_To_NmTreeView_Pointer (Message);
+          begin
+            On_Item_Expanded (Tree_View_Control_Type'Class (Window),
+                              Nmtv_Ptr.ItemNew.HItem,
+                              Nmtv_Ptr.Action);
+          end;
+
+        when others =>
+          On_Notify (Common_Control_Type (Window),
+                     Message, Control, Return_Value);
       end case;
    end On_Notify;
 

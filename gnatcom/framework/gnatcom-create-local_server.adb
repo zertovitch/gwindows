@@ -33,15 +33,16 @@
 ------------------------------------------------------------------------------
 
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with Ada.Command_Line; use Ada.Command_Line;
 with Ada.Unchecked_Conversion;
-
-with GNAT.IO; use GNAT.IO;
+with Ada.Text_IO;
+with System;
 
 with GNATCOM.Initialize;
 with GNATCOM.Register;
 with GNATCOM.Errors;
 with GNATCOM.Utility;
+with GNATOCX.IRunningObjectTable_Interface;
+with GNATOCX.IMoniker_Interface;
 
 package body GNATCOM.Create.Local_Server is
 
@@ -79,29 +80,47 @@ package body GNATCOM.Create.Local_Server is
    procedure CoAddRefServerProcess;
    pragma Import (StdCall, CoAddRefServerProcess, "CoAddRefServerProcess");
 
+   RPC_C_AUTHN_LEVEL_PKT    : constant := 4;
+   RPC_C_IMP_LEVEL_IDENTITY : constant := 2;
+
+   function CoInitializeSecurity
+     (pSecDesc       : GNATCOM.Types.PSECURITY_DESCRIPTOR :=
+        GNATCOM.Types.PSECURITY_DESCRIPTOR (System.Null_Address);
+      cAuthSvc       : GNATCOM.Types.LONG := GNATCOM.Types.LONG (-1);
+      asAuthSvc   : access GNATCOM.Types.SOLE_AUTHENTICATION_SERVICE := null;
+      pReserved1     : GNATCOM.Types.Pointer_To_Void := System.Null_Address;
+      dwAuthnLevel   : GNATCOM.Types.DWORD := RPC_C_AUTHN_LEVEL_PKT;
+      dwImpLevel     : GNATCOM.Types.DWORD := RPC_C_IMP_LEVEL_IDENTITY;
+      pAuthList      : GNATCOM.Types.Pointer_To_Void := System.Null_Address;
+      dwCapabilities : GNATCOM.Types.DWORD := 0;
+      pReserved3     : GNATCOM.Types.Pointer_To_Void := System.Null_Address)
+      return GNATCOM.Types.HRESULT
+     with
+       Import, External_Name => "CoInitializeSecurity", Convention => StdCall;
+
    ------------------
    -- Display_Help --
    ------------------
 
    procedure Display_Help is
    begin
-      Put_Line ("This is a local server for a COM object");
-      Put_Line ("To register this server use:");
-      Put_Line ("servername -RegServer");
-      New_Line;
-      Put_Line ("To unregister this server use:");
-      Put_Line ("servername -UnregServer");
-      New_Line;
-      Put_Line ("To start the server up manually: (COM will normally do" &
-                " this)");
-      Put_Line ("servername -Embedding");
+      Ada.Text_IO.Put_Line ("This is a local server for a COM object");
+      Ada.Text_IO.Put_Line ("To register this server use:");
+      Ada.Text_IO.Put_Line ("servername -RegServer");
+      Ada.Text_IO.New_Line;
+      Ada.Text_IO.Put_Line ("To unregister this server use:");
+      Ada.Text_IO.Put_Line ("servername -UnregServer");
+      Ada.Text_IO.New_Line;
+      Ada.Text_IO.Put_Line
+        ("To start the server up manually: (COM will normally do this)");
+      Ada.Text_IO.Put_Line ("servername -Embedding");
    end Display_Help;
 
    -----------------
    -- Init_Object --
    -----------------
 
-   procedure Init_Object (LIBID : in GNATCOM.Types.GUID) is
+   procedure Init_Object (LIBID : in GNATCOM.Types.GUID; Run : Run_Mode) is
       use type Interfaces.C.unsigned_long;
       use type GNATCOM.Types.GUID_Array_Pointer;
 
@@ -112,127 +131,149 @@ package body GNATCOM.Create.Local_Server is
 
       refcount : Interfaces.C.unsigned_long;
       pragma Warnings (Off, refcount);
+
+      ROT : GNATOCX.IRunningObjectTable_Interface.IRunningObjectTable_Type;
    begin
       --  Check command line for RegServer/UnRegServer/Embedding
 
-      if Argument_Count /= 1 then
-         Display_Help;
-      else
-         if
-           (Argument (1) = "/Embedding")
-           or
-           (Argument (1) = "-Embedding")
-         then
-            --  Tell framework COM objects are not in an InprocServer
-            --  and the CanClose procedure should shutdown the server
-            --  when Component_Count and Server_Lock_Count are zero.
-            GNATCOM.Create.InProcServer := False;
+      if Run = Embedding then
 
-            --  Store Main thread ID to allow for shut down of
-            --  Mutli Threaded Servers
-            Main_Thread_ID := GNATCOM.Utility.Get_Current_Thread_ID;
+         --  Tell framework COM objects are not in an InprocServer
+         --  and the CanClose procedure should shutdown the server
+         --  when Component_Count and Server_Lock_Count are zero.
+         GNATCOM.Create.InProcServer := False;
 
-            --  Used to avoid dead locks on shutdown of server.
-            --  CanClose will call CoReleaseServerProcess when
-            --  server is ready to shut down that will suspend
-            --  all COM access to server.
-            CoAddRefServerProcess;
+         --  Store Main thread ID to allow for shut down of
+         --  Mutli Threaded Servers
+         Main_Thread_ID := GNATCOM.Utility.Get_Current_Thread_ID;
 
-            --  Initialize Com Libraries
-            case Use_Thread_Model is
-               when Single =>
-                  GNATCOM.Initialize.Initialize_COM;
-               when Multiple | Both =>
-                  GNATCOM.Initialize.Initialize_COM_Multi_Threaded;
-            end case;
+         --  Used to avoid dead locks on shutdown of server.
+         --  CanClose will call CoReleaseServerProcess when
+         --  server is ready to shut down that will suspend
+         --  all COM access to server.
+         CoAddRefServerProcess;
 
-            --  Start Factories and register them
-            --  Creation of objects is suspended until every factory
-            --  is registered.
+         --  Initialize Com Libraries
+         case Use_Thread_Model is
+            when Single =>
+               GNATCOM.Initialize.Initialize_COM;
+            when Multiple | Both =>
+               GNATCOM.Initialize.Initialize_COM_Multi_Threaded;
+         end case;
+         Error_Check (CoInitializeSecurity);
+
+         GNATCOM.Register.Register_Component_Category
+           (GNATCOM.Create.Component_Categories);
+
+         ROT := GNATOCX.IRunningObjectTable_Interface.GetRunningObjectTable;
+
+         --  Start Factories and register them
+         --  Creation of objects is suspended until every factory
+         --  is registered.
+         for N in
+           Factory_Map.all'First .. (Factory_Map.all'Last)
+         loop
+            Factory_Map (N).pFactory :=
+              new GNATCOM.Create.Factory.IClassFactory;
+            Factory_Map (N).pFactory.Create := Factory_Map (N).Create;
+
+            Error_Check
+              (CoRegisterClassObject
+                 (Factory_Map (N).CLSID'Access,
+                  To_Pointer_To_IUnknown (Factory_Map (N).pFactory),
+                  CLSCTX_LOCAL_SERVER,
+                  REGCLS_MULTIPLEUSE or REGCLS_SUSPENDED,
+                  Factory_Map (N).dwRegister'Access));
+
+            if Factory_Map (N).Service_Name /= "" then
+               declare
+                  Mnk : constant GNATOCX.IMoniker_Interface.IMoniker_Type :=
+                    GNATOCX.IMoniker_Interface.CreateClassMoniker
+                      (Factory_Map (N).CLSID);
+               begin
+                  GNATOCX.IRunningObjectTable_Interface.Register
+                    (ROT,
+          GNATOCX.IRunningObjectTable_Interface.ROTFLAGS_REGISTRATIONKEEPSALIVE
+                     or
+                  GNATOCX.IRunningObjectTable_Interface.ROTFLAGS_ALLOWANYCLIENT
+                        ,
+                     To_Pointer_To_IUnknown (Factory_Map (N).pFactory),
+                     GNATOCX.IMoniker_Interface.Pointer (Mnk),
+                     Factory_Map (N).dwRegisterROT'Access);
+               end;
+            end if;
+         end loop;
+
+         --  All factories are registered, start allowing object
+         --  creation.
+         CoResumeClassObjects;
+
+         --  Start Windows Message Loop
+         GNATCOM.Utility.Message_Loop;
+
+         --  Stop Factories and clean up
+         for N in
+           Factory_Map.all'First .. (Factory_Map.all'Last)
+         loop
+            Error_Check (CoRevokeClassObject (Factory_Map (N).dwRegister));
+
+            if Factory_Map (N).Service_Name /= "" then
+               GNATOCX.IRunningObjectTable_Interface.Revoke
+                 (ROT,
+                  Factory_Map (N).dwRegisterROT);
+            end if;
+
+            refcount :=
+              GNATCOM.Create.Factory.Release (Factory_Map (N).pFactory);
+         end loop;
+
+         --  Uninitialize the COM libraries
+         GNATCOM.Initialize.Uninitialize_COM;
+      elsif Run = Regserver then
+         GNATCOM.Register.Register_Type_Library (Retrieve_hInstance);
+
+         GNATCOM.Initialize.Initialize_COM;
+
+         --  Loop through objects and register them
+         for F of Factory_Map.all loop
+            GNATCOM.Register.Register_Local_Server
+              (hInstance    => Retrieve_hInstance,
+               CLSID        => F.CLSID,
+               Name         => To_String (F.Name),
+               Version      => To_String (F.Version),
+               Description  => To_String (F.Description),
+               Implemented_Categories =>
+                 (if F.Implemented_Categories /= null
+                  then F.Implemented_Categories.all
+                  else GNATCOM.Types.GUID_Array'(2 .. 1 => <>)),
+               Service_Name => To_String (F.Service_Name),
+               APPID        => F.APPID);
+         end loop;
+
+         GNATCOM.Initialize.Uninitialize_COM;
+      elsif Run = Unregserver then
+         begin
+            GNATCOM.Register.Unregister_Type_Library (LIBID);
+
+            --  Loop through objects and unregister them
             for N in
               Factory_Map.all'First .. (Factory_Map.all'Last)
             loop
-               Factory_Map (N).pFactory :=
-                 new GNATCOM.Create.Factory.IClassFactory;
-               Factory_Map (N).pFactory.Create := Factory_Map (N).Create;
-
-               Error_Check
-                 (CoRegisterClassObject
-                  (Factory_Map (N).CLSID'Access,
-                   To_Pointer_To_IUnknown (Factory_Map (N).pFactory),
-                   CLSCTX_LOCAL_SERVER,
-                   REGCLS_MULTIPLEUSE or REGCLS_SUSPENDED,
-                   Factory_Map (N).dwRegister'Access));
-            end loop;
-
-            --  All factories are registered, start allowing object
-            --  creation.
-            CoResumeClassObjects;
-
-            --  Start Windows Message Loop
-            GNATCOM.Utility.Message_Loop;
-
-            --  Stop Factories and clean up
-            for N in
-              Factory_Map.all'First .. (Factory_Map.all'Last)
-            loop
-               Error_Check (CoRevokeClassObject (Factory_Map (N).dwRegister));
-               refcount :=
-                 GNATCOM.Create.Factory.Release (Factory_Map (N).pFactory);
-            end loop;
-
-            --  Uninitialize the COM libraries
-            GNATCOM.Initialize.Uninitialize_COM;
-         elsif
-           (Argument (1) = "/RegServer")
-           or
-           (Argument (1) = "-RegServer")
-         then
-            GNATCOM.Register.Register_Type_Library (Retrieve_hInstance);
-
-            --  Loop through objects and register them
-            for N in
-              Factory_Map.all'First .. (Factory_Map.all'Last)
-            loop
-               GNATCOM.Register.Register_Local_Server
-                 (hInstance    => Retrieve_hInstance,
-                  CLSID        => Factory_Map (N).CLSID,
-                  Name         => To_String (Factory_Map (N).Name),
-                  Version      => To_String (Factory_Map (N).Version),
-                  Description  => To_String (Factory_Map (N).Description),
+               GNATCOM.Register.Unregister_Server
+                 (CLSID   => Factory_Map (N).CLSID,
+                  Name    => To_String (Factory_Map (N).Name),
+                  Version => To_String (Factory_Map (N).Version),
                   Implemented_Categories =>
                     (if Factory_Map (N).Implemented_Categories /= null then
                           Factory_Map (N).Implemented_Categories.all
                      else GNATCOM.Types.GUID_Array'(2 .. 1 => <>)));
             end loop;
-         elsif
-           (Argument (1) = "/UnregServer")
-           or
-           (Argument (1) = "-UnregServer")
-         then
-            begin
-               GNATCOM.Register.Unregister_Type_Library (LIBID);
-
-               --  Loop through objects and unregister them
-               for N in
-                 Factory_Map.all'First .. (Factory_Map.all'Last)
-               loop
-                  GNATCOM.Register.Unregister_Server
-                    (CLSID   => Factory_Map (N).CLSID,
-                     Name    => To_String (Factory_Map (N).Name),
-                     Version => To_String (Factory_Map (N).Version),
-                     Implemented_Categories =>
-                       (if Factory_Map (N).Implemented_Categories /= null then
-                             Factory_Map (N).Implemented_Categories.all
-                        else GNATCOM.Types.GUID_Array'(2 .. 1 => <>)));
-               end loop;
-            exception
-               when GNATCOM.Register.REGISTRY_ERROR =>
-                  Put_Line ("Class not registered");
-            end;
-         else
-            Display_Help;
-         end if;
+         exception
+            when GNATCOM.Register.REGISTRY_ERROR =>
+               Ada.Text_IO.Put_Line ("Class not registered");
+         end;
+      else
+         Display_Help;
       end if;
    end Init_Object;
 

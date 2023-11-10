@@ -38,10 +38,10 @@
 
 with System;
 
-with GWindows.Base;
-with GWindows.Windows;
-with GWindows.Colors;
-with GWindows.Types;
+with GWindows.Base,
+     GWindows.Colors,
+     GWindows.Types,
+     GWindows.Windows;
 
 package GWindows.Scintilla is
 
@@ -160,8 +160,9 @@ package GWindows.Scintilla is
    --  Retrieves the number of lines completely visible.
 
    function Get_Char_At
-     (Control : Scintilla_Type; pos : Position) return Integer;
-   --  Returns the character byte at the position
+     (Control : Scintilla_Type; pos : Position) return GCharacter;
+   --  Returns the character at the position pos, or GCharacter'Val (0)
+   --  if pos is negative or past the end of the document.
 
    function Get_Current_Line_Number (Control : Scintilla_Type) return Integer;
    --  Returns the current line number
@@ -223,16 +224,15 @@ package GWindows.Scintilla is
    --  visible outside indentation.
 
    function Position_From_Point
-     (Control : Scintilla_Type; x : Integer; y : Integer) return Integer;
+     (Control : Scintilla_Type; x : Integer; y : Integer) return Position;
    --  Find the position from a point within the window.
 
    function Position_From_Point_Close
-     (Control : Scintilla_Type; x : Integer; y : Integer) return Integer;
+     (Control : Scintilla_Type; x : Integer; y : Integer) return Position;
    --  Find the position from a point within the window but return
    --  INVALID_POSITION if not close to text.
 
-   procedure Go_To_Line
-     (Control : in out Scintilla_Type; line : Integer);
+   procedure Go_To_Line (Control : in out Scintilla_Type; line : Integer);
    --  Set caret to start of a line and ensure it is visible.
 
    procedure Go_To_Pos (Control : in out Scintilla_Type; pos : Position);
@@ -388,8 +388,8 @@ package GWindows.Scintilla is
      return Integer;
    --  Find the previous line before lineStart that includes a marker in mask.
 
-   SC_MARGIN_SYMBOL            : constant := 0;
-   SC_MARGIN_NUMBER            : constant := 1;
+   SC_MARGIN_SYMBOL : constant := 0;
+   SC_MARGIN_NUMBER : constant := 1;
 
    procedure Set_Margin_Type_N
      (Control : in out Scintilla_Type; margin : Integer; marginType : Integer);
@@ -528,10 +528,10 @@ package GWindows.Scintilla is
 
    procedure Assign_Cmd_Key
      (Control : in out Scintilla_Type; km : Key_Mod; msg : Integer);
-   --  When key+modifier combination km is pressed perform msg.
+   --  When key+modifier combination km is pressed, perform msg.
 
    procedure Clear_Cmd_Key (Control : in out Scintilla_Type; km : Key_Mod);
-   --  When key+modifier combination km do nothing.
+   --  When key+modifier combination km, do nothing.
 
    procedure Clear_All_Cmd_Keys (Control : in out Scintilla_Type);
    --  Drop all key mappings.
@@ -544,13 +544,13 @@ package GWindows.Scintilla is
      (Control : in out Scintilla_Type; style : Integer; visible : Boolean);
    --  Set a style to be visible or not.
 
-   procedure Get_Caret_Period (Control : in out Scintilla_Type);
+   function Get_Caret_Period (Control : in out Scintilla_Type) return Integer;
    --  Get the time in milliseconds that the caret is on and off.
 
    procedure Set_Caret_Period
      (Control : in out Scintilla_Type; periodMilliseconds : Integer);
-   --  Get the time in milliseconds that the caret is on and off. 0 =
-   --  steady on.
+   --  Get the time in milliseconds that the caret is on and off.
+   --  0 = steady on.
 
    procedure Set_Word_Chars
      (Control : in out Scintilla_Type; characters : GString);
@@ -596,8 +596,8 @@ package GWindows.Scintilla is
      (Control : in out Scintilla_Type; indic : Integer; style : Integer);
    --  Set an indicator to plain, squiggle or TT.
 
-   procedure Indic_Get_Style
-     (Control : in out Scintilla_Type; indic : Integer);
+   function Indic_Get_Style
+     (Control : in out Scintilla_Type; indic : Integer) return Integer;
    --  Retrieve the style of an indicator.
 
    procedure Indic_Set_Fore
@@ -1022,6 +1022,10 @@ package GWindows.Scintilla is
    --  Set a style to be changeable or not (read only).
    --  Experimental feature, currently buggy.
 
+   -----------------------------
+   --  Auto-completion lists  --
+   -----------------------------
+
    procedure Auto_C_Show
      (Control    : in out Scintilla_Type;
       lenEntered : in     Integer;
@@ -1113,6 +1117,10 @@ package GWindows.Scintilla is
      (Control : Scintilla_Type) return Boolean;
    --  Retrieve whether or not autocompletion deletes any word
    --  characters after the inserted text upon completion
+
+   -------------------
+   --  Indentation  --
+   -------------------
 
    procedure Set_Indent
      (Control : in out Scintilla_Type; indentSize : Integer);
@@ -1269,6 +1277,9 @@ package GWindows.Scintilla is
       caret, anchor :        Position);
    --  This is for supplemental selections after first one.
 
+   procedure Selection_Duplicate (Control : in out Scintilla_Type);
+   --  Duplicate selection(s).
+
    function Selection_Is_Rectangle (Control : Scintilla_Type) return Boolean;
    --  Is the selection a rectangular?
    --  The alternative is the more common stream selection.
@@ -1342,15 +1353,16 @@ package GWindows.Scintilla is
    --  Is the document different from when it was last saved?
 
    function Get_Text_Range
+     (Control : Scintilla_Type; tr : Text_Range_Type) return Integer;
+   --  Retrieve a range of text (low level routine).
+   --  Return the length of the text.
+
+   function Get_Text_Range
      (Control : Scintilla_Type;
       Min     : Position;
       Max     : Position)
      return GString;
-
-   function Get_Text_Range
-     (Control : Scintilla_Type; tr : Text_Range_Type) return Integer;
    --  Retrieve a range of text.
-   --  Return the length of the text.
 
    function Point_X_From_Position
      (Control : Scintilla_Type; pos : Position) return Integer;
@@ -1486,9 +1498,9 @@ package GWindows.Scintilla is
    function Get_Search_Flags (Control : Scintilla_Type) return Integer;
    --  Get the search flags used by SearchInTarget
 
-   -----------------
-   --  Call tips  --
-   -----------------
+   --------------------------------------------------
+   --  Call tips: Rectangles with contextual help  --
+   --------------------------------------------------
 
    procedure Call_Tip_Show
      (Control : in out Scintilla_Type; pos : Position; definition : GString);
@@ -1505,12 +1517,30 @@ package GWindows.Scintilla is
    --  call tip.
 
    procedure Call_Tip_Set_Hlt
-     (Control : in out Scintilla_Type; start : Integer; endp : Integer);
+     (Control : in out Scintilla_Type; start : Natural; endp : Natural);
+   procedure Call_Tip_Set_Highlight
+     (Control : in out Scintilla_Type; start : Natural; endp : Natural)
+     renames Call_Tip_Set_Hlt;
    --  Highlight a segment of the definition.
 
    procedure Call_Tip_Set_Back
      (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type);
+   procedure Call_Tip_Set_Background_Color
+     (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type)
+     renames Call_Tip_Set_Back;
    --  Set the background color for the call tip.
+
+   procedure Call_Tip_Set_Foreground_Color
+     (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type);
+   --  Set the forground color for the call tip.
+
+   procedure Call_Tip_Set_Foreground_Color_Highlighted
+     (Control : in out Scintilla_Type; back : GWindows.Colors.Color_Type);
+   --  Set the forground color for highlighted parts of the call tip.
+
+   ---------------------------------
+   --  Doc line <-> display line  --
+   ---------------------------------
 
    function Visible_From_Doc_Line
      (Control : Scintilla_Type; line : Integer) return Integer;
@@ -1621,13 +1651,19 @@ package GWindows.Scintilla is
 
    function Word_Start_Position
      (Control : Scintilla_Type; pos : Position; onlyWordCharacters : Boolean)
-     return Integer;
+     return Position;
    --  Get Position of start of word.
 
    function Word_End_Position
      (Control : Scintilla_Type; pos : Position; onlyWordCharacters : Boolean)
-     return Integer;
+     return Position;
    --  Get Position of end of word.
+
+   function Get_Word_At
+     (Control              : Scintilla_Type;
+      pos                  : Position;
+      only_word_characters : Boolean) return GString;
+   --  Get the word at position pos.
 
    SC_WRAP_NONE : constant := 0;
    SC_WRAP_WORD : constant := 1;
@@ -1670,7 +1706,7 @@ package GWindows.Scintilla is
    --  the last line at the bottom of the view (default).
    --  Setting this to false allows scrolling one page below the last line.
 
-   function Get_End_At_Last_Line (Control : Scintilla_Type) return Integer;
+   function Get_End_At_Last_Line (Control : Scintilla_Type) return Boolean;
    --  Retrieve whether the maximum scroll Position has the last
    --  line at the bottom of the view.
 
@@ -1814,6 +1850,9 @@ package GWindows.Scintilla is
    procedure Line_Delete (Control : in out Scintilla_Type);
    --  Delete the line containing the caret.
 
+   procedure Line_Duplicate (Control : in out Scintilla_Type);
+   --  Duplicate the line containing the caret.
+
    procedure Line_Transpose (Control : in out Scintilla_Type);
    --  Switch the current line with the previous.
 
@@ -1883,26 +1922,46 @@ package GWindows.Scintilla is
 
    --  Notifications
    --  Type of modification and the action which caused the
-   --  modification These are defined as a bit mask to make it easy to
+   --  modification. These are defined as a bit mask to make it easy to
    --  specify which notifications are wanted.  One bit is set from
    --  each of SC_MOD_* and SC_PERFORMED_*.
 
-   SC_MOD_INSERTTEXT              : constant := 16#0001#;
-   SC_MOD_DELETETEXT              : constant := 16#0002#;
-   SC_MOD_CHANGESTYLE             : constant := 16#0004#;
-   SC_MOD_CHANGEFOLD              : constant := 16#0008#;
-   SC_PERFORMED_USER              : constant := 16#0010#;
-   SC_PERFORMED_UNDO              : constant := 16#0020#;
-   SC_PERFORMED_REDO              : constant := 16#0040#;
-   SC_LASTSTEPINUNDOREDO          : constant := 16#0100#;
-   SC_MOD_CHANGEMARKER            : constant := 16#0200#;
-   SC_MOD_BEFOREINSERT            : constant := 16#0400#;
-   SC_MOD_BEFOREDELETE            : constant := 16#0800#;
-   SC_MODEVENTMASKALL             : constant := 16#0F77#;
+   SC_MOD_INSERTTEXT              : constant := 16#00_0001#;
+   SC_MOD_DELETETEXT              : constant := 16#00_0002#;
+   SC_MOD_CHANGESTYLE             : constant := 16#00_0004#;
+   SC_MOD_CHANGEFOLD              : constant := 16#00_0008#;
+   SC_PERFORMED_USER              : constant := 16#00_0010#;
+   SC_PERFORMED_UNDO              : constant := 16#00_0020#;
+   SC_PERFORMED_REDO              : constant := 16#00_0040#;
+   SC_LASTSTEPINUNDOREDO          : constant := 16#00_0100#;
+   SC_MOD_CHANGEMARKER            : constant := 16#00_0200#;
+   SC_MOD_BEFOREINSERT            : constant := 16#00_0400#;
+   SC_MOD_BEFOREDELETE            : constant := 16#00_0800#;
+   SC_MULTILINEUNDOREDO           : constant := 16#00_1000#;
+   SC_STARTACTION                 : constant := 16#00_2000#;
+   SC_MOD_CHANGEINDICATOR         : constant := 16#00_4000#;
+   SC_MOD_CHANGELINESTATE         : constant := 16#00_8000#;
+   SC_MOD_CHANGEMARGIN            : constant := 16#01_0000#;
+   SC_MOD_CHANGEANNOTATION        : constant := 16#02_0000#;
+   SC_MOD_CONTAINER               : constant := 16#04_0000#;
+   SC_MOD_LEXERSTATE              : constant := 16#08_0000#;
+   SC_MOD_INSERTCHECK             : constant := 16#10_0000#;
+   SC_MOD_CHANGETABSTOPS          : constant := 16#20_0000#;
+   SC_MODEVENTMASKALL             : constant := 16#3F_FFFF#;
 
-   procedure Set_Mod_EventMask
-     (Control : in out Scintilla_Type; mask : Interfaces.C.unsigned);
+   procedure Set_Mod_Event_Mask
+     (Control : in out Scintilla_Type; Mask : Interfaces.Unsigned_32);
    --  Set which document modification events are sent to the container.
+
+   function Get_Mod_Event_Mask (Control : Scintilla_Type)
+      return Interfaces.Unsigned_32;
+   --  Get which document modification events are sent to the container.
+
+   generic
+      with procedure Show_Line (S : String);
+   procedure Show_Details (Mask : Interfaces.Unsigned_32);
+   --  Display via Show_Line "Mod Insert Text" if the bit SC_MOD_INSERTTEXT
+   --  is set, and so on.
 
    EDGE_NONE                      : constant := 0;
    EDGE_LINE                      : constant := 1;
@@ -1991,9 +2050,6 @@ package GWindows.Scintilla is
    --  Release a reference to the document, deleting document if it
    --  fades to black.
 
-   function Get_Mod_Event_Mask (Control : Scintilla_Type) return Integer;
-   --  Get which document modification events are sent to the container.
-
    procedure Set_Focus (Control : in out Scintilla_Type; focus : Boolean);
    --  Change internal focus flag
 
@@ -2050,10 +2106,10 @@ package GWindows.Scintilla is
 
    procedure Set_X_Offset
      (Control : in out Scintilla_Type; newOffset : Integer);
-   --  Get the x Offset (ie, horizontal scroll Position)
+   --  Set the x Offset (ie, horizontal scroll Position)
 
    function Get_X_Offset (Control : Scintilla_Type) return Integer;
-   --  Set the x Offset (ie, horizontal scroll Position)
+   --  Get the x Offset (ie, horizontal scroll Position)
 
    procedure Start_Record (Control : in out Scintilla_Type);
    --  Start notifying the container of all key presses and commands.
@@ -2167,7 +2223,7 @@ package GWindows.Scintilla is
    type Modified_Event is access procedure
      (Control             : in out GWindows.Base.Base_Window_Type'Class;
       Pos                 : in     Position;
-      Modification_Type   : in     Integer;
+      Modification_Type   : in     Interfaces.Unsigned_32;
       Text                : in     GString;
       Lines_Added         : in     Integer;
       Line                : in     Integer;
@@ -2266,7 +2322,7 @@ package GWindows.Scintilla is
    procedure Fire_On_Modified
      (Control             : in out Scintilla_Type;
       Pos                 : in     Position;
-      Modification_Type   : in     Integer;
+      Modification_Type   : in     Interfaces.Unsigned_32;
       Text                : in     GString;
       Lines_Added         : in     Integer;
       Line                : in     Integer;
@@ -2383,7 +2439,7 @@ package GWindows.Scintilla is
 
    procedure On_Modified (Control             : in out Scintilla_Type;
                           Pos                 : in     Position;
-                          Modification_Type   : in     Integer;
+                          Modification_Type   : in     Interfaces.Unsigned_32;
                           Text                : in     GString;
                           Lines_Added         : in     Integer;
                           Line                : in     Integer;
@@ -2395,13 +2451,13 @@ package GWindows.Scintilla is
    --  changed, how the change occurred and whether this changed the
    --  number of lines in the document. __NO__ modifications may be
    --  performed while handling this event.  It can be masked by the
-   --  SetModEventMask function which sets which notification types
+   --  Set_Mod_Event_Mask function which sets which notification types
    --  are sent to the container. For example, a container may decide
    --  to see only notifications about changes to text and not styling
    --  changes by calling:
 
-   --  SetModEventMask
-   --     (Control, (SC_MOD_INSERTTEXT or SC_MOD_DELETETEXT))
+   --  Set_Mod_Event_Mask
+   --     (Control, SC_MOD_INSERTTEXT or SC_MOD_DELETETEXT)
 
    procedure On_Macro_Read (Control : in out Scintilla_Type;
                             Message : in     Integer;

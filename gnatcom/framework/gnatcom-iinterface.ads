@@ -44,6 +44,7 @@ with System;
 with Interfaces.C;
 
 with GNATCOM.Types;
+with GNATCOM.Create.COM_Interface;
 
 pragma Elaborate_All (GNATCOM);
 
@@ -140,6 +141,10 @@ package GNATCOM.Iinterface is
    --  Interface_Type. Performs a Query on the IUnknown to convert it to
    --  the currently set IID
 
+   procedure Attach
+     (This : in out Interface_Type;
+      From : in GNATCOM.Create.COM_Interface.Pointer_To_COM_Interface_Type);
+
    function Pointer (This : Interface_Type)
      return GNATCOM.Types.Pointer_To_IUnknown;
    --  Returns the internal interface pointer
@@ -211,7 +216,9 @@ package GNATCOM.Iinterface is
 
    --  Wrappers directly to Interface_Type's IUnknown
 
+   overriding
    procedure Finalize (This : in out Interface_Type);
+   overriding
    procedure Adjust (This : in out Interface_Type);
    --  These procedures insure proper reference counting for IUknown
 

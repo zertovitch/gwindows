@@ -32,11 +32,14 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Directories;
 with Ada.Exceptions;
+with Ada.Unchecked_Conversion;
 
 with GNATCOM.Errors;
 with GNATCOM.BSTR;
 with GNATCOM.GUID;
+with GNATCOM.Iinterface;
 
 package body GNATCOM.Register is
 
@@ -132,19 +135,31 @@ package body GNATCOM.Register is
    -------------------------------------
 
    procedure Register_Implemented_Categories
-     (Class_ID               : in String;
+     (CLSID                  : access GNATCOM.Types.GUID;
       Implemented_Categories : in GNATCOM.Types.GUID_Array)
    is
+      function To_Pointer_To_Pointer_To_Void is new Ada.Unchecked_Conversion
+        (GNATCOM.Types.Pointer_To_Pointer_To_ICatRegister,
+         GNATCOM.Types.Pointer_To_Pointer_To_Void);
+      Cat_Mgr    : GNATCOM.Iinterface.Interface_Type;
+      Cat_Reg    : aliased GNATCOM.Types.Pointer_To_ICatRegister;
+      Hr         : GNATCOM.Types.HRESULT;
+      Ignored    : Interfaces.C.unsigned_long;
    begin
-      for CATID of Implemented_Categories loop
-         declare
-            Category_ID : constant String := GNATCOM.GUID.To_String (CATID);
-         begin
-            Register
-              ("CLSID\" & Class_ID & "\Implemented Categories\" & Category_ID,
-               "", "");
-         end;
-      end loop;
+      GNATCOM.Iinterface.Create
+        (Cat_Mgr, GNATCOM.Types.CLSID_StdComponentCategoriesMgr);
+      Hr := GNATCOM.Iinterface.QueryInterface
+        (Cat_Mgr, GNATCOM.Types.IID_ICatRegister,
+         To_Pointer_To_Pointer_To_Void (Cat_Reg'Access));
+      GNATCOM.Errors.Error_Check (Hr);
+      Hr := Cat_Reg.Vtbl.RegisterClassImplCategories
+        (Cat_Reg,
+         CLSID,
+         Implemented_Categories'Length,
+         Implemented_Categories
+           (Implemented_Categories'First)'Unrestricted_Access);
+      Ignored := Cat_Reg.Vtbl.Release (Cat_Reg);
+      GNATCOM.Errors.Error_Check (Hr);
    end Register_Implemented_Categories;
 
    ----------------------------
@@ -174,7 +189,8 @@ package body GNATCOM.Register is
 
       Register ("CLSID\" & Class_ID, "", Description);
       Register ("CLSID\" & Class_ID, "AppID", Class_ID);
-      Register_Implemented_Categories (Class_ID, Implemented_Categories);
+      Register_Implemented_Categories
+        (CLSID'Unrestricted_Access, Implemented_Categories);
       Register ("CLSID\" & Class_ID & "\InProcServer32", "",
                 Interfaces.C.To_Ada (ServerPath));
       Register ("CLSID\" & Class_ID & "\InProcServer32",
@@ -211,13 +227,22 @@ package body GNATCOM.Register is
       Name         : in String;
       Version      : in String;
       Description  : in String;
-      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>))
+      Implemented_Categories : in GNATCOM.Types.GUID_Array := (2 .. 1 => <>);
+      Service_Name : in String := "";
+      APPID        : in GNATCOM.Types.GUID := GNATCOM.Types.GUID_NULL)
    is
       use type Interfaces.C.int;
+      use type GNATCOM.Types.GUID;
 
       MAX_PATH   : constant := 1024;
       ServerPath : aliased Interfaces.C.char_array (1 .. MAX_PATH);
       Class_ID  : constant String := GNATCOM.GUID.To_String (CLSID);
+      App_ID    : constant String :=
+        GNATCOM.GUID.To_String
+          ((if APPID = GNATCOM.Types.GUID_NULL then CLSID else APPID));
+      Lib_ID : String renames App_ID;
+      --  In ATL LIBID and APPID map to the same value.
+      Prog_ID   : constant String := Name & "." & Version;
    begin
       if
         GetModuleFileName (hInstance, ServerPath (1)'Access, MAX_PATH) < 0
@@ -225,29 +250,57 @@ package body GNATCOM.Register is
          raise FILE_NAME_ERROR;
       end if;
 
-      Register ("CLSID\" & Class_ID, "", Description);
-      Register ("CLSID\" & Class_ID, "AppID", Class_ID);
-      Register_Implemented_Categories (Class_ID, Implemented_Categories);
-      Register ("CLSID\" & Class_ID & "\LocalServer32", "",
-                Interfaces.C.To_Ada (ServerPath));
-      Register ("CLSID\" & Class_ID & "\ProgID",
-                "",
-                Name & "." & Version);
-      Register ("CLSID\" & Class_ID & "\VersionIndependentProgID",
-                "",
-                Name);
-      Register (Name, "", Description);
-      Register (Name & "\CLSID", "", Class_ID);
-      Register (Name & "\CurVer",
-                "",
-                Name & "." & Version);
-      Register (Name & "." & Version,
-                "",
-                Name);
-      Register (Name & "." & Version & "\CLSID",
-                "",
-                Class_ID);
-      Register ("AppID\" & Class_ID, "", Description);
+      declare
+         Server_Exe : constant String := Interfaces.C.To_Ada (ServerPath);
+         Exe_Name   : constant String :=
+           Ada.Directories.Simple_Name (Server_Exe);
+      begin
+         Register ("AppID\" & App_ID, "", "");
+
+         Register ("CLSID\" & Class_ID, "", Description);
+         Register ("CLSID\" & Class_ID, "AppID", App_ID);
+
+         Register
+           ("CLSID\" & Class_ID & "\LocalServer32", "",
+            """" & Server_Exe & """");
+         Register
+           ("CLSID\" & Class_ID & "\LocalServer32", "ServerExecutable",
+            Server_Exe);
+         Register ("CLSID\" & Class_ID & "\ProgID", "", Prog_ID);
+         Register ("CLSID\" & Class_ID & "\Programmable", "", "");
+         Register ("CLSID\" & Class_ID & "\TypeLib", "", Lib_ID);
+         Register ("CLSID\" & Class_ID & "\Version", "", Version);
+         Register
+           ("CLSID\" & Class_ID & "\VersionIndependentProgID", "", Name);
+
+         Register (Name, "", Description);
+         Register (Name & "\CurVer", "", Prog_ID);
+         Register (Prog_ID, "", Description);
+         Register (Prog_ID & "\CLSID", "", Class_ID);
+
+         Register_Implemented_Categories
+           (CLSID'Unrestricted_Access, Implemented_Categories);
+
+         if Service_Name /= "" then
+            Register ("SOFTWARE\Classes\AppID\" & Exe_Name,
+                      "AppID",
+                      App_ID,
+                      HKEY_LOCAL_MACHINE);
+            Register ("SOFTWARE\Classes\AppID\" & App_ID,
+                      "LocalService",
+                      Service_Name,
+                      HKEY_LOCAL_MACHINE);
+            Register ("SOFTWARE\Classes\AppID\" & App_ID,
+                      "ServiceParameters",
+                      "/Embedding",
+                      HKEY_LOCAL_MACHINE);
+            Register ("SOFTWARE\Classes\AppID\" & App_ID,
+                      "",
+                      Exe_Name,
+                      HKEY_LOCAL_MACHINE);
+         end if;
+      end;
+
    end Register_Local_Server;
 
    ----------------------------
@@ -266,7 +319,8 @@ package body GNATCOM.Register is
    begin
       Register ("CLSID\" & Class_ID, "", "Beep Class");
       Register ("CLSID\" & Class_ID, "AppID", Class_ID);
-      Register_Implemented_Categories (Class_ID, Implemented_Categories);
+      Register_Implemented_Categories
+        (CLSID'Unrestricted_Access, Implemented_Categories);
       Register ("CLSID\" & Class_ID & "\ProgID",
                 "",
                 Name & "." & Version);
@@ -384,12 +438,32 @@ package body GNATCOM.Register is
    -- Register_Component_Category --
    ---------------------------------
 
-   procedure Register_Component_Category (CATID       : in GNATCOM.Types.GUID;
-                                          Description : in String)
+   procedure Register_Component_Category
+     (Categories : access GNATCOM.Types.CATEGORYINFO_Array)
    is
-      Category_ID : constant String := GNATCOM.GUID.To_String (CATID);
+      function To_Pointer_To_Pointer_To_Void is new Ada.Unchecked_Conversion
+        (GNATCOM.Types.Pointer_To_Pointer_To_ICatRegister,
+         GNATCOM.Types.Pointer_To_Pointer_To_Void);
+      Cat_Mgr    : GNATCOM.Iinterface.Interface_Type;
+      Cat_Reg    : aliased GNATCOM.Types.Pointer_To_ICatRegister;
+      Hr         : GNATCOM.Types.HRESULT;
+      Ignored    : Interfaces.C.unsigned_long;
    begin
-      Register ("Component Categories\" & Category_ID, "409", Description);
+      if Categories /= null then
+         GNATCOM.Iinterface.Create
+           (Cat_Mgr, GNATCOM.Types.CLSID_StdComponentCategoriesMgr);
+         Hr := GNATCOM.Iinterface.QueryInterface
+           (Cat_Mgr,
+            GNATCOM.Types.IID_ICatRegister,
+            To_Pointer_To_Pointer_To_Void (Cat_Reg'Access));
+         GNATCOM.Errors.Error_Check (Hr);
+         Hr := Cat_Reg.Vtbl.RegisterCategories
+           (Cat_Reg,
+            Categories'Length,
+            Categories (Categories'First)'Access);
+         Ignored := Cat_Reg.Vtbl.Release (Cat_Reg);
+         GNATCOM.Errors.Error_Check (Hr);
+      end if;
    end Register_Component_Category;
 
    -----------------------------

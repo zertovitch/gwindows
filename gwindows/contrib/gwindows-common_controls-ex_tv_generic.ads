@@ -6,7 +6,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---              Copyright (C) 1999 - 2019 David Botton / KonAd              --
+--              Copyright (C) 1999 - 2023 David Botton / KonAd              --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -86,49 +86,49 @@ package GWindows.Common_Controls.Ex_TV_Generic is
                           Where       : in     Tree_View_List_Location_Type := Sort);
    --  insert an item
 
-   procedure Set_Item_Id(Control: in Ex_Tree_View_Control_Type;
-                         Node : in Tree_Item_Node;
-                         Id: in Integer);
-   function Get_Item_Id(Control: in Ex_Tree_View_Control_Type;
-                        Node : in Tree_Item_Node) return Integer;
+   procedure Set_Item_Id (Control : in Ex_Tree_View_Control_Type;
+                          Node    : in Tree_Item_Node;
+                          Id      : in Integer);
+   function Get_Item_Id (Control : in Ex_Tree_View_Control_Type;
+                         Node    : in Tree_Item_Node) return Integer;
    -- set and get the item-id
 
    --  Function Select_Item has been moved to parent type
    --  Tree_View_Control_Type in GWindows.Common_Controls, along with
    --  a procedure having the same name. Change: GdM 31-Jul-2019.
 
-   procedure Set_Image(Control : in Ex_Tree_View_Control_Type;
-                       Item : in Tree_Item_Node;
-                       Image_List_Index : in Natural);
+   procedure Set_Image (Control          : in Ex_Tree_View_Control_Type;
+                        Item             : in Tree_Item_Node;
+                        Image_List_Index : in Natural);
    -- sets a image for a node
 
-   function Tree_Hit_Test(Control : in Ex_Tree_View_Control_Type;
-                          pt : in GWindows.Types.Point_Type)
-                         return Tree_Item_Node;
+   function Tree_Hit_Test (Control : in Ex_Tree_View_Control_Type;
+                           pt      : in GWindows.Types.Point_Type)
+                           return Tree_Item_Node;
    -- returns the node under point
 
-   procedure Set_Line_Color(Control: in Ex_Tree_View_Control_Type;
-                            Line_Color : in Color_Type);
+   procedure Set_Line_Color (Control    : in Ex_Tree_View_Control_Type;
+                             Line_Color : in Color_Type);
    -- sets the color of the node connecting lines
 
-   procedure Set_Text_Color(Control: in Ex_Tree_View_Control_Type;
-                            Color : in Color_Type);
+   procedure Set_Text_Color (Control : in Ex_Tree_View_Control_Type;
+                             Color   : in Color_Type);
    -- set text-color for control
 
-   procedure Set_Bk_Color(Control: in Ex_Tree_View_Control_Type;
-                          Color : in Color_Type);
+   procedure Set_Bk_Color (Control : in Ex_Tree_View_Control_Type;
+                           Color   : in Color_Type);
    -- set background-color for control
 
-   procedure Set_Item_Color(Control: in out Ex_Tree_View_Control_Type;
-                            Text_Color : in Color_Type;
-                            Bk_Color : in Color_Type;
-                            Item : in Tree_Item_Node);
+   procedure Set_Item_Color (Control    : in out Ex_Tree_View_Control_Type;
+                             Text_Color : in     Color_Type;
+                             Bk_Color   : in     Color_Type;
+                             Item       : in     Tree_Item_Node);
    -- set colors for an item
 
    procedure Set_Item_Data (Control   : in out Ex_Tree_View_Control_Type;
                             Data      : in     T;
                             Node      : in     Tree_Item_Node;
-                            Redraw    : in     Boolean                   :=False);
+                            Redraw    : in     Boolean                   := False);
    -- sets the payload data individually for an Node
 
    function Get_Item_Data (Control   : in Ex_Tree_View_Control_Type;
@@ -142,7 +142,7 @@ package GWindows.Common_Controls.Ex_TV_Generic is
       Node : in Tree_Item_Node);
 
    procedure On_change_Handler (Control : in out Ex_Tree_View_Control_Type'Class;
-                                Handler : in     Change_Event         );
+                                Handler : in     Change_Event);
    procedure Fire_On_Change (Control : in out Ex_Tree_View_Control_Type'Class;
                              Node : in Tree_Item_Node);
    procedure On_Change (Control : in out Ex_Tree_View_Control_Type'Class;
@@ -151,7 +151,7 @@ package GWindows.Common_Controls.Ex_TV_Generic is
    procedure On_Notify (Window       : in out Ex_Tree_View_Control_Type;
                         Message      : in     GWindows.Base.Pointer_To_Notification;
                         Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out GWindows.Types.Lresult                      );
+                        Return_Value : in out GWindows.Types.Lresult);
 
    procedure On_Destroy (Window : in out Ex_Tree_View_Control_Type);
 
@@ -160,13 +160,13 @@ private
    type Extended_Data_Type is
       record
          ID          : Integer      := -1;
-         Text_Color  : Color_Type   := To_Color(0, 0, 0);
-         Back_Color  : Color_Type   := To_Color(255, 255, 255);
+         Text_Color  : Color_Type   := To_Color (0, 0, 0);
+         Back_Color  : Color_Type   := To_Color (255, 255, 255);
          More_Data   : T;
       end record;
 
    package Address_Conversion is new
-     System.Address_To_Access_Conversions(Extended_Data_Type);
+     System.Address_To_Access_Conversions (Extended_Data_Type);
 
    subtype Extended_Data_Access is Address_Conversion.Object_Pointer;
 

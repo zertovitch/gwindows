@@ -144,6 +144,7 @@ package body GNATCOM.Iinterface is
    -- Adjust --
    ------------
 
+   overriding
    procedure Adjust (This : in out Interface_Type) is
    begin
       AddRef (This);
@@ -202,6 +203,24 @@ package body GNATCOM.Iinterface is
    is
    begin
       Attach (This, GNATCOM.VARIANT.To_Pointer_To_IUnknown (From));
+   end Attach;
+
+   ------------
+   -- Attach --
+   ------------
+
+   procedure Attach
+     (This : in out Interface_Type;
+      From : in GNATCOM.Create.COM_Interface.Pointer_To_COM_Interface_Type)
+   is
+      Hr       : GNATCOM.Types.HRESULT;
+      pvObject : aliased GNATCOM.Types.Pointer_To_Void;
+   begin
+      --  QueryInterface performs AddRef, no need to do that in Attach.
+      Hr := GNATCOM.Create.COM_Interface.QueryInterface
+        (From, GNATCOM.Types.IID_IUnknown'Access, pvObject'Access);
+      Error_Check (Hr);
+      Attach (This, pvObject);
    end Attach;
 
    ----------
@@ -384,6 +403,7 @@ package body GNATCOM.Iinterface is
    -- Finalize --
    --------------
 
+   overriding
    procedure Finalize (This : in out Interface_Type) is
    begin
       Free (This);

@@ -12,11 +12,11 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
-   * Fixes on GWindows.Scintilla
+   * Fixes and additions on GWindows.Scintilla, the editor widget
    * Improvements on GNATCOM.
 
 482: GWindows.Common_Controls: added support for middle mouse button
-        clicks on controls. Example: for closing tabs.
+        clicks on controls. Application example: for closing tabs.
 
 GWindows release, 29-May-2023 [revision 480]
 ============================================

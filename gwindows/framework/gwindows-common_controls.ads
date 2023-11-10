@@ -35,6 +35,7 @@
 ------------------------------------------------------------------------------
 
 with Ada.Calendar;
+with Ada.Unchecked_Conversion;
 
 with Interfaces.C;
 
@@ -44,8 +45,11 @@ with GWindows.Image_Lists;
 with GWindows.Types;
 with GWindows.Utilities;
 with GWindows.Windows;
+with GWindows.Drawing;
 
 package GWindows.Common_Controls is
+
+   Not_Set_Error : exception;
 
    -------------------------------------------------------------------------
    --  Common_Control_Type
@@ -56,6 +60,27 @@ package GWindows.Common_Controls is
      new GWindows.Base.Base_Window_Type with private;
    type Pointer_To_Common_Control_Class is
      access all Common_Control_Type'Class;
+
+   procedure Background_Color (Window : in out Common_Control_Type;
+                               Color  : in     GWindows.Colors.Color_Type);
+   --  Set background color of control
+
+   function Background_Color (Window : in Common_Control_Type)
+                             return GWindows.Colors.Color_Type;
+   --  Get background color of control
+
+   -------------------------------------------------------------------------
+   --  Common_Control_Type - Event Types
+   -------------------------------------------------------------------------
+
+   type Event_Call_Default_Handler_Type is (Not_Set, Yes, No);
+
+   type Paint_Event is access
+     procedure
+        (Window               : in out GWindows.Base.Base_Window_Type'Class;
+         Canvas               : in out GWindows.Drawing.Canvas_Type;
+         Area                 : in     GWindows.Types.Rectangle_Type;
+         Call_Default_Handler : in out Event_Call_Default_Handler_Type);
 
    -------------------------------------------------------------------------
    --  Common_Control_Type - Event Handlers
@@ -117,6 +142,22 @@ package GWindows.Common_Controls is
                                Handler : in     GWindows.Base.Action_Event);
    procedure Fire_On_Hover (Control : in out Common_Control_Type);
 
+   procedure On_Paint_Handler (Window  : in out Common_Control_Type;
+                               Handler : in Paint_Event);
+   procedure Fire_On_Paint
+      (Window               : in out Common_Control_Type;
+       Canvas               : in out GWindows.Drawing.Canvas_Type;
+       Area                 : in     GWindows.Types.Rectangle_Type;
+       Call_Default_Handler : in out Event_Call_Default_Handler_Type);
+
+   procedure On_Erase_Background_Handler (Window  : in out Common_Control_Type;
+                                          Handler : in Paint_Event);
+   procedure Fire_On_Erase_Background
+     (Window               : in out Common_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type);
+
    -------------------------------------------------------------------------
    --  Common_Control_Type - Event Methods
    -------------------------------------------------------------------------
@@ -153,6 +194,20 @@ package GWindows.Common_Controls is
 
    procedure On_Hover (Control : in out Common_Control_Type);
    --  Mouse hover over control
+
+   procedure On_Paint
+      (Window               : in out Common_Control_Type;
+       Canvas               : in out GWindows.Drawing.Canvas_Type;
+       Area                 : in     GWindows.Types.Rectangle_Type;
+       Call_Default_Handler : in out Event_Call_Default_Handler_Type);
+   --  Paint
+
+   procedure On_Erase_Background
+     (Window               : in out Common_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type);
+   --  Erase Background
 
    -------------------------------------------------------------------------
    --  Common_Control_Type - Event Framework Methods
@@ -204,7 +259,7 @@ package GWindows.Common_Controls is
    --  the right edge of the corresponding part extends to the border of
    --  the window
 
-   type Status_Kind_Type is (Flat, Sunken, Raised);
+   type Status_Kind_Type is (Flat, Sunken, Raised, Owner_Drawn);
    procedure Text (Bar  : in out Status_Bar_Type;
                    Text : in     GString;
                    Part : in     Natural;
@@ -1090,6 +1145,10 @@ package GWindows.Common_Controls is
    --  Tree_View_Control_Type - Event Handlers
    -------------------------------------------------------------------------
    --  See Event Methods for details on each event
+   type Tree_Item_Action_Event is access
+     procedure (Control   : in out Tree_View_Control_Type'Class;
+                Item_Node : in     Tree_Item_Node;
+                Action    : Interfaces.C.unsigned);
 
    procedure On_Selection_Change_Handler
      (Control : in out Tree_View_Control_Type;
@@ -1097,11 +1156,33 @@ package GWindows.Common_Controls is
    procedure Fire_On_Selection_Change
      (Control : in out Tree_View_Control_Type);
 
+   procedure On_Item_Expanding_Handler
+     (Control : in out Tree_View_Control_Type;
+      Handler : in     Tree_Item_Action_Event);
+   procedure Fire_On_Item_Expanding
+     (Control   : in out Tree_View_Control_Type;
+      Item_Node : in     Tree_Item_Node;
+      Action    : Interfaces.C.unsigned);
+
+   procedure On_Item_Expanded_Handler
+     (Control : in out Tree_View_Control_Type;
+      Handler : in     Tree_Item_Action_Event);
+   procedure Fire_On_Item_Expanded
+     (Control   : in out Tree_View_Control_Type;
+      Item_Node : in     Tree_Item_Node;
+      Action    : Interfaces.C.unsigned);
+
    -------------------------------------------------------------------------
    --  Tree_View_Control_Type - Event Methods
    -------------------------------------------------------------------------
 
    procedure On_Selection_Change (Control : in out Tree_View_Control_Type);
+   procedure On_Item_Expanding   (Control   : in out Tree_View_Control_Type;
+                                  Item_Node : in     Tree_Item_Node;
+                                  Action    : Interfaces.C.unsigned);
+   procedure On_Item_Expanded    (Control   : in out Tree_View_Control_Type;
+                                  Item_Node : in     Tree_Item_Node;
+                                  Action    : Interfaces.C.unsigned);
 
    -------------------------------------------------------------------------
    --  Tree_View_Control_Type - Event Framework Methods
@@ -1582,6 +1663,10 @@ private
          On_Focus_Event               : GWindows.Base.Action_Event := null;
          On_Lost_Focus_Event          : GWindows.Base.Action_Event := null;
          On_Hover_Event               : GWindows.Base.Action_Event := null;
+         On_Paint_Event               : Paint_Event                := null;
+         On_Erase_Background_Event    : Paint_Event                := null;
+         Background_Color             : GWindows.Colors.Color_Type;
+         Background_Color_Sys         : Boolean := True;
       end record;
 
    type Animation_Control_Type is new Common_Control_Type with
@@ -1616,7 +1701,9 @@ private
 
    type Tree_View_Control_Type is new Common_Control_Type with
       record
-         On_Selection_Change_Event  : GWindows.Base.Action_Event := null;
+         On_Selection_Change_Event : GWindows.Base.Action_Event := null;
+         On_Item_Expanding_Event   : Tree_Item_Action_Event := null;
+         On_Item_Expanded_Event    : Tree_Item_Action_Event := null;
       end record;
 
    type Trackbar_Control_Type is new Common_Control_Type with null record;
@@ -1683,5 +1770,20 @@ private
    LVM_GETITEMTEXT : constant Utilities.ANSI_Unicode_Choice :=
       (ANSI    => LVM_GETITEMTEXTA,
        Unicode => LVM_GETITEMTEXTW);
+
+   type NMTREEVIEW is
+      record
+         Hdr     : GWindows.Base.Notification;
+         Action  : Interfaces.C.unsigned;
+         ItemOld : TVITEM;
+         ItemNew : TVITEM;
+         PtDrag  : GWindows.Types.Point_Type;
+      end record;
+
+   type Pointer_To_NMTREEVIEW_Type is access all NMTREEVIEW;
+
+   function Message_To_NmTreeView_Pointer is
+      new Ada.Unchecked_Conversion (GWindows.Base.Pointer_To_Notification,
+                                    Pointer_To_NMTREEVIEW_Type);
 
 end GWindows.Common_Controls;

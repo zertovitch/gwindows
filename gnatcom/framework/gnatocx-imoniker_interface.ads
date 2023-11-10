@@ -5,6 +5,7 @@ package GNATOCX.IMoniker_Interface is
    type IMoniker_Type is
      new GNATCOM.Iinterface.Interface_Type with null record;
 
+   overriding
    procedure Initialize (This : in out IMoniker_Type);
 
    function Pointer (This : IMoniker_Type)
@@ -116,5 +117,8 @@ package GNATOCX.IMoniker_Interface is
    procedure IsSystemMoniker
      (This     : IMoniker_Type;
       pdwMksys : GNATCOM.Types.Pointer_To_unsigned_long);
+
+   function CreateClassMoniker (CLSID : GNATCOM.Types.GUID)
+                                return IMoniker_Type;
 
 end GNATOCX.IMoniker_Interface;
