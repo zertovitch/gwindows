@@ -255,7 +255,8 @@ package body GNATCOM.Register is
          Exe_Name   : constant String :=
            Ada.Directories.Simple_Name (Server_Exe);
       begin
-         Register ("AppID\" & App_ID, "", "");
+         Register ("AppID\" & App_ID, "", Exe_Name);
+         Register ("AppID\" & Exe_Name, "AppID", App_ID);
 
          Register ("CLSID\" & Class_ID, "", Description);
          Register ("CLSID\" & Class_ID, "AppID", App_ID);
@@ -282,22 +283,8 @@ package body GNATCOM.Register is
            (CLSID'Unrestricted_Access, Implemented_Categories);
 
          if Service_Name /= "" then
-            Register ("SOFTWARE\Classes\AppID\" & Exe_Name,
-                      "AppID",
-                      App_ID,
-                      HKEY_LOCAL_MACHINE);
-            Register ("SOFTWARE\Classes\AppID\" & App_ID,
-                      "LocalService",
-                      Service_Name,
-                      HKEY_LOCAL_MACHINE);
-            Register ("SOFTWARE\Classes\AppID\" & App_ID,
-                      "ServiceParameters",
-                      "/Embedding",
-                      HKEY_LOCAL_MACHINE);
-            Register ("SOFTWARE\Classes\AppID\" & App_ID,
-                      "",
-                      Exe_Name,
-                      HKEY_LOCAL_MACHINE);
+            Register ("AppID\" & App_ID, "LocalService", Service_Name);
+            Register ("AppID\" & App_ID, "ServiceParameters", "/Embedding");
          end if;
       end;
 
