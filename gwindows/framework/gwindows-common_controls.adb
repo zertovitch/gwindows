@@ -757,17 +757,23 @@ package body GWindows.Common_Controls is
                      "SendMessage" & Character_Mode_Identifier);
    begin
       SendMessage;
+
+      Bar.Parts.Clear;
+      Bar.Parts.Set_Length (Positions'Length);
    end Parts;
 
    ----------
    -- Text --
    ----------
 
-   procedure Text (Bar  : in out Status_Bar_Type;
-                   Text : in     GString;
-                   Part : in     Natural;
-                   How  : in     Status_Kind_Type := Sunken)
+   procedure Text (Bar          : in out Status_Bar_Type;
+                   Text         : in     GString;
+                   Part         : in     Natural;
+                   How          : in     Status_Kind_Type := Sunken;
+                   Force_Redraw : in     Boolean := False)
    is
+      use type Ada.Strings.Wide_Unbounded.Unbounded_Wide_String;
+
       SB_SETTEXTA   : constant := 16#401#;
       SB_SETTEXTW   : constant := 16#40B#;
       SBT_NOBORDERS : constant := 16#0100#;
@@ -798,30 +804,114 @@ package body GWindows.Common_Controls is
           lParam : System.Address := C_Text'Address);
       pragma Import (StdCall, SendMessageW, "SendMessageW");
 
+      Bar_Part : Status_Bar_Part_Type renames Bar.Parts (Part);
+      New_Text : constant GString_Unbounded
+                 := GWindows.GStrings.To_GString_Unbounded (Text);
    begin
-      case Character_Mode is
-         when Unicode => SendMessageW;
-         when ANSI    => SendMessageA;
-      end case;
+      --  To avoid flicker, update only when needed
+      if Force_Redraw or else Bar_Part.Text /= New_Text then
+         Bar_Part.Text := New_Text;
+
+         case Character_Mode is
+            when Unicode => SendMessageW;
+            when ANSI    => SendMessageA;
+         end case;
+      end if;
+   end Text;
+
+   ----------
+   -- Text --
+   ----------
+
+   function Text
+     (Bar  : in out Status_Bar_Type;
+      Part : in     Natural)
+     return GString
+   is
+   begin
+      return GWindows.GStrings.To_GString_From_Unbounded
+                                 (Bar.Parts (Part).Text);
    end Text;
 
    ----------------------
    -- Background_Color --
    ----------------------
 
-   procedure Background_Color (Bar   : in out Status_Bar_Type;
-                               Color : GWindows.Colors.Color_Type) is
-      SB_SETBKCOLOR : constant := 16#2001#;
-      procedure SendMessage
-         (hwnd   : GWindows.Types.Handle := Handle (Bar);
-          uMsg   : Interfaces.C.int      := SB_SETBKCOLOR;
-          wParam : GWindows.Types.Wparam := 0;
-          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Color));
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
+   procedure Background_Color (Bar        : in out Status_Bar_Type;
+                               Color      : in     GWindows.Colors.Color_Type;
+                               Update_Now : in     Boolean := False) is
+      --  SB_SETBKCOLOR : constant := 16#2001#;
+      --  procedure SendMessage
+      --     (hwnd   : GWindows.Types.Handle := Handle (Bar);
+      --      uMsg   : Interfaces.C.int      := SB_SETBKCOLOR;
+      --      wParam : GWindows.Types.Wparam := 0;
+      --      lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Color));
+      --  pragma Import (StdCall, SendMessage,
+      --                 "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      --  SendMessage;
+      Background_Color (Common_Control_Type (Bar), Color);
+
+      if Update_Now then
+         Bar.Redraw (Erase => True, Redraw_Now => True);
+      end if;
    end Background_Color;
+
+   -----------------
+   -- Part_Colors --
+   -----------------
+
+   procedure Part_Colors (Bar              : in out Status_Bar_Type;
+                          Part             : in     Natural;
+                          Background_Color : in     GWindows.Colors.Color_Type;
+                          Text_Color       : in     GWindows.Colors.Color_Type;
+                          Update_Now       : in     Boolean := False) is
+   begin
+      Bar.Parts (Part).Background_Color := Background_Color;
+      Bar.Parts (Part).Text_Color       := Text_Color;
+      if Update_Now then
+         Bar.Redraw;
+      end if;
+   end Part_Colors;
+
+   ------------------
+   -- On_Draw_Item --
+   ------------------
+   overriding procedure On_Draw_Item
+     (Bar             : in out Status_Bar_Type;
+      Canvas          : in out GWindows.Drawing.Canvas_Type;
+      Item_ID         : in     Integer;
+      Item_Action     : in     Interfaces.C.unsigned;
+      Item_State      : in     Interfaces.C.unsigned;
+      Item_Rect       : in     GWindows.Types.Rectangle_Type;
+      Item_Data       : in     Integer;
+      Control         : in     GWindows.Base.Pointer_To_Base_Window_Class) is
+
+      use GWindows.Drawing, GWindows.Drawing_Objects;
+
+      Bar_Part : constant Status_Bar_Part_Type := Bar.Parts (Item_ID);
+      Brush     : Brush_Type;  --  Rectangle filling
+      Txt       : constant GString
+                := GWindows.GStrings.To_GString_From_Unbounded (Bar_Part.Text);
+      Text_Size : GWindows.Types.Size_Type;
+      Y_Offset  : Integer;
+   begin
+      Create_Solid_Brush (Brush, Color => Bar_Part.Background_Color);
+      Fill_Rectangle (Canvas, Item_Rect, Brush);
+      Delete (Brush);
+
+      Text_Size := Text_Output_Size (Canvas, Txt);
+      Vertical_Text_Alignment (Canvas, Top);
+      Horizontal_Text_Alignment (Canvas, Left);
+      Text_Color (Canvas, Color => Bar_Part.Text_Color);
+      Background_Mode (Canvas, Transparent);
+      Y_Offset := ((Item_Rect.Bottom - Item_Rect.Top) - Text_Size.Height) / 2;
+      Put (Canvas, X         => Item_Rect.Left,
+                   Y         => Item_Rect.Top + Y_Offset,
+                   Text      => Txt,
+                   Clip_Area => Item_Rect);
+
+   end On_Draw_Item;
 
    procedure Background_Color (Window : in out Common_Control_Type;
                                Color  : in     GWindows.Colors.Color_Type)
