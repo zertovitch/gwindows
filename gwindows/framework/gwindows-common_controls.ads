@@ -36,6 +36,7 @@
 
 with Ada.Calendar;
 with Ada.Unchecked_Conversion;
+with Ada.Containers.Vectors;
 
 with Interfaces.C;
 
@@ -260,16 +261,29 @@ package GWindows.Common_Controls is
    --  the window
 
    type Status_Kind_Type is (Flat, Sunken, Raised, Owner_Drawn);
-   procedure Text (Bar  : in out Status_Bar_Type;
-                   Text : in     GString;
-                   Part : in     Natural;
-                   How  : in     Status_Kind_Type := Sunken);
+   procedure Text (Bar          : in out Status_Bar_Type;
+                   Text         : in     GString;
+                   Part         : in     Natural;
+                   How          : in     Status_Kind_Type := Sunken;
+                   Force_Redraw : in     Boolean := False);
    --  Set text in a specific part of the status bar
    --  0 is the first part
 
-   procedure Background_Color (Bar   : in out Status_Bar_Type;
-                               Color :        GWindows.Colors.Color_Type);
+   function Text (Bar  : in out Status_Bar_Type;
+                  Part : in     Natural) return GString;
+   --  Returns the text of the bar part.
+
+   procedure Background_Color (Bar        : in out Status_Bar_Type;
+                               Color      : in     GWindows.Colors.Color_Type;
+                               Update_Now : in     Boolean := False);
    --  Set background color of status bar
+
+   procedure Part_Colors (Bar              : in out Status_Bar_Type;
+                          Part             : in     Natural;
+                          Background_Color : in     GWindows.Colors.Color_Type;
+                          Text_Color       : in     GWindows.Colors.Color_Type;
+                          Update_Now       : in     Boolean := False);
+   --  Set Part Text foreground and background colors
 
    -------------------------------------------------------------------------
    --  Animation_Control_Type
@@ -1675,7 +1689,31 @@ private
          On_Stop_Event  : GWindows.Base.Action_Event := null;
       end record;
 
-   type Status_Bar_Type is new Common_Control_Type with null record;
+   type Status_Bar_Part_Type is record
+      Text             : GWindows.GString_Unbounded;
+      Background_Color : GWindows.Colors.Color_Type := GWindows.Colors.White;
+      Text_Color       : GWindows.Colors.Color_Type := GWindows.Colors.Black;
+   end record;
+   --  We locally store the text as we can't recover it when
+   --  the part is owner drawn.
+
+   package Status_Bar_Part_Vectors is new Ada.Containers.Vectors
+                                  (Index_Type   => Natural,
+                                   Element_Type => Status_Bar_Part_Type);
+
+   type Status_Bar_Type is new Common_Control_Type with record
+      Parts : Status_Bar_Part_Vectors.Vector;
+   end record;
+
+  overriding procedure On_Draw_Item
+     (Bar             : in out Status_Bar_Type;
+      Canvas          : in out GWindows.Drawing.Canvas_Type;
+      Item_ID         : in     Integer;
+      Item_Action     : in     Interfaces.C.unsigned;
+      Item_State      : in     Interfaces.C.unsigned;
+      Item_Rect       : in     GWindows.Types.Rectangle_Type;
+      Item_Data       : in     Integer;
+      Control         : in     GWindows.Base.Pointer_To_Base_Window_Class);
 
    type Date_Time_Picker_Type is new Common_Control_Type with
       record
