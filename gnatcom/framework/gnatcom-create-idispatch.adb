@@ -68,8 +68,10 @@ package body GNATCOM.Create.IDispatch is
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, DispInvoke, "DispInvoke");
 
-   function Less_Than (Left, Right : GNATCOM.Types.Pointer_To_GUID) return Boolean is
-      package Conv is new System.Address_To_Access_Conversions (GNATCOM.Types.GUID);
+   function Less_Than (Left, Right : GNATCOM.Types.Pointer_To_GUID)
+                      return Boolean is
+      package Conv is new
+                   System.Address_To_Access_Conversions (GNATCOM.Types.GUID);
       use System;
    begin
       return Conv.To_Address (Conv.Object_Pointer (Left)) <
