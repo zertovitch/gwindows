@@ -154,6 +154,52 @@ package body GWindows.GControls.GSize_Bars is
                  Text (Window));
          end if;
       end if;
+
+      --  Draw dashes
+      declare
+         Dash_Height         : Natural renames Window.Dash_Height;
+         Dash_Width          : Natural renames Window.Dash_Width;
+         Dash_Spacing_Height : Natural renames Window.Dash_Spacing_Height;
+         Dash_Spacing_Width  : Natural renames Window.Dash_Spacing_Width;
+         Number_Of_Dashes_V  : Natural renames Window.Number_Of_Dashes_V;
+         Number_Of_Dashes_H  : Natural renames Window.Number_Of_Dashes_H;
+
+         Dash_Pitch_V : constant Natural := Dash_Height + Dash_Spacing_Height;
+         Dash_Pitch_H : constant Natural := Dash_Width + Dash_Spacing_Width;
+         Brush    : Brush_Type;
+         Dot_Rect : GWindows.Types.Rectangle_Type;
+         V_Ref    : Integer;
+         H_Ref    : Integer;
+      begin
+         if Number_Of_Dashes_V /= 0 and then
+            Number_Of_Dashes_H /= 0
+         then
+           Create_Solid_Brush (Brush, Color => Window.Dash_Color);
+
+           H_Ref := (Area.Left + Area.Right -
+                     ((Dash_Pitch_H * Number_Of_Dashes_H) -
+                      Dash_Spacing_Width)
+                    ) / 2;
+
+           for X in 1 .. Number_Of_Dashes_H loop
+             V_Ref := (Area.Top + Area.Bottom -
+                       ((Dash_Pitch_V * Number_Of_Dashes_V) -
+                        Dash_Spacing_Height)
+                      ) / 2;
+             for Y in 1 .. Number_Of_Dashes_V loop
+               Dot_Rect.Top    := V_Ref;
+               Dot_Rect.Bottom := V_Ref + Dash_Height;
+               Dot_Rect.Left   := H_Ref;
+               Dot_Rect.Right  := H_Ref + Dash_Width;
+               Fill_Rectangle (Canvas, Dot_Rect, Brush);
+               V_Ref := V_Ref + Dash_Pitch_V;
+             end loop;
+             H_Ref := H_Ref + Dash_Pitch_H;
+           end loop;
+
+           Delete (Brush);
+         end if;
+      end;
    end On_Paint;
 
    -------------------------------
@@ -606,5 +652,39 @@ package body GWindows.GControls.GSize_Bars is
    begin
       return Window.Text_Color;
    end Text_Color;
+
+   ----------------
+   -- Set_Dashes --
+   ----------------
+
+   procedure Set_Dashes (Window             : in out GSize_Bar_Type;
+                         Dash_Height        : in     Natural := 2;
+                         Dash_Width         : in     Natural := 2;
+                         Spacing_Height     : in     Natural := 0;
+                         Spacing_Width      : in     Natural := 5;
+                         Number_Of_Dashes_V : in     Natural := 1;
+                         Number_Of_Dashes_H : in     Natural := 11)
+   is
+   begin
+      Window.Dash_Height         := Dash_Height;
+      Window.Dash_Width          := Dash_Width;
+      Window.Dash_Spacing_Height := Spacing_Height;
+      Window.Dash_Spacing_Width  := Spacing_Width;
+      Window.Number_Of_Dashes_V  := Number_Of_Dashes_V;
+      Window.Number_Of_Dashes_H  := Number_Of_Dashes_H;
+      Window.Redraw (True);
+   end Set_Dashes;
+
+   ------------------
+   -- Dashes_Color --
+   ------------------
+
+   procedure Dashes_Color (Window : in out GSize_Bar_Type;
+                           Color  : in     GWindows.Colors.Color_Type)
+   is
+   begin
+      Window.Dash_Color := Color;
+      Window.Redraw (True);
+   end Dashes_Color;
 
 end GWindows.GControls.GSize_Bars;
