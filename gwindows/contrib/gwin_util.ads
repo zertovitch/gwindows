@@ -10,9 +10,7 @@
 
 with GWindows.Base,
      GWindows.Buttons,
-     GWindows.GControls.GSize_Bars,
      GWindows.GStrings,
-     GWindows.Static_Controls,
      GWindows.Windows;
 
 --  28-Sep-2020 : Added: Explorer_Context_Menu.
@@ -167,24 +165,25 @@ package GWin_Util is
     procedure Create (Parent : in out GWindows.Base.Base_Window_Type'Class);
   end Property_Tabs_Package;
 
-  ------------------------------------------
-  --  Split bar including a visible grip  --
-  ------------------------------------------
-
-  type Splitter_with_dashes is new GWindows.GControls.GSize_Bars.GSize_Bar_Type with record
-    Dashes : GWindows.Static_Controls.Label_Type;
-  end record;
-
-  overriding procedure Create
-     (Window     : in out Splitter_with_dashes;
-      Parent     : in out GWindows.Base.Base_Window_Type'Class;
-      Location   : in     GWindows.Base.Dock_Type;
-      Text       : in     GString                              := "";
-      Left       : in     Integer                              := 0;
-      Top        : in     Integer                              := 0;
-      Width      : in     Integer                              := 3;
-      Height     : in     Integer                              := 3;
-      Show       : in     Boolean                              := True;
-      Is_Dynamic : in     Boolean                              := False);
+  --  Splitter_with_dashes type has been removed
+  --  Please use GWindows.GControls.GSize_Bars.GSize_Bar_Type instead.
+  --
+  --  To emulate legacy rendering use :
+  --  For vertical splitter :
+  --  Set_Dashes (Window             => Window,
+  --              Dash_Height        => 2;
+  --              Dash_Width         => 2;
+  --              Spacing_Height     => 14;
+  --              Spacing_Width      => 0;
+  --              Number_Of_Dashes_V => 1000;
+  --              Number_Of_Dashes_H => 1);
+  --  For horizontal splitter :
+  --  Set_Dashes (Window             => Window,
+  --              Dash_Height        => 2;
+  --              Dash_Width         => 2;
+  --              Spacing_Height     => 0;
+  --              Spacing_Width      => 6;
+  --              Number_Of_Dashes_V => 1;
+  --              Number_Of_Dashes_H => 30);
 
 end GWin_Util;
