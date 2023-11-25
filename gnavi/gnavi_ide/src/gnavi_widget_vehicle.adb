@@ -85,7 +85,7 @@ package body GNAVI_Widget_Vehicle is
 
    procedure On_Lost_Focus (Window : in out GNAVI_Widget_Vehicle_Type) is
    begin
-      if Window.Show_Handles = True and not Window.Inner_Edit then
+      if Window.Show_Handles and not Window.Inner_Edit then
          Window.Show_Handles := False;
 
          Move (Window, Left (Window) + Handle_Size,

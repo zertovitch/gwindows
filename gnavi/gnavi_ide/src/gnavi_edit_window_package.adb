@@ -81,13 +81,13 @@ package body GNAVI_Edit_Window_Package is
       use GNAT.OS_Lib;
 
       OFile       : File_Descriptor;
-      Doc_Length  : constant Integer := GetLength (Window);
-      Length      : Integer := 0;
+      Doc_Length  : constant Position := Get_Length (Window);
+      Length      : Position := 0;
       F_Exception : exception;
       Success     : Boolean;
       FName       : GWindows.GString := File_Name;
    begin
-      if GetModify (Window) = False then
+      if Get_Modify (Window) = False then
          return;
       end if;
 
@@ -104,7 +104,7 @@ package body GNAVI_Edit_Window_Package is
 
       while Length < Doc_Length loop
          declare
-            Grab_Size  : Integer := Doc_Length - Length;
+            Grab_Size  : Position := Doc_Length - Length;
             Block_Size : constant := 255;
          begin
             if Grab_Size > Block_Size then
@@ -113,12 +113,12 @@ package body GNAVI_Edit_Window_Package is
 
             declare
                Buffer : String := GWindows.GStrings.To_String
-                 (GetTextRange (Window,
-                                Length,
-                                Length + Grab_Size));
+                 (Get_Text_Range (Window,
+                                  Length,
+                                  Length + Grab_Size));
 
                L      : Integer :=
-                 Write (OFile, Buffer (Buffer'First)'Address, Grab_Size);
+                 Write (OFile, Buffer (Buffer'First)'Address, Integer (Grab_Size));
             begin
                Length := Length + Grab_Size;
             end;
@@ -126,7 +126,7 @@ package body GNAVI_Edit_Window_Package is
       end loop;
 
       Close (OFile);
-      SetSavePoint (Window);
+      Set_Save_Point (Window);
    exception
       when others =>
          declare
@@ -156,8 +156,8 @@ package body GNAVI_Edit_Window_Package is
    begin
       --  Check disk for modification and if none do nothing.
 
-      ClearAll (Window);
-      SetUndoCollection (Window, False);
+      Clear_All (Window);
+      Set_Undo_Collection (Window, False);
 
       OFile := Open_Read (GWindows.GStrings.To_String (File_Name),
                           Binary);
@@ -171,7 +171,7 @@ package body GNAVI_Edit_Window_Package is
                          Output_String (Output_String'First)'Address,
                          Output_String'Length);
 
-         GWindows.Scintilla.AddText
+         GWindows.Scintilla.Add_Text
            (Window,
             GWindows.GStrings.To_GString_From_String
             (String (Output_String (1 .. Length))));
@@ -179,12 +179,12 @@ package body GNAVI_Edit_Window_Package is
 
       Close (OFile);
 
-      ConvertEOLs (Window,
+      Convert_EOLs (Window,
                    SC_EOL_CRLF);
-      SetUndoCollection (Window, True);
-      EmptyUndoBuffer (Window);
-      SetSavePoint (Window);
-      GoToPos(Window, 0);
+      Set_Undo_Collection (Window, True);
+      Empty_Undo_Buffer (Window);
+      Set_Save_Point (Window);
+      Go_To_Pos(Window, 0);
    exception
       when others =>
          declare
@@ -529,102 +529,102 @@ package body GNAVI_Edit_Window_Package is
       MDI_Menu (This, M.Main_Menu, M.Windows_Menu);
 
       --  Set up editor
-      SetEOLMode (This.Body_Edit_Box, SC_EOL_CRLF);
-      SetTabWidth (This.Body_Edit_Box, TAB_WIDTH);
-      SetUseTabs (This.Body_Edit_Box, False);
-      SetEdgeColumn (This.Body_Edit_Box, 80);
-      SetEdgeMode (This.Body_Edit_Box, EDGE_LINE);
+      Set_EOL_Mode (This.Body_Edit_Box, SC_EOL_CRLF);
+      Set_Tab_Width (This.Body_Edit_Box, TAB_WIDTH);
+      Set_Use_Tabs (This.Body_Edit_Box, False);
+      Set_Edge_Column (This.Body_Edit_Box, 80);
+      Set_Edge_Mode (This.Body_Edit_Box, EDGE_LINE);
       --  SetIndentationGuides (This.Body_Edit_Box, True);
 
-      SetLexer (This.Body_Edit_Box, SCLEX_ADA);
-      SetKeyWords (This.Body_Edit_Box, 0, Key_Words);
+      Set_Lexer (This.Body_Edit_Box, SCLEX_ADA);
+      Set_Key_Words (This.Body_Edit_Box, 0, Key_Words);
 
-      StyleSetFore (This.Body_Edit_Box, STYLE_DEFAULT, Black);
-      StyleSetBack (This.Body_Edit_Box, STYLE_DEFAULT, White);
-      StyleSetSize (This.Body_Edit_Box, STYLE_DEFAULT, 10);
-      StyleSetFont (This.Body_Edit_Box, STYLE_DEFAULT, "Courier");
-      StyleClearAll (This.Body_Edit_Box);
+      Style_Set_Fore (This.Body_Edit_Box, STYLE_DEFAULT, Black);
+      Style_Set_Back (This.Body_Edit_Box, STYLE_DEFAULT, White);
+      Style_Set_Size (This.Body_Edit_Box, STYLE_DEFAULT, 10);
+      Style_Set_Font (This.Body_Edit_Box, STYLE_DEFAULT, "Courier");
+      Style_Clear_All (This.Body_Edit_Box);
 
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_DEFAULT, Black);
-      StyleSetBack (This.Body_Edit_Box, SCE_ADA_DEFAULT, White);
-      StyleSetSize (This.Body_Edit_Box, SCE_ADA_DEFAULT, 10);
-      StyleSetFont (This.Body_Edit_Box, SCE_ADA_DEFAULT, "Courier");
+      Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_DEFAULT, Black);
+      Style_Set_Back (This.Body_Edit_Box, SCE_ADA_DEFAULT, White);
+      Style_Set_Size (This.Body_Edit_Box, SCE_ADA_DEFAULT, 10);
+      Style_Set_Font (This.Body_Edit_Box, SCE_ADA_DEFAULT, "Courier");
 
 
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_COMMENTLINE, Red);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_NUMBER, Blue);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_WORD, Dark_Green);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_STRING, Dark_Red);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_CHARACTER, Blue);
+      Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_COMMENTLINE, Red);
+      Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_NUMBER, Blue);
+      Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_WORD, Dark_Green);
+      Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_STRING, Dark_Red);
+      Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_CHARACTER, Blue);
       --  StyleSetFore (This.Body_Edit_Box, SCE_ADA_OPERATOR, Black);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_IDENTIFIER, Black);
+      Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_IDENTIFIER, Black);
 
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_STRINGEOL, White);
-      StyleSetBack (This.Body_Edit_Box, SCE_ADA_STRINGEOL, Red);
+      Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_STRINGEOL, White);
+      Style_Set_Back (This.Body_Edit_Box, SCE_ADA_STRINGEOL, Red);
 
       --  Set up editor
-      SetEOLMode (This.Spec_Edit_Box, SC_EOL_CRLF);
-      SetTabWidth (This.Spec_Edit_Box, TAB_WIDTH);
-      SetUseTabs (This.Spec_Edit_Box, False);
-      SetEdgeColumn (This.Spec_Edit_Box, 80);
-      SetEdgeMode (This.Spec_Edit_Box, EDGE_LINE);
+      Set_EOL_Mode (This.Spec_Edit_Box, SC_EOL_CRLF);
+      Set_Tab_Width (This.Spec_Edit_Box, TAB_WIDTH);
+      Set_Use_Tabs (This.Spec_Edit_Box, False);
+      Set_Edge_Column (This.Spec_Edit_Box, 80);
+      Set_Edge_Mode (This.Spec_Edit_Box, EDGE_LINE);
       --  SetIndentationGuides (This.Spec_Edit_Box, True);
 
-      SetLexer (This.Spec_Edit_Box, SCLEX_ADA);
-      SetKeyWords (This.Spec_Edit_Box, 0, Key_Words);
+      Set_Lexer (This.Spec_Edit_Box, SCLEX_ADA);
+      Set_Key_Words (This.Spec_Edit_Box, 0, Key_Words);
 
-      StyleSetFore (This.Spec_Edit_Box, STYLE_DEFAULT, Black);
-      StyleSetBack (This.Spec_Edit_Box, STYLE_DEFAULT, White);
-      StyleSetSize (This.Spec_Edit_Box, STYLE_DEFAULT, 10);
-      StyleSetFont (This.Spec_Edit_Box, STYLE_DEFAULT, "Courier");
-      StyleClearAll (This.Spec_Edit_Box);
+      Style_Set_Fore (This.Spec_Edit_Box, STYLE_DEFAULT, Black);
+      Style_Set_Back (This.Spec_Edit_Box, STYLE_DEFAULT, White);
+      Style_Set_Size (This.Spec_Edit_Box, STYLE_DEFAULT, 10);
+      Style_Set_Font (This.Spec_Edit_Box, STYLE_DEFAULT, "Courier");
+      Style_Clear_All (This.Spec_Edit_Box);
 
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_DEFAULT, Black);
-      StyleSetBack (This.Spec_Edit_Box, SCE_ADA_DEFAULT, White);
-      StyleSetSize (This.Spec_Edit_Box, SCE_ADA_DEFAULT, 10);
-      StyleSetFont (This.Spec_Edit_Box, SCE_ADA_DEFAULT, "Courier");
+      Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_DEFAULT, Black);
+      Style_Set_Back (This.Spec_Edit_Box, SCE_ADA_DEFAULT, White);
+      Style_Set_Size (This.Spec_Edit_Box, SCE_ADA_DEFAULT, 10);
+      Style_Set_Font (This.Spec_Edit_Box, SCE_ADA_DEFAULT, "Courier");
 
 
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_COMMENTLINE, Red);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_NUMBER, Blue);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_WORD, Dark_Green);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_STRING, Dark_Red);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_CHARACTER, Blue);
-      --  StyleSetFore (This.Spec_Edit_Box, SCE_ADA_OPERATOR, Black);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_IDENTIFIER, Black);
+      Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_COMMENTLINE, Red);
+      Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_NUMBER, Blue);
+      Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_WORD, Dark_Green);
+      Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_STRING, Dark_Red);
+      Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_CHARACTER, Blue);
+      --  Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_OPERATOR, Black);
+      Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_IDENTIFIER, Black);
 
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_STRINGEOL, White);
-      StyleSetBack (This.Spec_Edit_Box, SCE_ADA_STRINGEOL, Red);
+      Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_STRINGEOL, White);
+      Style_Set_Back (This.Spec_Edit_Box, SCE_ADA_STRINGEOL, Red);
 
       --  Set up editor
-      SetEOLMode (This.XML_Edit_Box, SC_EOL_CRLF);
-      SetTabWidth (This.XML_Edit_Box, TAB_WIDTH);
-      SetUseTabs (This.XML_Edit_Box, False);
-      SetEdgeColumn (This.XML_Edit_Box, 80);
-      SetEdgeMode (This.XML_Edit_Box, EDGE_LINE);
+      Set_EOL_Mode (This.XML_Edit_Box, SC_EOL_CRLF);
+      Set_Tab_Width (This.XML_Edit_Box, TAB_WIDTH);
+      Set_Use_Tabs (This.XML_Edit_Box, False);
+      Set_Edge_Column (This.XML_Edit_Box, 80);
+      Set_Edge_Mode (This.XML_Edit_Box, EDGE_LINE);
       --  SetIndentationGuides (This.XML_Edit_Box, True);
 
-      SetLexer (This.XML_Edit_Box, SCLEX_XML);
+      Set_Lexer (This.XML_Edit_Box, SCLEX_XML);
 
-      StyleSetFore (This.XML_Edit_Box, STYLE_DEFAULT, Black);
-      StyleSetBack (This.XML_Edit_Box, STYLE_DEFAULT, White);
-      StyleSetSize (This.XML_Edit_Box, STYLE_DEFAULT, 10);
-      StyleSetFont (This.XML_Edit_Box, STYLE_DEFAULT, "Courier");
-      StyleClearAll (This.XML_Edit_Box);
+      Style_Set_Fore (This.XML_Edit_Box, STYLE_DEFAULT, Black);
+      Style_Set_Back (This.XML_Edit_Box, STYLE_DEFAULT, White);
+      Style_Set_Size (This.XML_Edit_Box, STYLE_DEFAULT, 10);
+      Style_Set_Font (This.XML_Edit_Box, STYLE_DEFAULT, "Courier");
+      Style_Clear_All (This.XML_Edit_Box);
 
-      StyleSetFore (This.XML_Edit_Box, SCE_H_DEFAULT, Black);
-      StyleSetBack (This.XML_Edit_Box, SCE_H_DEFAULT, White);
-      StyleSetSize (This.XML_Edit_Box, SCE_H_DEFAULT, 10);
-      StyleSetFont (This.XML_Edit_Box, SCE_H_DEFAULT, "Courier");
+      Style_Set_Fore (This.XML_Edit_Box, SCE_H_DEFAULT, Black);
+      Style_Set_Back (This.XML_Edit_Box, SCE_H_DEFAULT, White);
+      Style_Set_Size (This.XML_Edit_Box, SCE_H_DEFAULT, 10);
+      Style_Set_Font (This.XML_Edit_Box, SCE_H_DEFAULT, "Courier");
 
 
-      StyleSetFore (This.XML_Edit_Box, SCE_H_COMMENT, Red);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_NUMBER, Blue);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_TAG, Dark_Green);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_ATTRIBUTE, Dark_Red);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_ENTITY, Blue);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_SINGLESTRING, Dark_Blue);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_DOUBLESTRING, Dark_Blue);
+      Style_Set_Fore (This.XML_Edit_Box, SCE_H_COMMENT, Red);
+      Style_Set_Fore (This.XML_Edit_Box, SCE_H_NUMBER, Blue);
+      Style_Set_Fore (This.XML_Edit_Box, SCE_H_TAG, Dark_Green);
+      Style_Set_Fore (This.XML_Edit_Box, SCE_H_ATTRIBUTE, Dark_Red);
+      Style_Set_Fore (This.XML_Edit_Box, SCE_H_ENTITY, Blue);
+      Style_Set_Fore (This.XML_Edit_Box, SCE_H_SINGLESTRING, Dark_Blue);
+      Style_Set_Fore (This.XML_Edit_Box, SCE_H_DOUBLESTRING, Dark_Blue);
 
       --  Setup Layout Box
       GWindows.Scroll_Panels.Panel_Size (This.Layout_Box, 2024, 2024);
@@ -672,7 +672,7 @@ package body GNAVI_Edit_Window_Package is
          when ID_EDIT_REDO =>
             Redo (This.Edit_Box.all);
          when ID_EDIT_SELECTALL =>
-            SelectAll (This.Edit_Box.all);
+            Select_All (This.Edit_Box.all);
          when ID_EDIT_DELETE =>
             Clear (This.Edit_Box.all);
          when others =>
@@ -707,19 +707,19 @@ package body GNAVI_Edit_Window_Package is
             State (M, Command, ID_EDIT_DELETE, Enabled);
             State (M, Command, ID_EDIT_SELECTALL, Enabled);
 
-            if CanPaste (This.Edit_Box.all) then
+            if Can_Paste (This.Edit_Box.all) then
                State (M, Command, ID_EDIT_PASTE, Enabled);
             else
                State (M, Command, ID_EDIT_PASTE, Grayed);
             end if;
 
-            if CanUndo (This.Edit_Box.all) then
+            if Can_Undo (This.Edit_Box.all) then
                State (M, Command, ID_EDIT_UNDO, Enabled);
             else
                State (M, Command, ID_EDIT_UNDO, Grayed);
             end if;
 
-            if CanRedo (This.Edit_Box.all) then
+            if Can_Redo (This.Edit_Box.all) then
                State (M, Command, ID_EDIT_REDO, Enabled);
             else
                State (M, Command, ID_EDIT_REDO, Grayed);
@@ -753,7 +753,7 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
-      This.Edit_Box := This.XML_Edit_Box'Access;
+      This.Edit_Box := This.XML_Edit_Box'Unchecked_Access;
       Show_View ("XML View", This.XML_Edit_Box);
    end Do_XML_Window;
 
@@ -789,7 +789,7 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
-      This.Edit_Box := This.Spec_Edit_Box'Access;
+      This.Edit_Box := This.Spec_Edit_Box'Unchecked_Access;
       Show_View ("Spec View", This.Spec_Edit_Box);
    end Do_Spec_Window;
 
@@ -800,7 +800,7 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
-      This.Edit_Box := This.Body_Edit_Box'Access;
+      This.Edit_Box := This.Body_Edit_Box'Unchecked_Access;
       Show_View ("Body View", This.Body_Edit_Box);
    end Do_Body_Window;
 
@@ -850,30 +850,31 @@ package body GNAVI_Edit_Window_Package is
          Begin_Text : String := "begin" & Character'Val(0);
 
          Find_Info : aliased Find_Text_Type :=
-           (0, GetLength (This.Body_Edit_Box),
+           (0, Sci_PositionCR (Get_Length (This.Body_Edit_Box)),
             Search_Text(1)'Address, 0, 0);
 
-         F_POS, F_POS_2 : Integer;
+         F_POS, F_POS_2 : Position;
          pragma Unreferenced (F_POS_2);
       begin
-         This.Edit_Box := This.Body_Edit_Box'Access;
+         This.Edit_Box := This.Body_Edit_Box'Unchecked_Access;
          Show_View ("Body View", This.Body_Edit_Box);
-         F_POS := FindText (This.Body_Edit_Box,
-                            flags => 0,
-                            ft => Find_Info'Unchecked_Access);
-         Find_Info.Min := F_POS;
+         F_POS := Find_Text (This.Body_Edit_Box,
+                             flags => 0,
+                             ft => Find_Info'Unchecked_Access);
+         Find_Info.Min := Sci_PositionCR (F_POS);
          Find_Info.Text := Begin_Text (1)'Address;
 
-         F_POS := FindText (This.Body_Edit_Box,
-                            flags => 0,
-                            ft => Find_Info'Unchecked_Access);
-         F_POS_2 := LineFromPosition (This.Body_Edit_Box, Find_Info.TMax);
+         F_POS := Find_Text (This.Body_Edit_Box,
+                             flags => 0,
+                             ft => Find_Info'Unchecked_Access);
+         F_POS_2 :=
+            Position (Line_From_Position (This.Body_Edit_Box, Position (Find_Info.TMax)));
 
-         GotoPos (This.Body_Edit_Box,
-                  PositionFromLine (This.Body_Edit_Box, F_POS + 1));
+         Go_To_Pos (This.Body_Edit_Box,
+                    Position_From_Line (This.Body_Edit_Box, Integer (F_POS + 1)));
 
 
-         LineScroll (This.Body_Edit_Box, 0, 5);
+         Line_Scroll (This.Body_Edit_Box, 0, 5);
 
          Focus (This.Body_Edit_Box);
       end;
@@ -907,20 +908,20 @@ package body GNAVI_Edit_Window_Package is
                       GWindows.GCharacter'Val(0));
 
          Find_Info : aliased Find_Text_Type :=
-           (0, GetLength (This.XML_Edit_Box),
+           (0, Sci_PositionCR (Get_Length (This.XML_Edit_Box)),
             Search_Text(1)'Address, 0, 0);
 
-         F_POS : Integer;
+         F_POS : Position;
       begin
-         This.Edit_Box := This.XML_Edit_Box'Access;
+         This.Edit_Box := This.XML_Edit_Box'Unchecked_Access;
          Show_View ("XML View", This.XML_Edit_Box);
-         F_POS := FindText (This.XML_Edit_Box,
-                            flags => 0,
-                            ft => Find_Info'Unchecked_Access);
+         F_POS := Find_Text (This.XML_Edit_Box,
+                             flags => 0,
+                             ft => Find_Info'Unchecked_Access);
 
-         GotoPos (This.XML_Edit_Box, F_POS);
+         Go_To_Pos (This.XML_Edit_Box, F_POS);
 
-         LineScroll (This.XML_Edit_Box, 0, 5);
+         Line_Scroll (This.XML_Edit_Box, 0, 5);
 
          Focus (This.XML_Edit_Box);
       end;

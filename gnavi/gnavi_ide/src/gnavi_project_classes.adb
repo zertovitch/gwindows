@@ -14,7 +14,7 @@ package body GNAVI_Project_Classes is
    use GWindows.GStrings;
 
    Project_Classes_XML : GNAVI_Datastore.GNAVI_Datastore_Type;
-   Class_File          : GWindows.GString := "project_classes.xml";
+   Class_File          : constant GWindows.GString := "project_classes.xml";
    Project_List        : DOM.Core.Node_List;
 
    procedure Init
@@ -36,7 +36,7 @@ package body GNAVI_Project_Classes is
    function Display_Name (Index : in Positive)
                          return GWindows.GString
    is
-      N : Node := Nodes.Item (Project_List, Index - 1);
+      N : constant Node := Nodes.Item (Project_List, Index - 1);
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (N,
@@ -46,7 +46,7 @@ package body GNAVI_Project_Classes is
    function Description (Index : in Positive)
                         return GWindows.GString
    is
-      N : Node := Nodes.Item (Project_List, Index - 1);
+      N : constant Node := Nodes.Item (Project_List, Index - 1);
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (N,
@@ -56,7 +56,7 @@ package body GNAVI_Project_Classes is
    function Template (Index : in Positive)
                      return GWindows.GString
    is
-      N : Node := Nodes.Item (Project_List, Index - 1);
+      N : constant Node := Nodes.Item (Project_List, Index - 1);
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (N,

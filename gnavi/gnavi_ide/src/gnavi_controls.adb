@@ -15,7 +15,7 @@ package body GNAVI_Controls is
    -------------------------------------------------------------------------
 
    Controls_XML  : GNAVI_Datastore.GNAVI_Datastore_Type;
-   Controls_File : GWindows.GString := "controls.xml";
+   Controls_File : constant GWindows.GString := "controls.xml";
    Windows_List  : DOM.Core.Node_List;
    Controls_List : DOM.Core.Node_List;
    Types_List    : DOM.Core.Node_List;
@@ -41,7 +41,7 @@ package body GNAVI_Controls is
    is
       use DOM.Core;
 
-      P : DOM.Core.Node := GNAVI_XML.Get_Child_Node
+      P : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node
         (Nodes.Item (Controls_List, Index - 1), "create_properties");
 
       Result : DOM.Core.Node_List;
@@ -58,7 +58,7 @@ package body GNAVI_Controls is
    is
       use DOM.Core;
 
-      P : DOM.Core.Node := GNAVI_XML.Get_Child_Node
+      P : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node
         (Nodes.Item (Controls_List, Index - 1), "init_properties");
 
       Result : DOM.Core.Node_List;
@@ -165,7 +165,7 @@ package body GNAVI_Controls is
    is
       use DOM.Core;
 
-      CP : DOM.Core.Node_List := Get_Create_Properties (Index);
+      CP : constant DOM.Core.Node_List := Get_Create_Properties (Index);
    begin
       return Nodes.Length (CP);
    end Control_Create_Properties_Count;
@@ -227,7 +227,7 @@ package body GNAVI_Controls is
    is
       use DOM.Core;
 
-      IP : DOM.Core.Node_List := Get_Init_Properties (Index);
+      IP : constant DOM.Core.Node_List := Get_Init_Properties (Index);
    begin
       return Nodes.Length (IP);
    end Control_Init_Properties_Count;
@@ -335,9 +335,9 @@ package body GNAVI_Controls is
    is
       use GWindows.GStrings;
 
-      R0 : Detail_Array (1 .. 2);
-      R1 : Detail_Array := Control_Create_Properties (Index);
-      R2 : Detail_Array := Control_Init_Properties (Index);
+      R0 :          Detail_Array (1 .. 2);
+      R1 : constant Detail_Array := Control_Create_Properties (Index);
+      R2 : constant Detail_Array := Control_Init_Properties (Index);
    begin
       R0 (1).Detail_Name := To_GString_Unbounded ("name");
       R0 (1).Detail_Type := To_GString_Unbounded ("GString");

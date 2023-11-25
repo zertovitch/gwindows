@@ -75,7 +75,7 @@ package body GNAVI_Project is
    is
       use DOM.Core;
 
-      NL : Node_List := Elements.Get_Elements_By_Tag_Name
+      NL : constant Node_List := Elements.Get_Elements_By_Tag_Name
         (Root (Project), "window");
    begin
       if not Project.Load_State then
@@ -112,7 +112,7 @@ package body GNAVI_Project is
       use DOM.Core;
       use GWindows.GStrings;
 
-      NL : Node_List := Elements.Get_Elements_By_Tag_Name
+      NL : constant Node_List := Elements.Get_Elements_By_Tag_Name
         (Root (Project), "window");
    begin
       if not Project.Load_State then
@@ -148,7 +148,7 @@ package body GNAVI_Project is
       use DOM.Core;
       use GWindows.GStrings;
 
-      Windows_Node : Node := GNAVI_XML.Get_Child_Node
+      Windows_Node : constant Node := GNAVI_XML.Get_Child_Node
         (GNAVI_XML.Get_Child_Node (Root (Project), "application"), "windows");
 
       New_Node     : Node :=
@@ -268,7 +268,7 @@ package body GNAVI_Project is
    is
       use DOM.Core;
 
-      NL : Node_List := Elements.Get_Elements_By_Tag_Name
+      NL : constant Node_List := Elements.Get_Elements_By_Tag_Name
         (Root (Project), "project_file");
    begin
       if not Project.Load_State then

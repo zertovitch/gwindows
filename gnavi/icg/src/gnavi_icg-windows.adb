@@ -223,7 +223,7 @@ package body GNAVI_ICG.Windows is
                                                  "window_package.adb", Trans);
                            end if;
 
-                           if New_File or  GNAVI_Gen_App_Withs = True then
+                           if New_File or GNAVI_Gen_App_Withs then
                               --  Add 'with' for window to application.adb
                               --  if not there when a new window_package is
                               --  is created, i.e. its specs and/or the setting

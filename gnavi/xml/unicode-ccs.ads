@@ -64,7 +64,7 @@ package Unicode.CCS is
 
    Unicode_Character_Set : constant Character_Set :=
      (To_Unicode => Identity'Access,
-      To_Cs      => Identity'Access);
+      To_CS      => Identity'Access);
 
    Invalid_Code : exception;
    --  Exception raised when trying to convert to a code point that

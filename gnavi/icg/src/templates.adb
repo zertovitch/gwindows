@@ -112,8 +112,7 @@ package body Templates is
    begin
       if GNAT.OS_Lib.Is_Regular_File (File_Spec) then
          declare
-
-            S : String := Load_File (File_Spec);
+            S : constant String := Load_File (File_Spec);
          begin
             if S /= Contents then
                Write_File (File_Spec, Contents);
@@ -169,7 +168,7 @@ package body Templates is
       use Ada.Strings.Fixed;
       use Ada.Strings.Maps.Constants;
 
-      File : String := Load_File (File_Spec);
+      File : constant String := Load_File (File_Spec);
    begin
       if
         Index (File,
@@ -247,7 +246,7 @@ package body Templates is
       Open (Temp_File, In_File, File_Spec);
 
       declare
-         W : String := Load_More ("", "");
+         W : constant String := Load_More ("", "");
       begin
          if Do_Write then
             Write_File (File_Spec, W);
@@ -270,15 +269,15 @@ package body Templates is
       Found             : Boolean := False;
       Write_File        : Boolean := False;
 
-      Handler_Procedure : String := "procedure " &
+      Handler_Procedure : constant String := "procedure " &
         Translate (Handler_Name, Lower_Case_Map);
 
       Current_File      : String := ".ads";
 
-      Window_Base       : String :=
+      Window_Base       : constant String :=
         Translate (Package_Name, Lower_Case_Map);
 
-      Handler_Base      : String :=
+      Handler_Base      : constant String :=
         Translate (Handler_Type, Lower_Case_Map);
 
       Trans             : constant Translate_Table :=
@@ -339,7 +338,7 @@ package body Templates is
       Open (Temp_File, In_File, Window_Base & Current_File);
 
       declare
-         W : String := Load_More ("");
+         W : constant String := Load_More ("");
       begin
          Close (Temp_File);
 
@@ -355,7 +354,7 @@ package body Templates is
       Open (Temp_File, In_File, Window_Base & Current_File);
 
       declare
-         W : String := Load_More ("");
+         W : constant String := Load_More ("");
       begin
          Close (Temp_File);
 

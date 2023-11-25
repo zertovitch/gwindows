@@ -34,7 +34,7 @@ package body GNAVI_Window is
    is
       use DOM.Core;
 
-      N  : Node := GNAVI_XML.Get_Child_Node (Control, "handlers");
+      N  : constant Node := GNAVI_XML.Get_Child_Node (Control, "handlers");
       NL : Node_List;
    begin
       if N = null then
@@ -51,7 +51,7 @@ package body GNAVI_Window is
    is
       use DOM.Core;
 
-      INode : DOM.Core.Node := GNAVI_XML.Get_Child_Node (Control, "init");
+      INode : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node (Control, "init");
       N     : DOM.Core.Node;
       I     : Integer := 0;
    begin
@@ -255,7 +255,7 @@ package body GNAVI_Window is
    is
       use DOM.Core;
 
-      NL : Node_List :=
+      NL : constant Node_List :=
         Elements.Get_Elements_By_Tag_Name (Window_Element (Window), "control");
    begin
       if Index > Nodes.Length (NL) then
@@ -282,7 +282,7 @@ package body GNAVI_Window is
    begin
       if Controls_Node = null then
          declare
-            New_Controls_Node : Node :=
+            New_Controls_Node : constant Node :=
               Documents.Create_Element (Document (Window), "controls");
          begin
             Controls_Node := Nodes.Append_Child (Parent,
@@ -310,8 +310,8 @@ package body GNAVI_Window is
    is
       use DOM.Core;
 
-      Parent        : DOM.Core.Node := Parent_Control (Control);
-      Controls_Node : DOM.Core.Node := GNAVI_XML.Get_Child_Node (Parent,
+      Parent        :          DOM.Core.Node := Parent_Control (Control);
+      Controls_Node : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node (Parent,
                                                                  "controls");
       Control_Node  : DOM.Core.Node := Control;
    begin
@@ -332,7 +332,7 @@ package body GNAVI_Window is
    is
       use DOM.Core;
 
-      N  : Node := GNAVI_XML.Get_Child_Node (Control, "handlers");
+      N  : constant Node := GNAVI_XML.Get_Child_Node (Control, "handlers");
       NL : Node_List;
    begin
       if N = null then
@@ -392,7 +392,7 @@ package body GNAVI_Window is
    begin
       if Handlers_Node = null then
          declare
-            New_Handlers_Node : Node :=
+            New_Handlers_Node : constant Node :=
               Documents.Create_Element (Document (Window), "handlers");
          begin
             Handlers_Node := Nodes.Append_Child (Control,
@@ -435,7 +435,7 @@ package body GNAVI_Window is
    is
       use DOM.Core;
 
-      NL : DOM.Core.Named_Node_Map := Nodes.Attributes (Control);
+      NL : constant DOM.Core.Named_Node_Map := Nodes.Attributes (Control);
    begin
       return Nodes.Length (NL);
    end Create_Property_Count;
@@ -447,7 +447,7 @@ package body GNAVI_Window is
       use DOM.Core;
       use GWindows.GStrings;
 
-      NL : DOM.Core.Named_Node_Map := Nodes.Attributes (Control);
+      NL : constant DOM.Core.Named_Node_Map := Nodes.Attributes (Control);
    begin
       return To_GString_From_String
         (Nodes.Node_Name (Nodes.Item (NL, Index - 1)));
@@ -460,7 +460,7 @@ package body GNAVI_Window is
       use DOM.Core;
       use GWindows.GStrings;
 
-      NL : DOM.Core.Named_Node_Map := Nodes.Attributes (Control);
+      NL : constant DOM.Core.Named_Node_Map := Nodes.Attributes (Control);
    begin
       return To_GString_From_String
         (Nodes.Node_Value (Nodes.Item (NL, Index - 1)));
@@ -490,7 +490,7 @@ package body GNAVI_Window is
    is
       use DOM.Core;
 
-      INode : DOM.Core.Node := GNAVI_XML.Get_Child_Node (Control, "init");
+      INode : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node (Control, "init");
       N     : DOM.Core.Node;
       I     : Integer := 0;
    begin
@@ -551,7 +551,7 @@ package body GNAVI_Window is
    begin
       if Init_Node = null then
          declare
-            New_Init_Node : Node :=
+            New_Init_Node : constant Node :=
               Documents.Create_Element (Document (Window), "init");
          begin
             Init_Node := Nodes.Append_Child (Control,
@@ -590,7 +590,7 @@ package body GNAVI_Window is
       use GWindows.GStrings.Unbounded;
       use type GNAVI_Controls.Detail_Kind_Type;
 
-      Control_ID : Natural :=
+      Control_ID : constant Natural :=
         GNAVI_Controls.Find_Control_By_Type (Control_Type (Control));
 
    begin
@@ -672,7 +672,7 @@ package body GNAVI_Window is
       use GWindows.GStrings.Unbounded;
       use type GNAVI_Controls.Detail_Kind_Type;
 
-      Properties : GNAVI_Controls.Detail_Array := All_Properties (Control);
+      Properties : constant GNAVI_Controls.Detail_Array := All_Properties (Control);
    begin
       for I in 1 .. Properties'Length loop
          if Properties (I).Detail_Name = Name then
@@ -695,7 +695,7 @@ package body GNAVI_Window is
    function All_Handler_Count (Control : Control_Element)
                               return Natural
    is
-      HA : GNAVI_Controls.Detail_Array := All_Handlers (Control);
+      HA : constant GNAVI_Controls.Detail_Array := All_Handlers (Control);
    begin
       return HA'Length;
    end All_Handler_Count;
@@ -704,7 +704,7 @@ package body GNAVI_Window is
                               Index   : Positive)
                              return GWindows.GString
    is
-      HA : GNAVI_Controls.Detail_Array := All_Handlers (Control);
+      HA : constant GNAVI_Controls.Detail_Array := All_Handlers (Control);
    begin
       return GWindows.GStrings.To_GString_From_Unbounded
         (HA (Index).Detail_Value);
@@ -714,7 +714,7 @@ package body GNAVI_Window is
                               Index   : Positive)
                              return GWindows.GString
    is
-      HA : GNAVI_Controls.Detail_Array := All_Handlers (Control);
+      HA : constant GNAVI_Controls.Detail_Array := All_Handlers (Control);
    begin
       return GWindows.GStrings.To_GString_From_Unbounded
         (HA (Index).Detail_Type);
@@ -724,7 +724,7 @@ package body GNAVI_Window is
                                Index   : Positive)
                               return GWindows.GString
    is
-      HA : GNAVI_Controls.Detail_Array := All_Handlers (Control);
+      HA : constant GNAVI_Controls.Detail_Array := All_Handlers (Control);
    begin
       return GWindows.GStrings.To_GString_From_Unbounded
         (HA (Index).Detail_Name);
@@ -772,7 +772,7 @@ package body GNAVI_Window is
       use GWindows.GStrings;
       use GWindows.GStrings.Unbounded;
 
-      Control_ID : Natural :=
+      Control_ID : constant Natural :=
         GNAVI_Controls.Find_Control_By_Type (Control_Type (Control));
    begin
       if Control_ID = 0 then
@@ -824,8 +824,8 @@ package body GNAVI_Window is
    is
       use DOM.Core;
 
-      Parent        : DOM.Core.Node := Parent_Control (Control);
-      Controls_Node : DOM.Core.Node := GNAVI_XML.Get_Child_Node (Parent,
+      Parent        : constant DOM.Core.Node := Parent_Control (Control);
+      Controls_Node : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node (Parent,
                                                                  "controls");
       Control_Node  : DOM.Core.Node := Control;
    begin
@@ -859,7 +859,7 @@ package body GNAVI_Window is
    begin
       if Controls_Node = null then
          declare
-            New_Controls_Node : Node :=
+            New_Controls_Node : constant Node :=
               Documents.Create_Element (Document (Window), "controls");
          begin
             Controls_Node := Nodes.Append_Child (Parent,
@@ -889,7 +889,7 @@ package body GNAVI_Window is
    is
       use GWindows.GStrings;
 
-      Result : String := To_String (Get_Create_Property (Control, Name));
+      Result : constant String := To_String (Get_Create_Property (Control, Name));
    begin
       if Result = "" then
          return 0;
@@ -902,7 +902,7 @@ package body GNAVI_Window is
                                  Name    : GWindows.GString)
                                 return Boolean
    is
-      Result : GWindows.GString := Get_Create_Property (Control, Name);
+      Result : constant GWindows.GString := Get_Create_Property (Control, Name);
    begin
       return Result = "True";
    end Get_Create_Property;
@@ -914,13 +914,13 @@ package body GNAVI_Window is
       use GWindows.GStrings;
       use DOM.Core;
 
-      INode : DOM.Core.Node := GNAVI_XML.Get_Child_Node (Control, "init");
+      INode : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node (Control, "init");
    begin
       if INode = null then
          return "";
       else
          declare
-            N  : Node := GNAVI_XML.Get_Child_Node (INode, Name);
+            N  : constant Node := GNAVI_XML.Get_Child_Node (INode, Name);
          begin
             if N = null then
                return "";
@@ -938,7 +938,7 @@ package body GNAVI_Window is
    is
       use GWindows.GStrings;
 
-      Result : String := To_String (Get_Init_Property (Control, Name));
+      Result : constant String := To_String (Get_Init_Property (Control, Name));
    begin
       if Result = "" then
          return 0;
@@ -951,7 +951,7 @@ package body GNAVI_Window is
                                Name    : GWindows.GString)
                               return Boolean
    is
-      Result : GWindows.GString := Get_Init_Property (Control, Name);
+      Result : constant GWindows.GString := Get_Init_Property (Control, Name);
    begin
       return Result = "True";
    end Get_Init_Property;
@@ -962,7 +962,7 @@ package body GNAVI_Window is
       use Ada.Strings.Fixed;
       use Ada.Strings;
 
-      R : String := To_String (Property_Name);
+      R : constant String := To_String (Property_Name);
    begin
       return R (Index (R, ".", Backward) + 1 .. R'Last);
    end Strip_Type;

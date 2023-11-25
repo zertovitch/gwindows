@@ -71,9 +71,9 @@ package body GNAVI_ICG is
    function Create_Params (Object_Node : DOM.Core.Element) return String is
       use DOM.Core;
 
-      Indent : String := "      ";
+      Indent : constant String := "      ";
 
-      Attrs     : DOM.Core.Named_Node_Map := Nodes.Attributes (Object_Node);
+      Attrs     : constant DOM.Core.Named_Node_Map := Nodes.Attributes (Object_Node);
 
       Param_Num : Natural := 0;
 
@@ -81,8 +81,8 @@ package body GNAVI_ICG is
       --  Parse out parameters
 
       function Do_Params (S : String) return String is
-         N : String := Nodes.Node_Name (Nodes.Item (Attrs, Param_Num));
-         V : String := Nodes.Node_Value (Nodes.Item (Attrs, Param_Num));
+         N :          String := Nodes.Node_Name (Nodes.Item (Attrs, Param_Num));
+         V : constant String := Nodes.Node_Value (Nodes.Item (Attrs, Param_Num));
       begin
          GNAT.Case_Util.To_Lower (N);
 
@@ -97,7 +97,7 @@ package body GNAVI_ICG is
          end if;
 
          declare
-            NS : String := S & "," & Templates.NL &
+            NS : constant String := S & "," & Templates.NL &
               Indent & N & " => " & V;
          begin
             if Param_Num = Nodes.Length (Attrs) then

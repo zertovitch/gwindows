@@ -59,7 +59,7 @@ package body GNAVI_Main_Menus is
       use GNAVI_IDs;
 
       M : Base_Menus := Setup_Base_Menus;
-      T : GWindows.GCharacter := GWindows.GCharacter'Val(9);
+      T : constant GWindows.GCharacter := GWindows.GCharacter'Val(9);
    begin
       M.Edit_Menu := Create_Menu;
       Append_Item (M.Edit_Menu, "&Undo" & T & "Ctrl+Z", ID_EDIT_UNDO);

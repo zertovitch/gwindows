@@ -34,9 +34,9 @@ package body GNAVI_Layout_View.Controls is
 
       This : GNAVI_Widget_Vehicle_Type renames
         GNAVI_Widget_Vehicle_Type (Window);
-      Data : Control_Data_Access :=
+       Data : constant Control_Data_Access :=
         Control_Data_Access (Custom_Data (This.Widget.all));
-      Size : GWindows.Types.Size_Type := Widget_Size (This);
+       Size : constant GWindows.Types.Size_Type := Widget_Size (This);
    begin
       Set_All_Property (Data.Win_XML.all, Data.Element,
                         "Width",
@@ -57,9 +57,9 @@ package body GNAVI_Layout_View.Controls is
 
       This : GNAVI_Widget_Vehicle_Type renames
         GNAVI_Widget_Vehicle_Type (Window);
-      Data : Control_Data_Access :=
+       Data : constant Control_Data_Access :=
         Control_Data_Access (Custom_Data (This.Widget.all));
-      Loc  : GWindows.Types.Point_Type := Widget_Location (This);
+       Loc  : constant GWindows.Types.Point_Type := Widget_Location (This);
    begin
       Set_All_Property (Data.Win_XML.all, Data.Element,
                         "Left", Image (Loc.X));
@@ -82,9 +82,9 @@ package body GNAVI_Layout_View.Controls is
 
       declare
          use GNAVI_Widget_Vehicle;
-         Vehicle : GNavi_Widget_Vehicle_Access :=
-           new GNavi_Widget_Vehicle_Type;
-         Data    : Control_Data_Access := new Control_Data_Type;
+         Vehicle : constant GNAVI_Widget_Vehicle_Access :=
+           new GNAVI_Widget_Vehicle_Type;
+          Data    : constant Control_Data_Access := new Control_Data_Type;
          Control : GWindows.Base.Pointer_To_Base_Window_Class;
          D       : GWindows.Base.Dock_Type;
       begin

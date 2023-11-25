@@ -57,38 +57,38 @@ package body GNAVI_File_Edit_Window_Package is
       MDI_Menu (This, M.Main_Menu, M.Windows_Menu);
 
       --  Set up editor
-      SetEOLMode (This.Edit_Box, SC_EOL_CRLF);
-      SetTabWidth (This.Edit_Box, TAB_WIDTH);
-      SetUseTabs (This.Edit_Box, False);
-      SetEdgeColumn (This.Edit_Box, 80);
-      SetEdgeMode (This.Edit_Box, EDGE_LINE);
+      Set_EOL_Mode (This.Edit_Box, SC_EOL_CRLF);
+      Set_Tab_Width (This.Edit_Box, TAB_WIDTH);
+      Set_Use_Tabs (This.Edit_Box, False);
+      Set_Edge_Column (This.Edit_Box, 80);
+      Set_Edge_Mode (This.Edit_Box, EDGE_LINE);
       --  SetIndentationGuides (This.Edit_Box, True);
 
-      SetLexer (This.Edit_Box, SCLEX_ADA);
-      SetKeyWords (This.Edit_Box, 0, Key_Words);
+      Set_Lexer (This.Edit_Box, SCLEX_ADA);
+      Set_Key_Words (This.Edit_Box, 0, Key_Words);
 
-      StyleSetFore (This.Edit_Box, STYLE_DEFAULT, Black);
-      StyleSetBack (This.Edit_Box, STYLE_DEFAULT, White);
-      StyleSetSize (This.Edit_Box, STYLE_DEFAULT, 10);
-      StyleSetFont (This.Edit_Box, STYLE_DEFAULT, "Courier");
-      StyleClearAll (This.Edit_Box);
+      Style_Set_Fore (This.Edit_Box, STYLE_DEFAULT, Black);
+      Style_Set_Back (This.Edit_Box, STYLE_DEFAULT, White);
+      Style_Set_Size (This.Edit_Box, STYLE_DEFAULT, 10);
+      Style_Set_Font (This.Edit_Box, STYLE_DEFAULT, "Courier");
+      Style_Clear_All (This.Edit_Box);
 
-      StyleSetFore (This.Edit_Box, SCE_ADA_DEFAULT, Black);
-      StyleSetBack (This.Edit_Box, SCE_ADA_DEFAULT, White);
-      StyleSetSize (This.Edit_Box, SCE_ADA_DEFAULT, 10);
-      StyleSetFont (This.Edit_Box, SCE_ADA_DEFAULT, "Courier");
+      Style_Set_Fore (This.Edit_Box, SCE_ADA_DEFAULT, Black);
+      Style_Set_Back (This.Edit_Box, SCE_ADA_DEFAULT, White);
+      Style_Set_Size (This.Edit_Box, SCE_ADA_DEFAULT, 10);
+      Style_Set_Font (This.Edit_Box, SCE_ADA_DEFAULT, "Courier");
 
 
-      StyleSetFore (This.Edit_Box, SCE_ADA_COMMENTLINE, Red);
-      StyleSetFore (This.Edit_Box, SCE_ADA_NUMBER, Blue);
-      StyleSetFore (This.Edit_Box, SCE_ADA_WORD, Dark_Green);
-      StyleSetFore (This.Edit_Box, SCE_ADA_STRING, Dark_Red);
-      StyleSetFore (This.Edit_Box, SCE_ADA_CHARACTER, Blue);
-      --  StyleSetFore (This.Edit_Box, SCE_ADA_OPERATOR, Black);
-      StyleSetFore (This.Edit_Box, SCE_ADA_IDENTIFIER, Black);
+      Style_Set_Fore (This.Edit_Box, SCE_ADA_COMMENTLINE, Red);
+      Style_Set_Fore (This.Edit_Box, SCE_ADA_NUMBER, Blue);
+      Style_Set_Fore (This.Edit_Box, SCE_ADA_WORD, Dark_Green);
+      Style_Set_Fore (This.Edit_Box, SCE_ADA_STRING, Dark_Red);
+      Style_Set_Fore (This.Edit_Box, SCE_ADA_CHARACTER, Blue);
+      --  Style_Set_Fore (This.Edit_Box, SCE_ADA_OPERATOR, Black);
+      Style_Set_Fore (This.Edit_Box, SCE_ADA_IDENTIFIER, Black);
 
-      StyleSetFore (This.Edit_Box, SCE_ADA_STRINGEOL, White);
-      StyleSetBack (This.Edit_Box, SCE_ADA_STRINGEOL, Red);
+      Style_Set_Fore (This.Edit_Box, SCE_ADA_STRINGEOL, White);
+      Style_Set_Back (This.Edit_Box, SCE_ADA_STRINGEOL, Red);
    end Do_Create;
 
    procedure New_File
@@ -144,19 +144,19 @@ package body GNAVI_File_Edit_Window_Package is
          State (M, Command, ID_EDIT_DELETE, Enabled);
          State (M, Command, ID_EDIT_SELECTALL, Enabled);
 
-         if CanPaste (This.Edit_Box) then
+         if Can_Paste (This.Edit_Box) then
             State (M, Command, ID_EDIT_PASTE, Enabled);
          else
             State (M, Command, ID_EDIT_PASTE, Grayed);
          end if;
 
-         if CanUndo (This.Edit_Box) then
+         if Can_Undo (This.Edit_Box) then
             State (M, Command, ID_EDIT_UNDO, Enabled);
          else
             State (M, Command, ID_EDIT_UNDO, Grayed);
          end if;
 
-         if CanRedo (This.Edit_Box) then
+         if Can_Redo (This.Edit_Box) then
             State (M, Command, ID_EDIT_REDO, Enabled);
          else
             State (M, Command, ID_EDIT_REDO, Grayed);
@@ -190,7 +190,7 @@ package body GNAVI_File_Edit_Window_Package is
          when ID_EDIT_REDO =>
             Redo (This.Edit_Box);
          when ID_EDIT_SELECTALL =>
-            SelectAll (This.Edit_Box);
+            Select_All (This.Edit_Box);
          when ID_EDIT_DELETE =>
             Clear (This.Edit_Box);
          when others =>

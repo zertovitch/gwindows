@@ -77,7 +77,7 @@ package body GNAVI_Layout_View is
    is
       use GWindows.Drawing;
       use GWindows.Base;
-      Title : GWindows.GString :=
+      Title : constant GWindows.GString :=
         Text (Parent (Window).all);
    begin
       Background_Mode (Canvas, Transparent);
@@ -98,15 +98,15 @@ package body GNAVI_Layout_View is
       use GNAVI_Window;
       use GWindows.Panels;
 
-      Host   : Pointer_To_Panel_Class := new Panel_Type;
-      Top    : Control_Element := Window_Element (Window);
+      Host   : constant Pointer_To_Panel_Class := new Panel_Type;
+      Top    : constant Control_Element := Window_Element (Window);
       W      : Integer := Get_Init_Property (Top, "Width");
       H      : Integer := Get_Init_Property (Top, "Height");
-      T      : GWindows.GString := Get_Init_Property (Top, "Text");
-      B      : GWindows.GString := Get_Init_Property (Top, "Border");
-      F      : GWindows.GString := Get_Init_Property
+      T      : constant GWindows.GString := Get_Init_Property (Top, "Text");
+      B      : constant GWindows.GString := Get_Init_Property (Top, "Border");
+      F      : constant GWindows.GString := Get_Init_Property
         (Top, "Set_Standard_Font");
-      Data   : Control_Data_Access := new Control_Data_Type;
+      Data   : constant Control_Data_Access := new Control_Data_Type;
    begin
       Control.Win_XML := Window'Unchecked_Access;
       Data.Element := Top;
@@ -221,14 +221,14 @@ package body GNAVI_Layout_View is
    is
       use GNAVI_Window;
 
-      Parent : Pointer_To_Preview_View_Class := new Preview_View_Type;
+      Parent : constant Pointer_To_Preview_View_Class := new Preview_View_Type;
 
-      Top    : Control_Element := Window_Element (Window);
-      W      : Integer := Get_Init_Property (Top, "Width");
-      H      : Integer := Get_Init_Property (Top, "Height");
-      T      : GWindows.GString := Get_Init_Property (Top, "Text");
-      B      : GWindows.GString := Get_Init_Property (Top, "Border");
-      F      : GWindows.GString := Get_Init_Property
+      Top    : constant Control_Element := Window_Element (Window);
+      W      : constant Integer := Get_Init_Property (Top, "Width");
+      H      : constant Integer := Get_Init_Property (Top, "Height");
+      T      : constant GWindows.GString := Get_Init_Property (Top, "Text");
+      B      : constant GWindows.GString := Get_Init_Property (Top, "Border");
+      F      : constant GWindows.GString := Get_Init_Property
         (Top, "Set_Standard_Font");
    begin
       Run_Mode (Parent.all, GWindows.Base.Development_Create_Start);
