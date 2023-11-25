@@ -171,19 +171,19 @@ package GWin_Util is
   --  To emulate legacy rendering use :
   --  For vertical splitter :
   --  Set_Dashes (Window             => Window,
-  --              Dash_Height        => 2;
-  --              Dash_Width         => 2;
-  --              Spacing_Height     => 14;
-  --              Spacing_Width      => 0;
-  --              Number_Of_Dashes_V => 1000;
+  --              Dash_Height        => 2,
+  --              Dash_Width         => 2,
+  --              Spacing_Height     => 14,
+  --              Spacing_Width      => 0,
+  --              Number_Of_Dashes_V => 1000,
   --              Number_Of_Dashes_H => 1);
   --  For horizontal splitter :
   --  Set_Dashes (Window             => Window,
-  --              Dash_Height        => 2;
-  --              Dash_Width         => 2;
-  --              Spacing_Height     => 0;
-  --              Spacing_Width      => 6;
-  --              Number_Of_Dashes_V => 1;
+  --              Dash_Height        => 2,
+  --              Dash_Width         => 2,
+  --              Spacing_Height     => 0,
+  --              Spacing_Width      => 6,
+  --              Number_Of_Dashes_V => 1,
   --              Number_Of_Dashes_H => 30);
 
 end GWin_Util;

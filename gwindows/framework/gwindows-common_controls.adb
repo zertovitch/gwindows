@@ -3672,7 +3672,7 @@ package body GWindows.Common_Controls is
 
         when TVN_ITEMEXPANDINGA | TVN_ITEMEXPANDINGW =>
           declare
-            Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type
+             Nmtv_Ptr : constant Pointer_To_NMTREEVIEW_Type
                        := Message_To_NmTreeView_Pointer (Message);
           begin
             On_Item_Expanding (Tree_View_Control_Type'Class (Window),
@@ -3682,7 +3682,7 @@ package body GWindows.Common_Controls is
 
         when TVN_ITEMEXPANDEDA | TVN_ITEMEXPANDEDW =>
           declare
-            Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type
+             Nmtv_Ptr : constant Pointer_To_NMTREEVIEW_Type
                        := Message_To_NmTreeView_Pointer (Message);
           begin
             On_Item_Expanded (Tree_View_Control_Type'Class (Window),
