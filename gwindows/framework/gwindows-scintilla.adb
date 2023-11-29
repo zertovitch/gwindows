@@ -1430,8 +1430,18 @@ package body GWindows.Scintilla is
    function Get_Char_At
      (Control : Scintilla_Type; pos : Position) return GCharacter
    is
+      res_1 : INT_PTR;     --  Signed 32 or 64
+      res_2 : Lresult;     --  Unsigned 32 or 64
+      res_3 : GCharacter;  --  8 or 16 bit
    begin
-      return GCharacter'Val (Query (Control, SCI_GETCHARAT, To_Wparam (pos)));
+      --  The Unicode support in Scintilla is a bit mysterious
+      --  but at least this function won't crash on non-ASCII
+      --  characters.
+      res_1 := Query (Control, SCI_GETCHARAT, To_Wparam (pos));
+      res_2 := To_Lresult (res_1);
+      res_2 := res_2 and (2 ** GCharacter'Size - 1);
+      res_3 := GCharacter'Val (res_2);
+      return res_3;
    end Get_Char_At;
 
    -------------------
