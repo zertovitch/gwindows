@@ -27,8 +27,8 @@ package body GWin_Util is
   package Common_Fonts is
     GUI_Font : GWindows.Drawing_Objects.Font_Type;
     URL_Font : GWindows.Drawing_Objects.Font_Type;
-    --  ^ These fonts are created once, at startup
-    --    it avoid GUI resource leak under Windows 95/98/ME
+    --  ^ These fonts are created once, at startup.
+    --    It avoids GUI resource leak under Windows 95/98/ME.
     procedure Create_Common_Fonts;
     --  in initialisation part if this pkg becomes standalone
   end Common_Fonts;
