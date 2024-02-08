@@ -333,7 +333,6 @@ private
    type Internal_Access is access all Internal_Type;
    pragma No_Strict_Aliasing (Internal_Access);
 
-   --  sorting_object
    type Sorting_Object is
       record
          Sort_Column : Integer := -1;
@@ -344,14 +343,13 @@ private
       end record;
 
    type Header_Object is record
-      Pen                    : Drawing_Objects.Pen_Type;
+      Separator_Pen          : Drawing_Objects.Pen_Type;
       Text_Top_Margin        : Natural := Default_Header_Text_Top_Margin;
       Text_Color             : Color_Type := Black;
       Back_Color             : Color_Type := White;
       Force_Default_GUI_Font : Boolean := False;
    end record;
 
-   --  control_type
    type Ex_List_View_Control_Type is new List_View_Control_Type with record
       Color_Mode : Color_Mode_Type := All_Items;
       Control_Textcolor : Color_Type := Black;

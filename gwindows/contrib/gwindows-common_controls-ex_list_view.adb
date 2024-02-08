@@ -336,22 +336,26 @@ package body GWindows.Common_Controls.Ex_List_View is
    -----------------------------------------------------------------------------------------
    procedure On_Create (Control : in out Ex_List_View_Control_Type) is
    begin
-      GWindows.Common_Controls.On_Create (Control => List_View_Control_Type (Control));
-      --  pen for sort
-      GWindows.Drawing_Objects.Create_Pen (Pen => Control.Sort_Object.Sort_Pen,
-                                           Style => GWindows.Drawing_Objects.Solid,
-                                           Width => 1,
-                                           Color => Sort_Icon_Pen_Color);
-      --  brush for sort
-      GWindows.Drawing_Objects.Create_Solid_Brush (Brush => Control.Sort_Object.Sort_Brush,
-                                                   Color => Sort_Icon_Brush_Color);
+      --  Call parent method
+      Common_Controls.On_Create
+         (Control => List_View_Control_Type (Control));
+      --  Pen for sort icon
+      Drawing_Objects.Create_Pen
+         (Pen   => Control.Sort_Object.Sort_Pen,
+          Style => Drawing_Objects.Solid,
+          Width => 1,
+          Color => Sort_Icon_Pen_Color);
+      --  Brush for sort icon
+      Drawing_Objects.Create_Solid_Brush
+         (Brush => Control.Sort_Object.Sort_Brush,
+          Color => Sort_Icon_Brush_Color);
 
-      --  We want to know the version of Common Controls.
-      --  For old versions, we need to draw the sort icons ourselves.
+      --  We want to know the version of Common Controls, because,
+      --  for old versions, we will need to draw the sort icons ourselves.
       Control.Comctl_Version := Get_Comctl_Version;
       Control.Need_Custom_Sort_Icons := Control.Comctl_Version <= 5;
       Drawing_Objects.Create_Pen
-        (Control.Header.Pen, Drawing_Objects.Solid, 1, Gray);
+        (Control.Header.Separator_Pen, Drawing_Objects.Solid, 1, Light_Gray);
    end On_Create;
    -----------------------------------------------------------------------------------------
 
@@ -674,51 +678,51 @@ package body GWindows.Common_Controls.Ex_List_View is
    is
       Canvas : Drawing.Canvas_Type;
       Paint_Left, Max_Width, Direction : Integer;
-      Columntext : constant GString :=
-         Column_Text
-            (Control => Control, Index => Integer (Drawitem.CtlItemID));
+      Columntext : constant GString := Column_Text (Control, Integer (Drawitem.CtlItemID));
       Columntext_Last : Natural := Columntext'Last;
       Size : Types.Size_Type;
       Icon_Width, Icon_Height : Natural;
 
+      use Drawing, Drawing_Objects;
+
+      Header_Part_Rect : Types.Rectangle_Type;
+
       procedure Paint_Triangle is
          Pt_Array  : Types.Point_Array_Type (1 .. 3);
          Pt_Top    : constant Natural := Icon_Height;
-         Pt_Bottom : constant Natural := Drawitem.RcItem.Bottom - Pt_Top - 1;
+         Pt_Bottom : constant Natural := Header_Part_Rect.Bottom - Pt_Top - 1;
          Pt_Left   : constant Natural := Icon_Width;
          Pt_Right  : constant Natural := 2 * Icon_Width;
       begin
-         Drawing.Select_Object
-            (Canvas => Canvas, Object => Control.Sort_Object.Sort_Pen);
-         Drawing.Select_Object
-            (Canvas => Canvas, Object => Control.Sort_Object.Sort_Brush);
+         if Direction /= 0 then
+            Select_Object (Canvas, Control.Sort_Object.Sort_Pen);
+            Select_Object (Canvas, Control.Sort_Object.Sort_Brush);
 
-         if Icon_Height > 5 then
-            Icon_Height := Icon_Height - 1;
-         end if;
-         if Direction = 1 then
-            --  Up
-            Pt_Array (1).X := Pt_Left + Paint_Left + Natural (Icon_Width / 2);
+            if Icon_Height > 5 then
+               Icon_Height := Icon_Height - 1;
+            end if;
             Pt_Array (1).Y := Pt_Top;
             Pt_Array (2).X := Pt_Right + Paint_Left;
-            Pt_Array (2).Y := Pt_Bottom;
-            Pt_Array (3).X := Pt_Left + Paint_Left;
+            if Direction = 1 then
+               --  Up
+               Pt_Array (1).X := Pt_Left + Paint_Left + Natural (Icon_Width / 2);
+               Pt_Array (2).Y := Pt_Bottom;
+               Pt_Array (3).X := Pt_Left + Paint_Left;
+            else
+               --  Down
+               Pt_Array (1).X := Pt_Left + Paint_Left;
+               Pt_Array (2).Y := Pt_Top;
+               Pt_Array (3).X := Pt_Left + Paint_Left + Natural (Icon_Width / 2);
+            end if;
             Pt_Array (3).Y := Pt_Bottom;
-         elsif Direction = -1 then
-            --  Down
-            Pt_Array (1).X := Pt_Left + Paint_Left;
-            Pt_Array (1).Y := Pt_Top;
-            Pt_Array (2).X := Pt_Right + Paint_Left;
-            Pt_Array (2).Y := Pt_Top;
-            Pt_Array (3).X := Pt_Left + Paint_Left + Natural (Icon_Width / 2);
-            Pt_Array (3).Y := Pt_Bottom;
-         end if;
 
-         Drawing.Polygon (Canvas => Canvas, Vertices => Pt_Array);
+            Polygon (Canvas, Pt_Array);
+         end if;
       end Paint_Triangle;
 
-      B : Drawing_Objects.Brush_Type;
+      Brush : Drawing_Objects.Brush_Type;
       GUI_Font : Drawing_Objects.Font_Type;
+      Sep_X, Sep_Top, Sep_Bottom : Integer;
 
    begin
       if Integer (Drawitem.CtlItemID) = Control.Sort_Object.Sort_Column then
@@ -727,23 +731,27 @@ package body GWindows.Common_Controls.Ex_List_View is
          Direction := 0;
       end if;
       Drawing.Handle (Canvas, Drawitem.Hdc);
+      Header_Part_Rect := Drawitem.RcItem;
+      Sep_X      := Header_Part_Rect.Right - 1;
+      Sep_Top    := Header_Part_Rect.Top + 1;
+      Sep_Bottom := Header_Part_Rect.Bottom - 1;
 
       --  Fill the whole header part's rectangle.
-      Drawing_Objects.Create_Solid_Brush (B, Control.Header.Back_Color);
-      Drawing.Fill_Rectangle (Canvas, Drawitem.RcItem, B);
-      Drawing_Objects.Delete (B);
+      Create_Solid_Brush (Brush, Control.Header.Back_Color);
+      Fill_Rectangle (Canvas, Header_Part_Rect, Brush);
+      Delete (Brush);
 
       --  Get left border for paint
-      Paint_Left := Drawitem.RcItem.Left + 1;
+      Paint_Left := Header_Part_Rect.Left + 1;
 
-      Icon_Height := Natural (Drawitem.RcItem.Bottom / 3);
+      Icon_Height := Natural (Header_Part_Rect.Bottom / 3);
       Icon_Width := Icon_Height;
       if Icon_Width mod 2 > 0 then
          Icon_Width := Icon_Width + 1;
       end if;
 
       Max_Width :=
-         Drawitem.RcItem.Right - Drawitem.RcItem.Left - (4 * Icon_Width);
+         Header_Part_Rect.Right - Header_Part_Rect.Left - (4 * Icon_Width);
 
       if Max_Width < 0 then
          return;
@@ -767,40 +775,35 @@ package body GWindows.Common_Controls.Ex_List_View is
       end loop;
 
       --  Put the string
-      Drawing.Background_Color (Canvas, Control.Header.Back_Color);
-      Drawing.Text_Color (Canvas, Control.Header.Text_Color);
+      Background_Color (Canvas, Control.Header.Back_Color);
+      Text_Color (Canvas, Control.Header.Text_Color);
       if Control.Header.Force_Default_GUI_Font then
-         Drawing_Objects.Create_Stock_Font
-           (GUI_Font, Drawing_Objects.Default_GUI);
-         Drawing.Select_Object (Canvas, GUI_Font);
+         Create_Stock_Font (GUI_Font, Default_GUI);
+         Select_Object (Canvas, GUI_Font);
       end if;
-
+      Vertical_Text_Alignment (Canvas, Top);
+      Horizontal_Text_Alignment (Canvas, Left);
       if Columntext_Last = Columntext'Last then
-         Drawing.Put (Canvas => Canvas,
-                      X      => Paint_Left + (3 * Icon_Width),
-                      Y      => Control.Header.Text_Top_Margin,
-                      Text   => Columntext);
+         Put (Canvas => Canvas,
+              X      => Paint_Left + (3 * Icon_Width),
+              Y      => Control.Header.Text_Top_Margin,
+              Text   => Columntext);
       elsif Columntext_Last > 0 then
-         Drawing.Put (Canvas => Canvas,
-                      X      => Paint_Left + (3 * Icon_Width),
-                      Y      => Control.Header.Text_Top_Margin,
-                      Text   => Columntext (1 .. Columntext_Last) & "...");
+         Put (Canvas => Canvas,
+              X      => Paint_Left + (3 * Icon_Width),
+              Y      => Control.Header.Text_Top_Margin,
+              Text   => Columntext (1 .. Columntext_Last) & "...");
       end if;
 
       if Control.Header.Force_Default_GUI_Font then
-        Drawing_Objects.Delete (GUI_Font);
+        Delete (GUI_Font);
       end if;
 
       Paint_Triangle;
 
       --  Draw the separator line on the right.
-      Drawing.Select_Object (Canvas, Control.Header.Pen);
-      Drawing.Line
-        (Canvas,
-         Drawitem.RcItem.Right - 1,
-         Drawitem.RcItem.Top,
-         Drawitem.RcItem.Right - 1,
-         Drawitem.RcItem.Bottom);
+      Select_Object (Canvas, Control.Header.Separator_Pen);
+      Line (Canvas, Sep_X, Sep_Top, Sep_X, Sep_Bottom);
 
    end Draw_Custom_Header_Part;
 
@@ -1027,7 +1030,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       Control.Header.Text_Top_Margin        := Text_Top_Margin;
       Control.Header.Force_Default_GUI_Font := Force_Default_GUI_Font;
       Drawing_Objects.Create_Pen
-        (Control.Header.Pen, Drawing_Objects.Solid, 1, Separator_Color);
+        (Control.Header.Separator_Pen, Drawing_Objects.Solid, 1, Separator_Color);
       Control.Want_Custom_Header     := True;
       for C in 1 .. Control.Column_Count loop
          Ownerdraw_Flag (Control, C - 1, True);
