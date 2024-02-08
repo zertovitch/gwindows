@@ -235,6 +235,12 @@ package GWindows.Common_Dialogs is
    PD_DISABLEPRINTTOFILE         : constant := 524288;
    PD_HIDEPRINTTOFILE            : constant := 1048576;
    PD_NONETWORKBUTTON            : constant := 2097152;
+   --
+   --  When the Choose_Printer method is switched from using
+   --  PrintDlgA to PrintDlgExA (extended), other flags will be
+   --  available:
+   --
+   --  PD_CURRENTPAGE                : constant := 4194304;
 
    procedure Choose_Printer
      (Window    : in     GWindows.Base.Base_Window_Type'Class;
