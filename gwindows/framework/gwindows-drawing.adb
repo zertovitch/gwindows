@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,8 +30,7 @@
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
 --   http://sf.net/projects/gnavi/                                          --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -749,9 +748,9 @@ package body GWindows.Drawing is
    is
       procedure MoveToEx
         (hDC    : GWindows.Types.Handle := Canvas.HDC;
-         X      : Integer := X1;
-         Y      : Integer := Y1;
-         Unused : Integer := 0);
+         X      : Integer      := X1;
+         Y      : Integer      := Y1;
+         Unused : Types.Lparam := 0);
       pragma Import (StdCall, MoveToEx, "MoveToEx");
 
       procedure LineTo

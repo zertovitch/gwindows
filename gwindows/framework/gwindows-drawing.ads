@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,7 +28,9 @@
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -168,8 +170,8 @@ package GWindows.Drawing is
    procedure Polygon (Canvas   : in out Canvas_Type;
                       Vertices : in     GWindows.Types.Point_Array_Type);
    --  Draw a pie with current pen and fill with current brush
-   --  Polygon is autmoticly closed by drawing a line between first and last
-   --  vertices
+   --  Polygon is automatically closed by drawing a line between first
+   --  and last vertices
 
    procedure Put (Canvas : in out Canvas_Type;
                   X, Y   : in     Integer;
