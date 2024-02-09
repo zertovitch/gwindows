@@ -622,7 +622,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                then
                   Lvcd_Ptr.Clrtext := internal.Colors (i_color).Textcolor;
                else
-                  Lvcd_Ptr.Clrtext := Control.Control_Textcolor;
+                  Lvcd_Ptr.Clrtext := Control.List_Text_Color;
                end if;
                if internal /= null and then
                  internal.Colors /= null and then
@@ -631,7 +631,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                then
                   Lvcd_Ptr.Clrtextbk := internal.Colors (i_color).Backcolor;
                else
-                  Lvcd_Ptr.Clrtextbk := Control.Control_Backcolor;
+                  Lvcd_Ptr.Clrtextbk := Control.List_Back_Color;
                end if;
             end;
             Return_Value := Cdrf_Newfont;
@@ -649,7 +649,7 @@ package body GWindows.Common_Controls.Ex_List_View is
             Return_Value := Cdrf_Notifyitemdraw;
          when Interfaces.C.long (Cdds_Itemprepaint) =>
             Return_Value := Cdrf_Notifysubitemdraw;
-            Lvcd_Ptr.Clrtext := Control.Control_Textcolor;
+            Lvcd_Ptr.Clrtext := Control.List_Text_Color;
             if Integer (Lvcd_Ptr.Nmcd.Dwitemspec) mod 2 = 0 then
                Lvcd_Ptr.Clrtextbk := Control.Alt_Color1;
             else
@@ -993,7 +993,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                         Wparam => 0,
                         Lparam => Color_To_Lparam (Color));
       Control.Color_Mode := All_Items;
-      Control.Control_Textcolor := Color;
+      Control.List_Text_Color := Color;
    end Text_Color;
    ----------------------------------------------------------------------------------------------------
    procedure Back_Color (Control : in  out Ex_List_View_Control_Type;
@@ -1004,7 +1004,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                         Wparam => 0,
                         Lparam => Color_To_Lparam (Color));
       Control.Color_Mode := All_Items;
-      Control.Control_Backcolor := Color;
+      Control.List_Back_Color := Color;
    end Back_Color;
    ----------------------------------------------------------------------------------------------------
    procedure Control_Back_Color (Control : in  out  Ex_List_View_Control_Type;
@@ -1025,13 +1025,15 @@ package body GWindows.Common_Controls.Ex_List_View is
        Force_Default_GUI_Font : in     Boolean := False)
    is
    begin
+      Control.Want_Custom_Header := True;
+      --
       Control.Header.Text_Color             := Text_Color;
       Control.Header.Back_Color             := Back_Color;
       Control.Header.Text_Top_Margin        := Text_Top_Margin;
       Control.Header.Force_Default_GUI_Font := Force_Default_GUI_Font;
       Drawing_Objects.Create_Pen
         (Control.Header.Separator_Pen, Drawing_Objects.Solid, 1, Separator_Color);
-      Control.Want_Custom_Header     := True;
+      --
       for C in 1 .. Control.Column_Count loop
          Ownerdraw_Flag (Control, C - 1, True);
       end loop;

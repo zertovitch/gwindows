@@ -352,8 +352,8 @@ private
 
    type Ex_List_View_Control_Type is new List_View_Control_Type with record
       Color_Mode : Color_Mode_Type := All_Items;
-      Control_Textcolor : Color_Type := Black;
-      Control_Backcolor : Color_Type := White;
+      List_Text_Color : Color_Type := Black;
+      List_Back_Color : Color_Type := White;
       Alt_Color1 : Color_Type;
       Alt_Color2 : Color_Type;
       Comctl_Version : Natural := 0;
