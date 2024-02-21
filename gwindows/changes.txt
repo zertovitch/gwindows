@@ -13,10 +13,12 @@ GWindows, upcoming release
 ==========================
 
    * Fixes and additions on GWindows.Scintilla, the editor widget
+   * Custom colors for status bar and extended List_View
    * Improvements on GNATCOM.
 
 482: GWindows.Common_Controls: added support for middle mouse button
         clicks on controls. Application example: for closing tabs.
+529: Added package GWindows.Single_Instance
 
 GWindows release, 29-May-2023 [revision 480]
 ============================================
