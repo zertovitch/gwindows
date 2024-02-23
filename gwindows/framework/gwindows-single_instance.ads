@@ -42,6 +42,13 @@ generic
   --  Command-line arguments will be passed from
   --  a new, short-lived, instance to an already
   --  running instance of the application.
+  --
+  --  When the instance is the first to be running,
+  --  you can pass the arguments directly:
+  --
+  --      for i in 1 .. Argument_Count loop
+  --        Process_Argument (i, Argument (i));
+  --      end loop;
 
 package GWindows.Single_Instance is
 
@@ -53,11 +60,11 @@ package GWindows.Single_Instance is
   --  Exit_Requested =
   --
   --     False : no other instance is running, or another
-  --             instance is running, but its main window
+  --     =====   instance is running, but its main window
   --             cannot be found by the system.
   --
   --     True : another instance is running, was found by
-  --            the system and we have passed to it the command-line
+  --     ====   the system and we have passed to it the command-line
   --            arguments of our instance, which can stop safely.
 
 end GWindows.Single_Instance;
