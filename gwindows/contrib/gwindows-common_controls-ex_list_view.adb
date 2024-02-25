@@ -481,51 +481,43 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    end On_Message;
    --------------------------------------------------------------------------------------------
-   procedure On_Notify (Window       : in out Ex_List_View_Control_Type;
-                        Message      : in     GWindows.Base.Pointer_To_Notification;
-                        Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out GWindows.Types.Lresult)
+   procedure On_Notify
+      (Window       : in out Ex_List_View_Control_Type;
+       Message      : in     Base.Pointer_To_Notification;
+       Control      : in     Base.Pointer_To_Base_Window_Class;
+       Return_Value : in out Types.Lresult)
    is
       pragma Warnings (Off, Return_Value);
 
-      Nm_Customdraw   : constant := -12;
+      Nm_Customdraw      : constant := -12;
+      Nmlistview_Pointer : Pointer_To_Nmlistview_Type;
+      Item               : LVITEM;
    begin
-      --  customdraw subitem
       if Message.Code = Nm_Customdraw and then
         Window.Color_Mode = Subitem
       then
-         declare
-            Lvcd_Ptr : constant Pointer_To_Nmlvcustomdraw_Type :=
-              Message_To_Nmlvcustomdraw_Pointer (Message);
-         begin
-            Redraw_subitem (Lvcd_Ptr, Window, Return_Value);
-         end;
-         --  customdraw item
+         --  Custom draw subitem
+         Redraw_subitem
+            (Message_To_Nmlvcustomdraw_Pointer (Message),
+             Window,
+             Return_Value);
       elsif Message.Code = Nm_Customdraw and then
         Window.Color_Mode = Item_Alternately
       then
-         declare
-            Lvcd_Ptr : constant Pointer_To_Nmlvcustomdraw_Type :=
-              Message_To_Nmlvcustomdraw_Pointer (Message);
-         begin
-            Redraw_item (Lvcd_Ptr, Window, Return_Value);
-         end;
-         --  header click
+         --  Custom draw item (alternate colors)
+         Redraw_item
+            (Message_To_Nmlvcustomdraw_Pointer (Message),
+             Window,
+             Return_Value);
       elsif Message.Code = Nm_Header_Click then
-         declare
-            Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type :=
-              Message_To_Nmlistview_Pointer (Message);
-         begin
-            On_Header_Click (Window,
-                             Integer (Nmlistview_Pointer.Isubitem));
-         end;
+         --  Header click
+         Nmlistview_Pointer := Message_To_Nmlistview_Pointer (Message);
+         On_Header_Click (Window,
+                          Integer (Nmlistview_Pointer.Isubitem));
       elsif Message.Code = LVN_INSERTITEM then
-         declare
-            Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type :=
-               Message_To_Nmlistview_Pointer (Message);
-            Item : LVITEM;
          begin
-            --  setitem
+            Nmlistview_Pointer := Message_To_Nmlistview_Pointer (Message);
+            --  Set item
             Item.Mask   := LVIF_PARAM;
             Item.Item   := Nmlistview_Pointer.Iitem;
             Item.lParam := Internal_To_Lparam (Create_Internal (Window));
@@ -538,18 +530,14 @@ package body GWindows.Common_Controls.Ex_List_View is
                null;
          end;
       elsif Message.Code = LVN_DELETEITEM then
-         declare
-            Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type :=
-               Message_To_Nmlistview_Pointer (Message);
-         begin
-            if Window.Color_Mode = Item_Alternately then
-               --  redraw on items
-              Sendmessage_proc (Hwnd => Handle (Window),
-                                Umsg => LVM_REDRAWITEMS,
-                                Wparam => GWindows.Types.Wparam (Nmlistview_Pointer.Iitem),
-                                Lparam => GWindows.Types.Lparam (Item_Count (Window) - 1));
-            end if;
-         end;
+         Nmlistview_Pointer := Message_To_Nmlistview_Pointer (Message);
+         if Window.Color_Mode = Item_Alternately then
+            --  Redraw on items
+           Sendmessage_proc (Hwnd => Handle (Window),
+                             Umsg => LVM_REDRAWITEMS,
+                             Wparam => GWindows.Types.Wparam (Nmlistview_Pointer.Iitem),
+                             Lparam => GWindows.Types.Lparam (Item_Count (Window) - 1));
+         end if;
       else
          GWindows.Common_Controls.On_Notify
             (List_View_Control_Type (Window), Message, Control, Return_Value);

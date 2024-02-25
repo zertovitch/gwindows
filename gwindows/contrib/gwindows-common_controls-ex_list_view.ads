@@ -375,10 +375,12 @@ private
                          wParam       : in     GWindows.Types.Wparam;
                          lParam       : in     GWindows.Types.Lparam;
                          Return_Value : in out GWindows.Types.Lresult);
-   procedure On_Notify (Window       : in out Ex_List_View_Control_Type;
-                        Message      : in     GWindows.Base.Pointer_To_Notification;
-                        Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out GWindows.Types.Lresult);
+   procedure On_Notify
+     (Window       : in out Ex_List_View_Control_Type;
+      Message      : in     Base.Pointer_To_Notification;
+      Control      : in     Base.Pointer_To_Base_Window_Class;
+      Return_Value : in out Types.Lresult);
+
    procedure On_Destroy (Control : in out Ex_List_View_Control_Type);
    procedure Delete_Item (Control : in out Ex_List_View_Control_Type;
                           Index   : in     Integer);
