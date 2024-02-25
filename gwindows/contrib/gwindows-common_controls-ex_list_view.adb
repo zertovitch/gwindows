@@ -490,25 +490,26 @@ package body GWindows.Common_Controls.Ex_List_View is
       pragma Warnings (Off, Return_Value);
 
       Nm_Customdraw      : constant := -12;
+      Lvcd_Ptr           : Pointer_To_Nmlvcustomdraw_Type;
       Nmlistview_Pointer : Pointer_To_Nmlistview_Type;
       Item               : LVITEM;
    begin
+      if Message.Code = Nm_Customdraw then
+         Lvcd_Ptr := Message_To_Nmlvcustomdraw_Pointer (Message);
+         --  Here we have possible common Custom Draw operations.
+         --
+      end if;
+      --
       if Message.Code = Nm_Customdraw and then
         Window.Color_Mode = Subitem
       then
          --  Custom draw subitem
-         Redraw_subitem
-            (Message_To_Nmlvcustomdraw_Pointer (Message),
-             Window,
-             Return_Value);
+         Redraw_subitem (Lvcd_Ptr, Window, Return_Value);
       elsif Message.Code = Nm_Customdraw and then
         Window.Color_Mode = Item_Alternately
       then
          --  Custom draw item (alternate colors)
-         Redraw_item
-            (Message_To_Nmlvcustomdraw_Pointer (Message),
-             Window,
-             Return_Value);
+         Redraw_item (Lvcd_Ptr, Window, Return_Value);
       elsif Message.Code = Nm_Header_Click then
          --  Header click
          Nmlistview_Pointer := Message_To_Nmlistview_Pointer (Message);
