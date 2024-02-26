@@ -18,7 +18,8 @@ GWindows, upcoming release
 
 482: GWindows.Common_Controls: added support for middle mouse button
         clicks on controls. Application example: for closing tabs.
-529: Added package GWindows.Single_Instance
+529: Added package GWindows.Single_Instance.
+533: GWindows.Common_Controls.Ex_List_View: added method Customize_Header.
 
 GWindows release, 29-May-2023 [revision 480]
 ============================================

@@ -73,6 +73,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    LVM_GETHEADER                : constant := LVM_FIRST + 31;
    Lvm_Settextcolor             : constant := LVM_FIRST + 36;
    LVM_SETTEXTBKCOLOR           : constant := LVM_FIRST + 38;
+   CDRF_NOTIFYPOSTPAINT         : constant := 16#00000010#;
    Cdrf_Notifyitemdraw          : constant := 16#00000020#;
    Cdds_Prepaint                : constant := 16#0001#;
    Cdds_Item                    : constant := 16#00010000#;
@@ -493,11 +494,50 @@ package body GWindows.Common_Controls.Ex_List_View is
       Lvcd_Ptr           : Pointer_To_Nmlvcustomdraw_Type;
       Nmlistview_Pointer : Pointer_To_Nmlistview_Type;
       Item               : LVITEM;
+
+      procedure Custom_Post_Columns_Header_Rectangle is
+         --  Draw the rectangle right to the last column's header.
+         Brush : Drawing_Objects.Brush_Type;
+         Canvas : Drawing.Canvas_Type;
+         use Drawing, Drawing_Objects;
+
+         function GetDC
+           (hwnd : Types.Handle := Base.Handle (Base.Base_Window_Type (Window)))
+           return Types.Handle;
+         pragma Import (StdCall, GetDC, "GetDC");
+
+         Header : Types.Handle;
+         Left   : Natural  := 0;
+         Right  : constant := 100_000;  --  Too large, on purpose (clipped).
+         Top    : constant := 0;
+         Bottom : constant := 1_000;    --  Too large, on purpose (clipped).
+      begin
+         for i in 1 .. Column_Count (Window) loop
+           Left := Left + Column_Width (Window, i - 1);
+         end loop;
+         --  The control has its own sub-control, the "header control".
+         Header := Types.To_Handle
+            (Sendmessage (Hwnd => Handle (Window), Umsg => LVM_GETHEADER));
+         Drawing.Handle (Canvas, GetDC (Header));
+         Create_Solid_Brush (Brush, Window.Header.Back_Color);
+         Fill_Rectangle (Canvas, (Left, Top, Right, Bottom), Brush);
+         Delete (Brush);
+         Exclude_Clipping_Area (Canvas, Left, Top, Right, Bottom);
+      end Custom_Post_Columns_Header_Rectangle;
+
+      use type Interfaces.C.long, Types.Lresult;
+
    begin
       if Message.Code = Nm_Customdraw then
          Lvcd_Ptr := Message_To_Nmlvcustomdraw_Pointer (Message);
-         --  Here we have possible common Custom Draw operations.
-         --
+         --  Here we have possible common Custom Draw operations:
+         if Lvcd_Ptr.Nmcd.Dwdrawstage = Cdds_Prepaint and then
+           Window.Want_Custom_Header
+         then
+            Custom_Post_Columns_Header_Rectangle;
+            Return_Value :=
+               Return_Value or Cdrf_Notifyitemdraw or CDRF_NOTIFYPOSTPAINT;
+         end if;
       end if;
       --
       if Message.Code = Nm_Customdraw and then
@@ -534,13 +574,13 @@ package body GWindows.Common_Controls.Ex_List_View is
          Nmlistview_Pointer := Message_To_Nmlistview_Pointer (Message);
          if Window.Color_Mode = Item_Alternately then
             --  Redraw on items
-           Sendmessage_proc (Hwnd => Handle (Window),
-                             Umsg => LVM_REDRAWITEMS,
-                             Wparam => GWindows.Types.Wparam (Nmlistview_Pointer.Iitem),
-                             Lparam => GWindows.Types.Lparam (Item_Count (Window) - 1));
+            Sendmessage_proc (Hwnd => Handle (Window),
+                              Umsg => LVM_REDRAWITEMS,
+                              Wparam => Types.Wparam (Nmlistview_Pointer.Iitem),
+                              Lparam => Types.Lparam (Item_Count (Window) - 1));
          end if;
       else
-         GWindows.Common_Controls.On_Notify
+         Common_Controls.On_Notify
             (List_View_Control_Type (Window), Message, Control, Return_Value);
       end if;
 
@@ -589,12 +629,14 @@ package body GWindows.Common_Controls.Ex_List_View is
    -----------------------------------------------------------------------------------------
    procedure Redraw_subitem (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                              Control      : in out Ex_List_View_Control_Type;
-                             Return_Value : in out GWindows.Types.Lresult) is
+                             Return_Value : in out GWindows.Types.Lresult)
+   is
+      use type Types.Lresult;
    begin
       --  set color in redraw according to color_mode
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
-            Return_Value := Cdrf_Notifyitemdraw;
+            Return_Value := Return_Value or Cdrf_Notifyitemdraw;
          when Interfaces.C.long (Cdds_Itemprepaint) =>
             Return_Value := Cdrf_Notifysubitemdraw;
          when Interfaces.C.long (Cdds_Itemprepaint + Cdds_Subitem) =>
@@ -631,11 +673,13 @@ package body GWindows.Common_Controls.Ex_List_View is
    -----------------------------------------------------------------------------------------
    procedure Redraw_item (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                           Control      : in out Ex_List_View_Control_Type;
-                          Return_Value : in out GWindows.Types.Lresult) is
+                          Return_Value : in out GWindows.Types.Lresult)
+   is
+      use type Types.Lresult;
    begin
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
-            Return_Value := Cdrf_Notifyitemdraw;
+            Return_Value := Return_Value or Cdrf_Notifyitemdraw;
          when Interfaces.C.long (Cdds_Itemprepaint) =>
             Return_Value := Cdrf_Notifysubitemdraw;
             Lvcd_Ptr.Clrtext := Control.List_Text_Color;
