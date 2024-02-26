@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2022
+--  Copyright (c) Gautier de Montmollin 2008 .. 2024
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,15 +28,17 @@
 --  http://www.opensource.org/licenses/mit-license.php
 ----------------------------------------------------------------------------
 
---  with Ada.Command_Line;                  use Ada.Command_Line;
-with Ada.Text_IO;                       use Ada.Text_IO;
-with Ada.Characters.Handling;           use Ada.Characters.Handling;
-with Ada.Strings.Fixed;                 use Ada.Strings, Ada.Strings.Fixed;
-with Ada.Unchecked_Deallocation;
-with Time_display;
-with Resource_Header;                   use Resource_Header;
+with Ada.Characters.Handling,
+     Ada.Strings.Fixed,
+     Ada.Unchecked_Deallocation;
+
+with Resource_Header,
+     Time_display;
 
 package body RC_Help is
+
+  use Ada.Characters.Handling, Ada.Strings,
+      Ada.Strings.Fixed, Ada.Text_IO;
 
   function Ada_ify (s : String) return Unbounded_String is
     us : Unbounded_String := U (s);
@@ -306,6 +308,7 @@ package body RC_Help is
 
   procedure Treat_include (fn : String) is
     done : Boolean;
+    use Resource_Header;
   begin
     if first_include then
       Convert_Header_File (fn, done);
@@ -509,7 +512,7 @@ package body RC_Help is
       Ada_Put_Line (to, "  --");
       Ada_Put_Line (to, "  procedure On_Pre_Create (Window    : in out " & type_name & ";");
       Ada_Put_Line (to, "                           dwStyle   : in out Interfaces.C.unsigned;");
-      Ada_Put     (to, "                            dwExStyle : in out Interfaces.C.unsigned)");
+      Ada_Put      (to, "                           dwExStyle : in out Interfaces.C.unsigned)");
       case to is
         when to_spec =>
           Ada_Put_Line (to, ";");
