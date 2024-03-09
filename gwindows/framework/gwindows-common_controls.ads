@@ -1257,6 +1257,16 @@ package GWindows.Common_Controls is
    function Display_Area (Control : in Tab_Control_Type)
                          return GWindows.Types.Rectangle_Type;
 
+   function Tab_Area (Control : in Tab_Control_Type;
+                      Where   : in Integer)
+                         return GWindows.Types.Rectangle_Type;
+
+   procedure Focused_Tab (Control : in Tab_Control_Type;
+                          Where   : in Integer);
+
+   function Focused_Tab (Control : in Tab_Control_Type)
+                        return Integer;
+
    procedure Item_At_Position
      (Control  : in     Tab_Control_Type;
       Position : in     Types.Point_Type;
@@ -1287,6 +1297,22 @@ package GWindows.Common_Controls is
    procedure Set_Tool_Tips
      (Control : in Tab_Control_Type;
       Tips    : in Tool_Tip_Type);
+
+   -------------------------------------------------------------------------
+   -------------------------------------------------------------------------
+   procedure Tab_Colors
+     (Control                           : in out Tab_Control_Type;
+      Background_Color                  : in     GWindows.Colors.Color_Type;
+      Background_Selected_Color         : in     GWindows.Colors.Color_Type;
+      Background_Hovered_Color          : in     GWindows.Colors.Color_Type;
+      Background_Selected_Hovered_Color : in     GWindows.Colors.Color_Type;
+      Foreground_Color                  : in     GWindows.Colors.Color_Type;
+      Foreground_Selected_Color         : in     GWindows.Colors.Color_Type;
+      Foreground_Hovered_Color          : in     GWindows.Colors.Color_Type;
+      Foreground_Selected_Hovered_Color : in     GWindows.Colors.Color_Type;
+      Frame_Color                       : in     GWindows.Colors.Color_Type);
+   --  Control Background_Color must also be set for the custom colors to 
+   --  be active.
 
    -------------------------------------------------------------------------
    --  Tab_Control_Type - Event Handlers
@@ -1326,6 +1352,12 @@ package GWindows.Common_Controls is
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
       Return_Value : in out GWindows.Types.Lresult);
    --  Handles Notify Messages
+
+   procedure On_Paint
+     (Control              : in out Tab_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type);
 
    -------------------------------------------------------------------------
    --  Tab_Window_Control_Type
@@ -1755,6 +1787,16 @@ private
       record
          On_Change_Event   : GWindows.Base.Action_Event := null;
          On_Changing_Event : GWindows.Base.Action_Event := null;
+         Tab_Background_Color                  : GWindows.Colors.Color_Type;
+         Tab_Background_Selected_Color         : GWindows.Colors.Color_Type;
+         Tab_Background_Hovered_Color          : GWindows.Colors.Color_Type;
+         Tab_Background_Selected_Hovered_Color : GWindows.Colors.Color_Type;
+         Tab_Foreground_Color                  : GWindows.Colors.Color_Type;
+         Tab_Foreground_Selected_Color         : GWindows.Colors.Color_Type;
+         Tab_Foreground_Hovered_Color          : GWindows.Colors.Color_Type;
+         Tab_Foreground_Selected_Hovered_Color : GWindows.Colors.Color_Type;
+         Tab_Frame_Color                       : GWindows.Colors.Color_Type;
+         Tab_Color_Sys                         : Boolean := True;
       end record;
 
    type Tab_Window_Control_Type is new Tab_Control_Type with null record;

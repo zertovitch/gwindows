@@ -247,6 +247,10 @@ package GWindows.Base is
                  return GWindows.Types.Size_Type;
    --  Window Size
 
+   function Client_Area (Window : in Base_Window_Type)
+                         return GWindows.Types.Rectangle_Type;
+   --  Client area
+
    procedure Client_Area_Size (Window : in out Base_Window_Type;
                                Value  : in     GWindows.Types.Size_Type);
    procedure Client_Area_Size (Window : in out Base_Window_Type;

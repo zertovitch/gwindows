@@ -859,6 +859,19 @@ package body GWindows.Base is
       return (GetWindowLong (Window.HWND) and WS_TABSTOP) = WS_TABSTOP;
    end Tab_Stop;
 
+   -----------------
+   -- Client_Area --
+   -----------------
+
+   function Client_Area (Window : in Base_Window_Type)
+                         return GWindows.Types.Rectangle_Type
+   is
+      Rect : GWindows.Types.Rectangle_Type;
+   begin
+      GetClientRect (Window.HWND, Rect);
+      return Rect;
+   end Client_Area;
+
    -----------------------
    -- Client_Area_Width --
    -----------------------
