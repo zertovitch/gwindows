@@ -12,14 +12,17 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
-   * Fixes and additions on GWindows.Scintilla, the editor widget
-   * Custom colors for status bar and extended List_View
+   * Fixes and additions on GWindows.Scintilla, the editor widget.
+   * Custom colors for Status_Bar_Type, Tab_Control_Type and
+        the extended Ex_List_View_Control_Type.
    * Improvements on GNATCOM.
 
+529: Added package GWindows.Single_Instance. This allows a new
+        instance of a multi-document application to pass its command-line
+        parameters to an already running instance and quit, to ensure
+        only one instance holds all the documents.
 482: GWindows.Common_Controls: added support for middle mouse button
-        clicks on controls. Application example: for closing tabs.
-529: Added package GWindows.Single_Instance.
-533: GWindows.Common_Controls.Ex_List_View: added method Customize_Header.
+        clicks on controls. Application example: for closing a tab.
 
 GWindows release, 29-May-2023 [revision 480]
 ============================================

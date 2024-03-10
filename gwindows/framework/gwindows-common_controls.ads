@@ -1311,7 +1311,7 @@ package GWindows.Common_Controls is
       Foreground_Hovered_Color          : in     GWindows.Colors.Color_Type;
       Foreground_Selected_Hovered_Color : in     GWindows.Colors.Color_Type;
       Frame_Color                       : in     GWindows.Colors.Color_Type);
-   --  Control Background_Color must also be set for the custom colors to 
+   --  Control Background_Color must also be set for the custom colors to
    --  be active.
 
    -------------------------------------------------------------------------
