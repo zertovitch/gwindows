@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -843,23 +843,23 @@ package GWindows.Base is
 
 private
    type Windproc_Access is access
-     function (hwnd    : GWindows.Types.Handle;
+     function (hwnd    : Types.Handle;
                message : Interfaces.C.unsigned;
-               wParam  : GWindows.Types.Wparam;
-               lParam  : GWindows.Types.Lparam)
-              return GWindows.Types.Lresult;
+               wParam  : Types.Wparam;
+               lParam  : Types.Lparam)
+              return Types.Lresult;
    pragma Convention (Stdcall, Windproc_Access);
 
    type Base_Window_Type is
      new Ada.Finalization.Limited_Controlled with
       record
-         HWND            : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         HWND             : Types.Handle                 := Types.Null_Handle;
          ParentWindowProc : Windproc_Access              := null;
-         haccel          : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         haccel           : Types.Handle                 := Types.Null_Handle;
          MDI_Client       : Base_Window_Access           := null;
          Keyboard_Support : Boolean                      := False;
          Is_Control       : Boolean                      := False;
-         Last_Focused    : GWindows.Types.Handle := GWindows.Types.Null_Handle;
+         Last_Focused     : Types.Handle                 := Types.Null_Handle;
          Is_Dynamic       : Boolean                      := False;
          Modal_Result     : Integer                      := 0;
          In_Dialog        : Boolean                      := False;

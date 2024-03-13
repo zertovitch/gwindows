@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -2861,14 +2861,6 @@ package body GWindows.Base is
       message : Interfaces.C.unsigned;
       wParam  : GWindows.Types.Wparam;
       lParam  : GWindows.Types.Lparam) return GWindows.Types.Lresult is
-      GWL_WNDPROC : constant := -4;
-
-      procedure Set_Window_Procedure
-        (s_hwnd   : GWindows.Types.Handle;
-         nIndex   : Interfaces.C.int  := GWL_WNDPROC;
-         New_Proc : Windproc_Access);
-      pragma Import (StdCall, Set_Window_Procedure,
-                     "SetWindowLongPtr" & Character_Mode_Identifier);
 
       WM_DESTROY                 : constant := 2;
       WM_SETFOCUS                : constant := 7;
