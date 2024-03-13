@@ -16,7 +16,7 @@ GWindows, upcoming release
    * Custom colors for Status_Bar_Type, Tab_Control_Type and
         the extended Ex_List_View_Control_Type.
    * Improvements on GNATCOM.
-
+ 
 529: Added package GWindows.Single_Instance. This allows a new
         instance of a multi-document application to pass its command-line
         parameters to an already running instance and quit, to ensure
