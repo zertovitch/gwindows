@@ -406,7 +406,7 @@ package body GWindows.Single_Instance is
               (Stream, Copy_Data.lpData, IPC_BUFFER_SIZE);
             Nb_Params := Natural'Input (Stream'Access);
             for i in 1 .. Nb_Params loop
-              Process_Argument (i, String'Input (Stream'Access));
+              Process_Argument (i, Nb_Params, String'Input (Stream'Access));
             end loop;
           end;
           return 1;

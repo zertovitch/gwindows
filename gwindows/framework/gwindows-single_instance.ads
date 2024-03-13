@@ -38,16 +38,17 @@
 --
 
 generic
-  with procedure Process_Argument (Position : Positive; Arg : String);
-  --  Command-line arguments will be passed from
-  --  a new, short-lived, instance to an already
-  --  running instance of the application.
+  with procedure Process_Argument (Position, Total : Positive; Arg : String);
+  --  Command-line arguments will be sent by Manage_Single_Instance
+  --  from a new, short-lived, instance of the application, to an already
+  --  running instance, which will receive them from Windows
+  --  and pass them further to Process_Argument.
   --
   --  When the instance is the first to be running,
-  --  you can pass the arguments directly:
+  --  you can process the command-line arguments directly:
   --
   --      for i in 1 .. Argument_Count loop
-  --        Process_Argument (i, Argument (i));
+  --        App_Process_Argument (i, Argument_Count, Argument (i));
   --      end loop;
 
 package GWindows.Single_Instance is
