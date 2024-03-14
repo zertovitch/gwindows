@@ -1,19 +1,18 @@
 with Ada.Calendar;
 
-with GWindows.Windows.Main; use GWindows.Windows.Main;
-with GWindows.Windows; use GWindows.Windows;
-with GWindows.Base; use GWindows.Base;
---  with GWindows.Buttons; use GWindows.Buttons;
-with GWindows.Edit_Boxes; use GWindows.Edit_Boxes;
-with GWindows.Common_Controls; use GWindows.Common_Controls;
-with GWindows.Image_Lists; use GWindows.Image_Lists;
-with GWindows.GStrings; use GWindows.GStrings;
-with GWindows.Message_Boxes;
-with GWindows.Application;
-with GWindows.Static_Controls;
-with GWindows.Cursors;
-with GWindows.Types;
-with GWindows.Drawing_Objects;
+with GWindows.Application,
+     GWindows.Base,
+     GWindows.Colors,
+     GWindows.Common_Controls,
+     GWindows.Cursors,
+     GWindows.Drawing_Objects,
+     GWindows.Edit_Boxes,
+     GWindows.GStrings,
+     GWindows.Image_Lists,
+     GWindows.Message_Boxes,
+     GWindows.Static_Controls,
+     GWindows.Types,
+     GWindows.Windows.Main;
 
 procedure Control_Test is
    --  Resource with the toolbar bitmap.
@@ -24,25 +23,31 @@ procedure Control_Test is
    --
    pragma Linker_Options ("control_test.coff");
 
-   Top_Window   : Main_Window_Type;
-   Window       : Window_Type;
-   Date_Control : Date_Time_Picker_Type;
-   IP_Control   : IP_Address_Control_Type;
-   Tool_Tip     : Tool_Tip_Type;
-   Prog_Control : Progress_Control_Type;
-   List_Control : List_View_Control_Type;
-   Tree_Control : Tree_View_Control_Type;
-   Bar_Control  : Trackbar_Control_Type;
-   Buddy_Box    : Edit_Box_Type;
-   Up_Control   : Up_Down_Control_Type;
-   Tab_Control  : Tab_Window_Control_Type;
-   W1           : aliased Window_Type;
-   W2           : aliased Window_Type;
-   Toolbar      : Toolbar_Control_Type;
-   Images       : Image_List_Type;
-   Message      : array (1 .. 3) of GWindows.Static_Controls.Label_Type;
+   use GWindows.Base, GWindows.Common_Controls, GWindows.Colors,
+       GWindows.Drawing_Objects, GWindows.Edit_Boxes,
+       GWindows.GStrings, GWindows.Image_Lists,
+       GWindows.Static_Controls,
+       GWindows.Windows, GWindows.Windows.Main;
 
-   use GWindows.Drawing_Objects, GWindows.Static_Controls;
+   Top_Window             : Main_Window_Type;
+   Window                 : Window_Type;
+   Date_Control           : Date_Time_Picker_Type;
+   IP_Control             : IP_Address_Control_Type;
+   Tool_Tip               : Tool_Tip_Type;
+   Prog_Control           : Progress_Control_Type;
+   List_Control           : List_View_Control_Type;
+   Tree_Control           : Tree_View_Control_Type;
+   Bar_Control            : Trackbar_Control_Type;
+   Buddy_Box              : Edit_Box_Type;
+   Up_Control             : Up_Down_Control_Type;
+   Tab_Control            : Tab_Window_Control_Type;
+   Tab_Control_Customized : Tab_Control_Type;
+   W1                     : aliased Window_Type;
+   W2                     : aliased Window_Type;
+   Toolbar                : Toolbar_Control_Type;
+   Images                 : Image_List_Type;
+   Message                : array (1 .. 3) of
+                               GWindows.Static_Controls.Label_Type;
 
    procedure Do_Change (Window : in out Base_Window_Type'Class) is
    begin
@@ -236,9 +241,9 @@ begin
    On_Position_Changing_Handler (Up_Control,
                                  Do_Pos_Change'Unrestricted_Access);
 
-   -------------------
-   --  Tab Control  --
-   -------------------
+   --------------------
+   --  Tab Controls  --
+   --------------------
 
    Create (Tab_Control, Window, 300, 375, 300, 150);
    Insert_Tab (Tab_Control, 0, "Tab1");
@@ -267,6 +272,26 @@ begin
 
    On_Hover_Handler
       (Tab_Control, On_Tab_Hover_Callback'Unrestricted_Access);
+
+   Create (Tab_Control_Customized, Window, 300, 550, 300, 25);
+   Insert_Tab (Tab_Control_Customized, 0, "Custom Tab 1");
+   Insert_Tab (Tab_Control_Customized, 1, "Custom Tab 2");
+   Background_Color (Tab_Control_Customized, Black);
+   Tab_Colors
+      (Tab_Control_Customized,
+       Background_Color                  => Dark_Blue,
+       Background_Selected_Color         => 16#CC0000#,
+       Background_Hovered_Color          => Blue,
+       Background_Selected_Hovered_Color => 16#FF7744#,
+       Foreground_Color                  => 16#A0A0A0#,
+       Foreground_Selected_Color         => Light_Gray,
+       Foreground_Hovered_Color          => 16#D0D0D0#,
+       Foreground_Selected_Hovered_Color => White,
+       Frame_Color                       => Dark_Orange);
+
+   ----------------
+   --  Messages  --
+   ----------------
 
    for Index in Message'Range loop
       Create
