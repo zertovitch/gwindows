@@ -384,6 +384,19 @@ private
    procedure On_Destroy (Control : in out Ex_List_View_Control_Type);
    procedure Delete_Item (Control : in out Ex_List_View_Control_Type;
                           Index   : in     Integer);
+   procedure Set_Column (Control : in out Ex_List_View_Control_Type;
+                         Text    : in     GString;
+                         Index   : in     Integer;
+                         Width   : in     Integer);
+   procedure Insert_Column (Control : in out Ex_List_View_Control_Type;
+                            Text    : in     GString;
+                            Index   : in     Integer;
+                            Width   : in     Integer);
+   procedure Set_Column_Width
+     (Control : in out Ex_List_View_Control_Type;
+      Index   : in     Integer;
+      Width   : in     Integer);
+
    procedure Clear (Control : in out Ex_List_View_Control_Type);
 
 end GWindows.Common_Controls.Ex_List_View;

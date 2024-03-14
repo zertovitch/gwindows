@@ -481,6 +481,39 @@ package body GWindows.Common_Controls.Ex_List_View is
       end case;
 
    end On_Message;
+
+   procedure Custom_Post_Columns_Header_Rectangle
+      (Window : in out Ex_List_View_Control_Type)
+   is
+      --  Draw the rectangle right to the last column's header.
+      Brush : Drawing_Objects.Brush_Type;
+      Canvas : Drawing.Canvas_Type;
+      use Drawing, Drawing_Objects;
+
+      function GetDC
+        (hwnd : Types.Handle := Base.Handle (Base.Base_Window_Type (Window)))
+        return Types.Handle;
+      pragma Import (StdCall, GetDC, "GetDC");
+
+      Header : Types.Handle;
+      Left   : Natural  := 0;
+      Right  : constant := 100_000;  --  Too large, on purpose (clipped).
+      Top    : constant := 0;
+      Bottom : constant := 1_000;    --  Too large, on purpose (clipped).
+   begin
+      for i in 1 .. Column_Count (Window) loop
+        Left := Left + Column_Width (Window, i - 1);
+      end loop;
+      --  The control has its own sub-control, the "header control".
+      Header := Types.To_Handle
+         (Sendmessage (Hwnd => Handle (Window), Umsg => LVM_GETHEADER));
+      Drawing.Handle (Canvas, GetDC (Header));
+      Create_Solid_Brush (Brush, Window.Header.Back_Color);
+      Fill_Rectangle (Canvas, (Left, Top, Right, Bottom), Brush);
+      Delete (Brush);
+      Exclude_Clipping_Area (Canvas, Left, Top, Right, Bottom);
+   end Custom_Post_Columns_Header_Rectangle;
+
    --------------------------------------------------------------------------------------------
    procedure On_Notify
       (Window       : in out Ex_List_View_Control_Type;
@@ -495,36 +528,6 @@ package body GWindows.Common_Controls.Ex_List_View is
       Nmlistview_Pointer : Pointer_To_Nmlistview_Type;
       Item               : LVITEM;
 
-      procedure Custom_Post_Columns_Header_Rectangle is
-         --  Draw the rectangle right to the last column's header.
-         Brush : Drawing_Objects.Brush_Type;
-         Canvas : Drawing.Canvas_Type;
-         use Drawing, Drawing_Objects;
-
-         function GetDC
-           (hwnd : Types.Handle := Base.Handle (Base.Base_Window_Type (Window)))
-           return Types.Handle;
-         pragma Import (StdCall, GetDC, "GetDC");
-
-         Header : Types.Handle;
-         Left   : Natural  := 0;
-         Right  : constant := 100_000;  --  Too large, on purpose (clipped).
-         Top    : constant := 0;
-         Bottom : constant := 1_000;    --  Too large, on purpose (clipped).
-      begin
-         for i in 1 .. Column_Count (Window) loop
-           Left := Left + Column_Width (Window, i - 1);
-         end loop;
-         --  The control has its own sub-control, the "header control".
-         Header := Types.To_Handle
-            (Sendmessage (Hwnd => Handle (Window), Umsg => LVM_GETHEADER));
-         Drawing.Handle (Canvas, GetDC (Header));
-         Create_Solid_Brush (Brush, Window.Header.Back_Color);
-         Fill_Rectangle (Canvas, (Left, Top, Right, Bottom), Brush);
-         Delete (Brush);
-         Exclude_Clipping_Area (Canvas, Left, Top, Right, Bottom);
-      end Custom_Post_Columns_Header_Rectangle;
-
       use type Interfaces.C.long, Types.Lresult;
 
    begin
@@ -534,7 +537,7 @@ package body GWindows.Common_Controls.Ex_List_View is
          if Lvcd_Ptr.Nmcd.Dwdrawstage = Cdds_Prepaint and then
            Window.Want_Custom_Header
          then
-            Custom_Post_Columns_Header_Rectangle;
+            Custom_Post_Columns_Header_Rectangle (Window);
             Return_Value :=
                Return_Value or Cdrf_Notifyitemdraw or CDRF_NOTIFYPOSTPAINT;
          end if;
@@ -620,6 +623,63 @@ package body GWindows.Common_Controls.Ex_List_View is
       Destroy_Row (Control, Index);
       Delete_Item (List_View_Control_Type (Control), Index);  --  Call parent method
    end Delete_Item;
+
+   procedure Set_Column (Control : in out Ex_List_View_Control_Type;
+                         Text    : in     GString;
+                         Index   : in     Integer;
+                         Width   : in     Integer)
+   is
+   begin
+      if Control.Want_Custom_Header then
+         Freeze (Control);
+      end if;
+      --  Call parent method:
+      Set_Column (List_View_Control_Type (Control), Text, Index, Width);
+      --  If relevant, repaint the rectangle right to the last column header:
+      if Control.Want_Custom_Header then
+         Thaw (Control);
+         Custom_Post_Columns_Header_Rectangle (Control);
+         Redraw (Control);
+      end if;
+   end Set_Column;
+
+   procedure Insert_Column (Control : in out Ex_List_View_Control_Type;
+                            Text    : in     GString;
+                            Index   : in     Integer;
+                            Width   : in     Integer)
+   is
+   begin
+      if Control.Want_Custom_Header then
+         Freeze (Control);
+      end if;
+      --  Call parent method:
+      Insert_Column (List_View_Control_Type (Control), Text, Index, Width);
+      --  If relevant, repaint the rectangle right to the last column header:
+      if Control.Want_Custom_Header then
+         Thaw (Control);
+         Custom_Post_Columns_Header_Rectangle (Control);
+         Redraw (Control);
+      end if;
+   end Insert_Column;
+
+   procedure Set_Column_Width
+     (Control : in out Ex_List_View_Control_Type;
+      Index   : in     Integer;
+      Width   : in     Integer)
+   is
+   begin
+      if Control.Want_Custom_Header then
+         Freeze (Control);
+      end if;
+      --  Call parent method:
+      Set_Column_Width (List_View_Control_Type (Control), Index, Width);
+      --  If relevant, repaint the rectangle right to the last column header:
+      if Control.Want_Custom_Header then
+         Thaw (Control);
+         Custom_Post_Columns_Header_Rectangle (Control);
+         Redraw (Control);
+      end if;
+   end Set_Column_Width;
 
    procedure Clear (Control : in out Ex_List_View_Control_Type) is
    begin
