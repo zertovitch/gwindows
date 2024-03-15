@@ -35,7 +35,7 @@
 
 with GWindows.Windows;
 
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Strings.Unbounded;
 
 package GWindows.Clipboard is
 
@@ -64,7 +64,7 @@ package GWindows.Clipboard is
 
    procedure Set_Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type;
-       Text  : in Unbounded_String);
+       Text  : in Ada.Strings.Unbounded.Unbounded_String);
    pragma Obsolescent (Set_Clipboard_Text);
 
    function Get_Clipboard_Text
