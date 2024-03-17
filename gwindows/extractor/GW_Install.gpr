@@ -8,11 +8,11 @@ project GW_Install is
       ("Debug", "Small");
    Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
 
-   for Source_Dirs use (
-     ".", "unzip",
-     "..\..\gwindows\contrib",  --  for GWin_Util
-     "..\..\gwindows\framework", "..\..\gnatcom\framework"
-   );
+   for Source_Dirs use
+     (".", "unzip",
+      "..\..\gwindows\contrib",  --  for GWin_Util
+      "..\..\gwindows\framework",
+	  "..\..\gnatcom\framework");
    for Exec_Dir use ".";
    for Main use ("GW_Extract.adb");
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
@@ -61,12 +61,13 @@ project GW_Install is
      "-gnatq",  --  Don't quit, try semantics, even if parse errors
      "-gnatQ"   --  Don't quit, write ali/tree file even if compile errors
      --
-     --  "-gnatyaknpr",   --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
-     --  "-gnatybfhiu",   --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
-     --  "-gnatyx",       --  Style: check x:no extra parens
-     --  "-gnatye",       --  Style: check e:end/exit labels present
-     --  "-gnatyc",       --  Style: check c:comment format (two spaces)
-     --  "-gnatyt"        --  Style: check t:token separation rules
+     --  "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
+     --  "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
+     --  "-gnatyx",      --  Style: check x:no extra parens
+     --  "-gnatye",      --  Style: check e:end/exit labels present
+     --  "-gnatyc",      --  Style: check c:comment format (two spaces)
+     --  "-gnatyM119",   --  Style: check line length < 120 characters
+     --  "-gnatyt"       --  Style: check t:token separation rules
    );
 
    package Compiler is

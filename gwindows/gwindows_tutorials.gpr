@@ -12,7 +12,7 @@ project GWindows_Tutorials is
    for Exec_Dir use "tutorials";   
    
    package Compiler is
-      for Default_Switches ("ada") use ("-Os", "-g", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
+      for Default_Switches ("ada") use ("-Os", "-g", "-gnatweaKM", "-gnatyaAbcefhiklM119nprtux");
    end Compiler;
 
    for Main use (

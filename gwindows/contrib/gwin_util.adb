@@ -475,7 +475,8 @@ package body GWin_Util is
         );
         --  Link (tab(s), Handle(tab(s)), False, Control_Link);
         --  -- ^ for buttons from a resource file (André van Splunter)
-        tabs.Tab_Window (Tab_enumeration'Pos (s) - Tab_enumeration'Pos (Tab_enumeration'First), tab (s)'Unrestricted_Access);
+        tabs.Tab_Window
+          (Tab_enumeration'Pos (s) - Tab_enumeration'Pos (Tab_enumeration'First), tab (s)'Unrestricted_Access);
       end loop;
       --  3/ Create OK, Cancel buttons:
       Create (ok, Parent, ok_message,

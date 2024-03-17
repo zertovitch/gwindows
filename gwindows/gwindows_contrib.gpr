@@ -20,6 +20,7 @@ project GWindows_Contrib is
          "-gnatyx",      --  Style: check x:no extra parens
          "-gnatye",      --  Style: check e:end/exit labels present
          "-gnatyt",      --  Style: check t:token separation rules
+         "-gnatyM119",   --  Style: check line length < 120 characters
          "-gnatwaKM", "-gnatVa", "-gnato");
    end Compiler;
 

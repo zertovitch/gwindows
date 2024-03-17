@@ -11,7 +11,7 @@ project GWindows is
    for Object_Dir use "obj";
    
    package Compiler is   
-      for Default_Switches ("ada") use ("-Os", "-g", "-gnatweaKM", "-gnatyaAbcefhiklmnprtux");
+      for Default_Switches ("ada") use ("-Os", "-g", "-gnatweaKM", "-gnatyaAbcefhiklM119nprtux");
    end Compiler;
 
    package Builder is

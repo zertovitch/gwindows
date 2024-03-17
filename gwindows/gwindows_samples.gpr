@@ -47,6 +47,7 @@ project GWindows_Samples is
          "-gnatyx",      --  Style: check x:no extra parens
          "-gnatye",      --  Style: check e:end/exit labels present
          "-gnatytc",     --  Style: check t:token separation rules, c:comment format (two spaces)
+         "-gnatyM119",   --  Style: check line length < 120 characters
          "-gnatwa");
    end Compiler;
 
