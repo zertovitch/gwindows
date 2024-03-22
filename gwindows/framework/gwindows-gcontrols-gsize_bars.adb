@@ -170,19 +170,21 @@ package body GWindows.GControls.GSize_Bars is
          Dot_Rect : GWindows.Types.Rectangle_Type;
          V_Ref    : Integer;
          H_Ref    : Integer;
+         Client_Area  : constant GWindows.Types.Rectangle_Type
+                                                 := Window.Client_Area;
       begin
          if Number_Of_Dashes_V /= 0 and then
             Number_Of_Dashes_H /= 0
          then
            Create_Solid_Brush (Brush, Color => Window.Dash_Color);
 
-           H_Ref := (Area.Left + Area.Right -
+           H_Ref := (Client_Area.Left + Client_Area.Right -
                      ((Dash_Pitch_H * Number_Of_Dashes_H) -
                       Dash_Spacing_Width)
                     ) / 2;
 
            for X in 1 .. Number_Of_Dashes_H loop
-             V_Ref := (Area.Top + Area.Bottom -
+             V_Ref := (Client_Area.Top + Client_Area.Bottom -
                        ((Dash_Pitch_V * Number_Of_Dashes_V) -
                         Dash_Spacing_Height)
                       ) / 2;
