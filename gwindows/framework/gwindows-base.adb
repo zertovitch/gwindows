@@ -1720,13 +1720,13 @@ package body GWindows.Base is
       RDW_UPDATENOW  : constant := 16#0100#;
 
       procedure InvalidateRect
-        (Hwnd   : GWindows.Types.Handle := Window.HWND;
+        (Hwnd   : GWindows.Types.Handle;
          lpRect : Integer               := 0;
          bErase : Integer               := Boolean'Pos (Erase));
       pragma Import (StdCall, InvalidateRect, "InvalidateRect");
 
       procedure RedrawWindow
-        (Hwnd : GWindows.Types.Handle := Window.HWND;
+        (Hwnd : GWindows.Types.Handle;
          lprcUpdate : Integer := 0;
          hrgnUpdate : Integer := 0;
          Flags      : Interfaces.C.unsigned :=
@@ -1734,9 +1734,16 @@ package body GWindows.Base is
       pragma Import (StdCall, RedrawWindow, "RedrawWindow");
 
    begin
-      InvalidateRect;
+      InvalidateRect (Window.HWND);
       if Redraw_Now then
-         RedrawWindow;
+         RedrawWindow (Window.HWND);
+      end if;
+
+      if Window.MDI_Client /= null then
+         InvalidateRect (Window.MDI_Client.HWND);
+         if Redraw_Now then
+            RedrawWindow (Window.MDI_Client.HWND);
+         end if;
       end if;
    end Redraw;
 
@@ -2272,9 +2279,12 @@ package body GWindows.Base is
       Window.MDI_Client.Is_Control := True;
       Window.MDI_Client.Dock := Fill;
 
-      Set_GWindow_Object (Window.MDI_Client.HWND,
+      Set_GWindow_Object (Client_HWND,
                           Pointer_To_Base_Window_Class (Window.MDI_Client));
 
+      Window.MDI_Client.ParentWindowProc := Get_Window_Procedure (Client_HWND);
+      Set_Window_Procedure (Client_HWND,
+                            New_Proc => WndProc_MDI_Client'Access);
    end MDI_Client_Window;
 
    ------------------------
@@ -2852,6 +2862,80 @@ package body GWindows.Base is
       raise;
    end WndProc;
 
+   ------------------------
+   -- WndProc_MDI_Client --
+   ------------------------
+
+   function WndProc_MDI_Client
+     (hwnd    : GWindows.Types.Handle;
+      message : Interfaces.C.unsigned;
+      wParam  : GWindows.Types.Wparam;
+      lParam  : GWindows.Types.Lparam)  return GWindows.Types.Lresult is
+
+      WM_DESTROY    : constant := 2;
+      WM_ERASEBKGND : constant := 20;
+
+      function CallWindowProc
+        (Proc    : Windproc_Access;
+         hwnd    : GWindows.Types.Handle;
+         message : Interfaces.C.unsigned;
+         wParam  : GWindows.Types.Wparam;
+         lParam  : GWindows.Types.Lparam)
+        return GWindows.Types.Lresult;
+      pragma Import (StdCall, CallWindowProc,
+                       "CallWindowProc" & Character_Mode_Identifier);
+
+      Win_Ptr : constant Pointer_To_Base_Window_Class :=
+        Window_From_Handle (hwnd);
+   begin
+      if Win_Ptr = null then
+         return DefWindowProc (hwnd,
+                               message,
+                               wParam,
+                               lParam);
+      end if;
+
+      case message is
+         when WM_ERASEBKGND =>
+            if not Win_Ptr.MDI_Client_Background_Color_Sys then
+               declare
+                  use GWindows.Drawing_Objects;
+                  Canvas : GWindows.Drawing.Canvas_Type;
+                  Area   : GWindows.Types.Rectangle_Type
+                                              := Client_Area (Win_Ptr.all);
+                  B : Brush_Type;
+               begin
+                  GWindows.Drawing.Handle (Canvas,
+                                           GWindows.Types.To_Handle (wParam));
+                  Create_Solid_Brush
+                    (B,
+                     Win_Ptr.MDI_Client_Background_Color);
+                  GWindows.Drawing.Fill_Rectangle (Canvas, Area, B);
+                  Delete (B);
+                  return 1;
+               end;
+            end if;
+
+         when WM_DESTROY =>
+           Set_Window_Procedure (hwnd, New_Proc => Win_Ptr.ParentWindowProc);
+
+         when others =>
+            null;
+      end case;
+
+      return CallWindowProc (Win_Ptr.ParentWindowProc,
+                             hwnd,
+                             message,
+                             wParam,
+                             lParam);
+
+   exception when E : others =>
+      if Exception_Handler /= null then
+         Exception_Handler (Win_Ptr.all, E);
+      end if;
+      raise;
+   end WndProc_MDI_Client;
+
    ---------------------
    -- WndProc_Control --
    ---------------------
@@ -3074,6 +3158,19 @@ package body GWindows.Base is
    begin
       return Window.Custom_Data;
    end Custom_Data;
+
+   ----------------------
+   -- Background_Color --
+   ----------------------
+
+   procedure MDI_Client_Window_Background_Color
+               (Window : in out Base_Window_Type;
+                Color  : in     GWindows.Colors.Color_Type)
+   is
+   begin
+      Window.MDI_Client.MDI_Client_Background_Color_Sys := False;
+      Window.MDI_Client.MDI_Client_Background_Color     := Color;
+   end MDI_Client_Window_Background_Color;
 
 begin
    InitCommonControlsEx;

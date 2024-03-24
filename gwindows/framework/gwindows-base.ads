@@ -327,6 +327,10 @@ package GWindows.Base is
    --  is true when the window is destroyed the Custom_Data memory
    --  will be deallocated with Free
 
+   procedure MDI_Client_Window_Background_Color
+               (Window : in out Base_Window_Type;
+                Color  : in     GWindows.Colors.Color_Type);
+
    -------------------------------------------------------------------------
    --  Base_Window_Type - Methods
    -------------------------------------------------------------------------
@@ -801,6 +805,16 @@ package GWindows.Base is
    --  GWindows Implementation of Win32 Procedure Call Back
    --  Procedure and Message Dispatch
 
+   function WndProc_MDI_Client
+     (hwnd    : GWindows.Types.Handle;
+      message : Interfaces.C.unsigned;
+      wParam  : GWindows.Types.Wparam;
+      lParam  : GWindows.Types.Lparam)
+     return GWindows.Types.Lresult;
+   pragma Convention (Stdcall, WndProc_MDI_Client);
+   --  GWindows Implementation of Win32 Procedure Call Back
+   --  Procedure and Message Dispatch for MDI_CLient
+
    function WndProc_Control
      (hwnd    : GWindows.Types.Handle;
       message : Interfaces.C.unsigned;
@@ -857,6 +871,8 @@ private
          ParentWindowProc : Windproc_Access              := null;
          haccel           : Types.Handle                 := Types.Null_Handle;
          MDI_Client       : Base_Window_Access           := null;
+         MDI_Client_Background_Color_Sys : Boolean       := True;
+         MDI_Client_Background_Color     : GWindows.Colors.Color_Type;
          Keyboard_Support : Boolean                      := False;
          Is_Control       : Boolean                      := False;
          Last_Focused     : Types.Handle                 := Types.Null_Handle;

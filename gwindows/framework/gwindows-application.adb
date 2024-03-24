@@ -72,8 +72,8 @@ package body GWindows.Application is
    --  Win32 Message Loop Objet
 
    procedure Process_Message
-     (Message :        Pointer_To_MSG;
-      Window  : in out GWindows.Base.Base_Window_Type'Class);
+     (Message :    Pointer_To_MSG;
+      Window  : in GWindows.Base.Base_Window_Type'Class);
    --  Process a message for a message loop
 
    -------------------------------------------------------------------------
@@ -749,8 +749,8 @@ package body GWindows.Application is
    ---------------------
 
    procedure Process_Message
-     (Message :        Pointer_To_MSG;
-      Window  : in out GWindows.Base.Base_Window_Type'Class)
+     (Message :    Pointer_To_MSG;
+      Window  : in GWindows.Base.Base_Window_Type'Class)
    is
       use type GWindows.Types.Handle;
       use type GWindows.Internal.Pointer_To_Keyboard_Control;

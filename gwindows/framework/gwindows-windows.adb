@@ -3870,9 +3870,14 @@ package body GWindows.Windows is
    procedure Background_Color (Window : in out Window_Type;
                                Color  : in     GWindows.Colors.Color_Type)
    is
+      use type GWindows.Base.Base_Window_Access;
    begin
       Window.Background_Color_Sys := False;
       Window.Background_Color     := Color;
+
+      if Window.MDI_Client_Window /= null then
+         Window.MDI_Client_Window_Background_Color (Color);
+      end if;
    end Background_Color;
 
    function Background_Color (Window : in Window_Type)
