@@ -2874,6 +2874,7 @@ package body GWindows.Base is
 
       WM_DESTROY    : constant := 2;
       WM_ERASEBKGND : constant := 20;
+      WM_NCCALCSIZE : constant := 131;
 
       function CallWindowProc
         (Proc    : Windproc_Access;
@@ -2884,6 +2885,19 @@ package body GWindows.Base is
         return GWindows.Types.Lresult;
       pragma Import (StdCall, CallWindowProc,
                        "CallWindowProc" & Character_Mode_Identifier);
+
+      type BOOL is new Interfaces.C.int;
+
+      --  SB_HORZ : constant := 0;
+      --  SB_VERT : constant := 1;
+      --  SB_CTL  : constant := 2;
+      SB_BOTH : constant := 3;
+
+      procedure ShowScrollBar
+        (hwnd  : GWindows.Types.Handle;
+         wBar  : Interfaces.C.int;
+         bShow : BOOL);
+      pragma Import (StdCall, ShowScrollBar, "ShowScrollBar");
 
       Win_Ptr : constant Pointer_To_Base_Window_Class :=
         Window_From_Handle (hwnd);
@@ -2916,8 +2930,15 @@ package body GWindows.Base is
                end;
             end if;
 
+         when WM_NCCALCSIZE =>
+            --  Hide scroll bars
+            --  (must be done each time non client area is computed)
+            ShowScrollBar (hwnd, SB_BOTH, 0);
+            --  Let default Window Proc do it's job
+
          when WM_DESTROY =>
-           Set_Window_Procedure (hwnd, New_Proc => Win_Ptr.ParentWindowProc);
+            Set_Window_Procedure (hwnd, New_Proc => Win_Ptr.ParentWindowProc);
+            --  Let default Window Proc do it's job
 
          when others =>
             null;
