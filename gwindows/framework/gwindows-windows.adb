@@ -1055,8 +1055,8 @@ package body GWindows.Windows is
    -----------------------
 
    procedure MDI_Active_Window
-     (Window : in     Window_Type;
-      Child  : in out GWindows.Base.Base_Window_Type'Class)
+     (Window : in Window_Type;
+      Child  : in GWindows.Base.Base_Window_Type'Class)
    is
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle :=
@@ -1066,26 +1066,8 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
-
-      RDW_INVALIDATE : constant := 16#0001#;
-      RDW_UPDATENOW  : constant := 16#0100#;
-      RDW_FRAME      : constant := 16#0400#;
-
-      procedure RedrawWindow
-        (Hwnd : GWindows.Types.Handle;
-         lprcUpdate : Integer := 0;
-         hrgnUpdate : Integer := 0;
-         Flags      : Interfaces.C.unsigned :=
-                      RDW_INVALIDATE or RDW_UPDATENOW or RDW_FRAME);
-      pragma Import (StdCall, RedrawWindow, "RedrawWindow");
-
-      MDI_Client : GWindows.Base.Base_Window_Access
-                     := MDI_Client_Window (Window);
    begin
-      GWindows.Base.Freeze (MDI_Client.all);  --  To suppress display glitches
       SendMessage;
-      GWindows.Base.Thaw (MDI_Client.all);    --  To suppress display glitches
-      RedrawWindow (Child.Handle);            --  To suppress display glitches
    end MDI_Active_Window;
 
    function MDI_Active_Window (Window : in Window_Type)

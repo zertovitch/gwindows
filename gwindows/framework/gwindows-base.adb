@@ -2872,9 +2872,10 @@ package body GWindows.Base is
       wParam  : GWindows.Types.Wparam;
       lParam  : GWindows.Types.Lparam)  return GWindows.Types.Lresult is
 
-      WM_DESTROY    : constant := 2;
-      WM_ERASEBKGND : constant := 20;
-      WM_NCCALCSIZE : constant := 131;
+      WM_DESTROY     : constant := 2;
+      WM_ERASEBKGND  : constant := 20;
+      WM_NCCALCSIZE  : constant := 131;
+      WM_MDIACTIVATE : constant := 546;
 
       function CallWindowProc
         (Proc    : Windproc_Access;
@@ -2935,6 +2936,36 @@ package body GWindows.Base is
             --  (must be done each time non client area is computed)
             ShowScrollBar (hwnd, SB_BOTH, 0);
             --  Let default Window Proc do it's job
+
+         when WM_MDIACTIVATE =>
+            --  To suppress display glitches, we freeze the client window,
+            --  call the window proc, unfreeze the client window and
+            --  force the child window to be fully redrawn.
+            declare
+               RDW_INVALIDATE : constant := 16#0001#;
+               RDW_UPDATENOW  : constant := 16#0100#;
+               RDW_FRAME      : constant := 16#0400#;
+
+               procedure RedrawWindow
+                 (Hwnd : GWindows.Types.Handle;
+                  lprcUpdate : Integer := 0;
+                  hrgnUpdate : Integer := 0;
+                  Flags      : Interfaces.C.unsigned :=
+                               RDW_INVALIDATE or RDW_UPDATENOW or RDW_FRAME);
+               pragma Import (StdCall, RedrawWindow, "RedrawWindow");
+
+               Return_Value : GWindows.Types.Lresult;
+            begin
+               Freeze (Win_Ptr.all);
+               Return_Value := CallWindowProc (Win_Ptr.ParentWindowProc,
+                                               hwnd,
+                                               message,
+                                               wParam,
+                                               lParam);
+               Thaw (Win_Ptr.all);
+               RedrawWindow (GWindows.Types.To_Handle (wParam));
+               return Return_Value;
+            end;
 
          when WM_DESTROY =>
             Set_Window_Procedure (hwnd, New_Proc => Win_Ptr.ParentWindowProc);
