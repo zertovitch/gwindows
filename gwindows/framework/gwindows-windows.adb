@@ -601,9 +601,24 @@ package body GWindows.Windows is
       Style    : Interfaces.C.unsigned := 0;
       ExStyle  : Interfaces.C.unsigned := WS_EX_MDICHILD;
       CClass_C : constant GString_C := GWindows.GStrings.To_GString_C (CClass);
+
+      RDW_INVALIDATE : constant := 16#0001#;
+      RDW_UPDATENOW  : constant := 16#0100#;
+      RDW_FRAME      : constant := 16#0400#;
+
+      procedure RedrawWindow
+        (Hwnd : GWindows.Types.Handle;
+         lprcUpdate : Integer := 0;
+         hrgnUpdate : Integer := 0;
+         Flags      : Interfaces.C.unsigned :=
+                      RDW_INVALIDATE or RDW_UPDATENOW or RDW_FRAME);
+      pragma Import (StdCall, RedrawWindow, "RedrawWindow");
+
+      MDI_Client : GWindows.Base.Base_Window_Access
+                     := MDI_Client_Window (Parent);
    begin
       On_Pre_Create (Window_Type'Class (Window), Style, ExStyle);
-
+      GWindows.Base.Freeze (MDI_Client.all); --  To suppress display glitches
       if CClass = "" then
          Win_HWND := CreateWindowEx (lpWindowName => C_Title,
                                      dwExStyle    => ExStyle,
@@ -613,8 +628,7 @@ package body GWindows.Windows is
                                      nWidth       => Width,
                                      nHeight      => Height,
                                      hwndParent   =>
-                                    GWindows.Base.Handle
-                                     (MDI_Client_Window (Parent).all));
+                                    GWindows.Base.Handle (MDI_Client.all));
       else
          Win_HWND := CreateWindowEx (lpWindowName => C_Title,
                                      lpClassName  => CClass_C,
@@ -625,8 +639,7 @@ package body GWindows.Windows is
                                      nWidth       => Width,
                                      nHeight      => Height,
                                      hwndParent   =>
-                                    GWindows.Base.Handle
-                                     (MDI_Client_Window (Parent).all));
+                                    GWindows.Base.Handle (MDI_Client.all));
       end if;
 
       GWindows.Base.Link
@@ -634,6 +647,8 @@ package body GWindows.Windows is
       Hide (Window);
       On_Create (Window_Type'Class (Window));
       Dock_Children (Window);
+      GWindows.Base.Thaw (MDI_Client.all); --  To suppress display glitches
+      RedrawWindow (Win_HWND);             --  To suppress display glitches
    end Create_MDI_Child;
 
    ----------------
@@ -1040,8 +1055,8 @@ package body GWindows.Windows is
    -----------------------
 
    procedure MDI_Active_Window
-     (Window : in Window_Type;
-      Child  : in GWindows.Base.Base_Window_Type'Class)
+     (Window : in     Window_Type;
+      Child  : in out GWindows.Base.Base_Window_Type'Class)
    is
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle :=
@@ -1051,8 +1066,26 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+
+      RDW_INVALIDATE : constant := 16#0001#;
+      RDW_UPDATENOW  : constant := 16#0100#;
+      RDW_FRAME      : constant := 16#0400#;
+
+      procedure RedrawWindow
+        (Hwnd : GWindows.Types.Handle;
+         lprcUpdate : Integer := 0;
+         hrgnUpdate : Integer := 0;
+         Flags      : Interfaces.C.unsigned :=
+                      RDW_INVALIDATE or RDW_UPDATENOW or RDW_FRAME);
+      pragma Import (StdCall, RedrawWindow, "RedrawWindow");
+
+      MDI_Client : GWindows.Base.Base_Window_Access
+                     := MDI_Client_Window (Window);
    begin
+      GWindows.Base.Freeze (MDI_Client.all);  --  To suppress display glitches
       SendMessage;
+      GWindows.Base.Thaw (MDI_Client.all);    --  To suppress display glitches
+      RedrawWindow (Child.Handle);            --  To suppress display glitches
    end MDI_Active_Window;
 
    function MDI_Active_Window (Window : in Window_Type)
