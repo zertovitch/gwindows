@@ -257,8 +257,8 @@ package GWindows.Windows is
    --  MDI window list
 
    procedure MDI_Active_Window
-     (Window : in     Window_Type;
-      Child  : in out GWindows.Base.Base_Window_Type'Class);
+     (Window : in Window_Type;
+      Child  : in GWindows.Base.Base_Window_Type'Class);
    function MDI_Active_Window
      (Window : in Window_Type)
      return GWindows.Base.Pointer_To_Base_Window_Class;
