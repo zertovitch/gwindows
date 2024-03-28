@@ -270,6 +270,11 @@ package GWindows.Base is
    function Client_Area_Height (Window : in Base_Window_Type) return Natural;
    --  Height of window
 
+   procedure Double_Buffered_Paint (Window : in out Base_Window_Type;
+                                    State  : in     Boolean);
+   function Double_Buffered_Paint (Window : in out Base_Window_Type) return Boolean;
+   --  State of double buffering management
+
    function Recommended_Size (Window : in Base_Window_Type)
                              return GWindows.Types.Size_Type;
    --  If Window has already been created, returns an ideal size
@@ -889,6 +894,7 @@ private
          Is_Linked        : Boolean                      := False;  --  * AnSp
          --  * AnSp:  Added parameter Procedures to be able to create only
          --  *        a link between a Windows handle and GWindows object.
+         Paint_Is_Double_Buffered : Boolean := False;
 
          --  Event Handlers
          On_Create_Event             : Action_Event          := null;

@@ -591,10 +591,44 @@ package body GWindows.Common_Controls is
                BeginPaint (Handle (Window), PS);
                GWindows.Drawing.Handle (CV, PS.HDC);
                ST := GWindows.Drawing.Save_State (CV);
-               On_Paint (Common_Control_Type'Class (Window),
-                         CV,
-                         PS.rcPaint,
-                         Call_Default_Handler);
+               if not Window.Double_Buffered_Paint then
+                  On_Paint (Common_Control_Type'Class (Window),
+                            CV,
+                            PS.rcPaint,
+                            Call_Default_Handler);
+               else
+                  declare
+                     use GWindows.Drawing, GWindows.Drawing_Objects;
+                     Area            : GWindows.Types.Rectangle_Type renames PS.rcPaint;
+                     Canvas          : Canvas_Type renames CV;
+                     Width           : constant Natural := Area.Right  - Area.Left;
+                     Height          : constant Natural := Area.Bottom - Area.Top;
+                     Memory_Canvas   : Memory_Canvas_Type;
+                     Bitmap          : Bitmap_Type;
+                     Previous_Bitmap : Bitmap_Type;
+                     Previous_Offset : GWindows.Types.Point_Type;
+                  begin
+                     --  Create new memory bitmap device context, large as the dirty rectangle.
+                     Create_Memory_Canvas (Memory_Canvas, Canvas);
+                     Create_Compatible_Bitmap (Canvas, Bitmap, Width, Height);
+                     Select_Object (Memory_Canvas, Bitmap, Previous_Bitmap);
+                     --  Do the painting into the memory bitmap.
+                     Offset_Viewport_Origin (Memory_Canvas, -Area.Left, -Area.Top, Previous_Offset);
+                     On_Paint (Common_Control_Type'Class (Window),
+                               Canvas_Type (Memory_Canvas),
+                               Area,
+                               Call_Default_Handler);
+                     --  Blit the bitmap into the screen.
+                     Viewport_Origin (Memory_Canvas, Previous_Offset.X, Previous_Offset.Y);
+                     BitBlt (Canvas, Area.Left, Area.Top, Width, Height,
+                             Memory_Canvas, 0, 0);
+                     --  Clean up.
+                     Select_Object (Memory_Canvas, Previous_Bitmap);
+                     Delete (Bitmap);
+                     --  Memory_Canvas is automatically deleted (controlled type)
+                  end;
+               end if;
+
                GWindows.Drawing.Load_State (CV, ST);
                GWindows.Drawing.Handle (CV, GWindows.Types.Null_Handle);
                EndPaint (Handle (Window), PS);
@@ -4503,6 +4537,7 @@ package body GWindows.Common_Controls is
                                              Foreground_Selected_Hovered_Color;
       Control.Tab_Frame_Color               := Frame_Color;
       Control.Tab_Color_Sys := False;
+      Control.Double_Buffered_Paint (True);
    end Tab_Colors;
 
    ------------------
@@ -4650,6 +4685,31 @@ package body GWindows.Common_Controls is
       end case;
 
    end On_Notify;
+
+   -------------------------
+   -- On_Erase_Background --
+   -------------------------
+
+   procedure On_Erase_Background
+     (Control              : in out Tab_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type)
+   is
+   begin
+      --  Use own painting only when background and tab colors are defined
+      if Control.Tab_Color_Sys or else
+         Control.Background_Color_Sys
+      then
+         On_Erase_Background (Common_Control_Type (Control),
+                              Canvas,
+                              Area,
+                              Call_Default_Handler);
+         return;
+      end if;
+      --  Owner drawn -> do not erase background (done in On_Paint)
+      Call_Default_Handler := GWindows.Common_Controls.No;
+   end On_Erase_Background;
 
    --------------
    -- On_Paint --

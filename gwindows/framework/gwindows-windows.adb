@@ -1909,9 +1909,41 @@ package body GWindows.Windows is
                BeginPaint (Handle (Window), PS);
                GWindows.Drawing.Handle (CV, PS.HDC);
                ST := GWindows.Drawing.Save_State (CV);
-               On_Paint (Window_Type'Class (Window),
-                         CV,
-                         PS.rcPaint);
+               if not Window.Double_Buffered_Paint then
+                  On_Paint (Window_Type'Class (Window),
+                            CV,
+                            PS.rcPaint);
+               else
+                  declare
+                     use GWindows.Drawing, GWindows.Drawing_Objects;
+                     Area            : GWindows.Types.Rectangle_Type renames PS.rcPaint;
+                     Canvas          : Canvas_Type renames CV;
+                     Width           : constant Natural := Area.Right  - Area.Left;
+                     Height          : constant Natural := Area.Bottom - Area.Top;
+                     Memory_Canvas   : Memory_Canvas_Type;
+                     Bitmap          : Bitmap_Type;
+                     Previous_Bitmap : Bitmap_Type;
+                     Previous_Offset : GWindows.Types.Point_Type;
+                  begin
+                     --  Create new memory bitmap device context, large as the dirty rectangle.
+                     Create_Memory_Canvas (Memory_Canvas, Canvas);
+                     Create_Compatible_Bitmap (Canvas, Bitmap, Width, Height);
+                     Select_Object (Memory_Canvas, Bitmap, Previous_Bitmap);
+                     --  Do the painting into the memory bitmap.
+                     Offset_Viewport_Origin (Memory_Canvas, -Area.Left, -Area.Top, Previous_Offset);
+                     On_Paint (Window_Type'Class (Window),
+                               Canvas_Type (Memory_Canvas),
+                               Area);
+                     --  Blit the bitmap into the screen.
+                     Viewport_Origin (Memory_Canvas, Previous_Offset.X, Previous_Offset.Y);
+                     BitBlt (Canvas, Area.Left, Area.Top, Width, Height,
+                             Memory_Canvas, 0, 0);
+                     --  Clean up.
+                     Select_Object (Memory_Canvas, Previous_Bitmap);
+                     Delete (Bitmap);
+                     --  Memory_Canvas is automatically deleted (controlled type)
+                  end;
+               end if;
                GWindows.Drawing.Load_State (CV, ST);
                GWindows.Drawing.Handle (CV, Null_Handle);
                EndPaint (Handle (Window), PS);

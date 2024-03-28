@@ -998,6 +998,24 @@ package body GWindows.Base is
               abs (Rect.Bottom - Rect.Top));
    end Size;
 
+   ---------------------------
+   -- Double_Buffered_Paint --
+   ---------------------------
+
+   procedure Double_Buffered_Paint (Window : in out Base_Window_Type;
+                                    State  : in     Boolean)
+   is
+   begin
+      Window.Paint_Is_Double_Buffered := State;
+   end Double_Buffered_Paint;
+
+   function Double_Buffered_Paint (Window : in out Base_Window_Type)
+                                  return Boolean
+   is
+   begin
+      return Window.Paint_Is_Double_Buffered;
+   end Double_Buffered_Paint;
+
    ------------------------
    --  Recommended_Size  --
    ------------------------
