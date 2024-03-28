@@ -429,6 +429,12 @@ package GWindows.Drawing is
       Object : in     GWindows.Drawing_Objects.Drawing_Object_Type'Class);
    --  Select a drawing object on to canvas
 
+   procedure Select_Object
+     (Canvas          : in out Canvas_Type;
+      Object          : in     GWindows.Drawing_Objects.Drawing_Object_Type'Class;
+      Previous_Object :    out GWindows.Drawing_Objects.Drawing_Object_Type'Class);
+   --  Select a drawing object on to canvas
+
    function Y_Pixels_Per_Inch (Canvas : in Canvas_Type) return Integer;
    function X_Pixels_Per_Inch (Canvas : in Canvas_Type) return Integer;
    --  Calculates the logical pixels per inch
@@ -528,11 +534,19 @@ package GWindows.Drawing is
    procedure Viewport_Origin (Canvas : in out Canvas_Type;
                               X, Y   : in     Integer);
 
+   procedure Viewport_Origin (Canvas          : in out Canvas_Type;
+                              X, Y            : in     Integer;
+                              Previous_Origin :    out GWindows.Types.Point_Type);
+
    function Viewport_Origin (Canvas : in Canvas_Type)
                             return GWindows.Types.Point_Type;
 
    procedure Offset_Viewport_Origin (Canvas : in out Canvas_Type;
                                      DX, DY : in     Integer);
+
+   procedure Offset_Viewport_Origin (Canvas          : in out Canvas_Type;
+                                     DX, DY          : in     Integer;
+                                     Previous_Origin :    out GWindows.Types.Point_Type);
 
    --  Viewport Origin
 

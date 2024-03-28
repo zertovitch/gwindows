@@ -1353,6 +1353,12 @@ package GWindows.Common_Controls is
       Return_Value : in out GWindows.Types.Lresult);
    --  Handles Notify Messages
 
+   procedure On_Erase_Background
+     (Control              : in out Tab_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type);
+
    procedure On_Paint
      (Control              : in out Tab_Control_Type;
       Canvas               : in out GWindows.Drawing.Canvas_Type;
