@@ -12,11 +12,14 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
+GWindows release, 13-Apr-2024 [revision 549]
+============================================
+
    * Fixes and additions on GWindows.Scintilla, the editor widget.
    * Custom colors for Status_Bar_Type, Tab_Control_Type and
         the extended Ex_List_View_Control_Type.
    * Improvements on GNATCOM.
- 
+
 529: Added package GWindows.Single_Instance. This allows a new
         instance of a multi-document application to pass its command-line
         parameters to an already running instance and quit, to ensure
