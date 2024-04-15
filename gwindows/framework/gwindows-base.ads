@@ -878,6 +878,7 @@ private
          MDI_Client       : Base_Window_Access           := null;
          MDI_Client_Background_Color_Sys : Boolean       := True;
          MDI_Client_Background_Color     : GWindows.Colors.Color_Type;
+         MDI_Child_Creation              : Boolean := False;
          Keyboard_Support : Boolean                      := False;
          Is_Control       : Boolean                      := False;
          Last_Focused     : Types.Handle                 := Types.Null_Handle;
