@@ -62,11 +62,11 @@ package body GWindows.Windows is
    --  Operating System Imports
    -------------------------------------------------------------------------
 
---   WM_MDICREATE               : constant := 544;
+   WM_MDICREATE               : constant := 544;
 --   WM_MDIDESTROY              : constant := 545;
---   WM_MDIRESTORE              : constant := 547;
+   WM_MDIRESTORE              : constant := 547;
 --   WM_MDINEXT                 : constant := 548;
---   WM_MDIMAXIMIZE             : constant := 549;
+   WM_MDIMAXIMIZE             : constant := 549;
    WM_MDITILE                 : constant := 550;
    WM_MDICASCADE              : constant := 551;
    WM_MDIICONARRANGE          : constant := 552;
@@ -596,11 +596,34 @@ package body GWindows.Windows is
       Is_Dynamic : in     Boolean           := False;
       CClass     : in     GString           := "")
    is
-      C_Title  : constant GString_C := GWindows.GStrings.To_GString_C (Title);
+      C_Title  : GString_C := GWindows.GStrings.To_GString_C (Title);
       Win_HWND : GWindows.Types.Handle;
       Style    : Interfaces.C.unsigned := 0;
       ExStyle  : Interfaces.C.unsigned := WS_EX_MDICHILD;
-      CClass_C : constant GString_C := GWindows.GStrings.To_GString_C (CClass);
+      CClass_C : GString_C := GWindows.GStrings.To_GString_C (CClass);
+      MDI_Client : GWindows.Base.Base_Window_Access := MDI_Client_Window (Parent);
+
+      type MDICREATESTRUCT is record
+         szClass : GWindows.Types.LPTSTR;
+         szTitle : GWindows.Types.LPTSTR;
+         hOwner  : GWindows.Types.Handle;
+         x       : Integer;
+         y       : Integer;
+         cx      : Integer;
+         cy      : Integer;
+         style   : GWindows.Types.DWORD;
+         lParam  : GWindows.Types.Lparam;
+      end record;
+
+      MdiCreate : MDICREATESTRUCT;
+
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := GWindows.Base.Handle (MDI_Client.all);
+         uMsg   : Interfaces.C.int      := WM_MDICREATE;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : MDICREATESTRUCT       := MdiCreate)
+        return GWindows.Types.Handle;
+      pragma Import (StdCall, SendMessage, "SendMessage" & Character_Mode_Identifier);
 
       RDW_INVALIDATE : constant := 16#0001#;
       RDW_UPDATENOW  : constant := 16#0100#;
@@ -614,33 +637,25 @@ package body GWindows.Windows is
                       RDW_INVALIDATE or RDW_UPDATENOW or RDW_FRAME);
       pragma Import (StdCall, RedrawWindow, "RedrawWindow");
 
-      MDI_Client : GWindows.Base.Base_Window_Access
-                     := MDI_Client_Window (Parent);
    begin
+      if CClass = "" then
+         MdiCreate.szClass := GWindows.Internal.Window_Class_Name (0)'Unchecked_Access;
+      else
+         MdiCreate.szClass := CClass_C (0)'Unchecked_Access;
+      end if;
+      MdiCreate.szTitle := C_Title (0)'Unchecked_Access;
+      MdiCreate.hOwner  := GWindows.Internal.Current_hInstance;
+      MdiCreate.x       := Left;
+      MdiCreate.y       := Top;
+      MdiCreate.cx      := Width;
+      MdiCreate.cy      := Height;
+      MdiCreate.style   := GWindows.Types.DWORD (Style);
+      MdiCreate.lParam  := 0;
+
       On_Pre_Create (Window_Type'Class (Window), Style, ExStyle);
       GWindows.Base.Freeze (MDI_Client.all); --  To suppress display glitches
-      if CClass = "" then
-         Win_HWND := CreateWindowEx (lpWindowName => C_Title,
-                                     dwExStyle    => ExStyle,
-                                     dwStyle      => Style,
-                                     x            => Left,
-                                     y            => Top,
-                                     nWidth       => Width,
-                                     nHeight      => Height,
-                                     hwndParent   =>
-                                    GWindows.Base.Handle (MDI_Client.all));
-      else
-         Win_HWND := CreateWindowEx (lpWindowName => C_Title,
-                                     lpClassName  => CClass_C,
-                                     dwExStyle    => ExStyle,
-                                     dwStyle      => Style,
-                                     x            => Left,
-                                     y            => Top,
-                                     nWidth       => Width,
-                                     nHeight      => Height,
-                                     hwndParent   =>
-                                    GWindows.Base.Handle (MDI_Client.all));
-      end if;
+
+      Win_HWND := SendMessage;  --  Create child window
 
       GWindows.Base.Link
         (Window, Win_HWND, Is_Dynamic, GWindows.Base.MDI_Child_Link);
@@ -1095,6 +1110,46 @@ package body GWindows.Windows is
            (SendMessage (GWindows.Base.Handle (Client_Window.all)));
       end if;
    end MDI_Active_Window;
+
+   -------------------------
+   -- MDI_Maximize_Window --
+   -------------------------
+
+   procedure MDI_Maximize_Window
+     (Window : in Window_Type;
+      Child  : in GWindows.Base.Base_Window_Type'Class)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle :=
+           GWindows.Base.Handle (MDI_Client_Window (Window).all);
+         uMsg   : Interfaces.C.int  := WM_MDIMAXIMIZE;
+         wParam : GWindows.Types.Handle := GWindows.Base.Handle (Child);
+         lParam : GWindows.Types.Lparam := 0);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end MDI_Maximize_Window;
+
+   ------------------------
+   -- MDI_Restore_Window --
+   ------------------------
+
+   procedure MDI_Restore_Window
+     (Window : in Window_Type;
+      Child  : in GWindows.Base.Base_Window_Type'Class)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle :=
+           GWindows.Base.Handle (MDI_Client_Window (Window).all);
+         uMsg   : Interfaces.C.int  := WM_MDIRESTORE;
+         wParam : GWindows.Types.Handle := GWindows.Base.Handle (Child);
+         lParam : GWindows.Types.Lparam := 0);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end MDI_Restore_Window;
 
    -------------------------
    -- MDI_Tile_Horizontal --

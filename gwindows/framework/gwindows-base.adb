@@ -2893,6 +2893,7 @@ package body GWindows.Base is
       WM_DESTROY     : constant := 2;
       WM_ERASEBKGND  : constant := 20;
       WM_NCCALCSIZE  : constant := 131;
+      WM_MDICREATE   : constant := 544;
       WM_MDIACTIVATE : constant := 546;
 
       function CallWindowProc
@@ -2955,34 +2956,61 @@ package body GWindows.Base is
             ShowScrollBar (hwnd, SB_BOTH, 0);
             --  Let default Window Proc do it's job
 
+         when WM_MDICREATE =>
+            Win_Ptr.MDI_Child_Creation := True;   --  Used to eliminate display glitches at child creation
+            --  Call default handler
+
          when WM_MDIACTIVATE =>
-            --  To suppress display glitches, we freeze the client window,
+            --  To suppress display glitches when child windows are expanded, we freeze the client window,
             --  call the window proc, unfreeze the client window and
             --  force the child window to be fully redrawn.
             declare
-               RDW_INVALIDATE : constant := 16#0001#;
-               RDW_UPDATENOW  : constant := 16#0100#;
-               RDW_FRAME      : constant := 16#0400#;
+               WM_MDIGETACTIVE : constant := 553;
 
-               procedure RedrawWindow
-                 (Hwnd : GWindows.Types.Handle;
-                  lprcUpdate : Integer := 0;
-                  hrgnUpdate : Integer := 0;
-                  Flags      : Interfaces.C.unsigned :=
-                               RDW_INVALIDATE or RDW_UPDATENOW or RDW_FRAME);
-               pragma Import (StdCall, RedrawWindow, "RedrawWindow");
+               function Active_Child
+                 (h_wnd  : GWindows.Types.Handle := hwnd;
+                  uMsg   : Interfaces.C.int      := WM_MDIGETACTIVE;
+                  wParam : GWindows.Types.Wparam := 0;
+                  lParam : GWindows.Types.Lparam := 0)
+                 return GWindows.Types.Handle;
+               pragma Import (StdCall, Active_Child, "SendMessage" & Character_Mode_Identifier);
 
-               Return_Value : GWindows.Types.Lresult;
+               function Is_Child_Zoomed (hwnd : GWindows.Types.Handle)
+                                        return Interfaces.C.long;
+               pragma Import (StdCall, Is_Child_Zoomed, "IsZoomed");
+
+               Current_Child : GWindows.Types.Handle := Active_Child;
+               New_Child     : GWindows.Types.Handle := GWindows.Types.To_Handle (wParam);
+               Current_Child_Zoomed : Boolean := Is_Child_Zoomed (Current_Child) /= 0;
             begin
-               Freeze (Win_Ptr.all);
-               Return_Value := CallWindowProc (Win_Ptr.ParentWindowProc,
-                                               hwnd,
-                                               message,
-                                               wParam,
-                                               lParam);
-               Thaw (Win_Ptr.all);
-               RedrawWindow (GWindows.Types.To_Handle (wParam));
-               return Return_Value;
+               if Current_Child_Zoomed or else Win_Ptr.MDI_Child_Creation then
+                  declare
+                     RDW_INVALIDATE : constant := 16#0001#;
+                     RDW_UPDATENOW  : constant := 16#0100#;
+                     RDW_FRAME      : constant := 16#0400#;
+
+                     procedure RedrawWindow
+                       (Hwnd : GWindows.Types.Handle;
+                        lprcUpdate : Integer := 0;
+                        hrgnUpdate : Integer := 0;
+                        Flags      : Interfaces.C.unsigned :=
+                                     RDW_INVALIDATE or RDW_UPDATENOW or RDW_FRAME);
+                     pragma Import (StdCall, RedrawWindow, "RedrawWindow");
+
+                     Return_Value : GWindows.Types.Lresult;
+                  begin
+                     Win_Ptr.MDI_Child_Creation := False;
+                     Freeze (Win_Ptr.all);
+                     Return_Value := CallWindowProc (Win_Ptr.ParentWindowProc,
+                                                     hwnd,
+                                                     message,
+                                                     wParam,
+                                                     lParam);
+                     Thaw (Win_Ptr.all);
+                     RedrawWindow (New_Child);
+                     return Return_Value;
+                  end;
+               end if;
             end;
 
          when WM_DESTROY =>

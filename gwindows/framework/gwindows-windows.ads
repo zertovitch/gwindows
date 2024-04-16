@@ -264,6 +264,13 @@ package GWindows.Windows is
      return GWindows.Base.Pointer_To_Base_Window_Class;
    --  MDI window
 
+   procedure MDI_Maximize_Window
+     (Window : in Window_Type;
+      Child  : in GWindows.Base.Base_Window_Type'Class);
+   procedure MDI_Restore_Window
+     (Window : in Window_Type;
+      Child  : in GWindows.Base.Base_Window_Type'Class);
+
    procedure Default_Cursor (Window : in out Window_Type;
                              Cursor : in     GWindows.Cursors.Cursor_Type);
    --  Set the default cursor display when mouse is over this Window
