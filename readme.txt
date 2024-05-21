@@ -3,20 +3,20 @@ GWindows & GNAVI
 
 GWindows is a free and open-source Ada programming framework for
 MS Windows. GWindows is used for many years in professional, industrial,
-commercial, or open-source applications. GWindows is in pure Ada, has
+commercial, or open-source applications. GWindows is in pure Ada and has
 no dependencies other than the Windows API itself that is available on
-every computer running the MS Windows operating system or a system that
-provides a Windows subsystem like WINE.
+every computer running the MS Windows operating system or even a system
+that provides a Windows subsystem like WINE.
 The GWindows framework is updated regularly.
 
 The GNAVI application is an integrated, interactive visual development
-environment. That software (GNAVI) is so far unfinished.
+environment. The GNAVI application is so far unfinished.
 
 For graphical interface development, an alternative to GNAVI is
 the combination of a resource editor (for instance the freeware ResEdit,
 shipped with GWindows installation) for editing resource scripts (.rc files),
 and GWenerator, a code generator that translates a .rc file into Ada files
-that use GWindows.
+that use GWindows. GWenerator is also included in this distribution.
 
 For more information, read the other "readme"'s, mainly:
 
