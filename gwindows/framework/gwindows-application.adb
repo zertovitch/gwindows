@@ -485,6 +485,9 @@ package body GWindows.Application is
                                   Proc   : System.Address;
                                   lp     : GWindows.Types.Lparam);
       pragma Import (StdCall, EnumChildWindows, "EnumChildWindows");
+      --  NB: EnumChildWindows is recursive:
+      --  "If a child window has created child windows of its own,
+      --   EnumChildWindows enumerates those windows as well."
       Path : GString_Unbounded;
       use GWindows.GStrings;
       --
@@ -504,6 +507,8 @@ package body GWindows.Application is
          I   : Integer;
          use Ada.Strings.Wide_Fixed;
       begin
+         --  --  List everything:
+         --  Put_Line (To_String ("  " & Child_Class_Name & ": " & CT));
          if Child_Class_Name = "ToolbarWindow32" then
             --  Examples of WCT (Windows 10 in French):
             --    "Boutons de navigation"
@@ -524,7 +529,7 @@ package body GWindows.Application is
                end if;
             end if;
          end if;
-         --  Recurse on children (not needed so far):
+         --  Recurse on children (not needed: EnumChildWindows is recursive):
          --  EnumChildWindows (child, Capture_Edit_Box'Address, 0);
          return True;  --  Continue enumeration
       end Capture_Edit_Box;
@@ -546,6 +551,10 @@ package body GWindows.Application is
          end if;
       end if;
       if RCN = "CabinetWClass" or else RCN = "ExploreWClass" then
+         --  Unfortunately this trick, which worked from very old Windows
+         --  to Windows 10, doesn't work on Windows 11.
+         --
+         --  Put_Line ("ENUM Explorer");
          EnumChildWindows (RWH, Capture_Edit_Box'Address, 0);
          return To_GString_From_Unbounded (Path);
       end if;
