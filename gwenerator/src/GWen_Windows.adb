@@ -468,7 +468,7 @@ package body GWen_Windows is
   procedure On_About (Window : in out GWen_Window_Type) is
     use GWindows.Static_Controls.Web;
     box : GWenerator_Resource_GUI.About_box_Type;
-    url_gnat, url_gnavi_1, url_gnavi_2, url_resedit : URL_Type;
+    url_gnat, url_gnavi_1, url_gnavi_2 : URL_Type;
     package CVer is new GNAT.Compiler_Version;
   begin
     box.Create_Full_Dialog (Window);

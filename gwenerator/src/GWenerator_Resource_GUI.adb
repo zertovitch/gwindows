@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 --  GUI contents of resource script file: GWenerator.rc
---  Transcription time: 2022/08/18  22:17:54
+--  Transcription time: 2024/06/04  02:11:06
 --  GWenerator project file: GWenerator.gwen
 --
 --  Translated by the RC2GW or by the GWenerator tool.
@@ -60,7 +60,7 @@ package body GWenerator_Resource_GUI is
   --
   procedure On_Pre_Create (Window    : in out About_box_Type;
                            dwStyle   : in out Interfaces.C.unsigned;
-                            dwExStyle : in out Interfaces.C.unsigned)
+                           dwExStyle : in out Interfaces.C.unsigned)
   is
     pragma Unmodified (Window);
     pragma Unmodified (dwExStyle);
