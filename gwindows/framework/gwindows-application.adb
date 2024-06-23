@@ -41,6 +41,7 @@ with GWindows.Constants;
 with GWindows.Utilities;
 
 with Ada.Strings.Wide_Fixed;
+with Ada.Text_IO;
 with GNAT.OS_Lib;
 with System;
 
@@ -480,6 +481,7 @@ package body GWindows.Application is
    end Is_Desktop_At_Location;
 
    function Explorer_Path_At_Location (X, Y : Integer) return GString is
+      trace_mode : constant Boolean := False;
       --
       procedure EnumChildWindows (hwnd   : GWindows.Types.Handle;
                                   Proc   : System.Address;
@@ -504,29 +506,43 @@ package body GWindows.Application is
          CT  : constant GString := Get_Window_Text (child);
          --  Force to Unicode (for the Index function)
          WCT : constant Wide_String := To_Wide_String (CT);
-         I   : Integer;
+         is_candidate : Boolean := False;
+         start_index : Integer;
          use Ada.Strings.Wide_Fixed;
       begin
-         --  --  List everything:
-         --  Put_Line (To_String ("  " & Child_Class_Name & ": " & CT));
+         --  List everything:
+         if trace_mode then
+           Ada.Text_IO.Put_Line (To_String ("    " & Child_Class_Name & ": " & CT));
+         end if;
          if Child_Class_Name = "ToolbarWindow32" then
-            --  Examples of WCT (Windows 10 in French):
+            --  Windows 95 to Windows 10
+            ----------------------------
+            --  There are many children with the class name
+            --  ToolbarWindow32! Only one may contain a path.
+            --  Examples of such strings (Windows 10 in French, accents removed):
             --    "Boutons de navigation"
-            --    "Barre d'outils du bandeau supérieur"
-            --    "Adresse : C:\Ada\gnavi\gwindows\samples"
-            --
-            I := Index (WCT, ": ");
-            if I > 0 then
-               --  There are many children with the same class
-               --  name (ToolbarWindow32)! Only one may contain a path.
-               if Index (WCT, ":\") = 0 and then Index (WCT, "\\") = 0 then
-                  --  It is a bogus directory, like "My Computer"
-                  --  or "Documents" (in various languages...).
-                  null;
-               else
-                  Path := To_GString_Unbounded (CT (I + 2 .. CT'Last));
-                  return False;  --  Found, then stop enumeration
+            --    "Barre d'outils du bandeau superieur"
+            --    "Adresse: C:\Ada\gnavi\gwindows\samples"
+            start_index := Index (WCT, ": ");
+            is_candidate := start_index > 0;
+            start_index := start_index + 2;
+         elsif Child_Class_Name = "ShellTabWindowClass" then
+            --  Windows 11.
+            start_index := WCT'First;
+            is_candidate := True;
+         end if;
+         if is_candidate then
+            if Index (WCT, ":\") = 0 and then Index (WCT, "\\") = 0 then
+               --  It is a bogus directory, like "My Computer"
+               --  or "Documents" (in various languages...).
+               null;
+            else
+               Path := To_GString_Unbounded (CT (start_index .. CT'Last));
+               if trace_mode then
+                  Ada.Text_IO.Put_Line
+                    ('[' & To_String (To_GString_From_Unbounded (Path)) & ']');
                end if;
+               return False;  --  Found, then stop enumeration
             end if;
          end if;
          --  Recurse on children (not needed: EnumChildWindows is recursive):
@@ -551,10 +567,12 @@ package body GWindows.Application is
          end if;
       end if;
       if RCN = "CabinetWClass" or else RCN = "ExploreWClass" then
-         --  Unfortunately this trick, which worked from very old Windows
-         --  to Windows 10, doesn't work on Windows 11.
-         --
-         --  Put_Line ("ENUM Explorer");
+         --  This trick needs to have the Explorer option
+         --  "Display the full path in the title bar" enabled,
+         --  at least on Windows 11.
+         if trace_mode then
+           Ada.Text_IO.Put_Line (To_String (RCN) & " -> ENUM Explorer");
+         end if;
          EnumChildWindows (RWH, Capture_Edit_Box'Address, 0);
          return To_GString_From_Unbounded (Path);
       end if;
