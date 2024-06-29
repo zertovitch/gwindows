@@ -2367,7 +2367,7 @@ package body GWindows.Base is
       Item_Data       : in     Integer;
       Control         : in     Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, Window);
+      pragma Unreferenced (Window);
    begin
       if Control /= null then
          On_Draw_Item (Control.all,
@@ -2390,7 +2390,7 @@ package body GWindows.Base is
                         Control      : in     Pointer_To_Base_Window_Class;
                         Return_Value : in out GWindows.Types.Lresult)
    is
-      pragma Warnings (Off, Window);
+      pragma Unreferenced (Window);
    begin
       if Control /= null then
          On_Notify (Control.all, Message, null, Return_Value);
@@ -2454,10 +2454,7 @@ package body GWindows.Base is
       Return_Value : in out GWindows.Types.Lresult;
       Continue     :    out Boolean)
    is
-      pragma Warnings (Off, Window);
-      pragma Warnings (Off, message);
-      pragma Unreferenced (wParam, lParam);
-      pragma Unmodified (Return_Value);
+      pragma Unreferenced (Window, message, wParam, lParam, Return_Value);
    begin
       Continue := True;
    end On_Filter_Message;
@@ -2935,7 +2932,7 @@ package body GWindows.Base is
                declare
                   use GWindows.Drawing_Objects;
                   Canvas : GWindows.Drawing.Canvas_Type;
-                  Area   : GWindows.Types.Rectangle_Type
+                  Area   : constant GWindows.Types.Rectangle_Type
                                               := Client_Area (Win_Ptr.all);
                   B : Brush_Type;
                begin
@@ -2979,9 +2976,9 @@ package body GWindows.Base is
                                         return Interfaces.C.long;
                pragma Import (StdCall, Is_Child_Zoomed, "IsZoomed");
 
-               Current_Child : GWindows.Types.Handle := Active_Child;
-               New_Child     : GWindows.Types.Handle := GWindows.Types.To_Handle (wParam);
-               Current_Child_Zoomed : Boolean := Is_Child_Zoomed (Current_Child) /= 0;
+               Current_Child : constant GWindows.Types.Handle := Active_Child;
+               New_Child     : constant GWindows.Types.Handle := GWindows.Types.To_Handle (wParam);
+               Current_Child_Zoomed : constant Boolean := Is_Child_Zoomed (Current_Child) /= 0;
             begin
                if Current_Child_Zoomed or else Win_Ptr.MDI_Child_Creation then
                   declare

@@ -872,30 +872,30 @@ private
    type Base_Window_Type is
      new Ada.Finalization.Limited_Controlled with
       record
-         HWND             : Types.Handle                 := Types.Null_Handle;
-         ParentWindowProc : Windproc_Access              := null;
-         haccel           : Types.Handle                 := Types.Null_Handle;
-         MDI_Client       : Base_Window_Access           := null;
-         MDI_Client_Background_Color_Sys : Boolean       := True;
-         MDI_Client_Background_Color     : GWindows.Colors.Color_Type;
-         MDI_Child_Creation              : Boolean := False;
-         Keyboard_Support : Boolean                      := False;
-         Is_Control       : Boolean                      := False;
-         Last_Focused     : Types.Handle                 := Types.Null_Handle;
-         Is_Dynamic       : Boolean                      := False;
-         Modal_Result     : Integer                      := 0;
-         In_Dialog        : Boolean                      := False;
-         Is_Modal         : Boolean                      := False;
-         Disabled_Parent  : Pointer_To_Base_Window_Class := null;
-         Run_Mode         : Run_Mode_Type                := Normal;
-         Dock             : Dock_Type                    := None;
-         Custom_Data      : Pointer_To_Base_Data_Class   := null;
-         Free_Custom_Data : Boolean                      := False;
-         Use_Mouse_Wheel  : Boolean                      := False;
-         Is_Linked        : Boolean                      := False;  --  * AnSp
+         HWND                            : Types.Handle                 := Types.Null_Handle;
+         ParentWindowProc                : Windproc_Access              := null;
+         haccel                          : Types.Handle                 := Types.Null_Handle;
+         MDI_Client                      : Base_Window_Access           := null;
+         MDI_Client_Background_Color_Sys : Boolean                      := True;
+         MDI_Client_Background_Color     : GWindows.Colors.Color_Type   := Colors.White;
+         MDI_Child_Creation              : Boolean                      := False;
+         Keyboard_Support                : Boolean                      := False;
+         Is_Control                      : Boolean                      := False;
+         Last_Focused                    : Types.Handle                 := Types.Null_Handle;
+         Is_Dynamic                      : Boolean                      := False;
+         Modal_Result                    : Integer                      := 0;
+         In_Dialog                       : Boolean                      := False;
+         Is_Modal                        : Boolean                      := False;
+         Disabled_Parent                 : Pointer_To_Base_Window_Class := null;
+         Run_Mode                        : Run_Mode_Type                := Normal;
+         Dock                            : Dock_Type                    := None;
+         Custom_Data                     : Pointer_To_Base_Data_Class   := null;
+         Free_Custom_Data                : Boolean                      := False;
+         Use_Mouse_Wheel                 : Boolean                      := False;
+         Is_Linked                       : Boolean                      := False;  --  * AnSp
          --  * AnSp:  Added parameter Procedures to be able to create only
          --  *        a link between a Windows handle and GWindows object.
-         Paint_Is_Double_Buffered : Boolean := False;
+         Paint_Is_Double_Buffered        : Boolean                      := False;
 
          --  Event Handlers
          On_Create_Event             : Action_Event          := null;

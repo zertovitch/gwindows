@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -923,6 +923,8 @@ package body GWindows.Common_Controls is
       Item_Rect       : in     GWindows.Types.Rectangle_Type;
       Item_Data       : in     Integer;
       Control         : in     GWindows.Base.Pointer_To_Base_Window_Class) is
+
+      pragma Unreferenced (Item_Action, Item_State, Item_Data, Control);
 
       use GWindows.Drawing, GWindows.Drawing_Objects;
 

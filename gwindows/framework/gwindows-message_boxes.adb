@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -267,7 +267,7 @@ package body GWindows.Message_Boxes is
       procedure Do_On_Destroy
         (Window_Dummy : in out GWindows.Base.Base_Window_Type'Class)
       is
-         pragma Warnings (Off, Window_Dummy);
+         pragma Unmodified (Window_Dummy);
       begin
          Out_Text := GWindows.GStrings.To_GString_Unbounded
            (GWindows.Edit_Boxes.Text (In_Box));

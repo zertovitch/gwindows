@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -601,7 +601,7 @@ package body GWindows.Windows is
       Style    : Interfaces.C.unsigned := 0;
       ExStyle  : Interfaces.C.unsigned := WS_EX_MDICHILD;
       CClass_C : GString_C := GWindows.GStrings.To_GString_C (CClass);
-      MDI_Client : GWindows.Base.Base_Window_Access := MDI_Client_Window (Parent);
+      MDI_Client : constant GWindows.Base.Base_Window_Access := MDI_Client_Window (Parent);
 
       type MDICREATESTRUCT is record
          szClass : GWindows.Types.LPTSTR;

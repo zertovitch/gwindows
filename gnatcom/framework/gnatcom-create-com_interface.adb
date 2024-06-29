@@ -79,7 +79,7 @@ package body GNATCOM.Create.COM_Interface is
                    return Interfaces.C.unsigned_long
    is
       Result : Interfaces.Unsigned_32;
-      pragma Warnings (Off, Result);
+      pragma Unreferenced (Result);
    begin
       --  Object wide reference increment
       Result := InterlockedIncrement (This.CoClass.Ref_Count'Access);
@@ -104,7 +104,7 @@ package body GNATCOM.Create.COM_Interface is
 
       New_Interface : aliased Pointer_To_COM_Interface_Type;
       Result        :         Interfaces.Unsigned_32;
-      pragma Warnings (Off, Result);
+      pragma Unreferenced (Result);
    begin
       --  GNATCOM implements COM objects using a technique often
       --  called "tear-off" interfaces. Interfaces are created
@@ -207,7 +207,7 @@ package body GNATCOM.Create.COM_Interface is
       use type Interfaces.Unsigned_32;
 
       Result : Interfaces.Unsigned_32;
-      pragma Warnings (Off, Result);
+      pragma Unreferenced (Result);
    begin
 
       --  Reduce the Object wide reference count
@@ -230,7 +230,7 @@ package body GNATCOM.Create.COM_Interface is
 
    procedure Release (This : access COM_Interface_Type) is
       Result : Interfaces.C.unsigned_long;
-      pragma Warnings (Off, Result);
+      pragma Unreferenced (Result);
    begin
       --  The results of a release are in general bogus as
       --  any time proxies are introduced, the actual result
@@ -278,7 +278,7 @@ package body GNATCOM.Create.COM_Interface is
       P_Interface : Pointer_To_COM_Interface_Type;
       CoClass   : Pointer_To_CoClass;
       Result    : Interfaces.Unsigned_32;
-      pragma Warnings (Off, Result);
+      pragma Unreferenced (Result);
    begin
       P_Interface := To_Pointer_To_COM_Interface_Type (Pointer);
       CoClass   := P_Interface.CoClass;
