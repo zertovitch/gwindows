@@ -1,5 +1,5 @@
 PACKAGES = gnavi_ide
-ADAOPTS = -I../../xml -I../../icg/src -I../../../framework
+ADAOPTS = -I../../xml -I../../icg/src -I../../../gwindows/framework -I../../../gnatcom/framework
 
 include ../../makefile.inc
 
