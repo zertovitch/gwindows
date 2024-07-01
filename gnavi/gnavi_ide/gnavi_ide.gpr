@@ -1,6 +1,3 @@
---  This is part of an attempt to bring life to GNAVI
---  GdM July 2012
-
 with "../../gwindows/gwindows.gpr";
 
 project GNAVI_IDE is
@@ -11,7 +8,7 @@ project GNAVI_IDE is
 
    for Source_Dirs use ("src", "../xml", "../icg/src");
    for Main use ("gnavi_ide.adb");
-   for Exec_Dir use "src";  --  It is supposed to be so given the datastore path
+   for Exec_Dir use "src";  --  It is supposed to be so given the datastore path (???)
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
    
    case Build_Mode is
@@ -29,24 +26,22 @@ project GNAVI_IDE is
       for Default_Switches ("ada") use ("-j0");
    end Builder;
 
+   Common_Compiler_Options := ("-gnatwkmpz", "-gnatyhiknpr", "-g");
+
    package Compiler is
       case Build_Mode is
          when "Debug" =>
-            for Default_Switches ("ada") use ("-gnatwkmpz", "-gnatyhiknpr", "-g", "-gnatVa", "-gnato", "-fno-inline", "-fstack-check", "-fno-strict-aliasing");
+            for Default_Switches ("ada") use Common_Compiler_Options & ("-gnatVa", "-gnato", "-fno-inline", "-fstack-check", "-fno-strict-aliasing");
          when "Fast" =>
-            for Default_Switches ("ada") use ("-gnatwkmpz", "-gnatyhiknpr", "-g", "-O2", "-gnatn", "-fno-strict-aliasing", "-funroll-loops", "-fpeel-loops", "-ftracer", "-funswitch-loops", "-fweb", "-frename-registers");
+            for Default_Switches ("ada") use Common_Compiler_Options & ("-Ofast", "-gnatn");
          when "Small" =>
-            for Default_Switches ("ada") use ("-gnatwkmpz", "-gnatyhiknpr",       "-Os", "-fno-strict-aliasing", "-fno-inline", "-ffunction-sections", "-falign-jumps=0", "-falign-loops=0", "-falign-functions=0", "-mpreferred-stack-boundary=2");
+            for Default_Switches ("ada") use Common_Compiler_Options & ("-Os");
       end case;
    end Compiler;
    
    package Binder is
-      case Build_Mode is
-         when "Debug" =>
-            for Default_Switches ("ada") use ("-E");
-         when "Fast" =>
-         when "Small" =>
-      end case;
+      --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
+      for Default_Switches ("ada") use ("-Es");
    end Binder;
 
 end GNAVI_IDE;
