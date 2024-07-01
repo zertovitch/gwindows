@@ -1,7 +1,9 @@
+--  This file contains only automatically generated code.
+--  Do not edit!
+--  Change the GNAVI item instead.
+
 with GWindows.Application;
 with GWindows.Drawing_Objects;
-
---  GNAVI: No user changes may be made here
 
 separate (GNAVI_Controls_Window_Package)
 procedure On_Create (Window : in out GNAVI_Controls_Window_Type)
