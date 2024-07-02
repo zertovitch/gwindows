@@ -237,6 +237,7 @@ package body GNAVI_ICG.Window is
                while NI2 /= null loop
                   if NI2.Node_Type = Element_Node then
                      O_String := O_String &
+                       Indent &
                        Elements.Get_Attribute (NI2, "event") &
                        "_Handler (" & "Window" & ", " &
                        Elements.Get_Attribute (NI2, "name") &

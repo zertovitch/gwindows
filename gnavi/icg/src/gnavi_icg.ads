@@ -58,6 +58,8 @@ package GNAVI_ICG is
    --  If set to true the application.adb will always contain a 'with'
    --  for every window in project
 
+   procedure Generate_All (XML_File_Name, Templates_Directory : String);
+
 private
 
    function Create_Params (Object_Node : DOM.Core.Element) return String;

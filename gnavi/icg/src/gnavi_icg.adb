@@ -35,6 +35,7 @@ with GNAVI_ICG.Application;
 with GNAVI_ICG.Windows;
 
 with GNAT.Case_Util;
+with GNAT.Directory_Operations;
 
 with Templates;
 
@@ -68,6 +69,21 @@ package body GNAVI_ICG is
       GNAVI_ICG.Windows.Update_Windows (Project);
    end Update_Project;
 
+   procedure Generate_All (XML_File_Name, Templates_Directory : String) is
+      Prj : GNAVI_Project_Type;
+   begin
+      Templates.Template_Dir (Templates_Directory);
+      GNAT.Directory_Operations.Change_Dir
+        (GNAT.Directory_Operations.Dir_Name (XML_File_Name));
+
+      GNAVI_ICG.Load_Project
+        (Prj,
+         GNAT.Directory_Operations.Base_Name (XML_File_Name));
+      GNAVI_ICG.Update_Project (Prj);
+      GNAVI_ICG.Close_Project (Prj);
+   end Generate_All;
+
+
    function Create_Params (Object_Node : DOM.Core.Element) return String is
       use DOM.Core;
 
@@ -76,6 +92,9 @@ package body GNAVI_ICG is
       Attrs     : constant DOM.Core.Named_Node_Map := Nodes.Attributes (Object_Node);
 
       Param_Num : Natural := 0;
+
+      function GWindows_Casing (S : String) return String is
+      (if S = "id" then "ID" elsif S = "progid" then "ProgID" else GNAT.Case_Util.To_Mixed (S));
 
       function Do_Params (S : String) return String;
       --  Parse out parameters
@@ -98,7 +117,7 @@ package body GNAVI_ICG is
 
          declare
             NS : constant String := S & "," & Templates.NL &
-              Indent & N & " => " & V;
+              Indent & GWindows_Casing (N) & " => " & V;
          begin
             if Param_Num = Nodes.Length (Attrs) then
                return NS;
