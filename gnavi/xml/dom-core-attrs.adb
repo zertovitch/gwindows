@@ -27,9 +27,8 @@
 -- executable file  might be covered by the  GNU Public License.     --
 -----------------------------------------------------------------------
 
-with DOM.Core.Nodes; use DOM.Core.Nodes;
-
 package body DOM.Core.Attrs is
+
    ---------------
    -- Specified --
    ---------------

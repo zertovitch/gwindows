@@ -33,7 +33,6 @@ with Ada.Characters.Handling;
 with Ada.Calendar;
 with Ada.Strings.Fixed;
 with Ada.Strings.Maps.Constants;
-with Ada.Strings.Unbounded;
 with Ada.Unchecked_Deallocation;
 
 with GNAT.Calendar.Time_IO;
@@ -826,8 +825,6 @@ package body Templates_Parser is
          --------------------
 
          function Name_Parameter (Filter : in String) return Templates_Parser.Filter.Routine is
-            use Strings;
-
             package F renames Templates_Parser.Filter;
 
             P1 : constant Natural := Fixed.Index (Filter, "(");
