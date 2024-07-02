@@ -1,3 +1,5 @@
+with GNAVI_Widget_Vehicle;
+
 with GWindows.Packing_Boxes;
 with GWindows.GStrings;
 with GWindows.Types;
@@ -27,6 +29,7 @@ package body GNAVI_Layout_View.Controls is
       Width  : in     Integer;
       Height : in     Integer)
    is
+   pragma Unreferenced (Width, Height);
       use GNAVI_Widget_Vehicle;
       use GWindows.Base;
       use GWindows.GStrings;
@@ -50,6 +53,7 @@ package body GNAVI_Layout_View.Controls is
                           Top    : in     Integer;
                           Left   : in     Integer)
    is
+   pragma Unreferenced (Top, Left);
       use GNAVI_Widget_Vehicle;
       use GWindows.Base;
       use GWindows.GStrings;
@@ -73,7 +77,6 @@ package body GNAVI_Layout_View.Controls is
       Control_XML :        GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
    is
-      use GNAVI_Window;
       use GWindows.Base;
    begin
       if Parent = null then
@@ -109,7 +112,7 @@ package body GNAVI_Layout_View.Controls is
 
             if D = GWindows.Base.None then
                Create_As_Control (Vehicle.all, Parent.all, "",
-                                  Left (Control.all), Top(Control.all),
+                                  Left (Control.all), Top (Control.all),
                                   Width (Control.all), Height (Control.all));
                On_Size_Handler (Vehicle.all, Widget_Resize'Access);
                On_Move_Handler (Vehicle.all, Widget_Move'Access);

@@ -7,10 +7,8 @@ with GNAVI_IDs;
 with Standard_IDs;
 
 with GWindows.Image_Lists;
-with GWindows.Common_Controls;
 with GWindows.Common_Dialogs;
 with GWindows.GStrings;
-with GWindows.Cursors;
 
 with GNAT.Directory_Operations;
 
@@ -111,7 +109,6 @@ package body GNAVI_Project_Window_Package is
    end Add_Existing_Window;
 
    procedure Edit_Window is
-      use GNAVI_Project;
       use GWindows.List_Boxes;
 
       Selected : constant Natural  :=
@@ -197,6 +194,7 @@ package body GNAVI_Project_Window_Package is
    procedure Do_New_Window
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
    begin
       New_Window;
    end Do_New_Window;
@@ -204,6 +202,7 @@ package body GNAVI_Project_Window_Package is
    procedure Do_Delete_Window
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
    begin
       Delete_Window;
    end Do_Delete_Window;
@@ -211,6 +210,7 @@ package body GNAVI_Project_Window_Package is
    procedure Do_Edit_Window
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
    begin
       Edit_Window;
    end Do_Edit_Window;
@@ -218,6 +218,7 @@ package body GNAVI_Project_Window_Package is
    procedure Do_Add_Window
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
    begin
       Add_Existing_Window;
    end Do_Add_Window;
@@ -225,6 +226,7 @@ package body GNAVI_Project_Window_Package is
    procedure Do_Window_Selection
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GWindows.List_Boxes;
    begin
       if Current (GNAVI_Project_Window.Window_Type_List) > 0 then
@@ -238,6 +240,7 @@ package body GNAVI_Project_Window_Package is
      (Window : in out GWindows.Base.Base_Window_Type'Class;
       Item   : in     Integer)
    is
+   pragma Unreferenced (Window);
    begin
       GNAVI_Main_Package.Handle_Menu (GNAVI_Main_Package.GNAVI_Main, Item);
    end Do_Toolbar_Select;
@@ -253,6 +256,7 @@ package body GNAVI_Project_Window_Package is
    procedure Do_File_Selection
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GWindows.List_Boxes;
    begin
       if Current (GNAVI_Project_Window.File_List) > 0 then

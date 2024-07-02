@@ -69,12 +69,11 @@ package body GNAVI_Project_Classes is
    is
       use Templates_Parser;
       use Ada.Text_IO;
-      use GWindows.GStrings;
 
       O_File : File_Type;
 
       Trans : constant Translate_Table :=
-        ( 1 => Assoc ("Project_Name", To_String (Project_Name)));
+        (1 => Assoc ("Project_Name", To_String (Project_Name)));
 
       File_Name : GWindows.GString := Directory_Name & Project_Name & ".gnp";
    begin
@@ -86,7 +85,7 @@ package body GNAVI_Project_Classes is
            Parse
              (Filename     => To_String (GNAVI_Datastore.Directory
                 (Project_Classes_XML) & Template (Index)),
-              Translations =>Trans));
+              Translations => Trans));
 
       Close (O_File);
    end Generate_Project;

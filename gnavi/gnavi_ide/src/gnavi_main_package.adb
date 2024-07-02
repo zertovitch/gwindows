@@ -13,7 +13,6 @@ with GNAVI_Controls_Window_Package;
 with GNAVI_File_Edit_Window_Package;
 with GNAVI_Project;
 with GNAVI_Controls;
-with GNAVI_Datastore;
 
 with Standard_IDs;
 with GNAVI_IDs;
@@ -30,7 +29,7 @@ package body GNAVI_Main_Package is
    procedure On_Menu_Select (Window : in out GNAVI_Main_Type;
                              Item   : in     Integer) is
    begin
-      Handle_Menu(Window, Item);
+      Handle_Menu (Window, Item);
    end On_Menu_Select;
 
    -------------------------------------------------------------------------
@@ -42,11 +41,9 @@ package body GNAVI_Main_Package is
    procedure Do_Create
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GWindows.Common_Controls;
       use GNAVI_Main_Menus;
-      use GNAVI_Datastore;
-      use GWindows.Menus;
-      use GWindows.Drawing_Objects;
       use GWindows.Image_Lists;
       use GNAVI_IDs;
       use Standard_IDs;
@@ -55,7 +52,6 @@ package body GNAVI_Main_Package is
 
       M : constant Base_Menus := Setup_Base_Menus;
 
-      Icon : Icon_Type;
    begin
       MDI_Menu (GNAVI_Main, M.Main_Menu, M.Windows_Menu);
 
@@ -124,6 +120,7 @@ package body GNAVI_Main_Package is
    procedure Do_New_GNAVI_Project
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GNAVI_New_Project_Package;
    begin
       Center (GNAVI_New_Project);
@@ -162,6 +159,7 @@ package body GNAVI_Main_Package is
    procedure Do_Save_GNAVI_Project
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
    begin
       GNAVI_Project_Window_Package.Save_Project;
    end Do_Save_GNAVI_Project;
@@ -169,6 +167,7 @@ package body GNAVI_Main_Package is
    procedure Do_Close_GNAVI_Project
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GNAVI_Project_Window_Package;
    begin
       Close (GNAVI_Project_Window);
@@ -177,6 +176,7 @@ package body GNAVI_Main_Package is
    procedure Do_Compile
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GNAVI_Project_Window_Package;
    begin
       if GNAVI_Main_Menus.Project_Loaded then
@@ -188,6 +188,7 @@ package body GNAVI_Main_Package is
    procedure Do_Run
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GNAVI_Project_Window_Package;
    begin
       if GNAVI_Main_Menus.Project_Loaded then
@@ -225,6 +226,7 @@ package body GNAVI_Main_Package is
      (Window : in out GWindows.Base.Base_Window_Type'Class;
       Item   : in     Integer)
    is
+   pragma Unreferenced (Window);
    begin
       Handle_Menu (GNAVI_Main, Item);
    end Do_Toolbar_Select;

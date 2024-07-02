@@ -1,4 +1,3 @@
-with GNAVI_Main_Package;
 with GNAVI_Datastore;
 
 with GWindows.GStrings;
@@ -24,6 +23,7 @@ package body GNAVI_Help_Window_Package is
      (Window    : in out GWindows.Base.Base_Window_Type'Class;
       Can_Close :    out Boolean)
    is
+   pragma Unreferenced (Window);
    begin
       Can_Close := True;
    end Do_Close;

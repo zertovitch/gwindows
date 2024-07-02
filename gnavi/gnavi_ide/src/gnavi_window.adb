@@ -5,7 +5,6 @@ with DOM.Core.Elements;
 with DOM.Core.Nodes;
 with DOM.Core.Documents;
 
-with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 
 package body GNAVI_Window is
@@ -738,7 +737,7 @@ package body GNAVI_Window is
    is
       use DOM.Core;
    begin
-      if Name /="" then
+      if Name /= "" then
          Set_Handler (Window, Control, Name, Event_Type, Handler_Type);
       else
          declare
@@ -827,7 +826,7 @@ package body GNAVI_Window is
       Parent        : constant DOM.Core.Node := Parent_Control (Control);
       Controls_Node : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node (Parent,
                                                                  "controls");
-      Control_Node  : DOM.Core.Node := Control;
+      --  Control_Node  : DOM.Core.Node := Control;
    begin
       if Controls_Node /= null then
          Result := Nodes.Remove_Child (Controls_Node, Control);
@@ -853,7 +852,7 @@ package body GNAVI_Window is
    is
       use DOM.Core;
 
-      Result        : DOM.Core.Node;
+      Dummy         : DOM.Core.Node;
       Controls_Node : DOM.Core.Node := GNAVI_XML.Get_Child_Node (Parent,
                                                                  "controls");
    begin
@@ -867,7 +866,7 @@ package body GNAVI_Window is
          end;
       end if;
 
-      Result := Nodes.Insert_Before (Controls_Node, Control, Before);
+      Dummy := Nodes.Insert_Before (Controls_Node, Control, Before);
       Write (Window);
    end Insert_Control_Before;
 

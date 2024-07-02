@@ -24,8 +24,8 @@ procedure GNAVI_IDE is
 
    use GNAVI_Project;
 
-   --   pragma Linker_Options ("-mwindows");
-   pragma Linker_Options ("gnavi_ide.coff");
+   --  pragma Linker_Options ("-mwindows");
+   --  pragma Linker_Options ("gnavi_ide.coff");
 begin
 
    ICG_Path_Exists := GNAT.OS_Lib.Locate_Exec_On_Path ("icg");

@@ -16,9 +16,9 @@ package body GNAVI_Controls is
 
    Controls_XML  : GNAVI_Datastore.GNAVI_Datastore_Type;
    Controls_File : constant GWindows.GString := "controls.xml";
-   Windows_List  : DOM.Core.Node_List;
-   Controls_List : DOM.Core.Node_List;
-   Types_List    : DOM.Core.Node_List;
+   Dummy_Windows_List  : DOM.Core.Node_List;
+   Controls_List       : DOM.Core.Node_List;
+   Dummy_Types_List    : DOM.Core.Node_List;
 
    function Get_Create_Properties (Index : Positive)
                                   return DOM.Core.Node_List;
@@ -39,8 +39,6 @@ package body GNAVI_Controls is
    function Get_Create_Properties (Index : Positive)
                                   return DOM.Core.Node_List
    is
-      use DOM.Core;
-
       P : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node
         (Nodes.Item (Controls_List, Index - 1), "create_properties");
 
@@ -56,8 +54,6 @@ package body GNAVI_Controls is
    function Get_Init_Properties (Index : Positive)
                                 return DOM.Core.Node_List
    is
-      use DOM.Core;
-
       P : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node
         (Nodes.Item (Controls_List, Index - 1), "init_properties");
 
@@ -90,13 +86,13 @@ package body GNAVI_Controls is
    begin
       GNAVI_Datastore.Open (Controls_XML, Controls_File);
 
-      Windows_List :=
+      Dummy_Windows_List :=
         Elements.Get_Elements_By_Tag_Name
         (GNAVI_Datastore.Root (Controls_XML), "window");
       Controls_List :=
         Elements.Get_Elements_By_Tag_Name
         (GNAVI_Datastore.Root (Controls_XML), "control");
-      Types_List :=
+      Dummy_Types_List :=
         Elements.Get_Elements_By_Tag_Name
         (GNAVI_Datastore.Root (Controls_XML), "type");
    end Init;
@@ -163,8 +159,6 @@ package body GNAVI_Controls is
 
    function Control_Create_Properties_Count (Index : Positive) return Natural
    is
-      use DOM.Core;
-
       CP : constant DOM.Core.Node_List := Get_Create_Properties (Index);
    begin
       return Nodes.Length (CP);
@@ -225,8 +219,6 @@ package body GNAVI_Controls is
 
    function Control_Init_Properties_Count (Index : Positive) return Natural
    is
-      use DOM.Core;
-
       IP : constant DOM.Core.Node_List := Get_Init_Properties (Index);
    begin
       return Nodes.Length (IP);
@@ -316,8 +308,6 @@ package body GNAVI_Controls is
 
    function Control_Events (Index : Positive) return Detail_Array
    is
-      use GWindows.GStrings;
-
       Result : Detail_Array (1 .. Control_Events_Count (Index));
    begin
       for N in 1 .. Control_Events_Count (Index) loop
@@ -333,8 +323,6 @@ package body GNAVI_Controls is
 
    function Control_Properties (Index : Positive) return Detail_Array
    is
-      use GWindows.GStrings;
-
       R0 :          Detail_Array (1 .. 2);
       R1 : constant Detail_Array := Control_Create_Properties (Index);
       R2 : constant Detail_Array := Control_Init_Properties (Index);
@@ -351,8 +339,6 @@ package body GNAVI_Controls is
 
    function Control_Create_Properties (Index : Positive) return Detail_Array
    is
-      use GWindows.GStrings;
-
       Result : Detail_Array (1 .. Control_Create_Properties_Count (Index));
    begin
       for N in 1 .. Control_Create_Properties_Count (Index) loop
@@ -370,8 +356,6 @@ package body GNAVI_Controls is
 
    function Control_Init_Properties (Index : Positive) return Detail_Array
    is
-      use GWindows.GStrings;
-
       Result : Detail_Array (1 .. Control_Init_Properties_Count (Index));
    begin
       for N in 1 .. Control_Init_Properties_Count (Index) loop

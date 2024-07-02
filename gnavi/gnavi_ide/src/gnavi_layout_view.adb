@@ -1,4 +1,3 @@
-with GWindows.Base;
 with GWindows.Drawing_Objects;
 with GWindows.Drawing;
 with GWindows.Colors;
@@ -6,9 +5,6 @@ with GWindows.Types;
 with GWindows.GStrings;
 
 with GNAVI_Layout_View.Controls;
-
-with GNAT.IO; use GNAT.IO;
-
 
 package body GNAVI_Layout_View is
 
@@ -75,6 +71,7 @@ package body GNAVI_Layout_View is
       Canvas : in out GWindows.Drawing.Canvas_Type;
       Area   : in     GWindows.Types.Rectangle_Type)
    is
+   pragma Unreferenced (Area);
       use GWindows.Drawing;
       use GWindows.Base;
       Title : constant GWindows.GString :=
@@ -248,7 +245,7 @@ package body GNAVI_Layout_View is
          Width (Parent.all, W);
       end if;
 
-      if H >0 then
+      if H > 0 then
          Height (Parent.all, H);
       end if;
 

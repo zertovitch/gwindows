@@ -43,6 +43,7 @@ package body GNAVI_Widget_Vehicle is
       Width  : in     Integer;
       Height : in     Integer)
    is
+   pragma Unreferenced (Height, Width);
       use GWindows.Base;
 
       Vehicle : GNAVI_Widget_Vehicle_Type renames
@@ -692,7 +693,6 @@ package body GNAVI_Widget_Vehicle is
       Y      : in     Integer;
       Keys   : in     GWindows.Windows.Mouse_Key_States)
    is
-      use GWindows.Windows;
    begin
       if Window.Track_Mouse then
          Move (Window.Vehicle.all,
@@ -760,7 +760,6 @@ package body GNAVI_Widget_Vehicle is
    function Widget_Location (Vehicle : in GNAVI_Widget_Vehicle_Type)
                             return GWindows.Types.Point_Type
    is
-      use GWindows.Base;
       use GWindows.Types;
 
       Loc : GWindows.Types.Point_Type := Location (Vehicle);

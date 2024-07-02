@@ -194,12 +194,11 @@ package body GNAVI_Project is
       Save_Project (Project);
 
       GNAT.OS_Lib.Delete_File
-        (To_String(Project_Name (Project) & ".adb"), Success);
+        (To_String (Project_Name (Project) & ".adb"), Success);
    end Delete_Window;
 
    procedure Run_ICG (Project : in out GNAVI_Project_Type)
    is
-      use Ada.Exceptions;
       use GNAT.IO;
       use GNAVI_ICG;
       use Ada.Strings.Unbounded;
@@ -233,16 +232,16 @@ package body GNAVI_Project is
       use GNAT.OS_Lib;
       use GWindows.GStrings;
 
-      N : Integer;
+      Dummy : Integer;
    begin
       if not Project.Load_State then
          raise No_Project_Loaded;
       end if;
 
-      N := Spawn (GNATMAKE_Path_Exists.all, Argument_String_To_List
-                  (To_String("-gnatf " & Project_Name (Project))).all);
+      Dummy := Spawn (GNATMAKE_Path_Exists.all, Argument_String_To_List
+                      (To_String ("-gnatf " & Project_Name (Project))).all);
    exception
-      when others=>
+      when others =>
          null;
    end Compile;
 
@@ -251,16 +250,16 @@ package body GNAVI_Project is
       use GNAT.OS_Lib;
       use GWindows.GStrings;
 
-      N : Process_Id;
+      Dummy : Process_Id;
    begin
       if not Project.Load_State then
          raise No_Project_Loaded;
       end if;
 
-      N := Non_Blocking_Spawn (To_String(Project_Name (Project)),
-                               Argument_String_To_List ("").all);
+      Dummy := Non_Blocking_Spawn (To_String (Project_Name (Project)),
+                                   Argument_String_To_List ("").all);
    exception
-      when others=>
+      when others =>
          null;
    end Run;
 
@@ -285,7 +284,7 @@ package body GNAVI_Project is
       use DOM.Core;
       use GWindows.GStrings;
 
-      NL : Node_List := Elements.Get_Elements_By_Tag_Name
+      NL : constant Node_List := Elements.Get_Elements_By_Tag_Name
         (Root (Project), "project_file");
    begin
       if not Project.Load_State then
@@ -302,7 +301,7 @@ package body GNAVI_Project is
       use DOM.Core;
       use GWindows.GStrings;
 
-      Application_Node : Node := GNAVI_XML.Get_Child_Node
+      Application_Node : constant Node := GNAVI_XML.Get_Child_Node
         (Root (Project), "application");
 
       Project_Files_Node : Node := GNAVI_XML.Get_Child_Node
@@ -328,7 +327,6 @@ package body GNAVI_Project is
                           Index   : in     Positive)
    is
       use DOM.Core;
-      use GWindows.GStrings;
 
       Project_Files_Node : Node;
       NL                 : Node_List;

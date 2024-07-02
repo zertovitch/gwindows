@@ -26,7 +26,7 @@ project GNAVI_IDE is
       for Default_Switches ("ada") use ("-j0");
    end Builder;
 
-   Common_Compiler_Options := ("-gnatwkmpz", "-gnatyhiknpr", "-g");
+   Common_Compiler_Options := ("-gnatwkmprz", "-gnatyhiknprt", "-g");
 
    package Compiler is
       case Build_Mode is
@@ -38,6 +38,12 @@ project GNAVI_IDE is
             for Default_Switches ("ada") use Common_Compiler_Options & ("-Os");
       end case;
    end Compiler;
+
+   Common_Linker_Options := ("-g", project'Project_Dir & "obj/gnavi_ide.coff", "-Xlinker", "--stack=0x2000000,0x20000");
+
+   package Linker is
+      for Default_Switches ("ada") use Common_Linker_Options;
+   end Linker;
    
    package Binder is
       --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks

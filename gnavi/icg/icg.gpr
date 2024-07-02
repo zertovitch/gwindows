@@ -15,15 +15,21 @@ project ICG is
       for Default_Switches ("ada") use ("-j0");
    end Builder;
 
-   package Binder is
-      --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
-      for Default_Switches ("ada") use ("-Es");
-   end Binder;
+   Common_Compiler_Options := ("-gnatwkmprz", "-gnatyhiknprt", "-g");
 
+   package Compiler is
+      for Default_Switches ("ada") use Common_Compiler_Options;
+   end Compiler;
+   
    Common_Linker_Options := ("-g", "-Xlinker", "--stack=0x2000000,0x20000");
 
    package Linker is
       for Default_Switches ("ada") use Common_Linker_Options;
    end Linker;
+
+   package Binder is
+      --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
+      for Default_Switches ("ada") use ("-Es");
+   end Binder;
    
 end ICG;

@@ -77,9 +77,9 @@ package body GNAVI_Window_Classes is
                               Project_Name   : in GWindows.GString  := "";
                               Directory_Name : in GWindows.GString  := "")
    is
+   pragma Unreferenced (Project_Name);
       use Templates_Parser;
       use Ada.Text_IO;
-      use GWindows.GStrings;
 
       O_File : File_Type;
 
@@ -97,7 +97,7 @@ package body GNAVI_Window_Classes is
            Parse
              (Filename     => To_String (GNAVI_Datastore.Directory
                 (Window_Classes_XML) & Template (Index)),
-              Translations =>Trans));
+              Translations => Trans));
 
       Close (O_File);
 

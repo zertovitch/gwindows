@@ -1,4 +1,3 @@
-with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
 
 with GNAVI_Main_Package;
@@ -10,13 +9,11 @@ with GNAVI_Main_Menus;
 with Standard_IDs;
 with GNAVI_IDs;
 
-with GWindows.GStrings;
 with GWindows.GStrings.Handling;
 with GWindows.GStrings.Constants;
+with GWindows.Menus;
 with GWindows.Message_Boxes;
 with GWindows.Colors;
-
-with GNAT.OS_Lib;
 
 --  with GWindows.GStrings.IO; use GWindows.GStrings.IO;
 
@@ -25,15 +22,12 @@ package body GNAVI_Edit_Window_Package is
    TAB_WIDTH : constant := 3;
 
    Key_Words : constant GWindows.GString :=
-     "abort abstract accept access aliased all array at begin body case " &
-     "constant declare delay delta digits do else elsif end entry exception " &
-     "exit for function generic goto if in is limited loop new null of " &
-     "others out package pragma private procedure protected raise range " &
-     "record renames requeue return reverse select separate subtype tagged " &
-     "task terminate then type until use when while with";
-
-   function To_Integer is
-      new Ada.Unchecked_Conversion (GNAT.OS_Lib.OS_Time, Integer);
+    "abort abs abstract accept access aliased all and array at begin body case " &
+    "constant declare delay delta digits do else elsif end entry exception " &
+    "exit for function generic goto if in interface is limited loop mod new not null of " &
+    "or others out overriding package pragma private procedure protected raise range " &
+    "record rem renames requeue return reverse select separate some subtype synchronized tagged " &
+    "task terminate then type until use when while with xor";
 
    procedure On_Create (Window : in out GNAVI_Edit_Window_Type) is separate;
 
@@ -43,7 +37,7 @@ package body GNAVI_Edit_Window_Package is
    procedure On_Menu_Select (Window : in out GNAVI_Edit_Window_Type;
                              Item   : in     Integer) is
    begin
-      Handle_Menu(Window, Item);
+      Handle_Menu (Window, Item);
    end On_Menu_Select;
 
    -------------------------------------------------------------------------
@@ -117,7 +111,7 @@ package body GNAVI_Edit_Window_Package is
                                   Length,
                                   Length + Grab_Size));
 
-               L      : Integer :=
+               Dummy : Integer :=
                  Write (OFile, Buffer (Buffer'First)'Address, Integer (Grab_Size));
             begin
                Length := Length + Grab_Size;
@@ -184,7 +178,7 @@ package body GNAVI_Edit_Window_Package is
       Set_Undo_Collection (Window, True);
       Empty_Undo_Buffer (Window);
       Set_Save_Point (Window);
-      Go_To_Pos(Window, 0);
+      Go_To_Pos (Window, 0);
    exception
       when others =>
          declare
@@ -200,8 +194,6 @@ package body GNAVI_Edit_Window_Package is
 
    procedure Save_All_Views (Window : in out GNAVI_Edit_Window_Type)
    is
-      use GWindows.Scintilla;
-      use GWindows.GStrings;
       use GNAVI_Window;
    begin
       Save (Window.Body_Edit_Box,
@@ -218,7 +210,6 @@ package body GNAVI_Edit_Window_Package is
    procedure Load_Outline_View (Window : in out GNAVI_Edit_Window_Type)
    is
       use GWindows.List_Boxes;
-      use GWindows.GStrings;
       use GNAVI_Window;
 
       IL : Positive := 1;
@@ -265,7 +256,6 @@ package body GNAVI_Edit_Window_Package is
 
    procedure Load_All_Views (Window : in out GNAVI_Edit_Window_Type)
    is
-      use GWindows.Scintilla;
       use GWindows.GStrings;
       use GNAVI_Window;
       use GNAT.OS_Lib;
@@ -275,9 +265,9 @@ package body GNAVI_Edit_Window_Package is
       Spec_Name : constant GWindows.GString := Win_Name & "_package.ads";
       XML_Name  : constant GWindows.GString := Win_Name & ".gnw";
 
-      B_TS : constant Integer := To_Integer (File_Time_Stamp (To_String (Body_Name)));
-      S_TS : constant Integer := To_Integer (File_Time_Stamp (To_String (Spec_Name)));
-      X_TS : constant Integer := To_Integer (File_Time_Stamp (To_String (XML_Name)));
+      B_TS : constant Time_Stamp := File_Time_Stamp (To_String (Body_Name));
+      S_TS : constant Time_Stamp := File_Time_Stamp (To_String (Spec_Name));
+      X_TS : constant Time_Stamp := File_Time_Stamp (To_String (XML_Name));
    begin
       if Window.Body_TS < B_TS then
          Load (Window.Body_Edit_Box, Body_Name);
@@ -300,20 +290,19 @@ package body GNAVI_Edit_Window_Package is
    procedure Hide_All_Views (Window : in out GNAVI_Edit_Window_Type)
    is
       use GWindows.Scintilla;
-      use GWindows.List_Boxes;
       use GWindows.Packing_Boxes;
       use GWindows.Base;
-      use GWindows.Scintilla;
       use GWindows.GStrings;
       use GWindows.Scroll_Panels;
+      use GNAT.OS_Lib;
 
       Win_Name  : constant GWindows.GString :=
         GNAVI_Window.Window_Name (Window.Win_XML);
 
       XML_Name  : constant GWindows.GString := Win_Name & ".gnw";
 
-      X_TS : constant Integer :=
-        To_Integer (GNAT.OS_Lib.File_Time_Stamp (To_String (XML_Name)));
+      X_TS : constant Time_Stamp :=
+        GNAT.OS_Lib.File_Time_Stamp (To_String (XML_Name));
    begin
       Save_All_Views (Window);
 
@@ -342,7 +331,6 @@ package body GNAVI_Edit_Window_Package is
       Window    : in out GWindows.Base.Base_Window_Type'Class)
    is
       use GWindows.Base;
-      use GWindows.GStrings;
       use GWindows.Edit_Boxes;
       use GNAVI_Window;
 
@@ -471,7 +459,6 @@ package body GNAVI_Edit_Window_Package is
 
    procedure Open_Window (Name : GWindows.GString)
    is
-      use GWindows.GStrings;
       use GWindows.Base;
    begin
       if not In_Window_List (Name) then
@@ -502,10 +489,6 @@ package body GNAVI_Edit_Window_Package is
             Add_To_Window_List (Name, New_Window);
          end;
       end if;
-
-   exception
-      when E : others =>
-         null;
    end Open_Window;
 
 
@@ -685,6 +668,7 @@ package body GNAVI_Edit_Window_Package is
       Item   : in     Integer;
       Kind   : in     GWindows.Windows.Hover_Item_Type)
    is
+   pragma Unreferenced (Item);
       use GWindows.Menus;
       use GWindows.Scintilla;
       use type GWindows.Windows.Hover_Item_Type;
@@ -845,13 +829,13 @@ package body GNAVI_Edit_Window_Package is
            To_String ("procedure " &
                       All_Handler_Name (Current_Control,
                                         Current (This.Handlers_View))) &
-           Character'Val(0);
+           Character'Val (0);
 
-         Begin_Text : String := "begin" & Character'Val(0);
+         Begin_Text : String := "begin" & Character'Val (0);
 
          Find_Info : aliased Find_Text_Type :=
            (0, Sci_PositionCR (Get_Length (This.Body_Edit_Box)),
-            Search_Text(1)'Address, 0, 0);
+            Search_Text (1)'Address, 0, 0);
 
          F_POS, F_POS_2 : Position;
          pragma Unreferenced (F_POS_2);
@@ -905,11 +889,11 @@ package body GNAVI_Edit_Window_Package is
          Search_Text : String :=
            To_String ("name=""" &
                       Control_Name (Current_Control) & """" &
-                      GWindows.GCharacter'Val(0));
+                      GWindows.GCharacter'Val (0));
 
          Find_Info : aliased Find_Text_Type :=
            (0, Sci_PositionCR (Get_Length (This.XML_Edit_Box)),
-            Search_Text(1)'Address, 0, 0);
+            Search_Text (1)'Address, 0, 0);
 
          F_POS : Position;
       begin
@@ -932,7 +916,6 @@ package body GNAVI_Edit_Window_Package is
    is
       use GNAVI_Window;
       use GWindows.List_Boxes;
-      use GWindows.GStrings;
 
       This : GNAVI_Edit_Window_Type
         renames GNAVI_Edit_Window_Type

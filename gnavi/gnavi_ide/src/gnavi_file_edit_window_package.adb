@@ -1,5 +1,3 @@
-with Ada.Unchecked_Conversion;
-
 with GNAVI_Main_Package;
 with GNAVI_Main_Menus;
 
@@ -8,8 +6,6 @@ with Standard_IDs;
 
 with GWindows.Menus;
 with GWindows.Colors;
-
-with GNAT.OS_Lib;
 
 package body GNAVI_File_Edit_Window_Package is
 
@@ -23,9 +19,6 @@ package body GNAVI_File_Edit_Window_Package is
      "record renames requeue return reverse select separate subtype tagged " &
      "task terminate then type until use when while with";
 
-   function To_Integer is
-      new Ada.Unchecked_Conversion (GNAT.OS_Lib.OS_Time, Integer);
-
    procedure On_Create
      (Window : in out GNAVI_File_Edit_Window_Type) is separate;
 
@@ -35,7 +28,7 @@ package body GNAVI_File_Edit_Window_Package is
    procedure On_Menu_Select (Window : in out GNAVI_File_Edit_Window_Type;
                              Item   : in     Integer) is
    begin
-      Handle_Menu(Window, Item);
+      Handle_Menu (Window, Item);
    end On_Menu_Select;
 
    -------------------------------------------------------------------------
@@ -123,6 +116,7 @@ package body GNAVI_File_Edit_Window_Package is
       Item   : in     Integer;
       Kind   : in     GWindows.Windows.Hover_Item_Type)
    is
+      pragma Unreferenced (Item);
       use GWindows.Menus;
       use GWindows.Scintilla;
       use type GWindows.Windows.Hover_Item_Type;
