@@ -8,7 +8,7 @@ gnavi_ide: control_creators.ads icg gnavi_ide.coff
 	gnatmake -P ..\gnavi_ide.gpr
 
 gnavi_ide.coff: gnavi_ide.rc
-	windres gnavi_ide.rc gnavi_ide.coff
+	windres gnavi_ide.rc ../obj/gnavi_ide.coff
 
 .PHONY: icg
 icg:
