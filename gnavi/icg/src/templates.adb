@@ -94,10 +94,10 @@ package body Templates is
       use GNAT.OS_Lib;
 
       O_File : File_Descriptor;
-      Result : Integer;
+      Dummy  : Integer;
    begin
       O_File := Create_File (File_Spec, Binary);
-      Result := Write (O_File,
+      Dummy  := Write (O_File,
                        Contents (Contents'First)'Address,
                        Contents'Length);
       Close (O_File);
