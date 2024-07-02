@@ -1,33 +1,22 @@
 with Ada.Unchecked_Deallocation;
 
+with GNAVI_Common;
+with GNAVI_Controls_Window_Package;
+with GNAVI_Main_Menus;
 with GNAVI_Main_Package;
 with GNAVI_Project;
 with GNAVI_Project_Window_Package;
-with GNAVI_Controls_Window_Package;
-with GNAVI_Main_Menus;
 
 with Standard_IDs;
 with GNAVI_IDs;
 
+with GWindows.Colors;
 with GWindows.GStrings.Handling;
 with GWindows.GStrings.Constants;
 with GWindows.Menus;
 with GWindows.Message_Boxes;
-with GWindows.Colors;
-
---  with GWindows.GStrings.IO; use GWindows.GStrings.IO;
 
 package body GNAVI_Edit_Window_Package is
-
-   TAB_WIDTH : constant := 3;
-
-   Key_Words : constant GWindows.GString :=
-    "abort abs abstract accept access aliased all and array at begin body case " &
-    "constant declare delay delta digits do else elsif end entry exception " &
-    "exit for function generic goto if in interface is limited loop mod new not null of " &
-    "or others out overriding package pragma private procedure protected raise range " &
-    "record rem renames requeue return reverse select separate some subtype synchronized tagged " &
-    "task terminate then type until use when while with xor";
 
    procedure On_Create (Window : in out GNAVI_Edit_Window_Type) is separate;
 
@@ -513,14 +502,14 @@ package body GNAVI_Edit_Window_Package is
 
       --  Set up editor
       Set_EOL_Mode (This.Body_Edit_Box, SC_EOL_CRLF);
-      Set_Tab_Width (This.Body_Edit_Box, TAB_WIDTH);
+      Set_Tab_Width (This.Body_Edit_Box, GNAVI_Common.TAB_WIDTH);
       Set_Use_Tabs (This.Body_Edit_Box, False);
       Set_Edge_Column (This.Body_Edit_Box, 80);
       Set_Edge_Mode (This.Body_Edit_Box, EDGE_LINE);
       --  SetIndentationGuides (This.Body_Edit_Box, True);
 
       Set_Lexer (This.Body_Edit_Box, SCLEX_ADA);
-      Set_Key_Words (This.Body_Edit_Box, 0, Key_Words);
+      Set_Key_Words (This.Body_Edit_Box, 0, GNAVI_Common.Key_Words);
 
       Style_Set_Fore (This.Body_Edit_Box, STYLE_DEFAULT, Black);
       Style_Set_Back (This.Body_Edit_Box, STYLE_DEFAULT, White);
@@ -547,14 +536,14 @@ package body GNAVI_Edit_Window_Package is
 
       --  Set up editor
       Set_EOL_Mode (This.Spec_Edit_Box, SC_EOL_CRLF);
-      Set_Tab_Width (This.Spec_Edit_Box, TAB_WIDTH);
+      Set_Tab_Width (This.Spec_Edit_Box, GNAVI_Common.TAB_WIDTH);
       Set_Use_Tabs (This.Spec_Edit_Box, False);
       Set_Edge_Column (This.Spec_Edit_Box, 80);
       Set_Edge_Mode (This.Spec_Edit_Box, EDGE_LINE);
       --  SetIndentationGuides (This.Spec_Edit_Box, True);
 
       Set_Lexer (This.Spec_Edit_Box, SCLEX_ADA);
-      Set_Key_Words (This.Spec_Edit_Box, 0, Key_Words);
+      Set_Key_Words (This.Spec_Edit_Box, 0, GNAVI_Common.Key_Words);
 
       Style_Set_Fore (This.Spec_Edit_Box, STYLE_DEFAULT, Black);
       Style_Set_Back (This.Spec_Edit_Box, STYLE_DEFAULT, White);
@@ -581,7 +570,7 @@ package body GNAVI_Edit_Window_Package is
 
       --  Set up editor
       Set_EOL_Mode (This.XML_Edit_Box, SC_EOL_CRLF);
-      Set_Tab_Width (This.XML_Edit_Box, TAB_WIDTH);
+      Set_Tab_Width (This.XML_Edit_Box, GNAVI_Common.TAB_WIDTH);
       Set_Use_Tabs (This.XML_Edit_Box, False);
       Set_Edge_Column (This.XML_Edit_Box, 80);
       Set_Edge_Mode (This.XML_Edit_Box, EDGE_LINE);
