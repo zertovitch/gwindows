@@ -10,7 +10,7 @@ project GWindows_Contrib is
    for Source_Dirs use ("contrib/test", "contrib");
    for Object_Dir use "obj";
    for Exec_Dir use "contrib";   
-   --  for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
+   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
    
    package Compiler is
       for Default_Switches ("ada") use (

@@ -10,6 +10,7 @@ project GWindows_Tutorials is
    for Source_Dirs use ("tutorials", "tutorials/msie");
    for Object_Dir use "obj";
    for Exec_Dir use "tutorials";   
+   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
    
    package Compiler is
       for Default_Switches ("ada") use ("-Os", "-g", "-gnatweaKM", "-gnatyaAbcefhiklM119nprtux");
