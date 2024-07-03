@@ -9,6 +9,7 @@ project Gnatcom_tools is
    for Source_Dirs use ("tools");
    for Object_Dir use "obj";
    for Exec_Dir use "tools";
+   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
 
    for Main use ("bindcom.adb", "comscope.adb", "createcom.adb", "makeguid.adb");
    
