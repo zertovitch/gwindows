@@ -99,9 +99,9 @@ package body DOM.Readers is
    procedure Characters
      (Handler : in out Tree_Reader; Ch : Unicode.CES.Byte_Sequence)
    is
-      Tmp : Node;
+      Dummy : Node;
    begin
-      Tmp := Append_Child
+      Dummy := Append_Child
         (Handler.Current_Node, Create_Text_Node (Handler.Tree, Ch));
    end Characters;
 
@@ -112,11 +112,11 @@ package body DOM.Readers is
    procedure Ignorable_Whitespace
      (Handler : in out Tree_Reader; Ch : Unicode.CES.Byte_Sequence)
    is
-      Tmp : Node;
+      Dummy : Node;
    begin
       --  Ignore these white spaces at the toplevel
       if Handler.Current_Node /= Handler.Tree then
-         Tmp := Append_Child
+         Dummy := Append_Child
            (Handler.Current_Node, Create_Text_Node (Handler.Tree, Ch));
       end if;
    end Ignorable_Whitespace;
@@ -130,10 +130,10 @@ package body DOM.Readers is
       Target  : Unicode.CES.Byte_Sequence;
       Data    : Unicode.CES.Byte_Sequence)
    is
-      Tmp : Node;
+      Dummy : Node;
    begin
       if not Handler.In_DTD then
-         Tmp := Append_Child
+         Dummy := Append_Child
            (Handler.Current_Node,
             Create_Processing_Instruction (Handler.Tree, Target, Data));
       end if;

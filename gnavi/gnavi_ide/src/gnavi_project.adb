@@ -11,7 +11,7 @@ with DOM.Core.Documents;
 with GNAVI_ICG;
 with GNAVI_Window;
 
-with Templates;
+with GNAVI_Templates;
 
 with GNAT.Directory_Operations;
 with GNAT.IO;
@@ -175,6 +175,7 @@ package body GNAVI_Project is
       NL           : Node_List;
       Old_Node     : Node;
       Success      : Boolean;
+      pragma Unreferenced (Success);
    begin
       if not Project.Load_State then
          raise No_Project_Loaded;
@@ -209,7 +210,7 @@ package body GNAVI_Project is
    begin
       GWindows.Cursors.Start_Wait_Cursor;
 
-      Templates.Template_Dir (Dir_Name (ICG_Path_Exists.all) & "templates\");
+      GNAVI_Templates.Template_Dir (Dir_Name (ICG_Path_Exists.all) & "templates\");
 
       ICG_Project.Application_File := To_Unbounded_String
         (To_String (To_GString_From_Unbounded (Project.File_Name)));

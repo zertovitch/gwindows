@@ -58,7 +58,9 @@ package GNAVI_ICG is
    --  If set to true the application.adb will always contain a 'with'
    --  for every window in project
 
-   procedure Generate_All (XML_File_Name, Templates_Directory : String);
+   procedure Generate_All
+      (XML_File_Name       : String;
+       Templates_Directory : String := "");
 
 private
 

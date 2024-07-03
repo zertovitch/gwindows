@@ -34,7 +34,7 @@ with DOM.Core.Elements;
 with GNAT.Case_Util;
 with GNAT.OS_Lib;
 
-with Templates;
+with GNAVI_Templates;
 with Templates_Parser;
 
 package body GNAVI_ICG.Application is
@@ -72,7 +72,10 @@ package body GNAVI_ICG.Application is
               Ada.Strings.Unbounded.To_Unbounded_String (App_File_Name);
 
             if not GNAT.OS_Lib.Is_Regular_File (App_File_Name) then
-               Templates.Execute (App_File_Name, "application.adb", Trans);
+               GNAVI_Templates.Execute
+                  (App_File_Name,
+                   GNAVI_Templates.application_template,
+                   Trans);
             end if;
          end;
       end if;

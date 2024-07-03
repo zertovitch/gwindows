@@ -12,8 +12,7 @@ gnavi_ide.coff: gnavi_ide.rc
 
 .PHONY: icg
 icg:
-	../../icg/src/icg.exe gnavi_ide.gnp
-#   Will be one day: ../../icg.exe gnavi_ide.gnp
+	../../icg.exe gnavi_ide.gnp
 
 control_generator.exe: control_generator.adb
 #	gnatmake ${ADAOPTS} control_generator ${POSTOPTS}

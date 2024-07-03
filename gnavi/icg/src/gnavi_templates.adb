@@ -2,11 +2,10 @@
 --                                                                          --
 --       GNAVI - The GNU Ada Visual Interface - Open Source Visual RAD      --
 --                                                                          --
---                            T E M P L A T E S                             --
+--                      G N A V I _ T E M P L A T E S                       --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                             $Revision: 1.11 $
 --                                                                          --
 --                  Copyright (C) 1999-2004 David Botton                    --
 --                                                                          --
@@ -35,7 +34,9 @@ with Ada.Strings.Maps.Constants;
 
 with GNAT.OS_Lib;
 
-package body Templates is
+with GNAVI_Templates.Embedded;
+
+package body GNAVI_Templates is
 
    NL_Mode : New_Line_Mode_Type := DOS;
 
@@ -50,6 +51,11 @@ package body Templates is
    is
    begin
       return Load_File (Template_Dir & Template_Name);
+   end Load_Template;
+
+   function Load_Template (Template : Embedded_Template_Kind; Template_Name : String := "") return String is
+   begin
+      return GNAVI_Templates.Embedded.Get_Template (Template);
    end Load_Template;
 
    function Load_File (File_Spec : String) return String
@@ -86,7 +92,8 @@ package body Templates is
    exception
       when others =>
          Ada.Exceptions.Raise_Exception
-           (GNAVI_File_Load_Error'Identity, "Unable to load : " & File_Spec);
+           (GNAVI_File_Load_Error'Identity,
+            "GNAVI_Templates.Load_File: unable to load : " & File_Spec);
    end Load_File;
 
    procedure Write_File (File_Spec : String; Contents : String)
@@ -160,6 +167,16 @@ package body Templates is
       Write_File (File_Spec,
                   Templates_Parser.Parse (Template_Dir & Template_Name,
                                           Trans_Table));
+   end Execute;
+
+   procedure Execute (File_Spec     : String;
+                      Template      : Embedded_Template_Kind;
+                      Trans_Table   : Templates_Parser.Translate_Table)
+   is
+   begin
+      Write_File
+         (File_Spec,
+          Templates_Parser.Translate (Load_Template (Template), Trans_Table));
    end Execute;
 
    procedure Check_For_With (File_Spec   : String;
@@ -312,15 +329,18 @@ package body Templates is
                      Mapping => Lower_Case_Map) > 0
               or
               Index (O_String (1 .. Line_Length),
-                     "--  GNAVI: Create Global Instance") > 0
+                     "--  GNAVI: Create global instance") > 0
             then
                Found := True;
                Write_File := True;
 
                return Load_More
                  (Front &
-                  Translate (Load_Template (Handler_Base & Current_File),
-                             Trans) & NL &
+                  Translate
+                     (Load_Template
+                         (handler_template,
+                          Handler_Base & Current_File),
+                      Trans) & NL &
                   O_String (1 .. Line_Length) & NL);
             end if;
 
@@ -343,7 +363,7 @@ package body Templates is
          Close (Temp_File);
 
          if Write_File then
-            Templates.Write_File (Window_Base & Current_File, W);
+            GNAVI_Templates.Write_File (Window_Base & Current_File, W);
          end if;
       end;
 
@@ -359,10 +379,10 @@ package body Templates is
          Close (Temp_File);
 
          if Write_File then
-            Templates.Write_File (Window_Base & Current_File, W);
+            GNAVI_Templates.Write_File (Window_Base & Current_File, W);
          end if;
       end;
 
    end Check_For_Handler;
 
-end Templates;
+end GNAVI_Templates;

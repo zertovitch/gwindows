@@ -37,7 +37,7 @@ with GNAVI_ICG.Windows;
 with GNAT.Case_Util;
 with GNAT.Directory_Operations;
 
-with Templates;
+with GNAVI_Templates;
 
 package body GNAVI_ICG is
 
@@ -69,10 +69,16 @@ package body GNAVI_ICG is
       GNAVI_ICG.Windows.Update_Windows (Project);
    end Update_Project;
 
-   procedure Generate_All (XML_File_Name, Templates_Directory : String) is
+   procedure Generate_All
+      (XML_File_Name       : String;
+       Templates_Directory : String := "")
+   is
       Prj : GNAVI_Project_Type;
    begin
-      Templates.Template_Dir (Templates_Directory);
+      if Templates_Directory /= "" then
+         GNAVI_Templates.Template_Dir (Templates_Directory);
+      end if;
+
       GNAT.Directory_Operations.Change_Dir
         (GNAT.Directory_Operations.Dir_Name (XML_File_Name));
 
@@ -81,6 +87,7 @@ package body GNAVI_ICG is
          GNAT.Directory_Operations.Base_Name (XML_File_Name));
       GNAVI_ICG.Update_Project (Prj);
       GNAVI_ICG.Close_Project (Prj);
+
    end Generate_All;
 
 
@@ -116,7 +123,7 @@ package body GNAVI_ICG is
          end if;
 
          declare
-            NS : constant String := S & "," & Templates.NL &
+            NS : constant String := S & "," & GNAVI_Templates.NL &
               Indent & GWindows_Casing (N) & " => " & V;
          begin
             if Param_Num = Nodes.Length (Attrs) then

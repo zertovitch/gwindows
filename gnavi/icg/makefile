@@ -18,10 +18,12 @@ gnatcheck:
 clean:
 	-del *~
 	make clean -C src
+	gnatclean -P icg.gpr
 
 cleanall:
 	-del *~
 	make cleanall -C src
+	gnatclean -r -P icg.gpr
 
 .PHONY: install
 install: all

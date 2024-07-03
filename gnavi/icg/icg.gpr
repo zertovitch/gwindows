@@ -7,7 +7,8 @@ project ICG is
    for Source_Dirs use ("src", "../xml");
    for Main use ("icg.adb");
    for Object_Dir use "obj";
-   for Exec_Dir use "src";  --  Will be ".." one day...
+   for Exec_Dir use "..";
+   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
    
    package Builder is
       --   "If -j0 is used, then the maximum number of simultaneous compilation

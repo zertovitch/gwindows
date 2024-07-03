@@ -35,7 +35,7 @@ with Sax.Readers;
 
 with GNAVI_ICG.Window;
 
-with Templates;
+with GNAVI_Templates;
 with Templates_Parser;
 
 with GNAT.Case_Util;
@@ -55,7 +55,7 @@ package body GNAVI_ICG.Windows is
                                  return String
    is
       use DOM.Core;
-      use Templates;
+      use GNAVI_Templates;
 
       Indent        : constant String := "         ";
       Control_Num   : Natural := 0;
@@ -74,7 +74,7 @@ package body GNAVI_ICG.Windows is
                                                           "type");
          Control_Package : constant String := With_Of (Control_Type);
       begin
-         Templates.Check_For_With (File_Spec, Control_Package);
+         GNAVI_Templates.Check_For_With (File_Spec, Control_Package);
 
          Control_Num := Control_Num + 1;
 
@@ -165,7 +165,7 @@ package body GNAVI_ICG.Windows is
                                                              "type");
 
                            Window_Base    : constant String :=
-                             Templates.With_Of (Window_Type);
+                             GNAVI_Templates.With_Of (Window_Type);
 
                            Controls_Node_List  : constant Node_List :=
                              Elements.Get_Elements_By_Tag_Name (Window_Node,
@@ -191,8 +191,10 @@ package body GNAVI_ICG.Windows is
                            then
                               New_File := True;
 
-                              Templates.Execute (Window_Spec,
-                                                 "window_package.ads", Trans);
+                              GNAVI_Templates.Execute
+                                 (Window_Spec,
+                                  GNAVI_Templates.window_package_spec_template,
+                                  Trans);
                            else
                               --  If file was already created should double
                               --  check that the withs for base types were not
@@ -207,10 +209,10 @@ package body GNAVI_ICG.Windows is
                               --       or GWindows.Base and is not a child
                               --       package of theirs.
 
-                              Templates.Check_For_With
+                              GNAVI_Templates.Check_For_With
                                 (Window_Spec, "GWindows.Base");
 
-                              Templates.Check_For_With
+                              GNAVI_Templates.Check_For_With
                                 (Window_Spec, Window_Base);
 
                            end if;
@@ -219,8 +221,10 @@ package body GNAVI_ICG.Windows is
                            if
                              not GNAT.OS_Lib.Is_Regular_File (Window_Body)
                            then
-                              Templates.Execute (Window_Body,
-                                                 "window_package.adb", Trans);
+                              GNAVI_Templates.Execute
+                                 (Window_Body,
+                                  GNAVI_Templates.window_package_body_template,
+                                  Trans);
                            end if;
 
                            if New_File or GNAVI_Gen_App_Withs then
@@ -229,7 +233,7 @@ package body GNAVI_ICG.Windows is
                               --  is created, i.e. its specs and/or the setting
                               --  GNAVI_Gen_App_Withs is on
 
-                              Templates.Check_For_With
+                              GNAVI_Templates.Check_For_With
                                 (Ada.Strings.Unbounded.To_String
                                    (Project.Application_File),
                                  Window_Name & "_Package");
@@ -237,7 +241,7 @@ package body GNAVI_ICG.Windows is
 
                            --  Process Controls
 
-                           Templates.Set_Control_Block
+                           GNAVI_Templates.Set_Control_Block
                              (Window_Spec,
                               Create_Control_Block (Window_Spec,
                                                     Controls_Node_List));
