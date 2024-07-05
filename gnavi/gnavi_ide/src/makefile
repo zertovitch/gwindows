@@ -3,7 +3,7 @@ ADAOPTS = -I../../xml -I../../icg/src -I../../../gwindows/framework -I../../../g
 
 include ../../makefile.inc
 
-gnavi_ide: control_creators.ads icg gnavi_ide.coff
+gnavi_ide: gnavi_ide.coff control_creators.ads icg
 #   gnatmake ${ADAOPTS} gnavi_ide ${POSTOPTS}
 	gnatmake -P ..\gnavi_ide.gpr
 
