@@ -100,8 +100,17 @@ package body GNAVI_ICG is
 
       Param_Num : Natural := 0;
 
+      function To_Mixed (A : String) return String is
+      --  The function variant of To_Mixed exists only
+      --  in recent versions of GNAT.Case_Util.
+         Result : String := A;
+      begin
+         GNAT.Case_Util.To_Mixed (Result);
+         return Result;
+      end To_Mixed;
+
       function GWindows_Casing (S : String) return String is
-      (if S = "id" then "ID" elsif S = "progid" then "ProgID" else GNAT.Case_Util.To_Mixed (S));
+      (if S = "id" then "ID" elsif S = "progid" then "ProgID" else To_Mixed (S));
 
       function Do_Params (S : String) return String;
       --  Parse out parameters
