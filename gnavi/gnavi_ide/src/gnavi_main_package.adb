@@ -1,6 +1,7 @@
 with GWindows.Common_Dialogs;
 with GWindows.GStrings;
 with GWindows.Menus;
+with GWindows.Message_Boxes;
 with GWindows.Drawing_Objects;
 with GWindows.Image_Lists;
 
@@ -23,9 +24,9 @@ package body GNAVI_Main_Package is
 
    procedure On_Create (Window : in out GNAVI_Main_Type) is separate;
 
-   -- On_Menu_Select added by GdM, July 2012
-   -- Probably should also be separate, like On_Create,
-   -- and generated GNAVI
+   --  On_Menu_Select added by GdM, July 2012
+   --  Probably should also be separate, like On_Create,
+   --  and generated GNAVI
    procedure On_Menu_Select (Window : in out GNAVI_Main_Type;
                              Item   : in     Integer) is
    begin
@@ -167,11 +168,33 @@ package body GNAVI_Main_Package is
    procedure Do_Close_GNAVI_Project
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-   pragma Unreferenced (Window);
+      This : GNAVI_Main_Type renames GNAVI_Main_Type (Window);
       use GNAVI_Project_Window_Package;
    begin
       Close (GNAVI_Project_Window);
+      This.Text ("GNAVI - Open Source Visual RAD");
    end Do_Close_GNAVI_Project;
+
+   procedure Do_Drop_GNAVI_Project
+     (Window     : in out GWindows.Base.Base_Window_Type'Class;
+      File_Names : in     GWindows.Windows.Array_Of_File_Names)
+   is
+      This : GNAVI_Main_Type renames GNAVI_Main_Type (Window);
+      use GWindows.Message_Boxes, GWindows.GStrings;
+   begin
+      if File_Names'Length > 1 then
+         Message_Box
+            (This,
+             "Files dropped",
+             "Cannot drop more than one project.",
+             OK_Box,
+             Error_Icon);
+      else
+         MDI_Close_All (This);
+         GNAVI_Project_Window_Package.Load_Project
+            (To_GString_From_Unbounded (File_Names (File_Names'First)));
+      end if;
+   end Do_Drop_GNAVI_Project;
 
    procedure Do_Compile
      (Window : in out GWindows.Base.Base_Window_Type'Class)
@@ -243,4 +266,5 @@ begin
       "", 0, 0, 0, 0, Show => True);
 
    Dock_Children (GNAVI_Main);
+
 end GNAVI_Main_Package;

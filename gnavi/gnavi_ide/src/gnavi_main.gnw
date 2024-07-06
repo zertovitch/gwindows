@@ -7,11 +7,13 @@
 	     type="GWindows.Windows.Select_Event" />
             <handler name="Check_Menu" event="On_Menu_Hover"
 	     type="GWindows.Windows.Hover_Event" />
+            <handler name="Do_Drop_GNAVI_Project" event="On_File_Drop" type="GWindows.Windows.File_Drop_Event"></handler>
         </handlers>
         <init>
             <Text value="&quot;GNAVI - Open Source Visual RAD&quot;" />
             <Visible value="True" />
 	    <Set_Standard_Font value="GWindows.Drawing_Objects.Default_GUI" />
+        <Accept_File_Drag_And_Drop value="True"></Accept_File_Drag_And_Drop>
         </init>
         <controls>
 	   <control name="Top_Tools"

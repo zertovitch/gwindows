@@ -13,9 +13,11 @@ begin
    On_Create_Handler (Window, Do_Create'Access);
    On_Menu_Select_Handler (Window, Handle_Menu'Access);
    On_Menu_Hover_Handler (Window, Check_Menu'Access);
+   On_File_Drop_Handler (Window, Do_Drop_GNAVI_Project'Access);
    Text (Window, "GNAVI - Open Source Visual RAD");
    Visible (Window, True);
    Set_Standard_Font (Window, GWindows.Drawing_Objects.Default_GUI);
+   Accept_File_Drag_And_Drop (Window, True);
    GWindows.Common_Controls.Create (Window.Top_Tools,
       Parent => Window,
       Top => 0,
