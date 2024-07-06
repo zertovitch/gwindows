@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -20,8 +20,10 @@
 -- to  the Free Software Foundation,  59 Temple Place - Suite 330,  Boston, --
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
--- More information about GNAVI and the most current version can            --
--- be located on the web at http://www.gnavi.org                            --
+-- More information about GNAVI and the most current release can            --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -55,7 +57,7 @@ package body GNAVI_Templates is
 
    function Load_Template (Template : Embedded_Template_Kind; Template_Name : String := "") return String is
    begin
-      return GNAVI_Templates.Embedded.Get_Template (Template);
+      return GNAVI_Templates.Embedded.Get_Template (Template, Template_Name);
    end Load_Template;
 
    function Load_File (File_Spec : String) return String
@@ -135,7 +137,6 @@ package body GNAVI_Templates is
    begin
       NL_Mode := Mode;
    end Set_New_Line_Mode;
-
 
    function NL return String is
    begin
@@ -244,7 +245,6 @@ package body GNAVI_Templates is
             end if;
          end if;
 
-
          if Index (O_String (1 .. Line_Length), "--  GNAVI: Controls") > 0 then
             Skip := True;
             return Load_More (Front & O_String (1 .. Line_Length) & NL &
@@ -324,10 +324,12 @@ package body GNAVI_Templates is
             end if;
 
             if
+              --  Spot the end of the package specification:
               Index (O_String (1 .. Line_Length),
                      "end " & Translate (Package_Name, Lower_Case_Map),
                      Mapping => Lower_Case_Map) > 0
               or
+              --  Spot the initialization part of the package body:
               Index (O_String (1 .. Line_Length),
                      "--  GNAVI: Create global instance") > 0
             then
@@ -336,6 +338,7 @@ package body GNAVI_Templates is
 
                return Load_More
                  (Front &
+                  --  Here we insert the handler
                   Translate
                      (Load_Template
                          (handler_template,
@@ -346,7 +349,6 @@ package body GNAVI_Templates is
 
          end if;
 
-
          if End_Of_File (Temp_File) then
             return Front & O_String (1 .. Line_Length) & NL;
          else
@@ -355,6 +357,10 @@ package body GNAVI_Templates is
       end Load_More;
 
    begin
+      --
+      --  Insert handler specification
+      --
+
       Open (Temp_File, In_File, Window_Base & Current_File);
 
       declare
@@ -366,6 +372,10 @@ package body GNAVI_Templates is
             GNAVI_Templates.Write_File (Window_Base & Current_File, W);
          end if;
       end;
+
+      --
+      --  Insert handler body
+      --
 
       Current_File := ".adb";
       Found := False;
