@@ -20,9 +20,9 @@ package body GNAVI_Edit_Window_Package is
 
    procedure On_Create (Window : in out GNAVI_Edit_Window_Type) is separate;
 
-   -- On_Menu_Select added by GdM, July 2012
-   -- Probably should also be separate, like On_Create,
-   -- and generated GNAVI
+   --  On_Menu_Select added by GdM, July 2012
+   --  Probably should also be separate, like On_Create,
+   --  and generated GNAVI
    procedure On_Menu_Select (Window : in out GNAVI_Edit_Window_Type;
                              Item   : in     Integer) is
    begin
@@ -53,9 +53,7 @@ package body GNAVI_Edit_Window_Package is
    procedure Load (Window    : in out GWindows.Scintilla.Scintilla_Type;
                    File_Name : in     GWindows.GString);
 
-
    procedure Reload_Details (This : in out GNAVI_Edit_Window_Type);
-
 
    procedure Save (Window    : in out GWindows.Scintilla.Scintilla_Type;
                    File_Name : in     GWindows.GString)
@@ -187,7 +185,6 @@ package body GNAVI_Edit_Window_Package is
    begin
       Save (Window.Body_Edit_Box,
             Window_Name (Window.Win_XML) & "_package.adb");
-
 
       Save (Window.Spec_Edit_Box,
             Window_Name (Window.Win_XML) & "_package.ads");
@@ -416,14 +413,18 @@ package body GNAVI_Edit_Window_Package is
       use GWindows.List_Boxes;
       use GNAVI_Window;
 
-      Current_Index   : constant Natural := Current (This.Outline_View) - 1;
+      Current_Index   : constant Integer := Current (This.Outline_View) - 1;
       Current_Control : GNAVI_Window.Control_Element;
    begin
-      if Current_Index = 0 then
-         Current_Control := Window_Element (This.Win_XML);
-      else
-         Current_Control := Control (This.Win_XML, Current_Index);
-      end if;
+      case Current_Index is
+         when -1 =>
+            --  No item selected. Possibly a click below the last item of the list.
+            return;
+         when 0 =>
+            Current_Control := Window_Element (This.Win_XML);
+         when others =>
+            Current_Control := Control (This.Win_XML, Current_Index);
+      end case;
 
       Clear (This.Handlers_View);
 
@@ -480,7 +481,6 @@ package body GNAVI_Edit_Window_Package is
       end if;
    end Open_Window;
 
-
    -------------------------------------------------------------------------
    --  Handlers
    -------------------------------------------------------------------------
@@ -522,7 +522,6 @@ package body GNAVI_Edit_Window_Package is
       Style_Set_Size (This.Body_Edit_Box, SCE_ADA_DEFAULT, 10);
       Style_Set_Font (This.Body_Edit_Box, SCE_ADA_DEFAULT, "Courier");
 
-
       Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_COMMENTLINE, Red);
       Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_NUMBER, Blue);
       Style_Set_Fore (This.Body_Edit_Box, SCE_ADA_WORD, Dark_Green);
@@ -556,7 +555,6 @@ package body GNAVI_Edit_Window_Package is
       Style_Set_Size (This.Spec_Edit_Box, SCE_ADA_DEFAULT, 10);
       Style_Set_Font (This.Spec_Edit_Box, SCE_ADA_DEFAULT, "Courier");
 
-
       Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_COMMENTLINE, Red);
       Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_NUMBER, Blue);
       Style_Set_Fore (This.Spec_Edit_Box, SCE_ADA_WORD, Dark_Green);
@@ -588,7 +586,6 @@ package body GNAVI_Edit_Window_Package is
       Style_Set_Back (This.XML_Edit_Box, SCE_H_DEFAULT, White);
       Style_Set_Size (This.XML_Edit_Box, SCE_H_DEFAULT, 10);
       Style_Set_Font (This.XML_Edit_Box, SCE_H_DEFAULT, "Courier");
-
 
       Style_Set_Fore (This.XML_Edit_Box, SCE_H_COMMENT, Red);
       Style_Set_Fore (This.XML_Edit_Box, SCE_H_NUMBER, Blue);
@@ -846,7 +843,6 @@ package body GNAVI_Edit_Window_Package is
          Go_To_Pos (This.Body_Edit_Box,
                     Position_From_Line (This.Body_Edit_Box, Integer (F_POS + 1)));
 
-
          Line_Scroll (This.Body_Edit_Box, 0, 5);
 
          Focus (This.Body_Edit_Box);
@@ -865,14 +861,18 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index   : constant Natural := Current (This.Outline_View) - 1;
+      Current_Index   : constant Integer := Current (This.Outline_View) - 1;
       Current_Control : GNAVI_Window.Control_Element;
    begin
-      if Current_Index = 0 then
-         Current_Control := Window_Element (This.Win_XML);
-      else
-         Current_Control := Control (This.Win_XML, Current_Index);
-      end if;
+      case Current_Index is
+         when -1 =>
+            --  No item selected. Possibly a click below the last item of the list.
+            return;
+         when 0 =>
+            Current_Control := Window_Element (This.Win_XML);
+         when others =>
+            Current_Control := Control (This.Win_XML, Current_Index);
+      end case;
 
       declare
          Search_Text : String :=

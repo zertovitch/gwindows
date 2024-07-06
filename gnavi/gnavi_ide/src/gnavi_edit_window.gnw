@@ -141,7 +141,7 @@
                <Dock value="GWindows.Base.At_Top"></Dock>
             </init>
              <controls>
-               <control Height="25" Left="0" Text="&quot;SET&quot;" Top="0" Width="25" name="Property_Set_Button" type="GWindows.Buttons.Button_Type">
+               <control Height="25" Left="0" Text="&quot;SET&quot;" Top="0" Width="33" name="Property_Set_Button" type="GWindows.Buttons.Button_Type">
             <init>
                <Dock value="GWindows.Base.At_Right"></Dock>
             </init>
@@ -174,7 +174,7 @@
                <Dock value="GWindows.Base.At_Top"></Dock>
             </init>
              <controls>
-               <control Height="25" Left="0" Text="&quot;SET&quot;" Top="0" Width="25" name="Handler_Set_Button" type="GWindows.Buttons.Button_Type">
+               <control Height="25" Left="0" Text="&quot;SET&quot;" Top="0" Width="33" name="Handler_Set_Button" type="GWindows.Buttons.Button_Type">
             <init>
                <Dock value="GWindows.Base.At_Right"></Dock>
             </init>

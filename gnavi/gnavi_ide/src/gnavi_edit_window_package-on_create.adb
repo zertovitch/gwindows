@@ -216,7 +216,7 @@ begin
       Left => 0,
       Text => "SET",
       Top => 0,
-      Width => 25);
+      Width => 33);
    GWindows.Buttons.Dock (Window.Property_Set_Button, GWindows.Base.At_Right);
    GWindows.Buttons.On_Click_Handler (Window.Property_Set_Button, Do_Property_Value_Change'Access);
    GWindows.Edit_Boxes.Create (Window.Property_Edit_Box,
@@ -255,7 +255,7 @@ begin
       Left => 0,
       Text => "SET",
       Top => 0,
-      Width => 25);
+      Width => 33);
    GWindows.Buttons.Dock (Window.Handler_Set_Button, GWindows.Base.At_Right);
    GWindows.Buttons.On_Click_Handler (Window.Handler_Set_Button, Do_Handler_Value_Change'Access);
    GWindows.Edit_Boxes.Create (Window.Handler_Edit_Box,
