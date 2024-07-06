@@ -42,6 +42,8 @@ package body GNAVI_Project_Window_Package is
       Load_Project (GNAVI_Project_Window.Project, File_Name);
       Text (GNAVI_Project_Window,
             Project_Name (GNAVI_Project_Window.Project));
+      GNAVI_Main_Package.GNAVI_Main.Text
+           ("GNAVI - " & Project_Name (GNAVI_Project_Window.Project));
 
       Refresh_Project;
 
