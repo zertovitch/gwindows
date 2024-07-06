@@ -65,4 +65,3 @@ begin
    return Iterator;
 
 end Charles.Algorithms.Generic_Lower_Bound;
-

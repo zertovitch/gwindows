@@ -6,9 +6,8 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                             $Revision: 1.5 $
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -22,7 +21,9 @@
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
 -- More information about GNAVI and the most current version can            --
--- be located on the web at http://www.gnavi.org                            --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -90,7 +91,6 @@ package body GNAVI_ICG is
 
    end Generate_All;
 
-
    function Create_Params (Object_Node : DOM.Core.Element) return String is
       use DOM.Core;
 
@@ -102,7 +102,7 @@ package body GNAVI_ICG is
 
       function To_Mixed (A : String) return String is
       --  The function variant of To_Mixed exists only
-      --  in recent versions of GNAT.Case_Util.
+      --  in "recent" versions of GNAT.Case_Util.
          Result : String := A;
       begin
          GNAT.Case_Util.To_Mixed (Result);

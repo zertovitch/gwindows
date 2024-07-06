@@ -2039,7 +2039,6 @@ package body Sax.Readers is
          end;
       end if;
 
-
       Id.Last := Parser.Buffer_Length;
 
       if Debug_Lexical then

@@ -2783,7 +2783,6 @@ package body Templates_Parser is
                         return Translate (Var, Translate (V), Translations);
                      end;
 
-
                   else
                      --  Here we flush the buffer and then we analyse the
                      --  include parameter. The result is contained into

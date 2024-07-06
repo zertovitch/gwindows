@@ -207,7 +207,6 @@ private
      (Container => null,
       Node      => null);
 
-
    use Ada.Streams;
 
    procedure Write
@@ -216,15 +215,10 @@ private
 
    for Map'Write use Write;
 
-
    procedure Read
      (Stream    : access Root_Stream_Type'Class;
       Container :    out Map);
 
    for Map'Read use Read;
 
-
 end AI302.Containers.Indefinite_Hashed_Maps;
-
-
-

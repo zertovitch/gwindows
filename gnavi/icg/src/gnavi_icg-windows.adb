@@ -6,9 +6,8 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                             $Revision: 1.7 $
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -22,7 +21,9 @@
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
 -- More information about GNAVI and the most current version can            --
--- be located on the web at http://www.gnavi.org                            --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -48,7 +49,6 @@ package body GNAVI_ICG.Windows is
                                   Controls_List : DOM.Core.Node_List)
                                  return String;
    --  Create the list of controls to be inserted in to package spec
-
 
    function Create_Control_Block (File_Spec     : String;
                                   Controls_List : DOM.Core.Node_List)
@@ -216,7 +216,6 @@ package body GNAVI_ICG.Windows is
                                 (Window_Spec, Window_Base);
 
                            end if;
-
 
                            if
                              not GNAT.OS_Lib.Is_Regular_File (Window_Body)

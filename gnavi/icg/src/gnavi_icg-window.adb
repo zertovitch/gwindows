@@ -6,9 +6,8 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                             $Revision: 1.13 $
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -22,7 +21,9 @@
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
 -- More information about GNAVI and the most current version can            --
--- be located on the web at http://www.gnavi.org                            --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -46,7 +47,6 @@ package body GNAVI_ICG.Window is
       Window_Name  : in     String;
       Control_Node : in     DOM.Core.Element);
    --  Setup control in -on_create sep. procedure
-
 
    procedure Process_Control
      (O_String     : in out Ada.Strings.Unbounded.Unbounded_String;
@@ -169,8 +169,6 @@ package body GNAVI_ICG.Window is
       use GNAVI_Templates;
       use Templates_Parser;
 
-
-
       O_String       : Ada.Strings.Unbounded.Unbounded_String;
 
       Window_Name    : constant String := Elements.Get_Attribute (Window_Node,
@@ -255,7 +253,6 @@ package body GNAVI_ICG.Window is
 
          NI := Nodes.Next_Sibling (NI);
       end loop;
-
 
       O_String := O_String &
         Indent & Window_Base & ".On_Create (" &

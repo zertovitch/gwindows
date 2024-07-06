@@ -54,4 +54,3 @@ function Charles.Algorithms.Generic_Lower_Bound
    Item        : Element_Type) return Iterator_Type;
 
 pragma Pure (Charles.Algorithms.Generic_Lower_Bound);
-

@@ -44,7 +44,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
          Next    : Node_Access;
       end record;
 
-
    function Hash_Node
      (Node : Node_Access) return Hash_Type is
    begin
@@ -71,7 +70,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       return Is_Equal_Key (Key, Node.Key.all);
    end Is_Equal_Key_Node;
 
-
    procedure Free_Key is
       new Ada.Unchecked_Deallocation (Key_Type, Key_Access);
 
@@ -95,8 +93,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
 
    end Free;
 
-
-
    function New_Node (Node : Node_Access) return Node_Access is
 
       K : Key_Access := new Key_Type'(Node.Key.all);
@@ -116,12 +112,10 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
 
    end New_Node;
 
-
    procedure Adjust (Container : in out Map) is
    begin
       Adjust (Container.HT);
    end Adjust;
-
 
    procedure Finalize (Container : in out Map) is
    begin
@@ -182,24 +176,20 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
 
    end "=";
 
-
    function Length (Container : Map) return Count_Type is
    begin
       return Container.HT.Length;
    end Length;
-
 
    function Is_Empty (Container : Map) return Boolean is
    begin
       return Length (Container) = 0;
    end Is_Empty;
 
-
    procedure Clear (Container : in out Map) is
    begin
       Clear (Container.HT);
    end Clear;
-
 
    procedure Move
      (Target : in out Map;
@@ -207,7 +197,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
    begin
       Move (Target.HT, Source.HT);
    end Move;
-
 
    function Capacity (Container : Map) return Count_Type is
    begin
@@ -218,13 +207,11 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       return Container.HT.Buckets'Length;
    end Capacity;
 
-
    procedure Set_Capacity (Container : in out Map;
                            Capacity  : in     Count_Type) is
    begin
       Resize (Container.HT, Capacity);
    end Set_Capacity;
-
 
    procedure Insert (Container : in out Map;
                      Key       : in     Key_Type;
@@ -267,7 +254,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
 
    end Insert;
 
-
    procedure Replace (Container : in out Map;
                       Key       : in     Key_Type;
                       New_Item  : in     Element_Type) is
@@ -293,7 +279,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
 
    end Replace;
 
-
    procedure Delete (Container : in out Map;
                      Key       : in     Key_Type) is
 
@@ -308,7 +293,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       Delete (HT, Key);
 
    end Delete;
-
 
    procedure Delete (Container : in out Map;
                      Position  : in out Cursor) is
@@ -330,7 +314,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       Position := No_Element;
 
    end Delete;
-
 
    function Find (Container : Map;
                   Key       : Key_Type) return Cursor is
@@ -355,13 +338,11 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
 
    end Find;
 
-
    function Is_In (Key       : Key_Type;
                    Container : Map) return Boolean is
    begin
       return Find (Container, Key) /= No_Element;
    end Is_In;
-
 
    function Element (Container : Map;
                      Key       : Key_Type)
@@ -372,7 +353,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       return C.Node.Element.all;
    end Element;
 
-
    function First (Container : Map) return Cursor is
       Node : constant Node_Access := First (Container.HT);
    begin
@@ -382,8 +362,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
 
       return (Container'Unchecked_Access, Node);
    end First;
-
-
 
    function Next (Position : Cursor) return Cursor is
    begin
@@ -407,25 +385,21 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       end;
    end Next;
 
-
    procedure Next (Position : in out Cursor) is
    begin
       Position := Next (Position);
    end Next;
-
 
    function Key (Position : Cursor) return Key_Type is
    begin
       return Position.Node.Key.all;
    end Key;
 
-
    function Is_Equal_Key (Left, Right : Cursor)
      return Boolean is
    begin
       return Is_Equal_Key (Left.Node.Key.all, Right.Node.Key.all);
    end Is_Equal_Key;
-
 
    function Is_Equal_Key (Left  : Cursor;
                           Right : Key_Type)
@@ -434,7 +408,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       return Is_Equal_Key (Left.Node.Key.all, Right);
    end Is_Equal_Key;
 
-
    function Is_Equal_Key (Left  : Key_Type;
                           Right : Cursor)
       return Boolean is
@@ -442,20 +415,16 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       return Is_Equal_Key (Left, Right.Node.Key.all);
    end Is_Equal_Key;
 
-
-
    function Element (Position : Cursor)
       return Element_Type is
    begin
       return Position.Node.Element.all;
    end Element;
 
-
    procedure Generic_Update_Element (Position : in Cursor) is
    begin
       Process (Position.Node.Element.all);
    end Generic_Update_Element;
-
 
    procedure Replace_Element (Position : in Cursor;
                               By       : in Element_Type) is
@@ -465,7 +434,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       Position.Node.Element := new Element_Type'(By);
       Free_Element (X);
    end Replace_Element;
-
 
    procedure Generic_Iteration (Container : in Map) is
 
@@ -539,7 +507,6 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
 
    end New_Node;
 
-
    procedure Read is
       new Hash_Table_Types.Generic_Read (New_Node);
 
@@ -550,12 +517,10 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       Read (Stream, Container.HT);
    end Read;
 
-
    function Empty_Map return Map is
    begin
       return (Controlled with HT => (null, 0));
    end Empty_Map;
-
 
    function Has_Element (Position : Cursor) return Boolean is
    begin
@@ -570,6 +535,4 @@ package body AI302.Containers.Indefinite_Hashed_Maps is
       return True;
    end Has_Element;
 
-
 end AI302.Containers.Indefinite_Hashed_Maps;
-

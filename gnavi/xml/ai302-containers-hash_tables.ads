@@ -84,7 +84,6 @@ package AI302.Containers.Hash_Tables is
 
    procedure Finalize (HT : in out Hash_Table_Type);
 
-
    generic
 
       with function Find_Equal_Key
@@ -97,17 +96,13 @@ package AI302.Containers.Hash_Tables is
    function Generic_Equal
      (L, R : Hash_Table_Type) return Boolean;
 
-
    procedure Clear (HT : in out Hash_Table_Type);
 
-
    procedure Move (Target, Source : in out Hash_Table_Type);
-
 
    procedure Resize
      (HT : in out Hash_Table_Type;
       N  : in     Count_Type);
-
 
    generic
 
@@ -120,16 +115,13 @@ package AI302.Containers.Hash_Tables is
       Node    :    out Node_Access;
       Success :    out Boolean);
 
-
    procedure Delete
      (HT  : in out Hash_Table_Type;
       Key : in     Key_Type);
 
-
    procedure Delete
      (HT : in out Hash_Table_Type;
       X  : in out Node_Access);
-
 
    function Find (HT  : Hash_Table_Type;
                   Key : Key_Type) return Node_Access;
@@ -137,18 +129,15 @@ package AI302.Containers.Hash_Tables is
    function First (HT : Hash_Table_Type)
      return Node_Access;
 
-
    function Succ (HT   : Hash_Table_Type;
                   Node : Node_Access)
      return Node_Access;
-
 
    generic
 
       with procedure Process (Node : in Node_Access) is <>;
 
    procedure Generic_Iteration (HT : in Hash_Table_Type);
-
 
    generic
 
@@ -159,8 +148,6 @@ package AI302.Containers.Hash_Tables is
    procedure Generic_Write
      (Stream : access Ada.Streams.Root_Stream_Type'Class;
       HT     : in     Hash_Table_Type);
-
-
 
    generic
 
@@ -173,7 +160,4 @@ package AI302.Containers.Hash_Tables is
      (Stream : access Root_Stream_Type'Class;
       HT     :    out Hash_Table_Type);
 
-
-
 end AI302.Containers.Hash_Tables;
-
