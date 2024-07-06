@@ -2,16 +2,16 @@ with "../../gwindows/gwindows.gpr";
 
 project GNAVI_IDE is
 
-   type Build_Mode_Type is
+   type GNAVI_Build_Mode_Type is
       ("Debug", "Fast", "Small");
-   Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
+   GNAVI_Build_Mode : GNAVI_Build_Mode_Type := external ("GNAVI_Build_Mode", "Debug");
 
    for Source_Dirs use ("src", "../xml", "../icg/src");
    for Main use ("gnavi_ide.adb");
    for Exec_Dir use "src";  --  It is supposed to be so given the datastore path (???)
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
    
-   case Build_Mode is
+   case GNAVI_Build_Mode is
       when "Debug" =>
          for Object_Dir use "obj/debug";
       when "Fast" =>
@@ -26,10 +26,10 @@ project GNAVI_IDE is
       for Default_Switches ("ada") use ("-j0");
    end Builder;
 
-   Common_Compiler_Options := ("-gnatwkmprz", "-gnatyhiknprt", "-g");
+   Common_Compiler_Options := ("-gnatwkmprz", "-gnatyaAcefhiklnprtux", "-g");
 
    package Compiler is
-      case Build_Mode is
+      case GNAVI_Build_Mode is
          when "Debug" =>
             for Default_Switches ("ada") use Common_Compiler_Options & ("-gnatVa", "-gnato", "-fno-inline", "-fstack-check", "-fno-strict-aliasing");
          when "Fast" =>

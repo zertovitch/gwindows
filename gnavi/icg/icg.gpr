@@ -16,7 +16,7 @@ project ICG is
       for Default_Switches ("ada") use ("-j0");
    end Builder;
 
-   Common_Compiler_Options := ("-gnatwkmprz", "-gnatyhiknprt", "-g");
+   Common_Compiler_Options := ("-gnatwkmprz", "-gnatyaAcefhiklnprtux", "-g");
 
    package Compiler is
       for Default_Switches ("ada") use Common_Compiler_Options;
