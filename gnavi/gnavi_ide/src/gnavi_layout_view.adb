@@ -29,7 +29,7 @@ package body GNAVI_Layout_View is
      (Window : in out GWindows.Base.Base_Window_Type'Class;
       Canvas : in out GWindows.Drawing.Canvas_Type;
       Area   : in     GWindows.Types.Rectangle_Type);
-   -- Paint in title
+   --  Paint in title
 
    -------------------------------------------------------------------------
    --  Private Body
@@ -81,7 +81,6 @@ package body GNAVI_Layout_View is
       Text_Color (Canvas, GWindows.Colors.White);
       Put (Canvas, Title_Text_Offset_X, Title_Text_Offset_Y, Title);
    end Do_Paint_Title;
-
 
    -------------------------------------------------------------------------
    --  Layout_View_Type - Public Methods

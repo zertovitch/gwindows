@@ -13,9 +13,9 @@ package body GNAVI_File_Edit_Window_Package is
    procedure On_Create
      (Window : in out GNAVI_File_Edit_Window_Type) is separate;
 
-   -- On_Menu_Select added by GdM, July 2012
-   -- Probably should also be separate, like On_Create,
-   -- and generated GNAVI
+   --  On_Menu_Select added by GdM, July 2012
+   --  Probably should also be separate, like On_Create,
+   --  and generated GNAVI
    procedure On_Menu_Select (Window : in out GNAVI_File_Edit_Window_Type;
                              Item   : in     Integer) is
    begin
@@ -61,7 +61,6 @@ package body GNAVI_File_Edit_Window_Package is
       Style_Set_Back (This.Edit_Box, SCE_ADA_DEFAULT, White);
       Style_Set_Size (This.Edit_Box, SCE_ADA_DEFAULT, 10);
       Style_Set_Font (This.Edit_Box, SCE_ADA_DEFAULT, "Courier");
-
 
       Style_Set_Fore (This.Edit_Box, SCE_ADA_COMMENTLINE, Red);
       Style_Set_Fore (This.Edit_Box, SCE_ADA_NUMBER, Blue);

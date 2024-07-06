@@ -58,7 +58,6 @@ package body GNAVI_Widget_Vehicle is
       end if;
    end Widget_Resize;
 
-
    --------------
    -- On_Focus --
    --------------
@@ -391,7 +390,6 @@ package body GNAVI_Widget_Vehicle is
                      end if;
                   end if;
 
-
                   if Next_Win /= null then
                      GWindows.Base.Focus (Next_Win.all);
                   end if;
@@ -650,7 +648,6 @@ package body GNAVI_Widget_Vehicle is
       Window.Current_Handle := None;
    end On_Left_Mouse_Button_Up;
 
-
    -------------------------
    -- On_Erase_Background --
    -------------------------
@@ -663,7 +660,6 @@ package body GNAVI_Widget_Vehicle is
    begin
       null;
    end On_Erase_Background;
-
 
    -------------------------------
    -- On_Left_Mouse_Button_Down --

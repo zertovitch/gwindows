@@ -11,9 +11,6 @@ with DOM.Core.Documents;
 with GNAVI_ICG;
 with GNAVI_Window;
 
-with GNAVI_Templates;
-
-with GNAT.Directory_Operations;
 with GNAT.IO;
 
 package body GNAVI_Project is
@@ -174,8 +171,7 @@ package body GNAVI_Project is
       Windows_Node : Node;
       NL           : Node_List;
       Old_Node     : Node;
-      Success      : Boolean;
-      pragma Unreferenced (Success);
+      Dummy        : Boolean;
    begin
       if not Project.Load_State then
          raise No_Project_Loaded;
@@ -195,7 +191,7 @@ package body GNAVI_Project is
       Save_Project (Project);
 
       GNAT.OS_Lib.Delete_File
-        (To_String (Project_Name (Project) & ".adb"), Success);
+        (To_String (Project_Name (Project) & ".adb"), Dummy);
    end Delete_Window;
 
    procedure Run_ICG (Project : in out GNAVI_Project_Type)
@@ -204,13 +200,10 @@ package body GNAVI_Project is
       use GNAVI_ICG;
       use Ada.Strings.Unbounded;
       use GWindows.GStrings;
-      use GNAT.Directory_Operations;
 
       ICG_Project : GNAVI_ICG.GNAVI_Project_Type;
    begin
       GWindows.Cursors.Start_Wait_Cursor;
-
-      GNAVI_Templates.Template_Dir (Dir_Name (ICG_Path_Exists.all) & "templates\");
 
       ICG_Project.Application_File := To_Unbounded_String
         (To_String (To_GString_From_Unbounded (Project.File_Name)));

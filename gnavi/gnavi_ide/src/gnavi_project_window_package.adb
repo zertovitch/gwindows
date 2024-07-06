@@ -22,7 +22,6 @@ package body GNAVI_Project_Window_Package is
    --  Private Package Methods
    -------------------------------------------------------------------------
 
-
    -------------------------------------------------------------------------
    --  Public Package Methods
    -------------------------------------------------------------------------
@@ -249,7 +248,7 @@ package body GNAVI_Project_Window_Package is
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
    begin
-      -- Edit_File;
+      --  Edit_File;
       null;
    end Do_File_Edit;
 

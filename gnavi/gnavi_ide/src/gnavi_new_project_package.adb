@@ -109,4 +109,3 @@ package body GNAVI_New_Project_Package is
 begin
    Create (GNAVI_New_Project);
 end GNAVI_New_Project_Package;
-

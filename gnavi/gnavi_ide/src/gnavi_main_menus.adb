@@ -15,7 +15,6 @@ package body GNAVI_Main_Menus is
       M.Project_Menu := Create_Menu;
       M.Help_Menu    := Create_Menu;
 
-
       Append_Item (M.File_Menu, "&New Window...", ID_FILE_NEW);
       Append_Item (M.File_Menu, "&Open Window", ID_FILE_EDIT);
       Append_Item (M.File_Menu, "&Add Window...", ID_FILE_OPEN);
@@ -35,7 +34,6 @@ package body GNAVI_Main_Menus is
 
       Append_Menu (M.Main_Menu, "&File", M.File_Menu);
 
-
       Append_Item (M.Project_Menu, "&New Project...", ID_PROJECT_NEW);
       Append_Item (M.Project_Menu, "&Open Project...", ID_PROJECT_OPEN);
       Append_Item (M.Project_Menu, "&Close Project", ID_PROJECT_CLOSE);
@@ -43,7 +41,6 @@ package body GNAVI_Main_Menus is
       Append_Item (M.Project_Menu, "&Build", ID_COMPILE);
       Append_Item (M.Project_Menu, "&Run", ID_RUN);
       Append_Menu (M.Main_Menu, "&Project", M.Project_Menu);
-
 
       Append_Item (M.Help_Menu, "&About...", ID_APP_ABOUT);
       Append_Item (M.Help_Menu, "&Help", ID_HELP_INDEX);
