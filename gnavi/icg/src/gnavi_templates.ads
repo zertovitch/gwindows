@@ -44,14 +44,14 @@ package GNAVI_Templates is
    function Load_Template (Template_Name : String) return String;
    --  Load template from template directory
 
-   type Embedded_Template_Kind is
+   type Template_Kind is
       (on_create_template,
        window_package_spec_template,
        window_package_body_template,
        application_template,
        handler_template);
 
-   function Load_Template (Template : Embedded_Template_Kind; Template_Name : String := "") return String;
+   function Load_Template (Template : Template_Kind; Template_Name : String := "") return String;
    --  Load template from embedded collection
 
    function Load_File (File_Spec : String) return String;
@@ -70,7 +70,7 @@ package GNAVI_Templates is
    --  Execute translation of template and write out to File_Spec
 
    procedure Execute (File_Spec     : String;
-                      Template      : Embedded_Template_Kind;
+                      Template      : Template_Kind;
                       Trans_Table   : Templates_Parser.Translate_Table);
    --  Execute translation of embedded template and write out to File_Spec
 

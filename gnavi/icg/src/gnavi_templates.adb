@@ -55,7 +55,7 @@ package body GNAVI_Templates is
       return Load_File (Template_Dir & Template_Name);
    end Load_Template;
 
-   function Load_Template (Template : Embedded_Template_Kind; Template_Name : String := "") return String is
+   function Load_Template (Template : Template_Kind; Template_Name : String := "") return String is
    begin
       return GNAVI_Templates.Embedded.Get_Template (Template, Template_Name);
    end Load_Template;
@@ -171,7 +171,7 @@ package body GNAVI_Templates is
    end Execute;
 
    procedure Execute (File_Spec     : String;
-                      Template      : Embedded_Template_Kind;
+                      Template      : Template_Kind;
                       Trans_Table   : Templates_Parser.Translate_Table)
    is
    begin

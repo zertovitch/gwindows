@@ -30,7 +30,7 @@
 package body GNAVI_Templates.Embedded is
 
    function Get_Template
-      (Template      : Embedded_Template_Kind;
+      (Template      : Template_Kind;
        Template_Name : String := "")
       return String
    is

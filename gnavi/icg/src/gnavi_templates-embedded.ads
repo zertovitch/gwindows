@@ -30,7 +30,7 @@
 private package GNAVI_Templates.Embedded is
 
    function Get_Template
-      (Template      : Embedded_Template_Kind;
+      (Template      : Template_Kind;
        Template_Name : String := "")
       return String;
    --  Load template as embedded resource (no file involved).
