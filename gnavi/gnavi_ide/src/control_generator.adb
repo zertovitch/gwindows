@@ -88,9 +88,13 @@ procedure Control_Generator is
       function Create_Function return GWindows.GString;
       function Create_Inits return GWindows.GString;
 
+      create_index_x : constant GWindows.GString :=
+         "Create_Index_" & Trim (Image (Index), Left);
+
       T : constant GWindows.GString := Control_Type (Index);
       P : constant GWindows.GString :=
-        "   function Create_Index_" & Trim (Image (Index), Left) & NL &
+        "   --  Control: " & Control_Display_Name (Index) & NL & NL &
+        "   function " & create_index_x & NL &
         "     (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;"
         & NL &
         "      Control_XML : GNAVI_Window.Control_Element)" & NL &
@@ -201,7 +205,7 @@ procedure Control_Generator is
 
       Dispatch_Strings := Dispatch_Strings &
         "   elsif T = """ & T & """ then" & NL &
-        "      return Create_Index_" & Trim (Image (Index), Left) &
+        "      return " & create_index_x &
         " (Parent, Control_XML);" & NL;
 
       Spec_Strings := Spec_Strings & P & ";" & NL & NL;
@@ -215,7 +219,7 @@ procedure Control_Generator is
         Create_Function & NL & NL &
         Create_Inits & NL & NL &
         "      return C;" & NL &
-        "   end Create_Index_" & Trim (Image (Index), Left) & ";" & NL & NL;
+        "   end " & create_index_x & ";" & NL & NL;
 
    end Make_Create_Procedure;
 

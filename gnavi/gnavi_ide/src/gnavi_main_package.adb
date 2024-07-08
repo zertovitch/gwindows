@@ -20,6 +20,8 @@ with GNAVI_IDs;
 
 with GNAVI_Main_Menus;
 
+with Interfaces.C;
+
 package body GNAVI_Main_Package is
 
    procedure On_Create (Window : in out GNAVI_Main_Type) is separate;
@@ -53,6 +55,12 @@ package body GNAVI_Main_Package is
 
       M : constant Base_Menus := Setup_Base_Menus;
 
+      TBSTYLE_TOOLTIPS        : constant := 16#0100#;
+      TBSTYLE_FLAT            : constant := 16#0800#;
+      TBSTYLE_LIST            : constant := 16#1000#;
+      TBSTYLE_EX_MIXEDBUTTONS : constant := 8;
+      use type Interfaces.C.unsigned;
+
    begin
       MDI_Menu (GNAVI_Main, M.Main_Menu, M.Windows_Menu);
 
@@ -60,11 +68,20 @@ package body GNAVI_Main_Package is
       Large_Icon (GNAVI_Main, "MAIN_ICON");
 
       Create (List, "MAIN_TOOLBAR", 16);
-      Set_Image_List (This.Top_Tools, List);
-      Add_Button (This.Top_Tools, 0, ID_PROJECT_NEW);
-      Add_Button (This.Top_Tools, 1, ID_PROJECT_OPEN);
-      Add_Button (This.Top_Tools, 8, ID_RUN);
-      Add_Button (This.Top_Tools, 7, ID_HELP_INDEX);
+      This.Top_Tools.Set_Image_List (List);
+      This.Top_Tools.Set_Style
+         (This.Top_Tools.Get_Style
+          or TBSTYLE_FLAT or TBSTYLE_TOOLTIPS or TBSTYLE_LIST);
+      This.Top_Tools.Set_Extended_Style (TBSTYLE_EX_MIXEDBUTTONS);
+
+      This.Top_Tools.Add_String ("Create a new GNAVI project");
+      This.Top_Tools.Add_Button (0, ID_PROJECT_NEW, 0);
+      This.Top_Tools.Add_String ("Open a GNAVI project");
+      This.Top_Tools.Add_Button (1, ID_PROJECT_OPEN, 1);
+      This.Top_Tools.Add_String ("Run application");
+      This.Top_Tools.Add_Button (8, ID_RUN, 2);
+      This.Top_Tools.Add_String ("Help");
+      This.Top_Tools.Add_Button (7, ID_HELP_INDEX, 3);
 
       GNAVI_Controls.Init;
    end Do_Create;
