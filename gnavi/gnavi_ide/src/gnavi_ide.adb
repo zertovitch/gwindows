@@ -12,11 +12,13 @@ with GNAVI_Project;
 --  with GNAVI_Datastore;
 
 with GWindows.Application;
+with GWindows.Base;
 with GWindows.Message_Boxes;
 with GWindows.GStrings;
 
-with GNAT.IO; use GNAT.IO;
-with GNAT.OS_Lib; use GNAT.OS_Lib;
+with GNAT.IO;
+with GNAT.OS_Lib;
+with GNAT.Traceback.Symbolic;
 
 with Ada.Command_Line;
 with Ada.Exceptions;
@@ -28,7 +30,36 @@ procedure GNAVI_IDE is
 
    --  pragma Linker_Options ("-mwindows");
    --  pragma Linker_Options ("gnavi_ide.coff");
+   
+   procedure Show_Crash_Trace_Back
+      (Window : in out GWindows.Base.Base_Window_Type'Class;
+       E      :        Ada.Exceptions.Exception_Occurrence)
+   is
+      pragma Unreferenced (Window);
+      small_insult : constant String :=
+          Ada.Exceptions.Exception_Name (E) & ASCII.LF &
+          Ada.Exceptions.Exception_Message (E);
+      insult : constant String :=
+          small_insult & ASCII.LF &
+          GNAT.Traceback.Symbolic.Symbolic_Traceback (E);
+      show_as_text : constant Boolean := True;    
+      
+   begin
+      GWindows.Base.On_Exception_Handler (Handler => null);  --  Avoid infinite recursion!
+      if show_as_text then
+         GNAT.IO.Put_Line (insult);  --  Needs a console window.
+      else
+         Message_Box
+           ("Crash in GNAVI",
+             GWindows.GStrings.To_GString_From_String (insult),
+             OK_Box);
+      end if;
+   end Show_Crash_Trace_Back;   
+    
+   use GNAT.OS_Lib;
 begin
+   GWindows.Base.On_Exception_Handler
+      (Handler => Show_Crash_Trace_Back'Unrestricted_Access);
 
    GNATMAKE_Path_Exists := GNAT.OS_Lib.Locate_Exec_On_Path ("gnatmake");
 
@@ -60,6 +91,6 @@ begin
    GWindows.Application.Message_Loop;
 exception
    when E : others =>
-      Put_Line (Ada.Exceptions.Exception_Name (E));
-      Put_Line (Ada.Exceptions.Exception_Message (E));
+      GNAT.IO.Put_Line (Ada.Exceptions.Exception_Name (E));
+      GNAT.IO.Put_Line (Ada.Exceptions.Exception_Message (E));
 end GNAVI_IDE;

@@ -43,8 +43,9 @@ package body GNAVI_Edit_Window_Package is
    --  Hide all window views
 
    procedure Show_View
-     (View_Name : in     GWindows.GString;
-      Window    : in out GWindows.Base.Base_Window_Type'Class);
+     (Window            : in out GNAVI_Edit_Window_Type;
+      View_Name         : in     GWindows.GString;
+      View_Subwindow    : in out GWindows.Base.Base_Window_Type'Class);
    --  Show a particular view
 
    procedure Save (Window    : in out GWindows.Scintilla.Scintilla_Type;
@@ -302,7 +303,7 @@ package body GNAVI_Edit_Window_Package is
       Visible (Window.Spec_Edit_Box, False);
       Visible (Window.Body_Edit_Box, False);
       Visible (Window.Outline_Box, False);
-      GNAVI_Layout_View.Close (Window.Layout_Editor);
+      GNAVI_Layout_View.Close (Window.Layout_Editor);  --  This line appears in a trace-back...
       Visible (Window.Layout_Box, False);
 
       Dock (Window.XML_Edit_Box, None);
@@ -313,23 +314,22 @@ package body GNAVI_Edit_Window_Package is
    end Hide_All_Views;
 
    procedure Show_View
-     (View_Name : in     GWindows.GString;
-      Window    : in out GWindows.Base.Base_Window_Type'Class)
+     (Window            : in out GNAVI_Edit_Window_Type;
+      View_Name         : in     GWindows.GString;
+      View_Subwindow    : in out GWindows.Base.Base_Window_Type'Class)
    is
       use GWindows.Base;
       use GWindows.Edit_Boxes;
       use GNAVI_Window;
 
-      This : GNAVI_Edit_Window_Type
-        renames GNAVI_Edit_Window_Type (Controlling_Parent (Window).all);
    begin
-      Text (This, View_Name & " - " & Window_Name (This.Win_XML));
-      Text (This.Property_Edit_Box, "");
-      Text (This.Handler_Edit_Box, "");
-      Hide_All_Views (This);
-      Visible (Window);
-      Dock (Window, Fill);
-      Dock_Children (This);
+      Text (Window, View_Name & " - " & Window_Name (Window.Win_XML));
+      Text (Window.Property_Edit_Box, "");
+      Text (Window.Handler_Edit_Box, "");
+      Hide_All_Views (Window);
+      Visible (View_Subwindow);
+      Dock (View_Subwindow, Fill);
+      Dock_Children (Window);
    end Show_View;
 
    type Window_Rec;
@@ -602,7 +602,7 @@ package body GNAVI_Edit_Window_Package is
       Load_All_Views (This);
 
       This.Edit_Box := null;
-      Show_View ("Outline View", This.Outline_Box);
+      Show_View (This, "Outline View", This.Outline_Box);
    end Do_Create;
 
    procedure Do_Close
@@ -724,7 +724,7 @@ package body GNAVI_Edit_Window_Package is
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
       This.Edit_Box := This.XML_Edit_Box'Unchecked_Access;
-      Show_View ("XML View", This.XML_Edit_Box);
+      Show_View (This, "XML View", This.XML_Edit_Box);
    end Do_XML_Window;
 
    procedure Do_Outline_Window
@@ -735,7 +735,7 @@ package body GNAVI_Edit_Window_Package is
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
       This.Edit_Box := null;
-      Show_View ("Outline View", This.Outline_Box);
+      Show_View (This, "Outline View", This.Outline_Box);
    end Do_Outline_Window;
 
    procedure Do_Layout_Window
@@ -746,7 +746,7 @@ package body GNAVI_Edit_Window_Package is
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
       This.Edit_Box := null;
-      Show_View ("Layout View", This.Layout_Box);
+      Show_View (This, "Layout View", This.Layout_Box);
       GNAVI_Layout_View.Edit_Window (This.Layout_Editor,
                                      This.Layout_Box.Panel,
                                      This.Win_XML);
@@ -760,7 +760,7 @@ package body GNAVI_Edit_Window_Package is
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
       This.Edit_Box := This.Spec_Edit_Box'Unchecked_Access;
-      Show_View ("Spec View", This.Spec_Edit_Box);
+      Show_View (This, "Spec View", This.Spec_Edit_Box);
    end Do_Spec_Window;
 
    procedure Do_Body_Window
@@ -771,7 +771,7 @@ package body GNAVI_Edit_Window_Package is
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
       This.Edit_Box := This.Body_Edit_Box'Unchecked_Access;
-      Show_View ("Body View", This.Body_Edit_Box);
+      Show_View (This, "Body View", This.Body_Edit_Box);
    end Do_Body_Window;
 
    procedure Do_Select_OV_Control
@@ -827,7 +827,7 @@ package body GNAVI_Edit_Window_Package is
          pragma Unreferenced (F_POS_2);
       begin
          This.Edit_Box := This.Body_Edit_Box'Unchecked_Access;
-         Show_View ("Body View", This.Body_Edit_Box);
+         Show_View (This, "Body View", This.Body_Edit_Box);
          F_POS := Find_Text (This.Body_Edit_Box,
                              flags => 0,
                              ft => Find_Info'Unchecked_Access);
@@ -887,7 +887,7 @@ package body GNAVI_Edit_Window_Package is
          F_POS : Position;
       begin
          This.Edit_Box := This.XML_Edit_Box'Unchecked_Access;
-         Show_View ("XML View", This.XML_Edit_Box);
+         Show_View (This, "XML View", This.XML_Edit_Box);
          F_POS := Find_Text (This.XML_Edit_Box,
                              flags => 0,
                              ft => Find_Info'Unchecked_Access);

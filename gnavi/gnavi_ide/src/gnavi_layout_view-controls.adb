@@ -77,9 +77,14 @@ package body GNAVI_Layout_View.Controls is
       Control_XML :        GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
    is
+      Control : GWindows.Base.Pointer_To_Base_Window_Class;
       use GWindows.Base;
    begin
       if Parent = null then
+         return null;
+      end if;
+      Control := Dispatch (Parent, Control_XML);
+      if Control = null then
          return null;
       end if;
 
@@ -87,17 +92,13 @@ package body GNAVI_Layout_View.Controls is
          use GNAVI_Widget_Vehicle;
          Vehicle : constant GNAVI_Widget_Vehicle_Access :=
            new GNAVI_Widget_Vehicle_Type;
-          Data    : constant Control_Data_Access := new Control_Data_Type;
-         Control : GWindows.Base.Pointer_To_Base_Window_Class;
+         Data    : constant Control_Data_Access := new Control_Data_Type;
          D       : GWindows.Base.Dock_Type;
       begin
-         Control := Dispatch (Parent, Control_XML);
          Data.Element := Control_XML;
 
-         if
-           Control.all in GWindows.Packing_Boxes.Packing_Box_Type'Class
-         then
-             Data.Resizes_Children := True;
+         if Control.all in GWindows.Packing_Boxes.Packing_Box_Type'Class then
+            Data.Resizes_Children := True;
          end if;
 
          Data.Win_XML :=

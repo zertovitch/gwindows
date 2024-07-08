@@ -7,7 +7,7 @@ project GNAVI_IDE is
    GNAVI_Build_Mode : GNAVI_Build_Mode_Type := external ("GNAVI_Build_Mode", "Debug");
 
    for Source_Dirs use ("src", "../xml", "../icg/src");
-   for Main use ("gnavi_ide.adb");
+   for Main use ("gnavi_ide.adb", "control_generator.adb");
    for Exec_Dir use "src";  --  It is supposed to be so given the datastore path (???)
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
    
