@@ -12,6 +12,7 @@ with GWindows.Edit_Boxes.Rich;
 with GWindows.Scintilla;
 with GWindows.List_Boxes;
 with GWindows.Combo_Boxes;
+with GWindows.Common_Controls;
 with GWindows.Panels;
 with GWindows.Scroll_Panels;
 with GWindows.Packing_Boxes;
@@ -1617,9 +1618,76 @@ package body Control_Creators is
       return C;
    end Create_Index_23;
 
-   --  Control: Group Box
+   --  Control: List View Control
 
    function Create_Index_24
+     (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
+      Control_XML : GNAVI_Window.Control_Element)
+     return GWindows.Base.Pointer_To_Base_Window_Class
+   is
+       C : constant GWindows.Base.Pointer_To_Base_Window_Class :=
+         GWindows.Base.Pointer_To_Base_Window_Class'
+         (new GWindows.Common_Controls.List_View_Control_Type);
+   begin
+      GWindows.Common_Controls.Run_Mode 
+        (GWindows.Common_Controls.List_View_Control_Type (C.all), GWindows.Base.Development_Create_Start);
+
+      GWindows.Common_Controls.Create 
+        (GWindows.Common_Controls.List_View_Control_Type (C.all),
+         Parent => Parent.all, 
+         Left => GNAVI_Window.Get_Create_Property (Control_XML, "Left"),
+         Top => GNAVI_Window.Get_Create_Property (Control_XML, "Top"),
+         Width => GNAVI_Window.Get_Create_Property (Control_XML, "Width"),
+         Height => GNAVI_Window.Get_Create_Property (Control_XML, "Height"),
+         Selection => GWindows.Common_Controls.List_View_Control_Select_Type'Value (GNAVI_Window.Strip_Type (GNAVI_Window.Get_Create_Property (Control_XML, "Selection"))),
+         View => GWindows.Common_Controls.List_View_Control_View_Type'Value (GNAVI_Window.Strip_Type (GNAVI_Window.Get_Create_Property (Control_XML, "View"))),
+         Sort => GWindows.Common_Controls.List_View_Control_Sort_Type'Value (GNAVI_Window.Strip_Type (GNAVI_Window.Get_Create_Property (Control_XML, "Sort"))),
+         Arrange => GNAVI_Window.Get_Create_Property (Control_XML, "Arrange"),
+         Align => GWindows.Common_Controls.List_View_Control_Alignment_Type'Value (GNAVI_Window.Strip_Type (GNAVI_Window.Get_Create_Property (Control_XML, "Align"))),
+         Show => GNAVI_Window.Get_Create_Property (Control_XML, "Show"),
+         Is_Dynamic => True);
+
+      for N in 1 .. GNAVI_Window.Init_Property_Count (Control_XML) loop
+         declare
+            P : constant GWindows.GString :=
+              GNAVI_Window.Init_Property_Name (Control_XML, N);
+         begin
+            if P = "Visible" then
+               GWindows.Common_Controls.Visible
+                 (GWindows.Common_Controls.List_View_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Visible"));
+            elsif P = "Dock" then
+               GWindows.Common_Controls.Dock
+                 (GWindows.Common_Controls.List_View_Control_Type (C.all),
+                  GWindows.Base.Dock_Type'Value
+                   (GNAVI_Window.Strip_Type
+                    (GNAVI_Window.Init_Property_Value (Control_XML, N))));
+            elsif P = "Group" then
+               GWindows.Common_Controls.Group
+                 (GWindows.Common_Controls.List_View_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Group"));
+            elsif P = "Tab_Stop" then
+               GWindows.Common_Controls.Tab_Stop
+                 (GWindows.Common_Controls.List_View_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Tab_Stop"));
+            elsif P = "Enabled" then
+               GWindows.Common_Controls.Enabled
+                 (GWindows.Common_Controls.List_View_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Enabled"));
+            elsif P = "Border" then
+               GWindows.Common_Controls.Border
+                 (GWindows.Common_Controls.List_View_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Border"));
+            end if;
+         end;
+      end loop;
+
+      return C;
+   end Create_Index_24;
+
+   --  Control: Group Box
+
+   function Create_Index_25
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -1677,11 +1745,11 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_24;
+   end Create_Index_25;
 
    --  Control: Panel
 
-   function Create_Index_25
+   function Create_Index_26
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -1746,11 +1814,11 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_25;
+   end Create_Index_26;
 
    --  Control: Scroll Panel
 
-   function Create_Index_26
+   function Create_Index_27
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -1799,11 +1867,11 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_26;
+   end Create_Index_27;
 
    --  Control: Packing Box
 
-   function Create_Index_27
+   function Create_Index_28
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -1889,11 +1957,11 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_27;
+   end Create_Index_28;
 
    --  Control: GSize Bar
 
-   function Create_Index_28
+   function Create_Index_29
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -1970,11 +2038,11 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_28;
+   end Create_Index_29;
 
    --  Control: GDuration
 
-   function Create_Index_29
+   function Create_Index_30
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -2033,11 +2101,11 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_29;
+   end Create_Index_30;
 
    --  Control: GDuration Edit
 
-   function Create_Index_30
+   function Create_Index_31
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -2096,11 +2164,11 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_30;
+   end Create_Index_31;
 
    --  Control: Drawing Panel
 
-   function Create_Index_31
+   function Create_Index_32
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -2163,11 +2231,11 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_31;
+   end Create_Index_32;
 
    --  Control: Scroll Bar
 
-   function Create_Index_32
+   function Create_Index_33
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -2238,6 +2306,6 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_32;
+   end Create_Index_33;
 
 end Control_Creators;

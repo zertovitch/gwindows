@@ -62,24 +62,26 @@ begin
       return Create_Index_22 (Parent, Control_XML);
    elsif T = "GWindows.Combo_Boxes.Drop_Down_List_Box_Type" then
       return Create_Index_23 (Parent, Control_XML);
-   elsif T = "GWindows.Buttons.Group_Box_Type" then
+   elsif T = "GWindows.Common_Controls.List_View_Control_Type" then
       return Create_Index_24 (Parent, Control_XML);
-   elsif T = "GWindows.Panels.Panel_Type" then
+   elsif T = "GWindows.Buttons.Group_Box_Type" then
       return Create_Index_25 (Parent, Control_XML);
-   elsif T = "GWindows.Scroll_Panels.Scroll_Panel_Type" then
+   elsif T = "GWindows.Panels.Panel_Type" then
       return Create_Index_26 (Parent, Control_XML);
-   elsif T = "GWindows.Packing_Boxes.Packing_Box_Type" then
+   elsif T = "GWindows.Scroll_Panels.Scroll_Panel_Type" then
       return Create_Index_27 (Parent, Control_XML);
-   elsif T = "GWindows.GControls.GSize_Bars.GSize_Bar_Type" then
+   elsif T = "GWindows.Packing_Boxes.Packing_Box_Type" then
       return Create_Index_28 (Parent, Control_XML);
-   elsif T = "GWindows.GControls.Duration.Duration_Type" then
+   elsif T = "GWindows.GControls.GSize_Bars.GSize_Bar_Type" then
       return Create_Index_29 (Parent, Control_XML);
-   elsif T = "GWindows.GControls.Duration.Edit.Duration_Edit_Type" then
+   elsif T = "GWindows.GControls.Duration.Duration_Type" then
       return Create_Index_30 (Parent, Control_XML);
-   elsif T = "GWindows.Drawing_Panels.Drawing_Panel_Type" then
+   elsif T = "GWindows.GControls.Duration.Edit.Duration_Edit_Type" then
       return Create_Index_31 (Parent, Control_XML);
-   elsif T = "GWindows.Scroll_Bars.Scroll_Bar_Type" then
+   elsif T = "GWindows.Drawing_Panels.Drawing_Panel_Type" then
       return Create_Index_32 (Parent, Control_XML);
+   elsif T = "GWindows.Scroll_Bars.Scroll_Bar_Type" then
+      return Create_Index_33 (Parent, Control_XML);
 
    else
       return null;

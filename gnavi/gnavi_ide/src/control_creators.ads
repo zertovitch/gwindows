@@ -169,65 +169,72 @@ package Control_Creators is
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class;
 
-   --  Control: Group Box
+   --  Control: List View Control
 
    function Create_Index_24
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class;
 
-   --  Control: Panel
+   --  Control: Group Box
 
    function Create_Index_25
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class;
 
-   --  Control: Scroll Panel
+   --  Control: Panel
 
    function Create_Index_26
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class;
 
-   --  Control: Packing Box
+   --  Control: Scroll Panel
 
    function Create_Index_27
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class;
 
-   --  Control: GSize Bar
+   --  Control: Packing Box
 
    function Create_Index_28
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class;
 
-   --  Control: GDuration
+   --  Control: GSize Bar
 
    function Create_Index_29
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class;
 
-   --  Control: GDuration Edit
+   --  Control: GDuration
 
    function Create_Index_30
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class;
 
-   --  Control: Drawing Panel
+   --  Control: GDuration Edit
 
    function Create_Index_31
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class;
 
-   --  Control: Scroll Bar
+   --  Control: Drawing Panel
 
    function Create_Index_32
+     (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
+      Control_XML : GNAVI_Window.Control_Element)
+     return GWindows.Base.Pointer_To_Base_Window_Class;
+
+   --  Control: Scroll Bar
+
+   function Create_Index_33
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class;

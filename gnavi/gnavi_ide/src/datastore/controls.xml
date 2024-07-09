@@ -34,9 +34,7 @@
    </type>
   </types>
   <controls>
-   <control display_name="Label"
-    type="GWindows.Static_Controls.Label_Type"
-    category="Static Controls">
+   <control display_name="Label"                       type="GWindows.Static_Controls.Label_Type"                  category="Static Controls">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -70,9 +68,7 @@
          <event name="On_Disable" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Icon"
-    type="GWindows.Static_Controls.Icon_Type"
-    category="Static Controls">
+   <control display_name="Icon"                        type="GWindows.Static_Controls.Icon_Type"                   category="Static Controls">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" display_name="Resource_Name"/>
@@ -106,9 +102,7 @@
          <event name="On_Disable" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Bitmap"
-    type="GWindows.Static_Controls.Bitmap_Type"
-    category="Static Controls">
+   <control display_name="Bitmap"                      type="GWindows.Static_Controls.Bitmap_Type"                 category="Static Controls">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" display_name="Resource_Name"/>
@@ -142,9 +136,7 @@
          <event name="On_Disable" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Meta File"
-    type="GWindows.Static_Controls.Meta_File_Type"
-    category="Static Controls">
+   <control display_name="Meta File"                   type="GWindows.Static_Controls.Meta_File_Type"              category="Static Controls">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" display_name="Resource_Name"/>
@@ -178,9 +170,7 @@
          <event name="On_Disable" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Button"
-    type="GWindows.Buttons.Button_Type"
-    category="Buttons">
+   <control display_name="Button"                      type="GWindows.Buttons.Button_Type"                         category="Buttons">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -212,9 +202,7 @@
          <event name="On_Released" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Default Button"
-    type="GWindows.Buttons.Default_Button_Type"
-    category="Buttons">
+   <control display_name="Default Button"              type="GWindows.Buttons.Default_Button_Type"                 category="Buttons">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -246,9 +234,7 @@
          <event name="On_Released" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Cancel Button"
-    type="GWindows.Buttons.Cancel_Button_Type"
-    category="Buttons">
+   <control display_name="Cancel Button"               type="GWindows.Buttons.Cancel_Button_Type"                  category="Buttons">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -280,9 +266,7 @@
          <event name="On_Released" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Default Cancel Button"
-    type="GWindows.Buttons.Default_Cancel_Button_Type"
-    category="Buttons">
+   <control display_name="Default Cancel Button"       type="GWindows.Buttons.Default_Cancel_Button_Type"          category="Buttons">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -314,45 +298,7 @@
          <event name="On_Released" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Check Box"
-    type="GWindows.Buttons.Check_Box_Type"
-    category="Buttons">
-      <create_properties>
-         <property name="Text" type="GWindows.GString"
-	  default="&quot;&quot;" />
-	 <property name="Left" type="Integer" default="0" />
-	 <property name="Top" type="Integer" default="0" />
-	 <property name="Width" type="Integer" default="60" />
-	 <property name="Height" type="Integer" default="30" />
-	 <property name="ID" type="Integer" default="0" />
-      </create_properties>
-      <init_properties>
-	 <property name="Visible" type="Boolean" default="True" />
-         <property name="Dock" type="GWindows.Base.Dock_Type"
-	  default="GWindows.Base.None" />
-	 <property name="Group" type="Boolean" default="True" />
-	 <property name="Tab_Stop" type="Boolean" default="True" />
-	 <property name="Enabled" type="Boolean" default="True" />
-	 <property name="Border" type="Boolean" default="False" />
-	 <property name="State" type="GWindows.Buttons.Check_State_Type"
-	  default="GWindows.Buttons.Unchecked" />
-      </init_properties>
-      <events default="On_Click">
-         <event name="On_Create" type="GWindows.Base.Action_Event" />
-         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
-         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
-         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
-         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
-         <event name="On_Click" type="GWindows.Base.Action_Event" />
-         <event name="On_Focus" type="GWindows.Base.Action_Event" />
-         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
-         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
-         <event name="On_Released" type="GWindows.Base.Action_Event" />
-      </events>
-   </control>
-   <control display_name="Two State Button"
-    type="GWindows.Buttons.Two_State_Button_Type"
-    category="Buttons">
+   <control display_name="Check Box"                   type="GWindows.Buttons.Check_Box_Type"                      category="Buttons">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -386,9 +332,7 @@
          <event name="On_Released" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Radio Button"
-    type="GWindows.Buttons.Radio_Button_Type"
-    category="Buttons">
+   <control display_name="Two State Button"            type="GWindows.Buttons.Two_State_Button_Type"               category="Buttons">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -422,9 +366,7 @@
          <event name="On_Released" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Push Radio Button"
-    type="GWindows.Buttons.Push_Radio_Button_Type"
-    category="Buttons">
+   <control display_name="Radio Button"                type="GWindows.Buttons.Radio_Button_Type"                   category="Buttons">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -458,9 +400,41 @@
          <event name="On_Released" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Three State Box"
-    type="GWindows.Buttons.Three_State_Box_Type"
-    category="Buttons">
+   <control display_name="Push Radio Button"           type="GWindows.Buttons.Push_Radio_Button_Type"              category="Buttons">
+      <create_properties>
+         <property name="Text" type="GWindows.GString"
+	  default="&quot;&quot;" />
+	 <property name="Left" type="Integer" default="0" />
+	 <property name="Top" type="Integer" default="0" />
+	 <property name="Width" type="Integer" default="60" />
+	 <property name="Height" type="Integer" default="30" />
+	 <property name="ID" type="Integer" default="0" />
+      </create_properties>
+      <init_properties>
+	 <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type"
+	  default="GWindows.Base.None" />
+	 <property name="Group" type="Boolean" default="True" />
+	 <property name="Tab_Stop" type="Boolean" default="True" />
+	 <property name="Enabled" type="Boolean" default="True" />
+	 <property name="Border" type="Boolean" default="False" />
+	 <property name="State" type="GWindows.Buttons.Check_State_Type"
+	  default="GWindows.Buttons.Unchecked" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Pushed" type="GWindows.Base.Action_Event" />
+         <event name="On_Released" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Three State Box"             type="GWindows.Buttons.Three_State_Box_Type"                category="Buttons">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -494,9 +468,7 @@
          <event name="On_Released" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Three State Button"
-    type="GWindows.Buttons.Three_State_Button_Type"
-    category="Buttons">
+   <control display_name="Three State Button"          type="GWindows.Buttons.Three_State_Button_Type"             category="Buttons">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -530,9 +502,7 @@
          <event name="On_Released" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Edit Box"
-    type="GWindows.Edit_Boxes.Edit_Box_Type"
-    category="Text Entry">
+   <control display_name="Edit Box"                    type="GWindows.Edit_Boxes.Edit_Box_Type"                    category="Text Entry">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -576,9 +546,7 @@
          <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Multi Line Edit Box"
-    type="GWindows.Edit_Boxes.Multi_Line_Edit_Box_Type"
-    category="Text Entry">
+   <control display_name="Multi Line Edit Box"         type="GWindows.Edit_Boxes.Multi_Line_Edit_Box_Type"         category="Text Entry">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -624,9 +592,7 @@
          <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Rich Edit Box"
-    type="GWindows.Edit_Boxes.Rich.Rich_Edit_Box_Type"
-    category="Text Entry">
+   <control display_name="Rich Edit Box"               type="GWindows.Edit_Boxes.Rich.Rich_Edit_Box_Type"          category="Text Entry">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -672,9 +638,7 @@
          <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Scintilla Editor"
-    type="GWindows.Scintilla.Scintilla_Type"
-    category="Text Entry">
+   <control display_name="Scintilla Editor"            type="GWindows.Scintilla.Scintilla_Type"                    category="Text Entry">
       <create_properties>
 	 <property name="Left" type="Integer" default="0" />
 	 <property name="Top" type="Integer" default="0" />
@@ -711,9 +675,7 @@
          <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="List Box"
-    type="GWindows.List_Boxes.List_Box_Type"
-    category="Selection Boxes">
+   <control display_name="List Box"                    type="GWindows.List_Boxes.List_Box_Type"                    category="Selection Boxes">
       <create_properties>
 	 <property name="Left" type="Integer" default="0" />
 	 <property name="Top" type="Integer" default="0" />
@@ -745,9 +707,7 @@
          <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Multiple Selection List Box"
-    type="GWindows.List_Boxes.Multiple_Selection_List_Box_Type"
-    category="Selection Boxes">
+   <control display_name="Multiple Selection List Box" type="GWindows.List_Boxes.Multiple_Selection_List_Box_Type" category="Selection Boxes">
       <create_properties>
 	 <property name="Left" type="Integer" default="0" />
 	 <property name="Top" type="Integer" default="0" />
@@ -779,9 +739,7 @@
          <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Combo Box"
-    type="GWindows.Combo_Boxes.Combo_Box_Type"
-    category="Selection Boxes">
+   <control display_name="Combo Box"                   type="GWindows.Combo_Boxes.Combo_Box_Type"                  category="Selection Boxes">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -824,9 +782,7 @@
 	  type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Drop Down Combo Box"
-    type="GWindows.Combo_Boxes.Drop_Down_Combo_Box_Type"
-    category="Selection Boxes">
+   <control display_name="Drop Down Combo Box"         type="GWindows.Combo_Boxes.Drop_Down_Combo_Box_Type"        category="Selection Boxes">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -869,9 +825,7 @@
 	  type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Drop Down List Box"
-    type="GWindows.Combo_Boxes.Drop_Down_List_Box_Type"
-    category="Selection Boxes">
+   <control display_name="Drop Down List Box"          type="GWindows.Combo_Boxes.Drop_Down_List_Box_Type"         category="Selection Boxes">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -911,9 +865,45 @@
          <event name="On_Close_Up" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Group Box"
-    type="GWindows.Buttons.Group_Box_Type"
-    category="Containers">
+   <control display_name="List View Control"           type="GWindows.Common_Controls.List_View_Control_Type"      category="Selection Boxes">
+      <create_properties>
+         <property name="Left" type="Integer" default="0" />
+         <property name="Top" type="Integer" default="0" />
+         <property name="Width" type="Integer" default="60" />
+         <property name="Height" type="Integer" default="30" />
+         <property name="Selection"  type="GWindows.Common_Controls.List_View_Control_Select_Type" default="GWindows.Common_Controls.Single" />
+         <property name="View"       type="GWindows.Common_Controls.List_View_Control_View_Type"   default="GWindows.Common_Controls.List_View" />
+         <property name="Sort"       type="GWindows.Common_Controls.List_View_Control_Sort_Type"   default="GWindows.Common_Controls.No_Sorting" />
+         <property name="Arrange"    type="Boolean" default="True" />
+         <property name="Align"      type="GWindows.Common_Controls.List_View_Control_Alignment_Type" default="GWindows.Common_Controls.Align_Left" />
+         <property name="Show"       type="Boolean" default="True" />
+      </create_properties>
+      <init_properties>
+         <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type" default="GWindows.Base.None" />
+         <property name="Group" type="Boolean" default="True" />
+         <property name="Tab_Stop" type="Boolean" default="True" />
+         <property name="Enabled" type="Boolean" default="True" />
+         <property name="Border" type="Boolean" default="False" />
+      </init_properties>
+      <events default="On_Click">
+         <event name="On_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Create_Start" type="GWindows.Base.Action_Event" />
+         <event name="On_Pre_Create" type="GWindows.Base.Action_Event" />
+         <event name="On_Destroy" type="GWindows.Base.Action_Event" />
+         <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
+         <event name="On_Double_Click" type="GWindows.Base.Action_Event" />
+         <event name="On_Selection_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Lost_Focus" type="GWindows.Base.Action_Event" />
+         <event name="On_Out_Of_Memory" type="GWindows.Base.Action_Event" />
+         <event name="On_Edit_Change" type="GWindows.Base.Action_Event" />
+         <event name="On_Edit_Update" type="GWindows.Base.Action_Event" />
+         <event name="On_Drop_Down" type="GWindows.Base.Action_Event" />
+         <event name="On_Close_Up" type="GWindows.Base.Action_Event" />
+      </events>
+   </control>
+   <control display_name="Group Box"                   type="GWindows.Buttons.Group_Box_Type"                      category="Containers">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -939,9 +929,7 @@
          <event name="On_Context_Menu" type="GWindows.Base.Action_Event" />
       </events>
    </control>
-   <control display_name="Panel"
-    type="GWindows.Panels.Panel_Type"
-    category="Containers">
+   <control display_name="Panel"                       type="GWindows.Panels.Panel_Type"                           category="Containers">
       <create_properties>
 	 <property name="Left" type="Integer" default="0" />
 	 <property name="Top" type="Integer" default="0" />
@@ -1001,9 +989,7 @@
 	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
       </events>
    </control>
-   <control display_name="Scroll Panel"
-    type="GWindows.Scroll_Panels.Scroll_Panel_Type"
-    category="Containers">
+   <control display_name="Scroll Panel"                type="GWindows.Scroll_Panels.Scroll_Panel_Type"             category="Containers">
       <create_properties>
 	 <property name="Left" type="Integer" default="0" />
 	 <property name="Top" type="Integer" default="0" />
@@ -1058,9 +1044,7 @@
 	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
       </events>
    </control>
-   <control display_name="Packing Box"
-    type="GWindows.Packing_Boxes.Packing_Box_Type"
-    category="Containers">
+   <control display_name="Packing Box"                 type="GWindows.Packing_Boxes.Packing_Box_Type"              category="Containers">
       <create_properties>
 	 <property name="Left" type="Integer" default="0" />
 	 <property name="Top" type="Integer" default="0" />
@@ -1128,9 +1112,7 @@
 	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
       </events>
    </control>
-   <control display_name="GSize Bar"
-    type="GWindows.GControls.GSize_Bars.GSize_Bar_Type"
-    category="Containers">
+   <control display_name="GSize Bar"                   type="GWindows.GControls.GSize_Bars.GSize_Bar_Type"         category="Containers">
       <create_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -1192,9 +1174,7 @@
          <event name="On_Close" type="GWindows.Windows.Close_Event" />
       </events>
    </control>
-   <control display_name="GDuration"
-    type="GWindows.GControls.Duration.Duration_Type"
-    category="Containers">
+   <control display_name="GDuration"                   type="GWindows.GControls.Duration.Duration_Type"            category="Containers">
       <create_properties>
 	 <property name="Left" type="Integer" default="0" />
 	 <property name="Top" type="Integer" default="0" />
@@ -1248,9 +1228,7 @@
          <event name="On_Close" type="GWindows.Windows.Close_Event" />
       </events>
    </control>
-   <control display_name="GDuration Edit"
-    type="GWindows.GControls.Duration.Edit.Duration_Edit_Type"
-    category="Containers">
+   <control display_name="GDuration Edit"              type="GWindows.GControls.Duration.Edit.Duration_Edit_Type"  category="Containers">
       <create_properties>
 	 <property name="Left" type="Integer" default="0" />
 	 <property name="Top" type="Integer" default="0" />
@@ -1304,9 +1282,7 @@
          <event name="On_Close" type="GWindows.Windows.Close_Event" />
       </events>
    </control>
-   <control display_name="Drawing Panel"
-    type="GWindows.Drawing_Panels.Drawing_Panel_Type"
-    category="Drawing">
+   <control display_name="Drawing Panel"               type="GWindows.Drawing_Panels.Drawing_Panel_Type"           category="Drawing">
       <create_properties>
 	 <property name="Left" type="Integer" default="0" />
 	 <property name="Top" type="Integer" default="0" />
@@ -1365,9 +1341,7 @@
 	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
       </events>
    </control>
-   <control display_name="Scroll Bar"
-    type="GWindows.Scroll_Bars.Scroll_Bar_Type"
-    category="Misc">
+   <control display_name="Scroll Bar"                  type="GWindows.Scroll_Bars.Scroll_Bar_Type"                 category="Misc">
       <create_properties>
 	 <property name="Direction"
 	  type="GWindows.Scroll_Bars.Scroll_Direction_Type"
@@ -1399,9 +1373,7 @@
          <event name="On_Scroll" type="GWindows.Base.Scroll_Event" />
       </events>
    </control>
-   <control display_name="Window"
-    type="GWindows.Windows.Window_Type"
-    category="Windows">
+   <control display_name="Window"                      type="GWindows.Windows.Window_Type"                         category="Windows">
       <init_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -1465,9 +1437,7 @@
 	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
       </events>
    </control>
-   <control display_name="Main Window"
-    type="GWindows.Windows.Main.Main_Window_Type"
-    category="Windows">
+   <control display_name="Main Window"                 type="GWindows.Windows.Main.Main_Window_Type"               category="Windows">
       <init_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -1531,9 +1501,7 @@
 	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
       </events>
    </control>
-   <control display_name="MDI Main Window"
-    type="GWindows.Windows.MDI.MDI_Main_Window_Type"
-    category="Windows">
+   <control display_name="MDI Main Window"             type="GWindows.Windows.MDI.MDI_Main_Window_Type"            category="Windows">
       <init_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
@@ -1597,9 +1565,7 @@
 	 <event name="On_File_Drop" type="GWindows.Windows.File_Drop_Event" />
       </events>
    </control>
-   <control display_name="MDI Child Window"
-    type="GWindows.Windows.MDI.MDI_Child_Window_Type"
-    category="Windows">
+   <control display_name="MDI Child Window"            type="GWindows.Windows.MDI.MDI_Child_Window_Type"           category="Windows">
       <init_properties>
          <property name="Text" type="GWindows.GString"
 	  default="&quot;&quot;" />
