@@ -29,8 +29,6 @@ package body GNAVI_File_Edit_Window_Package is
    procedure Do_Create
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      use GWindows.Scintilla;
-      use GWindows.Colors;
       use GNAVI_Main_Menus;
 
       This : GNAVI_File_Edit_Window_Type
@@ -39,39 +37,7 @@ package body GNAVI_File_Edit_Window_Package is
       M : constant Base_Menus := Setup_Editor_Menus;
    begin
       MDI_Menu (This, M.Main_Menu, M.Windows_Menu);
-
-      --  Set up editor
-      Set_EOL_Mode (This.Edit_Box, SC_EOL_CRLF);
-      Set_Tab_Width (This.Edit_Box, GNAVI_Common.TAB_WIDTH);
-      Set_Use_Tabs (This.Edit_Box, False);
-      Set_Edge_Column (This.Edit_Box, 80);
-      Set_Edge_Mode (This.Edit_Box, EDGE_LINE);
-      --  SetIndentationGuides (This.Edit_Box, True);
-
-      Set_Lexer (This.Edit_Box, SCLEX_ADA);
-      Set_Key_Words (This.Edit_Box, 0, GNAVI_Common.Key_Words);
-
-      Style_Set_Fore (This.Edit_Box, STYLE_DEFAULT, Black);
-      Style_Set_Back (This.Edit_Box, STYLE_DEFAULT, White);
-      Style_Set_Size (This.Edit_Box, STYLE_DEFAULT, 10);
-      Style_Set_Font (This.Edit_Box, STYLE_DEFAULT, "Courier");
-      Style_Clear_All (This.Edit_Box);
-
-      Style_Set_Fore (This.Edit_Box, SCE_ADA_DEFAULT, Black);
-      Style_Set_Back (This.Edit_Box, SCE_ADA_DEFAULT, White);
-      Style_Set_Size (This.Edit_Box, SCE_ADA_DEFAULT, 10);
-      Style_Set_Font (This.Edit_Box, SCE_ADA_DEFAULT, "Courier");
-
-      Style_Set_Fore (This.Edit_Box, SCE_ADA_COMMENTLINE, Red);
-      Style_Set_Fore (This.Edit_Box, SCE_ADA_NUMBER, Blue);
-      Style_Set_Fore (This.Edit_Box, SCE_ADA_WORD, Dark_Green);
-      Style_Set_Fore (This.Edit_Box, SCE_ADA_STRING, Dark_Red);
-      Style_Set_Fore (This.Edit_Box, SCE_ADA_CHARACTER, Blue);
-      --  Style_Set_Fore (This.Edit_Box, SCE_ADA_OPERATOR, Black);
-      Style_Set_Fore (This.Edit_Box, SCE_ADA_IDENTIFIER, Black);
-
-      Style_Set_Fore (This.Edit_Box, SCE_ADA_STRINGEOL, White);
-      Style_Set_Back (This.Edit_Box, SCE_ADA_STRINGEOL, Red);
+      GNAVI_Common.Set_Up_Editor (This.Edit_Box, GWindows.Scintilla.SCLEX_ADA);
    end Do_Create;
 
    procedure New_File
