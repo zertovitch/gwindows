@@ -13,8 +13,9 @@ with GNAVI_Project;
 
 with GWindows.Application;
 with GWindows.Base;
-with GWindows.Message_Boxes;
 with GWindows.GStrings;
+with GWindows.Message_Boxes;
+with GWindows.Scintilla;
 
 with GNAT.IO;
 with GNAT.OS_Lib;
@@ -67,6 +68,14 @@ begin
       Message_Box
         ("ALERT",
          "gnatmake must be on your path. Please correct and restart.",
+         Icon => Stop_Icon);
+      GNAT.OS_Lib.OS_Exit (1);
+   end if;
+
+   if not GWindows.Scintilla.SCI_Lexer_DLL_Successfully_Loaded then
+      Message_Box
+        ("ALERT",
+         "Cannot load ""scilexer.dll"". Please correct and restart.",
          Icon => Stop_Icon);
       GNAT.OS_Lib.OS_Exit (1);
    end if;
