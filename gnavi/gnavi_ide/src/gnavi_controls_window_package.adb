@@ -1,4 +1,5 @@
 with GNAVI_Controls;
+with GWindows.Image_Lists;
 
 package body GNAVI_Controls_Window_Package is
 
@@ -10,24 +11,32 @@ package body GNAVI_Controls_Window_Package is
    -------------------------------------------------------------------------
 
    function Current_Control_Index return Positive is
-      use GWindows.List_Boxes;
    begin
-      return Current (GNAVI_Controls_Window.Controls_List);
+      for i in 1 .. GNAVI_Controls_Window.Controls_List.Item_Count loop
+         if GNAVI_Controls_Window.Controls_List.Is_Selected (i - 1) then
+            return i;
+         end if;
+      end loop;
+      return 1;
    end Current_Control_Index;
 
    -------------------------------------------------------------------------
    --  Handlers
    -------------------------------------------------------------------------
 
+   List : GWindows.Image_Lists.Image_List_Type;
+
    procedure Do_Create
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      use GNAVI_Controls;
-      use GWindows.List_Boxes;
+      use GNAVI_Controls, GWindows.Common_Controls;
 
       This : GNAVI_Controls_Window_Type renames
         GNAVI_Controls_Window_Type (Window);
    begin
+      List.Create ("CONTROL_TOOLBOX", 16);
+      This.Controls_List.Set_Image_List (Small, List);
+
       Dock_Children (This);
 
       for N in 1 .. Control_Count loop
@@ -35,10 +44,18 @@ package body GNAVI_Controls_Window_Package is
             exit;
          end if;
 
-         Add (This.Controls_List, Control_Display_Name (N));
+         This.Controls_List.Insert_Item
+            (Control_Display_Name (N) & "   ",
+             --  ^ Unfortunately, "Full_Row_Select" has no effect
+             --    when View = Small_Icon_View.
+             --    So we add a few spaces as to extend a bit the
+             --    clicking surface...
+             N - 1,
+             Icon => Control_Icon (N));
       end loop;
 
-      Current (This.Controls_List, 1);
+      This.Controls_List.Selected (0, True);
+
    end Do_Create;
 
 --  GNAVI: Create Global Instance

@@ -2,6 +2,7 @@
 
 MAIN_ICON       ICON    DISCARDABLE     "res\\gwindows.ico"
 MAIN_TOOLBAR    BITMAP  DISCARDABLE     "res\\main_toolbar.bmp"
+CONTROL_TOOLBOX BITMAP  DISCARDABLE     "res\\control_toolbox.bmp"
 PRJ_TOOLBAR     BITMAP  DISCARDABLE     "res\\project_toolbar.bmp"
 
 1 VERSIONINFO

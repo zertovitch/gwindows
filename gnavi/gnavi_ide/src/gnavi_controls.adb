@@ -103,29 +103,25 @@ package body GNAVI_Controls is
       return Nodes.Length (Controls_List);
    end Control_Count;
 
-   function Control_Display_Name (Index : Positive) return GWindows.GString
+   function Control_Information (Index : Positive; Attribute : DOM_String) return GWindows.GString
    is
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (Nodes.Item (Controls_List, Index - 1),
-                                 "display_name"));
-   end Control_Display_Name;
+                                 Attribute));
+   end Control_Information;
 
-   function Control_Type (Index : Positive) return GWindows.GString
-   is
-   begin
-      return To_GString_From_String
-        (Elements.Get_Attribute (Nodes.Item (Controls_List, Index - 1),
-                                 "type"));
-   end Control_Type;
+   function Control_Display_Name (Index : Positive) return GWindows.GString is
+   (Control_Information (Index, "display_name"));
 
-   function Control_Category (Index : Positive) return GWindows.GString
-   is
-   begin
-      return To_GString_From_String
-        (Elements.Get_Attribute (Nodes.Item (Controls_List, Index - 1),
-                                 "category"));
-   end Control_Category;
+   function Control_Type (Index : Positive) return GWindows.GString is
+   (Control_Information (Index, "type"));
+
+   function Control_Category (Index : Positive) return GWindows.GString is
+   (Control_Information (Index, "category"));
+
+   function Control_Icon (Index : Positive) return Natural is
+   (Integer'Wide_Value (Control_Information (Index, "icon")));
 
    function Find_Control_By_Type (Type_String : GWindows.GString)
                                  return Natural

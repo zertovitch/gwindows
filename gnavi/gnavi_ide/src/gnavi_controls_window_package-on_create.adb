@@ -31,13 +31,18 @@ begin
       Top => 0,
       Width => 1);
    GWindows.Panels.Dock (Window.Controls_Panel, GWindows.Base.Fill);
-   GWindows.List_Boxes.Create (Window.Controls_List,
+   GWindows.Common_Controls.Create (Window.Controls_List,
       Parent => Window.Controls_Panel,
+      Align => GWindows.Common_Controls.Align_Left,
+      Arrange => True,
       Height => 10,
       Left => 0,
-      Sort => False,
+      Selection => GWindows.Common_Controls.Single,
+      Show => True,
+      Sort => GWindows.Common_Controls.No_Sorting,
       Top => 0,
+      View => GWindows.Common_Controls.Small_Icon_View,
       Width => 10);
-   GWindows.List_Boxes.Dock (Window.Controls_List, GWindows.Base.Fill);
+   GWindows.Common_Controls.Dock (Window.Controls_List, GWindows.Base.Fill);
    GWindows.Windows.On_Create (GWindows.Windows.Window_Type (Window));
 end On_Create;

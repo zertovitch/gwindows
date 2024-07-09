@@ -31,6 +31,9 @@ package GNAVI_Controls is
 
    function Control_Category (Index : Positive) return GWindows.GString;
 
+   function Control_Icon (Index : Positive) return Natural;
+   --  Icon index in res\control_toolbox.bmp
+
    function Find_Control_By_Type (Type_String : GWindows.GString)
                                  return Natural;
 
