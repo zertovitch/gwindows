@@ -16,11 +16,11 @@ with GWindows.Common_Controls;
 with GWindows.Panels;
 with GWindows.Scroll_Panels;
 with GWindows.Packing_Boxes;
+with GWindows.Drawing_Panels;
+with GWindows.Scroll_Bars;
 with GWindows.GControls.GSize_Bars;
 with GWindows.GControls.Duration;
 with GWindows.GControls.Duration.Edit;
-with GWindows.Drawing_Panels;
-with GWindows.Scroll_Bars;
 
 package body Control_Creators is
 
@@ -1645,6 +1645,7 @@ package body Control_Creators is
          Arrange => GNAVI_Window.Get_Create_Property (Control_XML, "Arrange"),
          Align => GWindows.Common_Controls.List_View_Control_Alignment_Type'Value (GNAVI_Window.Strip_Type (GNAVI_Window.Get_Create_Property (Control_XML, "Align"))),
          Show => GNAVI_Window.Get_Create_Property (Control_XML, "Show"),
+         Show_Header => GNAVI_Window.Get_Create_Property (Control_XML, "Show_Header"),
          Is_Dynamic => True);
 
       for N in 1 .. GNAVI_Window.Init_Property_Count (Control_XML) loop
@@ -1959,9 +1960,296 @@ package body Control_Creators is
       return C;
    end Create_Index_28;
 
-   --  Control: GSize Bar
+   --  Control: Drawing Panel
 
    function Create_Index_29
+     (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
+      Control_XML : GNAVI_Window.Control_Element)
+     return GWindows.Base.Pointer_To_Base_Window_Class
+   is
+       C : constant GWindows.Base.Pointer_To_Base_Window_Class :=
+         GWindows.Base.Pointer_To_Base_Window_Class'
+         (new GWindows.Drawing_Panels.Drawing_Panel_Type);
+   begin
+      GWindows.Drawing_Panels.Run_Mode 
+        (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all), GWindows.Base.Development_Create_Start);
+
+      GWindows.Drawing_Panels.Create 
+        (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
+         Parent => Parent.all, 
+         Left => GNAVI_Window.Get_Create_Property (Control_XML, "Left"),
+         Top => GNAVI_Window.Get_Create_Property (Control_XML, "Top"),
+         Width => GNAVI_Window.Get_Create_Property (Control_XML, "Width"),
+         Height => GNAVI_Window.Get_Create_Property (Control_XML, "Height"),
+         Is_Dynamic => True);
+
+      for N in 1 .. GNAVI_Window.Init_Property_Count (Control_XML) loop
+         declare
+            P : constant GWindows.GString :=
+              GNAVI_Window.Init_Property_Name (Control_XML, N);
+         begin
+            if P = "Visible" then
+               GWindows.Drawing_Panels.Visible
+                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Visible"));
+            elsif P = "Dock" then
+               GWindows.Drawing_Panels.Dock
+                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
+                  GWindows.Base.Dock_Type'Value
+                   (GNAVI_Window.Strip_Type
+                    (GNAVI_Window.Init_Property_Value (Control_XML, N))));
+            elsif P = "Group" then
+               GWindows.Drawing_Panels.Group
+                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Group"));
+            elsif P = "Enabled" then
+               GWindows.Drawing_Panels.Enabled
+                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Enabled"));
+            elsif P = "Border" then
+               GWindows.Drawing_Panels.Border
+                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Border"));
+            elsif P = "Auto_Resize" then
+               GWindows.Drawing_Panels.Auto_Resize
+                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Auto_Resize"));
+            elsif P = "Background_Color" then
+               GWindows.Drawing_Panels.Background_Color
+                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
+                  GWindows.Colors.Color_Type'Value
+                   (GNAVI_Window.Strip_Type
+                    (GNAVI_Window.Init_Property_Value (Control_XML, N))));
+            end if;
+         end;
+      end loop;
+
+      return C;
+   end Create_Index_29;
+
+   --  Control: Scroll Bar
+
+   function Create_Index_30
+     (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
+      Control_XML : GNAVI_Window.Control_Element)
+     return GWindows.Base.Pointer_To_Base_Window_Class
+   is
+       C : constant GWindows.Base.Pointer_To_Base_Window_Class :=
+         GWindows.Base.Pointer_To_Base_Window_Class'
+         (new GWindows.Scroll_Bars.Scroll_Bar_Type);
+   begin
+      GWindows.Scroll_Bars.Run_Mode 
+        (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all), GWindows.Base.Development_Create_Start);
+
+      GWindows.Scroll_Bars.Create 
+        (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
+         Parent => Parent.all, 
+         Direction => GWindows.Scroll_Bars.Scroll_Direction_Type'Value (GNAVI_Window.Strip_Type (GNAVI_Window.Get_Create_Property (Control_XML, "Direction"))),
+         Left => GNAVI_Window.Get_Create_Property (Control_XML, "Left"),
+         Top => GNAVI_Window.Get_Create_Property (Control_XML, "Top"),
+         Width => GNAVI_Window.Get_Create_Property (Control_XML, "Width"),
+         Height => GNAVI_Window.Get_Create_Property (Control_XML, "Height"),
+         ID => GNAVI_Window.Get_Create_Property (Control_XML, "ID"),
+         Is_Dynamic => True);
+
+      for N in 1 .. GNAVI_Window.Init_Property_Count (Control_XML) loop
+         declare
+            P : constant GWindows.GString :=
+              GNAVI_Window.Init_Property_Name (Control_XML, N);
+         begin
+            if P = "Visible" then
+               GWindows.Scroll_Bars.Visible
+                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Visible"));
+            elsif P = "Dock" then
+               GWindows.Scroll_Bars.Dock
+                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
+                  GWindows.Base.Dock_Type'Value
+                   (GNAVI_Window.Strip_Type
+                    (GNAVI_Window.Init_Property_Value (Control_XML, N))));
+            elsif P = "Group" then
+               GWindows.Scroll_Bars.Group
+                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Group"));
+            elsif P = "Tab_Stop" then
+               GWindows.Scroll_Bars.Tab_Stop
+                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Tab_Stop"));
+            elsif P = "Enabled" then
+               GWindows.Scroll_Bars.Enabled
+                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Enabled"));
+            elsif P = "Border" then
+               GWindows.Scroll_Bars.Border
+                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Border"));
+            elsif P = "Scroll_Maximum" then
+               GWindows.Scroll_Bars.Scroll_Maximum
+                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Scroll_Maximum"));
+            elsif P = "Scroll_Minimum" then
+               GWindows.Scroll_Bars.Scroll_Minimum
+                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Scroll_Minimum"));
+            elsif P = "Scroll_Page_Size" then
+               GWindows.Scroll_Bars.Scroll_Page_Size
+                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Scroll_Page_Size"));
+            end if;
+         end;
+      end loop;
+
+      return C;
+   end Create_Index_30;
+
+   --  Control: Up Down Control
+
+   function Create_Index_31
+     (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
+      Control_XML : GNAVI_Window.Control_Element)
+     return GWindows.Base.Pointer_To_Base_Window_Class
+   is
+       C : constant GWindows.Base.Pointer_To_Base_Window_Class :=
+         GWindows.Base.Pointer_To_Base_Window_Class'
+         (new GWindows.Common_Controls.Up_Down_Control_Type);
+   begin
+      GWindows.Common_Controls.Run_Mode 
+        (GWindows.Common_Controls.Up_Down_Control_Type (C.all), GWindows.Base.Development_Create_Start);
+
+      GWindows.Common_Controls.Create 
+        (GWindows.Common_Controls.Up_Down_Control_Type (C.all),
+         Parent => Parent.all, 
+         Left => GNAVI_Window.Get_Create_Property (Control_XML, "Left"),
+         Top => GNAVI_Window.Get_Create_Property (Control_XML, "Top"),
+         Width => GNAVI_Window.Get_Create_Property (Control_XML, "Width"),
+         Height => GNAVI_Window.Get_Create_Property (Control_XML, "Height"),
+         Keyboard => GNAVI_Window.Get_Create_Property (Control_XML, "Keyboard"),
+         Direction => GWindows.Common_Controls.Up_Down_Control_Direction_Type'Value (GNAVI_Window.Strip_Type (GNAVI_Window.Get_Create_Property (Control_XML, "Direction"))),
+         Wrap => GNAVI_Window.Get_Create_Property (Control_XML, "Wrap"),
+         Auto_Buddy => GNAVI_Window.Get_Create_Property (Control_XML, "Auto_Buddy"),
+         Send_Int => GNAVI_Window.Get_Create_Property (Control_XML, "Send_Int"),
+         Thousands => GNAVI_Window.Get_Create_Property (Control_XML, "Thousands"),
+         Align => GWindows.Common_Controls.Up_Down_Control_Align_Type'Value (GNAVI_Window.Strip_Type (GNAVI_Window.Get_Create_Property (Control_XML, "Align"))),
+         Show => GNAVI_Window.Get_Create_Property (Control_XML, "Show"),
+         Is_Dynamic => True);
+
+      for N in 1 .. GNAVI_Window.Init_Property_Count (Control_XML) loop
+         declare
+            P : constant GWindows.GString :=
+              GNAVI_Window.Init_Property_Name (Control_XML, N);
+         begin
+            if P = "Visible" then
+               GWindows.Common_Controls.Visible
+                 (GWindows.Common_Controls.Up_Down_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Visible"));
+            elsif P = "Dock" then
+               GWindows.Common_Controls.Dock
+                 (GWindows.Common_Controls.Up_Down_Control_Type (C.all),
+                  GWindows.Base.Dock_Type'Value
+                   (GNAVI_Window.Strip_Type
+                    (GNAVI_Window.Init_Property_Value (Control_XML, N))));
+            elsif P = "Group" then
+               GWindows.Common_Controls.Group
+                 (GWindows.Common_Controls.Up_Down_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Group"));
+            elsif P = "Tab_Stop" then
+               GWindows.Common_Controls.Tab_Stop
+                 (GWindows.Common_Controls.Up_Down_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Tab_Stop"));
+            elsif P = "Enabled" then
+               GWindows.Common_Controls.Enabled
+                 (GWindows.Common_Controls.Up_Down_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Enabled"));
+            elsif P = "Border" then
+               GWindows.Common_Controls.Border
+                 (GWindows.Common_Controls.Up_Down_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Border"));
+            end if;
+         end;
+      end loop;
+
+      return C;
+   end Create_Index_31;
+
+   --  Control: Progress Bar
+
+   function Create_Index_32
+     (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
+      Control_XML : GNAVI_Window.Control_Element)
+     return GWindows.Base.Pointer_To_Base_Window_Class
+   is
+       C : constant GWindows.Base.Pointer_To_Base_Window_Class :=
+         GWindows.Base.Pointer_To_Base_Window_Class'
+         (new GWindows.Common_Controls.Progress_Control_Type);
+   begin
+      GWindows.Common_Controls.Run_Mode 
+        (GWindows.Common_Controls.Progress_Control_Type (C.all), GWindows.Base.Development_Create_Start);
+
+      GWindows.Common_Controls.Create 
+        (GWindows.Common_Controls.Progress_Control_Type (C.all),
+         Parent => Parent.all, 
+         Left => GNAVI_Window.Get_Create_Property (Control_XML, "Left"),
+         Top => GNAVI_Window.Get_Create_Property (Control_XML, "Top"),
+         Width => GNAVI_Window.Get_Create_Property (Control_XML, "Width"),
+         Height => GNAVI_Window.Get_Create_Property (Control_XML, "Height"),
+         Direction => GWindows.Common_Controls.Progress_Control_Direction_Type'Value (GNAVI_Window.Strip_Type (GNAVI_Window.Get_Create_Property (Control_XML, "Direction"))),
+         Smooth => GNAVI_Window.Get_Create_Property (Control_XML, "Smooth"),
+         Show => GNAVI_Window.Get_Create_Property (Control_XML, "Show"),
+         Is_Dynamic => True);
+
+      for N in 1 .. GNAVI_Window.Init_Property_Count (Control_XML) loop
+         declare
+            P : constant GWindows.GString :=
+              GNAVI_Window.Init_Property_Name (Control_XML, N);
+         begin
+            if P = "Visible" then
+               GWindows.Common_Controls.Visible
+                 (GWindows.Common_Controls.Progress_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Visible"));
+            elsif P = "Dock" then
+               GWindows.Common_Controls.Dock
+                 (GWindows.Common_Controls.Progress_Control_Type (C.all),
+                  GWindows.Base.Dock_Type'Value
+                   (GNAVI_Window.Strip_Type
+                    (GNAVI_Window.Init_Property_Value (Control_XML, N))));
+            elsif P = "Group" then
+               GWindows.Common_Controls.Group
+                 (GWindows.Common_Controls.Progress_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Group"));
+            elsif P = "Tab_Stop" then
+               GWindows.Common_Controls.Tab_Stop
+                 (GWindows.Common_Controls.Progress_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Tab_Stop"));
+            elsif P = "Enabled" then
+               GWindows.Common_Controls.Enabled
+                 (GWindows.Common_Controls.Progress_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Enabled"));
+            elsif P = "Border" then
+               GWindows.Common_Controls.Border
+                 (GWindows.Common_Controls.Progress_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Border"));
+            elsif P = "Position" then
+               GWindows.Common_Controls.Position
+                 (GWindows.Common_Controls.Progress_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Position"));
+            elsif P = "Increment" then
+               GWindows.Common_Controls.Increment
+                 (GWindows.Common_Controls.Progress_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Increment"));
+            elsif P = "Step_Size" then
+               GWindows.Common_Controls.Step_Size
+                 (GWindows.Common_Controls.Progress_Control_Type (C.all),
+                  GNAVI_Window.Get_Init_Property (Control_XML, "Step_Size"));
+            end if;
+         end;
+      end loop;
+
+      return C;
+   end Create_Index_32;
+
+   --  Control: GSize Bar
+
+   function Create_Index_33
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -2038,11 +2326,11 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_29;
+   end Create_Index_33;
 
    --  Control: GDuration
 
-   function Create_Index_30
+   function Create_Index_34
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -2101,11 +2389,11 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_30;
+   end Create_Index_34;
 
    --  Control: GDuration Edit
 
-   function Create_Index_31
+   function Create_Index_35
      (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
       Control_XML : GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
@@ -2164,148 +2452,6 @@ package body Control_Creators is
       end loop;
 
       return C;
-   end Create_Index_31;
-
-   --  Control: Drawing Panel
-
-   function Create_Index_32
-     (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
-      Control_XML : GNAVI_Window.Control_Element)
-     return GWindows.Base.Pointer_To_Base_Window_Class
-   is
-       C : constant GWindows.Base.Pointer_To_Base_Window_Class :=
-         GWindows.Base.Pointer_To_Base_Window_Class'
-         (new GWindows.Drawing_Panels.Drawing_Panel_Type);
-   begin
-      GWindows.Drawing_Panels.Run_Mode 
-        (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all), GWindows.Base.Development_Create_Start);
-
-      GWindows.Drawing_Panels.Create 
-        (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
-         Parent => Parent.all, 
-         Left => GNAVI_Window.Get_Create_Property (Control_XML, "Left"),
-         Top => GNAVI_Window.Get_Create_Property (Control_XML, "Top"),
-         Width => GNAVI_Window.Get_Create_Property (Control_XML, "Width"),
-         Height => GNAVI_Window.Get_Create_Property (Control_XML, "Height"),
-         Is_Dynamic => True);
-
-      for N in 1 .. GNAVI_Window.Init_Property_Count (Control_XML) loop
-         declare
-            P : constant GWindows.GString :=
-              GNAVI_Window.Init_Property_Name (Control_XML, N);
-         begin
-            if P = "Visible" then
-               GWindows.Drawing_Panels.Visible
-                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Visible"));
-            elsif P = "Dock" then
-               GWindows.Drawing_Panels.Dock
-                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
-                  GWindows.Base.Dock_Type'Value
-                   (GNAVI_Window.Strip_Type
-                    (GNAVI_Window.Init_Property_Value (Control_XML, N))));
-            elsif P = "Group" then
-               GWindows.Drawing_Panels.Group
-                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Group"));
-            elsif P = "Enabled" then
-               GWindows.Drawing_Panels.Enabled
-                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Enabled"));
-            elsif P = "Border" then
-               GWindows.Drawing_Panels.Border
-                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Border"));
-            elsif P = "Auto_Resize" then
-               GWindows.Drawing_Panels.Auto_Resize
-                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Auto_Resize"));
-            elsif P = "Background_Color" then
-               GWindows.Drawing_Panels.Background_Color
-                 (GWindows.Drawing_Panels.Drawing_Panel_Type (C.all),
-                  GWindows.Colors.Color_Type'Value
-                   (GNAVI_Window.Strip_Type
-                    (GNAVI_Window.Init_Property_Value (Control_XML, N))));
-            end if;
-         end;
-      end loop;
-
-      return C;
-   end Create_Index_32;
-
-   --  Control: Scroll Bar
-
-   function Create_Index_33
-     (Parent      : GWindows.Base.Pointer_To_Base_Window_Class;
-      Control_XML : GNAVI_Window.Control_Element)
-     return GWindows.Base.Pointer_To_Base_Window_Class
-   is
-       C : constant GWindows.Base.Pointer_To_Base_Window_Class :=
-         GWindows.Base.Pointer_To_Base_Window_Class'
-         (new GWindows.Scroll_Bars.Scroll_Bar_Type);
-   begin
-      GWindows.Scroll_Bars.Run_Mode 
-        (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all), GWindows.Base.Development_Create_Start);
-
-      GWindows.Scroll_Bars.Create 
-        (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
-         Parent => Parent.all, 
-         Direction => GWindows.Scroll_Bars.Scroll_Direction_Type'Value (GNAVI_Window.Strip_Type (GNAVI_Window.Get_Create_Property (Control_XML, "Direction"))),
-         Left => GNAVI_Window.Get_Create_Property (Control_XML, "Left"),
-         Top => GNAVI_Window.Get_Create_Property (Control_XML, "Top"),
-         Width => GNAVI_Window.Get_Create_Property (Control_XML, "Width"),
-         Height => GNAVI_Window.Get_Create_Property (Control_XML, "Height"),
-         ID => GNAVI_Window.Get_Create_Property (Control_XML, "ID"),
-         Is_Dynamic => True);
-
-      for N in 1 .. GNAVI_Window.Init_Property_Count (Control_XML) loop
-         declare
-            P : constant GWindows.GString :=
-              GNAVI_Window.Init_Property_Name (Control_XML, N);
-         begin
-            if P = "Visible" then
-               GWindows.Scroll_Bars.Visible
-                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Visible"));
-            elsif P = "Dock" then
-               GWindows.Scroll_Bars.Dock
-                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
-                  GWindows.Base.Dock_Type'Value
-                   (GNAVI_Window.Strip_Type
-                    (GNAVI_Window.Init_Property_Value (Control_XML, N))));
-            elsif P = "Group" then
-               GWindows.Scroll_Bars.Group
-                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Group"));
-            elsif P = "Tab_Stop" then
-               GWindows.Scroll_Bars.Tab_Stop
-                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Tab_Stop"));
-            elsif P = "Enabled" then
-               GWindows.Scroll_Bars.Enabled
-                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Enabled"));
-            elsif P = "Border" then
-               GWindows.Scroll_Bars.Border
-                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Border"));
-            elsif P = "Scroll_Maximum" then
-               GWindows.Scroll_Bars.Scroll_Maximum
-                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Scroll_Maximum"));
-            elsif P = "Scroll_Minimum" then
-               GWindows.Scroll_Bars.Scroll_Minimum
-                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Scroll_Minimum"));
-            elsif P = "Scroll_Page_Size" then
-               GWindows.Scroll_Bars.Scroll_Page_Size
-                 (GWindows.Scroll_Bars.Scroll_Bar_Type (C.all),
-                  GNAVI_Window.Get_Init_Property (Control_XML, "Scroll_Page_Size"));
-            end if;
-         end;
-      end loop;
-
-      return C;
-   end Create_Index_33;
+   end Create_Index_35;
 
 end Control_Creators;

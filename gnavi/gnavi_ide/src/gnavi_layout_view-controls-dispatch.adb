@@ -72,16 +72,20 @@ begin
       return Create_Index_27 (Parent, Control_XML);
    elsif T = "GWindows.Packing_Boxes.Packing_Box_Type" then
       return Create_Index_28 (Parent, Control_XML);
-   elsif T = "GWindows.GControls.GSize_Bars.GSize_Bar_Type" then
-      return Create_Index_29 (Parent, Control_XML);
-   elsif T = "GWindows.GControls.Duration.Duration_Type" then
-      return Create_Index_30 (Parent, Control_XML);
-   elsif T = "GWindows.GControls.Duration.Edit.Duration_Edit_Type" then
-      return Create_Index_31 (Parent, Control_XML);
    elsif T = "GWindows.Drawing_Panels.Drawing_Panel_Type" then
-      return Create_Index_32 (Parent, Control_XML);
+      return Create_Index_29 (Parent, Control_XML);
    elsif T = "GWindows.Scroll_Bars.Scroll_Bar_Type" then
+      return Create_Index_30 (Parent, Control_XML);
+   elsif T = "GWindows.Common_Controls.Up_Down_Control_Type" then
+      return Create_Index_31 (Parent, Control_XML);
+   elsif T = "GWindows.Common_Controls.Progress_Control_Type" then
+      return Create_Index_32 (Parent, Control_XML);
+   elsif T = "GWindows.GControls.GSize_Bars.GSize_Bar_Type" then
       return Create_Index_33 (Parent, Control_XML);
+   elsif T = "GWindows.GControls.Duration.Duration_Type" then
+      return Create_Index_34 (Parent, Control_XML);
+   elsif T = "GWindows.GControls.Duration.Edit.Duration_Edit_Type" then
+      return Create_Index_35 (Parent, Control_XML);
 
    else
       return null;
