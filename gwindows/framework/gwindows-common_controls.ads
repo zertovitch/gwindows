@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -599,7 +599,8 @@ package GWindows.Common_Controls is
    procedure Progress_Range (Control : in out Progress_Control_Type;
                              Low     : in     Natural;
                              High    : in     Natural);
-   --  Progress range
+   --  Progress range.
+   --  Prior to a call to Progress_Range, the Control has Low = 0 and High = 100.
 
    procedure Increment (Control : in out Progress_Control_Type;
                         Amount  : in     Natural               := 1);
@@ -811,19 +812,20 @@ package GWindows.Common_Controls is
                                           Multiple);
 
    procedure Create
-     (Control    : in out List_View_Control_Type;
-      Parent     : in out GWindows.Base.Base_Window_Type'Class;
-      Left       : in     Integer;
-      Top        : in     Integer;
-      Width      : in     Integer;
-      Height     : in     Integer;
-      Selection  : in     List_View_Control_Select_Type        := Single;
-      View       : in     List_View_Control_View_Type          := List_View;
-      Sort       : in     List_View_Control_Sort_Type          := No_Sorting;
-      Arrange    : in     Boolean                              := True;
-      Align      : in     List_View_Control_Alignment_Type     := Align_Left;
-      Show       : in     Boolean                              := True;
-      Is_Dynamic : in     Boolean                              := False);
+     (Control     : in out List_View_Control_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Left        : in     Integer;
+      Top         : in     Integer;
+      Width       : in     Integer;
+      Height      : in     Integer;
+      Selection   : in     List_View_Control_Select_Type        := Single;
+      View        : in     List_View_Control_View_Type          := List_View;
+      Sort        : in     List_View_Control_Sort_Type          := No_Sorting;
+      Arrange     : in     Boolean                              := True;
+      Align       : in     List_View_Control_Alignment_Type     := Align_Left;
+      Show        : in     Boolean                              := True;
+      Show_Header : in     Boolean                              := True;  --  For View = Report_View
+      Is_Dynamic  : in     Boolean                              := False);
 
    -------------------------------------------------------------------------
    --  List_View_Control_Type - Properties
@@ -861,6 +863,8 @@ package GWindows.Common_Controls is
    -------------------------------------------------------------------------
    --  List_View_Control_Type - Methods
    -------------------------------------------------------------------------
+
+   --  Indexes in List_View_Control_Type are 0-based.
 
    procedure Set_Item (Control : in out List_View_Control_Type;
                        Text    : in GString;

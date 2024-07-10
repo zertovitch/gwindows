@@ -38,7 +38,6 @@ with System;
 
 with GWindows.Constants;
 with GWindows.Drawing_Objects;
-with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 with GWindows.Internal;
 with GWindows.Cursors;
@@ -2280,19 +2279,20 @@ package body GWindows.Common_Controls is
    ------------
 
    procedure Create
-     (Control    : in out List_View_Control_Type;
-      Parent     : in out GWindows.Base.Base_Window_Type'Class;
-      Left       : in     Integer;
-      Top        : in     Integer;
-      Width      : in     Integer;
-      Height     : in     Integer;
-      Selection  : in     List_View_Control_Select_Type        := Single;
-      View       : in     List_View_Control_View_Type          := List_View;
-      Sort       : in     List_View_Control_Sort_Type          := No_Sorting;
-      Arrange    : in     Boolean                              := True;
-      Align      : in     List_View_Control_Alignment_Type     := Align_Left;
-      Show       : in     Boolean                              := True;
-      Is_Dynamic : in     Boolean                              := False)
+     (Control     : in out List_View_Control_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Left        : in     Integer;
+      Top         : in     Integer;
+      Width       : in     Integer;
+      Height      : in     Integer;
+      Selection   : in     List_View_Control_Select_Type        := Single;
+      View        : in     List_View_Control_View_Type          := List_View;
+      Sort        : in     List_View_Control_Sort_Type          := No_Sorting;
+      Arrange     : in     Boolean                              := True;
+      Align       : in     List_View_Control_Alignment_Type     := Align_Left;
+      Show        : in     Boolean                              := True;
+      Show_Header : in     Boolean                              := True;  --  For View = Report_View
+      Is_Dynamic  : in     Boolean                              := False)
    is
 
       LVS_ICON                : constant := 16#0000#;
@@ -2313,7 +2313,7 @@ package body GWindows.Common_Controls is
       LVS_ALIGNTOP            : constant := 16#0000#;
       LVS_ALIGNLEFT           : constant := 16#0800#;
       --  LVS_ALIGNMASK           : constant := 16#0c00#;
-      --  LVS_NOCOLUMNHEADER      : constant := 16#4000#;
+      LVS_NOCOLUMNHEADER      : constant := 16#4000#;
       LVS_NOSORTHEADER        : constant := 16#8000#;
 
       Styles     : Interfaces.C.unsigned := LVS_SHOWSELALWAYS;
@@ -2351,6 +2351,10 @@ package body GWindows.Common_Controls is
          Styles := Styles or LVS_ALIGNLEFT;
       elsif Align = Align_Top then
          Styles := Styles or LVS_ALIGNTOP;
+      end if;
+
+      if not Show_Header then
+         Styles := Styles or LVS_NOCOLUMNHEADER;
       end if;
 
       Create_Control (Control, Parent,
