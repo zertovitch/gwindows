@@ -33,9 +33,14 @@ package body GNAVI_Controls_Window_Package is
 
       This : GNAVI_Controls_Window_Type renames
         GNAVI_Controls_Window_Type (Window);
+
+      icon_width : constant := 16;
+
    begin
-      List.Create ("CONTROL_TOOLBOX", 16);
+      List.Create ("CONTROL_TOOLBOX", icon_width);
       This.Controls_List.Set_Image_List (Small, List);
+      This.Controls_List.Insert_Column ("", 0, This.Client_Area_Width - icon_width - 8);
+      This.Controls_List.Set_Extended_Style (Full_Row_Select);
 
       Dock_Children (This);
 
@@ -45,11 +50,7 @@ package body GNAVI_Controls_Window_Package is
          end if;
 
          This.Controls_List.Insert_Item
-            (Control_Display_Name (N) & "   ",
-             --  ^ Unfortunately, "Full_Row_Select" has no effect
-             --    when View = Small_Icon_View.
-             --    So we add a few spaces as to extend a bit the
-             --    clicking surface...
+            (Control_Display_Name (N),
              N - 1,
              Icon => Control_Icon (N));
       end loop;

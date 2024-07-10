@@ -39,9 +39,10 @@ begin
       Left => 0,
       Selection => GWindows.Common_Controls.Single,
       Show => True,
+      Show_Header => False,
       Sort => GWindows.Common_Controls.No_Sorting,
       Top => 0,
-      View => GWindows.Common_Controls.Small_Icon_View,
+      View => GWindows.Common_Controls.Report_View,
       Width => 10);
    GWindows.Common_Controls.Dock (Window.Controls_List, GWindows.Base.Fill);
    GWindows.Windows.On_Create (GWindows.Windows.Window_Type (Window));

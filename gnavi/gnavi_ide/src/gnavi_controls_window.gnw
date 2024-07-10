@@ -19,7 +19,7 @@
 &#9;&#9;<Dock value="GWindows.Base.Fill"></Dock>
 &#9;      </init>
               <controls>
-                 <control Align="GWindows.Common_Controls.Align_Left" Arrange="True" Height="10" Left="0" Selection="GWindows.Common_Controls.Single" Show="True" Sort="GWindows.Common_Controls.No_Sorting" Top="0" View="GWindows.Common_Controls.Small_Icon_View" Width="10" name="Controls_List" type="GWindows.Common_Controls.List_View_Control_Type">
+                 <control Align="GWindows.Common_Controls.Align_Left" Arrange="True" Height="10" Left="0" Selection="GWindows.Common_Controls.Single" Show="True" Show_Header="False" Sort="GWindows.Common_Controls.No_Sorting" Top="0" View="GWindows.Common_Controls.Report_View" Width="10" name="Controls_List" type="GWindows.Common_Controls.List_View_Control_Type">
 &#9;           <init>
         &#9;      <Dock value="GWindows.Base.Fill"></Dock>
                &#9;   </init></control>
