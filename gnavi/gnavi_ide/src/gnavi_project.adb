@@ -20,17 +20,26 @@ package body GNAVI_Project is
    is
       use GNAT.IO;
       use GWindows.GStrings;
+      App_Node : DOM.Core.Node;
+      use type DOM.Core.Node;
    begin
       Open (Project, File_Name);
+      if Root (Project) = null then
+         raise Invalid_Project with "Empty project";
+      end if;
+      App_Node := GNAVI_XML.Get_Child_Node (Root (Project), "application");
+      if App_Node = null then
+         raise Invalid_Project with "No ""application"" node in GNAVI project";
+      end if;
       Project.File_Name := To_GString_Unbounded (File_Name);
       Project.Load_State := True;
       Project.Dirty_State := False;
-
    exception
       when E : others =>
-         Put_Line ("XML Project Error:");
-         Put_Line (Ada.Exceptions.Exception_Name (E));
-         Put_Line (Ada.Exceptions.Exception_Message (E));
+         raise Invalid_Project with
+            "GNAVI_Project.Load_Project: Invalid Project Error: " &
+            Ada.Exceptions.Exception_Name (E) & ASCII.LF &
+            Ada.Exceptions.Exception_Message (E);
    end Load_Project;
 
    procedure Save_Project (Project : in out GNAVI_Project_Type)
@@ -79,7 +88,7 @@ package body GNAVI_Project is
          raise No_Project_Loaded;
       end if;
 
-         return Nodes.Length (NL);
+      return Nodes.Length (NL);
    end Window_Count;
 
    function Window_Name (Project : in GNAVI_Project_Type;

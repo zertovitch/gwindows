@@ -208,8 +208,18 @@ package body GNAVI_Main_Package is
              Error_Icon);
       else
          MDI_Close_All (This);
-         GNAVI_Project_Window_Package.Load_Project
-            (To_GString_From_Unbounded (File_Names (File_Names'First)));
+         begin
+            GNAVI_Project_Window_Package.Load_Project
+               (To_GString_From_Unbounded (File_Names (File_Names'First)));
+         exception
+            when GNAVI_Project.Invalid_Project =>
+               Message_Box
+                  (This,
+                   "Files dropped",
+                   "Invalid GNAVI project file.",
+                   OK_Box,
+                   Error_Icon);
+         end;
       end if;
    end Do_Drop_GNAVI_Project;
 

@@ -72,6 +72,7 @@ package GNAVI_Project is
    --  Run project
 
    No_Project_Loaded : exception;
+   Invalid_Project   : exception;
 
    GNATMAKE_Path_Exists : GNAT.OS_Lib.String_Access;
 

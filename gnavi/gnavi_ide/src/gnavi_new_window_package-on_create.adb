@@ -18,6 +18,7 @@ begin
    Text (Window, "New Window Wizard...");
    Visible (Window, False);
    Set_Standard_Font (Window, GWindows.Drawing_Objects.Default_GUI);
+   Title_Bar_Menu (Window, False);
    GWindows.Packing_Boxes.Create (Window.New_Window_Box,
       Parent => Window,
       Direction => GWindows.Packing_Boxes.Vertical,

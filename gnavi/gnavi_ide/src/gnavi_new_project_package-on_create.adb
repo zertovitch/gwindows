@@ -14,10 +14,11 @@ begin
    On_Close_Handler (Window, Do_Close'Access);
    Keyboard_Support (Window, True);
    Width (Window, 300);
-   Height (Window, 425);
+   Height (Window, 440);
    Text (Window, "New Project Wizard...");
    Visible (Window, False);
    Set_Standard_Font (Window, GWindows.Drawing_Objects.Default_GUI);
+   Title_Bar_Menu (Window, False);
    GWindows.Packing_Boxes.Create (Window.New_Project_Box,
       Parent => Window,
       Direction => GWindows.Packing_Boxes.Vertical,

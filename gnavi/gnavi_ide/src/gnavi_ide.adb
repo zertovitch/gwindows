@@ -58,6 +58,10 @@ procedure GNAVI_IDE is
    end Show_Crash_Trace_Back;   
     
    use GNAT.OS_Lib;
+   
+   startup_file_msg_hdr : constant GWindows.GString :=
+      "Startup files - File names passed as command-line arguments";
+   
 begin
    GWindows.Base.On_Exception_Handler
       (Handler => Show_Crash_Trace_Back'Unrestricted_Access);
@@ -87,12 +91,22 @@ begin
       when 0 =>
          null;
       when 1 =>
-         GNAVI_Project_Window_Package.Load_Project
-            (To_GString_From_String (Argument (1)));
+         begin
+            GNAVI_Project_Window_Package.Load_Project
+               (To_GString_From_String (Argument (1)));
+         exception
+            when GNAVI_Project.Invalid_Project =>
+               Message_Box
+                  (GNAVI_Main_Package.GNAVI_Main,
+                   startup_file_msg_hdr,
+                   "Invalid GNAVI project file.",
+                   OK_Box,
+                   Error_Icon);
+         end;
       when others =>
          Message_Box
             (GNAVI_Main_Package.GNAVI_Main,
-             "Startup file",
+             startup_file_msg_hdr,
              "Cannot start application with more than one project.",
              OK_Box,
              Error_Icon);
