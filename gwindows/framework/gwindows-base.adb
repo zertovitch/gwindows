@@ -269,6 +269,7 @@ package body GWindows.Base is
    WS_BORDER           : constant := 8388608;
    WS_VSCROLL          : constant := 2097152;
    WS_HSCROLL          : constant := 1048576;
+   WS_SYSMENU          : constant := 16#0008_0000#;
 
    procedure GetClientRect
      (hwnd            : in  GWindows.Types.Handle;
@@ -717,6 +718,27 @@ package body GWindows.Base is
    begin
       return (GetWindowLong (Window.HWND) and WS_GROUP) = WS_GROUP;
    end Group;
+
+   --------------------
+   -- Title_Bar_Menu --
+   --------------------
+
+   procedure Title_Bar_Menu (Window : in out Base_Window_Type;
+                             State  : in     Boolean     := True)
+   is
+   begin
+      if State then
+         SetWindowLong (Window.HWND,
+                        newLong =>
+                          GetWindowLong (Window.HWND) or
+                          WS_SYSMENU);
+      else
+         SetWindowLong (Window.HWND,
+                        newLong =>
+                          GetWindowLong (Window.HWND) and not
+                          WS_SYSMENU);
+      end if;
+   end Title_Bar_Menu;
 
    ----------
    -- Dock --

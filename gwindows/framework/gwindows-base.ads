@@ -125,6 +125,9 @@ package GWindows.Base is
    function Group (Window : in Base_Window_Type) return Boolean;
    --  Start of control group property
 
+   procedure Title_Bar_Menu (Window : in out Base_Window_Type;
+                             State  : in     Boolean     := True);
+
    procedure Keyboard_Support (Window : in out Base_Window_Type;
                                State  : in     Boolean          := True);
    function Keyboard_Support (Window : in Base_Window_Type) return Boolean;
