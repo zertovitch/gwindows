@@ -1436,26 +1436,22 @@
    </control>
    <control display_name="Window"                      type="GWindows.Windows.Window_Type"                                  category="Windows">
       <init_properties>
-         <property name="Text" type="GWindows.GString"
-	  default="&quot;&quot;" />
-	 <property name="Left" type="Integer" default="" />
-	 <property name="Top" type="Integer" default="" />
-	 <property name="Width" type="Integer" default="" />
-	 <property name="Height" type="Integer" default="" />
-	 <property name="Visible" type="Boolean" default="True" />
-         <property name="Dock" type="GWindows.Base.Dock_Type"
-	  default="GWindows.Base.None" />
-	 <property name="Group" type="Boolean" default="True" />
-	 <property name="Tab_Stop" type="Boolean" default="True" />
-	 <property name="Enabled" type="Boolean" default="True" />
-	 <property name="Border" type="Boolean" default="False" />
-	 <property name="Zoom" type="Boolean" default="False" />
-	 <property name="Iconic" type="Boolean" default="False" />
-	 <property name="Accept_File_Drag_And_Drop"
-	  type="Boolean" default="False" />
-	 <property name="Set_Standard_Font"
-	  default="GWindows.Drawing_Objects.System"
-	  type="GWindows.Drawing_Objects.Stock_Font_Type" />
+         <property name="Text" type="GWindows.GString" default="&quot;&quot;" />
+         <property name="Left" type="Integer" default="" />
+         <property name="Top" type="Integer" default="" />
+         <property name="Width" type="Integer" default="" />
+         <property name="Height" type="Integer" default="" />
+         <property name="Visible" type="Boolean" default="True" />
+         <property name="Dock" type="GWindows.Base.Dock_Type" default="GWindows.Base.None" />
+         <property name="Group" type="Boolean" default="True" />
+         <property name="Tab_Stop" type="Boolean" default="True" />
+         <property name="Enabled" type="Boolean" default="True" />
+         <property name="Border" type="Boolean" default="False" />
+         <property name="Zoom" type="Boolean" default="False" />
+         <property name="Iconic" type="Boolean" default="False" />
+         <property name="Accept_File_Drag_And_Drop" type="Boolean" default="False" />
+         <property name="Set_Standard_Font" default="GWindows.Drawing_Objects.System" type="GWindows.Drawing_Objects.Stock_Font_Type" />
+         <property name="Title_Bar_Menu" type="Boolean" default="True" />
       </init_properties>
       <events default="On_Click">
          <event name="On_Create" type="GWindows.Base.Action_Event" />
