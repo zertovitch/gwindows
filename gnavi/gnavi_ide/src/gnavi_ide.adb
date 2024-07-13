@@ -60,7 +60,7 @@ procedure GNAVI_IDE is
    use GNAT.OS_Lib;
    
    startup_file_msg_hdr : constant GWindows.GString :=
-      "Startup files - File names passed as command-line arguments";
+      "Startup files - Command-line arguments";
    
 begin
    GWindows.Base.On_Exception_Handler

@@ -1,5 +1,6 @@
-with Ada.Exceptions;
-with Ada.Strings.Unbounded;
+with Ada.Directories,
+     Ada.Exceptions,
+     Ada.Strings.Unbounded;
 
 with GWindows.GStrings;
 with GWindows.Cursors;
@@ -11,7 +12,8 @@ with DOM.Core.Documents;
 with GNAVI_ICG;
 with GNAVI_Window;
 
-with GNAT.IO;
+with GNAT.Case_Util,
+     GNAT.IO;
 
 package body GNAVI_Project is
 
@@ -242,11 +244,39 @@ package body GNAVI_Project is
       end if;
 
       Dummy := Spawn (GNATMAKE_Path_Exists.all, Argument_String_To_List
-                      (To_String ("-gnatf " & Project_Name (Project))).all);
+                      (To_String ("-P " & Project_Name (Project) & ".gpr")).all);
    exception
       when others =>
          null;
    end Compile;
+
+   procedure Compile_Resources (Project : in out GNAVI_Project_Type)
+   is
+      use GNAT.OS_Lib;
+      use GWindows.GStrings;
+
+      simple_name : constant String :=
+         GNAT.Case_Util.To_Lower (To_String (Project_Name (Project)));
+
+      rc_name   : constant String := simple_name & ".rc";
+      coff_name : constant String := "obj\" & simple_name & ".coff";
+      Dummy : Integer;
+   begin
+      if GNAT.OS_Lib.Is_Regular_File (rc_name)
+         and then
+            ((not GNAT.OS_Lib.Is_Regular_File (coff_name))
+             or else File_Time_Stamp (rc_name) > File_Time_Stamp (coff_name))
+      then
+         Ada.Directories.Create_Path ("obj");
+         Dummy :=
+            Spawn
+               (GNAT.OS_Lib.Locate_Exec_On_Path ("windres").all,
+                Argument_String_To_List (rc_name & ' ' & coff_name).all);
+      end if;
+   exception
+      when others =>
+         null;
+   end Compile_Resources;
 
    procedure Run (Project : in out GNAVI_Project_Type)
    is

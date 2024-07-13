@@ -27,7 +27,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Strings.Unbounded;
+with Ada.Directories,
+     Ada.Strings.Unbounded;
 
 with DOM.Core.Nodes;
 with DOM.Core.Elements;
@@ -47,38 +48,51 @@ package body GNAVI_ICG.Application is
       NL : constant Node_List :=
         Elements.Get_Elements_By_Tag_Name (Project.Project_Root,
                                            "application");
-   begin
-      --  First load settings from XML project
+      procedure Proceed is
+         use Templates_Parser;
+         App_Node               : constant DOM.Core.Element := Nodes.Item (NL, 0);
 
-      if Nodes.Length (NL) > 0 then
-         declare
-            use Templates_Parser;
+         Application_Name       : constant String :=
+           Elements.Get_Attribute (App_Node, "name");
 
-            App_Node         : constant DOM.Core.Element := Nodes.Item (NL, 0);
+         Application_Lower_Name : constant String :=
+           GNAT.Case_Util.To_Lower (Application_Name);
 
-            Application_Name : constant String :=
-              Elements.Get_Attribute (App_Node, "name");
+         App_File_Name          : constant String := Application_Lower_Name & ".adb";
+         GPR_File_Name          : constant String := Application_Lower_Name & ".gpr";
+         RC_File_Name           : constant String := Application_Lower_Name & ".rc";
+         Manifest_File_Name     : constant String := "res\manifest.xml";
 
-            App_File_Name    : String := Application_Name & ".adb";
+         Trans                  : constant Translate_Table :=
+           (1 => Assoc ("Application_Name",       Application_Name),
+            2 => Assoc ("Application_Lower_Name", Application_Lower_Name));
 
-            Trans            : constant Translate_Table :=
-              (1 => Assoc ("Application_Name", Application_Name));
+         procedure Create_Missing
+            (file_name : String;
+             template  : GNAVI_Templates.Template_Kind) is
          begin
-
-            --  Next, see if application_name.adb exists; if not, create it.
-
-            GNAT.Case_Util.To_Lower (App_File_Name);
-
-            Project.Application_File :=
-              Ada.Strings.Unbounded.To_Unbounded_String (App_File_Name);
-
-            if not GNAT.OS_Lib.Is_Regular_File (App_File_Name) then
-               GNAVI_Templates.Execute
-                  (App_File_Name,
-                   GNAVI_Templates.application_template,
-                   Trans);
+            if not GNAT.OS_Lib.Is_Regular_File (file_name) then
+               GNAVI_Templates.Execute (file_name, template, Trans);
             end if;
-         end;
+         end Create_Missing;
+
+      begin
+         Project.Application_File :=
+           Ada.Strings.Unbounded.To_Unbounded_String (App_File_Name);
+
+         Create_Missing (App_File_Name, GNAVI_Templates.application_template);
+         Create_Missing (GPR_File_Name, GNAVI_Templates.gnat_project_file_template);
+         Create_Missing (RC_File_Name,  GNAVI_Templates.resource_compiler_file_template);
+         Ada.Directories.Create_Path ("res");
+         --  Create the strange file that, included to the binary resources, will
+         --  enable the post Windows-2000 "visual styles":
+         Create_Missing (Manifest_File_Name, GNAVI_Templates.manifest_template);
+      end Proceed;
+
+   begin
+      --  First, load settings from XML project
+      if Nodes.Length (NL) > 0 then
+         Proceed;
       end if;
    end Update_Application;
 

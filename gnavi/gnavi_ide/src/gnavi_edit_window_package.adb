@@ -1,6 +1,5 @@
 with Ada.Unchecked_Deallocation;
 
-with GNAVI_Common;
 with GNAVI_Controls_Window_Package;
 with GNAVI_Main_Menus;
 with GNAVI_Main_Package;
@@ -252,9 +251,9 @@ package body GNAVI_Edit_Window_Package is
       Spec_Name : constant GWindows.GString := Win_Name & "_package.ads";
       XML_Name  : constant GWindows.GString := Win_Name & ".gnw";
 
-      B_TS : constant Time_Stamp := File_Time_Stamp (To_String (Body_Name));
-      S_TS : constant Time_Stamp := File_Time_Stamp (To_String (Spec_Name));
-      X_TS : constant Time_Stamp := File_Time_Stamp (To_String (XML_Name));
+      B_TS : constant GNAVI_Common.Time_Stamp := File_Time_Stamp (To_String (Body_Name));
+      S_TS : constant GNAVI_Common.Time_Stamp := File_Time_Stamp (To_String (Spec_Name));
+      X_TS : constant GNAVI_Common.Time_Stamp := File_Time_Stamp (To_String (XML_Name));
    begin
       if Window.Body_TS < B_TS then
          Load (Window.Body_Edit_Box, Body_Name);
@@ -288,7 +287,7 @@ package body GNAVI_Edit_Window_Package is
 
       XML_Name  : constant GWindows.GString := Win_Name & ".gnw";
 
-      X_TS : constant Time_Stamp :=
+      X_TS : constant GNAVI_Common.Time_Stamp :=
         GNAT.OS_Lib.File_Time_Stamp (To_String (XML_Name));
    begin
       Save_All_Views (Window);

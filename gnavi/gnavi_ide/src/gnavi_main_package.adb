@@ -230,20 +230,19 @@ package body GNAVI_Main_Package is
       use GNAVI_Project_Window_Package;
    begin
       if GNAVI_Main_Menus.Project_Loaded then
-         GNAVI_Project.Run_ICG (GNAVI_Project_Window.Project);
-         GNAVI_Project.Compile (GNAVI_Project_Window.Project);
+         GNAVI_Project.Run_ICG           (GNAVI_Project_Window.Project);
+         GNAVI_Project.Compile_Resources (GNAVI_Project_Window.Project);
+         GNAVI_Project.Compile           (GNAVI_Project_Window.Project);
       end if;
    end Do_Compile;
 
    procedure Do_Run
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-   pragma Unreferenced (Window);
       use GNAVI_Project_Window_Package;
    begin
+      Do_Compile (Window);
       if GNAVI_Main_Menus.Project_Loaded then
-         GNAVI_Project.Run_ICG (GNAVI_Project_Window.Project);
-         GNAVI_Project.Compile (GNAVI_Project_Window.Project);
          GNAVI_Project.Run (GNAVI_Project_Window.Project);
       end if;
    end Do_Run;

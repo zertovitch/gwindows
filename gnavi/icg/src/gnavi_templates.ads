@@ -49,6 +49,9 @@ package GNAVI_Templates is
        window_package_spec_template,
        window_package_body_template,
        application_template,
+       gnat_project_file_template,
+       resource_compiler_file_template,
+       manifest_template,
        handler_template);
 
    function Load_Template (Template : Template_Kind; Template_Name : String := "") return String;

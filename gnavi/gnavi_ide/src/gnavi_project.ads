@@ -68,6 +68,9 @@ package GNAVI_Project is
    procedure Compile (Project : in out GNAVI_Project_Type);
    --  Compile project
 
+   procedure Compile_Resources (Project : in out GNAVI_Project_Type);
+   --  Compile resources
+
    procedure Run (Project : in out GNAVI_Project_Type);
    --  Run project
 
