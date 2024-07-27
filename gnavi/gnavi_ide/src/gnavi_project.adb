@@ -1,4 +1,5 @@
-with Ada.Directories,
+with Ada.Characters.Handling,
+     Ada.Directories,
      Ada.Exceptions,
      Ada.Strings.Unbounded;
 
@@ -256,7 +257,7 @@ package body GNAVI_Project is
       use GWindows.GStrings;
 
       simple_name : constant String :=
-         GNAT.Case_Util.To_Lower (To_String (Project_Name (Project)));
+         Ada.Characters.Handling.To_Lower (To_String (Project_Name (Project)));
 
       rc_name   : constant String := simple_name & ".rc";
       coff_name : constant String := "obj\" & simple_name & ".coff";

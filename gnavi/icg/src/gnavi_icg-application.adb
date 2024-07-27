@@ -27,7 +27,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Directories,
+with Ada.Characters.Handling,
+     Ada.Directories,
      Ada.Strings.Unbounded;
 
 with DOM.Core.Nodes;
@@ -56,7 +57,7 @@ package body GNAVI_ICG.Application is
            Elements.Get_Attribute (App_Node, "name");
 
          Application_Lower_Name : constant String :=
-           GNAT.Case_Util.To_Lower (Application_Name);
+           Ada.Characters.Handling.To_Lower (Application_Name);
 
          App_File_Name          : constant String := Application_Lower_Name & ".adb";
          GPR_File_Name          : constant String := Application_Lower_Name & ".gpr";
