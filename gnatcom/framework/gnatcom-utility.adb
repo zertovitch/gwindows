@@ -7,7 +7,7 @@
 --                                B o d y                                   --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -76,7 +76,7 @@ package body GNATCOM.Utility is
 
    procedure PostThreadMessage
      (idThread : Interfaces.C.unsigned_long;
-      MSG      : Interfaces.C.unsigned;
+      MSG_Kind : Interfaces.C.unsigned;
       wParam   : Interfaces.C.unsigned      := 0;
       lParam   : Interfaces.C.long          := 0);
    pragma Import (StdCall, PostThreadMessage, "PostThreadMessageA");

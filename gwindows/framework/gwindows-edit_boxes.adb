@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2022 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -40,7 +40,6 @@ with GWindows.Drawing;
 with GWindows.Drawing_Objects;
 with GWindows.GStrings;
 with Interfaces.C;
-with GWindows.Types; use GWindows.Types;
 
 package body GWindows.Edit_Boxes is
    use type Interfaces.C.unsigned;
@@ -245,13 +244,15 @@ package body GWindows.Edit_Boxes is
                              return GWindows.Types.Size_Type
    is
 
-      Text_Size : Size_Type;
-      Extra     : constant Size_Type := (9, 4);
+      Text_Size :          Types.Size_Type;
+      Extra     : constant Types.Size_Type := (9, 4);
       --  white space around text, borders.
 
       Canvas       : GWindows.Drawing.Canvas_Type;
       Font         : GWindows.Drawing_Objects.Font_Type;
       Current_Text : constant GString := Text (Edit);
+
+      use type Types.Size_Type;
    begin
       Get_Canvas (Edit, Canvas);
       Get_Font (Edit, Font);
@@ -406,7 +407,7 @@ package body GWindows.Edit_Boxes is
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage) /= 0;
+      return Types.To_Integer (SendMessage) /= 0;
    end Password;
 
    ---------
@@ -519,6 +520,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      use type Types.Lresult;
    begin
       return SendMessage /= 0;
    end Can_Undo;
@@ -538,7 +540,7 @@ package body GWindows.Edit_Boxes is
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage);
+      return Types.To_Integer (SendMessage);
    end First_Visible;
 
    ----------------
@@ -570,7 +572,7 @@ package body GWindows.Edit_Boxes is
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage);
+      return Types.To_Integer (SendMessage);
    end Text_Limit;
 
    ----------------
@@ -588,7 +590,7 @@ package body GWindows.Edit_Boxes is
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage);
+      return Types.To_Integer (SendMessage);
    end Line_Count;
 
    --------------
@@ -622,6 +624,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      use type Types.Lresult;
    begin
       return SendMessage /= 0;
    end Modified;
@@ -669,8 +672,8 @@ package body GWindows.Edit_Boxes is
                        & Character_Mode_Identifier);
 
    begin
-      SendMessage (wParam => To_Wparam (Start_Position),
-                   lParam => To_Lparam (End_Position));
+      SendMessage (wParam => Types.To_Wparam (Start_Position),
+                   lParam => Types.To_Lparam (End_Position));
    end Set_Selection;
 
    -----------------------
@@ -710,13 +713,13 @@ package body GWindows.Edit_Boxes is
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_LINEFROMCHAR;
-         wParam : GWindows.Types.Wparam := To_Wparam ((Position) - 1);
+         wParam : GWindows.Types.Wparam := Types.To_Wparam ((Position) - 1);
          lParam : GWindows.Types.Lparam := 0)
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage) + 1;
+      return Types.To_Integer (SendMessage) + 1;
    end Line_From_Position;
 
    ------------------------
@@ -730,13 +733,13 @@ package body GWindows.Edit_Boxes is
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_LINEINDEX;
-         wParam : GWindows.Types.Wparam := To_Wparam (Line - 1);
+         wParam : GWindows.Types.Wparam := Types.To_Wparam (Line - 1);
          lParam : GWindows.Types.Lparam := 0)
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage) + 1;
+      return Types.To_Integer (SendMessage) + 1;
    end Position_From_Line;
 
    ---------------
@@ -765,11 +768,12 @@ package body GWindows.Edit_Boxes is
             function SendMessage
               (hwnd   : GWindows.Types.Handle := Handle (Edit);
                uMsg   : Interfaces.C.int  := EM_GETLINE;
-               wParam : GWindows.Types.Wparam := To_Wparam (Line - 1);
+               wParam : GWindows.Types.Wparam := Types.To_Wparam (Line - 1);
                lParam : GString_C         := C_Text)
               return GWindows.Types.Lresult;
             pragma Import (StdCall, SendMessage, "SendMessage"
                              & Character_Mode_Identifier);
+            use type Types.Lresult;
          begin
             To_PINT (C_Text (0)'Unchecked_Access).all := Length;
             if SendMessage < 1 then
@@ -794,7 +798,7 @@ package body GWindows.Edit_Boxes is
       function SendMessage
         (hwnd   : GWindows.Types.Handle := Handle (Edit);
          uMsg   : Interfaces.C.int  := EM_LINELENGTH;
-         wParam : GWindows.Types.Wparam := To_Wparam (Position);
+         wParam : GWindows.Types.Wparam := Types.To_Wparam (Position);
          lParam : GWindows.Types.Lparam := 0)
         return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
@@ -804,7 +808,7 @@ package body GWindows.Edit_Boxes is
          return 0;
       end if;
 
-      return To_Integer (SendMessage) + 1;
+      return Types.To_Integer (SendMessage) + 1;
    end Line_Length;
 
    ---------------------
@@ -823,7 +827,7 @@ package body GWindows.Edit_Boxes is
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
-      return To_Integer (SendMessage);
+      return Types.To_Integer (SendMessage);
    end Scroll_Position;
 
    ------------
@@ -1202,15 +1206,16 @@ package body GWindows.Edit_Boxes is
    function Recommended_Size (Edit : in Multi_Line_Edit_Box_Type)
                              return GWindows.Types.Size_Type
    is
-      Text_Size : Size_Type;
-      Extra     : constant Size_Type := (9, 4);
+      Text_Size :          Types.Size_Type;
+      Extra     : constant Types.Size_Type := (9, 4);
       --  white space around text, borders.
 
       Canvas          : GWindows.Drawing.Canvas_Type;
       Font            : GWindows.Drawing_Objects.Font_Type;
-      Base_Size       : Size_Type;
+      Base_Size       : Types.Size_Type;
       Max_Line_Length : Natural := 0;
 
+      use type Types.Size_Type;
    begin
       Get_Canvas (Edit, Canvas);
       Get_Font (Edit, Font);

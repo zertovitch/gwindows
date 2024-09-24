@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2022 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -112,9 +112,9 @@ package body GWindows.Application is
    -- Set_hInstance --
    -------------------
 
-   procedure Set_hInstance (hInstance : GWindows.Types.Handle) is
+   procedure Set_hInstance (process_hInstance : GWindows.Types.Handle) is
    begin
-      GWindows.Internal.Current_hInstance := hInstance;
+      GWindows.Internal.Current_hInstance := process_hInstance;
    end Set_hInstance;
 
    -----------------

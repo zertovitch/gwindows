@@ -300,8 +300,6 @@ package body GWindows.Single_Instance is
   return Boolean
   is
 
-    type BOOL is new Interfaces.C.int;
-
     function CreateMutex
       (MutexAttributes : System.Address := System.Null_Address;
        InitialOwner    : BOOL           := 0;  --  False
@@ -347,7 +345,7 @@ package body GWindows.Single_Instance is
 
   --  **********************************************************************
   function Is_Zoomed (hWnd : Types.Handle) return Boolean is
-    function IsZoomed (hWnd : Types.Handle) return BOOL;
+    function IsZoomed (hWnd2 : Types.Handle) return BOOL;
     pragma Import (StdCall, IsZoomed, "IsZoomed");
   begin
     return IsZoomed (hWnd) /= 0;
@@ -355,7 +353,7 @@ package body GWindows.Single_Instance is
 
   --  **********************************************************************
   function Is_Iconic (hWnd : Types.Handle) return Boolean is
-    function IsIconic (hWnd : Types.Handle) return BOOL;
+    function IsIconic (hWnd2 : Types.Handle) return BOOL;
     pragma Import (StdCall, IsIconic, "IsIconic");
   begin
     return IsIconic (hWnd) /= 0;
@@ -363,7 +361,7 @@ package body GWindows.Single_Instance is
 
   --  **********************************************************************
   procedure Set_Foreground_Window (hWnd : Types.Handle) is
-    procedure SetForegroundWindow (hWnd : Types.Handle);
+    procedure SetForegroundWindow (hWnd2 : Types.Handle);
     pragma Import (StdCall, SetForegroundWindow, "SetForegroundWindow");
   begin
     SetForegroundWindow (hWnd);
@@ -373,7 +371,7 @@ package body GWindows.Single_Instance is
   procedure Show_Window (hWnd : Types.Handle;
                          Cmd  : Integer)
   is
-    procedure ShowWindow (hwnd     : Types.Handle;
+    procedure ShowWindow (hwnd2    : Types.Handle;
                           nCmdShow : Interfaces.C.long);
     pragma Import (StdCall, ShowWindow, "ShowWindow");
   begin

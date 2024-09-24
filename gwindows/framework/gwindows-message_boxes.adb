@@ -248,7 +248,6 @@ package body GWindows.Message_Boxes is
       use GWindows.Windows;
       use GWindows.Packing_Boxes;
       use GWindows.Edit_Boxes;
-      use GWindows.Static_Controls;
       use GWindows.Buttons;
 
       Window_Font   : GWindows.Drawing_Objects.Font_Type;
@@ -304,7 +303,7 @@ package body GWindows.Message_Boxes is
       Insets (Pack_Box, (10, 10, 10, 10));
       Fill_Width (Pack_Box, True);
 
-      Create_Label (Pack_Box, Text, 1, 1, 1, 30);
+      GWindows.Static_Controls.Create_Label (Pack_Box, Text, 1, 1, 1, 30);
 
       GWindows.Edit_Boxes.Create (In_Box, Pack_Box,
                                   GWindows.GStrings.To_GString_From_Unbounded

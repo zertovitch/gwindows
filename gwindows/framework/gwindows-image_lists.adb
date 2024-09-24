@@ -149,7 +149,7 @@ package body GWindows.Image_Lists is
       function ImageList_LoadImage
         (HINST : GWindows.Types.Handle :=
            GWindows.Internal.Current_hInstance;
-         Name  : access Interfaces.C.char      := C_Text (C_Text'First)'Access;
+         CName : access Interfaces.C.char      := C_Text (C_Text'First)'Access;
          CX    : in     Interfaces.C.int       := Interfaces.C.int (Width);
          Grow  : in     Interfaces.C.int       := Interfaces.C.int (Grow_By);
          CREF  : in     Interfaces.C.unsigned  := 16#FF000000#;

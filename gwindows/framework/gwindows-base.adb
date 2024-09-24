@@ -78,11 +78,9 @@ package body GWindows.Base is
      return GWindows.Types.Handle;
    pragma Import (StdCall, GetMenu, "GetMenu");
 
-   IDI_APPLICATION            : constant := 32512;
-
    function LoadIcon
      (hInstance  : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-      lpIconName : Integer := IDI_APPLICATION)
+      lpIconName : Integer := Drawing_Objects.IDI_APPLICATION)
      return GWindows.Types.Handle;
    pragma Import (StdCall, LoadIcon,
                     "LoadIcon" & Character_Mode_Identifier);

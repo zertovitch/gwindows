@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2022 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -46,7 +46,7 @@ package GWindows.Application is
    function hInstance return GWindows.Types.Handle;
    --  hInstance of GWindows application
 
-   procedure Set_hInstance (hInstance : GWindows.Types.Handle);
+   procedure Set_hInstance (process_hInstance : GWindows.Types.Handle);
    --  When running in GWindows in a DLL, Set_hInstance
    --  should be called in the DllMain function with
    --  the process's hInstance

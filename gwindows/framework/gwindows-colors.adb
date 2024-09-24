@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -53,10 +53,10 @@ package body GWindows.Colors is
       return To_Color_Type (RGB);
    end To_Color;
 
-   function To_Color (Red, Green, Blue : Color_Range) return Color_Type
+   function To_Color (Red_Value, Green_Value, Blue_Value : Color_Range) return Color_Type
    is
    begin
-      return To_Color (RGB_Type'(Red, Green, Blue, 0));
+      return To_Color (RGB_Type'(Red_Value, Green_Value, Blue_Value, 0));
    end To_Color;
 
    ------------
