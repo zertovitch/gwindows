@@ -43,7 +43,7 @@ procedure Sci_Example is
      "exit for function generic goto " &
      "if in interface is limited loop " &
      "mod new not null of or others out overriding " &
-     "package pragma private procedure protected " &
+     "package parallel pragma private procedure protected " &
      "raise range record rem renames requeue return reverse " &
      "select separate some subtype synchronized " &
      "tagged task terminate then type until use when while with xor";
