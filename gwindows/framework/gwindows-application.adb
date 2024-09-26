@@ -112,9 +112,9 @@ package body GWindows.Application is
    -- Set_hInstance --
    -------------------
 
-   procedure Set_hInstance (process_hInstance : GWindows.Types.Handle) is
+   procedure Set_hInstance (Process_hInstance : GWindows.Types.Handle) is
    begin
-      GWindows.Internal.Current_hInstance := process_hInstance;
+      GWindows.Internal.Current_hInstance := Process_hInstance;
    end Set_hInstance;
 
    -----------------

@@ -44,25 +44,25 @@ with GWindows.Types;
 package GWindows.Application is
 
    function hInstance return GWindows.Types.Handle;
-   --  hInstance of GWindows application
+   --  hInstance of GWindows application.
 
-   procedure Set_hInstance (process_hInstance : GWindows.Types.Handle);
+   procedure Set_hInstance (Process_hInstance : GWindows.Types.Handle);
    --  When running in GWindows in a DLL, Set_hInstance
    --  should be called in the DllMain function with
-   --  the process's hInstance
+   --  the process's hInstance.
 
    function Load_String (ID       : in Interfaces.C.unsigned;
                          Max_Size : in Integer := 256)
-                        return GString;
-   --  Load a string resource at ID of Max_Size
+   return GString;
+   --  Load a string resource at ID of Max_Size.
 
    procedure Message_Loop;
    --  Start a message loop to handle Windows messages in this thread
    --  Windows requires a message loop to be running in any thread
-   --  that creates windows
+   --  that creates windows.
 
    procedure Modal_Loop (Window : in out GWindows.Base.Base_Window_Type'Class);
-   --  Creates a modal loop
+   --  Creates a modal loop.
 
    procedure Message_Check;
    --  Does a check to see if there is a windows message pending and if
@@ -70,21 +70,21 @@ package GWindows.Application is
    --  a task select statement.
 
    procedure End_Loop;
-   --  Ends the message loop in this thread
+   --  Ends the message loop in this thread.
 
    procedure End_Application;
-   --  Ends message loop in main thread of application
-   --  If additional message loops are still running the application
-   --  will not close down.
-   --  To force a close of the application use GNAT.OS_Lib.Exit (0);
+   --  Ends message loop in main thread of application.
+   --  If additional message loops are still
+   --  running, the application will not close down.
+   --  To force a close of the application, use GNAT.OS_Lib.OS_Exit (0);
 
    procedure Show_Modal (Window : in out GWindows.Base.Base_Window_Type'Class);
-   --  Display window and return only after window is closed
+   --  Display window and return only after window is closed.
 
    procedure Show_Modal (Window : in out GWindows.Base.Base_Window_Type'Class;
                          Parent : in out GWindows.Base.Base_Window_Type'Class);
-   --  Display window, disable parent, and return only after window is
-   --  closed
+   --  Display window, disable parent, and
+   --  return only after window is closed.
 
    function Display_Dialog (Parent : in GWindows.Base.Base_Window_Type'Class;
                             Name   : in GString;
