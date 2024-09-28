@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 2008 - 2011 Gautier de Montmollin          --
+--                 Copyright (C) 2008 - 2024 Gautier de Montmollin          --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -41,7 +41,7 @@
 --  For instance, when an URL_Type object is clicked, a browser or a mail
 --  window will be opened with the programmed address.
 
---  4-Jun-2009: GdM: Added Border (as GWindows.Static_Controls)
+--   4-Jun-2009: GdM: Added Border (as GWindows.Static_Controls)
 --  15-Dec-2008: GdM: Created (some code previously in GWin_Util).
 
 package GWindows.Static_Controls.Web is
@@ -61,48 +61,59 @@ package GWindows.Static_Controls.Web is
        URL : GWindows.GString_Unbounded;
      end record;
 
-   --  This mimics GWindows.Static_Controls.Create(Label_Type,...)
+   --  This mimics GWindows.Static_Controls.Create (Label_Type,...)
    procedure Create
       (Static     : in out URL_Type;
        Parent     : in out GWindows.Base.Base_Window_Type'Class;
        Text       : in     GString;
-       URL        : in     GString; -- Address local or on the Internet
+       URL        : in     GString;  --  Address: local or on the Internet
        Left       : in     Integer;
        Top        : in     Integer;
        Width      : in     Integer;
        Height     : in     Integer;
-       Alignment  : in     Alignment_Type                       :=
-         GWindows.Static_Controls.Left;
-       Border     : in     Border_Type                          := None;
-       ID         : in     Integer                              := 0;
-       Show       : in     Boolean                              := True;
-       Is_Dynamic : in     Boolean                              := False);
+       Alignment  : in     Alignment_Type := GWindows.Static_Controls.Left;
+       Border     : in     Border_Type    := None;
+       ID         : in     Integer        := 0;
+       Show       : in     Boolean        := True;
+       Is_Dynamic : in     Boolean        := False);
 
    --  Overriden methods:
-   procedure On_Click (Window : in out URL_Type);
+   overriding procedure On_Click (Window : in out URL_Type);
 
-   procedure On_Message
+   overriding procedure On_Message
      (Window       : in out URL_Type;
       message      : in     Interfaces.C.unsigned;
       wParam       : in     GWindows.Types.Wparam;
       lParam       : in     GWindows.Types.Lparam;
       Return_Value : in out GWindows.Types.Lresult);
 
-   --  This mimics GWindows.Static_Controls.Create_Label:
-   --  Label without variable
+   --  This mimics GWindows.Static_Controls.Create_Label.
+   --  URL widget is without variable.
    procedure Create_URL
       (Parent     : in out GWindows.Base.Base_Window_Type'Class;
        Text       : in     GString;
-       URL        : in     GString; -- Address local or on the Internet
+       URL        : in     GString;
        Left       : in     Integer;
        Top        : in     Integer;
        Width      : in     Integer;
        Height     : in     Integer;
-       Alignment  : in     Alignment_Type                       :=
-         GWindows.Static_Controls.Left;
-       Border     : in     Border_Type                          := None;
-       ID         : in     Integer                              := 0;
-       Show       : in     Boolean                              := True);
+       Alignment  : in     Alignment_Type := GWindows.Static_Controls.Left;
+       Border     : in     Border_Type    := None;
+       ID         : in     Integer        := 0;
+       Show       : in     Boolean        := True);
+
+   --  URL widget is without variable; text and URL are identical.
+   procedure Create_URL
+      (Parent     : in out GWindows.Base.Base_Window_Type'Class;
+       Text_URL   : in     GString;
+       Left       : in     Integer;
+       Top        : in     Integer;
+       Width      : in     Integer;
+       Height     : in     Integer;
+       Alignment  : in     Alignment_Type := GWindows.Static_Controls.Left;
+       Border     : in     Border_Type    := None;
+       ID         : in     Integer        := 0;
+       Show       : in     Boolean        := True);
 
    --  Swap a label against a new URL label, at the same place
    procedure Create_and_Swap
@@ -111,21 +122,7 @@ package GWindows.Static_Controls.Web is
        Parent     : in out GWindows.Base.Base_Window_Type'Class;
        URL        : in     GString;
        Alignment  : in     Alignment_Type := GWindows.Static_Controls.Left;
-       Border     : in     Border_Type                          := None;
-       Is_Dynamic : in     Boolean := False
-      );
-
-   --
-   --  begin 600 finger.cur
-   --  M```"``$`("````8````P`0``%@```"@````@````0`````$``0````````$`
-   --  M````````````````````````````____````````````````````````````
-   --  M`````````````````````````````````?X```'^```#_P```_\```?_```'
-   --  M_X``#_^```O_@``;_X``._^``#/]@``#;8```VT```-L```#8````P````,`
-   --  M```#`````P````,`````````____________________________________
-   --  M__________________P`___\`/___`#___@`?__X`'__\`!___``/__@`#__
-   --  MX``__\``/_^``#__@``__X@`/__X`'__^`#___@#___X'___^'____A____X
-   --  +?___^'____S_____
-   --  `
-   --  end
+       Border     : in     Border_Type    := None;
+       Is_Dynamic : in     Boolean        := False);
 
 end GWindows.Static_Controls.Web;
