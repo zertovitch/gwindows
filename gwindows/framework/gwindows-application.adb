@@ -613,7 +613,7 @@ package body GWindows.Application is
    begin
       Create_Dialog (Dialog, Win_Ptr.all, Name);
       if Center then
-         GWindows.Windows.Center (Dialog);
+         GWindows.Windows.Center (Dialog, Parent);
       end if;
       Show_Dialog (Dialog, Win_Ptr.all);
       return Modal_Result (Dialog);
