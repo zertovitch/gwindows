@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -149,7 +149,7 @@ package body GWindows.Image_Lists is
       function ImageList_LoadImage
         (HINST : GWindows.Types.Handle :=
            GWindows.Internal.Current_hInstance;
-         Name  : access Interfaces.C.char      := C_Text (C_Text'First)'Access;
+         CName : access Interfaces.C.char      := C_Text (C_Text'First)'Access;
          CX    : in     Interfaces.C.int       := Interfaces.C.int (Width);
          Grow  : in     Interfaces.C.int       := Interfaces.C.int (Grow_By);
          CREF  : in     Interfaces.C.unsigned  := 16#FF000000#;
@@ -351,7 +351,7 @@ package body GWindows.Image_Lists is
    procedure Drag_Move (Window : in out GWindows.Base.Base_Window_Type'Class;
                         X, Y   : in     Integer)
    is
-      pragma Warnings (Off, Window);
+      pragma Unreferenced (Window);
 
       procedure ImageList_DragMove
         (DX : Integer := X;

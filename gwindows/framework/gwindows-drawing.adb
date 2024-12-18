@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,8 +30,7 @@
 -- More information about GWindows and the latest current release can       --
 -- be located on the web at one of the following places:                    --
 --   http://sf.net/projects/gnavi/                                          --
---   http://www.gnavi.org/gwindows                                          --
---   http://www.adapower.com/gwindows                                       --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -552,6 +551,20 @@ package body GWindows.Drawing is
       SelectObject;
    end Select_Object;
 
+   procedure Select_Object
+     (Canvas          : in out Canvas_Type;
+      Object          : in     GWindows.Drawing_Objects.Drawing_Object_Type'Class;
+      Previous_Object :    out GWindows.Drawing_Objects.Drawing_Object_Type'Class)
+   is
+      function SelectObject
+        (hDC     : GWindows.Types.Handle := Canvas.HDC;
+         HOBJECT : GWindows.Types.Handle := GWindows.Drawing_Objects.Handle (Object))
+        return GWindows.Types.Handle;
+      pragma Import (StdCall, SelectObject, "SelectObject");
+   begin
+      GWindows.Drawing_Objects.Handle (Previous_Object, SelectObject);
+   end Select_Object;
+
    -------------
    -- Capture --
    -------------
@@ -749,9 +762,9 @@ package body GWindows.Drawing is
    is
       procedure MoveToEx
         (hDC    : GWindows.Types.Handle := Canvas.HDC;
-         X      : Integer := X1;
-         Y      : Integer := Y1;
-         Unused : Integer := 0);
+         X      : Integer      := X1;
+         Y      : Integer      := Y1;
+         Unused : Types.Lparam := 0);
       pragma Import (StdCall, MoveToEx, "MoveToEx");
 
       procedure LineTo
@@ -1390,6 +1403,20 @@ package body GWindows.Drawing is
       SetViewportOrgEx;
    end Viewport_Origin;
 
+   procedure Viewport_Origin (Canvas          : in out Canvas_Type;
+                              X, Y            : in     Integer;
+                              Previous_Origin :    out GWindows.Types.Point_Type)
+   is
+      procedure SetViewportOrgEx
+        (HDC :     GWindows.Types.Handle := Canvas.HDC;
+         X1  :     Integer := X;
+         Y1  :     Integer := Y;
+         LPS : out GWindows.Types.Point_Type);
+      pragma Import (StdCall, SetViewportOrgEx, "SetViewportOrgEx");
+   begin
+      SetViewportOrgEx (LPS => Previous_Origin);
+   end Viewport_Origin;
+
    function Viewport_Origin (Canvas : in Canvas_Type)
                             return GWindows.Types.Point_Type
    is
@@ -1421,6 +1448,20 @@ package body GWindows.Drawing is
       pragma Import (StdCall, OffsetViewportOrgEx, "OffsetViewportOrgEx");
    begin
       OffsetViewportOrgEx;
+   end Offset_Viewport_Origin;
+
+   procedure Offset_Viewport_Origin (Canvas          : in out Canvas_Type;
+                                     DX, DY          : in     Integer;
+                                     Previous_Origin :    out GWindows.Types.Point_Type)
+   is
+      procedure OffsetViewportOrgEx
+        (HDC :     GWindows.Types.Handle := Canvas.HDC;
+         X1  :     Integer := DX;
+         Y1  :     Integer := DY;
+         LPS : out GWindows.Types.Point_Type);
+      pragma Import (StdCall, OffsetViewportOrgEx, "OffsetViewportOrgEx");
+   begin
+      OffsetViewportOrgEx (LPS => Previous_Origin);
    end Offset_Viewport_Origin;
 
    --------------------

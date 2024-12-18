@@ -1,5 +1,4 @@
 with GWindows.Scroll_Panels;
-with GWindows.Static_Controls;
 with GWindows.Panels;
 with GWindows.Windows.MDI;
 with GWindows.Scintilla;
@@ -9,12 +8,16 @@ with GWindows.Buttons;
 with GWindows.Packing_Boxes;
 with GWindows.Windows;
 with GWindows.Base;
-with GWindows.Menus;
 
+with GNAVI_Common;
 with GNAVI_Layout_View;
 with GNAVI_Window;
 
+with GNAT.OS_Lib;
+
 package GNAVI_Edit_Window_Package is
+
+   Epoch : constant GNAVI_Common.Time_Stamp := GNAT.OS_Lib.GM_Time_Of (1900, 1, 1, 0, 0, 0);
 
    -------------------------------------------------------------------------
    --  GNAVI_Edit_Window Specs
@@ -59,10 +62,10 @@ package GNAVI_Edit_Window_Package is
          --  GNAVI: Add custom data below this comment
 
          Win_XML  : GNAVI_Window.GNAVI_Window_Type;
-         Spec_TS  : Integer := 0;
-         XML_TS   : Integer := 0;
-         Body_TS  : Integer := 0;
-         OL_TS    : Integer := 0;
+         Spec_TS  : GNAVI_Common.Time_Stamp := Epoch;
+         XML_TS   : GNAVI_Common.Time_Stamp := Epoch;
+         Body_TS  : GNAVI_Common.Time_Stamp := Epoch;
+         OL_TS    : GNAVI_Common.Time_Stamp := Epoch;
 
          Edit_Box      : GWindows.Scintilla.Scintilla_Access := null;
          Layout_Editor : GNAVI_Layout_View.Layout_View_Type;
@@ -76,7 +79,7 @@ package GNAVI_Edit_Window_Package is
 
    procedure On_Create (Window : in out GNAVI_Edit_Window_Type);
 
-   -- On_Menu_Select added by GdM, July 2012
+   --  On_Menu_Select added by GdM, July 2012
    procedure On_Menu_Select (Window : in out GNAVI_Edit_Window_Type;
                              Item   : in     Integer);
 

@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -36,6 +36,7 @@
 
 with Ada.Calendar;
 with Ada.Unchecked_Conversion;
+with Ada.Containers.Vectors;
 
 with Interfaces.C;
 
@@ -260,16 +261,29 @@ package GWindows.Common_Controls is
    --  the window
 
    type Status_Kind_Type is (Flat, Sunken, Raised, Owner_Drawn);
-   procedure Text (Bar  : in out Status_Bar_Type;
-                   Text : in     GString;
-                   Part : in     Natural;
-                   How  : in     Status_Kind_Type := Sunken);
+   procedure Text (Bar          : in out Status_Bar_Type;
+                   Text         : in     GString;
+                   Part         : in     Natural;
+                   How          : in     Status_Kind_Type := Sunken;
+                   Force_Redraw : in     Boolean := False);
    --  Set text in a specific part of the status bar
    --  0 is the first part
 
-   procedure Background_Color (Bar   : in out Status_Bar_Type;
-                               Color :        GWindows.Colors.Color_Type);
+   function Text (Bar  : in out Status_Bar_Type;
+                  Part : in     Natural) return GString;
+   --  Returns the text of the bar part.
+
+   procedure Background_Color (Bar        : in out Status_Bar_Type;
+                               Color      : in     GWindows.Colors.Color_Type;
+                               Update_Now : in     Boolean := False);
    --  Set background color of status bar
+
+   procedure Part_Colors (Bar              : in out Status_Bar_Type;
+                          Part             : in     Natural;
+                          Background_Color : in     GWindows.Colors.Color_Type;
+                          Text_Color       : in     GWindows.Colors.Color_Type;
+                          Update_Now       : in     Boolean := False);
+   --  Set Part Text foreground and background colors
 
    -------------------------------------------------------------------------
    --  Animation_Control_Type
@@ -585,7 +599,8 @@ package GWindows.Common_Controls is
    procedure Progress_Range (Control : in out Progress_Control_Type;
                              Low     : in     Natural;
                              High    : in     Natural);
-   --  Progress range
+   --  Progress range.
+   --  Prior to a call to Progress_Range, the Control has Low = 0 and High = 100.
 
    procedure Increment (Control : in out Progress_Control_Type;
                         Amount  : in     Natural               := 1);
@@ -797,19 +812,20 @@ package GWindows.Common_Controls is
                                           Multiple);
 
    procedure Create
-     (Control    : in out List_View_Control_Type;
-      Parent     : in out GWindows.Base.Base_Window_Type'Class;
-      Left       : in     Integer;
-      Top        : in     Integer;
-      Width      : in     Integer;
-      Height     : in     Integer;
-      Selection  : in     List_View_Control_Select_Type        := Single;
-      View       : in     List_View_Control_View_Type          := List_View;
-      Sort       : in     List_View_Control_Sort_Type          := No_Sorting;
-      Arrange    : in     Boolean                              := True;
-      Align      : in     List_View_Control_Alignment_Type     := Align_Left;
-      Show       : in     Boolean                              := True;
-      Is_Dynamic : in     Boolean                              := False);
+     (Control     : in out List_View_Control_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Left        : in     Integer;
+      Top         : in     Integer;
+      Width       : in     Integer;
+      Height      : in     Integer;
+      Selection   : in     List_View_Control_Select_Type        := Single;
+      View        : in     List_View_Control_View_Type          := List_View;
+      Sort        : in     List_View_Control_Sort_Type          := No_Sorting;
+      Arrange     : in     Boolean                              := True;
+      Align       : in     List_View_Control_Alignment_Type     := Align_Left;
+      Show        : in     Boolean                              := True;
+      Show_Header : in     Boolean                              := True;  --  For View = Report_View
+      Is_Dynamic  : in     Boolean                              := False);
 
    -------------------------------------------------------------------------
    --  List_View_Control_Type - Properties
@@ -847,6 +863,8 @@ package GWindows.Common_Controls is
    -------------------------------------------------------------------------
    --  List_View_Control_Type - Methods
    -------------------------------------------------------------------------
+
+   --  Indexes in List_View_Control_Type are 0-based.
 
    procedure Set_Item (Control : in out List_View_Control_Type;
                        Text    : in GString;
@@ -1243,6 +1261,16 @@ package GWindows.Common_Controls is
    function Display_Area (Control : in Tab_Control_Type)
                          return GWindows.Types.Rectangle_Type;
 
+   function Tab_Area (Control : in Tab_Control_Type;
+                      Where   : in Integer)
+                         return GWindows.Types.Rectangle_Type;
+
+   procedure Focused_Tab (Control : in Tab_Control_Type;
+                          Where   : in Integer);
+
+   function Focused_Tab (Control : in Tab_Control_Type)
+                        return Integer;
+
    procedure Item_At_Position
      (Control  : in     Tab_Control_Type;
       Position : in     Types.Point_Type;
@@ -1273,6 +1301,22 @@ package GWindows.Common_Controls is
    procedure Set_Tool_Tips
      (Control : in Tab_Control_Type;
       Tips    : in Tool_Tip_Type);
+
+   -------------------------------------------------------------------------
+   -------------------------------------------------------------------------
+   procedure Tab_Colors
+     (Control                           : in out Tab_Control_Type;
+      Background_Color                  : in     GWindows.Colors.Color_Type;
+      Background_Selected_Color         : in     GWindows.Colors.Color_Type;
+      Background_Hovered_Color          : in     GWindows.Colors.Color_Type;
+      Background_Selected_Hovered_Color : in     GWindows.Colors.Color_Type;
+      Foreground_Color                  : in     GWindows.Colors.Color_Type;
+      Foreground_Selected_Color         : in     GWindows.Colors.Color_Type;
+      Foreground_Hovered_Color          : in     GWindows.Colors.Color_Type;
+      Foreground_Selected_Hovered_Color : in     GWindows.Colors.Color_Type;
+      Frame_Color                       : in     GWindows.Colors.Color_Type);
+   --  Control Background_Color must also be set for the custom colors to
+   --  be active.
 
    -------------------------------------------------------------------------
    --  Tab_Control_Type - Event Handlers
@@ -1312,6 +1356,18 @@ package GWindows.Common_Controls is
       Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
       Return_Value : in out GWindows.Types.Lresult);
    --  Handles Notify Messages
+
+   procedure On_Erase_Background
+     (Control              : in out Tab_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type);
+
+   procedure On_Paint
+     (Control              : in out Tab_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type);
 
    -------------------------------------------------------------------------
    --  Tab_Window_Control_Type
@@ -1675,7 +1731,31 @@ private
          On_Stop_Event  : GWindows.Base.Action_Event := null;
       end record;
 
-   type Status_Bar_Type is new Common_Control_Type with null record;
+   type Status_Bar_Part_Type is record
+      Text             : GWindows.GString_Unbounded;
+      Background_Color : GWindows.Colors.Color_Type := GWindows.Colors.White;
+      Text_Color       : GWindows.Colors.Color_Type := GWindows.Colors.Black;
+   end record;
+   --  We locally store the text as we can't recover it when
+   --  the part is owner drawn.
+
+   package Status_Bar_Part_Vectors is new Ada.Containers.Vectors
+                                  (Index_Type   => Natural,
+                                   Element_Type => Status_Bar_Part_Type);
+
+   type Status_Bar_Type is new Common_Control_Type with record
+      Parts : Status_Bar_Part_Vectors.Vector;
+   end record;
+
+  overriding procedure On_Draw_Item
+     (Bar             : in out Status_Bar_Type;
+      Canvas          : in out GWindows.Drawing.Canvas_Type;
+      Item_ID         : in     Integer;
+      Item_Action     : in     Interfaces.C.unsigned;
+      Item_State      : in     Interfaces.C.unsigned;
+      Item_Rect       : in     GWindows.Types.Rectangle_Type;
+      Item_Data       : in     Integer;
+      Control         : in     GWindows.Base.Pointer_To_Base_Window_Class);
 
    type Date_Time_Picker_Type is new Common_Control_Type with
       record
@@ -1717,6 +1797,16 @@ private
       record
          On_Change_Event   : GWindows.Base.Action_Event := null;
          On_Changing_Event : GWindows.Base.Action_Event := null;
+         Tab_Background_Color                  : GWindows.Colors.Color_Type;
+         Tab_Background_Selected_Color         : GWindows.Colors.Color_Type;
+         Tab_Background_Hovered_Color          : GWindows.Colors.Color_Type;
+         Tab_Background_Selected_Hovered_Color : GWindows.Colors.Color_Type;
+         Tab_Foreground_Color                  : GWindows.Colors.Color_Type;
+         Tab_Foreground_Selected_Color         : GWindows.Colors.Color_Type;
+         Tab_Foreground_Hovered_Color          : GWindows.Colors.Color_Type;
+         Tab_Foreground_Selected_Hovered_Color : GWindows.Colors.Color_Type;
+         Tab_Frame_Color                       : GWindows.Colors.Color_Type;
+         Tab_Color_Sys                         : Boolean := True;
       end record;
 
    type Tab_Window_Control_Type is new Tab_Control_Type with null record;

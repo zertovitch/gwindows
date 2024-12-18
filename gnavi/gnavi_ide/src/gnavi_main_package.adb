@@ -1,6 +1,7 @@
 with GWindows.Common_Dialogs;
 with GWindows.GStrings;
 with GWindows.Menus;
+with GWindows.Message_Boxes;
 with GWindows.Drawing_Objects;
 with GWindows.Image_Lists;
 
@@ -13,24 +14,25 @@ with GNAVI_Controls_Window_Package;
 with GNAVI_File_Edit_Window_Package;
 with GNAVI_Project;
 with GNAVI_Controls;
-with GNAVI_Datastore;
 
 with Standard_IDs;
 with GNAVI_IDs;
 
 with GNAVI_Main_Menus;
 
+with Interfaces.C;
+
 package body GNAVI_Main_Package is
 
    procedure On_Create (Window : in out GNAVI_Main_Type) is separate;
 
-   -- On_Menu_Select added by GdM, July 2012
-   -- Probably should also be separate, like On_Create,
-   -- and generated GNAVI
+   --  On_Menu_Select added by GdM, July 2012
+   --  Probably should also be separate, like On_Create,
+   --  and generated GNAVI
    procedure On_Menu_Select (Window : in out GNAVI_Main_Type;
                              Item   : in     Integer) is
    begin
-      Handle_Menu(Window, Item);
+      Handle_Menu (Window, Item);
    end On_Menu_Select;
 
    -------------------------------------------------------------------------
@@ -42,11 +44,9 @@ package body GNAVI_Main_Package is
    procedure Do_Create
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GWindows.Common_Controls;
       use GNAVI_Main_Menus;
-      use GNAVI_Datastore;
-      use GWindows.Menus;
-      use GWindows.Drawing_Objects;
       use GWindows.Image_Lists;
       use GNAVI_IDs;
       use Standard_IDs;
@@ -55,7 +55,12 @@ package body GNAVI_Main_Package is
 
       M : constant Base_Menus := Setup_Base_Menus;
 
-      Icon : Icon_Type;
+      TBSTYLE_TOOLTIPS        : constant := 16#0100#;
+      TBSTYLE_FLAT            : constant := 16#0800#;
+      TBSTYLE_LIST            : constant := 16#1000#;
+      TBSTYLE_EX_MIXEDBUTTONS : constant := 8;
+      use type Interfaces.C.unsigned;
+
    begin
       MDI_Menu (GNAVI_Main, M.Main_Menu, M.Windows_Menu);
 
@@ -63,11 +68,20 @@ package body GNAVI_Main_Package is
       Large_Icon (GNAVI_Main, "MAIN_ICON");
 
       Create (List, "MAIN_TOOLBAR", 16);
-      Set_Image_List (This.Top_Tools, List);
-      Add_Button (This.Top_Tools, 0, ID_PROJECT_NEW);
-      Add_Button (This.Top_Tools, 1, ID_PROJECT_OPEN);
-      Add_Button (This.Top_Tools, 8, ID_RUN);
-      Add_Button (This.Top_Tools, 7, ID_HELP_INDEX);
+      This.Top_Tools.Set_Image_List (List);
+      This.Top_Tools.Set_Style
+         (This.Top_Tools.Get_Style
+          or TBSTYLE_FLAT or TBSTYLE_TOOLTIPS or TBSTYLE_LIST);
+      This.Top_Tools.Set_Extended_Style (TBSTYLE_EX_MIXEDBUTTONS);
+
+      This.Top_Tools.Add_String ("Create a new GNAVI project");
+      This.Top_Tools.Add_Button (0, ID_PROJECT_NEW, 0);
+      This.Top_Tools.Add_String ("Open a GNAVI project");
+      This.Top_Tools.Add_Button (1, ID_PROJECT_OPEN, 1);
+      This.Top_Tools.Add_String ("Run application");
+      This.Top_Tools.Add_Button (8, ID_RUN, 2);
+      This.Top_Tools.Add_String ("Help");
+      This.Top_Tools.Add_Button (7, ID_HELP_INDEX, 3);
 
       GNAVI_Controls.Init;
    end Do_Create;
@@ -124,6 +138,7 @@ package body GNAVI_Main_Package is
    procedure Do_New_GNAVI_Project
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GNAVI_New_Project_Package;
    begin
       Center (GNAVI_New_Project);
@@ -162,6 +177,7 @@ package body GNAVI_Main_Package is
    procedure Do_Save_GNAVI_Project
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
    begin
       GNAVI_Project_Window_Package.Save_Project;
    end Do_Save_GNAVI_Project;
@@ -169,19 +185,54 @@ package body GNAVI_Main_Package is
    procedure Do_Close_GNAVI_Project
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+      This : GNAVI_Main_Type renames GNAVI_Main_Type (Window);
       use GNAVI_Project_Window_Package;
    begin
       Close (GNAVI_Project_Window);
+      This.Text ("GNAVI - Open Source Visual RAD");
    end Do_Close_GNAVI_Project;
+
+   procedure Do_Drop_GNAVI_Project
+     (Window     : in out GWindows.Base.Base_Window_Type'Class;
+      File_Names : in     GWindows.Windows.Array_Of_File_Names)
+   is
+      This : GNAVI_Main_Type renames GNAVI_Main_Type (Window);
+      use GWindows.Message_Boxes, GWindows.GStrings;
+   begin
+      if File_Names'Length > 1 then
+         Message_Box
+            (This,
+             "Files dropped",
+             "Cannot drop more than one project.",
+             OK_Box,
+             Error_Icon);
+      else
+         MDI_Close_All (This);
+         begin
+            GNAVI_Project_Window_Package.Load_Project
+               (To_GString_From_Unbounded (File_Names (File_Names'First)));
+         exception
+            when GNAVI_Project.Invalid_Project =>
+               Message_Box
+                  (This,
+                   "Files dropped",
+                   "Invalid GNAVI project file.",
+                   OK_Box,
+                   Error_Icon);
+         end;
+      end if;
+   end Do_Drop_GNAVI_Project;
 
    procedure Do_Compile
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GNAVI_Project_Window_Package;
    begin
       if GNAVI_Main_Menus.Project_Loaded then
-         GNAVI_Project.Run_ICG (GNAVI_Project_Window.Project);
-         GNAVI_Project.Compile (GNAVI_Project_Window.Project);
+         GNAVI_Project.Run_ICG           (GNAVI_Project_Window.Project);
+         GNAVI_Project.Compile_Resources (GNAVI_Project_Window.Project);
+         GNAVI_Project.Compile           (GNAVI_Project_Window.Project);
       end if;
    end Do_Compile;
 
@@ -190,9 +241,8 @@ package body GNAVI_Main_Package is
    is
       use GNAVI_Project_Window_Package;
    begin
+      Do_Compile (Window);
       if GNAVI_Main_Menus.Project_Loaded then
-         GNAVI_Project.Run_ICG (GNAVI_Project_Window.Project);
-         GNAVI_Project.Compile (GNAVI_Project_Window.Project);
          GNAVI_Project.Run (GNAVI_Project_Window.Project);
       end if;
    end Do_Run;
@@ -225,6 +275,7 @@ package body GNAVI_Main_Package is
      (Window : in out GWindows.Base.Base_Window_Type'Class;
       Item   : in     Integer)
    is
+   pragma Unreferenced (Window);
    begin
       Handle_Menu (GNAVI_Main, Item);
    end Do_Toolbar_Select;
@@ -241,4 +292,5 @@ begin
       "", 0, 0, 0, 0, Show => True);
 
    Dock_Children (GNAVI_Main);
+
 end GNAVI_Main_Package;

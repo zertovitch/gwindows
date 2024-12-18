@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -46,14 +46,13 @@ pragma Elaborate_All (GWindows.Cursors);
 package body GWindows.Windows is
    use type Interfaces.C.unsigned;
    use type Interfaces.C.long;
-   use GWindows.Types;
 
    -------------------------------------------------------------------------
    --  Local Specs
    -------------------------------------------------------------------------
 
    procedure Translate_Key
-     (wParam      : GWindows.Types.Wparam;
+     (wParam      :     Types.Wparam;
       Special_Key : out Special_Key_Type;
       Key         : out GCharacter);
    --  Translates Windows key information to GWindows key information
@@ -62,11 +61,11 @@ package body GWindows.Windows is
    --  Operating System Imports
    -------------------------------------------------------------------------
 
---   WM_MDICREATE               : constant := 544;
+   WM_MDICREATE               : constant := 544;
 --   WM_MDIDESTROY              : constant := 545;
---   WM_MDIRESTORE              : constant := 547;
+   WM_MDIRESTORE              : constant := 547;
 --   WM_MDINEXT                 : constant := 548;
---   WM_MDIMAXIMIZE             : constant := 549;
+   WM_MDIMAXIMIZE             : constant := 549;
    WM_MDITILE                 : constant := 550;
    WM_MDICASCADE              : constant := 551;
    WM_MDIICONARRANGE          : constant := 552;
@@ -596,44 +595,74 @@ package body GWindows.Windows is
       Is_Dynamic : in     Boolean           := False;
       CClass     : in     GString           := "")
    is
-      C_Title  : constant GString_C := GWindows.GStrings.To_GString_C (Title);
+      C_Title  : GString_C := GWindows.GStrings.To_GString_C (Title);
       Win_HWND : GWindows.Types.Handle;
       Style    : Interfaces.C.unsigned := 0;
       ExStyle  : Interfaces.C.unsigned := WS_EX_MDICHILD;
-      CClass_C : constant GString_C := GWindows.GStrings.To_GString_C (CClass);
-   begin
-      On_Pre_Create (Window_Type'Class (Window), Style, ExStyle);
+      CClass_C : GString_C := GWindows.GStrings.To_GString_C (CClass);
+      MDI_Client : constant GWindows.Base.Base_Window_Access := MDI_Client_Window (Parent);
 
+      type MDICREATESTRUCT is record
+         szClass : GWindows.Types.LPTSTR;
+         szTitle : GWindows.Types.LPTSTR;
+         hOwner  : GWindows.Types.Handle;
+         x       : Integer;
+         y       : Integer;
+         cx      : Integer;
+         cy      : Integer;
+         style   : GWindows.Types.DWORD;
+         lParam  : GWindows.Types.Lparam;
+      end record;
+
+      MdiCreate : MDICREATESTRUCT;
+
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := GWindows.Base.Handle (MDI_Client.all);
+         uMsg   : Interfaces.C.int      := WM_MDICREATE;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : MDICREATESTRUCT       := MdiCreate)
+        return GWindows.Types.Handle;
+      pragma Import (StdCall, SendMessage, "SendMessage" & Character_Mode_Identifier);
+
+      RDW_INVALIDATE : constant := 16#0001#;
+      RDW_UPDATENOW  : constant := 16#0100#;
+      RDW_FRAME      : constant := 16#0400#;
+
+      procedure RedrawWindow
+        (Hwnd : GWindows.Types.Handle;
+         lprcUpdate : Integer := 0;
+         hrgnUpdate : Integer := 0;
+         Flags      : Interfaces.C.unsigned :=
+                      RDW_INVALIDATE or RDW_UPDATENOW or RDW_FRAME);
+      pragma Import (StdCall, RedrawWindow, "RedrawWindow");
+
+   begin
       if CClass = "" then
-         Win_HWND := CreateWindowEx (lpWindowName => C_Title,
-                                     dwExStyle    => ExStyle,
-                                     dwStyle      => Style,
-                                     x            => Left,
-                                     y            => Top,
-                                     nWidth       => Width,
-                                     nHeight      => Height,
-                                     hwndParent   =>
-                                    GWindows.Base.Handle
-                                     (MDI_Client_Window (Parent).all));
+         MdiCreate.szClass := GWindows.Internal.Window_Class_Name (0)'Unchecked_Access;
       else
-         Win_HWND := CreateWindowEx (lpWindowName => C_Title,
-                                     lpClassName  => CClass_C,
-                                     dwExStyle    => ExStyle,
-                                     dwStyle      => Style,
-                                     x            => Left,
-                                     y            => Top,
-                                     nWidth       => Width,
-                                     nHeight      => Height,
-                                     hwndParent   =>
-                                    GWindows.Base.Handle
-                                     (MDI_Client_Window (Parent).all));
+         MdiCreate.szClass := CClass_C (0)'Unchecked_Access;
       end if;
+      MdiCreate.szTitle := C_Title (0)'Unchecked_Access;
+      MdiCreate.hOwner  := GWindows.Internal.Current_hInstance;
+      MdiCreate.x       := Left;
+      MdiCreate.y       := Top;
+      MdiCreate.cx      := Width;
+      MdiCreate.cy      := Height;
+      MdiCreate.style   := GWindows.Types.DWORD (Style);
+      MdiCreate.lParam  := 0;
+
+      On_Pre_Create (Window_Type'Class (Window), Style, ExStyle);
+      GWindows.Base.Freeze (MDI_Client.all); --  To suppress display glitches
+
+      Win_HWND := SendMessage;  --  Create child window
 
       GWindows.Base.Link
         (Window, Win_HWND, Is_Dynamic, GWindows.Base.MDI_Child_Link);
       Hide (Window);
       On_Create (Window_Type'Class (Window));
       Dock_Children (Window);
+      GWindows.Base.Thaw (MDI_Client.all); --  To suppress display glitches
+      RedrawWindow (Win_HWND);             --  To suppress display glitches
    end Create_MDI_Child;
 
    ----------------
@@ -1080,6 +1109,46 @@ package body GWindows.Windows is
            (SendMessage (GWindows.Base.Handle (Client_Window.all)));
       end if;
    end MDI_Active_Window;
+
+   -------------------------
+   -- MDI_Maximize_Window --
+   -------------------------
+
+   procedure MDI_Maximize_Window
+     (Window : in Window_Type;
+      Child  : in GWindows.Base.Base_Window_Type'Class)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle :=
+           GWindows.Base.Handle (MDI_Client_Window (Window).all);
+         uMsg   : Interfaces.C.int  := WM_MDIMAXIMIZE;
+         wParam : GWindows.Types.Handle := GWindows.Base.Handle (Child);
+         lParam : GWindows.Types.Lparam := 0);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end MDI_Maximize_Window;
+
+   ------------------------
+   -- MDI_Restore_Window --
+   ------------------------
+
+   procedure MDI_Restore_Window
+     (Window : in Window_Type;
+      Child  : in GWindows.Base.Base_Window_Type'Class)
+   is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle :=
+           GWindows.Base.Handle (MDI_Client_Window (Window).all);
+         uMsg   : Interfaces.C.int  := WM_MDIRESTORE;
+         wParam : GWindows.Types.Handle := GWindows.Base.Handle (Child);
+         lParam : GWindows.Types.Lparam := 0);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end MDI_Restore_Window;
 
    -------------------------
    -- MDI_Tile_Horizontal --
@@ -1815,6 +1884,8 @@ package body GWindows.Windows is
          return Keys;
       end Get_Mouse_Key_States;
 
+      use type Types.Wparam, Types.Handle;
+
    begin
       case message is
          when WM_DROPFILES =>
@@ -1823,7 +1894,7 @@ package body GWindows.Windows is
                  (others => GString_C_Null);
 
                function Number_Of_Files
-                 (HDROP : GWindows.Types.Handle := To_Handle (wParam);
+                 (HDROP : Types.Handle          := Types.To_Handle (wParam);
                   Index : Interfaces.C.unsigned := 16#FFFFFFFF#;
                   Lpsz  : Integer               := 0;
                   Cch   : Integer               := 0)
@@ -1834,16 +1905,16 @@ package body GWindows.Windows is
                File_Count : constant Natural := Number_Of_Files;
 
                procedure DragQueryFile
-                 (HDROP : GWindows.Types.Handle := To_Handle (wParam);
+                 (HDROP : Types.Handle   := Types.To_Handle (wParam);
                   Index : Natural;
                   Lpsz  : access GChar_C :=
                     C_File_Name (C_File_Name'First)'Access;
-                  Cch   : Integer           := C_File_Name'Length);
+                  Cch   : Integer        := C_File_Name'Length);
                pragma Import (StdCall, DragQueryFile,
                               "DragQueryFile" & Character_Mode_Identifier);
 
                procedure DragFinish
-                 (HDROP : GWindows.Types.Handle := To_Handle (wParam));
+                 (HDROP : Types.Handle := Types.To_Handle (wParam));
                pragma Import (StdCall, DragFinish, "DragFinish");
 
             begin
@@ -1873,7 +1944,7 @@ package body GWindows.Windows is
             Return_Value := 0;
 
          when WM_GETFONT =>
-            Return_Value := To_Lresult (Window.Font_Handle);
+            Return_Value := Types.To_Lresult (Window.Font_Handle);
 
          when WM_SETFONT =>
             Window.Font_Handle := GWindows.Types.To_Handle (wParam);
@@ -1894,11 +1965,43 @@ package body GWindows.Windows is
                BeginPaint (Handle (Window), PS);
                GWindows.Drawing.Handle (CV, PS.HDC);
                ST := GWindows.Drawing.Save_State (CV);
-               On_Paint (Window_Type'Class (Window),
-                         CV,
-                         PS.rcPaint);
+               if not Window.Double_Buffered_Paint then
+                  On_Paint (Window_Type'Class (Window),
+                            CV,
+                            PS.rcPaint);
+               else
+                  declare
+                     use GWindows.Drawing, GWindows.Drawing_Objects;
+                     Area            : GWindows.Types.Rectangle_Type renames PS.rcPaint;
+                     Canvas          : Canvas_Type renames CV;
+                     Width           : constant Natural := Area.Right  - Area.Left;
+                     Height          : constant Natural := Area.Bottom - Area.Top;
+                     Memory_Canvas   : Memory_Canvas_Type;
+                     Bitmap          : Bitmap_Type;
+                     Previous_Bitmap : Bitmap_Type;
+                     Previous_Offset : GWindows.Types.Point_Type;
+                  begin
+                     --  Create new memory bitmap device context, large as the dirty rectangle.
+                     Create_Memory_Canvas (Memory_Canvas, Canvas);
+                     Create_Compatible_Bitmap (Canvas, Bitmap, Width, Height);
+                     Select_Object (Memory_Canvas, Bitmap, Previous_Bitmap);
+                     --  Do the painting into the memory bitmap.
+                     Offset_Viewport_Origin (Memory_Canvas, -Area.Left, -Area.Top, Previous_Offset);
+                     On_Paint (Window_Type'Class (Window),
+                               Canvas_Type (Memory_Canvas),
+                               Area);
+                     --  Blit the bitmap into the screen.
+                     Viewport_Origin (Memory_Canvas, Previous_Offset.X, Previous_Offset.Y);
+                     BitBlt (Canvas, Area.Left, Area.Top, Width, Height,
+                             Memory_Canvas, 0, 0);
+                     --  Clean up.
+                     Select_Object (Memory_Canvas, Previous_Bitmap);
+                     Delete (Bitmap);
+                     --  Memory_Canvas is automatically deleted (controlled type)
+                  end;
+               end if;
                GWindows.Drawing.Load_State (CV, ST);
-               GWindows.Drawing.Handle (CV, Null_Handle);
+               GWindows.Drawing.Handle (CV, Types.Null_Handle);
                EndPaint (Handle (Window), PS);
 
                Return_Value := 0;
@@ -1908,7 +2011,7 @@ package body GWindows.Windows is
             declare
                CV : GWindows.Drawing.Canvas_Type;
             begin
-               GWindows.Drawing.Handle (CV, To_Handle (wParam));
+               GWindows.Drawing.Handle (CV, Types.To_Handle (wParam));
 
                On_Erase_Background (Window_Type'Class (Window),
                                     CV,
@@ -1928,7 +2031,7 @@ package body GWindows.Windows is
                if
                  Low = HTCLIENT
                  and
-                 GWindows.Types.To_Handle (wParam) = Handle (Window)
+                 Types.To_Handle (wParam) = Handle (Window)
                then
                   On_Change_Cursor (Window_Type'Class (Window));
 
@@ -2226,7 +2329,7 @@ package body GWindows.Windows is
             Return_Value := 0;
 
          when WM_MDIACTIVATE =>
-            if To_Handle (lParam) = Handle (Window) then
+            if Types.To_Handle (lParam) = Handle (Window) then
                On_MDI_Activate (Window_Type'Class (Window));
             else
                On_MDI_Deactivate (Window_Type'Class (Window));
@@ -2289,40 +2392,40 @@ package body GWindows.Windows is
       Request : in     GWindows.Base.Scroll_Request_Type;
       Control : in     GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      use GWindows.Base;
+      use type Base.Pointer_To_Base_Window_Class;
    begin
       if Control /= null then
-         On_Horizontal_Scroll
-           (GWindows.Base.Base_Window_Type (Window), Request, Control);
+         Base.On_Horizontal_Scroll
+           (Base.Base_Window_Type (Window), Request, Control);
       else
          case Request is
-            when First =>
+            when Base.First =>
                Scroll_Position (Window,
                                 Horizontal,
                                 Scroll_Minimum (Window, Horizontal));
-            when Last =>
+            when Base.Last =>
                Scroll_Position (Window,
                                 Horizontal,
                                 Scroll_Maximum (Window, Horizontal));
-            when Previous_Unit =>
+            when Base.Previous_Unit =>
                Scroll_Position (Window,
                                 Horizontal,
                                 Scroll_Position (Window, Horizontal) - 1);
-            when Next_Unit =>
+            when Base.Next_Unit =>
                Scroll_Position (Window,
                                 Horizontal,
                                 Scroll_Position (Window, Horizontal) + 1);
-            when Previous_Page =>
+            when Base.Previous_Page =>
                Scroll_Position (Window,
                                 Horizontal,
                                 Scroll_Position (Window, Horizontal) -
                                 Scroll_Page_Size (Window, Horizontal));
-            when Next_Page =>
+            when Base.Next_Page =>
                Scroll_Position (Window,
                                 Horizontal,
                                 Scroll_Position (Window, Horizontal) +
                                 Scroll_Page_Size (Window, Horizontal));
-            when Thumb_Set =>
+            when Base.Thumb_Set =>
                Scroll_Position (Window,
                                 Horizontal,
                                 Scroll_Drag_Position (Window, Horizontal));
@@ -2341,40 +2444,40 @@ package body GWindows.Windows is
       Request : in     GWindows.Base.Scroll_Request_Type;
       Control : in     GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      use GWindows.Base;
+      use type Base.Pointer_To_Base_Window_Class;
    begin
       if Control /= null then
-         On_Vertical_Scroll
-           (GWindows.Base.Base_Window_Type (Window), Request, Control);
+         Base.On_Vertical_Scroll
+           (Base.Base_Window_Type (Window), Request, Control);
       else
          case Request is
-            when First =>
+            when Base.First =>
                Scroll_Position (Window,
                                 Vertical,
                                 Scroll_Minimum (Window, Vertical));
-            when Last =>
+            when Base.Last =>
                Scroll_Position (Window,
                                 Vertical,
                                 Scroll_Maximum (Window, Vertical));
-            when Previous_Unit =>
+            when Base.Previous_Unit =>
                Scroll_Position (Window,
                                 Vertical,
                                 Scroll_Position (Window, Vertical) - 1);
-            when Next_Unit =>
+            when Base.Next_Unit =>
                Scroll_Position (Window,
                                 Vertical,
                                 Scroll_Position (Window, Vertical) + 1);
-            when Previous_Page =>
+            when Base.Previous_Page =>
                Scroll_Position (Window,
                                 Vertical,
                                 Scroll_Position (Window, Vertical) -
                                 Scroll_Page_Size (Window, Vertical));
-            when Next_Page =>
+            when Base.Next_Page =>
                Scroll_Position (Window,
                                 Vertical,
                                 Scroll_Position (Window, Vertical) +
                                 Scroll_Page_Size (Window, Vertical));
-            when Thumb_Set =>
+            when Base.Thumb_Set =>
                Scroll_Position (Window,
                                 Vertical,
                                 Scroll_Drag_Position (Window, Vertical));
@@ -2394,10 +2497,9 @@ package body GWindows.Windows is
       ID      : in     Integer;
       Control : in     GWindows.Base.Pointer_To_Base_Window_Class)
    is
-      use GWindows.Base;
+      use type Base.Pointer_To_Base_Window_Class;
    begin
-      On_Command (GWindows.Base.Base_Window_Type (Window),
-                  Code, ID, Control);
+      Base.On_Command (Base.Base_Window_Type (Window), Code, ID, Control);
 
       if Control = null then
          if Code /= 1 then
@@ -2527,11 +2629,10 @@ package body GWindows.Windows is
       Width  : in     Integer;
       Height : in     Integer)
    is
-      use GWindows.Base;
    begin
       if Window.On_Size_Event /= null then
          Window.On_Size_Event
-           (Base_Window_Type'Class (Window), Width, Height);
+           (Base.Base_Window_Type'Class (Window), Width, Height);
       end if;
    end Fire_On_Size;
 
@@ -2555,10 +2656,9 @@ package body GWindows.Windows is
       Left   : in     Integer;
       Top    : in     Integer)
    is
-      use GWindows.Base;
    begin
       if Window.On_Move_Event /= null then
-         Window.On_Move_Event (Base_Window_Type'Class (Window), Left, Top);
+         Window.On_Move_Event (Base.Base_Window_Type'Class (Window), Left, Top);
       end if;
    end Fire_On_Move;
 
@@ -3552,7 +3652,7 @@ package body GWindows.Windows is
 
       function CreateDialog
         (hInst : GWindows.Types.Handle := GWindows.Internal.Current_hInstance;
-         Name  : access GChar_C        := C_Text (C_Text'First)'Access;
+         CName : access GChar_C        := C_Text (C_Text'First)'Access;
          hPrnt : GWindows.Types.Handle := GWindows.Base.Handle (Parent);
          PROC  : GWindows.Types.Lparam := 0;
          PARM  : GWindows.Types.Lparam := 0)
@@ -3597,6 +3697,7 @@ package body GWindows.Windows is
    procedure Dock_Children (Window : in Window_Type)
    is
       use GWindows.Base;
+      use type Types.Handle;
 
       Fill_Window    : Pointer_To_Base_Window_Class := null;
 
@@ -3870,9 +3971,14 @@ package body GWindows.Windows is
    procedure Background_Color (Window : in out Window_Type;
                                Color  : in     GWindows.Colors.Color_Type)
    is
+      use type GWindows.Base.Base_Window_Access;
    begin
       Window.Background_Color_Sys := False;
       Window.Background_Color     := Color;
+
+      if Window.MDI_Client_Window /= null then
+         Window.MDI_Client_Window_Background_Color (Color);
+      end if;
    end Background_Color;
 
    function Background_Color (Window : in Window_Type)

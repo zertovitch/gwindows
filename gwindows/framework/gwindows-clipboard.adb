@@ -288,10 +288,11 @@ package body GWindows.Clipboard is
 
    procedure Set_Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type;
-       Text  : in Unbounded_String)
+       Text  : in Ada.Strings.Unbounded.Unbounded_String)
    is
    begin
-      Set_Clipboard_Text (Owner => Owner, Text => To_String (Text));
+      Set_Clipboard_Text
+         (Owner => Owner, Text => Ada.Strings.Unbounded.To_String (Text));
    end Set_Clipboard_Text;
 
    function Get_Clipboard_Text

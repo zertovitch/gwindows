@@ -11,7 +11,7 @@
             <Text value="&quot;New Window Wizard...&quot;"></Text>
             <Visible value="False"></Visible>
         <Set_Standard_Font value="GWindows.Drawing_Objects.Default_GUI"></Set_Standard_Font>
-        </init>
+        <Title_Bar_Menu value="False"></Title_Bar_Menu></init>
     <controls>
         <control Direction="GWindows.Packing_Boxes.Vertical" Height="1" Left="0" Top="0" Width="1" name="New_Window_Box" type="GWindows.Packing_Boxes.Packing_Box_Type">
          <init>

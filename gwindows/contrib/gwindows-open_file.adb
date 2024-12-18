@@ -52,7 +52,7 @@ package body GWindows.Open_File is
    begin
       Create_Child (Win, Window, Dialog_Title, Top => 0, Left => 0,
                     Width => 200, Height => 400);
-      Center (Win);
+      Center (Win (Window));
       Create (Win.Files, Win, Top => 10, Left => 10, Width => 0, Height => 0);
       On_Size_Handler (Win, Do_Size'Unrestricted_Access);
       Create_Stock_Font (Font, Default_GUI);

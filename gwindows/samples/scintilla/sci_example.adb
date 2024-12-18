@@ -43,7 +43,7 @@ procedure Sci_Example is
      "exit for function generic goto " &
      "if in interface is limited loop " &
      "mod new not null of or others out overriding " &
-     "package pragma private procedure protected " &
+     "package parallel pragma private procedure protected " &
      "raise range record rem renames requeue return reverse " &
      "select separate some subtype synchronized " &
      "tagged task terminate then type until use when while with xor";
@@ -71,7 +71,7 @@ procedure Sci_Example is
    is
       use GWindows, GWindows.Colors;
       --
-      App_default_font      : constant GString := "Courier New";
+      App_default_font      : constant GString := "Consolas";
       App_default_font_size : constant := 10;
       --
       Editor : Scintilla_Type renames Scintilla_Type (Window);
@@ -245,7 +245,7 @@ begin
         " .\gwindows\redist directory to .\gwindows\samples ." &
         NL & NL &
         "This program is built as a" &
-        GWindows.GStrings.To_GString_From_String
+        To_GString_From_String
           (Integer'Image (GWindows.Types.Wparam'Size)) &
         " bit application.",
         Icon => Error_Icon);

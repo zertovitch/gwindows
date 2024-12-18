@@ -72,13 +72,13 @@ package body GNAVI_XML is
    is
       use DOM.Core;
 
-      C_Name : String := GWindows.GStrings.To_String (Child_Name);
+      C_Name : constant String := GWindows.GStrings.To_String (Child_Name);
 
-      NL : Node_List := Nodes.Child_Nodes (Parent_Node);
+      NL : constant Node_List := Nodes.Child_Nodes (Parent_Node);
    begin
       for NI in 1 .. Nodes.Length (NL) loop
          declare
-            N : Node := Nodes.Item (NL, NI - 1);
+            N : constant Node := Nodes.Item (NL, NI - 1);
          begin
             if Nodes.Node_Name (N) = C_Name then
                return N;

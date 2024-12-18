@@ -1,19 +1,17 @@
--- This is part of an attempt to bring life to GNAVI
--- GdM July 2012
-
 with "../../gwindows/gwindows.gpr";
 
 project GNAVI_IDE is
 
-   type Build_Mode_Type is
+   type GNAVI_Build_Mode_Type is
       ("Debug", "Fast", "Small");
-   Build_Mode : Build_Mode_Type := external ("Build_Mode", "Debug");
+   GNAVI_Build_Mode : GNAVI_Build_Mode_Type := external ("GNAVI_Build_Mode", "Debug");
 
    for Source_Dirs use ("src", "../xml", "../icg/src");
-   for Main use ("gnavi_ide.adb");
-   for Exec_Dir use "src"; -- it is supposed to be so given the datastore path
+   for Main use ("gnavi_ide.adb", "control_generator.adb", "test_load_project.adb");
+   for Exec_Dir use "src";  --  It is supposed to be so given the datastore path (???)
+   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
    
-   case Build_Mode is
+   case GNAVI_Build_Mode is
       when "Debug" =>
          for Object_Dir use "obj/debug";
       when "Fast" =>
@@ -23,27 +21,33 @@ project GNAVI_IDE is
    end case;
    
    package Builder is
-      for Default_Switches ("ada") use ("-j2");
+      --   "If -j0 is used, then the maximum number of simultaneous compilation
+      --    jobs is the number of core processors on the platform."
+      for Default_Switches ("ada") use ("-j0");
    end Builder;
 
+   Common_Compiler_Options := ("-gnatwkmprz", "-gnatyaAcefhiklnprtux", "-g");
+
    package Compiler is
-      case Build_Mode is
+      case GNAVI_Build_Mode is
          when "Debug" =>
-            for Default_Switches ("ada") use ("-gnat05", "-gnato", "-fno-inline", "-fstack-check", "-gnatwkmpz", "-fno-strict-aliasing", "-g", "-gnatVa", "-gnatyhiknp");
+            for Default_Switches ("ada") use Common_Compiler_Options & ("-gnatVa", "-gnato", "-fno-inline", "-fstack-check", "-fno-strict-aliasing");
          when "Fast" =>
-            for Default_Switches ("ada") use ("-gnat05", "-O2", "-gnatpn", "-gnatp", "-gnatwkmpz", "-fno-strict-aliasing", "-funroll-loops", "-fpeel-loops", "-ftracer", "-funswitch-loops", "-fweb", "-frename-registers");
+            for Default_Switches ("ada") use Common_Compiler_Options & ("-Ofast", "-gnatn");
          when "Small" =>
-            for Default_Switches ("ada") use ("-gnat05", "-Os", "-gnatp", "-gnatwkmpz", "-fno-strict-aliasing", "-fno-inline", "-march=i386", "-ffunction-sections", "-falign-jumps=0", "-falign-loops=0", "-falign-functions=0", "-mpreferred-stack-boundary=2");
+            for Default_Switches ("ada") use Common_Compiler_Options & ("-Os");
       end case;
    end Compiler;
+
+   Common_Linker_Options := ("-g", project'Project_Dir & "obj/gnavi_ide.coff", "-Xlinker", "--stack=0x2000000,0x20000");
+
+   package Linker is
+      for Default_Switches ("ada") use Common_Linker_Options;
+   end Linker;
    
    package Binder is
-      case Build_Mode is
-         when "Debug" =>
-            for Default_Switches ("ada") use ("-E");
-         when "Fast" =>
-         when "Small" =>
-      end case;
+      --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
+      for Default_Switches ("ada") use ("-Es");
    end Binder;
 
 end GNAVI_IDE;

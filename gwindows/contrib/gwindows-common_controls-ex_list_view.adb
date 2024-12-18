@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 2007 - 2022 Falk Maier                     --
+--                 Copyright (C) 2007 - 2024 Falk Maier                     --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -37,7 +37,7 @@
 with System;
 with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
-with Ada.Exceptions; use Ada.Exceptions;
+with Ada.Exceptions;
 
 with GWindows.Constants;
 with GWindows.GStrings;
@@ -73,6 +73,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    LVM_GETHEADER                : constant := LVM_FIRST + 31;
    Lvm_Settextcolor             : constant := LVM_FIRST + 36;
    LVM_SETTEXTBKCOLOR           : constant := LVM_FIRST + 38;
+   CDRF_NOTIFYPOSTPAINT         : constant := 16#00000010#;
    Cdrf_Notifyitemdraw          : constant := 16#00000020#;
    Cdds_Prepaint                : constant := 16#0001#;
    Cdds_Item                    : constant := 16#00010000#;
@@ -203,7 +204,8 @@ package body GWindows.Common_Controls.Ex_List_View is
    --  function Lparam_To_hditem is new Ada.Unchecked_Conversion (Types.Lparam, Hditem_pointer);
 
    --  function drawitem_To_Lparam is new Ada.Unchecked_Conversion (drawitem_pointer, Types.Lparam);
-   function Lparam_To_Drawitem is new Ada.Unchecked_Conversion (Types.Lparam, Drawitem_Pointer);
+   function Lparam_To_Drawitem is
+      new Ada.Unchecked_Conversion (Types.Lparam, Drawitem_Pointer);
 
    function Address_To_Lparam is new Ada.Unchecked_Conversion (System.Address, Types.Lparam);
 
@@ -253,14 +255,17 @@ package body GWindows.Common_Controls.Ex_List_View is
                               Column    : in     Natural;
                               Direction : in     Integer;
                               Enable    : in     Boolean := True);
-   procedure Ownerdraw_flag (Control : in out Ex_List_View_Control_Type;
+   procedure Ownerdraw_Flag (Control : in out Ex_List_View_Control_Type;
                              Column  : in     Natural;
-                             Enable  : in     Boolean := True);
-   procedure Draw_sorticon (Control   : in out Ex_List_View_Control_Type;
-                            Drawitem  : in     Drawitem_Type;
-                            Direction : in     Integer);
+                             Enable  : in     Boolean);
+   procedure Draw_Custom_Header_Part
+      (Control   : in out Ex_List_View_Control_Type;
+       Drawitem  : in     Drawitem_Type);
 
    -----------------------------------------------------------------------------------------
+
+   use Ada.Exceptions;
+
    function Get_Comctl_Version return Natural is
 
       function Getmodulehandle (LpModulname : in Types.LPTSTR) return Types.Handle;
@@ -332,19 +337,26 @@ package body GWindows.Common_Controls.Ex_List_View is
    -----------------------------------------------------------------------------------------
    procedure On_Create (Control : in out Ex_List_View_Control_Type) is
    begin
-      GWindows.Common_Controls.On_Create (Control => List_View_Control_Type (Control));
-      --  pen for sort
-      GWindows.Drawing_Objects.Create_Pen (Pen => Control.Sort_Object.Sort_Pen,
-                                           Style => GWindows.Drawing_Objects.Solid,
-                                           Width => 1,
-                                           Color => Sort_Icon_Pen_Color);
-      --  brush for sort
-      GWindows.Drawing_Objects.Create_Solid_Brush (Brush => Control.Sort_Object.Sort_Brush,
-                                                   Color => Sort_Icon_Brush_Color);
+      --  Call parent method
+      Common_Controls.On_Create
+         (Control => List_View_Control_Type (Control));
+      --  Pen for sort icon
+      Drawing_Objects.Create_Pen
+         (Pen   => Control.Sort_Object.Sort_Pen,
+          Style => Drawing_Objects.Solid,
+          Width => 1,
+          Color => Sort_Icon_Pen_Color);
+      --  Brush for sort icon
+      Drawing_Objects.Create_Solid_Brush
+         (Brush => Control.Sort_Object.Sort_Brush,
+          Color => Sort_Icon_Brush_Color);
 
-      --  comctlversion for drawing sorticons
+      --  We want to know the version of Common Controls, because,
+      --  for old versions, we will need to draw the sort icons ourselves.
       Control.Comctl_Version := Get_Comctl_Version;
-
+      Control.Need_Custom_Sort_Icons := Control.Comctl_Version <= 5;
+      Drawing_Objects.Create_Pen
+        (Control.Header.Separator_Pen, Drawing_Objects.Solid, 1, Light_Gray);
    end On_Create;
    -----------------------------------------------------------------------------------------
 
@@ -439,72 +451,117 @@ package body GWindows.Common_Controls.Ex_List_View is
                          Return_Value : in out GWindows.Types.Lresult)
    is
       use Interfaces.C;
-      WM_DRAWITEM                : constant := 16#002B#;
-      ODT_HEADER                 : constant := 100;
+      WM_DRAWITEM : constant := 16#002B#;
+      ODT_HEADER  : constant := 100;
    begin
       case message is
          when WM_DRAWITEM =>
-            --  ab comctl 6 direkt hdm_setitem rufen für sorticons
+            --  When Need_Custom_Sort_Icons = False, we use directly
+            --  the HDM_Setitem message with HDF_SORTUP or HDF_SORTDOWN
+            --  for displaying the sort icon.
             declare
                Drawitem : Drawitem_Pointer := null;
             begin
                Drawitem := Lparam_To_Drawitem (lParam);
-               if Drawitem /= null and then Drawitem.all.CtlType = ODT_HEADER then
-                  Draw_sorticon (Control, Drawitem.all, Control.Sort_Object.Sort_Direction);
+               if Drawitem /= null
+                  and then Drawitem.all.CtlType = ODT_HEADER  --  Owner-Drawn
+               then
+                  Draw_Custom_Header_Part (Control, Drawitem.all);
                end if;
                Return_Value := 1;
             end;
          when others =>
-            GWindows.Common_Controls.On_Message (List_View_Control_Type (Control), message, wParam, lParam, Return_Value);
+            --  Call parent method.
+            Common_Controls.On_Message
+              (List_View_Control_Type (Control),
+               message,
+               wParam,
+               lParam,
+               Return_Value);
       end case;
 
    end On_Message;
+
+   procedure Custom_Post_Columns_Header_Rectangle
+      (Window : in out Ex_List_View_Control_Type)
+   is
+      --  Draw the rectangle right to the last column's header.
+      Brush : Drawing_Objects.Brush_Type;
+      Canvas : Drawing.Canvas_Type;
+      use Drawing, Drawing_Objects;
+
+      function GetDC
+        (hwnd : Types.Handle := Base.Handle (Base.Base_Window_Type (Window)))
+        return Types.Handle;
+      pragma Import (StdCall, GetDC, "GetDC");
+
+      Header : Types.Handle;
+      Left   : Natural  := 0;
+      Right  : constant := 100_000;  --  Too large, on purpose (clipped).
+      Top    : constant := 0;
+      Bottom : constant := 1_000;    --  Too large, on purpose (clipped).
+   begin
+      for i in 1 .. Column_Count (Window) loop
+        Left := Left + Column_Width (Window, i - 1);
+      end loop;
+      --  The control has its own sub-control, the "header control".
+      Header := Types.To_Handle
+         (Sendmessage (Hwnd => Handle (Window), Umsg => LVM_GETHEADER));
+      Drawing.Handle (Canvas, GetDC (Header));
+      Create_Solid_Brush (Brush, Window.Header.Back_Color);
+      Fill_Rectangle (Canvas, (Left, Top, Right, Bottom), Brush);
+      Delete (Brush);
+      Exclude_Clipping_Area (Canvas, Left, Top, Right, Bottom);
+   end Custom_Post_Columns_Header_Rectangle;
+
    --------------------------------------------------------------------------------------------
-   procedure On_Notify (Window       : in out Ex_List_View_Control_Type;
-                        Message      : in     GWindows.Base.Pointer_To_Notification;
-                        Control      : in     GWindows.Base.Pointer_To_Base_Window_Class;
-                        Return_Value : in out GWindows.Types.Lresult)
+   procedure On_Notify
+      (Window       : in out Ex_List_View_Control_Type;
+       Message      : in     Base.Pointer_To_Notification;
+       Control      : in     Base.Pointer_To_Base_Window_Class;
+       Return_Value : in out Types.Lresult)
    is
       pragma Warnings (Off, Return_Value);
 
-      Nm_Customdraw   : constant := -12;
+      Nm_Customdraw      : constant := -12;
+      Lvcd_Ptr           : Pointer_To_Nmlvcustomdraw_Type;
+      Nmlistview_Pointer : Pointer_To_Nmlistview_Type;
+      Item               : LVITEM;
+
+      use type Interfaces.C.long, Types.Lresult;
+
    begin
-      --  customdraw subitem
+      if Message.Code = Nm_Customdraw then
+         Lvcd_Ptr := Message_To_Nmlvcustomdraw_Pointer (Message);
+         --  Here we have possible common Custom Draw operations:
+         if Lvcd_Ptr.Nmcd.Dwdrawstage = Cdds_Prepaint and then
+           Window.Want_Custom_Header
+         then
+            Custom_Post_Columns_Header_Rectangle (Window);
+            Return_Value :=
+               Return_Value or Cdrf_Notifyitemdraw or CDRF_NOTIFYPOSTPAINT;
+         end if;
+      end if;
+      --
       if Message.Code = Nm_Customdraw and then
         Window.Color_Mode = Subitem
       then
-         declare
-            Lvcd_Ptr : constant Pointer_To_Nmlvcustomdraw_Type :=
-              Message_To_Nmlvcustomdraw_Pointer (Message);
-         begin
-            Redraw_subitem (Lvcd_Ptr, Window, Return_Value);
-         end;
-         --  customdraw item
+         --  Custom draw subitem
+         Redraw_subitem (Lvcd_Ptr, Window, Return_Value);
       elsif Message.Code = Nm_Customdraw and then
         Window.Color_Mode = Item_Alternately
       then
-         declare
-            Lvcd_Ptr : constant Pointer_To_Nmlvcustomdraw_Type :=
-              Message_To_Nmlvcustomdraw_Pointer (Message);
-         begin
-            Redraw_item (Lvcd_Ptr, Window, Return_Value);
-         end;
-         --  header click
+         --  Custom draw item (alternate colors)
+         Redraw_item (Lvcd_Ptr, Window, Return_Value);
       elsif Message.Code = Nm_Header_Click then
-         declare
-            Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type :=
-              Message_To_Nmlistview_Pointer (Message);
-         begin
-            On_Header_Click (Window,
-                             Integer (Nmlistview_Pointer.Isubitem));
-         end;
+         --  Header click
+         Nmlistview_Pointer := Message_To_Nmlistview_Pointer (Message);
+         On_Header_Click (Window,
+                          Integer (Nmlistview_Pointer.Isubitem));
       elsif Message.Code = LVN_INSERTITEM then
-         declare
-            Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type :=
-               Message_To_Nmlistview_Pointer (Message);
-            Item : LVITEM;
          begin
-            --  setitem
+            Nmlistview_Pointer := Message_To_Nmlistview_Pointer (Message);
+            --  Set item
             Item.Mask   := LVIF_PARAM;
             Item.Item   := Nmlistview_Pointer.Iitem;
             Item.lParam := Internal_To_Lparam (Create_Internal (Window));
@@ -517,20 +574,16 @@ package body GWindows.Common_Controls.Ex_List_View is
                null;
          end;
       elsif Message.Code = LVN_DELETEITEM then
-         declare
-            Nmlistview_Pointer : constant Pointer_To_Nmlistview_Type :=
-               Message_To_Nmlistview_Pointer (Message);
-         begin
-            if Window.Color_Mode = Item_Alternately then
-               --  redraw on items
-              Sendmessage_proc (Hwnd => Handle (Window),
-                                Umsg => LVM_REDRAWITEMS,
-                                Wparam => GWindows.Types.Wparam (Nmlistview_Pointer.Iitem),
-                                Lparam => GWindows.Types.Lparam (Item_Count (Window) - 1));
-            end if;
-         end;
+         Nmlistview_Pointer := Message_To_Nmlistview_Pointer (Message);
+         if Window.Color_Mode = Item_Alternately then
+            --  Redraw on items
+            Sendmessage_proc (Hwnd => Handle (Window),
+                              Umsg => LVM_REDRAWITEMS,
+                              Wparam => Types.Wparam (Nmlistview_Pointer.Iitem),
+                              Lparam => Types.Lparam (Item_Count (Window) - 1));
+         end if;
       else
-         GWindows.Common_Controls.On_Notify
+         Common_Controls.On_Notify
             (List_View_Control_Type (Window), Message, Control, Return_Value);
       end if;
 
@@ -571,6 +624,63 @@ package body GWindows.Common_Controls.Ex_List_View is
       Delete_Item (List_View_Control_Type (Control), Index);  --  Call parent method
    end Delete_Item;
 
+   procedure Set_Column (Control : in out Ex_List_View_Control_Type;
+                         Text    : in     GString;
+                         Index   : in     Integer;
+                         Width   : in     Integer)
+   is
+   begin
+      if Control.Want_Custom_Header then
+         Freeze (Control);
+      end if;
+      --  Call parent method:
+      Set_Column (List_View_Control_Type (Control), Text, Index, Width);
+      --  If relevant, repaint the rectangle right to the last column header:
+      if Control.Want_Custom_Header then
+         Thaw (Control);
+         Custom_Post_Columns_Header_Rectangle (Control);
+         Redraw (Control);
+      end if;
+   end Set_Column;
+
+   procedure Insert_Column (Control : in out Ex_List_View_Control_Type;
+                            Text    : in     GString;
+                            Index   : in     Integer;
+                            Width   : in     Integer)
+   is
+   begin
+      if Control.Want_Custom_Header then
+         Freeze (Control);
+      end if;
+      --  Call parent method:
+      Insert_Column (List_View_Control_Type (Control), Text, Index, Width);
+      --  If relevant, repaint the rectangle right to the last column header:
+      if Control.Want_Custom_Header then
+         Thaw (Control);
+         Custom_Post_Columns_Header_Rectangle (Control);
+         Redraw (Control);
+      end if;
+   end Insert_Column;
+
+   procedure Set_Column_Width
+     (Control : in out Ex_List_View_Control_Type;
+      Index   : in     Integer;
+      Width   : in     Integer)
+   is
+   begin
+      if Control.Want_Custom_Header then
+         Freeze (Control);
+      end if;
+      --  Call parent method:
+      Set_Column_Width (List_View_Control_Type (Control), Index, Width);
+      --  If relevant, repaint the rectangle right to the last column header:
+      if Control.Want_Custom_Header then
+         Thaw (Control);
+         Custom_Post_Columns_Header_Rectangle (Control);
+         Redraw (Control);
+      end if;
+   end Set_Column_Width;
+
    procedure Clear (Control : in out Ex_List_View_Control_Type) is
    begin
       Destroy_All_Rows (Control);
@@ -579,12 +689,14 @@ package body GWindows.Common_Controls.Ex_List_View is
    -----------------------------------------------------------------------------------------
    procedure Redraw_subitem (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                              Control      : in out Ex_List_View_Control_Type;
-                             Return_Value : in out GWindows.Types.Lresult) is
+                             Return_Value : in out GWindows.Types.Lresult)
+   is
+      use type Types.Lresult;
    begin
       --  set color in redraw according to color_mode
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
-            Return_Value := Cdrf_Notifyitemdraw;
+            Return_Value := Return_Value or Cdrf_Notifyitemdraw;
          when Interfaces.C.long (Cdds_Itemprepaint) =>
             Return_Value := Cdrf_Notifysubitemdraw;
          when Interfaces.C.long (Cdds_Itemprepaint + Cdds_Subitem) =>
@@ -601,7 +713,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                then
                   Lvcd_Ptr.Clrtext := internal.Colors (i_color).Textcolor;
                else
-                  Lvcd_Ptr.Clrtext := Control.Control_Textcolor;
+                  Lvcd_Ptr.Clrtext := Control.List_Text_Color;
                end if;
                if internal /= null and then
                  internal.Colors /= null and then
@@ -610,7 +722,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                then
                   Lvcd_Ptr.Clrtextbk := internal.Colors (i_color).Backcolor;
                else
-                  Lvcd_Ptr.Clrtextbk := Control.Control_Backcolor;
+                  Lvcd_Ptr.Clrtextbk := Control.List_Back_Color;
                end if;
             end;
             Return_Value := Cdrf_Newfont;
@@ -621,14 +733,16 @@ package body GWindows.Common_Controls.Ex_List_View is
    -----------------------------------------------------------------------------------------
    procedure Redraw_item (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                           Control      : in out Ex_List_View_Control_Type;
-                          Return_Value : in out GWindows.Types.Lresult) is
+                          Return_Value : in out GWindows.Types.Lresult)
+   is
+      use type Types.Lresult;
    begin
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
-            Return_Value := Cdrf_Notifyitemdraw;
+            Return_Value := Return_Value or Cdrf_Notifyitemdraw;
          when Interfaces.C.long (Cdds_Itemprepaint) =>
             Return_Value := Cdrf_Notifysubitemdraw;
-            Lvcd_Ptr.Clrtext := Control.Control_Textcolor;
+            Lvcd_Ptr.Clrtext := Control.List_Text_Color;
             if Integer (Lvcd_Ptr.Nmcd.Dwitemspec) mod 2 = 0 then
                Lvcd_Ptr.Clrtextbk := Control.Alt_Color1;
             else
@@ -651,99 +765,140 @@ package body GWindows.Common_Controls.Ex_List_View is
           Show_Icon => True);
    end On_Header_Click;
    ----------------------------------------------------------------------------------------------------
-   procedure Draw_sorticon (Control   : in out Ex_List_View_Control_Type;
-                            Drawitem : in Drawitem_Type;
-                            Direction : in Integer) is
-      Canvas : GWindows.Drawing.Canvas_Type;
-      Paint_Left : Integer;
-      Max_Width : Integer;
-      Columntext : constant GString := Column_Text (Control => Control, Index => Integer (Drawitem.CtlItemID));
+   procedure Draw_Custom_Header_Part
+      (Control   : in out Ex_List_View_Control_Type;
+       Drawitem  : in     Drawitem_Type)
+   is
+      Canvas : Drawing.Canvas_Type;
+      Paint_Left, Max_Width, Direction : Integer;
+      Columntext : constant GString := Column_Text (Control, Integer (Drawitem.CtlItemID));
       Columntext_Last : Natural := Columntext'Last;
-      Size : GWindows.Types.Size_Type;
+      Size : Types.Size_Type;
       Icon_Width, Icon_Height : Natural;
+
+      use Drawing, Drawing_Objects;
+
+      Header_Part_Rect : Types.Rectangle_Type;
+
+      procedure Paint_Triangle is
+         Pt_Array  : Types.Point_Array_Type (1 .. 3);
+         Pt_Top    : constant Natural := Icon_Height;
+         Pt_Bottom : constant Natural := Header_Part_Rect.Bottom - Pt_Top - 1;
+         Pt_Left   : constant Natural := Icon_Width;
+         Pt_Right  : constant Natural := 2 * Icon_Width;
+      begin
+         if Direction /= 0 then
+            Select_Object (Canvas, Control.Sort_Object.Sort_Pen);
+            Select_Object (Canvas, Control.Sort_Object.Sort_Brush);
+
+            if Icon_Height > 5 then
+               Icon_Height := Icon_Height - 1;
+            end if;
+            Pt_Array (1).Y := Pt_Top;
+            Pt_Array (2).X := Pt_Right + Paint_Left;
+            if Direction = 1 then
+               --  Up
+               Pt_Array (1).X := Pt_Left + Paint_Left + Natural (Icon_Width / 2);
+               Pt_Array (2).Y := Pt_Bottom;
+               Pt_Array (3).X := Pt_Left + Paint_Left;
+            else
+               --  Down
+               Pt_Array (1).X := Pt_Left + Paint_Left;
+               Pt_Array (2).Y := Pt_Top;
+               Pt_Array (3).X := Pt_Left + Paint_Left + Natural (Icon_Width / 2);
+            end if;
+            Pt_Array (3).Y := Pt_Bottom;
+
+            Polygon (Canvas, Pt_Array);
+         end if;
+      end Paint_Triangle;
+
+      Brush : Drawing_Objects.Brush_Type;
+      GUI_Font : Drawing_Objects.Font_Type;
+      Sep_X, Sep_Top, Sep_Bottom : Integer;
+
    begin
-      GWindows.Drawing.Handle (Canvas, Drawitem.Hdc);
+      if Integer (Drawitem.CtlItemID) = Control.Sort_Object.Sort_Column then
+         Direction := Control.Sort_Object.Sort_Direction;
+      else
+         Direction := 0;
+      end if;
+      Drawing.Handle (Canvas, Drawitem.Hdc);
+      Header_Part_Rect := Drawitem.RcItem;
+      Sep_X      := Header_Part_Rect.Right - 1;
+      Sep_Top    := Header_Part_Rect.Top + 1;
+      Sep_Bottom := Header_Part_Rect.Bottom - 1;
 
-      --  get left for paint
-      Paint_Left := Drawitem.RcItem.Left + 1;
+      --  Fill the whole header part's rectangle.
+      Create_Solid_Brush (Brush, Control.Header.Back_Color);
+      Fill_Rectangle (Canvas, Header_Part_Rect, Brush);
+      Delete (Brush);
 
-      Icon_Height := Natural (Drawitem.RcItem.Bottom / 3);
+      --  Get left border for paint
+      Paint_Left := Header_Part_Rect.Left + 1;
+
+      Icon_Height := Natural (Header_Part_Rect.Bottom / 3);
       Icon_Width := Icon_Height;
       if Icon_Width mod 2 > 0 then
          Icon_Width := Icon_Width + 1;
       end if;
 
-      Max_Width := Drawitem.RcItem.Right - Drawitem.RcItem.Left - (4 * Icon_Width);
+      Max_Width :=
+         Header_Part_Rect.Right - Header_Part_Rect.Left - (4 * Icon_Width);
 
       if Max_Width < 0 then
          return;
       end if;
 
-      --  check string
+      --  Check string
       while Columntext_Last > 0 loop
          if Columntext_Last < Columntext'Last then
-            Size := GWindows.Drawing.Text_Output_Size
-               (Canvas => Canvas,
-                Text => Columntext (1 .. Columntext_Last) & "...");
+            Size :=
+               Drawing.Text_Output_Size
+                  (Canvas => Canvas,
+                   Text   => Columntext (1 .. Columntext_Last) & "...");
          else
-            Size := GWindows.Drawing.Text_Output_Size (Canvas => Canvas,
-                                                       Text => Columntext);
+            Size :=
+               Drawing.Text_Output_Size
+                  (Canvas => Canvas,
+                   Text   => Columntext);
          end if;
-         if Size.Width <= Max_Width then
-            exit;
-         end if;
+         exit when Size.Width <= Max_Width;
          Columntext_Last := Columntext_Last - 1;
       end loop;
 
-      --  put the string
+      --  Put the string
+      Background_Color (Canvas, Control.Header.Back_Color);
+      Text_Color (Canvas, Control.Header.Text_Color);
+      if Control.Header.Force_Default_GUI_Font then
+         Create_Stock_Font (GUI_Font, Default_GUI);
+         Select_Object (Canvas, GUI_Font);
+      end if;
+      Vertical_Text_Alignment (Canvas, Top);
+      Horizontal_Text_Alignment (Canvas, Left);
       if Columntext_Last = Columntext'Last then
-         GWindows.Drawing.Put (Canvas => Canvas,
-                               X => Paint_Left + (3 * Icon_Width),
-                               Y => 2,
-                               Text => Columntext);
+         Put (Canvas => Canvas,
+              X      => Paint_Left + (3 * Icon_Width),
+              Y      => Control.Header.Text_Top_Margin,
+              Text   => Columntext);
       elsif Columntext_Last > 0 then
-         GWindows.Drawing.Put (Canvas => Canvas,
-                               X => Paint_Left + (3 * Icon_Width),
-                               Y => 2,
-                               Text => Columntext (1 .. Columntext_Last) & "...");
+         Put (Canvas => Canvas,
+              X      => Paint_Left + (3 * Icon_Width),
+              Y      => Control.Header.Text_Top_Margin,
+              Text   => Columntext (1 .. Columntext_Last) & "...");
       end if;
 
-      --  paint the polygon
-      GWindows.Drawing.Select_Object (Canvas => Canvas, Object => Control.Sort_Object.Sort_Pen);
-      GWindows.Drawing.Select_Object (Canvas => Canvas, Object => Control.Sort_Object.Sort_Brush);
+      if Control.Header.Force_Default_GUI_Font then
+        Delete (GUI_Font);
+      end if;
 
-      declare
-         Pt_Array  : GWindows.Types.Point_Array_Type (1 .. 3);
-         Pt_Top    : constant Natural := Icon_Height;
-         Pt_Bottom : constant Natural := Drawitem.RcItem.Bottom - Icon_Height - 1;
-         Pt_Left   : constant Natural := Icon_Width;
-         Pt_Right  : constant Natural := 2 * Icon_Width;
-      begin
-         if Icon_Height > 5 then
-            Icon_Height := Icon_Height - 1;
-         end if;
-         --  up
-         if Direction = 1 then
-            Pt_Array (1).X := Pt_Left + Paint_Left + Natural (Icon_Width / 2);
-            Pt_Array (1).Y := Pt_Top;
-            Pt_Array (2).X := Pt_Right + Paint_Left;
-            Pt_Array (2).Y := Pt_Bottom;
-            Pt_Array (3).X := Pt_Left + Paint_Left;
-            Pt_Array (3).Y := Pt_Bottom;
-         else
-            --  down
-            Pt_Array (1).X := Pt_Left + Paint_Left;
-            Pt_Array (1).Y := Pt_Top;
-            Pt_Array (2).X := Pt_Right + Paint_Left;
-            Pt_Array (2).Y := Pt_Top;
-            Pt_Array (3).X := Pt_Left + Paint_Left + Natural (Icon_Width / 2);
-            Pt_Array (3).Y := Pt_Bottom;
-         end if;
+      Paint_Triangle;
 
-         GWindows.Drawing.Polygon (Canvas => Canvas, Vertices => Pt_Array);
-      end;
+      --  Draw the separator line on the right.
+      Select_Object (Canvas, Control.Header.Separator_Pen);
+      Line (Canvas, Sep_X, Sep_Top, Sep_X, Sep_Bottom);
 
-   end Draw_sorticon;
+   end Draw_Custom_Header_Part;
 
    procedure Header_sorticon (Control   : in out Ex_List_View_Control_Type;
                               Column    : in Natural;
@@ -811,19 +966,21 @@ package body GWindows.Common_Controls.Ex_List_View is
 
    end Header_sorticon;
 
-   procedure Ownerdraw_flag (Control : in out Ex_List_View_Control_Type;
+   procedure Ownerdraw_Flag (Control : in out Ex_List_View_Control_Type;
                              Column  : in Natural;
-                             Enable  : in Boolean := True) is
+                             Enable  : in Boolean)
+   is
       use Interfaces.C;
       Header : GWindows.Types.Handle;
       Hd : aliased Hditem_type;
       L_Umsg : Interfaces.C.int;
    begin
-      --  get the header
-      Header := GWindows.Types.To_Handle (Sendmessage (Hwnd   => Handle (Control),
-                                                       Umsg   => LVM_GETHEADER,
-                                                       Wparam => 0,
-                                                       Lparam => 0));
+      --  Get the header
+      Header :=
+         GWindows.Types.To_Handle (Sendmessage (Hwnd   => Handle (Control),
+                                                Umsg   => LVM_GETHEADER,
+                                                Wparam => 0,
+                                                Lparam => 0));
       Hd.Mask := HDI_FORMAT;
       Hd.Fmt := HDF_string;
       if Enable then
@@ -842,7 +999,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                         Wparam => GWindows.Types.To_Wparam (Column),
                         Lparam => Hditem_To_Lparam (Hd'Unchecked_Access));
 
-   end Ownerdraw_flag;
+   end Ownerdraw_Flag;
    ----------------------------------------------------------------------------------------------------
    ----------------------------------------------------------------------------------------------------
    ----------------------------------------------------------------------------------------------------
@@ -865,47 +1022,53 @@ package body GWindows.Common_Controls.Ex_List_View is
    ----------------------------------------------------------------------------------------------------
    procedure Autosize (Control : in out Ex_List_View_Control_Type;
                        Column  : in Natural;
-                       Sizing  : in Autosize_Type := Headersize) is
-
+                       Sizing  : in Autosize_Type := Headersize)
+   is
       LVSCW_AUTOSIZE            : constant := -1;
       LVSCW_AUTOSIZE_USEHEADER  : constant := -2;
    begin
       case Sizing is
          when Columnsize =>
-            Sendmessage_proc (Hwnd   => Handle (Control),
-                              Umsg   => LVM_SETCOLUMNWIDTH,
-                              Wparam => GWindows.Types.To_Wparam (Column),
-                              Lparam => GWindows.Types.To_Lparam (LVSCW_AUTOSIZE));
+            Sendmessage_proc
+               (Hwnd   => Handle (Control),
+                Umsg   => LVM_SETCOLUMNWIDTH,
+                Wparam => GWindows.Types.To_Wparam (Column),
+                Lparam => GWindows.Types.To_Lparam (LVSCW_AUTOSIZE));
          when Headersize =>
-            if Control.Sort_Object.Sort_Column = Column and then
-              Control.Sort_Object.Icon_Visible
+            if Control.Sort_Object.Sort_Column = Column
+               and then Control.Need_Custom_Sort_Icons
+               and then Control.Sort_Object.Icon_Visible
             then
                --  Width manually calculated for including the sort icon.
                declare
-                  Canvas : GWindows.Drawing.Canvas_Type;
-                  Font : GWindows.Drawing_Objects.Font_Type;
-                  Size : GWindows.Types.Size_Type;
+                  Canvas : Drawing.Canvas_Type;
+                  Font   : Drawing_Objects.Font_Type;
+                  Size   : Types.Size_Type;
                   Offset : Natural;
                begin
                   Get_Canvas (Control, Canvas);
                   Get_Font (Control, Font);
                   GWindows.Drawing.Select_Object (Canvas, Font);
-                  Size := GWindows.Drawing.Text_Output_Size (Canvas, Column_Text (Control, Column));
+                  Size :=
+                     Drawing.Text_Output_Size
+                        (Canvas, Column_Text (Control, Column));
                   Offset := (Size.Height + 4) / 3;
                   if Offset mod 2 > 0 then
                      Offset := Offset + 1;
                   end if;
                   Offset := Offset * 4;
-                  Sendmessage_proc (Hwnd => Handle (Control),
-                                    Umsg => LVM_SETCOLUMNWIDTH,
-                                    Wparam => GWindows.Types.To_Wparam (Column),
-                                    Lparam  => GWindows.Types.To_Lparam (Size.Width + Offset));
+                  Sendmessage_proc
+                     (Hwnd    => Handle (Control),
+                      Umsg    => LVM_SETCOLUMNWIDTH,
+                      Wparam  => Types.To_Wparam (Column),
+                      Lparam  => Types.To_Lparam (Size.Width + Offset));
                end;
             else
-               Sendmessage_proc (Hwnd   => Handle (Control),
-                                 Umsg   => LVM_SETCOLUMNWIDTH,
-                                 Wparam => GWindows.Types.To_Wparam (Column),
-                                 Lparam => GWindows.Types.To_Lparam (LVSCW_AUTOSIZE_USEHEADER));
+               Sendmessage_proc
+                  (Hwnd   => Handle (Control),
+                   Umsg   => LVM_SETCOLUMNWIDTH,
+                   Wparam => Types.To_Wparam (Column),
+                   Lparam => Types.To_Lparam (LVSCW_AUTOSIZE_USEHEADER));
             end if;
       end case;
    end Autosize;
@@ -923,7 +1086,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                         Wparam => 0,
                         Lparam => Color_To_Lparam (Color));
       Control.Color_Mode := All_Items;
-      Control.Control_Textcolor := Color;
+      Control.List_Text_Color := Color;
    end Text_Color;
    ----------------------------------------------------------------------------------------------------
    procedure Back_Color (Control : in  out Ex_List_View_Control_Type;
@@ -934,17 +1097,40 @@ package body GWindows.Common_Controls.Ex_List_View is
                         Wparam => 0,
                         Lparam => Color_To_Lparam (Color));
       Control.Color_Mode := All_Items;
-      Control.Control_Backcolor := Color;
+      Control.List_Back_Color := Color;
    end Back_Color;
    ----------------------------------------------------------------------------------------------------
    procedure Control_Back_Color (Control : in  out  Ex_List_View_Control_Type;
-                                 Color   : in     Color_Type) is
+                                 Color   : in       Color_Type) is
    begin
       Sendmessage_proc (Hwnd => Handle (Control),
                         Umsg => LVM_SETBKCOLOR,
                         Wparam => 0,
                         Lparam => Color_To_Lparam (Color));
    end Control_Back_Color;
+   ----------------------------------------------------------------------------------------------------
+   procedure Customize_Header
+      (Control                : in out Ex_List_View_Control_Type;
+       Text_Color             : in     Color_Type;
+       Back_Color             : in     Color_Type;
+       Separator_Color        : in     Color_Type;
+       Text_Top_Margin        : in     Natural := Default_Header_Text_Top_Margin;
+       Force_Default_GUI_Font : in     Boolean := False)
+   is
+   begin
+      Control.Want_Custom_Header := True;
+      --
+      Control.Header.Text_Color             := Text_Color;
+      Control.Header.Back_Color             := Back_Color;
+      Control.Header.Text_Top_Margin        := Text_Top_Margin;
+      Control.Header.Force_Default_GUI_Font := Force_Default_GUI_Font;
+      Drawing_Objects.Create_Pen
+        (Control.Header.Separator_Pen, Drawing_Objects.Solid, 1, Separator_Color);
+      --
+      for C in 1 .. Control.Column_Count loop
+         Ownerdraw_Flag (Control, C - 1, True);
+      end loop;
+   end Customize_Header;
    ----------------------------------------------------------------------------------------------------
    procedure Set_Alternately_Colors (Control : in out Ex_List_View_Control_Type;
                                      Color1  : in     Color_Type;
@@ -964,11 +1150,11 @@ package body GWindows.Common_Controls.Ex_List_View is
       new_colors : Internal_Color_Type;
    begin
       if Column_Count (Control) = 0 then
-         Ada.Exceptions.Raise_Exception (Elv_Exception'Identity, "No columns!");
+         Raise_Exception (Elv_Exception'Identity, "No columns!");
       end if;
 
       if Index < 0 and Sub_Index < 0 then
-         Ada.Exceptions.Raise_Exception (Elv_Exception'Identity, "No index/subindex!");
+         Raise_Exception (Elv_Exception'Identity, "No index/subindex!");
       end if;
 
       new_colors.Textcolor := Text_Color;
@@ -1296,10 +1482,14 @@ package body GWindows.Common_Controls.Ex_List_View is
             else
                if Control.Sort_Object.Sort_Column >= 0 then
                   --  Reset the Icon:
-                  if Control.Comctl_Version <= 5 then
-                     Ownerdraw_flag (Control, Control.Sort_Object.Sort_Column, False);
+                  if Control.Need_Custom_Sort_Icons then
+                     Ownerdraw_Flag
+                       (Control,
+                        Control.Sort_Object.Sort_Column,
+                        Control.Want_Custom_Header);
                   else
-                     Header_sorticon (Control, Control.Sort_Object.Sort_Column, 0, False);
+                     Header_sorticon
+                        (Control, Control.Sort_Object.Sort_Column, 0, False);
                   end if;
                end if;
 
@@ -1331,10 +1521,11 @@ package body GWindows.Common_Controls.Ex_List_View is
 
       --  Draw the sort icon:
       if Show_Icon then
-         if Control.Comctl_Version <= 5 then
-            Ownerdraw_flag (Control, Column, True);
+         if Control.Need_Custom_Sort_Icons then
+            Ownerdraw_Flag (Control, Column, True);
          else
-            Header_sorticon (Control, Column, Control.Sort_Object.Sort_Direction, True);
+            Header_sorticon
+               (Control, Column, Control.Sort_Object.Sort_Direction, True);
          end if;
       end if;
 

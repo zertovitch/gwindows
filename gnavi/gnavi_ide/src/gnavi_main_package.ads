@@ -8,7 +8,8 @@ package GNAVI_Main_Package is
    --  GNAVI_Main Specs
    -------------------------------------------------------------------------
 
-   type GNAVI_Main_Type is new GWindows.Windows.MDI.MDI_Main_Window_Type with
+   type GNAVI_Main_Type is
+     new GWindows.Windows.MDI.MDI_Main_Window_Type with
       record
          --  GNAVI: Controls
          Top_Tools : aliased GWindows.Common_Controls.Toolbar_Control_Type;
@@ -24,7 +25,7 @@ package GNAVI_Main_Package is
 
    procedure On_Create (Window : in out GNAVI_Main_Type);
 
-   -- On_Menu_Select added by GdM, July 2012
+   --  On_Menu_Select added by GdM, July 2012
    procedure On_Menu_Select (Window : in out GNAVI_Main_Type;
                              Item   : in     Integer);
 
@@ -53,6 +54,10 @@ package GNAVI_Main_Package is
    procedure Do_Close_GNAVI_Project
      (Window : in out GWindows.Base.Base_Window_Type'Class);
 
+   procedure Do_Drop_GNAVI_Project
+     (Window     : in out GWindows.Base.Base_Window_Type'Class;
+      File_Names : in     GWindows.Windows.Array_Of_File_Names);
+
    procedure Do_Compile
      (Window : in out GWindows.Base.Base_Window_Type'Class);
 
@@ -63,7 +68,7 @@ package GNAVI_Main_Package is
      (Window : in out GWindows.Base.Base_Window_Type'Class;
       Item   : in     Integer;
       Kind   : in     GWindows.Windows.Hover_Item_Type);
-
+      
    procedure Do_Toolbar_Select
      (Window : in out GWindows.Base.Base_Window_Type'Class;
       Item   : in     Integer);

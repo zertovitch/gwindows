@@ -137,7 +137,7 @@ package body Expr is
       ----------------
 
       procedure Next_Token is
-         use Ada.Strings, Ada.Characters.Handling;
+         use Ada.Characters.Handling;
          I : Natural;
       begin
          --  Skip blanks

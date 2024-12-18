@@ -535,7 +535,6 @@ package body Filter is
       return String
    is
       pragma Unreferenced (T);
-      use type Strings.Maps.Character_Set;
 
       Result : String (S'Range);
       R      : Natural := 0;

@@ -6,9 +6,8 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                             $Revision: 1.5 $
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -22,7 +21,9 @@
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
 -- More information about GNAVI and the most current version can            --
--- be located on the web at http://www.gnavi.org                            --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -35,8 +36,9 @@ with GNAVI_ICG.Application;
 with GNAVI_ICG.Windows;
 
 with GNAT.Case_Util;
+with GNAT.Directory_Operations;
 
-with Templates;
+with GNAVI_Templates;
 
 package body GNAVI_ICG is
 
@@ -68,21 +70,54 @@ package body GNAVI_ICG is
       GNAVI_ICG.Windows.Update_Windows (Project);
    end Update_Project;
 
+   procedure Generate_All
+      (XML_File_Name       : String;
+       Templates_Directory : String := "")
+   is
+      Prj : GNAVI_Project_Type;
+   begin
+      if Templates_Directory /= "" then
+         GNAVI_Templates.Template_Dir (Templates_Directory);
+      end if;
+
+      GNAT.Directory_Operations.Change_Dir
+        (GNAT.Directory_Operations.Dir_Name (XML_File_Name));
+
+      GNAVI_ICG.Load_Project
+        (Prj,
+         GNAT.Directory_Operations.Base_Name (XML_File_Name));
+      GNAVI_ICG.Update_Project (Prj);
+      GNAVI_ICG.Close_Project (Prj);
+
+   end Generate_All;
+
    function Create_Params (Object_Node : DOM.Core.Element) return String is
       use DOM.Core;
 
-      Indent : String := "      ";
+      Indent : constant String := "      ";
 
-      Attrs     : DOM.Core.Named_Node_Map := Nodes.Attributes (Object_Node);
+      Attrs     : constant DOM.Core.Named_Node_Map := Nodes.Attributes (Object_Node);
 
       Param_Num : Natural := 0;
+
+      function To_Mixed (A : String) return String is
+      --  The function variant of To_Mixed exists only
+      --  in "recent" versions of GNAT.Case_Util.
+         Result : String := A;
+      begin
+         GNAT.Case_Util.To_Mixed (Result);
+         return Result;
+      end To_Mixed;
+
+      function GWindows_Casing (S : String) return String is
+      (if S = "id" then "ID" elsif S = "progid" then "ProgID" else To_Mixed (S));
 
       function Do_Params (S : String) return String;
       --  Parse out parameters
 
       function Do_Params (S : String) return String is
-         N : String := Nodes.Node_Name (Nodes.Item (Attrs, Param_Num));
-         V : String := Nodes.Node_Value (Nodes.Item (Attrs, Param_Num));
+         N :          String := Nodes.Node_Name (Nodes.Item (Attrs, Param_Num));
+         V : constant String := Nodes.Node_Value (Nodes.Item (Attrs, Param_Num));
       begin
          GNAT.Case_Util.To_Lower (N);
 
@@ -97,8 +132,8 @@ package body GNAVI_ICG is
          end if;
 
          declare
-            NS : String := S & "," & Templates.NL &
-              Indent & N & " => " & V;
+            NS : constant String := S & "," & GNAVI_Templates.NL &
+              Indent & GWindows_Casing (N) & " => " & V;
          begin
             if Param_Num = Nodes.Length (Attrs) then
                return NS;

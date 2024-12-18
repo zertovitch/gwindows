@@ -6,9 +6,8 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---                             $Revision: 1.3 $
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -22,7 +21,9 @@
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
 -- More information about GNAVI and the most current version can            --
--- be located on the web at http://www.gnavi.org                            --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -57,6 +58,10 @@ package GNAVI_ICG is
    GNAVI_Gen_App_Withs : Boolean := True;
    --  If set to true the application.adb will always contain a 'with'
    --  for every window in project
+
+   procedure Generate_All
+      (XML_File_Name       : String;
+       Templates_Directory : String := "");
 
 private
 

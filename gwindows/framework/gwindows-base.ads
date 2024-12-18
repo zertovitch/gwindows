@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -124,6 +124,9 @@ package GWindows.Base is
                     State  : in     Boolean          := True);
    function Group (Window : in Base_Window_Type) return Boolean;
    --  Start of control group property
+
+   procedure Title_Bar_Menu (Window : in out Base_Window_Type;
+                             State  : in     Boolean     := True);
 
    procedure Keyboard_Support (Window : in out Base_Window_Type;
                                State  : in     Boolean          := True);
@@ -247,6 +250,10 @@ package GWindows.Base is
                  return GWindows.Types.Size_Type;
    --  Window Size
 
+   function Client_Area (Window : in Base_Window_Type)
+                         return GWindows.Types.Rectangle_Type;
+   --  Client area
+
    procedure Client_Area_Size (Window : in out Base_Window_Type;
                                Value  : in     GWindows.Types.Size_Type);
    procedure Client_Area_Size (Window : in out Base_Window_Type;
@@ -265,6 +272,11 @@ package GWindows.Base is
                                  Value  : in     Natural);
    function Client_Area_Height (Window : in Base_Window_Type) return Natural;
    --  Height of window
+
+   procedure Double_Buffered_Paint (Window : in out Base_Window_Type;
+                                    State  : in     Boolean);
+   function Double_Buffered_Paint (Window : in out Base_Window_Type) return Boolean;
+   --  State of double buffering management
 
    function Recommended_Size (Window : in Base_Window_Type)
                              return GWindows.Types.Size_Type;
@@ -322,6 +334,10 @@ package GWindows.Base is
    --  from Base_Data_Type with the window or control. If Auto_Free
    --  is true when the window is destroyed the Custom_Data memory
    --  will be deallocated with Free
+
+   procedure MDI_Client_Window_Background_Color
+               (Window : in out Base_Window_Type;
+                Color  : in     GWindows.Colors.Color_Type);
 
    -------------------------------------------------------------------------
    --  Base_Window_Type - Methods
@@ -797,6 +813,16 @@ package GWindows.Base is
    --  GWindows Implementation of Win32 Procedure Call Back
    --  Procedure and Message Dispatch
 
+   function WndProc_MDI_Client
+     (hwnd    : GWindows.Types.Handle;
+      message : Interfaces.C.unsigned;
+      wParam  : GWindows.Types.Wparam;
+      lParam  : GWindows.Types.Lparam)
+     return GWindows.Types.Lresult;
+   pragma Convention (Stdcall, WndProc_MDI_Client);
+   --  GWindows Implementation of Win32 Procedure Call Back
+   --  Procedure and Message Dispatch for MDI_CLient
+
    function WndProc_Control
      (hwnd    : GWindows.Types.Handle;
       message : Interfaces.C.unsigned;
@@ -839,36 +865,40 @@ package GWindows.Base is
 
 private
    type Windproc_Access is access
-     function (hwnd    : GWindows.Types.Handle;
+     function (hwnd    : Types.Handle;
                message : Interfaces.C.unsigned;
-               wParam  : GWindows.Types.Wparam;
-               lParam  : GWindows.Types.Lparam)
-              return GWindows.Types.Lresult;
+               wParam  : Types.Wparam;
+               lParam  : Types.Lparam)
+              return Types.Lresult;
    pragma Convention (Stdcall, Windproc_Access);
 
    type Base_Window_Type is
      new Ada.Finalization.Limited_Controlled with
       record
-         HWND            : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         ParentWindowProc : Windproc_Access              := null;
-         haccel          : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         MDI_Client       : Base_Window_Access           := null;
-         Keyboard_Support : Boolean                      := False;
-         Is_Control       : Boolean                      := False;
-         Last_Focused    : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-         Is_Dynamic       : Boolean                      := False;
-         Modal_Result     : Integer                      := 0;
-         In_Dialog        : Boolean                      := False;
-         Is_Modal         : Boolean                      := False;
-         Disabled_Parent  : Pointer_To_Base_Window_Class := null;
-         Run_Mode         : Run_Mode_Type                := Normal;
-         Dock             : Dock_Type                    := None;
-         Custom_Data      : Pointer_To_Base_Data_Class   := null;
-         Free_Custom_Data : Boolean                      := False;
-         Use_Mouse_Wheel  : Boolean                      := False;
-         Is_Linked        : Boolean                      := False;  --  * AnSp
+         HWND                            : Types.Handle                 := Types.Null_Handle;
+         ParentWindowProc                : Windproc_Access              := null;
+         haccel                          : Types.Handle                 := Types.Null_Handle;
+         MDI_Client                      : Base_Window_Access           := null;
+         MDI_Client_Background_Color_Sys : Boolean                      := True;
+         MDI_Client_Background_Color     : GWindows.Colors.Color_Type   := Colors.White;
+         MDI_Child_Creation              : Boolean                      := False;
+         Keyboard_Support                : Boolean                      := False;
+         Is_Control                      : Boolean                      := False;
+         Last_Focused                    : Types.Handle                 := Types.Null_Handle;
+         Is_Dynamic                      : Boolean                      := False;
+         Modal_Result                    : Integer                      := 0;
+         In_Dialog                       : Boolean                      := False;
+         Is_Modal                        : Boolean                      := False;
+         Disabled_Parent                 : Pointer_To_Base_Window_Class := null;
+         Run_Mode                        : Run_Mode_Type                := Normal;
+         Dock                            : Dock_Type                    := None;
+         Custom_Data                     : Pointer_To_Base_Data_Class   := null;
+         Free_Custom_Data                : Boolean                      := False;
+         Use_Mouse_Wheel                 : Boolean                      := False;
+         Is_Linked                       : Boolean                      := False;  --  * AnSp
          --  * AnSp:  Added parameter Procedures to be able to create only
          --  *        a link between a Windows handle and GWindows object.
+         Paint_Is_Double_Buffered        : Boolean                      := False;
 
          --  Event Handlers
          On_Create_Event             : Action_Event          := null;

@@ -1,6 +1,6 @@
 with GWindows.ActiveX;
-with GWindows.Windows.MDI;
 with GWindows.Base;
+with GWindows.Windows;
 
 package GNAVI_Help_Window_Package is
 

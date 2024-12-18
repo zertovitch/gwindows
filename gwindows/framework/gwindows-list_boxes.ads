@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2012 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -71,8 +71,12 @@ package GWindows.List_Boxes is
 
    procedure Current (List : in List_Box_Type;
                       Item : in Natural);
+   --  Set current selected item (1-based index).
+   --  0 means: unselect.
+
    function Current (List : in List_Box_Type) return Natural;
-   --  Returns currently selected / focused item
+   --  Returns currently selected / focused item.
+   --  0 means: no item is selected.
 
    procedure Item_Data (List : List_Box_Type;
                         Item : Natural;

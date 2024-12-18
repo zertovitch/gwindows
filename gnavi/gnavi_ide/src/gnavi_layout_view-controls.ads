@@ -1,4 +1,3 @@
-with GNAVI_Widget_Vehicle;
 with GWindows.Base;
 with GNAVI_Window;
 

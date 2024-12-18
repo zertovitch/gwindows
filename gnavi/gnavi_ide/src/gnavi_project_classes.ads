@@ -20,7 +20,6 @@ package GNAVI_Project_Classes is
                      return GWindows.GString;
    --  Returns the Template for Index
 
-
    procedure Generate_Project (Index          : in Positive;
                                Project_Name   : in GWindows.GString;
                                Directory_Name : in GWindows.GString := "");

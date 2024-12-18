@@ -14,7 +14,7 @@ package body GNAVI_Window_Classes is
    use GWindows.GStrings;
 
    Window_Classes_XML : GNAVI_Datastore.GNAVI_Datastore_Type;
-   Class_File         : GWindows.GString := "window_classes.xml";
+   Class_File         : constant GWindows.GString := "window_classes.xml";
    Window_List        : DOM.Core.Node_List;
 
    procedure Init
@@ -35,7 +35,7 @@ package body GNAVI_Window_Classes is
    function Display_Name (Index : in Positive)
                          return GWindows.GString
    is
-      N : Node := Nodes.Item (Window_List, Index - 1);
+      N : constant Node := Nodes.Item (Window_List, Index - 1);
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (N,
@@ -45,7 +45,7 @@ package body GNAVI_Window_Classes is
    function Description (Index : in Positive)
                         return GWindows.GString
    is
-      N : Node := Nodes.Item (Window_List, Index - 1);
+      N : constant Node := Nodes.Item (Window_List, Index - 1);
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (N,
@@ -55,7 +55,7 @@ package body GNAVI_Window_Classes is
    function Template (Index : in Positive)
                      return GWindows.GString
    is
-      N : Node := Nodes.Item (Window_List, Index - 1);
+      N : constant Node := Nodes.Item (Window_List, Index - 1);
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (N,
@@ -65,7 +65,7 @@ package body GNAVI_Window_Classes is
    function Window_Type (Index : in Positive)
                         return GWindows.GString
    is
-      N : Node := Nodes.Item (Window_List, Index - 1);
+      N : constant Node := Nodes.Item (Window_List, Index - 1);
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (N,
@@ -77,9 +77,9 @@ package body GNAVI_Window_Classes is
                               Project_Name   : in GWindows.GString  := "";
                               Directory_Name : in GWindows.GString  := "")
    is
+   pragma Unreferenced (Project_Name);
       use Templates_Parser;
       use Ada.Text_IO;
-      use GWindows.GStrings;
 
       O_File : File_Type;
 
@@ -97,7 +97,7 @@ package body GNAVI_Window_Classes is
            Parse
              (Filename     => To_String (GNAVI_Datastore.Directory
                 (Window_Classes_XML) & Template (Index)),
-              Translations =>Trans));
+              Translations => Trans));
 
       Close (O_File);
 

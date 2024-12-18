@@ -324,7 +324,7 @@ package body GNATOCX.IMoniker_Interface is
       hr  : GNATCOM.Types.HRESULT;
       mk  : IMoniker_Type;
    begin
-      hr := CreateClassMoniker (CLSID'Unrestricted_Access, pmk'Access);
+      hr := CreateClassMoniker (CLSID'Unrestricted_Access, pmk'Unchecked_Access);
       GNATCOM.Errors.Error_Check (hr);
       Attach (mk, pmk);
       return mk;

@@ -14,7 +14,7 @@ package body GNAVI_Project_Classes is
    use GWindows.GStrings;
 
    Project_Classes_XML : GNAVI_Datastore.GNAVI_Datastore_Type;
-   Class_File          : GWindows.GString := "project_classes.xml";
+   Class_File          : constant GWindows.GString := "project_classes.xml";
    Project_List        : DOM.Core.Node_List;
 
    procedure Init
@@ -36,7 +36,7 @@ package body GNAVI_Project_Classes is
    function Display_Name (Index : in Positive)
                          return GWindows.GString
    is
-      N : Node := Nodes.Item (Project_List, Index - 1);
+      N : constant Node := Nodes.Item (Project_List, Index - 1);
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (N,
@@ -46,7 +46,7 @@ package body GNAVI_Project_Classes is
    function Description (Index : in Positive)
                         return GWindows.GString
    is
-      N : Node := Nodes.Item (Project_List, Index - 1);
+      N : constant Node := Nodes.Item (Project_List, Index - 1);
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (N,
@@ -56,7 +56,7 @@ package body GNAVI_Project_Classes is
    function Template (Index : in Positive)
                      return GWindows.GString
    is
-      N : Node := Nodes.Item (Project_List, Index - 1);
+      N : constant Node := Nodes.Item (Project_List, Index - 1);
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (N,
@@ -69,12 +69,11 @@ package body GNAVI_Project_Classes is
    is
       use Templates_Parser;
       use Ada.Text_IO;
-      use GWindows.GStrings;
 
       O_File : File_Type;
 
       Trans : constant Translate_Table :=
-        ( 1 => Assoc ("Project_Name", To_String (Project_Name)));
+        (1 => Assoc ("Project_Name", To_String (Project_Name)));
 
       File_Name : GWindows.GString := Directory_Name & Project_Name & ".gnp";
    begin
@@ -86,7 +85,7 @@ package body GNAVI_Project_Classes is
            Parse
              (Filename     => To_String (GNAVI_Datastore.Directory
                 (Project_Classes_XML) & Template (Index)),
-              Translations =>Trans));
+              Translations => Trans));
 
       Close (O_File);
    end Generate_Project;

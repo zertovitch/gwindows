@@ -1,3 +1,5 @@
+with GNAVI_Widget_Vehicle;
+
 with GWindows.Packing_Boxes;
 with GWindows.GStrings;
 with GWindows.Types;
@@ -27,6 +29,7 @@ package body GNAVI_Layout_View.Controls is
       Width  : in     Integer;
       Height : in     Integer)
    is
+   pragma Unreferenced (Width, Height);
       use GNAVI_Widget_Vehicle;
       use GWindows.Base;
       use GWindows.GStrings;
@@ -34,9 +37,9 @@ package body GNAVI_Layout_View.Controls is
 
       This : GNAVI_Widget_Vehicle_Type renames
         GNAVI_Widget_Vehicle_Type (Window);
-      Data : Control_Data_Access :=
+       Data : constant Control_Data_Access :=
         Control_Data_Access (Custom_Data (This.Widget.all));
-      Size : GWindows.Types.Size_Type := Widget_Size (This);
+       Size : constant GWindows.Types.Size_Type := Widget_Size (This);
    begin
       Set_All_Property (Data.Win_XML.all, Data.Element,
                         "Width",
@@ -50,6 +53,7 @@ package body GNAVI_Layout_View.Controls is
                           Top    : in     Integer;
                           Left   : in     Integer)
    is
+   pragma Unreferenced (Top, Left);
       use GNAVI_Widget_Vehicle;
       use GWindows.Base;
       use GWindows.GStrings;
@@ -57,9 +61,9 @@ package body GNAVI_Layout_View.Controls is
 
       This : GNAVI_Widget_Vehicle_Type renames
         GNAVI_Widget_Vehicle_Type (Window);
-      Data : Control_Data_Access :=
+       Data : constant Control_Data_Access :=
         Control_Data_Access (Custom_Data (This.Widget.all));
-      Loc  : GWindows.Types.Point_Type := Widget_Location (This);
+       Loc  : constant GWindows.Types.Point_Type := Widget_Location (This);
    begin
       Set_All_Property (Data.Win_XML.all, Data.Element,
                         "Left", Image (Loc.X));
@@ -73,28 +77,28 @@ package body GNAVI_Layout_View.Controls is
       Control_XML :        GNAVI_Window.Control_Element)
      return GWindows.Base.Pointer_To_Base_Window_Class
    is
-      use GNAVI_Window;
+      Control : GWindows.Base.Pointer_To_Base_Window_Class;
       use GWindows.Base;
    begin
       if Parent = null then
          return null;
       end if;
+      Control := Dispatch (Parent, Control_XML);
+      if Control = null then
+         return null;
+      end if;
 
       declare
          use GNAVI_Widget_Vehicle;
-         Vehicle : GNavi_Widget_Vehicle_Access :=
-           new GNavi_Widget_Vehicle_Type;
-         Data    : Control_Data_Access := new Control_Data_Type;
-         Control : GWindows.Base.Pointer_To_Base_Window_Class;
+         Vehicle : constant GNAVI_Widget_Vehicle_Access :=
+           new GNAVI_Widget_Vehicle_Type;
+         Data    : constant Control_Data_Access := new Control_Data_Type;
          D       : GWindows.Base.Dock_Type;
       begin
-         Control := Dispatch (Parent, Control_XML);
          Data.Element := Control_XML;
 
-         if
-           Control.all in GWindows.Packing_Boxes.Packing_Box_Type'Class
-         then
-             Data.Resizes_Children := True;
+         if Control.all in GWindows.Packing_Boxes.Packing_Box_Type'Class then
+            Data.Resizes_Children := True;
          end if;
 
          Data.Win_XML :=
@@ -109,7 +113,7 @@ package body GNAVI_Layout_View.Controls is
 
             if D = GWindows.Base.None then
                Create_As_Control (Vehicle.all, Parent.all, "",
-                                  Left (Control.all), Top(Control.all),
+                                  Left (Control.all), Top (Control.all),
                                   Width (Control.all), Height (Control.all));
                On_Size_Handler (Vehicle.all, Widget_Resize'Access);
                On_Move_Handler (Vehicle.all, Widget_Move'Access);

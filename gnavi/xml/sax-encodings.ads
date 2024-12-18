@@ -79,4 +79,3 @@ package Sax.Encodings is
    Slash_Sequence         : constant Unicode.CES.Byte_Sequence := "/";
 
 end Sax.Encodings;
-

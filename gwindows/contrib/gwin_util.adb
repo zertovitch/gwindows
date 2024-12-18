@@ -27,8 +27,8 @@ package body GWin_Util is
   package Common_Fonts is
     GUI_Font : GWindows.Drawing_Objects.Font_Type;
     URL_Font : GWindows.Drawing_Objects.Font_Type;
-    --  ^ These fonts are created once, at startup
-    --    it avoid GUI resource leak under Windows 95/98/ME
+    --  ^ These fonts are created once, at startup.
+    --    It avoids GUI resource leak under Windows 95/98/ME.
     procedure Create_Common_Fonts;
     --  in initialisation part if this pkg becomes standalone
   end Common_Fonts;
@@ -475,7 +475,8 @@ package body GWin_Util is
         );
         --  Link (tab(s), Handle(tab(s)), False, Control_Link);
         --  -- ^ for buttons from a resource file (André van Splunter)
-        tabs.Tab_Window (Tab_enumeration'Pos (s) - Tab_enumeration'Pos (Tab_enumeration'First), tab (s)'Unrestricted_Access);
+        tabs.Tab_Window
+          (Tab_enumeration'Pos (s) - Tab_enumeration'Pos (Tab_enumeration'First), tab (s)'Unrestricted_Access);
       end loop;
       --  3/ Create OK, Cancel buttons:
       Create (ok, Parent, ok_message,
@@ -490,48 +491,6 @@ package body GWin_Util is
       );
     end Create;
   end Property_Tabs_Package;
-
-  function "*"
-    (Left  : Natural;
-     Right : GString) return GString
-  is
-     Result : GString (1 .. Left * Right'Length);
-     Ptr    : Integer := 1;
-   begin
-     for J in 1 .. Left loop
-        Result (Ptr .. Ptr + Right'Length - 1) := Right;
-        Ptr := Ptr + Right'Length;
-     end loop;
-     return Result;
-  end "*";
-
-  overriding procedure Create
-     (Window     : in out Splitter_with_dashes;
-      Parent     : in out GWindows.Base.Base_Window_Type'Class;
-      Location   : in     GWindows.Base.Dock_Type;
-      Text       : in     GString                              := "";
-      Left       : in     Integer                              := 0;
-      Top        : in     Integer                              := 0;
-      Width      : in     Integer                              := 3;
-      Height     : in     Integer                              := 3;
-      Show       : in     Boolean                              := True;
-      Is_Dynamic : in     Boolean                              := False)
-  is
-    use GWindows.Base;
-  begin
-    --  Call parent method:
-    GWindows.GControls.GSize_Bars.GSize_Bar_Type (Window).Create (
-      Parent, Location, Text, Left, Top, Width, Height, Show, Is_Dynamic);
-    --  Add our goodies to make the splitter visible:
-    Window.Dashes.Create (
-      Window,
-      Alignment => GWindows.Static_Controls.Center,
-      --  A cheap grip design for the split bar...
-      Text =>  (if Location in At_Top | At_Bottom then 30 * "| " else 1000 * ". ")
-    );
-    Window.Dashes.Dock (Fill);
-    Window.Dashes.Enabled (False);  --  Just give a grey look...
-  end Create;
 
 begin
   Common_Fonts.Create_Common_Fonts;

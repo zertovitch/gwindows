@@ -32,7 +32,6 @@ separate (Templates_Parser)
 
 procedure Print_Tree (T : in Tree; Level : in Natural := 0) is
 
-
    procedure Print_Indent (L : in Natural);
 
    procedure Print_Indent (L : in Natural) is

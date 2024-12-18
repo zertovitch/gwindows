@@ -1,6 +1,5 @@
 with Standard_IDs;
 with GNAVI_IDs;
-with GWindows.Menus;
 
 package body GNAVI_Main_Menus is
 
@@ -15,7 +14,6 @@ package body GNAVI_Main_Menus is
       M.File_Menu    := Create_Menu;
       M.Project_Menu := Create_Menu;
       M.Help_Menu    := Create_Menu;
-
 
       Append_Item (M.File_Menu, "&New Window...", ID_FILE_NEW);
       Append_Item (M.File_Menu, "&Open Window", ID_FILE_EDIT);
@@ -36,7 +34,6 @@ package body GNAVI_Main_Menus is
 
       Append_Menu (M.Main_Menu, "&File", M.File_Menu);
 
-
       Append_Item (M.Project_Menu, "&New Project...", ID_PROJECT_NEW);
       Append_Item (M.Project_Menu, "&Open Project...", ID_PROJECT_OPEN);
       Append_Item (M.Project_Menu, "&Close Project", ID_PROJECT_CLOSE);
@@ -44,7 +41,6 @@ package body GNAVI_Main_Menus is
       Append_Item (M.Project_Menu, "&Build", ID_COMPILE);
       Append_Item (M.Project_Menu, "&Run", ID_RUN);
       Append_Menu (M.Main_Menu, "&Project", M.Project_Menu);
-
 
       Append_Item (M.Help_Menu, "&About...", ID_APP_ABOUT);
       Append_Item (M.Help_Menu, "&Help", ID_HELP_INDEX);
@@ -59,7 +55,7 @@ package body GNAVI_Main_Menus is
       use GNAVI_IDs;
 
       M : Base_Menus := Setup_Base_Menus;
-      T : GWindows.GCharacter := GWindows.GCharacter'Val(9);
+      T : constant GWindows.GCharacter := GWindows.GCharacter'Val (9);
    begin
       M.Edit_Menu := Create_Menu;
       Append_Item (M.Edit_Menu, "&Undo" & T & "Ctrl+Z", ID_EDIT_UNDO);

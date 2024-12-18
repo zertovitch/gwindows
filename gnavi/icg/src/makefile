@@ -4,6 +4,6 @@ ADAOPTS = -I../../xml
 include ../../makefile.inc
 
 icg:
-	gnatmake ${ADAOPTS} icg
+	gnatmake -P..\icg.gpr
 
 cleanall: clean

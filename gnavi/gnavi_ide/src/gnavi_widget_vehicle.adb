@@ -43,6 +43,7 @@ package body GNAVI_Widget_Vehicle is
       Width  : in     Integer;
       Height : in     Integer)
    is
+   pragma Unreferenced (Height, Width);
       use GWindows.Base;
 
       Vehicle : GNAVI_Widget_Vehicle_Type renames
@@ -56,7 +57,6 @@ package body GNAVI_Widget_Vehicle is
                GWindows.Base.Height (Window) + Handle_Size * 2);
       end if;
    end Widget_Resize;
-
 
    --------------
    -- On_Focus --
@@ -85,7 +85,7 @@ package body GNAVI_Widget_Vehicle is
 
    procedure On_Lost_Focus (Window : in out GNAVI_Widget_Vehicle_Type) is
    begin
-      if Window.Show_Handles = True and not Window.Inner_Edit then
+      if Window.Show_Handles and not Window.Inner_Edit then
          Window.Show_Handles := False;
 
          Move (Window, Left (Window) + Handle_Size,
@@ -390,7 +390,6 @@ package body GNAVI_Widget_Vehicle is
                      end if;
                   end if;
 
-
                   if Next_Win /= null then
                      GWindows.Base.Focus (Next_Win.all);
                   end if;
@@ -649,7 +648,6 @@ package body GNAVI_Widget_Vehicle is
       Window.Current_Handle := None;
    end On_Left_Mouse_Button_Up;
 
-
    -------------------------
    -- On_Erase_Background --
    -------------------------
@@ -662,7 +660,6 @@ package body GNAVI_Widget_Vehicle is
    begin
       null;
    end On_Erase_Background;
-
 
    -------------------------------
    -- On_Left_Mouse_Button_Down --
@@ -692,7 +689,6 @@ package body GNAVI_Widget_Vehicle is
       Y      : in     Integer;
       Keys   : in     GWindows.Windows.Mouse_Key_States)
    is
-      use GWindows.Windows;
    begin
       if Window.Track_Mouse then
          Move (Window.Vehicle.all,
@@ -760,7 +756,6 @@ package body GNAVI_Widget_Vehicle is
    function Widget_Location (Vehicle : in GNAVI_Widget_Vehicle_Type)
                             return GWindows.Types.Point_Type
    is
-      use GWindows.Base;
       use GWindows.Types;
 
       Loc : GWindows.Types.Point_Type := Location (Vehicle);

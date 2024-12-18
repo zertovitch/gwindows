@@ -3,7 +3,7 @@
 --
 --  Helper for the MS Windows Resource Compiler script parser
 --
---  Copyright (c) Gautier de Montmollin 2008 .. 2019
+--  Copyright (c) Gautier de Montmollin 2008 .. 2024
 --  SWITZERLAND
 --
 --  Permission is hereby granted, free of charge, to any person obtaining a copy

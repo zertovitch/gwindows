@@ -15,10 +15,10 @@ package body GNAVI_Controls is
    -------------------------------------------------------------------------
 
    Controls_XML  : GNAVI_Datastore.GNAVI_Datastore_Type;
-   Controls_File : GWindows.GString := "controls.xml";
-   Windows_List  : DOM.Core.Node_List;
-   Controls_List : DOM.Core.Node_List;
-   Types_List    : DOM.Core.Node_List;
+   Controls_File : constant GWindows.GString := "controls.xml";
+   Dummy_Windows_List  : DOM.Core.Node_List;
+   Controls_List       : DOM.Core.Node_List;
+   Dummy_Types_List    : DOM.Core.Node_List;
 
    function Get_Create_Properties (Index : Positive)
                                   return DOM.Core.Node_List;
@@ -39,9 +39,7 @@ package body GNAVI_Controls is
    function Get_Create_Properties (Index : Positive)
                                   return DOM.Core.Node_List
    is
-      use DOM.Core;
-
-      P : DOM.Core.Node := GNAVI_XML.Get_Child_Node
+      P : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node
         (Nodes.Item (Controls_List, Index - 1), "create_properties");
 
       Result : DOM.Core.Node_List;
@@ -56,9 +54,7 @@ package body GNAVI_Controls is
    function Get_Init_Properties (Index : Positive)
                                 return DOM.Core.Node_List
    is
-      use DOM.Core;
-
-      P : DOM.Core.Node := GNAVI_XML.Get_Child_Node
+      P : constant DOM.Core.Node := GNAVI_XML.Get_Child_Node
         (Nodes.Item (Controls_List, Index - 1), "init_properties");
 
       Result : DOM.Core.Node_List;
@@ -90,13 +86,13 @@ package body GNAVI_Controls is
    begin
       GNAVI_Datastore.Open (Controls_XML, Controls_File);
 
-      Windows_List :=
+      Dummy_Windows_List :=
         Elements.Get_Elements_By_Tag_Name
         (GNAVI_Datastore.Root (Controls_XML), "window");
       Controls_List :=
         Elements.Get_Elements_By_Tag_Name
         (GNAVI_Datastore.Root (Controls_XML), "control");
-      Types_List :=
+      Dummy_Types_List :=
         Elements.Get_Elements_By_Tag_Name
         (GNAVI_Datastore.Root (Controls_XML), "type");
    end Init;
@@ -107,29 +103,25 @@ package body GNAVI_Controls is
       return Nodes.Length (Controls_List);
    end Control_Count;
 
-   function Control_Display_Name (Index : Positive) return GWindows.GString
+   function Control_Information (Index : Positive; Attribute : DOM_String) return GWindows.GString
    is
    begin
       return To_GString_From_String
         (Elements.Get_Attribute (Nodes.Item (Controls_List, Index - 1),
-                                 "display_name"));
-   end Control_Display_Name;
+                                 Attribute));
+   end Control_Information;
 
-   function Control_Type (Index : Positive) return GWindows.GString
-   is
-   begin
-      return To_GString_From_String
-        (Elements.Get_Attribute (Nodes.Item (Controls_List, Index - 1),
-                                 "type"));
-   end Control_Type;
+   function Control_Display_Name (Index : Positive) return GWindows.GString is
+   (Control_Information (Index, "display_name"));
 
-   function Control_Category (Index : Positive) return GWindows.GString
-   is
-   begin
-      return To_GString_From_String
-        (Elements.Get_Attribute (Nodes.Item (Controls_List, Index - 1),
-                                 "category"));
-   end Control_Category;
+   function Control_Type (Index : Positive) return GWindows.GString is
+   (Control_Information (Index, "type"));
+
+   function Control_Category (Index : Positive) return GWindows.GString is
+   (Control_Information (Index, "category"));
+
+   function Control_Icon (Index : Positive) return Natural is
+   (Integer'Wide_Value (Control_Information (Index, "icon")));
 
    function Find_Control_By_Type (Type_String : GWindows.GString)
                                  return Natural
@@ -163,9 +155,7 @@ package body GNAVI_Controls is
 
    function Control_Create_Properties_Count (Index : Positive) return Natural
    is
-      use DOM.Core;
-
-      CP : DOM.Core.Node_List := Get_Create_Properties (Index);
+      CP : constant DOM.Core.Node_List := Get_Create_Properties (Index);
    begin
       return Nodes.Length (CP);
    end Control_Create_Properties_Count;
@@ -225,9 +215,7 @@ package body GNAVI_Controls is
 
    function Control_Init_Properties_Count (Index : Positive) return Natural
    is
-      use DOM.Core;
-
-      IP : DOM.Core.Node_List := Get_Init_Properties (Index);
+      IP : constant DOM.Core.Node_List := Get_Init_Properties (Index);
    begin
       return Nodes.Length (IP);
    end Control_Init_Properties_Count;
@@ -316,8 +304,6 @@ package body GNAVI_Controls is
 
    function Control_Events (Index : Positive) return Detail_Array
    is
-      use GWindows.GStrings;
-
       Result : Detail_Array (1 .. Control_Events_Count (Index));
    begin
       for N in 1 .. Control_Events_Count (Index) loop
@@ -333,11 +319,9 @@ package body GNAVI_Controls is
 
    function Control_Properties (Index : Positive) return Detail_Array
    is
-      use GWindows.GStrings;
-
-      R0 : Detail_Array (1 .. 2);
-      R1 : Detail_Array := Control_Create_Properties (Index);
-      R2 : Detail_Array := Control_Init_Properties (Index);
+      R0 :          Detail_Array (1 .. 2);
+      R1 : constant Detail_Array := Control_Create_Properties (Index);
+      R2 : constant Detail_Array := Control_Init_Properties (Index);
    begin
       R0 (1).Detail_Name := To_GString_Unbounded ("name");
       R0 (1).Detail_Type := To_GString_Unbounded ("GString");
@@ -351,8 +335,6 @@ package body GNAVI_Controls is
 
    function Control_Create_Properties (Index : Positive) return Detail_Array
    is
-      use GWindows.GStrings;
-
       Result : Detail_Array (1 .. Control_Create_Properties_Count (Index));
    begin
       for N in 1 .. Control_Create_Properties_Count (Index) loop
@@ -370,8 +352,6 @@ package body GNAVI_Controls is
 
    function Control_Init_Properties (Index : Positive) return Detail_Array
    is
-      use GWindows.GStrings;
-
       Result : Detail_Array (1 .. Control_Init_Properties_Count (Index));
    begin
       for N in 1 .. Control_Init_Properties_Count (Index) loop

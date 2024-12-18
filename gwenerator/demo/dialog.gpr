@@ -1,0 +1,11 @@
+--  This project file is made manually.
+
+project Dialog is 
+
+   for Main use ("dialog.adb");
+   for Source_Dirs use (".", "..\..\gwindows\framework", "..\..\gnatcom\framework");
+   for Object_Dir use "obj";
+   for Exec_Dir use ".";
+   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
+
+end Dialog;

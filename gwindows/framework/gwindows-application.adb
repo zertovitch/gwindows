@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2022 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -41,6 +41,7 @@ with GWindows.Constants;
 with GWindows.Utilities;
 
 with Ada.Strings.Wide_Fixed;
+with Ada.Text_IO;
 with GNAT.OS_Lib;
 with System;
 
@@ -72,8 +73,8 @@ package body GWindows.Application is
    --  Win32 Message Loop Objet
 
    procedure Process_Message
-     (Message :        Pointer_To_MSG;
-      Window  : in out GWindows.Base.Base_Window_Type'Class);
+     (Message :    Pointer_To_MSG;
+      Window  : in GWindows.Base.Base_Window_Type'Class);
    --  Process a message for a message loop
 
    -------------------------------------------------------------------------
@@ -111,9 +112,9 @@ package body GWindows.Application is
    -- Set_hInstance --
    -------------------
 
-   procedure Set_hInstance (hInstance : GWindows.Types.Handle) is
+   procedure Set_hInstance (Process_hInstance : GWindows.Types.Handle) is
    begin
-      GWindows.Internal.Current_hInstance := hInstance;
+      GWindows.Internal.Current_hInstance := Process_hInstance;
    end Set_hInstance;
 
    -----------------
@@ -480,11 +481,15 @@ package body GWindows.Application is
    end Is_Desktop_At_Location;
 
    function Explorer_Path_At_Location (X, Y : Integer) return GString is
+      trace_mode : constant Boolean := False;
       --
       procedure EnumChildWindows (hwnd   : GWindows.Types.Handle;
                                   Proc   : System.Address;
                                   lp     : GWindows.Types.Lparam);
       pragma Import (StdCall, EnumChildWindows, "EnumChildWindows");
+      --  NB: EnumChildWindows is recursive:
+      --  "If a child window has created child windows of its own,
+      --   EnumChildWindows enumerates those windows as well."
       Path : GString_Unbounded;
       use GWindows.GStrings;
       --
@@ -501,30 +506,46 @@ package body GWindows.Application is
          CT  : constant GString := Get_Window_Text (child);
          --  Force to Unicode (for the Index function)
          WCT : constant Wide_String := To_Wide_String (CT);
-         I   : Integer;
+         is_candidate : Boolean := False;
+         start_index : Integer;
          use Ada.Strings.Wide_Fixed;
       begin
+         --  List everything:
+         if trace_mode then
+           Ada.Text_IO.Put_Line (To_String ("    " & Child_Class_Name & ": " & CT));
+         end if;
          if Child_Class_Name = "ToolbarWindow32" then
-            --  Examples of WCT (Windows 10 in French):
+            --  Windows 95 to Windows 10
+            ----------------------------
+            --  There are many children with the class name
+            --  ToolbarWindow32! Only one may contain a path.
+            --  Examples of such strings (Windows 10 in French, accents removed):
             --    "Boutons de navigation"
-            --    "Barre d'outils du bandeau supérieur"
-            --    "Adresse : C:\Ada\gnavi\gwindows\samples"
-            --
-            I := Index (WCT, ": ");
-            if I > 0 then
-               --  There are many children with the same class
-               --  name (ToolbarWindow32)! Only one may contain a path.
-               if Index (WCT, ":\") = 0 and then Index (WCT, "\\") = 0 then
-                  --  It is a bogus directory, like "My Computer"
-                  --  or "Documents" (in various languages...).
-                  null;
-               else
-                  Path := To_GString_Unbounded (CT (I + 2 .. CT'Last));
-                  return False;  --  Found, then stop enumeration
+            --    "Barre d'outils du bandeau superieur"
+            --    "Adresse: C:\Ada\gnavi\gwindows\samples"
+            start_index := Index (WCT, ": ");
+            is_candidate := start_index > 0;
+            start_index := start_index + 2;
+         elsif Child_Class_Name = "ShellTabWindowClass" then
+            --  Windows 11.
+            start_index := WCT'First;
+            is_candidate := True;
+         end if;
+         if is_candidate then
+            if Index (WCT, ":\") = 0 and then Index (WCT, "\\") = 0 then
+               --  It is a bogus directory, like "My Computer"
+               --  or "Documents" (in various languages...).
+               null;
+            else
+               Path := To_GString_Unbounded (CT (start_index .. CT'Last));
+               if trace_mode then
+                  Ada.Text_IO.Put_Line
+                    ('[' & To_String (To_GString_From_Unbounded (Path)) & ']');
                end if;
+               return False;  --  Found, then stop enumeration
             end if;
          end if;
-         --  Recurse on children (not needed so far):
+         --  Recurse on children (not needed: EnumChildWindows is recursive):
          --  EnumChildWindows (child, Capture_Edit_Box'Address, 0);
          return True;  --  Continue enumeration
       end Capture_Edit_Box;
@@ -546,6 +567,12 @@ package body GWindows.Application is
          end if;
       end if;
       if RCN = "CabinetWClass" or else RCN = "ExploreWClass" then
+         --  This trick needs to have the Explorer option
+         --  "Display the full path in the title bar" enabled,
+         --  at least on Windows 11.
+         if trace_mode then
+           Ada.Text_IO.Put_Line (To_String (RCN) & " -> ENUM Explorer");
+         end if;
          EnumChildWindows (RWH, Capture_Edit_Box'Address, 0);
          return To_GString_From_Unbounded (Path);
       end if;
@@ -586,7 +613,7 @@ package body GWindows.Application is
    begin
       Create_Dialog (Dialog, Win_Ptr.all, Name);
       if Center then
-         GWindows.Windows.Center (Dialog);
+         GWindows.Windows.Center (Dialog, Parent);
       end if;
       Show_Dialog (Dialog, Win_Ptr.all);
       return Modal_Result (Dialog);
@@ -749,8 +776,8 @@ package body GWindows.Application is
    ---------------------
 
    procedure Process_Message
-     (Message :        Pointer_To_MSG;
-      Window  : in out GWindows.Base.Base_Window_Type'Class)
+     (Message :    Pointer_To_MSG;
+      Window  : in GWindows.Base.Base_Window_Type'Class)
    is
       use type GWindows.Types.Handle;
       use type GWindows.Internal.Pointer_To_Keyboard_Control;

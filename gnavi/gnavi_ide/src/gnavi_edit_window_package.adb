@@ -1,49 +1,31 @@
-with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
 
+with GNAVI_Controls_Window_Package;
+with GNAVI_Main_Menus;
 with GNAVI_Main_Package;
 with GNAVI_Project;
 with GNAVI_Project_Window_Package;
-with GNAVI_Controls_Window_Package;
-with GNAVI_Main_Menus;
 
 with Standard_IDs;
 with GNAVI_IDs;
 
-with GWindows.GStrings;
+with GWindows.Colors;
 with GWindows.GStrings.Handling;
 with GWindows.GStrings.Constants;
+with GWindows.Menus;
 with GWindows.Message_Boxes;
-with GWindows.Colors;
-
-with GNAT.OS_Lib;
-
---  with GWindows.GStrings.IO; use GWindows.GStrings.IO;
 
 package body GNAVI_Edit_Window_Package is
 
-   TAB_WIDTH : constant := 3;
-
-   Key_Words : constant GWindows.GString :=
-     "abort abstract accept access aliased all array at begin body case " &
-     "constant declare delay delta digits do else elsif end entry exception " &
-     "exit for function generic goto if in is limited loop new null of " &
-     "others out package pragma private procedure protected raise range " &
-     "record renames requeue return reverse select separate subtype tagged " &
-     "task terminate then type until use when while with";
-
-   function To_Integer is
-      new Ada.Unchecked_Conversion (GNAT.OS_Lib.OS_Time, Integer);
-
    procedure On_Create (Window : in out GNAVI_Edit_Window_Type) is separate;
 
-   -- On_Menu_Select added by GdM, July 2012
-   -- Probably should also be separate, like On_Create,
-   -- and generated GNAVI
+   --  On_Menu_Select added by GdM, July 2012
+   --  Probably should also be separate, like On_Create,
+   --  and generated GNAVI
    procedure On_Menu_Select (Window : in out GNAVI_Edit_Window_Type;
                              Item   : in     Integer) is
    begin
-      Handle_Menu(Window, Item);
+      Handle_Menu (Window, Item);
    end On_Menu_Select;
 
    -------------------------------------------------------------------------
@@ -60,8 +42,9 @@ package body GNAVI_Edit_Window_Package is
    --  Hide all window views
 
    procedure Show_View
-     (View_Name : in     GWindows.GString;
-      Window    : in out GWindows.Base.Base_Window_Type'Class);
+     (Window            : in out GNAVI_Edit_Window_Type;
+      View_Name         : in     GWindows.GString;
+      View_Subwindow    : in out GWindows.Base.Base_Window_Type'Class);
    --  Show a particular view
 
    procedure Save (Window    : in out GWindows.Scintilla.Scintilla_Type;
@@ -70,9 +53,7 @@ package body GNAVI_Edit_Window_Package is
    procedure Load (Window    : in out GWindows.Scintilla.Scintilla_Type;
                    File_Name : in     GWindows.GString);
 
-
    procedure Reload_Details (This : in out GNAVI_Edit_Window_Type);
-
 
    procedure Save (Window    : in out GWindows.Scintilla.Scintilla_Type;
                    File_Name : in     GWindows.GString)
@@ -81,13 +62,13 @@ package body GNAVI_Edit_Window_Package is
       use GNAT.OS_Lib;
 
       OFile       : File_Descriptor;
-      Doc_Length  : constant Integer := GetLength (Window);
-      Length      : Integer := 0;
+      Doc_Length  : constant Position := Get_Length (Window);
+      Length      : Position := 0;
       F_Exception : exception;
       Success     : Boolean;
       FName       : GWindows.GString := File_Name;
    begin
-      if GetModify (Window) = False then
+      if Get_Modify (Window) = False then
          return;
       end if;
 
@@ -104,7 +85,7 @@ package body GNAVI_Edit_Window_Package is
 
       while Length < Doc_Length loop
          declare
-            Grab_Size  : Integer := Doc_Length - Length;
+            Grab_Size  : Position := Doc_Length - Length;
             Block_Size : constant := 255;
          begin
             if Grab_Size > Block_Size then
@@ -113,12 +94,12 @@ package body GNAVI_Edit_Window_Package is
 
             declare
                Buffer : String := GWindows.GStrings.To_String
-                 (GetTextRange (Window,
-                                Length,
-                                Length + Grab_Size));
+                 (Get_Text_Range (Window,
+                                  Length,
+                                  Length + Grab_Size));
 
-               L      : Integer :=
-                 Write (OFile, Buffer (Buffer'First)'Address, Grab_Size);
+               Dummy : Integer :=
+                 Write (OFile, Buffer (Buffer'First)'Address, Integer (Grab_Size));
             begin
                Length := Length + Grab_Size;
             end;
@@ -126,7 +107,7 @@ package body GNAVI_Edit_Window_Package is
       end loop;
 
       Close (OFile);
-      SetSavePoint (Window);
+      Set_Save_Point (Window);
    exception
       when others =>
          declare
@@ -156,8 +137,8 @@ package body GNAVI_Edit_Window_Package is
    begin
       --  Check disk for modification and if none do nothing.
 
-      ClearAll (Window);
-      SetUndoCollection (Window, False);
+      Clear_All (Window);
+      Set_Undo_Collection (Window, False);
 
       OFile := Open_Read (GWindows.GStrings.To_String (File_Name),
                           Binary);
@@ -171,7 +152,7 @@ package body GNAVI_Edit_Window_Package is
                          Output_String (Output_String'First)'Address,
                          Output_String'Length);
 
-         GWindows.Scintilla.AddText
+         GWindows.Scintilla.Add_Text
            (Window,
             GWindows.GStrings.To_GString_From_String
             (String (Output_String (1 .. Length))));
@@ -179,12 +160,12 @@ package body GNAVI_Edit_Window_Package is
 
       Close (OFile);
 
-      ConvertEOLs (Window,
+      Convert_EOLs (Window,
                    SC_EOL_CRLF);
-      SetUndoCollection (Window, True);
-      EmptyUndoBuffer (Window);
-      SetSavePoint (Window);
-      GoToPos(Window, 0);
+      Set_Undo_Collection (Window, True);
+      Empty_Undo_Buffer (Window);
+      Set_Save_Point (Window);
+      Go_To_Pos (Window, 0);
    exception
       when others =>
          declare
@@ -200,13 +181,10 @@ package body GNAVI_Edit_Window_Package is
 
    procedure Save_All_Views (Window : in out GNAVI_Edit_Window_Type)
    is
-      use GWindows.Scintilla;
-      use GWindows.GStrings;
       use GNAVI_Window;
    begin
       Save (Window.Body_Edit_Box,
             Window_Name (Window.Win_XML) & "_package.adb");
-
 
       Save (Window.Spec_Edit_Box,
             Window_Name (Window.Win_XML) & "_package.ads");
@@ -218,7 +196,6 @@ package body GNAVI_Edit_Window_Package is
    procedure Load_Outline_View (Window : in out GNAVI_Edit_Window_Type)
    is
       use GWindows.List_Boxes;
-      use GWindows.GStrings;
       use GNAVI_Window;
 
       IL : Positive := 1;
@@ -265,7 +242,6 @@ package body GNAVI_Edit_Window_Package is
 
    procedure Load_All_Views (Window : in out GNAVI_Edit_Window_Type)
    is
-      use GWindows.Scintilla;
       use GWindows.GStrings;
       use GNAVI_Window;
       use GNAT.OS_Lib;
@@ -275,9 +251,9 @@ package body GNAVI_Edit_Window_Package is
       Spec_Name : constant GWindows.GString := Win_Name & "_package.ads";
       XML_Name  : constant GWindows.GString := Win_Name & ".gnw";
 
-      B_TS : constant Integer := To_Integer (File_Time_Stamp (To_String (Body_Name)));
-      S_TS : constant Integer := To_Integer (File_Time_Stamp (To_String (Spec_Name)));
-      X_TS : constant Integer := To_Integer (File_Time_Stamp (To_String (XML_Name)));
+      B_TS : constant GNAVI_Common.Time_Stamp := File_Time_Stamp (To_String (Body_Name));
+      S_TS : constant GNAVI_Common.Time_Stamp := File_Time_Stamp (To_String (Spec_Name));
+      X_TS : constant GNAVI_Common.Time_Stamp := File_Time_Stamp (To_String (XML_Name));
    begin
       if Window.Body_TS < B_TS then
          Load (Window.Body_Edit_Box, Body_Name);
@@ -300,20 +276,19 @@ package body GNAVI_Edit_Window_Package is
    procedure Hide_All_Views (Window : in out GNAVI_Edit_Window_Type)
    is
       use GWindows.Scintilla;
-      use GWindows.List_Boxes;
       use GWindows.Packing_Boxes;
       use GWindows.Base;
-      use GWindows.Scintilla;
       use GWindows.GStrings;
       use GWindows.Scroll_Panels;
+      use GNAT.OS_Lib;
 
       Win_Name  : constant GWindows.GString :=
         GNAVI_Window.Window_Name (Window.Win_XML);
 
       XML_Name  : constant GWindows.GString := Win_Name & ".gnw";
 
-      X_TS : constant Integer :=
-        To_Integer (GNAT.OS_Lib.File_Time_Stamp (To_String (XML_Name)));
+      X_TS : constant GNAVI_Common.Time_Stamp :=
+        GNAT.OS_Lib.File_Time_Stamp (To_String (XML_Name));
    begin
       Save_All_Views (Window);
 
@@ -327,7 +302,7 @@ package body GNAVI_Edit_Window_Package is
       Visible (Window.Spec_Edit_Box, False);
       Visible (Window.Body_Edit_Box, False);
       Visible (Window.Outline_Box, False);
-      GNAVI_Layout_View.Close (Window.Layout_Editor);
+      GNAVI_Layout_View.Close (Window.Layout_Editor);  --  This line appears in a trace-back...
       Visible (Window.Layout_Box, False);
 
       Dock (Window.XML_Edit_Box, None);
@@ -338,24 +313,22 @@ package body GNAVI_Edit_Window_Package is
    end Hide_All_Views;
 
    procedure Show_View
-     (View_Name : in     GWindows.GString;
-      Window    : in out GWindows.Base.Base_Window_Type'Class)
+     (Window            : in out GNAVI_Edit_Window_Type;
+      View_Name         : in     GWindows.GString;
+      View_Subwindow    : in out GWindows.Base.Base_Window_Type'Class)
    is
       use GWindows.Base;
-      use GWindows.GStrings;
       use GWindows.Edit_Boxes;
       use GNAVI_Window;
 
-      This : GNAVI_Edit_Window_Type
-        renames GNAVI_Edit_Window_Type (Controlling_Parent (Window).all);
    begin
-      Text (This, View_Name & " - " & Window_Name (This.Win_XML));
-      Text (This.Property_Edit_Box, "");
-      Text (This.Handler_Edit_Box, "");
-      Hide_All_Views (This);
-      Visible (Window);
-      Dock (Window, Fill);
-      Dock_Children (This);
+      Text (Window, View_Name & " - " & Window_Name (Window.Win_XML));
+      Text (Window.Property_Edit_Box, "");
+      Text (Window.Handler_Edit_Box, "");
+      Hide_All_Views (Window);
+      Visible (View_Subwindow);
+      Dock (View_Subwindow, Fill);
+      Dock_Children (Window);
    end Show_View;
 
    type Window_Rec;
@@ -439,14 +412,18 @@ package body GNAVI_Edit_Window_Package is
       use GWindows.List_Boxes;
       use GNAVI_Window;
 
-      Current_Index   : constant Natural := Current (This.Outline_View) - 1;
+      Current_Index   : constant Integer := Current (This.Outline_View) - 1;
       Current_Control : GNAVI_Window.Control_Element;
    begin
-      if Current_Index = 0 then
-         Current_Control := Window_Element (This.Win_XML);
-      else
-         Current_Control := Control (This.Win_XML, Current_Index);
-      end if;
+      case Current_Index is
+         when -1 =>
+            --  No item selected. Possibly a click below the last item of the list.
+            return;
+         when 0 =>
+            Current_Control := Window_Element (This.Win_XML);
+         when others =>
+            Current_Control := Control (This.Win_XML, Current_Index);
+      end case;
 
       Clear (This.Handlers_View);
 
@@ -471,7 +448,6 @@ package body GNAVI_Edit_Window_Package is
 
    procedure Open_Window (Name : GWindows.GString)
    is
-      use GWindows.GStrings;
       use GWindows.Base;
    begin
       if not In_Window_List (Name) then
@@ -502,12 +478,7 @@ package body GNAVI_Edit_Window_Package is
             Add_To_Window_List (Name, New_Window);
          end;
       end if;
-
-   exception
-      when E : others =>
-         null;
    end Open_Window;
-
 
    -------------------------------------------------------------------------
    --  Handlers
@@ -528,103 +499,9 @@ package body GNAVI_Edit_Window_Package is
    begin
       MDI_Menu (This, M.Main_Menu, M.Windows_Menu);
 
-      --  Set up editor
-      SetEOLMode (This.Body_Edit_Box, SC_EOL_CRLF);
-      SetTabWidth (This.Body_Edit_Box, TAB_WIDTH);
-      SetUseTabs (This.Body_Edit_Box, False);
-      SetEdgeColumn (This.Body_Edit_Box, 80);
-      SetEdgeMode (This.Body_Edit_Box, EDGE_LINE);
-      --  SetIndentationGuides (This.Body_Edit_Box, True);
-
-      SetLexer (This.Body_Edit_Box, SCLEX_ADA);
-      SetKeyWords (This.Body_Edit_Box, 0, Key_Words);
-
-      StyleSetFore (This.Body_Edit_Box, STYLE_DEFAULT, Black);
-      StyleSetBack (This.Body_Edit_Box, STYLE_DEFAULT, White);
-      StyleSetSize (This.Body_Edit_Box, STYLE_DEFAULT, 10);
-      StyleSetFont (This.Body_Edit_Box, STYLE_DEFAULT, "Courier");
-      StyleClearAll (This.Body_Edit_Box);
-
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_DEFAULT, Black);
-      StyleSetBack (This.Body_Edit_Box, SCE_ADA_DEFAULT, White);
-      StyleSetSize (This.Body_Edit_Box, SCE_ADA_DEFAULT, 10);
-      StyleSetFont (This.Body_Edit_Box, SCE_ADA_DEFAULT, "Courier");
-
-
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_COMMENTLINE, Red);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_NUMBER, Blue);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_WORD, Dark_Green);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_STRING, Dark_Red);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_CHARACTER, Blue);
-      --  StyleSetFore (This.Body_Edit_Box, SCE_ADA_OPERATOR, Black);
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_IDENTIFIER, Black);
-
-      StyleSetFore (This.Body_Edit_Box, SCE_ADA_STRINGEOL, White);
-      StyleSetBack (This.Body_Edit_Box, SCE_ADA_STRINGEOL, Red);
-
-      --  Set up editor
-      SetEOLMode (This.Spec_Edit_Box, SC_EOL_CRLF);
-      SetTabWidth (This.Spec_Edit_Box, TAB_WIDTH);
-      SetUseTabs (This.Spec_Edit_Box, False);
-      SetEdgeColumn (This.Spec_Edit_Box, 80);
-      SetEdgeMode (This.Spec_Edit_Box, EDGE_LINE);
-      --  SetIndentationGuides (This.Spec_Edit_Box, True);
-
-      SetLexer (This.Spec_Edit_Box, SCLEX_ADA);
-      SetKeyWords (This.Spec_Edit_Box, 0, Key_Words);
-
-      StyleSetFore (This.Spec_Edit_Box, STYLE_DEFAULT, Black);
-      StyleSetBack (This.Spec_Edit_Box, STYLE_DEFAULT, White);
-      StyleSetSize (This.Spec_Edit_Box, STYLE_DEFAULT, 10);
-      StyleSetFont (This.Spec_Edit_Box, STYLE_DEFAULT, "Courier");
-      StyleClearAll (This.Spec_Edit_Box);
-
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_DEFAULT, Black);
-      StyleSetBack (This.Spec_Edit_Box, SCE_ADA_DEFAULT, White);
-      StyleSetSize (This.Spec_Edit_Box, SCE_ADA_DEFAULT, 10);
-      StyleSetFont (This.Spec_Edit_Box, SCE_ADA_DEFAULT, "Courier");
-
-
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_COMMENTLINE, Red);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_NUMBER, Blue);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_WORD, Dark_Green);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_STRING, Dark_Red);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_CHARACTER, Blue);
-      --  StyleSetFore (This.Spec_Edit_Box, SCE_ADA_OPERATOR, Black);
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_IDENTIFIER, Black);
-
-      StyleSetFore (This.Spec_Edit_Box, SCE_ADA_STRINGEOL, White);
-      StyleSetBack (This.Spec_Edit_Box, SCE_ADA_STRINGEOL, Red);
-
-      --  Set up editor
-      SetEOLMode (This.XML_Edit_Box, SC_EOL_CRLF);
-      SetTabWidth (This.XML_Edit_Box, TAB_WIDTH);
-      SetUseTabs (This.XML_Edit_Box, False);
-      SetEdgeColumn (This.XML_Edit_Box, 80);
-      SetEdgeMode (This.XML_Edit_Box, EDGE_LINE);
-      --  SetIndentationGuides (This.XML_Edit_Box, True);
-
-      SetLexer (This.XML_Edit_Box, SCLEX_XML);
-
-      StyleSetFore (This.XML_Edit_Box, STYLE_DEFAULT, Black);
-      StyleSetBack (This.XML_Edit_Box, STYLE_DEFAULT, White);
-      StyleSetSize (This.XML_Edit_Box, STYLE_DEFAULT, 10);
-      StyleSetFont (This.XML_Edit_Box, STYLE_DEFAULT, "Courier");
-      StyleClearAll (This.XML_Edit_Box);
-
-      StyleSetFore (This.XML_Edit_Box, SCE_H_DEFAULT, Black);
-      StyleSetBack (This.XML_Edit_Box, SCE_H_DEFAULT, White);
-      StyleSetSize (This.XML_Edit_Box, SCE_H_DEFAULT, 10);
-      StyleSetFont (This.XML_Edit_Box, SCE_H_DEFAULT, "Courier");
-
-
-      StyleSetFore (This.XML_Edit_Box, SCE_H_COMMENT, Red);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_NUMBER, Blue);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_TAG, Dark_Green);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_ATTRIBUTE, Dark_Red);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_ENTITY, Blue);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_SINGLESTRING, Dark_Blue);
-      StyleSetFore (This.XML_Edit_Box, SCE_H_DOUBLESTRING, Dark_Blue);
+      GNAVI_Common.Set_Up_Editor (This.Body_Edit_Box, GWindows.Scintilla.SCLEX_ADA);
+      GNAVI_Common.Set_Up_Editor (This.Spec_Edit_Box, GWindows.Scintilla.SCLEX_ADA);
+      GNAVI_Common.Set_Up_Editor (This.XML_Edit_Box,  GWindows.Scintilla.SCLEX_XML);
 
       --  Setup Layout Box
       GWindows.Scroll_Panels.Panel_Size (This.Layout_Box, 2024, 2024);
@@ -633,7 +510,7 @@ package body GNAVI_Edit_Window_Package is
       Load_All_Views (This);
 
       This.Edit_Box := null;
-      Show_View ("Outline View", This.Outline_Box);
+      Show_View (This, "Outline View", This.Outline_Box);
    end Do_Create;
 
    procedure Do_Close
@@ -672,7 +549,7 @@ package body GNAVI_Edit_Window_Package is
          when ID_EDIT_REDO =>
             Redo (This.Edit_Box.all);
          when ID_EDIT_SELECTALL =>
-            SelectAll (This.Edit_Box.all);
+            Select_All (This.Edit_Box.all);
          when ID_EDIT_DELETE =>
             Clear (This.Edit_Box.all);
          when others =>
@@ -685,6 +562,7 @@ package body GNAVI_Edit_Window_Package is
       Item   : in     Integer;
       Kind   : in     GWindows.Windows.Hover_Item_Type)
    is
+   pragma Unreferenced (Item);
       use GWindows.Menus;
       use GWindows.Scintilla;
       use type GWindows.Windows.Hover_Item_Type;
@@ -707,19 +585,19 @@ package body GNAVI_Edit_Window_Package is
             State (M, Command, ID_EDIT_DELETE, Enabled);
             State (M, Command, ID_EDIT_SELECTALL, Enabled);
 
-            if CanPaste (This.Edit_Box.all) then
+            if Can_Paste (This.Edit_Box.all) then
                State (M, Command, ID_EDIT_PASTE, Enabled);
             else
                State (M, Command, ID_EDIT_PASTE, Grayed);
             end if;
 
-            if CanUndo (This.Edit_Box.all) then
+            if Can_Undo (This.Edit_Box.all) then
                State (M, Command, ID_EDIT_UNDO, Enabled);
             else
                State (M, Command, ID_EDIT_UNDO, Grayed);
             end if;
 
-            if CanRedo (This.Edit_Box.all) then
+            if Can_Redo (This.Edit_Box.all) then
                State (M, Command, ID_EDIT_REDO, Enabled);
             else
                State (M, Command, ID_EDIT_REDO, Grayed);
@@ -753,8 +631,8 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
-      This.Edit_Box := This.XML_Edit_Box'Access;
-      Show_View ("XML View", This.XML_Edit_Box);
+      This.Edit_Box := This.XML_Edit_Box'Unchecked_Access;
+      Show_View (This, "XML View", This.XML_Edit_Box);
    end Do_XML_Window;
 
    procedure Do_Outline_Window
@@ -765,7 +643,7 @@ package body GNAVI_Edit_Window_Package is
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
       This.Edit_Box := null;
-      Show_View ("Outline View", This.Outline_Box);
+      Show_View (This, "Outline View", This.Outline_Box);
    end Do_Outline_Window;
 
    procedure Do_Layout_Window
@@ -776,7 +654,7 @@ package body GNAVI_Edit_Window_Package is
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
       This.Edit_Box := null;
-      Show_View ("Layout View", This.Layout_Box);
+      Show_View (This, "Layout View", This.Layout_Box);
       GNAVI_Layout_View.Edit_Window (This.Layout_Editor,
                                      This.Layout_Box.Panel,
                                      This.Win_XML);
@@ -789,8 +667,8 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
-      This.Edit_Box := This.Spec_Edit_Box'Access;
-      Show_View ("Spec View", This.Spec_Edit_Box);
+      This.Edit_Box := This.Spec_Edit_Box'Unchecked_Access;
+      Show_View (This, "Spec View", This.Spec_Edit_Box);
    end Do_Spec_Window;
 
    procedure Do_Body_Window
@@ -800,8 +678,8 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
    begin
-      This.Edit_Box := This.Body_Edit_Box'Access;
-      Show_View ("Body View", This.Body_Edit_Box);
+      This.Edit_Box := This.Body_Edit_Box'Unchecked_Access;
+      Show_View (This, "Body View", This.Body_Edit_Box);
    end Do_Body_Window;
 
    procedure Do_Select_OV_Control
@@ -845,35 +723,35 @@ package body GNAVI_Edit_Window_Package is
            To_String ("procedure " &
                       All_Handler_Name (Current_Control,
                                         Current (This.Handlers_View))) &
-           Character'Val(0);
+           Character'Val (0);
 
-         Begin_Text : String := "begin" & Character'Val(0);
+         Begin_Text : String := "begin" & Character'Val (0);
 
          Find_Info : aliased Find_Text_Type :=
-           (0, GetLength (This.Body_Edit_Box),
-            Search_Text(1)'Address, 0, 0);
+           (0, Sci_PositionCR (Get_Length (This.Body_Edit_Box)),
+            Search_Text (1)'Address, 0, 0);
 
-         F_POS, F_POS_2 : Integer;
+         F_POS, F_POS_2 : Position;
          pragma Unreferenced (F_POS_2);
       begin
-         This.Edit_Box := This.Body_Edit_Box'Access;
-         Show_View ("Body View", This.Body_Edit_Box);
-         F_POS := FindText (This.Body_Edit_Box,
-                            flags => 0,
-                            ft => Find_Info'Unchecked_Access);
-         Find_Info.Min := F_POS;
+         This.Edit_Box := This.Body_Edit_Box'Unchecked_Access;
+         Show_View (This, "Body View", This.Body_Edit_Box);
+         F_POS := Find_Text (This.Body_Edit_Box,
+                             flags => 0,
+                             ft => Find_Info'Unchecked_Access);
+         Find_Info.Min := Sci_PositionCR (F_POS);
          Find_Info.Text := Begin_Text (1)'Address;
 
-         F_POS := FindText (This.Body_Edit_Box,
-                            flags => 0,
-                            ft => Find_Info'Unchecked_Access);
-         F_POS_2 := LineFromPosition (This.Body_Edit_Box, Find_Info.TMax);
+         F_POS := Find_Text (This.Body_Edit_Box,
+                             flags => 0,
+                             ft => Find_Info'Unchecked_Access);
+         F_POS_2 :=
+            Position (Line_From_Position (This.Body_Edit_Box, Position (Find_Info.TMax)));
 
-         GotoPos (This.Body_Edit_Box,
-                  PositionFromLine (This.Body_Edit_Box, F_POS + 1));
+         Go_To_Pos (This.Body_Edit_Box,
+                    Position_From_Line (This.Body_Edit_Box, Integer (F_POS + 1)));
 
-
-         LineScroll (This.Body_Edit_Box, 0, 5);
+         Line_Scroll (This.Body_Edit_Box, 0, 5);
 
          Focus (This.Body_Edit_Box);
       end;
@@ -891,36 +769,40 @@ package body GNAVI_Edit_Window_Package is
         renames GNAVI_Edit_Window_Type
         (GWindows.Base.Controlling_Parent (Window).all);
 
-      Current_Index   : constant Natural := Current (This.Outline_View) - 1;
+      Current_Index   : constant Integer := Current (This.Outline_View) - 1;
       Current_Control : GNAVI_Window.Control_Element;
    begin
-      if Current_Index = 0 then
-         Current_Control := Window_Element (This.Win_XML);
-      else
-         Current_Control := Control (This.Win_XML, Current_Index);
-      end if;
+      case Current_Index is
+         when -1 =>
+            --  No item selected. Possibly a click below the last item of the list.
+            return;
+         when 0 =>
+            Current_Control := Window_Element (This.Win_XML);
+         when others =>
+            Current_Control := Control (This.Win_XML, Current_Index);
+      end case;
 
       declare
          Search_Text : String :=
            To_String ("name=""" &
                       Control_Name (Current_Control) & """" &
-                      GWindows.GCharacter'Val(0));
+                      GWindows.GCharacter'Val (0));
 
          Find_Info : aliased Find_Text_Type :=
-           (0, GetLength (This.XML_Edit_Box),
-            Search_Text(1)'Address, 0, 0);
+           (0, Sci_PositionCR (Get_Length (This.XML_Edit_Box)),
+            Search_Text (1)'Address, 0, 0);
 
-         F_POS : Integer;
+         F_POS : Position;
       begin
-         This.Edit_Box := This.XML_Edit_Box'Access;
-         Show_View ("XML View", This.XML_Edit_Box);
-         F_POS := FindText (This.XML_Edit_Box,
-                            flags => 0,
-                            ft => Find_Info'Unchecked_Access);
+         This.Edit_Box := This.XML_Edit_Box'Unchecked_Access;
+         Show_View (This, "XML View", This.XML_Edit_Box);
+         F_POS := Find_Text (This.XML_Edit_Box,
+                             flags => 0,
+                             ft => Find_Info'Unchecked_Access);
 
-         GotoPos (This.XML_Edit_Box, F_POS);
+         Go_To_Pos (This.XML_Edit_Box, F_POS);
 
-         LineScroll (This.XML_Edit_Box, 0, 5);
+         Line_Scroll (This.XML_Edit_Box, 0, 5);
 
          Focus (This.XML_Edit_Box);
       end;
@@ -931,7 +813,6 @@ package body GNAVI_Edit_Window_Package is
    is
       use GNAVI_Window;
       use GWindows.List_Boxes;
-      use GWindows.GStrings;
 
       This : GNAVI_Edit_Window_Type
         renames GNAVI_Edit_Window_Type

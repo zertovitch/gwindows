@@ -116,7 +116,6 @@ package GNAVI_Widget_Vehicle is
       Canvas : in out GWindows.Drawing.Canvas_Type;
       Area   : in     GWindows.Types.Rectangle_Type);
 
-
    type GNAVI_Widget_Blanket_Type is
      new GWindows.Windows.Window_Type with
       record

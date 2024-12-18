@@ -183,7 +183,7 @@ package body GNATCOM.Create.IConnectionPointContainer is
          Result := COM_Interface.QueryInterface
            (Obj.Connections (Obj.I),
             GNATCOM.Types.IID_IConnectionPoint'Access,
-            To_Pointer_To_Pointer_To_Void (CP'Access));
+            To_Pointer_To_Pointer_To_Void (CP'Unchecked_Access));
          ppCP (ppCP'First + J) := CP;
          Obj.I := Obj.I + 1;
       end loop;

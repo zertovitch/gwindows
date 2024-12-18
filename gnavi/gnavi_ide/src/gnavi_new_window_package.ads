@@ -56,4 +56,3 @@ package GNAVI_New_Window_Package is
      (Window : in out GWindows.Base.Base_Window_Type'Class);
 
 end GNAVI_New_Window_Package;
-

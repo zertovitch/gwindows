@@ -44,5 +44,5 @@ package Unicode.CCS.Iso_8859_1 is
 
    Iso_8859_1_Character_Set : constant Character_Set :=
      (To_Unicode => To_Unicode'Access,
-      To_Cs      => To_Iso_8859_1'Access);
+      To_CS      => To_Iso_8859_1'Access);
 end Unicode.CCS.Iso_8859_1;

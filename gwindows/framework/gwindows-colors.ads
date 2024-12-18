@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2017 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -57,9 +57,8 @@ package GWindows.Colors is
          Unused at 3 range 0 .. 7;
       end record;
 
-   function To_Color (Red, Green, Blue : Color_Range) return Color_Type;
-   function To_Color (RGB : RGB_Type)
-                     return Color_Type;
+   function To_Color (Red_Value, Green_Value, Blue_Value : Color_Range) return Color_Type;
+   function To_Color (RGB : RGB_Type) return Color_Type;
    function To_RGB (Color : in Color_Type) return RGB_Type;
 
    COLOR_SCROLLBAR            : constant := 0;

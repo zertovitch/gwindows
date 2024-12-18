@@ -116,13 +116,14 @@ package body AnotherWindow_Package is
       GWindows.Static_Controls.Dock (Window.Split_Text, GWindows.Base.Fill);
       GWindows.Static_Controls.Enabled (Window.Split_Text, False);
 
-      GWindows.Edit_Boxes.Create (Window.Edit_Box4,
-                                  Parent => Window.Split3,
-                                  Left => 0,
-                                  Top => 0,
-                                  Width => 1,
-                                  Height => 1,
-                                  Text => "Edit_Box4, inside panel Split3 (like Split_Bar3), inside Pack_Box1, inside panel Split2");
+      GWindows.Edit_Boxes.Create
+        (Window.Edit_Box4,
+         Parent => Window.Split3,
+         Left => 0,
+         Top => 0,
+         Width => 1,
+         Height => 1,
+         Text => "Edit_Box4, inside panel Split3 (like Split_Bar3), inside Pack_Box1, inside panel Split2");
       GWindows.Edit_Boxes.Dock (Window.Edit_Box4, GWindows.Base.Fill);
 
       GWindows.Edit_Boxes.Create (Window.Edit_Box5,

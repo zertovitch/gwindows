@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -38,9 +38,9 @@ with System;
 
 with GWindows.Constants;
 with GWindows.Drawing_Objects;
-with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 with GWindows.Internal;
+with GWindows.Cursors;
 
 package body GWindows.Common_Controls is
 
@@ -261,13 +261,15 @@ package body GWindows.Common_Controls is
    TCM_INSERTITEMW         : constant := TCM_FIRST + 62;
    TCM_DELETEITEM          : constant := TCM_FIRST + 8;
    TCM_DELETEALLITEMS      : constant := TCM_FIRST + 9;
+   TCM_GETITEMRECT         : constant := TCM_FIRST + 10;
    TCM_GETCURSEL           : constant := TCM_FIRST + 11;
    TCM_SETCURSEL           : constant := TCM_FIRST + 12;
    TCM_HITTEST             : constant := TCM_FIRST + 13;
    TCM_ADJUSTRECT          : constant := TCM_FIRST + 40;
    TCM_GETROWCOUNT         : constant := TCM_FIRST + 44;
    TCM_SETTOOLTIPS         : constant := TCM_FIRST + 46;
-   --  TCM_SETCURFOCUS         : constant := TCM_FIRST + 48;
+   TCM_GETCURFOCUS         : constant := TCM_FIRST + 47;
+   TCM_SETCURFOCUS         : constant := TCM_FIRST + 48;
 
    TCIF_TEXT               : constant := 16#0001#;
 --     TCIF_IMAGE              : constant := 16#0002#;
@@ -588,10 +590,44 @@ package body GWindows.Common_Controls is
                BeginPaint (Handle (Window), PS);
                GWindows.Drawing.Handle (CV, PS.HDC);
                ST := GWindows.Drawing.Save_State (CV);
-               On_Paint (Common_Control_Type'Class (Window),
-                         CV,
-                         PS.rcPaint,
-                         Call_Default_Handler);
+               if not Window.Double_Buffered_Paint then
+                  On_Paint (Common_Control_Type'Class (Window),
+                            CV,
+                            PS.rcPaint,
+                            Call_Default_Handler);
+               else
+                  declare
+                     use GWindows.Drawing, GWindows.Drawing_Objects;
+                     Area            : GWindows.Types.Rectangle_Type renames PS.rcPaint;
+                     Canvas          : Canvas_Type renames CV;
+                     Width           : constant Natural := Area.Right  - Area.Left;
+                     Height          : constant Natural := Area.Bottom - Area.Top;
+                     Memory_Canvas   : Memory_Canvas_Type;
+                     Bitmap          : Bitmap_Type;
+                     Previous_Bitmap : Bitmap_Type;
+                     Previous_Offset : GWindows.Types.Point_Type;
+                  begin
+                     --  Create new memory bitmap device context, large as the dirty rectangle.
+                     Create_Memory_Canvas (Memory_Canvas, Canvas);
+                     Create_Compatible_Bitmap (Canvas, Bitmap, Width, Height);
+                     Select_Object (Memory_Canvas, Bitmap, Previous_Bitmap);
+                     --  Do the painting into the memory bitmap.
+                     Offset_Viewport_Origin (Memory_Canvas, -Area.Left, -Area.Top, Previous_Offset);
+                     On_Paint (Common_Control_Type'Class (Window),
+                               Canvas_Type (Memory_Canvas),
+                               Area,
+                               Call_Default_Handler);
+                     --  Blit the bitmap into the screen.
+                     Viewport_Origin (Memory_Canvas, Previous_Offset.X, Previous_Offset.Y);
+                     BitBlt (Canvas, Area.Left, Area.Top, Width, Height,
+                             Memory_Canvas, 0, 0);
+                     --  Clean up.
+                     Select_Object (Memory_Canvas, Previous_Bitmap);
+                     Delete (Bitmap);
+                     --  Memory_Canvas is automatically deleted (controlled type)
+                  end;
+               end if;
+
                GWindows.Drawing.Load_State (CV, ST);
                GWindows.Drawing.Handle (CV, GWindows.Types.Null_Handle);
                EndPaint (Handle (Window), PS);
@@ -757,17 +793,23 @@ package body GWindows.Common_Controls is
                      "SendMessage" & Character_Mode_Identifier);
    begin
       SendMessage;
+
+      Bar.Parts.Clear;
+      Bar.Parts.Set_Length (Positions'Length);
    end Parts;
 
    ----------
    -- Text --
    ----------
 
-   procedure Text (Bar  : in out Status_Bar_Type;
-                   Text : in     GString;
-                   Part : in     Natural;
-                   How  : in     Status_Kind_Type := Sunken)
+   procedure Text (Bar          : in out Status_Bar_Type;
+                   Text         : in     GString;
+                   Part         : in     Natural;
+                   How          : in     Status_Kind_Type := Sunken;
+                   Force_Redraw : in     Boolean := False)
    is
+      use type Ada.Strings.Wide_Unbounded.Unbounded_Wide_String;
+
       SB_SETTEXTA   : constant := 16#401#;
       SB_SETTEXTW   : constant := 16#40B#;
       SBT_NOBORDERS : constant := 16#0100#;
@@ -798,30 +840,116 @@ package body GWindows.Common_Controls is
           lParam : System.Address := C_Text'Address);
       pragma Import (StdCall, SendMessageW, "SendMessageW");
 
+      Bar_Part : Status_Bar_Part_Type renames Bar.Parts (Part);
+      New_Text : constant GString_Unbounded
+                 := GWindows.GStrings.To_GString_Unbounded (Text);
    begin
-      case Character_Mode is
-         when Unicode => SendMessageW;
-         when ANSI    => SendMessageA;
-      end case;
+      --  To avoid flicker, update only when needed
+      if Force_Redraw or else Bar_Part.Text /= New_Text then
+         Bar_Part.Text := New_Text;
+
+         case Character_Mode is
+            when Unicode => SendMessageW;
+            when ANSI    => SendMessageA;
+         end case;
+      end if;
+   end Text;
+
+   ----------
+   -- Text --
+   ----------
+
+   function Text
+     (Bar  : in out Status_Bar_Type;
+      Part : in     Natural)
+     return GString
+   is
+   begin
+      return GWindows.GStrings.To_GString_From_Unbounded
+                                 (Bar.Parts (Part).Text);
    end Text;
 
    ----------------------
    -- Background_Color --
    ----------------------
 
-   procedure Background_Color (Bar   : in out Status_Bar_Type;
-                               Color : GWindows.Colors.Color_Type) is
-      SB_SETBKCOLOR : constant := 16#2001#;
-      procedure SendMessage
-         (hwnd   : GWindows.Types.Handle := Handle (Bar);
-          uMsg   : Interfaces.C.int      := SB_SETBKCOLOR;
-          wParam : GWindows.Types.Wparam := 0;
-          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Color));
-      pragma Import (StdCall, SendMessage,
-                     "SendMessage" & Character_Mode_Identifier);
+   procedure Background_Color (Bar        : in out Status_Bar_Type;
+                               Color      : in     GWindows.Colors.Color_Type;
+                               Update_Now : in     Boolean := False) is
+      --  SB_SETBKCOLOR : constant := 16#2001#;
+      --  procedure SendMessage
+      --     (hwnd   : GWindows.Types.Handle := Handle (Bar);
+      --      uMsg   : Interfaces.C.int      := SB_SETBKCOLOR;
+      --      wParam : GWindows.Types.Wparam := 0;
+      --      lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Color));
+      --  pragma Import (StdCall, SendMessage,
+      --                 "SendMessage" & Character_Mode_Identifier);
    begin
-      SendMessage;
+      --  SendMessage;
+      Background_Color (Common_Control_Type (Bar), Color);
+
+      if Update_Now then
+         Bar.Redraw (Erase => True, Redraw_Now => True);
+      end if;
    end Background_Color;
+
+   -----------------
+   -- Part_Colors --
+   -----------------
+
+   procedure Part_Colors (Bar              : in out Status_Bar_Type;
+                          Part             : in     Natural;
+                          Background_Color : in     GWindows.Colors.Color_Type;
+                          Text_Color       : in     GWindows.Colors.Color_Type;
+                          Update_Now       : in     Boolean := False) is
+   begin
+      Bar.Parts (Part).Background_Color := Background_Color;
+      Bar.Parts (Part).Text_Color       := Text_Color;
+      if Update_Now then
+         Bar.Redraw;
+      end if;
+   end Part_Colors;
+
+   ------------------
+   -- On_Draw_Item --
+   ------------------
+   overriding procedure On_Draw_Item
+     (Bar             : in out Status_Bar_Type;
+      Canvas          : in out GWindows.Drawing.Canvas_Type;
+      Item_ID         : in     Integer;
+      Item_Action     : in     Interfaces.C.unsigned;
+      Item_State      : in     Interfaces.C.unsigned;
+      Item_Rect       : in     GWindows.Types.Rectangle_Type;
+      Item_Data       : in     Integer;
+      Control         : in     GWindows.Base.Pointer_To_Base_Window_Class) is
+
+      pragma Unreferenced (Item_Action, Item_State, Item_Data, Control);
+
+      use GWindows.Drawing, GWindows.Drawing_Objects;
+
+      Bar_Part : constant Status_Bar_Part_Type := Bar.Parts (Item_ID);
+      Brush     : Brush_Type;  --  Rectangle filling
+      Txt       : constant GString
+                := GWindows.GStrings.To_GString_From_Unbounded (Bar_Part.Text);
+      Text_Size : GWindows.Types.Size_Type;
+      Y_Offset  : Integer;
+   begin
+      Create_Solid_Brush (Brush, Color => Bar_Part.Background_Color);
+      Fill_Rectangle (Canvas, Item_Rect, Brush);
+      Delete (Brush);
+
+      Text_Size := Text_Output_Size (Canvas, Txt);
+      Vertical_Text_Alignment (Canvas, Top);
+      Horizontal_Text_Alignment (Canvas, Left);
+      Text_Color (Canvas, Color => Bar_Part.Text_Color);
+      Background_Mode (Canvas, Transparent);
+      Y_Offset := ((Item_Rect.Bottom - Item_Rect.Top) - Text_Size.Height) / 2;
+      Put (Canvas, X         => Item_Rect.Left,
+                   Y         => Item_Rect.Top + Y_Offset,
+                   Text      => Txt,
+                   Clip_Area => Item_Rect);
+
+   end On_Draw_Item;
 
    procedure Background_Color (Window : in out Common_Control_Type;
                                Color  : in     GWindows.Colors.Color_Type)
@@ -2151,19 +2279,20 @@ package body GWindows.Common_Controls is
    ------------
 
    procedure Create
-     (Control    : in out List_View_Control_Type;
-      Parent     : in out GWindows.Base.Base_Window_Type'Class;
-      Left       : in     Integer;
-      Top        : in     Integer;
-      Width      : in     Integer;
-      Height     : in     Integer;
-      Selection  : in     List_View_Control_Select_Type        := Single;
-      View       : in     List_View_Control_View_Type          := List_View;
-      Sort       : in     List_View_Control_Sort_Type          := No_Sorting;
-      Arrange    : in     Boolean                              := True;
-      Align      : in     List_View_Control_Alignment_Type     := Align_Left;
-      Show       : in     Boolean                              := True;
-      Is_Dynamic : in     Boolean                              := False)
+     (Control     : in out List_View_Control_Type;
+      Parent      : in out GWindows.Base.Base_Window_Type'Class;
+      Left        : in     Integer;
+      Top         : in     Integer;
+      Width       : in     Integer;
+      Height      : in     Integer;
+      Selection   : in     List_View_Control_Select_Type        := Single;
+      View        : in     List_View_Control_View_Type          := List_View;
+      Sort        : in     List_View_Control_Sort_Type          := No_Sorting;
+      Arrange     : in     Boolean                              := True;
+      Align       : in     List_View_Control_Alignment_Type     := Align_Left;
+      Show        : in     Boolean                              := True;
+      Show_Header : in     Boolean                              := True;  --  For View = Report_View
+      Is_Dynamic  : in     Boolean                              := False)
    is
 
       LVS_ICON                : constant := 16#0000#;
@@ -2184,7 +2313,7 @@ package body GWindows.Common_Controls is
       LVS_ALIGNTOP            : constant := 16#0000#;
       LVS_ALIGNLEFT           : constant := 16#0800#;
       --  LVS_ALIGNMASK           : constant := 16#0c00#;
-      --  LVS_NOCOLUMNHEADER      : constant := 16#4000#;
+      LVS_NOCOLUMNHEADER      : constant := 16#4000#;
       LVS_NOSORTHEADER        : constant := 16#8000#;
 
       Styles     : Interfaces.C.unsigned := LVS_SHOWSELALWAYS;
@@ -2222,6 +2351,10 @@ package body GWindows.Common_Controls is
          Styles := Styles or LVS_ALIGNLEFT;
       elsif Align = Align_Top then
          Styles := Styles or LVS_ALIGNTOP;
+      end if;
+
+      if not Show_Header then
+         Styles := Styles or LVS_NOCOLUMNHEADER;
       end if;
 
       Create_Control (Control, Parent,
@@ -3582,7 +3715,7 @@ package body GWindows.Common_Controls is
 
         when TVN_ITEMEXPANDINGA | TVN_ITEMEXPANDINGW =>
           declare
-            Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type
+             Nmtv_Ptr : constant Pointer_To_NMTREEVIEW_Type
                        := Message_To_NmTreeView_Pointer (Message);
           begin
             On_Item_Expanding (Tree_View_Control_Type'Class (Window),
@@ -3592,7 +3725,7 @@ package body GWindows.Common_Controls is
 
         when TVN_ITEMEXPANDEDA | TVN_ITEMEXPANDEDW =>
           declare
-            Nmtv_Ptr : Pointer_To_NMTREEVIEW_Type
+             Nmtv_Ptr : constant Pointer_To_NMTREEVIEW_Type
                        := Message_To_NmTreeView_Pointer (Message);
           begin
             On_Item_Expanded (Tree_View_Control_Type'Class (Window),
@@ -4320,7 +4453,7 @@ package body GWindows.Common_Controls is
          uMsg   : Interfaces.C.int      := TCM_GETCURSEL;
          wParam : GWindows.Types.Wparam := 0;
          lParam : GWindows.Types.Lparam := 0)
-        return GWindows.Types.Lresult;
+        return GWindows.Types.INT_PTR;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
@@ -4381,6 +4514,38 @@ package body GWindows.Common_Controls is
       SendMessage;
    end Set_Tool_Tips;
 
+   ----------------
+   -- Tab_Colors --
+   ----------------
+
+   procedure Tab_Colors
+     (Control                           : in out Tab_Control_Type;
+      Background_Color                  : in     GWindows.Colors.Color_Type;
+      Background_Selected_Color         : in     GWindows.Colors.Color_Type;
+      Background_Hovered_Color          : in     GWindows.Colors.Color_Type;
+      Background_Selected_Hovered_Color : in     GWindows.Colors.Color_Type;
+      Foreground_Color                  : in     GWindows.Colors.Color_Type;
+      Foreground_Selected_Color         : in     GWindows.Colors.Color_Type;
+      Foreground_Hovered_Color          : in     GWindows.Colors.Color_Type;
+      Foreground_Selected_Hovered_Color : in     GWindows.Colors.Color_Type;
+      Frame_Color                       : in     GWindows.Colors.Color_Type)
+   is
+   begin
+      Control.Tab_Background_Color          := Background_Color;
+      Control.Tab_Background_Selected_Color := Background_Selected_Color;
+      Control.Tab_Background_Hovered_Color  := Background_Hovered_Color;
+      Control.Tab_Background_Selected_Hovered_Color :=
+                                             Background_Selected_Hovered_Color;
+      Control.Tab_Foreground_Color          := Foreground_Color;
+      Control.Tab_Foreground_Selected_Color := Foreground_Selected_Color;
+      Control.Tab_Foreground_Hovered_Color  := Foreground_Hovered_Color;
+      Control.Tab_Foreground_Selected_Hovered_Color :=
+                                             Foreground_Selected_Hovered_Color;
+      Control.Tab_Frame_Color               := Frame_Color;
+      Control.Tab_Color_Sys := False;
+      Control.Double_Buffered_Paint (True);
+   end Tab_Colors;
+
    ------------------
    -- Display_Area --
    ------------------
@@ -4402,6 +4567,58 @@ package body GWindows.Common_Controls is
       SendMessage (lParam => RT);
       return RT;
    end Display_Area;
+
+   --------------
+   -- Tab_Area --
+   --------------
+
+   function Tab_Area (Control : in Tab_Control_Type;
+                      Where   : in Integer)
+                         return GWindows.Types.Rectangle_Type is
+      RT : GWindows.Types.Rectangle_Type := (0, 0, 0, 0);
+
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := TCM_GETITEMRECT;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Where);
+         lParam : in out GWindows.Types.Rectangle_Type);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage (lParam => RT);
+      return RT;
+   end Tab_Area;
+
+   ---------------
+   -- Tab_Focus --
+   ---------------
+
+   procedure Focused_Tab (Control : in Tab_Control_Type;
+                          Where   : in Integer) is
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := TCM_SETCURFOCUS;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Where);
+         lParam : GWindows.Types.Lparam := 0);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      SendMessage;
+   end Focused_Tab;
+
+   function Focused_Tab (Control : in Tab_Control_Type)
+                        return Integer is
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := TCM_GETCURFOCUS;
+         wParam : GWindows.Types.Wparam := 0;
+         lParam : GWindows.Types.Lparam := 0)
+         return Interfaces.C.int;
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      return Integer (SendMessage);
+   end Focused_Tab;
 
    function Item_At_Position
      (Control  : in Tab_Control_Type;
@@ -4474,6 +4691,251 @@ package body GWindows.Common_Controls is
       end case;
 
    end On_Notify;
+
+   -------------------------
+   -- On_Erase_Background --
+   -------------------------
+
+   procedure On_Erase_Background
+     (Control              : in out Tab_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type)
+   is
+   begin
+      --  Use own painting only when background and tab colors are defined
+      if Control.Tab_Color_Sys or else
+         Control.Background_Color_Sys
+      then
+         On_Erase_Background (Common_Control_Type (Control),
+                              Canvas,
+                              Area,
+                              Call_Default_Handler);
+         return;
+      end if;
+      --  Owner drawn -> do not erase background (done in On_Paint)
+      Call_Default_Handler := GWindows.Common_Controls.No;
+   end On_Erase_Background;
+
+   --------------
+   -- On_Paint --
+   --------------
+
+   procedure On_Paint
+     (Control              : in out Tab_Control_Type;
+      Canvas               : in out GWindows.Drawing.Canvas_Type;
+      Area                 : in     GWindows.Types.Rectangle_Type;
+      Call_Default_Handler : in out Event_Call_Default_Handler_Type)
+   is
+      use GWindows.Drawing, GWindows.Drawing_Objects;
+      Pen_Frame : Pen_Type;
+   begin
+      --  Use own painting only when background and tab colors are defined
+      if Control.Tab_Color_Sys or else
+         Control.Background_Color_Sys
+      then
+         Call_Default_Handler := GWindows.Common_Controls.Yes;
+         return;
+      end if;
+      Call_Default_Handler := GWindows.Common_Controls.No;
+
+      --  Paint background
+      declare
+         Brush : Brush_Type;
+      begin
+         Create_Solid_Brush (Brush, Color => Control.Background_Color);
+         Fill_Rectangle (Canvas, Area, Brush);
+         Delete (Brush);
+      end;
+
+      Create_Pen (Pen_Frame, Solid, 1, Control.Tab_Frame_Color);
+      Canvas.Select_Object (Pen_Frame);
+
+      --  Draw base frame line and fill underneath
+      declare
+         Display_Area : constant GWindows.Types.Rectangle_Type
+                                   := Control.Display_Area;
+         Client_Area  : constant GWindows.Types.Rectangle_Type
+                                   := Control.Client_Area;
+         Brush        : Brush_Type;
+         Rect         : constant GWindows.Types.Rectangle_Type
+                                   := (Left   => Client_Area.Left,
+                                       Top    => Display_Area.Bottom,
+                                       Right  => Client_Area.Right,
+                                       Bottom => Client_Area.Bottom);
+      begin
+         Create_Solid_Brush (Brush,
+                             Color => Control.Tab_Background_Selected_Color);
+         Fill_Rectangle (Canvas, Rect, Brush);
+         Delete (Brush);
+         Canvas.Line (Client_Area.Left,  Display_Area.Bottom - 1,
+                      Client_Area.Right, Display_Area.Bottom - 1);
+      end;
+
+      --  Paint tabs
+      declare
+         Current_Tab  : constant Integer := Control.Selected_Tab;
+         --  Focused_Tab  : constant Integer := Control.Focused_Tab;
+         Hovered_Tab  : constant Integer
+                      := Control.Item_At_Position
+                           (Point_To_Client
+                              (Control, GWindows.Cursors.Get_Cursor_Position));
+         Brush_Bckgnd         : Brush_Type;
+         Brush_Bckgnd_Current : Brush_Type;
+         Brush_Bckgnd_Hovered : Brush_Type;
+         Brush_Bckgnd_Current_Hovered : Brush_Type;
+         Font         : GWindows.Drawing_Objects.Font_Type;
+      begin
+         Create_Solid_Brush
+           (Brush_Bckgnd,
+            Color => Control.Tab_Background_Color);
+         Create_Solid_Brush
+           (Brush_Bckgnd_Current,
+            Color => Control.Tab_Background_Selected_Color);
+         Create_Solid_Brush
+           (Brush_Bckgnd_Hovered,
+            Color => Control.Tab_Background_Hovered_Color);
+         Create_Solid_Brush
+           (Brush_Bckgnd_Current_Hovered,
+            Color => Control.Tab_Background_Selected_Hovered_Color);
+         Control.Get_Font (Font);
+         Select_Object (Canvas, Font);
+         declare
+            procedure Draw_Tab (Tab_Index    : Natural;
+                                Selected_Tab : Boolean)
+            is
+               Tab_Rect : constant GWindows.Types.Rectangle_Type
+                                     := Control.Tab_Area (Tab_Index);
+            begin
+               --  Tab needs to be drawn ?
+               if not Canvas.Inside_Clipping_Area (Tab_Rect.Left  - 2,
+                                                   Tab_Rect.Top   - 2,
+                                                   Tab_Rect.Right + 1,
+                                                   Tab_Rect.Bottom)
+               then
+                  return;
+               end if;
+
+               --  Draw tab and fill it
+               declare
+                  Points : constant GWindows.Types.Point_Array_Type
+                                := (if Selected_Tab
+                                    then
+                                      ((Tab_Rect.Left  - 2, Tab_Rect.Bottom),
+                                       (Tab_Rect.Left  - 2, Tab_Rect.Top),
+                                       (Tab_Rect.Left  + 0, Tab_Rect.Top - 2),
+                                       (Tab_Rect.Right - 1, Tab_Rect.Top - 2),
+                                       (Tab_Rect.Right + 1, Tab_Rect.Top),
+                                       (Tab_Rect.Right + 1, Tab_Rect.Bottom))
+                                    else
+                                      ((Tab_Rect.Left,      Tab_Rect.Bottom),
+                                       (Tab_Rect.Left,      Tab_Rect.Top + 2),
+                                       (Tab_Rect.Left  + 2, Tab_Rect.Top),
+                                       (Tab_Rect.Right - 3, Tab_Rect.Top),
+                                       (Tab_Rect.Right - 1, Tab_Rect.Top + 2),
+                                       (Tab_Rect.Right - 1, Tab_Rect.Bottom)));
+               begin
+                  if Selected_Tab then
+                     if Tab_Index = Hovered_Tab then
+                        Select_Object (Canvas, Brush_Bckgnd_Current_Hovered);
+                     else
+                        Select_Object (Canvas, Brush_Bckgnd_Current);
+                     end if;
+                  else
+                     if Tab_Index = Hovered_Tab then
+                        Select_Object (Canvas, Brush_Bckgnd_Hovered);
+                     else
+                        Select_Object (Canvas, Brush_Bckgnd);
+                     end if;
+                  end if;
+                  Canvas.Polygon (Points);
+
+                  if Selected_Tab then
+                     --  Erase bottom line
+                     declare
+                        Pen_Background : Pen_Type;
+                     begin
+                        Create_Pen
+                          (Pen_Background,
+                           Solid,
+                           1,
+                           (if Tab_Index = Hovered_Tab
+                            then Control.Tab_Background_Selected_Hovered_Color
+                            else Control.Tab_Background_Selected_Color));
+                        Canvas.Select_Object (Pen_Background);
+                        Canvas.Line (Tab_Rect.Left  - 1, Tab_Rect.Bottom,
+                                     Tab_Rect.Right + 1, Tab_Rect.Bottom);
+                        Canvas.Select_Object (Pen_Frame);
+                        Delete (Pen_Background);
+                     end;
+                  end if;
+               end;
+
+               --  Draw Text
+               declare
+                  Txt       : constant GString := Control.Text (Tab_Index);
+                  Text_Size : constant GWindows.Types.Size_Type
+                                         := Text_Output_Size (Canvas, Txt);
+                  Y_Offset  : Integer;
+               begin
+                  Vertical_Text_Alignment (Canvas, Top);
+                  Horizontal_Text_Alignment (Canvas, Center);
+                  if Selected_Tab then
+                     if Tab_Index = Hovered_Tab then
+                        Text_Color
+                          (Canvas,
+                           Color =>
+                                Control.Tab_Foreground_Selected_Hovered_Color);
+                     else
+                        Text_Color
+                          (Canvas,
+                           Color => Control.Tab_Foreground_Selected_Color);
+                     end if;
+                  else
+                     if Tab_Index = Hovered_Tab then
+                        Text_Color
+                          (Canvas,
+                           Color => Control.Tab_Foreground_Hovered_Color);
+                     else
+                        Text_Color
+                          (Canvas,
+                           Color => Control.Tab_Foreground_Color);
+                     end if;
+                  end if;
+                  Background_Mode (Canvas, Transparent);
+                  Y_Offset := ((Tab_Rect.Bottom - Tab_Rect.Top)
+                               - Text_Size.Height) / 2;
+                  if Selected_Tab then
+                     Y_Offset := Y_Offset - 1;
+                  end if;
+                  Put (Canvas,
+                       X         => (Tab_Rect.Left + Tab_Rect.Right) / 2,
+                       Y         => Tab_Rect.Top + Y_Offset,
+                       Text      => Txt,
+                       Clip_Area => Tab_Rect);
+               end;
+            end Draw_Tab;
+         begin
+            --  Draw all tabs but the selected one
+            for i in 0 .. Control.Tab_Count - 1 loop
+               if i /= Current_Tab then
+                  Draw_Tab (i, False);
+               end if;
+            end loop;
+            --  Draw selected tab
+            --  (must be drawn last as it overlaps surrounding tabs)
+            if Current_Tab >= 0 then
+               Draw_Tab (Current_Tab, True);
+            end if;
+         end;
+
+         Delete (Brush_Bckgnd);
+         Delete (Brush_Bckgnd_Current);
+         Delete (Brush_Bckgnd_Hovered);
+         Delete (Brush_Bckgnd_Current_Hovered);
+      end;
+      Delete (Pen_Frame);
+   end On_Paint;
 
    -----------------------------
    --  Set_As_Control_Parent  --

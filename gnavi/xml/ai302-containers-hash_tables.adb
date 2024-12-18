@@ -38,7 +38,6 @@ package body AI302.Containers.Hash_Tables is
    procedure Free is
       new Ada.Unchecked_Deallocation (Buckets_Type, Buckets_Access);
 
-
    function Index
      (Buckets : Buckets_Type;
       Node    : Node_Access) return Hash_Type;
@@ -51,7 +50,6 @@ package body AI302.Containers.Hash_Tables is
    begin
       return Hash_Node (Node) mod Buckets'Length;
    end Index;
-
 
    function Index
      (Hash_Table : Hash_Table_Type;
@@ -66,7 +64,6 @@ package body AI302.Containers.Hash_Tables is
       return Index (Hash_Table.Buckets.all, Node);
    end Index;
 
-
    function Index
      (Hash_Table : Hash_Table_Type;
       Key        : Key_Type) return Hash_Type;
@@ -79,7 +76,6 @@ package body AI302.Containers.Hash_Tables is
    begin
       return Hash_Key (Key) mod Hash_Table.Buckets'Length;
    end Index;
-
 
    procedure Adjust (HT : in out Hash_Table_Type) is
 
@@ -158,7 +154,6 @@ package body AI302.Containers.Hash_Tables is
 
    end Adjust;
 
-
    procedure Finalize (HT : in out Hash_Table_Type) is
 
       X : Node_Access;
@@ -194,7 +189,6 @@ package body AI302.Containers.Hash_Tables is
       Free (HT.Buckets);
 
    end Finalize;
-
 
    function Generic_Equal
      (L, R : Hash_Table_Type) return Boolean is
@@ -253,7 +247,6 @@ package body AI302.Containers.Hash_Tables is
 
    end Generic_Equal;
 
-
    procedure Clear (HT : in out Hash_Table_Type) is
 
       Index : Hash_Type := 0;
@@ -289,7 +282,6 @@ package body AI302.Containers.Hash_Tables is
 
    end Clear;
 
-
    procedure Move (Target, Source : in out Hash_Table_Type) is
    begin
 
@@ -309,7 +301,6 @@ package body AI302.Containers.Hash_Tables is
       Source := Hash_Table_Type'(null, 0);
 
    end Move;
-
 
    procedure Rehash
      (HT   : in out Hash_Table_Type;
@@ -396,7 +387,6 @@ package body AI302.Containers.Hash_Tables is
 --
 --                 end loop;
 
-
                Free (Dst_Buckets);
                raise;
 
@@ -415,7 +405,6 @@ package body AI302.Containers.Hash_Tables is
       Free (Src_Buckets);
 
    end Rehash;
-
 
    procedure Resize
      (HT : in out Hash_Table_Type;
@@ -490,7 +479,6 @@ package body AI302.Containers.Hash_Tables is
 
    end Resize;
 
-
    procedure Generic_Conditional_Insert
      (HT      : in out Hash_Table_Type;
       Key     : in     Key_Type;
@@ -548,7 +536,6 @@ package body AI302.Containers.Hash_Tables is
       end;
 
    end Generic_Conditional_Insert;
-
 
    procedure Delete
      (HT  : in out Hash_Table_Type;
@@ -612,8 +599,6 @@ package body AI302.Containers.Hash_Tables is
 
    end Delete;
 
-
-
    procedure Delete
      (HT : in out Hash_Table_Type;
       X  : in out Node_Access) is
@@ -669,7 +654,6 @@ package body AI302.Containers.Hash_Tables is
 
    end Delete;
 
-
    function Find
      (HT  : Hash_Table_Type;
       Key : Key_Type) return Node_Access is
@@ -694,8 +678,6 @@ package body AI302.Containers.Hash_Tables is
 
    end Find;
 
-
-
    function First (HT : Hash_Table_Type)
      return Node_Access is
 
@@ -717,7 +699,6 @@ package body AI302.Containers.Hash_Tables is
       return Null_Node;  --  dummy stmt
 
    end First;
-
 
    function Succ (HT   : Hash_Table_Type;
                   Node : Node_Access)
@@ -745,7 +726,6 @@ package body AI302.Containers.Hash_Tables is
 
    end Succ;
 
-
    procedure Generic_Iteration (HT : in Hash_Table_Type) is
 
       Node : Node_Access;
@@ -770,7 +750,6 @@ package body AI302.Containers.Hash_Tables is
       end loop;
 
    end Generic_Iteration;
-
 
    procedure Generic_Write
      (Stream : access Ada.Streams.Root_Stream_Type'Class;
@@ -830,8 +809,6 @@ package body AI302.Containers.Hash_Tables is
       end loop;
 
    end Generic_Write;
-
-
 
    procedure Generic_Read
      (Stream : access Ada.Streams.Root_Stream_Type'Class;
@@ -908,7 +885,4 @@ package body AI302.Containers.Hash_Tables is
 
    end Generic_Read;
 
-
-
 end AI302.Containers.Hash_Tables;
-

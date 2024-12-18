@@ -6,9 +6,8 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                             $Revision: 1.7 $
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -22,7 +21,9 @@
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
 -- More information about GNAVI and the most current version can            --
--- be located on the web at http://www.gnavi.org                            --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -35,7 +36,7 @@ with Sax.Readers;
 
 with GNAVI_ICG.Window;
 
-with Templates;
+with GNAVI_Templates;
 with Templates_Parser;
 
 with GNAT.Case_Util;
@@ -49,13 +50,12 @@ package body GNAVI_ICG.Windows is
                                  return String;
    --  Create the list of controls to be inserted in to package spec
 
-
    function Create_Control_Block (File_Spec     : String;
                                   Controls_List : DOM.Core.Node_List)
                                  return String
    is
       use DOM.Core;
-      use Templates;
+      use GNAVI_Templates;
 
       Indent        : constant String := "         ";
       Control_Num   : Natural := 0;
@@ -74,7 +74,7 @@ package body GNAVI_ICG.Windows is
                                                           "type");
          Control_Package : constant String := With_Of (Control_Type);
       begin
-         Templates.Check_For_With (File_Spec, Control_Package);
+         GNAVI_Templates.Check_For_With (File_Spec, Control_Package);
 
          Control_Num := Control_Num + 1;
 
@@ -165,7 +165,7 @@ package body GNAVI_ICG.Windows is
                                                              "type");
 
                            Window_Base    : constant String :=
-                             Templates.With_Of (Window_Type);
+                             GNAVI_Templates.With_Of (Window_Type);
 
                            Controls_Node_List  : constant Node_List :=
                              Elements.Get_Elements_By_Tag_Name (Window_Node,
@@ -191,8 +191,10 @@ package body GNAVI_ICG.Windows is
                            then
                               New_File := True;
 
-                              Templates.Execute (Window_Spec,
-                                                 "window_package.ads", Trans);
+                              GNAVI_Templates.Execute
+                                 (Window_Spec,
+                                  GNAVI_Templates.window_package_spec_template,
+                                  Trans);
                            else
                               --  If file was already created should double
                               --  check that the withs for base types were not
@@ -207,29 +209,30 @@ package body GNAVI_ICG.Windows is
                               --       or GWindows.Base and is not a child
                               --       package of theirs.
 
-                              Templates.Check_For_With
+                              GNAVI_Templates.Check_For_With
                                 (Window_Spec, "GWindows.Base");
 
-                              Templates.Check_For_With
+                              GNAVI_Templates.Check_For_With
                                 (Window_Spec, Window_Base);
 
                            end if;
 
-
                            if
                              not GNAT.OS_Lib.Is_Regular_File (Window_Body)
                            then
-                              Templates.Execute (Window_Body,
-                                                 "window_package.adb", Trans);
+                              GNAVI_Templates.Execute
+                                 (Window_Body,
+                                  GNAVI_Templates.window_package_body_template,
+                                  Trans);
                            end if;
 
-                           if New_File or  GNAVI_Gen_App_Withs = True then
+                           if New_File or GNAVI_Gen_App_Withs then
                               --  Add 'with' for window to application.adb
                               --  if not there when a new window_package is
                               --  is created, i.e. its specs and/or the setting
                               --  GNAVI_Gen_App_Withs is on
 
-                              Templates.Check_For_With
+                              GNAVI_Templates.Check_For_With
                                 (Ada.Strings.Unbounded.To_String
                                    (Project.Application_File),
                                  Window_Name & "_Package");
@@ -237,7 +240,7 @@ package body GNAVI_ICG.Windows is
 
                            --  Process Controls
 
-                           Templates.Set_Control_Block
+                           GNAVI_Templates.Set_Control_Block
                              (Window_Spec,
                               Create_Control_Block (Window_Spec,
                                                     Controls_Node_List));

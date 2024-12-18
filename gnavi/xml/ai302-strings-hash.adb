@@ -52,11 +52,3 @@ begin
    return Tmp;
 
 end AI302.Strings.Hash;
-
-
-
-
-
-
-
-

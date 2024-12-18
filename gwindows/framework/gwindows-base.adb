@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -78,11 +78,9 @@ package body GWindows.Base is
      return GWindows.Types.Handle;
    pragma Import (StdCall, GetMenu, "GetMenu");
 
-   IDI_APPLICATION            : constant := 32512;
-
    function LoadIcon
      (hInstance  : GWindows.Types.Handle := GWindows.Types.Null_Handle;
-      lpIconName : Integer := IDI_APPLICATION)
+      lpIconName : Integer := Drawing_Objects.IDI_APPLICATION)
      return GWindows.Types.Handle;
    pragma Import (StdCall, LoadIcon,
                     "LoadIcon" & Character_Mode_Identifier);
@@ -269,6 +267,7 @@ package body GWindows.Base is
    WS_BORDER           : constant := 8388608;
    WS_VSCROLL          : constant := 2097152;
    WS_HSCROLL          : constant := 1048576;
+   WS_SYSMENU          : constant := 16#0008_0000#;
 
    procedure GetClientRect
      (hwnd            : in  GWindows.Types.Handle;
@@ -718,6 +717,27 @@ package body GWindows.Base is
       return (GetWindowLong (Window.HWND) and WS_GROUP) = WS_GROUP;
    end Group;
 
+   --------------------
+   -- Title_Bar_Menu --
+   --------------------
+
+   procedure Title_Bar_Menu (Window : in out Base_Window_Type;
+                             State  : in     Boolean     := True)
+   is
+   begin
+      if State then
+         SetWindowLong (Window.HWND,
+                        newLong =>
+                          GetWindowLong (Window.HWND) or
+                          WS_SYSMENU);
+      else
+         SetWindowLong (Window.HWND,
+                        newLong =>
+                          GetWindowLong (Window.HWND) and not
+                          WS_SYSMENU);
+      end if;
+   end Title_Bar_Menu;
+
    ----------
    -- Dock --
    ----------
@@ -859,6 +879,19 @@ package body GWindows.Base is
       return (GetWindowLong (Window.HWND) and WS_TABSTOP) = WS_TABSTOP;
    end Tab_Stop;
 
+   -----------------
+   -- Client_Area --
+   -----------------
+
+   function Client_Area (Window : in Base_Window_Type)
+                         return GWindows.Types.Rectangle_Type
+   is
+      Rect : GWindows.Types.Rectangle_Type;
+   begin
+      GetClientRect (Window.HWND, Rect);
+      return Rect;
+   end Client_Area;
+
    -----------------------
    -- Client_Area_Width --
    -----------------------
@@ -984,6 +1017,24 @@ package body GWindows.Base is
       return (abs (Rect.Right - Rect.Left),
               abs (Rect.Bottom - Rect.Top));
    end Size;
+
+   ---------------------------
+   -- Double_Buffered_Paint --
+   ---------------------------
+
+   procedure Double_Buffered_Paint (Window : in out Base_Window_Type;
+                                    State  : in     Boolean)
+   is
+   begin
+      Window.Paint_Is_Double_Buffered := State;
+   end Double_Buffered_Paint;
+
+   function Double_Buffered_Paint (Window : in out Base_Window_Type)
+                                  return Boolean
+   is
+   begin
+      return Window.Paint_Is_Double_Buffered;
+   end Double_Buffered_Paint;
 
    ------------------------
    --  Recommended_Size  --
@@ -1707,13 +1758,13 @@ package body GWindows.Base is
       RDW_UPDATENOW  : constant := 16#0100#;
 
       procedure InvalidateRect
-        (Hwnd   : GWindows.Types.Handle := Window.HWND;
+        (Hwnd   : GWindows.Types.Handle;
          lpRect : Integer               := 0;
          bErase : Integer               := Boolean'Pos (Erase));
       pragma Import (StdCall, InvalidateRect, "InvalidateRect");
 
       procedure RedrawWindow
-        (Hwnd : GWindows.Types.Handle := Window.HWND;
+        (Hwnd : GWindows.Types.Handle;
          lprcUpdate : Integer := 0;
          hrgnUpdate : Integer := 0;
          Flags      : Interfaces.C.unsigned :=
@@ -1721,9 +1772,16 @@ package body GWindows.Base is
       pragma Import (StdCall, RedrawWindow, "RedrawWindow");
 
    begin
-      InvalidateRect;
+      InvalidateRect (Window.HWND);
       if Redraw_Now then
-         RedrawWindow;
+         RedrawWindow (Window.HWND);
+      end if;
+
+      if Window.MDI_Client /= null then
+         InvalidateRect (Window.MDI_Client.HWND);
+         if Redraw_Now then
+            RedrawWindow (Window.MDI_Client.HWND);
+         end if;
       end if;
    end Redraw;
 
@@ -2259,9 +2317,12 @@ package body GWindows.Base is
       Window.MDI_Client.Is_Control := True;
       Window.MDI_Client.Dock := Fill;
 
-      Set_GWindow_Object (Window.MDI_Client.HWND,
+      Set_GWindow_Object (Client_HWND,
                           Pointer_To_Base_Window_Class (Window.MDI_Client));
 
+      Window.MDI_Client.ParentWindowProc := Get_Window_Procedure (Client_HWND);
+      Set_Window_Procedure (Client_HWND,
+                            New_Proc => WndProc_MDI_Client'Access);
    end MDI_Client_Window;
 
    ------------------------
@@ -2326,7 +2387,7 @@ package body GWindows.Base is
       Item_Data       : in     Integer;
       Control         : in     Pointer_To_Base_Window_Class)
    is
-      pragma Warnings (Off, Window);
+      pragma Unreferenced (Window);
    begin
       if Control /= null then
          On_Draw_Item (Control.all,
@@ -2349,7 +2410,7 @@ package body GWindows.Base is
                         Control      : in     Pointer_To_Base_Window_Class;
                         Return_Value : in out GWindows.Types.Lresult)
    is
-      pragma Warnings (Off, Window);
+      pragma Unreferenced (Window);
    begin
       if Control /= null then
          On_Notify (Control.all, Message, null, Return_Value);
@@ -2413,10 +2474,7 @@ package body GWindows.Base is
       Return_Value : in out GWindows.Types.Lresult;
       Continue     :    out Boolean)
    is
-      pragma Warnings (Off, Window);
-      pragma Warnings (Off, message);
-      pragma Unreferenced (wParam, lParam);
-      pragma Unmodified (Return_Value);
+      pragma Unreferenced (Window, message, wParam, lParam, Return_Value);
    begin
       Continue := True;
    end On_Filter_Message;
@@ -2839,6 +2897,160 @@ package body GWindows.Base is
       raise;
    end WndProc;
 
+   ------------------------
+   -- WndProc_MDI_Client --
+   ------------------------
+
+   function WndProc_MDI_Client
+     (hwnd    : GWindows.Types.Handle;
+      message : Interfaces.C.unsigned;
+      wParam  : GWindows.Types.Wparam;
+      lParam  : GWindows.Types.Lparam)  return GWindows.Types.Lresult is
+
+      WM_DESTROY     : constant := 2;
+      WM_ERASEBKGND  : constant := 20;
+      WM_NCCALCSIZE  : constant := 131;
+      WM_MDICREATE   : constant := 544;
+      WM_MDIACTIVATE : constant := 546;
+
+      function CallWindowProc
+        (Proc    : Windproc_Access;
+         hwnd    : GWindows.Types.Handle;
+         message : Interfaces.C.unsigned;
+         wParam  : GWindows.Types.Wparam;
+         lParam  : GWindows.Types.Lparam)
+        return GWindows.Types.Lresult;
+      pragma Import (StdCall, CallWindowProc,
+                       "CallWindowProc" & Character_Mode_Identifier);
+
+      type BOOL is new Interfaces.C.int;
+
+      --  SB_HORZ : constant := 0;
+      --  SB_VERT : constant := 1;
+      --  SB_CTL  : constant := 2;
+      SB_BOTH : constant := 3;
+
+      procedure ShowScrollBar
+        (hwnd  : GWindows.Types.Handle;
+         wBar  : Interfaces.C.int;
+         bShow : BOOL);
+      pragma Import (StdCall, ShowScrollBar, "ShowScrollBar");
+
+      Win_Ptr : constant Pointer_To_Base_Window_Class :=
+        Window_From_Handle (hwnd);
+   begin
+      if Win_Ptr = null then
+         return DefWindowProc (hwnd,
+                               message,
+                               wParam,
+                               lParam);
+      end if;
+
+      case message is
+         when WM_ERASEBKGND =>
+            if not Win_Ptr.MDI_Client_Background_Color_Sys then
+               declare
+                  use GWindows.Drawing_Objects;
+                  Canvas : GWindows.Drawing.Canvas_Type;
+                  Area   : constant GWindows.Types.Rectangle_Type
+                                              := Client_Area (Win_Ptr.all);
+                  B : Brush_Type;
+               begin
+                  GWindows.Drawing.Handle (Canvas,
+                                           GWindows.Types.To_Handle (wParam));
+                  Create_Solid_Brush
+                    (B,
+                     Win_Ptr.MDI_Client_Background_Color);
+                  GWindows.Drawing.Fill_Rectangle (Canvas, Area, B);
+                  Delete (B);
+                  return 1;
+               end;
+            end if;
+
+         when WM_NCCALCSIZE =>
+            --  Hide scroll bars
+            --  (must be done each time non client area is computed)
+            ShowScrollBar (hwnd, SB_BOTH, 0);
+            --  Let default Window Proc do it's job
+
+         when WM_MDICREATE =>
+            Win_Ptr.MDI_Child_Creation := True;   --  Used to eliminate display glitches at child creation
+            --  Call default handler
+
+         when WM_MDIACTIVATE =>
+            --  To suppress display glitches when child windows are expanded, we freeze the client window,
+            --  call the window proc, unfreeze the client window and
+            --  force the child window to be fully redrawn.
+            declare
+               WM_MDIGETACTIVE : constant := 553;
+
+               function Active_Child
+                 (h_wnd  : GWindows.Types.Handle := hwnd;
+                  uMsg   : Interfaces.C.int      := WM_MDIGETACTIVE;
+                  wParam : GWindows.Types.Wparam := 0;
+                  lParam : GWindows.Types.Lparam := 0)
+                 return GWindows.Types.Handle;
+               pragma Import (StdCall, Active_Child, "SendMessage" & Character_Mode_Identifier);
+
+               function Is_Child_Zoomed (hwnd : GWindows.Types.Handle)
+                                        return Interfaces.C.long;
+               pragma Import (StdCall, Is_Child_Zoomed, "IsZoomed");
+
+               Current_Child : constant GWindows.Types.Handle := Active_Child;
+               New_Child     : constant GWindows.Types.Handle := GWindows.Types.To_Handle (wParam);
+               Current_Child_Zoomed : constant Boolean := Is_Child_Zoomed (Current_Child) /= 0;
+            begin
+               if Current_Child_Zoomed or else Win_Ptr.MDI_Child_Creation then
+                  declare
+                     RDW_INVALIDATE : constant := 16#0001#;
+                     RDW_UPDATENOW  : constant := 16#0100#;
+                     RDW_FRAME      : constant := 16#0400#;
+
+                     procedure RedrawWindow
+                       (Hwnd : GWindows.Types.Handle;
+                        lprcUpdate : Integer := 0;
+                        hrgnUpdate : Integer := 0;
+                        Flags      : Interfaces.C.unsigned :=
+                                     RDW_INVALIDATE or RDW_UPDATENOW or RDW_FRAME);
+                     pragma Import (StdCall, RedrawWindow, "RedrawWindow");
+
+                     Return_Value : GWindows.Types.Lresult;
+                  begin
+                     Win_Ptr.MDI_Child_Creation := False;
+                     Freeze (Win_Ptr.all);
+                     Return_Value := CallWindowProc (Win_Ptr.ParentWindowProc,
+                                                     hwnd,
+                                                     message,
+                                                     wParam,
+                                                     lParam);
+                     Thaw (Win_Ptr.all);
+                     RedrawWindow (New_Child);
+                     return Return_Value;
+                  end;
+               end if;
+            end;
+
+         when WM_DESTROY =>
+            Set_Window_Procedure (hwnd, New_Proc => Win_Ptr.ParentWindowProc);
+            --  Let default Window Proc do it's job
+
+         when others =>
+            null;
+      end case;
+
+      return CallWindowProc (Win_Ptr.ParentWindowProc,
+                             hwnd,
+                             message,
+                             wParam,
+                             lParam);
+
+   exception when E : others =>
+      if Exception_Handler /= null then
+         Exception_Handler (Win_Ptr.all, E);
+      end if;
+      raise;
+   end WndProc_MDI_Client;
+
    ---------------------
    -- WndProc_Control --
    ---------------------
@@ -2848,14 +3060,6 @@ package body GWindows.Base is
       message : Interfaces.C.unsigned;
       wParam  : GWindows.Types.Wparam;
       lParam  : GWindows.Types.Lparam) return GWindows.Types.Lresult is
-      GWL_WNDPROC : constant := -4;
-
-      procedure Set_Window_Procedure
-        (s_hwnd   : GWindows.Types.Handle;
-         nIndex   : Interfaces.C.int  := GWL_WNDPROC;
-         New_Proc : Windproc_Access);
-      pragma Import (StdCall, Set_Window_Procedure,
-                     "SetWindowLongPtr" & Character_Mode_Identifier);
 
       WM_DESTROY                 : constant := 2;
       WM_SETFOCUS                : constant := 7;
@@ -3069,6 +3273,19 @@ package body GWindows.Base is
    begin
       return Window.Custom_Data;
    end Custom_Data;
+
+   ----------------------
+   -- Background_Color --
+   ----------------------
+
+   procedure MDI_Client_Window_Background_Color
+               (Window : in out Base_Window_Type;
+                Color  : in     GWindows.Colors.Color_Type)
+   is
+   begin
+      Window.MDI_Client.MDI_Client_Background_Color_Sys := False;
+      Window.MDI_Client.MDI_Client_Background_Color     := Color;
+   end MDI_Client_Window_Background_Color;
 
 begin
    InitCommonControlsEx;

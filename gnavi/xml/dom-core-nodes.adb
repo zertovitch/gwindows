@@ -464,7 +464,7 @@ package body DOM.Core.Nodes is
          end loop;
       end Insert_Before;
 
-      Tmp : Node;
+      Dummy : Node;
    begin
       pragma Assert (Child_Is_Valid (N, New_Child));
 
@@ -473,7 +473,7 @@ package body DOM.Core.Nodes is
 
       --  If New_Child is already in the tree, remove it first
       if New_Child.Parent /= null then
-         Tmp := Remove_Child (New_Child.Parent, New_Child);
+         Dummy := Remove_Child (New_Child.Parent, New_Child);
       end if;
 
       --  Ref_Child must be a child of N

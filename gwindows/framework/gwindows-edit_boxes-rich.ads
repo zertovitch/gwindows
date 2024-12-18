@@ -1,13 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
 --              G W I N D O W S . E D I T _ B O X E S . R I C H             --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -90,6 +90,7 @@ package GWindows.Edit_Boxes.Rich is
       Horizontal_Scroll : in     Boolean;
       Vertical_Scroll   : in     Boolean;
       Capture_Return    : in     Boolean;
+      Read_Only         : in     Boolean                            := False;
       ID                : in     Integer;
       Show              : in     Boolean                            := True;
       Is_Dynamic        : in     Boolean                            := False);

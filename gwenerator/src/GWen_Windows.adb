@@ -298,7 +298,7 @@ package body GWen_Windows is
     --
     dlg.Ada_cmd.Text (S2G (S (candidate.Ada_command)));
     --
-    dlg.Center;
+    dlg.Center (Window);
     --
     dlg.On_Destroy_Handler (Get_Data'Unrestricted_Access);
     On_Click_Handler (dlg.Use_base_defs, Update_base_units'Unrestricted_Access);
@@ -468,7 +468,7 @@ package body GWen_Windows is
   procedure On_About (Window : in out GWen_Window_Type) is
     use GWindows.Static_Controls.Web;
     box : GWenerator_Resource_GUI.About_box_Type;
-    url_gnat, url_gnavi_1, url_gnavi_2, url_resedit : URL_Type;
+    url_gnat, url_gnavi_1, url_gnavi_2 : URL_Type;
     package CVer is new GNAT.Compiler_Version;
   begin
     box.Create_Full_Dialog (Window);
@@ -486,7 +486,7 @@ package body GWen_Windows is
     box.RC_gramm_ver.Text (box.RC_gramm_ver.Text & S2G (RC_Help.Grammar_Version));
     --  Complete the GWenerator version info:
     box.GWen_ver.Text (box.GWen_ver.Text & S2G (GWenerator_Resource_GUI.Version_info.FileVersion));
-    box.Center;
+    box.Center (Window);
     if GWindows.Application.Show_Dialog (box, Window) = GWindows.Constants.IDOK then
       null;
     end if;
@@ -806,7 +806,7 @@ package body GWen_Windows is
       end if;
     end if;
     Update_status_display (Window);
-    Window.Center;
+    Window.Center (Window);
     --  Check box with "Show details":
     Window.Show_Details.On_Click_Handler (On_Details_Check_Box_Click'Access);
     --  Expand/collapse button for "Show details":

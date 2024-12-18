@@ -16,6 +16,7 @@ package body GNAVI_New_Window_Package is
      (Window    : in out GWindows.Base.Base_Window_Type'Class;
       Can_Close :    out Boolean)
    is
+   pragma Unreferenced (Window);
    begin
       Hide (GNAVI_New_Window);
       Can_Close := False;
@@ -44,6 +45,7 @@ package body GNAVI_New_Window_Package is
    procedure Do_Select
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
    begin
       GWindows.Edit_Boxes.Text
         (GNAVI_New_Window.Description_Box,
@@ -54,6 +56,7 @@ package body GNAVI_New_Window_Package is
    procedure Do_OK
      (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
+   pragma Unreferenced (Window);
       use GWindows.GStrings;
    begin
       Close (GNAVI_New_Window);

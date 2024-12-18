@@ -62,19 +62,21 @@ package GNAVI_Project is
                           Index   : in     Positive);
    --  Delete window from project
 
-
    procedure Run_ICG (Project : in out GNAVI_Project_Type);
    --  Run interactive code generator on this project
 
    procedure Compile (Project : in out GNAVI_Project_Type);
    --  Compile project
 
+   procedure Compile_Resources (Project : in out GNAVI_Project_Type);
+   --  Compile resources
+
    procedure Run (Project : in out GNAVI_Project_Type);
    --  Run project
 
    No_Project_Loaded : exception;
+   Invalid_Project   : exception;
 
-   ICG_Path_Exists      : GNAT.OS_Lib.String_Access;
    GNATMAKE_Path_Exists : GNAT.OS_Lib.String_Access;
 
 private

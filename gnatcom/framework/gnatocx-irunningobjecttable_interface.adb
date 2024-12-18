@@ -132,7 +132,7 @@ package body GNATOCX.IRunningObjectTable_Interface is
       hr   : GNATCOM.Types.HRESULT;
       rot  : IRunningObjectTable_Type;
    begin
-      hr := GetRunningObjectTable (0, prot'Access);
+      hr := GetRunningObjectTable (0, prot'Unchecked_Access);
       GNATCOM.Errors.Error_Check (hr);
       Attach (rot, prot);
       return rot;

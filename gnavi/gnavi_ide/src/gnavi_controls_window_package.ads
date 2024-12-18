@@ -1,3 +1,4 @@
+with GWindows.Common_Controls;
 with GWindows.GControls.GSize_Bars;
 with GWindows.List_Boxes;
 with GWindows.Panels;
@@ -16,7 +17,7 @@ package GNAVI_Controls_Window_Package is
          --  GNAVI: Controls
          Left_Size_Bar : aliased GWindows.GControls.GSize_Bars.GSize_Bar_Type;
          Controls_Panel : aliased GWindows.Panels.Panel_Type;
-         Controls_List : aliased GWindows.List_Boxes.List_Box_Type;
+         Controls_List : aliased GWindows.Common_Controls.List_View_Control_Type;
          --  GNAVI: Add custom data below this comment
       end record;
 

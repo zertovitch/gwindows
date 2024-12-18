@@ -2,13 +2,12 @@
 --                                                                          --
 --       GNAVI - The GNU Ada Visual Interface - Open Source Visual RAD      --
 --                                                                          --
---                            T E M P L A T E S                             --
+--                      G N A V I _ T E M P L A T E S                       --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---                             $Revision: 1.5 $
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -22,7 +21,9 @@
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
 -- More information about GNAVI and the most current version can            --
--- be located on the web at http://www.gnavi.org                            --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -30,7 +31,7 @@
 
 with Templates_Parser;
 
-package Templates is
+package GNAVI_Templates is
 
    -------------------------------------------------------------------------
    --  General Template Related Subprograms
@@ -38,10 +39,23 @@ package Templates is
 
    procedure Template_Dir (Dir : String);
    function Template_Dir return String;
-   --  Set/Get tamplate directory
+   --  Set/Get template directory
 
    function Load_Template (Template_Name : String) return String;
    --  Load template from template directory
+
+   type Template_Kind is
+      (on_create_template,
+       window_package_spec_template,
+       window_package_body_template,
+       application_template,
+       gnat_project_file_template,
+       resource_compiler_file_template,
+       manifest_template,
+       handler_template);
+
+   function Load_Template (Template : Template_Kind; Template_Name : String := "") return String;
+   --  Load template from embedded collection
 
    function Load_File (File_Spec : String) return String;
    --  Load file in to String
@@ -57,6 +71,11 @@ package Templates is
                       Template_Name : String;
                       Trans_Table   : Templates_Parser.Translate_Table);
    --  Execute translation of template and write out to File_Spec
+
+   procedure Execute (File_Spec     : String;
+                      Template      : Template_Kind;
+                      Trans_Table   : Templates_Parser.Translate_Table);
+   --  Execute translation of embedded template and write out to File_Spec
 
    function NL return String;
    --  Return new line (LF or CR/LF)
@@ -77,7 +96,7 @@ package Templates is
    procedure Check_For_Handler (Package_Name : String;
                                 Handler_Name : String;
                                 Handler_Type : String);
-   --  Searcheres for handle and adds it if needed
+   --  Searches for handler and adds it if needed
 
    function With_Of (Type_Name : String) return String;
    --  Returns the package name for Type_Name
@@ -89,4 +108,5 @@ package Templates is
    GNAVI_Comment_Removed_Error : exception;
    GNAVI_File_Load_Error       : exception;
    GNAVI_File_Write_Error      : exception;
-end Templates;
+
+end GNAVI_Templates;

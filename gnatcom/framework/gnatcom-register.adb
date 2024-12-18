@@ -150,7 +150,7 @@ package body GNATCOM.Register is
         (Cat_Mgr, GNATCOM.Types.CLSID_StdComponentCategoriesMgr);
       Hr := GNATCOM.Iinterface.QueryInterface
         (Cat_Mgr, GNATCOM.Types.IID_ICatRegister,
-         To_Pointer_To_Pointer_To_Void (Cat_Reg'Access));
+         To_Pointer_To_Pointer_To_Void (Cat_Reg'Unchecked_Access));
       GNATCOM.Errors.Error_Check (Hr);
       Hr := Cat_Reg.Vtbl.RegisterClassImplCategories
         (Cat_Reg,
@@ -442,7 +442,7 @@ package body GNATCOM.Register is
          Hr := GNATCOM.Iinterface.QueryInterface
            (Cat_Mgr,
             GNATCOM.Types.IID_ICatRegister,
-            To_Pointer_To_Pointer_To_Void (Cat_Reg'Access));
+            To_Pointer_To_Pointer_To_Void (Cat_Reg'Unchecked_Access));
          GNATCOM.Errors.Error_Check (Hr);
          Hr := Cat_Reg.Vtbl.RegisterCategories
            (Cat_Reg,

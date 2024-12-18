@@ -130,6 +130,22 @@ package GWindows.GControls.GSize_Bars is
                        return GWindows.Colors.Color_Type;
    --  The default text color is black
 
+   procedure Set_Dashes (Window             : in out GSize_Bar_Type;
+                         Dash_Height        : in     Natural := 2;
+                         Dash_Width         : in     Natural := 2;
+                         Spacing_Height     : in     Natural := 0;
+                         Spacing_Width      : in     Natural := 5;
+                         Number_Of_Dashes_V : in     Natural := 1;
+                         Number_Of_Dashes_H : in     Natural := 11);
+   --  No dashes are displayed by default.
+   --  Use this procedure to define dashes appearance.
+   --  For dashes to be displayed, all parameters but spacing must be non zero.
+   --  Dashes are vertically and horizontally centered.
+
+   procedure Dashes_Color (Window : in out GSize_Bar_Type;
+                           Color  : in     GWindows.Colors.Color_Type);
+   --  Set dashes color (flat design)
+
    -------------------------------------------------------------------------
    --  GSize_Bar_Type - Event Framework Methods
    -------------------------------------------------------------------------
@@ -191,6 +207,15 @@ private
          Bar_Color    : GWindows.Colors.Color_Type       := 0;
          Text_Color   : GWindows.Colors.Color_Type       := 0;
          On_Bar_Moved_Event : GWindows.Base.Action_Event := null;
+
+         Dash_Height         : Natural := 0;
+         Dash_Width          : Natural := 0;
+         Dash_Spacing_Height : Natural := 0;
+         Dash_Spacing_Width  : Natural := 0;
+         Number_Of_Dashes_V  : Natural := 0;
+         Number_Of_Dashes_H  : Natural := 0;
+         Dash_Color : GWindows.Colors.Color_Type :=
+           GWindows.Colors.System_Color (GWindows.Colors.COLOR_BTNTEXT);
       end record;
 
 end GWindows.GControls.GSize_Bars;

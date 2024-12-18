@@ -17,4 +17,5 @@ package GNAVI_IDs is
    ID_PFILE_SAVE     : constant := ID_WINDOW_CMDS + 14;
    ID_PFILE_SAVE_AS  : constant := ID_WINDOW_CMDS + 15;
    ID_PFILE_ADD      : constant := ID_WINDOW_CMDS + 16;
+
 end GNAVI_IDs;

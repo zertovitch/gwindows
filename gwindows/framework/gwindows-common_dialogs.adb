@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -1008,7 +1008,6 @@ package body GWindows.Common_Dialogs is
              s_lParam : GWindows.Types.Lparam := Cvt (ini));
          pragma Import (StdCall, SendMessage,
                         "SendMessage" & Character_Mode_Identifier);
-         use GWindows.Types;
       begin
          --  If the BFFM_INITIALIZED message is received,
          --  set the path to the start path.

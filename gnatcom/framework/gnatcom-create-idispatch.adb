@@ -33,6 +33,8 @@
 ------------------------------------------------------------------------------
 
 with System;
+with System.Address_To_Access_Conversions;
+with Ada.Containers.Ordered_Maps;
 with GNATCOM.Errors;
 
 package body GNATCOM.Create.IDispatch is
@@ -66,12 +68,79 @@ package body GNATCOM.Create.IDispatch is
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, DispInvoke, "DispInvoke");
 
+   function Less_Than (Left, Right : GNATCOM.Types.Pointer_To_GUID)
+                      return Boolean is
+      package Conv is new
+                   System.Address_To_Access_Conversions (GNATCOM.Types.GUID);
+      use System;
+   begin
+      return Conv.To_Address (Conv.Object_Pointer (Left)) <
+        Conv.To_Address (Conv.Object_Pointer (Right));
+   end Less_Than;
+
+   use type GNATCOM.Types.Pointer_To_ITypeLib;
+
+   package Typelib_Maps is
+     new Ada.Containers.Ordered_Maps (GNATCOM.Types.Pointer_To_GUID,
+                                      GNATCOM.Types.Pointer_To_ITypeLib,
+                                      Less_Than);
+
+   use type GNATCOM.Types.Pointer_To_ITypeInfo;
+
+   package Typeinfo_Maps is
+     new Ada.Containers.Ordered_Maps (GNATCOM.Types.Pointer_To_GUID,
+                                      GNATCOM.Types.Pointer_To_ITypeInfo,
+                                      Less_Than);
+
+   protected Typelibs is
+      procedure Load (Lib_ID    : not null GNATCOM.Types.Pointer_To_GUID;
+                      IID       : not null GNATCOM.Types.Pointer_To_GUID;
+                      Type_Info : out GNATCOM.Types.Pointer_To_ITypeInfo);
+   private
+      Libs  : Typelib_Maps.Map;
+      Types : Typeinfo_Maps.Map;
+   end Typelibs;
+
+   protected body Typelibs is
+      procedure Load (Lib_ID    : not null GNATCOM.Types.Pointer_To_GUID;
+                      IID       : not null GNATCOM.Types.Pointer_To_GUID;
+                      Type_Info : out GNATCOM.Types.Pointer_To_ITypeInfo)
+      is
+         CI : constant Typeinfo_Maps.Cursor := Types.Find (IID);
+         C  : Typelib_Maps.Cursor;
+         L  : aliased GNATCOM.Types.Pointer_To_ITypeLib;
+         TI : aliased GNATCOM.Types.Pointer_To_ITypeInfo;
+         N  : Interfaces.C.unsigned_long;
+      begin
+         if Typeinfo_Maps.Has_Element (CI) then
+            TI := Typeinfo_Maps.Element (CI);
+            N := TI.Vtbl.AddRef (TI);
+         else
+            C := Libs.Find (Lib_ID);
+            if Typelib_Maps.Has_Element (C) then
+               L := Typelib_Maps.Element (C);
+            else
+               GNATCOM.Errors.Error_Check
+                 (LoadRegTypeLib (Lib_ID, 1, 0, 0, L'Access));
+               Libs.Insert (Lib_ID, L);
+            end if;
+
+            GNATCOM.Errors.Error_Check
+              (L.Vtbl.GetTypeInfoOfGuid (L,
+               IID,
+               TI'Unchecked_Access));
+            Types.Insert (IID, TI);
+         end if;
+
+         Type_Info := TI;
+      end Load;
+   end Typelibs;
+
    ------------
    -- Adjust --
    ------------
 
    procedure Adjust (This : in out IDispatch_Type) is
-      use type GNATCOM.Types.Pointer_To_ITypeInfo;
 
       Result : Interfaces.C.unsigned_long;
       pragma Warnings (Off, Result);
@@ -86,7 +155,6 @@ package body GNATCOM.Create.IDispatch is
    --------------
 
    procedure Finalize (This : in out IDispatch_Type) is
-      use type GNATCOM.Types.Pointer_To_ITypeInfo;
 
       Result : Interfaces.C.unsigned_long;
       pragma Warnings (Off, Result);
@@ -126,7 +194,6 @@ package body GNATCOM.Create.IDispatch is
       return GNATCOM.Types.HRESULT
    is
       use type Interfaces.C.unsigned;
-      use type GNATCOM.Types.Pointer_To_ITypeInfo;
 
       Result  : Interfaces.C.unsigned_long;
       pragma Warnings (Off, Result);
@@ -162,24 +229,9 @@ package body GNATCOM.Create.IDispatch is
    ----------------
 
    procedure Initialize (This : in out IDispatch_Type) is
-      use type GNATCOM.Types.Pointer_To_ITypeInfo;
-
-      Lib    : aliased GNATCOM.Types.Pointer_To_ITypeLib;
-      Result : Interfaces.C.unsigned_long;
-      pragma Warnings (Off, Result);
    begin
       if This.Type_Information = null then
-         GNATCOM.Errors.Error_Check (LoadRegTypeLib
-                                     (This.LIB_IID,
-                                      1, 0, 0,
-                                      Lib'Access));
-
-         GNATCOM.Errors.Error_Check (Lib.Vtbl.GetTypeInfoOfGuid
-                                     (Lib,
-                                      This.IID,
-                                      This.Type_Information'Unchecked_Access));
-
-         Result := Lib.Vtbl.Release (Lib);
+         Typelibs.Load (This.LIB_IID, This.IID, This.Type_Information);
       end if;
    end Initialize;
 

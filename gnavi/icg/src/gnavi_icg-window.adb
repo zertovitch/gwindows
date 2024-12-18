@@ -6,9 +6,8 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                             $Revision: 1.13 $
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -22,7 +21,9 @@
 -- MA 02111-1307, USA.                                                      --
 --                                                                          --
 -- More information about GNAVI and the most current version can            --
--- be located on the web at http://www.gnavi.org                            --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -32,7 +33,7 @@ with DOM.Core.Elements;
 
 with GNAT.Case_Util;
 
-with Templates;
+with GNAVI_Templates;
 with Templates_Parser;
 
 package body GNAVI_ICG.Window is
@@ -47,7 +48,6 @@ package body GNAVI_ICG.Window is
       Control_Node : in     DOM.Core.Element);
    --  Setup control in -on_create sep. procedure
 
-
    procedure Process_Control
      (O_String     : in out Ada.Strings.Unbounded.Unbounded_String;
       Parent_Name  : in     String;
@@ -55,7 +55,7 @@ package body GNAVI_ICG.Window is
       Control_Node : in     DOM.Core.Element)
    is
       use DOM.Core;
-      use Templates;
+      use GNAVI_Templates;
 
       Control_Name    : constant String := "Window." &
         Elements.Get_Attribute (Control_Node, "name");
@@ -145,7 +145,7 @@ package body GNAVI_ICG.Window is
                        Elements.Get_Attribute (NI2, "name") &
                        "'Access);" & NL;
 
-                     Templates.Check_For_Handler
+                     GNAVI_Templates.Check_For_Handler
                        (Window_Package,
                         Elements.Get_Attribute (NI2, "name"),
                         Elements.Get_Attribute (NI2, "type"));
@@ -166,10 +166,8 @@ package body GNAVI_ICG.Window is
    procedure Update_Window (Window_Node : DOM.Core.Element)
    is
       use DOM.Core;
-      use Templates;
+      use GNAVI_Templates;
       use Templates_Parser;
-
-
 
       O_String       : Ada.Strings.Unbounded.Unbounded_String;
 
@@ -178,7 +176,7 @@ package body GNAVI_ICG.Window is
       Window_Type    : constant String :=  Elements.Get_Attribute (Window_Node,
                                                           "type");
 
-      Window_Base    : constant String := Templates.With_Of (Window_Type);
+      Window_Base    : constant String := GNAVI_Templates.With_Of (Window_Type);
 
       Window_Package : constant String := Window_Name & "_Package";
 
@@ -192,8 +190,7 @@ package body GNAVI_ICG.Window is
    begin
       GNAT.Case_Util.To_Lower (Create_File);
       O_String := O_String &
-        Translate (Load_Template ("on_create.adb"), Trans);
-
+        Translate (Load_Template (on_create_template), Trans);
 
       --  Set Window Handlers
       --  Process Init
@@ -237,12 +234,13 @@ package body GNAVI_ICG.Window is
                while NI2 /= null loop
                   if NI2.Node_Type = Element_Node then
                      O_String := O_String &
+                       Indent &
                        Elements.Get_Attribute (NI2, "event") &
                        "_Handler (" & "Window" & ", " &
                        Elements.Get_Attribute (NI2, "name") &
                        "'Access);" & NL;
 
-                     Templates.Check_For_Handler
+                     GNAVI_Templates.Check_For_Handler
                        (Window_Package,
                         Elements.Get_Attribute (NI2, "name"),
                         Elements.Get_Attribute (NI2, "type"));
@@ -255,7 +253,6 @@ package body GNAVI_ICG.Window is
 
          NI := Nodes.Next_Sibling (NI);
       end loop;
-
 
       O_String := O_String &
         Indent & Window_Base & ".On_Create (" &

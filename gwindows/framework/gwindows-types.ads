@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2022 David Botton                   --
+--                 Copyright (C) 1999 - 2023 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -67,6 +67,7 @@ package GWindows.Types is
    function To_Handle is new Ada.Unchecked_Conversion (Lparam, Handle);
    function To_Handle is new Ada.Unchecked_Conversion (Wparam, Handle);
    function To_Lresult is new Ada.Unchecked_Conversion (Handle, Lresult);
+   function To_Lresult is new Ada.Unchecked_Conversion (INT_PTR, Lresult);
    function To_Wparam (I : Integer) return Wparam;
    function To_Lparam (I : Integer) return Lparam;
    function To_Integer (Result : Lresult) return Integer;

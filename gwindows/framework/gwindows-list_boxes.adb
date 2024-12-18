@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2021 David Botton                   --
+--                 Copyright (C) 1999 - 2024 David Botton                   --
 --                                                                          --
 -- This is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -41,7 +41,6 @@ with GWindows.GStrings;
 
 package body GWindows.List_Boxes is
    use type Interfaces.C.unsigned;
-   use GWindows.Types;
 
    -------------------------------------------------------------------------
    --  Operating System Imports
@@ -312,12 +311,13 @@ package body GWindows.List_Boxes is
    is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
+      use type Types.Wparam;
+
       function SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (List);
-         uMsg   : Interfaces.C.int      := LB_FINDSTRING;
-         wParam : GWindows.Types.Wparam :=
-            GWindows.Types.Wparam (Start_After_Item) - 1;
-         lParam : access GChar_C        := C_Value (C_Value'First)'Access)
+        (hwnd   : Types.Handle     := Handle (List);
+         uMsg   : Interfaces.C.int := LB_FINDSTRING;
+         wParam : Types.Wparam     := Types.Wparam (Start_After_Item) - 1;
+         lParam : access GChar_C   := C_Value (C_Value'First)'Access)
          return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -336,12 +336,13 @@ package body GWindows.List_Boxes is
    is
       C_Value : GString_C := GWindows.GStrings.To_GString_C (Value);
 
+      use type Types.Wparam;
+
       function SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (List);
-         uMsg   : Interfaces.C.int      := LB_FINDSTRINGEXACT;
-         wParam : GWindows.Types.Wparam :=
-            GWindows.Types.Wparam (Start_After_Item) - 1;
-         lParam : access GChar_C        := C_Value (C_Value'First)'Access)
+        (hwnd   : Types.Handle     := Handle (List);
+         uMsg   : Interfaces.C.int := LB_FINDSTRINGEXACT;
+         wParam : Types.Wparam     := Types.Wparam (Start_After_Item) - 1;
+         lParam : access GChar_C   := C_Value (C_Value'First)'Access)
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
@@ -463,10 +464,10 @@ package body GWindows.List_Boxes is
         (1 .. Interfaces.C.size_t (Value_Length (List, Item)) + 1);
 
       procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (List);
-         uMsg   : Interfaces.C.int      := LB_GETTEXT;
-         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
-         lParam : access GChar_C        := Buffer (Buffer'First)'Access);
+        (hwnd   : Types.Handle     := Handle (List);
+         uMsg   : Interfaces.C.int := LB_GETTEXT;
+         wParam : Types.Wparam     := Types.Wparam (Item - 1);
+         lParam : access GChar_C   := Buffer (Buffer'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -483,12 +484,13 @@ package body GWindows.List_Boxes is
                        State : in     Boolean       := True)
    is
       procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (List);
-         uMsg   : Interfaces.C.int      := LB_SETCURSEL;
-         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
-         lParam : GWindows.Types.Lparam := 0);
+        (hwnd   : Types.Handle     := Handle (List);
+         uMsg   : Interfaces.C.int := LB_SETCURSEL;
+         wParam : Types.Wparam     := Types.Wparam (Item - 1);
+         lParam : Types.Lparam     := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      use type Types.Wparam;
    begin
       if State then
          SendMessage;
@@ -502,10 +504,10 @@ package body GWindows.List_Boxes is
                        State : in     Boolean       := True)
    is
       procedure SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (List);
-         uMsg   : Interfaces.C.int      := LB_SETSEL;
-         wParam : GWindows.Types.Wparam := 1;
-         lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Item - 1));
+        (hwnd   : Types.Handle     := Handle (List);
+         uMsg   : Interfaces.C.int := LB_SETSEL;
+         wParam : Types.Wparam     := 1;
+         lParam : Types.Lparam     := Types.Lparam (Item - 1));
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
    begin
@@ -521,10 +523,10 @@ package body GWindows.List_Boxes is
                      return Boolean
    is
       function SendMessage
-        (hwnd   : GWindows.Types.Handle := Handle (List);
-         uMsg   : Interfaces.C.int        := LB_GETSEL;
-         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item - 1);
-         lParam : GWindows.Types.Lparam := 0)
+        (hwnd   : Types.Handle     := Handle (List);
+         uMsg   : Interfaces.C.int := LB_GETSEL;
+         wParam : Types.Wparam     := Types.Wparam (Item - 1);
+         lParam : Types.Lparam     := 0)
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
