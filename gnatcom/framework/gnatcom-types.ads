@@ -240,6 +240,8 @@ package GNATCOM.Types is
    type IEnumVARIANT;
    type IGlobalInterfaceTable;
    type ICatRegister;
+   type IPropertyNotifySink;
+   type IServiceProvider;
    --  Forward references to COM Interfaces and types
 
    type Pointer_To_int is access all Interfaces.C.int;
@@ -299,6 +301,11 @@ package GNATCOM.Types is
    type Pointer_To_ICatRegister is access all ICatRegister;
    type Pointer_To_Pointer_To_ICatRegister is
      access all Pointer_To_ICatRegister;
+   type Pointer_To_IPropertyNotifySink is access all IPropertyNotifySink;
+   pragma No_Strict_Aliasing (Pointer_To_IPropertyNotifySink);
+   type Pointer_To_Pointer_To_IPropertyNotifySink is
+     access all Pointer_To_IPropertyNotifySink;
+   type Pointer_To_IServiceProvider is access all IServiceProvider;
    --  Pointer types used by COM
 
    VT_EMPTY           : constant := 0;
@@ -1128,7 +1135,7 @@ package GNATCOM.Types is
                memid       : in     Interfaces.C.long;
                rgBstrNames : in     Pointer_To_BSTR_PARAM_ARRAY;
                cMaxNames   : in     Interfaces.C.int;
-               pcNames     : in     Pointer_To_int)
+               pcNames     : in     Pointer_To_unsigned)
      return HRESULT;
    pragma Convention (StdCall, af_ITypeInfo_GetNames);
 
@@ -2474,6 +2481,119 @@ package GNATCOM.Types is
          af_ICatRegister_RegisterClassReqCategories;
          UnRegisterClassReqCategories  :
          af_ICatRegister_UnRegisterClassReqCategories;
+      end record
+     with Convention => C_Pass_By_Copy;
+
+   --  IPropertyNotifySink Interface
+   --  {9BFBBC02-EFF1-101A-84ED-00AA00341D07}
+   IID_IPropertyNotifySink : aliased GUID :=
+     (16#9BFBBC02#, 16#EFF1#, 16#101A#,
+      (C.unsigned_char'Val (16#84#), C.unsigned_char'Val (16#ED#),
+       C.unsigned_char'Val (0),      C.unsigned_char'Val (16#AA#),
+       C.unsigned_char'Val (0),      C.unsigned_char'Val (16#34#),
+       C.unsigned_char'Val (16#1D#), C.unsigned_char'Val (16#07#)));
+
+   type af_IPropertyNotifySink_QueryInterface is access
+     function (This   : access IPropertyNotifySink;
+               riid   : Pointer_To_GUID;
+               ppvObj : Pointer_To_Pointer_To_Void)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type af_IPropertyNotifySink_AddRef is access
+     function (This : access IPropertyNotifySink)
+               return Interfaces.C.unsigned_long
+     with Convention => Stdcall;
+
+   type af_IPropertyNotifySink_Release is access
+     function (This : access IPropertyNotifySink)
+               return Interfaces.C.unsigned_long;
+
+   type af_IPropertyNotifySink_OnChanged is access
+     function (This   : access IPropertyNotifySink;
+               dispID : Interfaces.C.long)
+               return GNATCOM.Types.HRESULT
+     with Convention => Stdcall;
+
+   type af_IPropertyNotifySink_OnRequestEdit is access
+     function (This   : access IPropertyNotifySink;
+               dispID : Interfaces.C.long)
+               return GNATCOM.Types.HRESULT
+     with Convention => Stdcall;
+
+   type IPropertyNotifySinkVtbl;
+   type Pointer_To_IPropertyNotifySinkVtbl is access all IPropertyNotifySinkVtbl;
+
+   type IPropertyNotifySink is
+      record
+         Vtbl : Pointer_To_IPropertyNotifySinkVtbl;
+      end record
+     with Convention => C_Pass_By_Copy;
+
+   type IPropertyNotifySinkVtbl is
+      record
+         QueryInterface                : af_IPropertyNotifySink_QueryInterface;
+         AddRef                        : af_IPropertyNotifySink_AddRef;
+         Release                       : af_IPropertyNotifySink_Release;
+         OnChanged                     : af_IPropertyNotifySink_OnChanged;
+         OnRequestEdit                 : af_IPropertyNotifySink_OnRequestEdit;
+      end record
+     with Convention => C_Pass_By_Copy;
+
+   --  {157083E1-2368-11cf-87B9-00AA006C8166}
+   CATID_PropertyNotifyControl : aliased GUID :=
+     (16#157083E1#, 16#2368#, 16#11CF#,
+      (C.unsigned_char'Val (16#87#), C.unsigned_char'Val (16#B9#),
+       C.unsigned_char'Val (0),      C.unsigned_char'Val (16#AA#),
+       C.unsigned_char'Val (0),      C.unsigned_char'Val (16#6C#),
+       C.unsigned_char'Val (16#81#), C.unsigned_char'Val (16#66#)));
+
+   --  {6d5140c1-7436-11ce-8034-00aa006009fa}
+   IID_IServiceProvider : aliased GUID :=
+     (16#6d5140c1#, 16#7436#, 16#11CE#,
+      (C.unsigned_char'Val (16#80#), C.unsigned_char'Val (16#34#),
+       C.unsigned_char'Val (0),      C.unsigned_char'Val (16#AA#),
+       C.unsigned_char'Val (0),      C.unsigned_char'Val (16#60#),
+       C.unsigned_char'Val (16#09#), C.unsigned_char'Val (16#FA#)));
+
+   type af_IServiceProvider_QueryInterface is access
+     function (This   : access IServiceProvider;
+               riid   : Pointer_To_GUID;
+               ppvObj : Pointer_To_Pointer_To_Void)
+               return HRESULT
+     with Convention => Stdcall;
+
+   type af_IServiceProvider_AddRef is access
+     function (This : access IServiceProvider)
+               return Interfaces.C.unsigned_long
+     with Convention => Stdcall;
+
+   type af_IServiceProvider_Release is access
+     function (This : access IServiceProvider)
+               return Interfaces.C.unsigned_long;
+
+   type af_IServiceProvider_QueryService is access
+     function (This        : access IServiceProvider;
+               guidService : Pointer_To_GUID;
+               ppvObject   : Pointer_To_Pointer_To_Void)
+               return GNATCOM.Types.HRESULT
+     with Convention => Stdcall;
+
+   type IServiceProviderVtbl;
+   type Pointer_To_IServiceProviderVtbl is access all IServiceProviderVtbl;
+
+   type IServiceProvider is
+      record
+         Vtbl : Pointer_To_IServiceProviderVtbl;
+      end record
+     with Convention => C_Pass_By_Copy;
+
+   type IServiceProviderVtbl is
+      record
+         QueryInterface                : af_IServiceProvider_QueryInterface;
+         AddRef                        : af_IServiceProvider_AddRef;
+         Release                       : af_IServiceProvider_Release;
+         QueryService                  : af_IServiceProvider_QueryService;
       end record
      with Convention => C_Pass_By_Copy;
 

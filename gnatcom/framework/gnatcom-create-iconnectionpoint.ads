@@ -99,6 +99,21 @@ package GNATCOM.Create.IConnectionPoint is
       GNATCOM.Types."<",
       GNATCOM.Iinterface."=");
 
+   type ConnectionPoint_Type;
+   type Pointer_To_ConnectionPoint_Type is access all ConnectionPoint_Type;
+
+   type Fire_Access is access procedure
+     (ConnectionPoint : ConnectionPoint_Type;
+      Dispid          : Interfaces.C.long);
+
+   type Advise_Access is access function
+     (Object : not null Pointer_To_ConnectionPoint_Type;
+      Sink   : not null access GNATCOM.Iinterface.Interface_Type;
+      Cookie : in out GNATCOM.Types.DWORD)
+      return GNATCOM.Types.HRESULT;
+
+   --  An implementation of connection types that supports sending notifications
+   --  to IDispatch and IPropertyNotifySink based clients.
    type ConnectionPoint_Type is
      new COM_Interface.CoClass_Type (GUID_Map'Access) with
       record
@@ -106,10 +121,10 @@ package GNATCOM.Create.IConnectionPoint is
          Container   : COM_Interface.Pointer_To_COM_Interface_Type;
          Cookie      : GNATCOM.Types.DWORD := 1;
          Connections : DWORD_Interface_Maps.Map;
-         --  Saves the IDispatch references to the clients.
+         --  Saves the IDispatch / IPropertyNotifySink references to the clients.
+         Fire        : Fire_Access;
+         Advise      : Advise_Access;
       end record;
-
-   type Pointer_To_ConnectionPoint_Type is access all ConnectionPoint_Type;
 
    function Create
      (Event_IID : GNATCOM.Types.Pointer_To_GUID;
@@ -119,5 +134,7 @@ package GNATCOM.Create.IConnectionPoint is
    procedure Fire
      (ConnectionPoint : ConnectionPoint_Type;
       Dispid          : Interfaces.C.long);
+   --  @param Dispid For IPropertyNotifySink it is the DISPID on the interface.
+   --  For others (IDispatch), it is the DISPID on the source interface.
 
 end GNATCOM.Create.IConnectionPoint;

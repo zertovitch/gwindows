@@ -97,7 +97,7 @@ package GNATCOM.ITypeInfo_Interface is
       memid       : Interfaces.C.long;
       rgBstrNames : GNATCOM.Types.Pointer_To_BSTR_PARAM_ARRAY;
       cMaxNames   : Interfaces.C.int;
-      pcNames     : GNATCOM.Types.Pointer_To_int);
+      pcNames     : GNATCOM.Types.Pointer_To_unsigned);
 
    function GetRefTypeInfo
      (This     : ITypeInfo_Type;

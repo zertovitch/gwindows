@@ -1,8 +1,88 @@
 with Ada.Unchecked_Conversion;
+with System;
 with GNATCOM.Dispinterface;
 with GNATCOM.Errors;
 
 package body GNATCOM.Create.IConnectionPoint is
+
+   procedure IDispatch_Fire
+     (ConnectionPoint : ConnectionPoint_Type;
+      Dispid          : Interfaces.C.long)
+   is
+   begin
+      for Connection of ConnectionPoint.Connections loop
+         declare
+            Disp : GNATCOM.Dispinterface.Dispinterface_Type;
+         begin
+            GNATCOM.Iinterface.AddRef (Connection);
+            GNATCOM.Dispinterface.Initialize (Disp);
+            GNATCOM.Dispinterface.Attach
+              (Disp, GNATCOM.Dispinterface.To_Pointer_To_IDispatch
+                 (GNATCOM.Iinterface.Address (Connection)));
+            GNATCOM.Dispinterface.Invoke (Disp, Dispid);
+         exception
+            when others =>
+               null;
+         end;
+      end loop;
+   end IDispatch_Fire;
+
+   procedure IPropertyNotifySink_Fire
+     (ConnectionPoint : ConnectionPoint_Type;
+      Dispid          : Interfaces.C.long)
+   is
+   begin
+      for Connection of ConnectionPoint.Connections loop
+         declare
+            function To_Pointer_To_IPropertyNotifySink is
+              new Ada.Unchecked_Conversion
+                (System.Address,
+                 GNATCOM.Types.Pointer_To_IPropertyNotifySink);
+
+            Sink : GNATCOM.Types.Pointer_To_IPropertyNotifySink;
+            Hr   : GNATCOM.Types.HRESULT;
+         begin
+            Sink := To_Pointer_To_IPropertyNotifySink
+              (GNATCOM.Iinterface.Address (Connection));
+            Hr   := Sink.Vtbl.OnChanged (Sink, Dispid);
+         end;
+      end loop;
+   end IPropertyNotifySink_Fire;
+
+   function IPropertyNotifySink_Advise
+     (Object : not null Pointer_To_ConnectionPoint_Type;
+      Sink   : not null access GNATCOM.Iinterface.Interface_Type;
+      Cookie : in out GNATCOM.Types.DWORD)
+     return GNATCOM.Types.HRESULT
+   is
+      use GNATCOM.Types;
+   begin
+      Object.Connections.Include (Object.Cookie, Sink.all);
+      Cookie        := Object.Cookie;
+      Object.Cookie := Object.Cookie + 1;
+      return S_OK;
+   end IPropertyNotifySink_Advise;
+
+   function IDispatch_Advise
+     (Object : not null Pointer_To_ConnectionPoint_Type;
+      Sink   : not null access GNATCOM.Iinterface.Interface_Type;
+      Cookie : in out GNATCOM.Types.DWORD)
+     return GNATCOM.Types.HRESULT
+   is
+      use GNATCOM.Types;
+      Success : Boolean := False;
+   begin
+      GNATCOM.Iinterface.Set_IID (Sink.all, IID_IDispatch);
+      GNATCOM.Iinterface.Query (Sink.all, Sink.all, Success);
+      if Success then
+         Object.Connections.Include (Object.Cookie, Sink.all);
+         Cookie        := Object.Cookie;
+         Object.Cookie := Object.Cookie + 1;
+         return GNATCOM.S_OK;
+      else
+         return GNATCOM.CONNECT_E_CANNOTCONNECT;
+      end if;
+   end IDispatch_Advise;
 
    function IConnectionPoint_GetConnectionInterface
      (This : access COM_Interface.COM_Interface_Type;
@@ -60,24 +140,15 @@ package body GNATCOM.Create.IConnectionPoint is
       use GNATCOM.Types;
       Object   : constant Pointer_To_ConnectionPoint_Type :=
         Pointer_To_ConnectionPoint_Type (This.CoClass);
-      Obj      : GNATCOM.Iinterface.Interface_Type;
+      Sink     : aliased GNATCOM.Iinterface.Interface_Type;
       Success  : Boolean := False;
       Result   : GNATCOM.Types.HRESULT;
    begin
       if pUnkSink /= null and then pdwCookie /= null then
-         GNATCOM.Iinterface.Set_IID (Obj, Object.Event_IID.all);
-         GNATCOM.Iinterface.Attach (Obj, pUnkSink, Success);
+         GNATCOM.Iinterface.Set_IID (Sink, Object.Event_IID.all);
+         GNATCOM.Iinterface.Attach (Sink, pUnkSink, Success);
          if Success then
-            GNATCOM.Iinterface.Set_IID (Obj, IID_IDispatch);
-            GNATCOM.Iinterface.Query (Obj, Obj, Success);
-            if Success then
-               Object.Connections.Include (Object.Cookie, Obj);
-               pdwCookie.all := Object.Cookie;
-               Object.Cookie := Object.Cookie + 1;
-               Result := GNATCOM.S_OK;
-            else
-               Result := GNATCOM.CONNECT_E_CANNOTCONNECT;
-            end if;
+            Result := Object.Advise.all (Object, Sink'Access, pdwCookie.all);
          else
             Result := GNATCOM.CONNECT_E_CANNOTCONNECT;
          end if;
@@ -126,11 +197,19 @@ package body GNATCOM.Create.IConnectionPoint is
       Container : COM_Interface.Pointer_To_COM_Interface_Type)
       return COM_Interface.Pointer_To_COM_Interface_Type
    is
+      use GNATCOM.Types;
       Object : constant Pointer_To_ConnectionPoint_Type :=
         new ConnectionPoint_Type;
    begin
       Object.Event_IID := Event_IID;
       Object.Container := Container;
+      if Event_IID.all = GNATCOM.Types.IID_IPropertyNotifySink then
+         Object.Advise := IPropertyNotifySink_Advise'Access;
+         Object.Fire   := IPropertyNotifySink_Fire'Access;
+      else
+         Object.Advise := IDispatch_Advise'Access;
+         Object.Fire   := IDispatch_Fire'Access;
+      end if;
       return GNATCOM.Create.COM_Interface.Create_Object
         (COM_Interface.Pointer_To_CoClass (Object));
    end Create;
@@ -140,21 +219,7 @@ package body GNATCOM.Create.IConnectionPoint is
       Dispid          : Interfaces.C.long)
    is
    begin
-      for Connection of ConnectionPoint.Connections loop
-         declare
-            Disp : GNATCOM.Dispinterface.Dispinterface_Type;
-         begin
-            GNATCOM.Iinterface.AddRef (Connection);
-            GNATCOM.Dispinterface.Initialize (Disp);
-            GNATCOM.Dispinterface.Attach
-              (Disp, GNATCOM.Dispinterface.To_Pointer_To_IDispatch
-                 (GNATCOM.Iinterface.Address (Connection)));
-            GNATCOM.Dispinterface.Invoke (Disp, Dispid);
-         exception
-            when others =>
-               null;
-         end;
-      end loop;
+      ConnectionPoint.Fire.all (ConnectionPoint, Dispid);
    end Fire;
 
 end GNATCOM.Create.IConnectionPoint;
