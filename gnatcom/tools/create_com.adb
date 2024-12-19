@@ -1759,7 +1759,7 @@ package body Create_COM is
             Func_Desc : aliased GNATCOM.Types.BSTR;
 
             Param_Names   : aliased GNATCOM.Types.BSTR_PARAM_ARRAY;
-            cNames        : aliased Interfaces.C.int;
+            cNames        : aliased Interfaces.C.unsigned;
          begin
             if Desc.elemdescFunc.tdesc.vt = VT_VOID then
                Put (Bind_Buffer, "procedure " &
@@ -1942,7 +1942,7 @@ package body Create_COM is
             Func_Desc : aliased GNATCOM.Types.BSTR;
 
             Param_Names   : aliased GNATCOM.Types.BSTR_PARAM_ARRAY;
-            cNames        : aliased Interfaces.C.int;
+            cNames        : aliased Interfaces.C.unsigned;
          begin
             Put_Line (Bind_Buffer,
                       "type af_" &
@@ -2102,7 +2102,7 @@ package body Create_COM is
             Func_Desc   : aliased GNATCOM.Types.BSTR;
 
             Param_Names : aliased GNATCOM.Types.BSTR_PARAM_ARRAY;
-            cNames      : aliased Interfaces.C.int;
+            cNames      : aliased Interfaces.C.unsigned;
          begin
             GetNames (Type_Info,
                       Desc.memid,

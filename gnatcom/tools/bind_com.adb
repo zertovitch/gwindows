@@ -1252,7 +1252,7 @@ package body Bind_COM is
                  Valid_Identifier (GetFunctionName (Type_Info, Desc));
                Max_Length  : Natural := 4;
                Param_Names : aliased GNATCOM.Types.BSTR_PARAM_ARRAY;
-               cNames      : aliased Interfaces.C.int;
+               cNames      : aliased Interfaces.C.unsigned;
             begin
                if
                  (not Is_Dual)
@@ -1560,7 +1560,7 @@ package body Bind_COM is
             Func_Desc : aliased GNATCOM.Types.BSTR;
 
             Param_Names   : aliased GNATCOM.Types.BSTR_PARAM_ARRAY;
-            cNames        : aliased Interfaces.C.int;
+            cNames        : aliased Interfaces.C.unsigned;
          begin
             if Desc.elemdescFunc.tdesc.vt = VT_VOID then
                Put (Bind_Buffer, "procedure " &
@@ -1747,7 +1747,7 @@ package body Bind_COM is
             Func_Desc : aliased GNATCOM.Types.BSTR;
 
             Param_Names   : aliased GNATCOM.Types.BSTR_PARAM_ARRAY;
-            cNames        : aliased Interfaces.C.int;
+            cNames        : aliased Interfaces.C.unsigned;
             Force_Proc    : Boolean := False;
          begin
             Put_Line (Bind_Buffer,
@@ -1947,7 +1947,7 @@ package body Bind_COM is
             Func_Desc   : aliased GNATCOM.Types.BSTR;
 
             Param_Names : aliased GNATCOM.Types.BSTR_PARAM_ARRAY;
-            cNames      : aliased Interfaces.C.int;
+            cNames      : aliased Interfaces.C.unsigned;
             Ret_Val     : Integer := -1;
             Force_Func  : Boolean := False;
             Force_Proc  : Boolean := False;
@@ -2724,7 +2724,7 @@ package body Bind_COM is
             Func_Desc   : aliased GNATCOM.Types.BSTR;
 
             Param_Names : aliased GNATCOM.Types.BSTR_PARAM_ARRAY;
-            cNames      : aliased Interfaces.C.int;
+            cNames      : aliased Interfaces.C.unsigned;
             Max_Length  : Natural := 4;
          begin
             GetNames (Type_Info,
