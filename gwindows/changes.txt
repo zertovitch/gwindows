@@ -12,6 +12,11 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
+GWindows release, 15-Mar-2025 [revision 613]
+============================================
+   * Various fixes and additions.
+   * License change from GMGPL to MIT.
+
 GWindows release, 13-Apr-2024 [revision 549]
 ============================================
 
