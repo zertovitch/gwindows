@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 --  GUI contents of resource script file: GW_Install.rc
---  Transcription time: 2024/04/13  21:43:06
+--  Transcription time: 2025/03/22  04:12:04
 --  GWenerator project file: GW_Install.gwen
 --
 --  Translated by the RC2GW or by the GWenerator tool.
@@ -84,14 +84,10 @@ package GW_Install_Resource_GUI is
     Static_0008 : Bitmap_Type;
     GNAVI_SF_URL : Label_Type;
     GNAVI_Discuss_URL : Label_Type;
-    GNAVI_URL : Label_Type;
-    Static_0009 : Bitmap_Type;
-    ResEdit_URL : Label_Type;
-    --  Label: IDC_STATIC
-    --  Label: IDC_STATIC
+    GNAVI_GH_URL : Label_Type;
   end record; -- Goodbye_dialog_Type
 
-  --  Dialog at resource line 72
+  --  Dialog at resource line 68
 
   --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -133,7 +129,7 @@ package GW_Install_Resource_GUI is
     Open_gnatcom_folder : Check_Box_Type;
   end record; -- Goodbye_dialog_2_Type
 
-  --  Dialog at resource line 95
+  --  Dialog at resource line 91
 
   --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -182,7 +178,7 @@ package GW_Install_Resource_GUI is
     IDCANCEL_permanent : Button_Type;  --  Doesn't close parent window after click
   end record; -- Main_install_dialog_Type
 
-  --  Dialog at resource line 123
+  --  Dialog at resource line 119
 
   --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -214,7 +210,7 @@ package GW_Install_Resource_GUI is
     Static_0002 : Icon_Type;
   end record; -- Unpack_dialog_Type
 
-  --  Dialog at resource line 137
+  --  Dialog at resource line 133
 
   --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -241,8 +237,8 @@ package GW_Install_Resource_GUI is
   package Version_info is
     Authors : constant String := "Gautier de Montmollin";
     FileDescription : constant String := "File extractor for the GWindows programming framework";
-    FileVersion : constant String := "13-Apr-2024";
-    LegalCopyright : constant String := "© 2012 .. 2024 G. de Montmollin (MIT license)";
+    FileVersion : constant String := "22-Mar-2025";
+    LegalCopyright : constant String := "© 2012 .. 2025 G. de Montmollin (MIT license)";
     ProductName : constant String := "GWindows Extractor";
     Translation : constant := 1033;
   end Version_info;
@@ -263,11 +259,9 @@ package GW_Install_Resource_GUI is
   Zip_icon                : constant :=    143;
   Ada_doc_icon            : constant :=    145;
   Success_icon            : constant :=    147;
-  ResEdit_Logo            : constant :=    149;
   GNAT_Logo               : constant :=    151;
   Goodbye_dialog_2        : constant :=    153;
   Directory_select_button : constant :=   1000;
-  GNAVI_URL               : constant :=   1000;
   Build_gwenerator        : constant :=   1001;
   File_name               : constant :=   1001;
   GNAT_URL                : constant :=   1001;
@@ -278,11 +272,11 @@ package GW_Install_Resource_GUI is
   Unpack_progress         : constant :=   1002;
   Installed_version       : constant :=   1003;
   Open_user_guide         : constant :=   1003;
-  ResEdit_URL             : constant :=   1003;
   GNAVI_Discuss_URL       : constant :=   1004;
   GNATCOM_check           : constant :=   1006;
   MinGW_URL               : constant :=   1006;
   Open_gwenerator_doc     : constant :=   1006;
+  GNAVI_GH_URL            : constant :=  40000;
   Installer_Version       : constant :=  40018;
   ANSI_choice             : constant :=  40019;
   UNICODE_choice          : constant :=  40021;
@@ -301,6 +295,6 @@ package GW_Install_Resource_GUI is
 
   function Num_resource (id : Natural) return GString;  --  Just turn 123 into "#123".
 
-  --  Last line of resource script file: 199
+  --  Last line of resource script file: 195
 
 end GW_Install_Resource_GUI;

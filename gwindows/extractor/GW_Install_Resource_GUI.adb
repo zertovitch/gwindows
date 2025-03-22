@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 --  GUI contents of resource script file: GW_Install.rc
---  Transcription time: 2024/04/13  21:43:06
+--  Transcription time: 2025/03/22  04:12:04
 --  GWenerator project file: GW_Install.gwen
 --
 --  Translated by the RC2GW or by the GWenerator tool.
@@ -190,33 +190,25 @@ package body GW_Install_Resource_GUI is
     Create_Label (Window, "by re-running this installation program.", x, y, w, h, GWindows.Static_Controls.Left, None);
     Dlg_to_Scn (15, 12, 21, 20, x, y, w, h);
     Create (Window.Static_0005, Window, Num_resource (Success_icon), x, y, w, h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn (15, 84, 179, 8, x, y, w, h);
+    Dlg_to_Scn (15, 100, 179, 8, x, y, w, h);
     Create_Label (Window, "You may want to visit the following web sites:", x, y, w, h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn (23, 100, 87, 28, x, y, w, h);
+    Dlg_to_Scn (23, 116, 87, 28, x, y, w, h);
     Create (Window.Static_0007, Window, Num_resource (GNAT_Logo), x, y, w, h, GWindows.Static_Controls.Left, Half_Sunken);
-    Dlg_to_Scn (125, 101, 154, 8, x, y, w, h);
-    Create (Window.GNAT_URL, Window, "GNAT Ada compiler (GNAT GPL and GNAT Pro)", x, y, w, h, GWindows.Static_Controls.Left, None, ID => GNAT_URL);
-    Dlg_to_Scn (125, 112, 78, 8, x, y, w, h);
-    Create (Window.MinGW_URL, Window, "GNAT FSF, with MinGW", x, y, w, h, GWindows.Static_Controls.Left, None, ID => MinGW_URL);
-    Dlg_to_Scn (23, 136, 125, 33, x, y, w, h);
+    Dlg_to_Scn (125, 117, 145, 9, x, y, w, h);
+    Create (Window.GNAT_URL, Window, "GNAT Ada compiler, Community Edition (GPL)", x, y, w, h, GWindows.Static_Controls.Left, None, ID => GNAT_URL);
+    Dlg_to_Scn (125, 130, 124, 9, x, y, w, h);
+    Create (Window.MinGW_URL, Window, "GNAT Ada compiler, via Alire (GMGPL)", x, y, w, h, GWindows.Static_Controls.Left, None, ID => MinGW_URL);
+    Dlg_to_Scn (24, 161, 125, 33, x, y, w, h);
     Create (Window.Static_0008, Window, Num_resource (GNAVI_Logo), x, y, w, h, GWindows.Static_Controls.Left, Half_Sunken);
-    Dlg_to_Scn (161, 138, 74, 8, x, y, w, h);
-    Create (Window.GNAVI_SF_URL, Window, "GNAVI at SourceForge", x, y, w, h, GWindows.Static_Controls.Left, None, ID => GNAVI_SF_URL);
-    Dlg_to_Scn (161, 149, 83, 8, x, y, w, h);
+    Dlg_to_Scn (161, 174, 116, 9, x, y, w, h);
+    Create (Window.GNAVI_SF_URL, Window, "GNAVI / GWindows at SourceForge", x, y, w, h, GWindows.Static_Controls.Left, None, ID => GNAVI_SF_URL);
+    Dlg_to_Scn (161, 185, 83, 8, x, y, w, h);
     Create (Window.GNAVI_Discuss_URL, Window, "GNAVI Discuss mailing list", x, y, w, h, GWindows.Static_Controls.Left, None, ID => GNAVI_Discuss_URL);
-    Dlg_to_Scn (161, 160, 35, 8, x, y, w, h);
-    Create (Window.GNAVI_URL, Window, "GNAVI.org", x, y, w, h, GWindows.Static_Controls.Left, None, ID => GNAVI_URL);
-    Dlg_to_Scn (23, 180, 71, 33, x, y, w, h);
-    Create (Window.Static_0009, Window, Num_resource (ResEdit_Logo), x, y, w, h, GWindows.Static_Controls.Left, Half_Sunken);
-    Dlg_to_Scn (103, 178, 190, 9, x, y, w, h);
-    Create (Window.ResEdit_URL, Window, "ResEdit - a free graphic resource editor", x, y, w, h, GWindows.Static_Controls.Left, None, ID => ResEdit_URL);
-    Dlg_to_Scn (105, 190, 214, 9, x, y, w, h);
-    Create_Label (Window, "To be used with the .RC to Ada translator (GWenerator) and", x, y, w, h, GWindows.Static_Controls.Left, None);
-    Dlg_to_Scn (105, 201, 214, 9, x, y, w, h);
-    Create_Label (Window, " the GWindows framework. A version is included with GWenerator", x, y, w, h, GWindows.Static_Controls.Left, None);
+    Dlg_to_Scn (161, 163, 97, 9, x, y, w, h);
+    Create (Window.GNAVI_GH_URL, Window, "GNAVI / GWindows at GitHub", x, y, w, h, GWindows.Static_Controls.Left, None, ID => GNAVI_GH_URL);
   end Create_Contents;  --  Goodbye_dialog_Type
 
-  --  Dialog at resource line 81
+  --  Dialog at resource line 77
 
   --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -309,7 +301,7 @@ package body GW_Install_Resource_GUI is
     Create (Window.Open_gnatcom_folder, Window, "Open the GNATCOM folder", x, y, w, h, ID => Open_gnatcom_folder);
   end Create_Contents;  --  Goodbye_dialog_2_Type
 
-  --  Dialog at resource line 104
+  --  Dialog at resource line 100
 
   --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -433,7 +425,7 @@ package body GW_Install_Resource_GUI is
     end if;
   end Create_Contents;  --  Main_install_dialog_Type
 
-  --  Dialog at resource line 132
+  --  Dialog at resource line 128
 
   --    a) Create_As_Dialog & create all contents -> ready-to-use dialog
   --
@@ -608,6 +600,6 @@ package body GW_Install_Resource_GUI is
 begin
   Common_Fonts.Create_Common_Fonts;
 
-  --  Last line of resource script file: 199
+  --  Last line of resource script file: 195
 
 end GW_Install_Resource_GUI;

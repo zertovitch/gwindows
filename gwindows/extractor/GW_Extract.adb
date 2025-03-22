@@ -265,7 +265,7 @@ procedure GW_Extract is
   procedure Quit is
     Ciao : Goodbye_dialog_Type;
     Ciao_2 : Goodbye_dialog_2_Type;
-    GNAT, GNAVI, GNAVI_SF, GNAVI_Dis, MinGW, ResEdit : URL_Type;
+    GNAT, GNAVI_GH, GNAVI_SF, GNAVI_Dis, MinGW : URL_Type;
     procedure Get_Data (dummy : in out GWindows.Base.Base_Window_Type'Class) is
       id : constant String := To_String (Install_dir);
       gwen_dir : constant String := id & "\gwenerator";
@@ -304,12 +304,11 @@ procedure GW_Extract is
     Ciao.Center;
     Ciao.Small_Icon ("AAA_Main_Icon");
     Ciao.Large_Icon ("AAA_Main_Icon");
-    Create_and_Swap (GNAT, Ciao.GNAT_URL, Ciao, "http://libre.adacore.com/");
-    Create_and_Swap (MinGW, Ciao.MinGW_URL, Ciao, "http://mingw.org/");
-    Create_and_Swap (GNAVI, Ciao.GNAVI_URL, Ciao, "http://www.gnavi.org/");
+    Create_and_Swap (GNAT, Ciao.GNAT_URL, Ciao, "https://www.adacore.com/download");
+    Create_and_Swap (MinGW, Ciao.MinGW_URL, Ciao, "https://alire.ada.dev/");
+    Create_and_Swap (GNAVI_GH, Ciao.GNAVI_GH_URL, Ciao, "https://github.com/zertovitch/gwindows");
     Create_and_Swap (GNAVI_SF, Ciao.GNAVI_SF_URL, Ciao, "http://www.sourceforge.net/projects/gnavi/");
     Create_and_Swap (GNAVI_Dis, Ciao.GNAVI_Discuss_URL, Ciao, "http://lists.sourceforge.net/lists/listinfo/gnavi-discuss");
-    Create_and_Swap (ResEdit, Ciao.ResEdit_URL, Ciao, "http://www.resedit.net/");
     GWindows.Application.Show_Dialog (Ciao);
     --
     Create_Full_Dialog (Ciao_2, No_Parent);
