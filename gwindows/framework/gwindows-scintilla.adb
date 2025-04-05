@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2025 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -4221,10 +4221,10 @@ package body GWindows.Scintilla is
    -- Set_Use_Tabs --
    ------------------
 
-   procedure Set_Use_Tabs (Control : in out Scintilla_Type; useTabs : Boolean)
+   procedure Set_Use_Tabs (Control : in out Scintilla_Type; use_tabs : Boolean)
    is
    begin
-      Set (Control, SCI_SETUSETABS, useTabs);
+      Set (Control, SCI_SETUSETABS, use_tabs);
    end Set_Use_Tabs;
 
    ------------------

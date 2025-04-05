@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2025 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -1132,10 +1132,10 @@ package GWindows.Scintilla is
    function Get_Indent (Control : Scintilla_Type) return Integer;
    --  Retrieve indentation size.
 
-   procedure Set_Use_Tabs (Control : in out Scintilla_Type; useTabs : Boolean);
-   --  Indentation will only use space characters if useTabs is false,
+   procedure Set_Use_Tabs (Control : in out Scintilla_Type; use_tabs : Boolean);
+   --  Indentation will only use space characters if use_tabs is false,
    --  otherwise it will use a combination of tabs and spaces.
-   --  See the Tab and BackTab methods for programatically activating
+   --  See the Tab and Back_Tab methods for programatically activating
    --  indentation and dedentation.
 
    function Get_Use_Tabs (Control : Scintilla_Type) return Boolean;
@@ -1822,7 +1822,7 @@ package GWindows.Scintilla is
    procedure Tab (Control : in out Scintilla_Type);
    --  If selection is empty or all on one line replace the selection
    --  with a tab character or with the equivalent amount of spaces if
-   --  the editor was set up with SetUseTabs (Control, False).
+   --  the editor was set up with Set_Use_Tabs (Control, False).
    --  If more than one line selected, indent the lines.
 
    procedure Back_Tab (Control : in out Scintilla_Type);
