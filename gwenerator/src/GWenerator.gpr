@@ -71,12 +71,14 @@ project GWenerator is
         for Default_Switches ("ada") use ("-i2");
    end Pretty_Printer;
 
+   Linker_Common_Options := ("-g", "GWenerator.rbj", "-Xlinker", "--stack=0x2000000,0x20000");
+
    package Linker is
       case GWenerator_Build_Mode is
          when "Small" =>
-            for Default_Switches ("ada") use ("GWenerator.rbj", "-s", "-Wl,--gc-sections");
+            for Default_Switches ("ada") use Linker_Common_Options & ("-s", "-Wl,--gc-sections");
          when "Debug" =>
-            for Default_Switches ("ada") use ("GWenerator.rbj");
+            for Default_Switches ("ada") use Linker_Common_Options;
       end case;
    end Linker;
 
