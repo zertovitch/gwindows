@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2018 David Botton                   --
+--                 Copyright (C) 1999 - 2026 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -224,7 +224,7 @@ package body GWindows.Packing_Boxes is
          end;
       end if;
 
-      if not (Iconic (Window)) then
+      if not Iconic (Window) then
          Enumerate_Children (Window, Count_Children'Unrestricted_Access);
 
          if Window.Fill_Width or Window.Fill_Height then

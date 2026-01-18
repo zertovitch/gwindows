@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2026 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -79,7 +79,7 @@ package body GNATCOM.Create.Remote_Register is
             GNATCOM.Register.Unregister_Type_Library (LIBID);
 
             for N in
-              Factory_Map.all'First .. (Factory_Map.all'Last)
+              Factory_Map.all'First .. Factory_Map.all'Last
             loop
                GNATCOM.Register.Unregister_Server
                  (CLSID     => Factory_Map (N).CLSID,
@@ -92,7 +92,7 @@ package body GNATCOM.Create.Remote_Register is
             GNATCOM.Register.Register_Type_Library (Retrieve_hInstance);
 
             for N in
-              Factory_Map.all'First .. (Factory_Map.all'Last)
+              Factory_Map.all'First .. Factory_Map.all'Last
             loop
                GNATCOM.Register.Register_Remote_Server
                  (CLSID          => Factory_Map (N).CLSID,

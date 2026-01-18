@@ -8,7 +8,7 @@
 --                                                                          --
 --                            $Revision: 1.3 $
 --                                                                          --
---                  Copyright (C) 1999-2004 David Botton                    --
+--                  Copyright (C) 1999-2026 David Botton                    --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -141,7 +141,7 @@ package body COM_Scope is
       Library_Information (Lib);
       New_Line;
 
-      for N in 0 .. (GetTypeInfoCount (Lib) - 1) loop
+      for N in 0 .. GetTypeInfoCount (Lib) - 1 loop
          Element_Information (Lib, Interfaces.C.int (N));
          New_Line;
       end loop;
@@ -159,7 +159,7 @@ package body COM_Scope is
       Library_Information (Lib);
       New_Line;
 
-      for N in 0 .. (GetTypeInfoCount (Lib) - 1) loop
+      for N in 0 .. GetTypeInfoCount (Lib) - 1 loop
          Element_Information (Lib, Interfaces.C.int (N));
          New_Line;
       end loop;

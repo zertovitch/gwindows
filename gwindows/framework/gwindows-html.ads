@@ -27,8 +27,9 @@ package GWindows.Html is
       Width, Height :        Natural;
       FileName      : in     Ada.Strings.Unbounded.Unbounded_String);
 
-   procedure Accept_File_Drag_And_Drop (Html  : Html_Type;
-                                        State : Boolean := True);
+   overriding procedure Accept_File_Drag_And_Drop
+     (Html  : Html_Type;
+      State : Boolean := True);
 
    procedure Url (Html : Html_Type;
                   Url  : GString);

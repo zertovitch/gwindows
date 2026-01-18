@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2024 David Botton                   --
+--                 Copyright (C) 1999 - 2026 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -3768,7 +3768,7 @@ package body GWindows.Windows is
       end Children;
 
    begin
-      if not (Iconic (Window)) then
+      if not Iconic (Window) then
          Enumerate_Children (Window, Children'Unrestricted_Access);
 
          if Fill_Window /= null then

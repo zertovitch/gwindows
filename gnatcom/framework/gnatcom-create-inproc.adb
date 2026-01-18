@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2005 David Botton                   --
+--                 Copyright (C) 1999 - 2026 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -101,7 +101,7 @@ package body GNATCOM.Create.Inproc is
          pragma Warnings (Off, refcount);
       begin
          for N in
-           Factory_Map.all'First .. (Factory_Map.all'Last)
+           Factory_Map.all'First .. Factory_Map.all'Last
          loop
             if clsid.all = Factory_Map (N).CLSID then
                pFactory := new GNATCOM.Create.Factory.IClassFactory;
@@ -144,7 +144,7 @@ package body GNATCOM.Create.Inproc is
       end case;
 
       for N in
-        Factory_Map.all'First .. (Factory_Map.all'Last)
+        Factory_Map.all'First .. Factory_Map.all'Last
       loop
 
          GNATCOM.Register.Register_Inproc_Server
@@ -176,7 +176,7 @@ package body GNATCOM.Create.Inproc is
       GNATCOM.Register.Unregister_Type_Library (TypeLibary_LIBID);
 
       for N in
-        Factory_Map.all'First .. (Factory_Map.all'Last)
+        Factory_Map.all'First .. Factory_Map.all'Last
       loop
          GNATCOM.Register.Unregister_Server
            (CLSID       => Factory_Map (N).CLSID,
