@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2024 David Botton                   --
+--                 Copyright (C) 1999 - 2026 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -849,6 +849,15 @@ package GWindows.Common_Controls is
       State   : in     Boolean);
    --  Sets the selected state of a row
 
+   procedure Checked
+     (Control : in out List_View_Control_Type;
+      Item    : in     Integer;
+      State   : in     Boolean);
+
+   function Is_Checked (Control : in List_View_Control_Type;
+                        Index   : in Integer)
+                        return Boolean;
+
    procedure Item_At_Position
      (Control  : in     List_View_Control_Type;
       Position : in     GWindows.Types.Point_Type;
@@ -923,9 +932,10 @@ package GWindows.Common_Controls is
    --  Extended Styles
    --  All styles may be combined:
    --    Grid             = gridlines between the subitems
+   --    Checkboxes       = Display checkboxes
    --    Header_Drag_Drop = move the columns with drag and drop
    --    Full_Row_Select  = selection mark on complete row
-   type Extended_Style_Type is (Grid, Header_Drag_Drop, Full_Row_Select);
+   type Extended_Style_Type is (Grid, Checkboxes, Header_Drag_Drop, Full_Row_Select);
 
    procedure Switch_Extended_Style
      (Control : in List_View_Control_Type;

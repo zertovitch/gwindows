@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2024 David Botton                   --
+--                 Copyright (C) 1999 - 2026 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -156,7 +156,7 @@ package body GWindows.Common_Controls is
 --     LVIS_ACTIVATING         : constant := 16#0020#;
 
 --     LVIS_OVERLAYMASK        : constant := 16#0F00#;
---     LVIS_STATEIMAGEMASK     : constant := 16#F000#;
+   LVIS_STATEIMAGEMASK     : constant := 16#F000#;
 
    type SYSTEMTIME is
       record
@@ -2618,6 +2618,65 @@ package body GWindows.Common_Controls is
       return (SendMessage /= 0);
    end Is_Selected;
 
+   -------------
+   -- Checked --
+   -------------
+
+   procedure Checked
+     (Control : in out List_View_Control_Type;
+      Item    : in     Integer;
+      State   : in     Boolean)
+   is
+
+      LVM_SETITEMSTATE : constant := LVM_FIRST + 43;
+
+      procedure SendMessage
+        (hwnd   : GWindows.Types.Handle :=
+           GWindows.Common_Controls.Handle (Control);
+         uMsg   : Interfaces.C.int      := LVM_SETITEMSTATE;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Item);
+         lParam : LVITEM);
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+
+      LVI : LVITEM;
+      LVIS_UNCHECKED   : constant := 16#1000#;
+      LVIS_CHECKED     : constant := 16#2000#;
+      LVIS_CHECKEDMASK : constant := 16#3000#;
+
+   begin
+      LVI.StateMask := LVIS_CHECKEDMASK;
+      if State then
+         LVI.State := LVIS_CHECKED;
+      else
+         LVI.State := LVIS_UNCHECKED;
+      end if;
+      SendMessage (lParam => LVI);
+   end Checked;
+
+   ----------------
+   -- Is_Checked --
+   ----------------
+
+   function Is_Checked (Control : in List_View_Control_Type;
+                        Index   : in Integer)
+                        return Boolean
+   is
+      function SendMessage
+        (hwnd   : GWindows.Types.Handle := Handle (Control);
+         uMsg   : Interfaces.C.int      := LVM_GETITEMSTATE;
+         wParam : GWindows.Types.Wparam := GWindows.Types.Wparam (Index);
+         lParam : GWindows.Types.Lparam := LVIS_STATEIMAGEMASK)
+        return Integer;
+      pragma Import (StdCall, SendMessage,
+                       "SendMessage" & Character_Mode_Identifier);
+   begin
+      return (SendMessage / 16#2000# = 1);
+   end Is_Checked;
+   --  #define ListView_GetCheckState(hwndLV,i)
+   --     ((((UINT)(SNDMSG((hwndLV),
+   --     LVM_GETITEMSTATE,(WPARAM)(i),LVIS_STATEIMAGEMASK))) >> 12) -1)
+
    -----------
    -- Clear --
    -----------
@@ -2649,6 +2708,7 @@ package body GWindows.Common_Controls is
                      "SendMessage" & Character_Mode_Identifier);
       Lvm_First                    : constant := 16#1000#;
       Lvs_Ex_Gridlines             : constant := 1;
+      Lvs_Ex_Checkboxes            : constant := 4;
       Lvs_Ex_Headerdragdrop        : constant := 16;
       Lvs_Ex_Fullrowselect         : constant := 32;
       Lvm_Setextendedlistviewstyle : constant := Lvm_First + 54;
@@ -2658,6 +2718,7 @@ package body GWindows.Common_Controls is
    begin
       case Style is
          when Grid             => WStyle := Lvs_Ex_Gridlines;
+         when Checkboxes       => WStyle := Lvs_Ex_Checkboxes;
          when Header_Drag_Drop => WStyle := Lvs_Ex_Headerdragdrop;
          when Full_Row_Select  => WStyle := Lvs_Ex_Fullrowselect;
       end case;
@@ -2803,7 +2864,6 @@ package body GWindows.Common_Controls is
    is
 
       LVM_SETITEMSTATE : constant := LVM_FIRST + 43;
-      LVIS_SELECTED    : constant := 16#0002#;
 
       procedure SendMessage
         (hwnd   : GWindows.Types.Handle :=
