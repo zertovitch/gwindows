@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 2022 - 2023 Gautier de Montmollin          --
+--                 Copyright (C) 2022 - 2026 Gautier de Montmollin          --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -192,9 +192,7 @@ package body Office_Applications is
       end Try_Closing_Initial_Document;
 
    begin
-      Enumerate_Children
-         (MDI_Client_Window (Main_Window).all,
-          Try_Closing_Initial_Document'Unrestricted_Access);
+      MDI_Client_Window (Main_Window).Enumerate_Children (Try_Closing_Initial_Document'Unrestricted_Access);
    end Close_Initial_Document;
 
 end Office_Applications;

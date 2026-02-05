@@ -849,14 +849,15 @@ package GWindows.Common_Controls is
       State   : in     Boolean);
    --  Sets the selected state of a row
 
+   function Is_Checked (Control : in List_View_Control_Type;
+                        Index   : in Integer)
+                        return Boolean;
+
    procedure Checked
      (Control : in out List_View_Control_Type;
       Item    : in     Integer;
       State   : in     Boolean);
-
-   function Is_Checked (Control : in List_View_Control_Type;
-                        Index   : in Integer)
-                        return Boolean;
+   --  Sets the checked state of a row
 
    procedure Item_At_Position
      (Control  : in     List_View_Control_Type;
