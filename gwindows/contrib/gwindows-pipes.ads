@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---              Copyright (C) 2010 - 2023 Gautier de Montmollin             --
+--              Copyright (C) 2010 - 2026 Gautier de Montmollin             --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -48,12 +48,11 @@
 --  with Output_a_line, GWindows.Pipes;
 --
 --  procedure Win_Pipe_Test is
---    use Windows_Pipes;
 --    p : Piped_Process;
 --  begin
---    Start (p, "cmd.exe /c dir", ".", Output_a_line'Access);
---    while Is_Alive (p) loop
---      Check_Progress (p);
+--    p.Start ("cmd.exe /c dir", ".", Output_a_line'Access);
+--    while p.Is_Alive loop
+--      p.Check_Progress;
 --    end loop;
 --  end Win_Pipe_Test;
 
@@ -70,7 +69,7 @@ package GWindows.Pipes is
    Output_Is_Null     : exception;  --  output callback is null
    Still_Active       : exception;  --  raised if Last_Exit_Code is queried too early
 
-   type Piped_Process is private;
+   type Piped_Process is tagged private;
 
    procedure Start
      (p             : in out Piped_Process;
@@ -116,24 +115,24 @@ private
 
    type STARTUPINFOA is
       record
-         cb : DWORD;
-         lpReserved : LPSTR;
-         lpDesktop : LPSTR;
-         lpTitle : LPSTR;
-         dwX : DWORD;
-         dwY : DWORD;
-         dwXSize : DWORD;
-         dwYSize : DWORD;
-         dwXCountChars : DWORD;
-         dwYCountChars : DWORD;
+         cb              : DWORD;
+         lpReserved      : LPSTR;
+         lpDesktop       : LPSTR;
+         lpTitle         : LPSTR;
+         dwX             : DWORD;
+         dwY             : DWORD;
+         dwXSize         : DWORD;
+         dwYSize         : DWORD;
+         dwXCountChars   : DWORD;
+         dwYCountChars   : DWORD;
          dwFillAttribute : DWORD;
-         dwFlags : DWORD;
-         wShowWindow : WORD;
-         cbReserved2 : WORD;
-         lpReserved2 : LPBYTE;
-         hStdInput  : HANDLE;
-         hStdOutput : HANDLE;
-         hStdError  : HANDLE;
+         dwFlags         : DWORD;
+         wShowWindow     : WORD;
+         cbReserved2     : WORD;
+         lpReserved2     : LPBYTE;
+         hStdInput       : HANDLE;
+         hStdOutput      : HANDLE;
+         hStdError       : HANDLE;
       end record;
    subtype StartupInfo is STARTUPINFOA;
 
@@ -141,8 +140,8 @@ private
 
    type Process_Information is
       record
-         hProcess : HANDLE;
-         hThread  : HANDLE;
+         hProcess    : HANDLE;
+         hThread     : HANDLE;
          dwProcessId : DWORD;
          dwThreadId  : DWORD;
       end record;
@@ -152,23 +151,23 @@ private
 
    type Security_Attributes is
       record
-         nLength : DWORD;
+         nLength              : DWORD;
          lpSecurityDescriptor : LPVOID;
-         bInheritHandle : BOOL;
+         bInheritHandle       : BOOL;
       end record;
 
    type PSECURITY_ATTRIBUTES is access all Security_Attributes;
    subtype LPSECURITY_ATTRIBUTES is PSECURITY_ATTRIBUTES;
 
-   type Piped_Process is record
-     SI : aliased StartupInfo;
-     PI : aliased Process_Information;
-     SA : aliased Security_Attributes;
+   type Piped_Process is tagged record
+     SI                  : aliased StartupInfo;
+     PI                  : aliased Process_Information;
+     SA                  : aliased Security_Attributes;
      PipeRead, PipeWrite : aliased HANDLE;
-     ProcessObject : HANDLE := System.Null_Address; -- = null <=> inactive
-     part_of_line : Ada.Strings.Unbounded.Unbounded_String;
-     text_output : Output_Line;
-     exit_code   : Integer;
+     ProcessObject       : HANDLE := System.Null_Address;  --  = null <=> inactive
+     part_of_line        : Ada.Strings.Unbounded.Unbounded_String;
+     text_output         : Output_Line;
+     exit_code           : Integer;
    end record;
 
 end GWindows.Pipes;

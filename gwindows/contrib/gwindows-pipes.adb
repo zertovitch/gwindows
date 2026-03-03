@@ -4,10 +4,10 @@
 --                                                                          --
 --                       G W I N D O W S . P I P E S                        --
 --                                                                          --
---                                 S p e c                                  --
+--                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---              Copyright (C) 2010 - 2023 Gautier de Montmollin             --
+--              Copyright (C) 2010 - 2026 Gautier de Montmollin             --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -40,80 +40,96 @@
 package body GWindows.Pipes is
 
    type PHANDLE is access all HANDLE;
-   function CreatePipe (hReadPipe : PHANDLE;
-                        hWritePipe : PHANDLE;
-                        lpPipeAttributes : LPSECURITY_ATTRIBUTES;
-                        nSize : DWORD)
-                       return BOOL;
-   pragma Import (Stdcall, CreatePipe, "CreatePipe");
 
-   function CreateProcessA (lpApplicationName : LPCSTR;
-                            lpCommandLine : LPSTR;
-                            lpProcessAttributes : LPSECURITY_ATTRIBUTES;
-                            lpThreadAttributes : LPSECURITY_ATTRIBUTES;
-                            bInheritHandles : BOOL;
-                            dwCreationFlags : DWORD;
-                            lpEnvironment : LPVOID;
-                            lpCurrentDirectory : LPCSTR;
-                            lpStartupInfo : LPSTARTUPINFOA;
-                            lpProcessInformation : LPPROCESS_INFORMATION)
-                           return BOOL;
+   function Create_Pipe
+     (hReadPipe        : PHANDLE;
+      hWritePipe       : PHANDLE;
+      lpPipeAttributes : LPSECURITY_ATTRIBUTES;
+      nSize            : DWORD)
+   return BOOL;
+
+   pragma Import (Stdcall, Create_Pipe, "CreatePipe");
+
+   function CreateProcessA
+     (lpApplicationName    : LPCSTR;
+      lpCommandLine        : LPSTR;
+      lpProcessAttributes  : LPSECURITY_ATTRIBUTES;
+      lpThreadAttributes   : LPSECURITY_ATTRIBUTES;
+      bInheritHandles      : BOOL;
+      dwCreationFlags      : DWORD;
+      lpEnvironment        : LPVOID;
+      lpCurrentDirectory   : LPCSTR;
+      lpStartupInfo        : LPSTARTUPINFOA;
+      lpProcessInformation : LPPROCESS_INFORMATION)
+   return BOOL;
+
    pragma Import (Stdcall, CreateProcessA, "CreateProcessA");
-   function CreateProcess (lpApplicationName : LPCSTR;
-                           lpCommandLine : LPSTR;
-                           lpProcessAttributes : LPSECURITY_ATTRIBUTES;
-                           lpThreadAttributes : LPSECURITY_ATTRIBUTES;
-                           bInheritHandles : BOOL;
-                           dwCreationFlags : DWORD;
-                           lpEnvironment : LPVOID;
-                           lpCurrentDirectory : LPCSTR;
-                           lpStartupInfo : LPSTARTUPINFOA;
-                           lpProcessInformation : LPPROCESS_INFORMATION)
-                          return BOOL
-     renames CreateProcessA;
+
+   function Create_Process
+     (lpApplicationName    : LPCSTR;
+      lpCommandLine        : LPSTR;
+      lpProcessAttributes  : LPSECURITY_ATTRIBUTES;
+      lpThreadAttributes   : LPSECURITY_ATTRIBUTES;
+      bInheritHandles      : BOOL;
+      dwCreationFlags      : DWORD;
+      lpEnvironment        : LPVOID;
+      lpCurrentDirectory   : LPCSTR;
+      lpStartupInfo        : LPSTARTUPINFOA;
+      lpProcessInformation : LPPROCESS_INFORMATION)
+   return BOOL
+   renames CreateProcessA;
 
    function CloseHandle (hObject : HANDLE) return BOOL;
+
    pragma Import (Stdcall, CloseHandle, "CloseHandle");
 
-   function TerminateProcess (hProcess : HANDLE;
-                              uExitCode : UINT)
-                             return BOOL;
-   pragma Import (Stdcall, TerminateProcess, "TerminateProcess");
+   function Terminate_Process
+     (hProcess  : HANDLE;
+      uExitCode : UINT)
+   return BOOL;
 
-   function GetExitCodeProcess (hProcess : HANDLE;
-                                lpExitCode : LPDWORD)
-                               return BOOL;
-   pragma Import (Stdcall, GetExitCodeProcess, "GetExitCodeProcess");
+   pragma Import (Stdcall, Terminate_Process, "TerminateProcess");
 
-   STATUS_PENDING : constant DWORD    :=  16#103#;
-   STILL_ACTIVE_W : constant DWORD := STATUS_PENDING;
+   function Get_Exit_Code_Process
+     (hProcess : HANDLE;
+      lpExitCode : LPDWORD)
+   return BOOL;
 
-   function PeekNamedPipe (hNamedPipe : HANDLE;
-                           lpBuffer : LPVOID;
-                           nBufferSize : DWORD;
-                           lpBytesRead : LPDWORD;
-                           lpTotalBytesAvail : LPDWORD;
-                           lpBytesLeftThisMessage : LPDWORD)
-                          return BOOL;
-   pragma Import (Stdcall, PeekNamedPipe, "PeekNamedPipe");
+   pragma Import (Stdcall, Get_Exit_Code_Process, "GetExitCodeProcess");
+
+   STATUS_PENDING : constant := 16#103#;
+   STILL_ACTIVE_W : constant := STATUS_PENDING;
+
+   function Peek_Named_Pipe
+     (hNamedPipe             : HANDLE;
+      lpBuffer               : LPVOID;
+      nBufferSize            : DWORD;
+      lpBytesRead            : LPDWORD;
+      lpTotalBytesAvail      : LPDWORD;
+      lpBytesLeftThisMessage : LPDWORD)
+   return BOOL;
+
+   pragma Import (Stdcall, Peek_Named_Pipe, "PeekNamedPipe");
 
    type OVERLAPPED is
       record
-         Internal : DWORD;
+         Internal     : DWORD;
          InternalHigh : DWORD;
-         Offset : DWORD;
-         OffsetHigh : DWORD;
-         hEvent : HANDLE;
+         Offset       : DWORD;
+         OffsetHigh   : DWORD;
+         hEvent       : HANDLE;
       end record;
 
    type LPOVERLAPPED is access all OVERLAPPED;
 
-   function ReadFile (hFile : HANDLE;
-                      lpBuffer : LPVOID;
-                      nNumberOfBytesToRead : DWORD;
-                      lpNumberOfBytesRead : LPDWORD;
-                      lpOverlappez : LPOVERLAPPED)
-                     return BOOL;
+   function ReadFile
+     (hFile                : HANDLE;
+      lpBuffer             : LPVOID;
+      nNumberOfBytesToRead : DWORD;
+      lpNumberOfBytesRead  : LPDWORD;
+      lpOverlappez         : LPOVERLAPPED)
+   return BOOL;
+
    pragma Import (Stdcall, ReadFile, "ReadFile");
 
   -----------
@@ -124,7 +140,7 @@ package body GWindows.Pipes is
      (p             : in out Piped_Process;
       command, path :        String;
       text_output   :        Output_Line)
-   is
+  is
     Created       : BOOL;
     IgnoreBool    : BOOL;
     pragma Unreferenced (IgnoreBool);
@@ -147,54 +163,57 @@ package body GWindows.Pipes is
     p.SA.nLength := DWORD (p.SA'Size / 8);
     p.SA.lpSecurityDescriptor := System.Null_Address;
     p.SA.bInheritHandle := 1; -- BOOL(TRUE)
+
     Created :=
-      CreatePipe (
-        p.PipeRead'Unrestricted_Access,
-        p.PipeWrite'Unrestricted_Access,
-        p.SA'Unrestricted_Access,
-        1024
-      );
+      Create_Pipe
+        (p.PipeRead'Unrestricted_Access,
+         p.PipeWrite'Unrestricted_Access,
+         p.SA'Unrestricted_Access,
+         1024);
+
     if Created = 0 then
       raise Cannot_Create_Pipe;
     end if;
-    --
-    p.SI.cb := DWORD (p.SI'Size / 8);
-    p.SI.lpReserved := null;
-    p.SI.lpDesktop := null;
-    p.SI.lpTitle := null;
-    p.SI.dwFlags := Startf_flags;
+
+    p.SI.cb          := DWORD (p.SI'Size / 8);
+    p.SI.lpReserved  := null;
+    p.SI.lpDesktop   := null;
+    p.SI.lpTitle     := null;
+    p.SI.dwFlags     := Startf_flags;
     p.SI.wShowWindow := SW_HIDE;
     p.SI.cbReserved2 := 0;
     p.SI.lpReserved2 := null;
-    p.SI.hStdInput  := System.Null_Address;
-    p.SI.hStdOutput := p.PipeWrite;
-    p.SI.hStdError  := p.PipeWrite;
+    p.SI.hStdInput   := System.Null_Address;
+    p.SI.hStdOutput  := p.PipeWrite;
+    p.SI.hStdError   := p.PipeWrite;
+
     --  Copy command
     for i in command'Range loop
       Process_Buffer (i) := CHAR (command (i));
     end loop;
     Process_Buffer (Process_Buffer'Last) := CHAR'First;
+
     --  Copy path
     for i in path'Range loop
       Start_Path (i) := CHAR (path (i));
     end loop;
     Start_Path (Start_Path'Last) := CHAR'First;
+
     --
     --  http://msdn.microsoft.com/en-us/library/ms682425(VS.85).aspx
     --
     Created :=
-      CreateProcess (
-        null,
-        Process_Buffer (Process_Buffer'First)'Unchecked_Access,
-        null,
-        null,
-        BOOL (1),  -- inherit handles
-        DWORD (0), -- flags
-        System.Null_Address,
-        Start_Path (Start_Path'First)'Unrestricted_Access,
-        p.SI'Unrestricted_Access,
-        p.PI'Unrestricted_Access
-      );
+      Create_Process
+        (null,
+         Process_Buffer (Process_Buffer'First)'Unchecked_Access,
+         null,
+         null,
+         BOOL (1),  -- inherit handles
+         DWORD (0), -- flags
+         System.Null_Address,
+         Start_Path (Start_Path'First)'Unrestricted_Access,
+         p.SI'Unrestricted_Access,
+         p.PI'Unrestricted_Access);
 
     if Created = 0 or p.PI.hProcess = System.Null_Address then
       raise Cannot_Start;
@@ -203,6 +222,7 @@ package body GWindows.Pipes is
     p.ProcessObject := p.PI.hProcess;
     IgnoreBool := CloseHandle (p.PipeWrite);
     p.part_of_line := Ada.Strings.Unbounded.Null_Unbounded_String;
+
   end Start;
 
   ----------
@@ -215,83 +235,89 @@ package body GWindows.Pipes is
     use System;
   begin
     if Is_Alive (p)  then
-      IgnoreBool := TerminateProcess (p.ProcessObject, 0);
+      IgnoreBool := Terminate_Process (p.ProcessObject, 0);
       p.ProcessObject := System.Null_Address;
     end if;
   end Stop;
 
   --  Internal
   --
-  procedure Read_pipe (p : in out Piped_Process) is
-    NumRead : aliased DWORD;
-    StuffInPipe   : BOOL;
-    HowManyBytes  : aliased DWORD;
-    IgnoreBool    : BOOL;
-    pragma Unreferenced (IgnoreBool);
+  procedure Read_Pipe (p : in out Piped_Process) is
+    num_read       : aliased DWORD;
+    stuff_in_pipe  : BOOL;
+    how_many_bytes : aliased DWORD;
+    ignore_bool    : BOOL;
+    pragma Unreferenced (ignore_bool);
+
     use Interfaces.C, Ada.Strings.Unbounded;
+
   begin
-    StuffInPipe :=
-      PeekNamedPipe (
-        p.PipeRead,
-        System.Null_Address, 0, -- don't actually read anything
-        null, -- don't care
-        HowManyBytes'Unchecked_Access,
-        null
-      );
-    if StuffInPipe = 0 or HowManyBytes = 0 then
+    stuff_in_pipe :=
+      Peek_Named_Pipe
+        (p.PipeRead,
+         System.Null_Address,
+         0,     --  don't actually read anything
+         null,  --  don't care
+         how_many_bytes'Unchecked_Access,
+         null);
+
+    if stuff_in_pipe = 0 or how_many_bytes = 0 then
       return;
     end if;
+
     declare
-      Buffer : array (1 .. Integer (HowManyBytes)) of aliased CHAR;
+      buffer : array (1 .. Integer (how_many_bytes)) of aliased CHAR;
       mark : Integer := 1;
-      --
-      procedure Memorize_chunk (a, b : Integer) is
+
+      procedure Memorize_Chunk (a, b : Integer) is
         s : String (a .. b);
       begin
         for i in s'Range loop
-          s (i) := Character (Buffer (i));
+          s (i) := Character (buffer (i));
         end loop;
         p.part_of_line := p.part_of_line & To_Unbounded_String (s);
-      end Memorize_chunk;
-      --
-      procedure Spit_a_line (a, b : Integer) is
+      end Memorize_Chunk;
+
+      procedure Spit_a_Line (a, b : Integer) is
         s : String (a .. b);
       begin
         for i in s'Range loop
-          s (i) := Character (Buffer (i));
+          s (i) := Character (buffer (i));
         end loop;
         p.text_output (To_String (p.part_of_line) & s);
         p.part_of_line := Ada.Strings.Unbounded.Null_Unbounded_String;
-      end Spit_a_line;
-      --
+      end Spit_a_Line;
+
     begin
-      IgnoreBool := ReadFile (
-         p.PipeRead,
-         Buffer (1)'Address,
-         HowManyBytes,
-         NumRead'Unrestricted_Access,
-         null
-       );
-       for i in 1 .. Integer (NumRead) loop
-         case Character (Buffer (i)) is
+      ignore_bool :=
+        ReadFile
+          (p.PipeRead,
+           buffer (1)'Address,
+           how_many_bytes,
+           num_read'Unrestricted_Access,
+           null);
+
+       for i in 1 .. Integer (num_read) loop
+         case Character (buffer (i)) is
            when ASCII.CR =>
-             Memorize_chunk (mark, i - 1);
+             Memorize_Chunk (mark, i - 1);
              mark := i + 1;
            when ASCII.LF =>
-             Spit_a_line (mark, i - 1);
+             Spit_a_Line (mark, i - 1);
              mark := i + 1;
            when others =>
              null;
          end case;
        end loop;
+
        --  We may have still an incomplete line:
-       Memorize_chunk (mark, Integer (NumRead));
+       Memorize_Chunk (mark, Integer (num_read));
     end;
 
-  end Read_pipe;
+  end Read_Pipe;
 
   --------------------
-  -- Check_progress --
+  -- Check_Progress --
   --------------------
 
   procedure Check_Progress (p : in out Piped_Process) is
@@ -305,14 +331,14 @@ package body GWindows.Pipes is
     end if;
     --  http://msdn.microsoft.com/en-us/library/ms683189(VS.85).aspx
     func_exit_code_result :=
-      GetExitCodeProcess (p.ProcessObject, DwExitCode'Unchecked_Access);
+      Get_Exit_Code_Process (p.ProcessObject, DwExitCode'Unchecked_Access);
     --
-    if func_exit_code_result = 0 then -- should never happen
+    if func_exit_code_result = 0 then  --  should never happen
       p.ProcessObject := System.Null_Address;
       p.exit_code := 666;
       return;
     end if;
-    if DwExitCode /= STILL_ACTIVE_W then -- died
+    if DwExitCode /= STILL_ACTIVE_W then  --  died
       p.ProcessObject := System.Null_Address;
       p.exit_code := Integer (DwExitCode);
       return;
@@ -322,7 +348,7 @@ package body GWindows.Pipes is
     --  so we clear ProcessObject
     TempProcessObject := p.ProcessObject;
     p.ProcessObject   := System.Null_Address;
-    Read_pipe (p);
+    Read_Pipe (p);
     --  restore value of ProcessObject
     p.ProcessObject := TempProcessObject;
 
