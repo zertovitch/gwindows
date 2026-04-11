@@ -59,22 +59,32 @@ begin
          "paste it into another application.");
    end;
 
-   -----------------------------------------------------------
-   --  Test 3: Put a HTML content to the Windows clipboard  --
-   -----------------------------------------------------------
+   ------------------------------------------------------------
+   --  Test 3: Put a HTML fragment to the Windows clipboard  --
+   ------------------------------------------------------------
    GWindows.Clipboard.Clipboard_HTML
       (some_window,
        "<!--StartFragment -->" &  --  Works also when comment is omitted.
        "<font face=""Calibri, Arial, Tahoma"">" &
        "Here is some <b>text</b> with a nice font " &
-       "and even a bit of <font color=#dd1111>color!</font>" &
+       "and even a bit of <b><font color=""#dd1111"">color!</font></b>" &
        "</font><br><br><br>" &
+       "Some code..." & NL &
        "<pre>" &
        "<font face=""Consolas"">" &
-       "Some code..." & NL &
-       "  with indentation!" &
+       "<font color=""#0000bb"">with</font> Ada.Text_IO;" & NL & NL &
+       "<font color=""#0000bb"">procedure</font> Hello <font color=""#0000bb"">is</font>" & NL &
+       "<font color=""#0000bb"">begin</font>" & NL &
+       "  Ada.Text_IO.Put (""Hello world!"");" & NL &
+       "<font color=""#0000bb"">end</font>;" & NL &
        "</font>" &
-       "</pre>" &
+       "</pre><br><br>" &
+       "<table>" &
+       "<tr><td>First column</td><td>Second column</td></tr>" &
+       "<tr><td>1.1</td><td>1.2</td></tr>" &
+       "<tr><td>2.1</td><td>2.2</td></tr>" &
+       "<tr><td>3.1</td><td>3.2</td></tr>" &
+       "</table>" &
        "<!--EndFragment-->");  --  Works also when comment is omitted.
 
     Message_Box

@@ -83,9 +83,9 @@ package GWindows.Clipboard is
       return Boolean;
    pragma Obsolescent (Is_Clipboard_Text);
 
-   --------------------------------------------------
-   --  Transfer of HTML contents to the clipboard  --
-   --------------------------------------------------
+   ---------------------------------------------------------------------------
+   --  Transfer of HTML contents (can be a code fragment) to the clipboard  --
+   ---------------------------------------------------------------------------
 
    procedure Clipboard_HTML
       (Owner : in GWindows.Windows.Window_Type;
