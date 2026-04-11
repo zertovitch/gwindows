@@ -42,6 +42,10 @@ with Ada.Strings.Unbounded;
 
 package GWindows.Clipboard is
 
+   ----------------------------------------------------
+   --  Transfer of TEXTS to, or from, the clipboard  --
+   ----------------------------------------------------
+
    procedure Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type;
        Text  : in GString);
@@ -78,5 +82,17 @@ package GWindows.Clipboard is
    function Is_Clipboard_Text
       return Boolean;
    pragma Obsolescent (Is_Clipboard_Text);
+
+   --------------------------------------------------
+   --  Transfer of HTML contents to the clipboard  --
+   --------------------------------------------------
+
+   procedure Clipboard_HTML
+      (Owner : in GWindows.Windows.Window_Type;
+       HTML  : in GString);
+
+   procedure Clipboard_HTML
+      (Owner : in GWindows.Windows.Window_Type;
+       HTML  : in GString_Unbounded);
 
 end GWindows.Clipboard;

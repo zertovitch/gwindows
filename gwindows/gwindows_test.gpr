@@ -10,7 +10,7 @@ project GWindows_Test is
    for Source_Dirs use ("test");
    for Object_Dir use "obj";
    for Exec_Dir use "test";   
-   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
+   for Create_Missing_Dirs use "True";  --  Flips the "-p" switch
    
    package Compiler is
       for Default_Switches ("ada") use ("-Os", "-g", "-gnatweaKM", "-gnatyaAbcefhiklM119nprtux");
@@ -24,8 +24,7 @@ project GWindows_Test is
       "test_system_tray.adb",
       "test_taskbar.adb",
       "test_up_down.adb",
-      "drag_drop_ole.adb"
-   );
+      "drag_drop_ole.adb");
 
    package Linker is
       --  Get the Windows Visual Styles switched on through manifest.xml:

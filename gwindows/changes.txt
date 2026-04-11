@@ -12,6 +12,10 @@ Major changes - numbers below refer to svn repository revisions
 GWindows, upcoming release
 ==========================
 
+629: GWindows.Clipboard: added Clipboard_HTML procedure (copy HTML fragment
+        to the clipboard; useful for copying more than plain texts)
+626: GWindows.Common_Controls: added check box feature to List_View's
+
 GWindows release, 15-Mar-2025 [revision 613]
 ============================================
    * Various fixes and additions.

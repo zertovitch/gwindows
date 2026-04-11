@@ -36,11 +36,15 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Strings.Fixed;
+with Ada.Integer_Text_IO;
 with Ada.Unchecked_Conversion;
 
 with GWindows.Base;
 with GWindows.GStrings; use GWindows.GStrings;
 with GWindows.Types;
+
+with System;
 
 package body GWindows.Clipboard is
 
@@ -73,6 +77,13 @@ package body GWindows.Clipboard is
       (Owner : in GWindows.Windows.Window_Type)
       return Wide_String;
 
+   CF_TEXT        : constant :=  1;
+   CF_UNICODETEXT : constant := 13;
+
+   function Is_Clipboard_Format_Available
+      (Format : in Natural)
+      return Boolean;
+
    function Clipboard_Text
       (Owner : in GWindows.Windows.Window_Type)
       return GString
@@ -82,17 +93,14 @@ package body GWindows.Clipboard is
          when ANSI =>
             return To_GString_From_String (Get_Clipboard_Text (Owner));
          when Unicode =>
-            return To_GString_From_Wide_String
-                      (Get_Clipboard_Text_Unicode (Owner));
+            if Is_Clipboard_Format_Available (CF_UNICODETEXT) then
+               return To_GString_From_Wide_String
+                         (Get_Clipboard_Text_Unicode (Owner));
+            else
+               return To_GString_From_String (Get_Clipboard_Text (Owner));
+            end if;
       end case;
    end Clipboard_Text;
-
-   CF_TEXT        : constant :=  1;
-   CF_UNICODETEXT : constant := 13;
-
-   function Is_Clipboard_Format_Available
-      (Format : in Natural)
-      return Boolean;
 
    function Is_Clipboard_Text_Available
       return Boolean
@@ -102,13 +110,101 @@ package body GWindows.Clipboard is
          when ANSI =>
            return Is_Clipboard_Format_Available (CF_TEXT);
          when Unicode =>
-           return Is_Clipboard_Format_Available (CF_UNICODETEXT);
+           return
+             Is_Clipboard_Format_Available (CF_TEXT) or
+             Is_Clipboard_Format_Available (CF_UNICODETEXT);
       end case;
    end Is_Clipboard_Text_Available;
+
+   procedure Set_Clipboard_8_Bit_Chars
+      (Owner  : in GWindows.Windows.Window_Type;
+       Text   : in String;
+       Format : in Natural);
+
+   function Register_Clipboard_Format (Format_Name : String) return Natural;
+
+   procedure Clipboard_HTML
+      (Owner : in GWindows.Windows.Window_Type;
+       HTML  : in GString)
+   is
+      CF_HTML : constant Natural := Register_Clipboard_Format ("HTML Format");
+      Text : constant String := To_String (HTML);
+
+      CR : constant Character := Character'Val (13);
+      LF : constant Character := Character'Val (10);
+      NL : constant String := CR & LF;
+
+      function Img (X : Natural) return String is
+         Res : String (1 .. 6);
+      begin
+         Ada.Integer_Text_IO.Put (Res, X);
+         for I in Res'Range loop
+           if Res (I) = ' ' then
+             Res (I) := '0';
+           end if;
+         end loop;
+         return Res;
+      end Img;
+
+      use Ada.Strings.Fixed;
+
+      --  Now, things are of course not that simple, we need to wrap the HTML
+      --  code into a wrapper.
+      --
+      --  https://learn.microsoft.com/fr-fr/windows/win32/dataxchg/html-clipboard-format
+
+      Wrapped_1 : constant String :=
+        "Version:0.9" & NL &
+        "StartHTML:-1" & NL &
+        "EndHTML:-1" & NL &
+        "StartFragment:xxxxxx" & NL &
+        "EndFragment:yyyyyy" & NL;
+
+      start_index : constant Natural := Index (Wrapped_1, "xxxxxx");
+
+      Wrapped_2 : constant String :=
+        Replace_Slice (Wrapped_1, start_index, start_index + 5, Img (Wrapped_1'Length)) &
+        Text & NL;
+
+      end_index : constant Natural := Index (Wrapped_2, "yyyyyy");
+
+      Wrapped_3 : constant String :=
+        Replace_Slice (Wrapped_2, end_index, end_index + 5, Img (Wrapped_2'Length));
+
+   begin
+      if CF_HTML > 0 then
+         Set_Clipboard_8_Bit_Chars
+            (Owner  => Owner,
+             Text   => Wrapped_3,
+             Format => CF_HTML);
+      end if;
+   end Clipboard_HTML;
+
+   procedure Clipboard_HTML
+      (Owner : in GWindows.Windows.Window_Type;
+       HTML  : in GString_Unbounded)
+   is
+   begin
+      Clipboard_HTML (Owner, To_GString_From_Unbounded (HTML));
+   end Clipboard_HTML;
 
    ---------------------------------------------------
    --  Here is the low-level part of this package.  --
    ---------------------------------------------------
+
+   function Register_Clipboard_Format (Format_Name : String) return Natural
+   is
+
+      S : String := Format_Name & Character'Val (0);
+
+      function RegisterClipboardFormat_C
+        (lpszFormat : System.Address   := S (S'First)'Address)
+        return Natural;
+      pragma Import (StdCall, RegisterClipboardFormat_C, "RegisterClipboardFormatA");
+
+   begin
+      return RegisterClipboardFormat_C;
+   end Register_Clipboard_Format;
 
    subtype HGlobal is Interfaces.C.long;
    subtype LPVOID is GWindows.Types.Handle;
@@ -262,9 +358,10 @@ package body GWindows.Clipboard is
    --  1) Set / Get with 8-bit ANSI strings  --
    --------------------------------------------
 
-   procedure Set_Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in String)
+   procedure Set_Clipboard_8_Bit_Chars
+      (Owner  : in GWindows.Windows.Window_Type;
+       Text   : in String;
+       Format : in Natural)
    is
       function To_Byte is new
          Ada.Unchecked_Conversion (Character, Memory_Byte);
@@ -285,8 +382,19 @@ package body GWindows.Clipboard is
       Data.Data (Idx) := 0;
       Dmp := Global_Unlock (Mem);
       Dmp := Empty_Clipboard;
-      Dmp := Set_Clipboard_Data (CF_TEXT, Data);
+      Dmp := Set_Clipboard_Data (Format, Data);
       Dmp := Close_Clipboard;
+   end Set_Clipboard_8_Bit_Chars;
+
+   procedure Set_Clipboard_Text
+      (Owner : in GWindows.Windows.Window_Type;
+       Text  : in String)
+   is
+   begin
+      Set_Clipboard_8_Bit_Chars
+         (Owner  => Owner,
+          Text   => Text,
+          Format => CF_TEXT);
    end Set_Clipboard_Text;
 
    procedure Set_Clipboard_Text
