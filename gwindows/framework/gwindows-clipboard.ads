@@ -36,26 +36,43 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with GWindows.Windows;
+with GWindows.Base;
 
 with Ada.Strings.Unbounded;
 
 package GWindows.Clipboard is
 
+   type Copy_Format_Sequence is
+      (Single_Format, First_Format, Intermediate_Format, Last_Format);
+   --  It is possible to copy contents in multiple formats.
+   --  In that case, the first format sent should use `First`,
+   --  the formats between the first and the last should use `Intermediate`,
+   --  and the last format should use `Last`.
+
    ----------------------------------------------------
    --  Transfer of TEXTS to, or from, the clipboard  --
    ----------------------------------------------------
 
-   procedure Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in GString);
+   ------------
+   --  Copy  --
+   ------------
 
    procedure Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in GString_Unbounded);
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in GString;
+       Format_Position : in Copy_Format_Sequence := Single_Format);
+
+   procedure Clipboard_Text
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in GString_Unbounded;
+       Format_Position : in Copy_Format_Sequence := Single_Format);
+
+   -------------
+   --  Paste  --
+   -------------
 
    function Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type)
+      (Owner : in Base.Base_Window_Type'Class)
       return GString;
 
    function Is_Clipboard_Text_Available
@@ -64,18 +81,28 @@ package GWindows.Clipboard is
    --  The following subprograms are older versions
    --  (pre-Aug-2018), supporting only ANSI strings:
 
+   ------------
+   --  Copy  --
+   ------------
+
    procedure Set_Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in String);
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in String;
+       Format_Position : in Copy_Format_Sequence := Single_Format);
    pragma Obsolescent (Set_Clipboard_Text);
 
    procedure Set_Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in Ada.Strings.Unbounded.Unbounded_String);
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in Ada.Strings.Unbounded.Unbounded_String;
+       Format_Position : in Copy_Format_Sequence := Single_Format);
    pragma Obsolescent (Set_Clipboard_Text);
+
+   -------------
+   --  Paste  --
+   -------------
 
    function Get_Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type)
+      (Owner : in Base.Base_Window_Type'Class)
       return String;
    pragma Obsolescent (Get_Clipboard_Text);
 
@@ -87,12 +114,18 @@ package GWindows.Clipboard is
    --  Transfer of HTML contents (can be a code fragment) to the clipboard  --
    ---------------------------------------------------------------------------
 
-   procedure Clipboard_HTML
-      (Owner : in GWindows.Windows.Window_Type;
-       HTML  : in GString);
+   ------------
+   --  Copy  --
+   ------------
 
    procedure Clipboard_HTML
-      (Owner : in GWindows.Windows.Window_Type;
-       HTML  : in GString_Unbounded);
+      (Owner           : in Base.Base_Window_Type'Class;
+       HTML            : in GString;
+       Format_Position : in Copy_Format_Sequence := Single_Format);
+
+   procedure Clipboard_HTML
+      (Owner           : in Base.Base_Window_Type'Class;
+       HTML            : in GString_Unbounded;
+       Format_Position : in Copy_Format_Sequence := Single_Format);
 
 end GWindows.Clipboard;

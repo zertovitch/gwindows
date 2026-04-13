@@ -40,7 +40,6 @@ with Ada.Strings.Fixed;
 with Ada.Integer_Text_IO;
 with Ada.Unchecked_Conversion;
 
-with GWindows.Base;
 with GWindows.GStrings; use GWindows.GStrings;
 with GWindows.Types;
 
@@ -49,32 +48,35 @@ with System;
 package body GWindows.Clipboard is
 
    procedure Set_Clipboard_Text_Unicode
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in Wide_String);
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in Wide_String;
+       Format_Position : in Copy_Format_Sequence);
 
    procedure Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in GString)
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in GString;
+       Format_Position : in Copy_Format_Sequence := Single_Format)
    is
    begin
       case Character_Mode is
          when ANSI =>
-            Set_Clipboard_Text (Owner, To_String (Text));
+            Set_Clipboard_Text (Owner, To_String (Text), Format_Position);
          when Unicode =>
-            Set_Clipboard_Text_Unicode (Owner, To_Wide_String (Text));
+            Set_Clipboard_Text_Unicode (Owner, To_Wide_String (Text), Format_Position);
       end case;
    end Clipboard_Text;
 
    procedure Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in GString_Unbounded)
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in GString_Unbounded;
+       Format_Position : in Copy_Format_Sequence := Single_Format)
    is
    begin
-     Clipboard_Text (Owner, To_GString_From_Unbounded (Text));
+     Clipboard_Text (Owner, To_GString_From_Unbounded (Text), Format_Position);
    end Clipboard_Text;
 
    function Get_Clipboard_Text_Unicode
-      (Owner : in GWindows.Windows.Window_Type)
+      (Owner : in Base.Base_Window_Type'Class)
       return Wide_String;
 
    CF_TEXT        : constant :=  1;
@@ -85,7 +87,7 @@ package body GWindows.Clipboard is
       return Boolean;
 
    function Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type)
+      (Owner : in Base.Base_Window_Type'Class)
       return GString
    is
    begin
@@ -117,15 +119,17 @@ package body GWindows.Clipboard is
    end Is_Clipboard_Text_Available;
 
    procedure Set_Clipboard_8_Bit_Chars
-      (Owner  : in GWindows.Windows.Window_Type;
-       Text   : in String;
-       Format : in Natural);
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in String;
+       Format          : in Natural;
+       Format_Position : in Copy_Format_Sequence);
 
    function Register_Clipboard_Format (Format_Name : String) return Natural;
 
    procedure Clipboard_HTML
-      (Owner : in GWindows.Windows.Window_Type;
-       HTML  : in GString)
+      (Owner           : in Base.Base_Window_Type'Class;
+       HTML            : in GString;
+       Format_Position : in Copy_Format_Sequence := Single_Format)
    is
       CF_HTML : constant Natural := Register_Clipboard_Format ("HTML Format");
       Text : constant String := To_String (HTML);
@@ -174,18 +178,20 @@ package body GWindows.Clipboard is
    begin
       if CF_HTML > 0 then
          Set_Clipboard_8_Bit_Chars
-            (Owner  => Owner,
-             Text   => Wrapped_3,
-             Format => CF_HTML);
+            (Owner           => Owner,
+             Text            => Wrapped_3,
+             Format          => CF_HTML,
+             Format_Position => Format_Position);
       end if;
    end Clipboard_HTML;
 
    procedure Clipboard_HTML
-      (Owner : in GWindows.Windows.Window_Type;
-       HTML  : in GString_Unbounded)
+      (Owner           : in Base.Base_Window_Type'Class;
+       HTML            : in GString_Unbounded;
+       Format_Position : in Copy_Format_Sequence := Single_Format)
    is
    begin
-      Clipboard_HTML (Owner, To_GString_From_Unbounded (HTML));
+      Clipboard_HTML (Owner, To_GString_From_Unbounded (HTML), Format_Position);
    end Clipboard_HTML;
 
    ---------------------------------------------------
@@ -274,12 +280,11 @@ package body GWindows.Clipboard is
    end Global_Unlock;
 
    function Open_Clipboard
-      (Owner : in GWindows.Windows.Window_Type)
+      (Owner : in Base.Base_Window_Type'Class)
       return Boolean
    is
       function OpenClipboard
-        (hWndNewOwner  : GWindows.Types.Handle :=
-         GWindows.Base.Handle (GWindows.Base.Base_Window_Type (Owner)))
+        (hWndNewOwner  : GWindows.Types.Handle := Owner.Handle)
         return Boolean;
       pragma Import (StdCall, OpenClipboard, "OpenClipboard");
 
@@ -359,9 +364,10 @@ package body GWindows.Clipboard is
    --------------------------------------------
 
    procedure Set_Clipboard_8_Bit_Chars
-      (Owner  : in GWindows.Windows.Window_Type;
-       Text   : in String;
-       Format : in Natural)
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in String;
+       Format          : in Natural;
+       Format_Position : in Copy_Format_Sequence)
    is
       function To_Byte is new
          Ada.Unchecked_Conversion (Character, Memory_Byte);
@@ -372,7 +378,9 @@ package body GWindows.Clipboard is
       Data : Global_Alloc_Ptr;
       Idx  : Natural := 0;
    begin
-      Dmp := Open_Clipboard (Owner);
+      if Format_Position in Single_Format | First_Format then
+         Dmp := Open_Clipboard (Owner);
+      end if;
       Mem := Global_Alloc (GMEM_MOVEABLE, Text'Length + 1);
       Data := Global_Lock (Mem);
       for I in Text'Range loop
@@ -381,33 +389,42 @@ package body GWindows.Clipboard is
       end loop;
       Data.Data (Idx) := 0;
       Dmp := Global_Unlock (Mem);
-      Dmp := Empty_Clipboard;
+      if Format_Position in Single_Format | First_Format then
+         Dmp := Empty_Clipboard;
+      end if;
       Dmp := Set_Clipboard_Data (Format, Data);
-      Dmp := Close_Clipboard;
+      if Format_Position in Single_Format | Last_Format then
+         Dmp := Close_Clipboard;
+      end if;
    end Set_Clipboard_8_Bit_Chars;
 
    procedure Set_Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in String)
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in String;
+       Format_Position : in Copy_Format_Sequence := Single_Format)
    is
    begin
       Set_Clipboard_8_Bit_Chars
-         (Owner  => Owner,
-          Text   => Text,
-          Format => CF_TEXT);
+         (Owner           => Owner,
+          Text            => Text,
+          Format          => CF_TEXT,
+          Format_Position => Format_Position);
    end Set_Clipboard_Text;
 
    procedure Set_Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in Ada.Strings.Unbounded.Unbounded_String)
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in Ada.Strings.Unbounded.Unbounded_String;
+       Format_Position : in Copy_Format_Sequence := Single_Format)
    is
    begin
       Set_Clipboard_Text
-         (Owner => Owner, Text => Ada.Strings.Unbounded.To_String (Text));
+         (Owner           => Owner,
+          Text            => Ada.Strings.Unbounded.To_String (Text),
+          Format_Position => Format_Position);
    end Set_Clipboard_Text;
 
    function Get_Clipboard_Text
-      (Owner : in GWindows.Windows.Window_Type)
+      (Owner : in Base.Base_Window_Type'Class)
       return String
    is
       Dmp  : Boolean;
@@ -454,8 +471,9 @@ package body GWindows.Clipboard is
    subtype Byte_Pair is Memory_Byte_Arr (0 .. 1);
 
    procedure Set_Clipboard_Text_Unicode
-      (Owner : in GWindows.Windows.Window_Type;
-       Text  : in Wide_String)
+      (Owner           : in Base.Base_Window_Type'Class;
+       Text            : in Wide_String;
+       Format_Position : in Copy_Format_Sequence)
    is
       function To_Byte_Pair is new
          Ada.Unchecked_Conversion (Wide_Character, Byte_Pair);
@@ -466,7 +484,9 @@ package body GWindows.Clipboard is
       Data : Global_Alloc_Ptr;
       Idx  : Natural := 0;
    begin
-      Dmp := Open_Clipboard (Owner);
+      if Format_Position in Single_Format | First_Format then
+         Dmp := Open_Clipboard (Owner);
+      end if;
       Mem := Global_Alloc (GMEM_MOVEABLE, Text'Length * 2 + 2);
       Data := Global_Lock (Mem);
       for I in Text'Range loop
@@ -475,13 +495,17 @@ package body GWindows.Clipboard is
       end loop;
       Data.Data (Idx .. Idx + 1) := (0, 0);
       Dmp := Global_Unlock (Mem);
-      Dmp := Empty_Clipboard;
+      if Format_Position in Single_Format | First_Format then
+         Dmp := Empty_Clipboard;
+      end if;
       Dmp := Set_Clipboard_Data (CF_UNICODETEXT, Data);
-      Dmp := Close_Clipboard;
+      if Format_Position in Single_Format | Last_Format then
+         Dmp := Close_Clipboard;
+      end if;
    end Set_Clipboard_Text_Unicode;
 
    function Get_Clipboard_Text_Unicode
-      (Owner : in GWindows.Windows.Window_Type)
+      (Owner : in Base.Base_Window_Type'Class)
       return Wide_String
    is
       Dmp  : Boolean;

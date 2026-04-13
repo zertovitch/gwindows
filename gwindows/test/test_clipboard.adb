@@ -59,9 +59,9 @@ begin
          "paste it into another application.");
    end;
 
-   ------------------------------------------------------------
-   --  Test 3: Put a HTML fragment to the Windows clipboard  --
-   ------------------------------------------------------------
+   -----------------------------------------------------------------------
+   --  Test 3: Put a HTML fragment and a text to the Windows clipboard  --
+   -----------------------------------------------------------------------
    GWindows.Clipboard.Clipboard_HTML
       (some_window,
        "<!--StartFragment -->" &  --  Works also when comment is omitted.
@@ -85,11 +85,16 @@ begin
        "<tr><td>2.1</td><td>2.2</td></tr>" &
        "<tr><td>3.1</td><td>3.2</td></tr>" &
        "</table>" &
-       "<!--EndFragment-->");  --  Works also when comment is omitted.
+       "<!--EndFragment-->",  --  Works also when comment is omitted.
+       GWindows.Clipboard.First_Format);
+
+    --  Another format (and content!) for the same "Copy" operation:
+    GWindows.Clipboard.Clipboard_Text
+       (some_window, "Uh, this is just a plain text!", GWindows.Clipboard.Last_Format);
 
     Message_Box
       ("Test 3",
-       "Test 3: putting a HTML content to the Windows clipboard." & NL &
+       "Test 3: putting a HTML content and a text to the Windows clipboard." & NL &
        "Paste it into some Office application.");
 
 end Test_Clipboard;
