@@ -17,7 +17,8 @@ procedure Tutorial10 is
    Fake_Win  : GWindows.Windows.Window_Type;
    use GWindows;
 begin
-   GWindows.Windows.Create (Fake_Win, "Fake", 100, 100, 20, 20);
+   GWindows.Windows.Create (Fake_Win, "Tutorial 10 - Printing", 100, 100, 400, 200);
+   --  Fake_Win.Show;
 
    Choose_Printer (Fake_Win, Canvas, Settings, Flags,
                    From_Page, To_Page, 1, 1, Copies, Success);
@@ -44,9 +45,8 @@ begin
         --  TBD: make Copies effective.
       );
    else
-      GWindows.Message_Boxes.Message_Box (
-        "Tutorial 10",
-        "Printing Canceled"
-      );
+      GWindows.Message_Boxes.Message_Box
+         ("Tutorial 10",
+          "Printing Canceled");
    end if;
 end Tutorial10;

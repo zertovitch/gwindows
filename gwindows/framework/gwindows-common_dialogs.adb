@@ -233,7 +233,7 @@ package body GWindows.Common_Dialogs is
 
    type TPRINTDLG is
       record
-         lStructSize         : GWindows.Types.DWORD   := 0;  --  Adjusted on startup.
+         lStructSize         : GWindows.Types.DWORD   := TPRINTDLG'Size / 8;
          hwndOwner           : GWindows.Types.Handle  :=
                                   GWindows.Types.Null_Handle;
          hDevMode            : Pointer_To_DEVMODE     := null;
@@ -801,7 +801,7 @@ package body GWindows.Common_Dialogs is
       Copies    : in out Natural;
       Success   :    out Boolean)
    is
-      use GWindows.Types;
+      use Types;
 
       PD : TPRINTDLG;
 
@@ -814,8 +814,7 @@ package body GWindows.Common_Dialogs is
       procedure GlobalFree (handle : Pointer_To_DEVMODE);
       pragma Import (StdCall, GlobalFree, "GlobalFree");
    begin
-      PD.lStructSize := PD'Size / 8;
-      PD.hwndOwner   := GWindows.Base.Handle (Window);
+      PD.hwndOwner   := Base.Handle (Window);
       PD.flags       := PD_RETURNDC or DWORD (Flags);
       PD.nFromPage   := WORD (From_Page);
       PD.nToPage     := WORD (To_Page);
@@ -826,7 +825,7 @@ package body GWindows.Common_Dialogs is
       Success := PrintDlg /= 0;
 
       if Success then
-         GWindows.Drawing.Capture (Canvas, GWindows.Types.Null_Handle, PD.hDC);
+         Drawing.Capture (Canvas, Types.Null_Handle, PD.hDC);
 
          Flags     := Interfaces.C.unsigned (PD.flags);
          From_Page := Integer (PD.nFromPage);
@@ -861,13 +860,12 @@ package body GWindows.Common_Dialogs is
       procedure GlobalFree (handle : Pointer_To_DEVMODE);
       pragma Import (StdCall, GlobalFree, "GlobalFree");
    begin
-      PD.lStructSize := PD'Size / 8;
-      PD.flags       := PD_RETURNDC or PD_RETURNDEFAULT;
+      PD.flags := PD_RETURNDC or PD_RETURNDEFAULT;
 
       Success := PrintDlg /= 0;
 
       if Success then
-         GWindows.Drawing.Capture (Canvas, GWindows.Types.Null_Handle, PD.hDC);
+         Drawing.Capture (Canvas, Types.Null_Handle, PD.hDC);
 
          Settings := PD.hDevMode.all;
 
@@ -890,18 +888,17 @@ package body GWindows.Common_Dialogs is
           lpszDevice : access GChar_C;
           lpszOutput : Pointer_To_char;
           lpInitData : Pointer_To_DEVMODE_Local)
-      return GWindows.Types.Handle;
+      return Types.Handle;
       pragma Import (StdCall, CreateDC, "CreateDC" &
                      Character_Mode_Identifier);
 
-      HDC : GWindows.Types.Handle;
-      Driver_Name_C : GString_C := GWindows.GStrings.To_GString_C ("WINSPOOL");
-      Printer_Name_C : GString_C :=
-      GWindows.GStrings.To_GString_C (Printer_Name);
+      HDC : Types.Handle;
+      Driver_Name_C  : GString_C := GStrings.To_GString_C ("WINSPOOL");
+      Printer_Name_C : GString_C := GStrings.To_GString_C (Printer_Name);
       Local_Settings : aliased DEVMODE;
       Pointer_to_Local_Settings : constant Pointer_To_DEVMODE_Local :=
          Local_Settings'Access;
-      use GWindows.Types;
+      use Types;
    begin
       Local_Settings.dmReserved1 := 0;
       Local_Settings.dmReserved2 := 0;
@@ -913,7 +910,7 @@ package body GWindows.Common_Dialogs is
       Success := HDC /= Null_Handle;
 
       if Success then
-         GWindows.Drawing.Capture (Canvas, Null_Handle, HDC);
+         Drawing.Capture (Canvas, Null_Handle, HDC);
          Settings := Local_Settings;
       end if;
    end Choose_Named_Printer;
@@ -924,13 +921,12 @@ package body GWindows.Common_Dialogs is
       Initial_Path : in GString := "")
      return GWindows.GString
    is
-      Result1 : GWindows.GString_Unbounded;
-      Result2 : GWindows.GString_Unbounded;
+      Result1 : GString_Unbounded;
+      Result2 : GString_Unbounded;
    begin
-      Get_Directory (
-         Window, Dialog_Title, Result1, Result2, Initial_Path
-      );
-      return GWindows.GStrings.To_GString_From_Unbounded (Result2);
+      Get_Directory
+        (Window, Dialog_Title, Result1, Result2, Initial_Path);
+      return GStrings.To_GString_From_Unbounded (Result2);
    end Get_Directory;
 
    function Get_Directory
@@ -938,11 +934,11 @@ package body GWindows.Common_Dialogs is
       Initial_Path : in GString := "")
      return GWindows.GString
    is
-      Result1 : GWindows.GString_Unbounded;
-      Result2 : GWindows.GString_Unbounded;
+      Result1 : GString_Unbounded;
+      Result2 : GString_Unbounded;
    begin
       Get_Directory (Dialog_Title, Result1, Result2, Initial_Path);
-      return GWindows.GStrings.To_GString_From_Unbounded (Result2);
+      return GStrings.To_GString_From_Unbounded (Result2);
    end Get_Directory;
 
    procedure Get_Directory
@@ -953,7 +949,7 @@ package body GWindows.Common_Dialogs is
       Initial_Path           : in GString := "")
    is
       use type Interfaces.C.long;
-      use GWindows.GStrings;
+      use GStrings;
 
       C_Directory : GString_C (1 .. 1024);
       C_Title     : GString_C := To_GString_C (Dialog_Title);
