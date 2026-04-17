@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2024 David Botton                   --
+--                 Copyright (C) 1999 - 2026 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -225,19 +225,15 @@ package body GWindows.Common_Dialogs is
 
    type Pointer_To_DEVMODE is access all DEVMODE;
 
-   function Expected_PRINTDLG_Size return GWindows.Types.DWORD is
-   begin
-      if Standard'Address_Size = 32 then
-         return 66;
-      else
-         return 120;
-      end if;
-   end Expected_PRINTDLG_Size;
+   type PRINTDLG_Filler_Type is array (0 .. 7) of Interfaces.Unsigned_8;
+   --  Some padding seems to be needed (sample print_hello.adb crashes otherwise)...
+   --  Some secret fields? Memory alignment?
+
+   --  https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-printdlga
 
    type TPRINTDLG is
       record
-         lStructSize         : GWindows.Types.DWORD   :=
-                                  Expected_PRINTDLG_Size;
+         lStructSize         : GWindows.Types.DWORD   := 0;  --  Adjusted on startup.
          hwndOwner           : GWindows.Types.Handle  :=
                                   GWindows.Types.Null_Handle;
          hDevMode            : Pointer_To_DEVMODE     := null;
@@ -259,6 +255,7 @@ package body GWindows.Common_Dialogs is
          lpSetupTemplateName : GWindows.Types.Lparam  := 0;
          hPrintTemplate      : Interfaces.C.long      := 0;
          hSetupTemplate      : Interfaces.C.long      := 0;
+         Filler              : PRINTDLG_Filler_Type   := (others => 0);
       end record;
 
    PD_RETURNDC                   : constant := 256;
@@ -817,13 +814,14 @@ package body GWindows.Common_Dialogs is
       procedure GlobalFree (handle : Pointer_To_DEVMODE);
       pragma Import (StdCall, GlobalFree, "GlobalFree");
    begin
-      PD.hwndOwner := GWindows.Base.Handle (Window);
-      PD.flags     := PD_RETURNDC or DWORD (Flags);
-      PD.nFromPage := WORD (From_Page);
-      PD.nToPage   := WORD (To_Page);
-      PD.nMinPage  := WORD (Min_Page);
-      PD.nMaxPage  := WORD (Max_Page);
-      PD.nCopies   := WORD (Copies);
+      PD.lStructSize := PD'Size / 8;
+      PD.hwndOwner   := GWindows.Base.Handle (Window);
+      PD.flags       := PD_RETURNDC or DWORD (Flags);
+      PD.nFromPage   := WORD (From_Page);
+      PD.nToPage     := WORD (To_Page);
+      PD.nMinPage    := WORD (Min_Page);
+      PD.nMaxPage    := WORD (Max_Page);
+      PD.nCopies     := WORD (Copies);
 
       Success := PrintDlg /= 0;
 
@@ -863,7 +861,8 @@ package body GWindows.Common_Dialogs is
       procedure GlobalFree (handle : Pointer_To_DEVMODE);
       pragma Import (StdCall, GlobalFree, "GlobalFree");
    begin
-      PD.flags     := PD_RETURNDC or PD_RETURNDEFAULT;
+      PD.lStructSize := PD'Size / 8;
+      PD.flags       := PD_RETURNDC or PD_RETURNDEFAULT;
 
       Success := PrintDlg /= 0;
 
