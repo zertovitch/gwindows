@@ -10,10 +10,10 @@ project GWindows_Samples is
    for Source_Dirs use ("samples\**");
    for Object_Dir use "obj";
    for Exec_Dir use "samples";
-   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
+   for Create_Missing_Dirs use "True";  --  Flips the "-p" switch
 
-   for Main use (
-     "cap_test.adb",                  --  .\mouse\       Demo for mouse capture, drag & drop, and Get_Window_At_Location
+   for Main use
+    ("cap_test.adb",                  --  .\mouse\       Demo for mouse capture, drag & drop, and Get_Window_At_Location
      "context_menu_example.adb",      --  .\simple\
      "control_test.adb",              --  .\controls\    Controls
      "dock_test.adb",                 --  .\simple\
@@ -31,15 +31,14 @@ project GWindows_Samples is
      "tab_in_dialog_test.adb",        --  .\controls\
      "tab_test.adb",                  --  .\controls\
      "text_spin.adb",                 --  .\drawing\     Drawing demo
-     "win_controls.adb"               --  .\controls\    Other controls (combo boxes)
+     "win_controls.adb");             --  .\controls\    Other controls (combo boxes)
      --
      --  "db_view",                   --  .\databases\   Database demo (first, need to fix the demo database...)
      --  "tcl_example.adb"
-   );
 
    package Compiler is
-      for Default_Switches ("ada") use (
-         "-Os", "-g",
+      for Default_Switches ("ada") use
+        ("-Os", "-g",
          "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
          "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
          "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines

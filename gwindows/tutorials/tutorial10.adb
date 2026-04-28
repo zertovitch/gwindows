@@ -1,10 +1,12 @@
 with Interfaces.C;
 
-with GWindows.Common_Dialogs; use GWindows.Common_Dialogs;
-with GWindows.Drawing; use GWindows.Drawing;
-with GWindows.GStrings; use GWindows.GStrings;
-with GWindows.Message_Boxes;
-with GWindows.Windows;
+with GWindows.Colors,
+     GWindows.Common_Dialogs,
+     GWindows.Drawing,
+     GWindows.Drawing_Objects,
+     GWindows.GStrings,
+     GWindows.Message_Boxes,
+     GWindows.Windows;
 
 procedure Tutorial10 is
    Canvas    : GWindows.Drawing.Printer_Canvas_Type;
@@ -15,7 +17,14 @@ procedure Tutorial10 is
    Copies    : Natural := 1;
    Success   : Boolean;
    Fake_Win  : GWindows.Windows.Window_Type;
-   use GWindows;
+
+   use GWindows, GWindows.Colors,
+       GWindows.Common_Dialogs,
+       GWindows.Drawing, GWindows.Drawing_Objects,
+       GWindows.GStrings;
+
+   F : Font_Type;
+
 begin
    GWindows.Windows.Create (Fake_Win, "Tutorial 10 - Printing", 100, 100, 400, 200);
    --  Fake_Win.Show;
@@ -29,21 +38,26 @@ begin
 
       Put (Canvas, 100, 100, "Hello World!");
 
-      Ellipse (Canvas, 200, 200, 500, 500);
+      Ellipse (Canvas, 200, 300, 500, 600);
+
+      Create_Font (F, "Consolas", 80, FW_BOLD);
+      Canvas.Select_Object (F);
+      Put (Canvas, 100, 800, "Another font...");
+      Canvas.Text_Color (Red);
+      Put (Canvas, 100, 900, "And another color...");
 
       End_Page (Canvas);
       End_Document (Canvas);
 
-      GWindows.Message_Boxes.Message_Box (
-        "Tutorial 10",
-        "Done. " & GCharacter'Val (10) &
-        --  TBD: fix Device_Name and Form_Name in that setting,
-        --       they return garbage.
-        --  "Output Device: " & Device_Name (Settings) & GCharacter'Val (10) &
-        --  "Form Name: " & Form_Name (Settings) & GCharacter'Val (10) &
-        "Copies: " & To_GString_From_String (Integer'Image (Copies))
-        --  TBD: make Copies effective.
-      );
+      GWindows.Message_Boxes.Message_Box
+        ("Tutorial 10",
+         "Done. " & GCharacter'Val (10) &
+         --  TBD: fix Device_Name and Form_Name in that setting,
+         --       they return garbage.
+         --  "Output Device: " & Device_Name (Settings) & GCharacter'Val (10) &
+         --  "Form Name: " & Form_Name (Settings) & GCharacter'Val (10) &
+         "Copies: " & To_GString_From_String (Integer'Image (Copies)));
+         --  TBD: make Copies effective.
    else
       GWindows.Message_Boxes.Message_Box
          ("Tutorial 10",
