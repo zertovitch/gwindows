@@ -1,8 +1,7 @@
 package body Game_of_Life is
-   procedure Move (
-      current_map : in     Map_Type;
-      new_map     :    out Map_Type
-   )
+   procedure Move
+     (current_map : in     Map_Type;
+      new_map     :    out Map_Type)
    is
       w : constant Positive := current_map'Last (1);
       h : constant Positive := current_map'Last (2);
@@ -69,8 +68,7 @@ package body Game_of_Life is
    type Dimension is record Width, Height : Positive; end record;
 
    Dims : constant array (Figure) of Dimension :=
-   (
-     Point           =>  (1,  1),
+    (Point           =>  (1,  1),
      Block           =>  (2,  2),
      Blinker         =>  (3,  1),
      Beacon          =>  (4,  4),
@@ -79,8 +77,7 @@ package body Game_of_Life is
      Glider          =>  (3,  3),
      LWSS            =>  (5,  4),
      MWSS            =>  (6,  5),
-     HWSS            =>  (7,  5)
-   );
+     HWSS            =>  (7,  5));
 
    procedure Add_Figure (Map : out Map_Type; xc, yc : Integer; f : Figure; s : State) is
      wm1 : constant Natural := Dims (f).Width - 1;

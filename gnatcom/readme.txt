@@ -1,12 +1,12 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---      GNATCOM - Ada 95 COM/DCOM/COM+ Development Framework and Tools      --
+--       GNATCOM - Ada COM/DCOM/COM+ Development Framework and Tools        --
 --                                                                          --
 --                              G N A T C O M                               --
 --                                                                          --
 --                           R E A D M E . T X T                            --
 --                                                                          --
---                 Copyright (C) 1999 - 2023 David Botton                   --
+--                 Copyright (C) 1999 - 2026 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -43,15 +43,17 @@ Type Libraries, COM+/COM/DCOM Objects, ActiveX, Automation and OLE.
 Installation
 ============
 
-All you have is to run the setup program (e.g. GWindows Setup 16-Feb-2012.exe
+All you have is to run the setup program (e.g. GWindows Setup ***.exe
 downloaded from here http://sf.net/projects/gnavi/files/latest/download ) which
 unpacks a copy of the framework with samples, tutorials and other goodies.
+
 Alternatively you can retrieve a copy of the SVN repository from
 http://sf.net/p/gnavi/code/ .
-So normally, if you read this readme.txt document, most of the installation
+
+Actually, if you read this readme.txt document, most of the installation
 already happened!
 
-By running build_tools.cmd you will obtain executables for the GNATCOM tools.
+By running build_tools.cmd, you will obtain executables for the GNATCOM tools.
 For ease of use, it may be advisable to place the tools directory on the path
 or to copy the executables into a directory on the path.
 

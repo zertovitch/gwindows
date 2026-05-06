@@ -10,11 +10,11 @@ project GWindows_Contrib is
    for Source_Dirs use ("contrib/test", "contrib");
    for Object_Dir use "obj";
    for Exec_Dir use "contrib";   
-   for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
+   for Create_Missing_Dirs use "True";  --  Flips the "-p" switch
    
    package Compiler is
-      for Default_Switches ("ada") use (
-         "-Os", "-g",
+      for Default_Switches ("ada") use
+        ("-Os", "-g",
          "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
          "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
          "-gnatyx",      --  Style: check x:no extra parens

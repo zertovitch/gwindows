@@ -16,8 +16,8 @@ project GWindows_Test is
       for Default_Switches ("ada") use ("-Os", "-g", "-gnatweaKM", "-gnatyaAbcefhiklM119nprtux");
    end Compiler;
 
-   for Main use (
-      "test_clipboard.adb",
+   for Main use
+     ("test_clipboard.adb",
       "test_errors.adb",
       "test_locale.adb",
       "test_screen_visibility.adb",

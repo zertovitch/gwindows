@@ -1,5 +1,5 @@
 --  Abstract Game of Life (pure Ada, unrelated to any graphics system).
-  
+
 package Game_of_Life is
 
    type State is (Dead, Alive);
@@ -26,9 +26,8 @@ package Game_of_Life is
 
    procedure Clear (Map : out Map_Type);
 
-   procedure Move (
-      current_map : in     Map_Type;
-      new_map     :    out Map_Type
-   );
+   procedure Move
+     (current_map : in     Map_Type;
+      new_map     :    out Map_Type);
 
 end Game_of_Life;

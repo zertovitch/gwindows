@@ -1,12 +1,12 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---            GWINDOWS - Ada 95 Framework for Windows Development           --
+--             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
 --                             G W I N D O W S                              --
 --                                                                          --
 --                               R E A D M E                                --
 --                                                                          --
---                  Copyright (C) 1999 - 2023 David Botton                  --
+--                  Copyright (C) 1999 - 2026 David Botton                  --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -90,4 +90,4 @@ ansi.cmd or unicode.cmd. You can also install GWindows at one, two or more place
 What's New in GWindows 1.3 and later versions
 =============================================
 
-See changes.txt
+See: changes.txt

@@ -1,5 +1,5 @@
 -- This is the GCC / GNAT / GNAT Studio project file for
--- building the GWindows tutorials.
+-- building the GWindows samples.
 --
 -- Build me with "gprbuild -P gwindows_samples", or open me with GNAT Studio
 
