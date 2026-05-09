@@ -1,7 +1,7 @@
 @echo off
 
 rem Version should match the field VALUE "FileVersion" in GW_Install.rc
-set version=22-Mar-2025
+set version=09-May-2026
 
 if not exist GW_Install_Resource_GUI.ads goto gen
 if not exist GW_Install_Resource_GUI.adb goto gen
