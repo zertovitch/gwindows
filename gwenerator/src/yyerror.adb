@@ -23,7 +23,7 @@ begin
 
   raise RC_Help.Syntax_Error
     with
-      "Possible cause is the eventual Unicode text format of .rc file. " &
+      "Possible cause is the possible Unicode text format of .rc file. " &
       "RC parser needs ANSI format. " &
       "You can change it with Notepad++ for instance.";
 end YYError;

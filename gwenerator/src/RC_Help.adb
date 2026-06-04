@@ -390,7 +390,7 @@ package body RC_Help is
     Ada_New_Line (to);
   end Blurb;
 
-  procedure Ada_package_headers (eventual_child : String) is
+  procedure Ada_package_headers (possible_child : String) is
   begin
     Blurb (to_spec);
     Blurb (to_body);
@@ -413,7 +413,7 @@ package body RC_Help is
     Ada_New_Line (to_spec);
     Ada_Put_Line (to_spec, "pragma Warnings (""U"");  --  turn off warnings for unused entity");
     Ada_New_Line (to_spec);
-    Ada_Put_Line (to_spec, "package " & pkg & eventual_child & " is");
+    Ada_Put_Line (to_spec, "package " & pkg & possible_child & " is");
     Ada_New_Line (to_spec);
     --
     Ada_Put_Line (to_body, "with GWindows.Types;                    use GWindows.Types;");
@@ -432,7 +432,7 @@ package body RC_Help is
 
     Ada_Put_Line (to_body, "pragma Warnings (""U"");  --  turn off warnings for unused entity");
     Ada_New_Line (to_body);
-    Ada_Put_Line (to_body, "package body " & pkg & eventual_child & " is");
+    Ada_Put_Line (to_body, "package body " & pkg & possible_child & " is");
     Ada_New_Line (to_body);
   end Ada_package_headers;
 
@@ -448,7 +448,7 @@ package body RC_Help is
       Create (to_spec, pkg (as_file_name => True) & '-' & To_Lower (item) & ".ads");
       if with_body then
         Create (to_body, pkg (as_file_name => True) & '-' & To_Lower (item) & ".adb");
-        Ada_package_headers (eventual_child => '.' & item);
+        Ada_package_headers (possible_child => '.' & item);
       else
         Blurb (to_spec);
         Ada_Put_Line (to_spec, "package " & pkg & '.' & item & " is");
@@ -681,7 +681,7 @@ package body RC_Help is
     else
       Create (to_spec, pkg (as_file_name => True) & ".ads");
       Create (to_body, pkg (as_file_name => True) & ".adb");
-      Ada_package_headers (eventual_child => "");
+      Ada_package_headers (possible_child => "");
       Ada_Put_Line (to_body, "  --  ** Generated code begins here \/ \/ \/.");
     end if;
     --

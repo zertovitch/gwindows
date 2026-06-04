@@ -77,7 +77,7 @@ package Office_Applications is
       ID_Menu : IDM_MRU_List;
    end record;
 
-   --  Add a file name and an eventual line
+   --  Add a file name and a possible line
    --  number (for text documents) to a MRU list.
    --
    procedure Add_MRU

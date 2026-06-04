@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2025 David Botton                   --
+--                 Copyright (C) 1999 - 2026 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -1251,7 +1251,8 @@ package GWindows.Scintilla is
       rectangular_selection : in     Boolean := True);
 
    function Get_Selections (Control : Scintilla_Type) return Positive;
-   --  There is always at least one selection - eventually empty: start = end
+   --  There is always at least one selection,
+   --  possibly empty; then start = end
 
    function Get_Selection_N_Start
      (Control : Scintilla_Type;

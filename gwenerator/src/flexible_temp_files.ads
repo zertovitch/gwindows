@@ -10,7 +10,7 @@ package Flexible_temp_files is
   procedure Initialize;
   procedure Finalize;
 
-  --  Give a suitable temporary file name radix (no extension), eventually
+  --  Give a suitable temporary file name radix (no extension), possibly
   --  with a path.
   function Radix return String;
 

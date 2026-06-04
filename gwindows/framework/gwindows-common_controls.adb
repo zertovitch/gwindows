@@ -4085,7 +4085,7 @@ package body GWindows.Common_Controls is
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
    begin
-      --  mod: filter eventual error flag on HIWORD (see MSDN doc for details)
+      --  mod: filter possible error flag on HIWORD (see MSDN doc for details)
       return SendMessage mod 65536;
    end Position;
 
