@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
 --                G W I N D O W S . P A C K I N G _ B O X E S               --
 --                                                                          --
