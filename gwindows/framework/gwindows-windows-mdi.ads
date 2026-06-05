@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---         GWINDOWS - Ada 95 Framework for Windows GUI Development          --
+--             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
 --                 G W I N D O W S . W I N D O W S . M D I                  --
 --                                                                          --

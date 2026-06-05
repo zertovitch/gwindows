@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---            GWINDOWS - Ada 95 Framework for Windows Development           --
+--             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
 --          G W I N D O W S . S T A T I C _ C O N T R O L S . W E B         --
 --                                                                          --

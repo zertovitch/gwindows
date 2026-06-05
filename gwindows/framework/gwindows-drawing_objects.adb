@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---            GWINDOWS - Ada 95 Framework for Windows Development           --
+--             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
 --              G W I N D O W S . D R A W I N G _ O B J E C T S             --
 --                                                                          --
@@ -31,7 +31,9 @@
 -- SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                   --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   https://sourceforge.net/projects/gnavi/                                --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 

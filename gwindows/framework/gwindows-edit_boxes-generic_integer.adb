@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---             GWINDOWS - Ada 95 Framework for Win32 Development            --
+--             GWINDOWS - Ada Framework for Windows Development             --
 --                                                                          --
--- G W I N D O W S . E D I T _ B O X E S .G E N E R I C _ I N T E G E R     --
+--   G W I N D O W S . E D I T _ B O X E S . G E N E R I C _ I N T E G E R  --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
@@ -31,13 +31,16 @@
 -- SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                   --
 --                                                                          --
 -- More information about GWindows and the latest current release can       --
--- be located on the web at http://www.gnavi.org/gwindows                   --
+-- be located on the web at one of the following places:                    --
+--   http://sf.net/projects/gnavi/                                          --
+--   https://github.com/zertovitch/gwindows                                 --
 --                                                                          --
 ------------------------------------------------------------------------------
 
 with Ada.Strings.Fixed;
 with GWindows.GStrings;
 with GWindows.Message_Boxes;
+
 package body GWindows.Edit_Boxes.Generic_Integer is
 
    procedure Create
