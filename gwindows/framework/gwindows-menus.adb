@@ -775,12 +775,11 @@ package body GWindows.Menus is
       end if;
    end Radio_Check;
 
-   procedure Immediate_Popup_Menu (
-      Menu     : Menu_Type;
-      Window   : GWindows.Base.Base_Window_Type'Class;
-      Location : GWindows.Types.Point_Type :=
-                    GWindows.Cursors.Get_Cursor_Position
-   )
+   procedure Immediate_Popup_Menu
+      (Menu     : Menu_Type;
+       Window   : GWindows.Base.Base_Window_Type'Class;
+       Location : GWindows.Types.Point_Type :=
+                     GWindows.Cursors.Get_Cursor_Position)
    is
       cmd : GWindows.Types.Wparam;
 

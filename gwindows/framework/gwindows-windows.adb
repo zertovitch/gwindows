@@ -1927,11 +1927,10 @@ package body GWindows.Windows is
                      Names : Array_Of_File_Names (1 .. File_Count);
                   begin
                      for N in 1 .. File_Count loop
-                        DragQueryFile (Index => N - 1); -- Zero based index
+                        DragQueryFile (Index => N - 1);  --  Zero based index
                         Names (N) :=
-                          To_GString_Unbounded (
-                            To_GString_From_C (C_File_Name)
-                          );
+                          To_GString_Unbounded
+                             (To_GString_From_C (C_File_Name));
                      end loop;
                      DragFinish;
 

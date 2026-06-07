@@ -62,10 +62,9 @@ package body GWindows.System_Tray  is
    --  NIS_SHAREDICON   : constant := 2;
          --  The icon resource is shared between multiple icons.
 
-   procedure Set_Window (
-     Data   : in out Notify_Icon_Data;
-     Window : GWindows.Base.Base_Window_Type'Class
-   )
+   procedure Set_Window
+      (Data   : in out Notify_Icon_Data;
+       Window : GWindows.Base.Base_Window_Type'Class)
    is
      use GWindows.Base;
    begin
@@ -91,11 +90,10 @@ package body GWindows.System_Tray  is
       --  current user is in "quiet time"
    --  NIIF_ICON_MASK          : constant := 16#0F#;
 
-   procedure Set_Icon (
-     Data   : in out Notify_Icon_Data;
-     Icon   : GWindows.Drawing_Objects.Icon_Type;
-     ID     : Natural  --  Application-defined identifier of the taskbar icon.
-   )
+   procedure Set_Icon
+     (Data   : in out Notify_Icon_Data;
+      Icon   : in     GWindows.Drawing_Objects.Icon_Type;
+      ID     : in     Natural)  --  Application-defined identifier of the taskbar icon.
    is
      use GWindows.Drawing_Objects;
    begin
@@ -109,32 +107,29 @@ package body GWindows.System_Tray  is
      Data.C_data.uFlags := Data.C_data.uFlags and not NIF_ICON;
    end Clear_Icon;
 
-   procedure Set_Tool_Tip (
-     Data   : in out Notify_Icon_Data;
-     Text   : GString
-   )
+   procedure Set_Tool_Tip
+      (Data : in out Notify_Icon_Data;
+       Text : in     GString)
    is
    begin
      To_GString_C (Text, Data.C_data.szTip);
      Data.C_data.uFlags := Data.C_data.uFlags or NIF_TIP;
    end Set_Tool_Tip;
 
-   procedure Set_Balloon_Icon (
-      Data   : in out Notify_Icon_Data;
-      Icon   : GWindows.Drawing_Objects.Icon_Type
-   )
+   procedure Set_Balloon_Icon
+      (Data : in out Notify_Icon_Data;
+       Icon : in     GWindows.Drawing_Objects.Icon_Type)
    is
      use GWindows.Drawing_Objects;
    begin
      Data.C_data.hBalloonIcon := Handle (Icon);
    end Set_Balloon_Icon;
 
-   procedure Set_Balloon (
-      Data   : in out Notify_Icon_Data;
-      Text   : GString;
-      Title  : GString := "";
-      Icon   : Notify_Balloon_Icon_Type := No_Icon
-   )
+   procedure Set_Balloon
+      (Data  : in out Notify_Icon_Data;
+       Text  : in     GString;
+       Title : in     GString := "";
+       Icon  : in     Notify_Balloon_Icon_Type := No_Icon)
    is
    begin
      To_GString_C (Text, Data.C_data.szInfo);
@@ -144,28 +139,24 @@ package body GWindows.System_Tray  is
      Data.C_data.uFlags := Data.C_data.uFlags or NIF_INFO;
    end Set_Balloon;
 
-   procedure Set_Windows_Messaging (
-      Data    : in out Notify_Icon_Data;
-      Message :        Integer := WM_TRAY_MESSAGE
-   )
+   procedure Set_Windows_Messaging
+      (Data    : in out Notify_Icon_Data;
+       Message : in     Integer := WM_TRAY_MESSAGE)
    is
    begin
      Data.C_data.uFlags := Data.C_data.uFlags or NIF_MESSAGE;
      Data.C_data.uCallbackMessage := Interfaces.C.unsigned (Message);
    end Set_Windows_Messaging;
 
-   procedure Clear_Windows_Messaging (
-      Data   : in out Notify_Icon_Data
-   )
+   procedure Clear_Windows_Messaging (Data : in out Notify_Icon_Data)
    is
    begin
      Data.C_data.uFlags := Data.C_data.uFlags and not NIF_MESSAGE;
    end Clear_Windows_Messaging;
 
-   procedure Notify_Icon (
-     Data   : Notify_Icon_Data;
-     Action : Notify_Icon_Action
-   )
+   procedure Notify_Icon
+     (Data   : Notify_Icon_Data;
+      Action : Notify_Icon_Action)
    is
 
       Data_Copy : Notify_Icon_Data := Data;

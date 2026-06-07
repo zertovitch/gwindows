@@ -154,10 +154,9 @@ package body GWindows.Windows.MDI is
          end if;
       end Count_MDI_Child_Window;
    begin
-      GWindows.Base.Enumerate_Children (
-         MDI_Client_Window (Window).all,
-         Count_MDI_Child_Window'Unrestricted_Access
-      );
+      GWindows.Base.Enumerate_Children
+         (MDI_Client_Window (Window).all,
+          Count_MDI_Child_Window'Unrestricted_Access);
       return Count;
    end Count_MDI_Children;
 

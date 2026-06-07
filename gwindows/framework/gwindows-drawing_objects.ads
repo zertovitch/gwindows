@@ -121,8 +121,8 @@ package GWindows.Drawing_Objects is
                                 Bitmap_Const : in     Integer);
    --  Loads stock bitmap
 
-   type Bitmap_Conversion_Type is (
-      None,
+   type Bitmap_Conversion_Type is
+     (None,
       --  The bitmap is loaded as it was created.
       Monochrome,
       --  The bitmap is converted to monochrome.

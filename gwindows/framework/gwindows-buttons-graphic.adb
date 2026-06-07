@@ -44,20 +44,18 @@ package body GWindows.Buttons.Graphic is
    -- Set_Icon --
    --------------
 
-   procedure Set_Icon (
-      Window : in out Icon_Button_Type;
-      Icon   : GWindows.Drawing_Objects.Icon_Type
-   )
+   procedure Set_Icon
+      (Window : in out Icon_Button_Type;
+       Icon   : in     GWindows.Drawing_Objects.Icon_Type)
    is
       use GWindows.Drawing_Objects;
       --  http://msdn.microsoft.com/en-us/library/bb761822(VS.85).aspx
-      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Window);
+      procedure Sendmessage (Hwnd   : Types.Handle := Handle (Window);
                              Umsg   : Interfaces.C.int      := BM_SETIMAGE;
-                             Wparam : GWindows.Types.Wparam := IMAGE_ICON;
-                             Lparam : GWindows.Types.Lparam :=
-                               GWindows.Types.Lparam (
-                                 GWindows.Types.To_Lresult (Handle (Icon)))
-                            );
+                             Wparam : Types.Wparam := IMAGE_ICON;
+                             Lparam : Types.Lparam :=
+                               Types.Lparam
+                                  (Types.To_Lresult (Handle (Icon))));
       pragma Import (Stdcall, Sendmessage,
                      "SendMessage" & Character_Mode_Identifier);
    begin
@@ -80,20 +78,18 @@ package body GWindows.Buttons.Graphic is
    -- Set_Bitmap --
    --------------
 
-   procedure Set_Bitmap (
-      Window : in out Bitmap_Button_Type;
-      Bitmap : GWindows.Drawing_Objects.Bitmap_Type
-   )
+   procedure Set_Bitmap
+      (Window : in out Bitmap_Button_Type;
+       Bitmap : in     GWindows.Drawing_Objects.Bitmap_Type)
    is
       use GWindows.Drawing_Objects;
       --  http://msdn.microsoft.com/en-us/library/bb761822(VS.85).aspx
-      procedure Sendmessage (Hwnd   : GWindows.Types.Handle := Handle (Window);
+      procedure Sendmessage (Hwnd   : Types.Handle := Handle (Window);
                              Umsg   : Interfaces.C.int      := BM_SETIMAGE;
-                             Wparam : GWindows.Types.Wparam := IMAGE_BITMAP;
-                             Lparam : GWindows.Types.Lparam :=
-                                GWindows.Types.Lparam (
-                                   GWindows.Types.To_Lresult (Handle (Bitmap)))
-                            );
+                             Wparam : Types.Wparam := IMAGE_BITMAP;
+                             Lparam : Types.Lparam :=
+                                Types.Lparam
+                                   (Types.To_Lresult (Handle (Bitmap))));
       pragma Import (Stdcall, Sendmessage,
                      "SendMessage" & Character_Mode_Identifier);
    begin

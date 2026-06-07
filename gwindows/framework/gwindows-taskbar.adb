@@ -54,11 +54,10 @@ package body GWindows.Taskbar is
      List.Initialized := True;
    end Init_if_needed;
 
-   procedure Set_Progress_State (
-      List   : in out Taskbar_List;
-      Window : GWindows.Base.Base_Window_Type'Class;
-      State  : Taskbar_Progress_State
-   )
+   procedure Set_Progress_State
+      (List   : in out Taskbar_List;
+       Window : in     GWindows.Base.Base_Window_Type'Class;
+       State  : in     Taskbar_Progress_State)
    is
       hwnd : constant Interfaces.C.long :=
                 Interfaces.C.long (GWindows.Types.To_Lresult
@@ -84,12 +83,11 @@ package body GWindows.Taskbar is
       end case;
    end Set_Progress_State;
 
-   procedure Set_Progress_Value (
-      List      : in out Taskbar_List;
-      Window    : GWindows.Base.Base_Window_Type'Class;
-      Completed : Natural;
-      Total     : Natural
-   )
+   procedure Set_Progress_Value
+      (List      : in out Taskbar_List;
+       Window    : in     GWindows.Base.Base_Window_Type'Class;
+       Completed : in     Natural;
+       Total     : in     Natural)
    is
       hwnd : constant Interfaces.C.long :=
                 Interfaces.C.long (GWindows.Types.To_Lresult

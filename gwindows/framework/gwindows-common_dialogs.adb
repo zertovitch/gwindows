@@ -90,12 +90,11 @@ package body GWindows.Common_Dialogs is
    subtype LPCSTR is PCCH;
 
    type Dummy_Callback_Access is access
-      function (
-         handle_bpc : GWindows.Types.Handle;
-         uMsg       : Interfaces.C.unsigned;
-         lParam     : GWindows.Types.Lparam;
-         lpData     : GWindows.Types.Handle
-      )
+      function
+         (handle_bpc : GWindows.Types.Handle;
+          uMsg       : Interfaces.C.unsigned;
+          lParam     : GWindows.Types.Lparam;
+          lpData     : GWindows.Types.Handle)
       return Types.INT_PTR;
       pragma Convention (StdCall, Dummy_Callback_Access);
    --  Definition: look for LPCCHOOKPROC.
@@ -575,12 +574,9 @@ package body GWindows.Common_Dialogs is
                      else
                         File_Names (count) :=
                            To_GString_Unbounded
-                              (
-                                To_GString_From_C (
-                                   C_File_Name (0 .. dir) & '\' &
-                                   C_File_Name (last_sep + 1 .. i)
-                                )
-                              );
+                              (To_GString_From_C
+                                 (C_File_Name (0 .. dir) & '\' &
+                                  C_File_Name (last_sep + 1 .. i)));
                      end if;
                      last_sep := i;
                   end if;
@@ -959,30 +955,27 @@ package body GWindows.Common_Dialogs is
       BIF_NEWDIALOGSTYLE   : constant := 16#00000040#;
       BIF_EDITBOX          : constant := 16#00000010#;
       --
-      type Callback_access is access
-      function (
-         handle_bpc : GWindows.Types.Handle;
-         uMsg       : Interfaces.C.unsigned;
-         lParam     : GWindows.Types.Lparam;
-         lpData     : GWindows.Types.Handle
-      )
+      type Callback_Access is access
+      function
+         (handle_bpc : Types.Handle;
+          uMsg       : Interfaces.C.unsigned;
+          lParam     : Types.Lparam;
+          lpData     : Types.Handle)
       return Interfaces.C.int;
-      pragma Convention (StdCall, Callback_access);
+      pragma Convention (StdCall, Callback_Access);
 
-      function Browse_Callback (
-         handle_bpc : GWindows.Types.Handle;
-         uMsg_bpc   : Interfaces.C.unsigned;
-         lParam     : GWindows.Types.Lparam;
-         lpData     : GWindows.Types.Handle
-      )
+      function Browse_Callback
+         (handle_bpc : Types.Handle;
+          uMsg_bpc   : Interfaces.C.unsigned;
+          lParam     : Types.Lparam;
+          lpData     : Types.Handle)
       return Interfaces.C.int;
       pragma Convention (StdCall, Browse_Callback);
-      function Browse_Callback (
-         handle_bpc : GWindows.Types.Handle;
-         uMsg_bpc   : Interfaces.C.unsigned;
-         lParam     : GWindows.Types.Lparam;
-         lpData     : GWindows.Types.Handle
-      )
+      function Browse_Callback
+         (handle_bpc : Types.Handle;
+          uMsg_bpc   : Interfaces.C.unsigned;
+          lParam     : Types.Lparam;
+          lpData     : Types.Handle)
       return Interfaces.C.int
       is
          pragma Unreferenced (lParam, lpData);
@@ -999,11 +992,11 @@ package body GWindows.Common_Dialogs is
          BFFM_INITIALIZED : constant := 1;
          BFFM_SELCHANGED  : constant := 2;
          procedure SendMessage
-            (hwnd     : GWindows.Types.Handle := handle_bpc;
+            (hwnd     : Types.Handle := handle_bpc;
              uMsg     : Interfaces.C.int :=
                            BFFM_SETSELECTION (Character_Mode);
-             wParam   : GWindows.Types.Wparam := 1; -- (windef's TRUE)
-             s_lParam : GWindows.Types.Lparam := Cvt (ini));
+             wParam   : Types.Wparam := 1;  --  (windef's TRUE)
+             s_lParam : Types.Lparam := Cvt (ini));
          pragma Import (StdCall, SendMessage,
                         "SendMessage" & Character_Mode_Identifier);
       begin
@@ -1022,7 +1015,7 @@ package body GWindows.Common_Dialogs is
          return 0; -- The function should always return 0.
       end Browse_Callback;
       function Access_To_Handle is
-         new Ada.Unchecked_Conversion (Callback_access, GWindows.Types.Handle);
+         new Ada.Unchecked_Conversion (Callback_Access, GWindows.Types.Handle);
    begin
       BInfo.hwndOwner := GWindows.Base.Handle (Window);
       BInfo.pszDisplayName := C_Directory (C_Directory'First)'Unchecked_Access;
@@ -1034,11 +1027,11 @@ package body GWindows.Common_Dialogs is
       Pidl :=  SHBrowseForFolder (BInfo);
 
       if Pidl /= 0 then
-         Directory_Display_Name := To_GString_Unbounded (
-           To_GString_From_C (C_Directory));
+         Directory_Display_Name := To_GString_Unbounded
+            (To_GString_From_C (C_Directory));
          SHGetPathFromIDList (Pidl, C_Directory);
-         Directory_Path := To_GString_Unbounded (
-           To_GString_From_C (C_Directory));
+         Directory_Path := To_GString_Unbounded
+            (To_GString_From_C (C_Directory));
       else
          Directory_Display_Name := Null_GString_Unbounded;
          Directory_Path := Null_GString_Unbounded;

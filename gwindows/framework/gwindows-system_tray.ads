@@ -56,28 +56,24 @@ package GWindows.System_Tray is
    --  The data setup part. No action so far, just preparation.  --
    ----------------------------------------------------------------
 
-   procedure Set_Window (
-      Data   : in out Notify_Icon_Data;
-      Window : GWindows.Base.Base_Window_Type'Class
-   );
+   procedure Set_Window
+      (Data   : in out Notify_Icon_Data;
+       Window : in     GWindows.Base.Base_Window_Type'Class);
 
-   procedure Set_Icon (
-      Data   : in out Notify_Icon_Data;
-      Icon   : GWindows.Drawing_Objects.Icon_Type;
-      ID     : Natural  --  Application-defined identifier of the taskbar icon.
-   );
+   procedure Set_Icon
+      (Data : in out Notify_Icon_Data;
+       Icon : in     GWindows.Drawing_Objects.Icon_Type;
+       ID   : in     Natural);  --  Application-defined identifier of the taskbar icon.
 
    procedure Clear_Icon (Data : in out Notify_Icon_Data);
 
-   procedure Set_Tool_Tip (
-      Data   : in out Notify_Icon_Data;
-      Text   : GString
-   );
+   procedure Set_Tool_Tip
+      (Data : in out Notify_Icon_Data;
+       Text : in     GString);
 
-   procedure Set_Balloon_Icon (
-      Data   : in out Notify_Icon_Data;
-      Icon   : GWindows.Drawing_Objects.Icon_Type
-   );
+   procedure Set_Balloon_Icon
+      (Data : in out Notify_Icon_Data;
+       Icon : in     GWindows.Drawing_Objects.Icon_Type);
 
    --  This Icon will be seen when User_Icon is used as parameter in
    --  in Set_Balloon.
@@ -85,12 +81,11 @@ package GWindows.System_Tray is
    type Notify_Balloon_Icon_Type is
      (No_Icon, Information_Icon, Warning_Icon, Error_Icon, User_Icon);
 
-   procedure Set_Balloon (
-      Data   : in out Notify_Icon_Data;
-      Text   : GString;
-      Title  : GString := "";
-      Icon   : Notify_Balloon_Icon_Type := No_Icon
-   );
+   procedure Set_Balloon
+      (Data   : in out Notify_Icon_Data;
+       Text   : in     GString;
+       Title  : in     GString := "";
+       Icon   : in     Notify_Balloon_Icon_Type := No_Icon);
 
    --  NB: User_Icon not working so far.
 
@@ -99,14 +94,11 @@ package GWindows.System_Tray is
    --  If you want a distinct message per icon, pass
    --  WM_TRAY_MESSAGE + i with i = 0,1,2,... to the following procedure.
 
-   procedure Set_Windows_Messaging (
-      Data    : in out Notify_Icon_Data;
-      Message :        Integer := WM_TRAY_MESSAGE
-   );
+   procedure Set_Windows_Messaging
+      (Data    : in out Notify_Icon_Data;
+       Message : in     Integer := WM_TRAY_MESSAGE);
 
-   procedure Clear_Windows_Messaging (
-      Data   : in out Notify_Icon_Data
-   );
+   procedure Clear_Windows_Messaging (Data : in out Notify_Icon_Data);
 
    ---------------------------------------------------------------
    --  The action part: add, modify, delete a system tray icon  --
@@ -114,10 +106,9 @@ package GWindows.System_Tray is
 
    type Notify_Icon_Action is (Add, Modify, Delete, Set_Focus, Set_Version);
 
-   procedure Notify_Icon (
-      Data   : Notify_Icon_Data;
-      Action : Notify_Icon_Action
-   );
+   procedure Notify_Icon
+      (Data   : Notify_Icon_Data;
+       Action : Notify_Icon_Action);
 
    Notify_Action_Failed : exception;
 

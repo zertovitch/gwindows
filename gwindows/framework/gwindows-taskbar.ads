@@ -55,18 +55,16 @@ package GWindows.Taskbar is
    type Taskbar_Progress_State is
      (No_Progress, Indeterminate, Normal, Error, Paused);
 
-   procedure Set_Progress_State (
-      List   : in out Taskbar_List;
-      Window : GWindows.Base.Base_Window_Type'Class;
-      State  : Taskbar_Progress_State
-   );
+   procedure Set_Progress_State
+      (List   : in out Taskbar_List;
+       Window : in     GWindows.Base.Base_Window_Type'Class;
+       State  : in     Taskbar_Progress_State);
 
-   procedure Set_Progress_Value (
-      List      : in out Taskbar_List;
-      Window    : GWindows.Base.Base_Window_Type'Class;
-      Completed : Natural;
-      Total     : Natural
-   );
+   procedure Set_Progress_Value
+      (List      : in out Taskbar_List;
+       Window    : in     GWindows.Base.Base_Window_Type'Class;
+       Completed : in     Natural;
+       Total     : in     Natural);
 
    Taskbar_Interface_Not_Supported : exception
       renames

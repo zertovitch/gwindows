@@ -258,20 +258,20 @@ package body GWindows.Application is
    procedure Enumerate_Display_Monitors (M : Monitor_Dimensions) is
       use GWindows.Types;
 
-      function Output_Monitor_Dims (
-           HMONITOR :        Handle;
-           HDC      :        Handle;
-           LPRECT   : access Rectangle_Type;
-           mLPARAM  :        Lparam
-         ) return Boolean;
+      function Output_Monitor_Dims
+         (HMONITOR :        Handle;
+          HDC      :        Handle;
+          LPRECT   : access Rectangle_Type;
+          mLPARAM  :        Lparam)
+         return Boolean;
       pragma Convention (Stdcall, Output_Monitor_Dims);
 
-      function Output_Monitor_Dims (
-           HMONITOR :        Handle;
-           HDC      :        Handle;
-           LPRECT   : access Rectangle_Type;
-           mLPARAM  :        Lparam
-         ) return Boolean
+      function Output_Monitor_Dims
+         (HMONITOR :        Handle;
+          HDC      :        Handle;
+          LPRECT   : access Rectangle_Type;
+          mLPARAM  :        Lparam)
+         return Boolean
       is
          pragma Unreferenced (HMONITOR, HDC, mLPARAM);
       begin
@@ -280,12 +280,12 @@ package body GWindows.Application is
       end Output_Monitor_Dims;
 
       type MONITORENUMPROC is access
-         function (
-           HMONITOR :        Handle;
-           HDC      :        Handle;
-           LPRECT   : access Rectangle_Type;
-           mLPARAM  :        Lparam
-         ) return Boolean;
+         function
+            (HMONITOR :        Handle;
+             HDC      :        Handle;
+             LPRECT   : access Rectangle_Type;
+             mLPARAM  :        Lparam)
+         return Boolean;
       pragma Convention (Stdcall, MONITORENUMPROC);
 
       procedure EnumDisplayMonitors
@@ -460,9 +460,9 @@ package body GWindows.Application is
    end Get_Window_Class_Name_At_Location;
 
    --  GetAncestor is internal, just for obtaining the root window handle.
-   function GetAncestor (
-     hwnd    : GWindows.Types.Handle;
-     gaFlags : Interfaces.C.unsigned)
+   function GetAncestor
+      (hwnd    : GWindows.Types.Handle;
+       gaFlags : Interfaces.C.unsigned)
    return GWindows.Types.Handle;
    pragma Import (StdCall, GetAncestor, "GetAncestor");
    GA_ROOT : constant := 2;
@@ -471,9 +471,8 @@ package body GWindows.Application is
       return GString
    is
    begin
-      return Get_Window_Class_Name (
-         GetAncestor (WindowFromPoint ((X, Y)), GA_ROOT)
-      );
+      return Get_Window_Class_Name
+         (GetAncestor (WindowFromPoint ((X, Y)), GA_ROOT));
    end Get_Window_Root_Class_Name_At_Location;
 
    function Is_Desktop_At_Location (X, Y : Integer) return Boolean is

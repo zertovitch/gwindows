@@ -2498,13 +2498,12 @@ package body GWindows.Common_Controls is
    is
       Sorted_Index : Integer; -- will be ignored
    begin
-      Insert_Item (
-         Control      => Control,
+      Insert_Item
+        (Control      => Control,
          Text         => Text,
          Index        => Index,
          Sorted_Index => Sorted_Index,
-         Icon         => Icon
-      );
+         Icon         => Icon);
    end Insert_Item;
 
    ----------------
@@ -2914,10 +2913,9 @@ package body GWindows.Common_Controls is
    -- Column_Width --
    ------------------
 
-   function Column_Width (
-      Control : in List_View_Control_Type;
-      Index   : in Integer
-   )
+   function Column_Width
+      (Control : in List_View_Control_Type;
+       Index   : in Integer)
    return Integer
    is
       LVM_GETCOLUMNWIDTH      : constant := LVM_FIRST + 29;
@@ -5294,10 +5292,10 @@ package body GWindows.Common_Controls is
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := TB_GETSTRING (Character_Mode);
          wParam : GWindows.Types.Lparam :=
-           GWindows.Types.Lparam (
-             Text'Length - 1 +
-             --  "- 1" is for holding the C NUL character.
-             Index * 2**16);
+           GWindows.Types.Lparam
+             (Text'Length - 1 +
+              --  "- 1" is for holding the C NUL character.
+              Index * 2**16);
          lParam : System.Address        := Text'Address) return Natural;
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
