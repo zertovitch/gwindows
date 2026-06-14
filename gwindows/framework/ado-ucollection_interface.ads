@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package ADO.uCollection_Interface is
 
@@ -15,7 +16,7 @@ package ADO.uCollection_Interface is
 
    function Get_Count
      (This : uCollection_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function uNewEnum
      (This      : uCollection_Type)

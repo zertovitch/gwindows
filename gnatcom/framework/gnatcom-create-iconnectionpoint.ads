@@ -2,6 +2,7 @@ with Ada.Containers.Ordered_Maps;
 with GNATCOM.Create.COM_Interface;
 with GNATCOM.Iinterface;
 with GNATCOM.Types;
+with Win32_Types;
 
 package GNATCOM.Create.IConnectionPoint is
 
@@ -104,7 +105,7 @@ package GNATCOM.Create.IConnectionPoint is
 
    type Fire_Access is access procedure
      (ConnectionPoint : ConnectionPoint_Type;
-      Dispid          : Interfaces.C.long);
+      Dispid          : Win32_Types.Long);
 
    type Advise_Access is access function
      (Object : not null Pointer_To_ConnectionPoint_Type;
@@ -133,7 +134,7 @@ package GNATCOM.Create.IConnectionPoint is
 
    procedure Fire
      (ConnectionPoint : ConnectionPoint_Type;
-      Dispid          : Interfaces.C.long);
+      Dispid          : Win32_Types.Long);
    --  @param Dispid For IPropertyNotifySink it is the DISPID on the interface.
    --  For others (IDispatch), it is the DISPID on the source interface.
 

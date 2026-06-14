@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IOleWindow_Interface is
 
@@ -19,6 +20,6 @@ package GNATOCX.IOleWindow_Interface is
 
    procedure ContextSensitiveHelp
      (This       : IOleWindow_Type;
-      fEnterMode : Interfaces.C.long);
+      fEnterMode : Win32_Types.Long);
 
 end GNATOCX.IOleWindow_Interface;

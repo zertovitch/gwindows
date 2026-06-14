@@ -40,6 +40,7 @@ with Ada.Exceptions;
 with GNATCOM.BSTR;
 with GNATCOM.VARIANT;
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATCOM.Dispinterface is
 
@@ -106,7 +107,7 @@ package body GNATCOM.Dispinterface is
    function Get
      (This   : Dispinterface_Type;
       Name   : String;
-      LCID   : Interfaces.C.long  := 0)
+      LCID   : Win32_Types.Long  := 0)
       return GNATCOM.Types.VARIANT
    is
    begin
@@ -119,8 +120,8 @@ package body GNATCOM.Dispinterface is
 
    function Get
      (This   : Dispinterface_Type;
-      DISPID : Interfaces.C.long;
-      LCID   : Interfaces.C.long  := 0)
+      DISPID : Win32_Types.Long;
+      LCID   : Win32_Types.Long  := 0)
       return GNATCOM.Types.VARIANT
    is
       Parameters : Parameter_Array (1 .. 0);
@@ -142,7 +143,7 @@ package body GNATCOM.Dispinterface is
       Name        : String;
       Index_Value : GNATCOM.Types.VARIANT;
       Free        : Boolean               := True;
-      LCID        : Interfaces.C.long     := 0)
+      LCID        : Win32_Types.Long     := 0)
      return GNATCOM.Types.VARIANT
    is
    begin
@@ -155,10 +156,10 @@ package body GNATCOM.Dispinterface is
 
    function Get
      (This        : Dispinterface_Type;
-      DISPID      : Interfaces.C.long;
+      DISPID      : Win32_Types.Long;
       Index_Value : GNATCOM.Types.VARIANT;
       Free        : Boolean               := True;
-      LCID        : Interfaces.C.long     := 0)
+      LCID        : Win32_Types.Long     := 0)
      return GNATCOM.Types.VARIANT
    is
    begin
@@ -179,7 +180,7 @@ package body GNATCOM.Dispinterface is
       Name         : String;
       Index_Values : Parameter_Array;
       Free         : Boolean            := True;
-      LCID         : Interfaces.C.long  := 0)
+      LCID         : Win32_Types.Long  := 0)
      return GNATCOM.Types.VARIANT
    is
    begin
@@ -192,10 +193,10 @@ package body GNATCOM.Dispinterface is
 
    function Get
      (This         : Dispinterface_Type;
-      DISPID       : Interfaces.C.long;
+      DISPID       : Win32_Types.Long;
       Index_Values : Parameter_Array;
       Free         : Boolean            := True;
-      LCID         : Interfaces.C.long  := 0)
+      LCID         : Win32_Types.Long  := 0)
       return GNATCOM.Types.VARIANT
    is
    begin
@@ -214,10 +215,10 @@ package body GNATCOM.Dispinterface is
    function Get_DISPID
      (This    : Dispinterface_Type;
       Of_Name : String)
-      return Interfaces.C.long
+      return Win32_Types.Long
    is
       PName     : aliased GNATCOM.Types.BSTR := GNATCOM.BSTR.To_BSTR (Of_Name);
-      ID        : aliased Interfaces.C.long := 0;
+      ID        : aliased Win32_Types.Long := 0;
    begin
       Error_Check
         (Pointer (This).Vtbl.GetIDsOfNames (Pointer (This),
@@ -236,7 +237,7 @@ package body GNATCOM.Dispinterface is
 
    function Get_Type_Info
      (This : Dispinterface_Type;
-      LCID : Interfaces.C.long  := 0)
+      LCID : Win32_Types.Long  := 0)
       return GNATCOM.Types.Pointer_To_ITypeInfo
    is
       Info : aliased GNATCOM.Types.Pointer_To_ITypeInfo;
@@ -286,7 +287,7 @@ package body GNATCOM.Dispinterface is
       Name       : String;
       Parameters : Parameter_Array;
       Free       : Boolean            := True;
-      LCID       : Interfaces.C.long  := 0)
+      LCID       : Win32_Types.Long  := 0)
      return GNATCOM.Types.VARIANT
    is
    begin
@@ -299,10 +300,10 @@ package body GNATCOM.Dispinterface is
 
    function Invoke
      (This       : Dispinterface_Type;
-      DISPID     : Interfaces.C.long;
+      DISPID     : Win32_Types.Long;
       Parameters : Parameter_Array;
       Free       : Boolean            := True;
-      LCID       : Interfaces.C.long  := 0)
+      LCID       : Win32_Types.Long  := 0)
       return GNATCOM.Types.VARIANT
    is
    begin
@@ -323,7 +324,7 @@ package body GNATCOM.Dispinterface is
       Name       : in String;
       Parameters : in Parameter_Array;
       Free       : in Boolean            := True;
-      LCID       : in Interfaces.C.long  := 0)
+      LCID       : in Win32_Types.Long  := 0)
    is
    begin
       Invoke (This, Get_DISPID (This, Name), Parameters, Free, LCID);
@@ -335,10 +336,10 @@ package body GNATCOM.Dispinterface is
 
    procedure Invoke
      (This       : in Dispinterface_Type;
-      DISPID     : in Interfaces.C.long;
+      DISPID     : in Win32_Types.Long;
       Parameters : in Parameter_Array;
       Free       : in Boolean            := True;
-      LCID       : in Interfaces.C.long  := 0)
+      LCID       : in Win32_Types.Long  := 0)
    is
       Result : GNATCOM.Types.VARIANT;
       pragma Warnings (Off, Result);
@@ -358,7 +359,7 @@ package body GNATCOM.Dispinterface is
    function Invoke
      (This   : Dispinterface_Type;
       Name   : String;
-      LCID   : Interfaces.C.long  := 0)
+      LCID   : Win32_Types.Long  := 0)
      return GNATCOM.Types.VARIANT
    is
    begin
@@ -371,8 +372,8 @@ package body GNATCOM.Dispinterface is
 
    function Invoke
      (This   : Dispinterface_Type;
-      DISPID : Interfaces.C.long;
-      LCID   : Interfaces.C.long  := 0)
+      DISPID : Win32_Types.Long;
+      LCID   : Win32_Types.Long  := 0)
      return GNATCOM.Types.VARIANT
    is
       Parameters : Parameter_Array (1 .. 0);
@@ -392,7 +393,7 @@ package body GNATCOM.Dispinterface is
    procedure Invoke
      (This   : in Dispinterface_Type;
       Name   : in String;
-      LCID   : in Interfaces.C.long  := 0)
+      LCID   : in Win32_Types.Long  := 0)
    is
    begin
       Invoke (This, Get_DISPID (This, Name), LCID);
@@ -404,8 +405,8 @@ package body GNATCOM.Dispinterface is
 
    procedure Invoke
      (This   : in Dispinterface_Type;
-      DISPID : in Interfaces.C.long;
-      LCID   : in Interfaces.C.long  := 0)
+      DISPID : in Win32_Types.Long;
+      LCID   : in Win32_Types.Long  := 0)
    is
       Result : GNATCOM.Types.VARIANT;
       pragma Warnings (Off, Result);
@@ -423,7 +424,7 @@ package body GNATCOM.Dispinterface is
       wFlags     : Interfaces.C.short;
       Parameters : Parameter_Array;
       Free       : Boolean            := True;
-      LCID       : Interfaces.C.long  := 0)
+      LCID       : Win32_Types.Long  := 0)
       return GNATCOM.Types.VARIANT
    is
    begin
@@ -437,11 +438,11 @@ package body GNATCOM.Dispinterface is
 
    function Invoke
      (This       : Dispinterface_Type;
-      DISPID     : Interfaces.C.long;
+      DISPID     : Win32_Types.Long;
       wFlags     : Interfaces.C.short;
       Parameters : Parameter_Array;
       Free       : Boolean            := True;
-      LCID       : Interfaces.C.long  := 0)
+      LCID       : Win32_Types.Long  := 0)
       return GNATCOM.Types.VARIANT
    is
       use type Interfaces.C.short;
@@ -466,7 +467,7 @@ package body GNATCOM.Dispinterface is
       Argument_Error : aliased Interfaces.C.int;
       Result         : aliased GNATCOM.Types.VARIANT :=
         GNATCOM.Types.VARIANT_MISSING;
-      Put_DISPID     : aliased Interfaces.C.long := DISPID_PROPERTYPUT;
+      Put_DISPID     : aliased Win32_Types.Long := DISPID_PROPERTYPUT;
       PDispatch      : constant GNATCOM.Types.Pointer_To_IDispatch :=
         Pointer (This);
    begin
@@ -574,7 +575,7 @@ package body GNATCOM.Dispinterface is
       Name   : in String;
       Value  : in GNATCOM.Types.VARIANT;
       Free   : in Boolean               := True;
-      LCID   : in Interfaces.C.long     := 0)
+      LCID   : in Win32_Types.Long     := 0)
    is
    begin
       Put (This, Get_DISPID (This, Name), Value, Free, LCID);
@@ -586,10 +587,10 @@ package body GNATCOM.Dispinterface is
 
    procedure Put
      (This   : in Dispinterface_Type;
-      DISPID : in Interfaces.C.long;
+      DISPID : in Win32_Types.Long;
       Value  : in GNATCOM.Types.VARIANT;
       Free   : in Boolean               := True;
-      LCID   : in Interfaces.C.long     := 0)
+      LCID   : in Win32_Types.Long     := 0)
    is
       Result : GNATCOM.Types.VARIANT;
       pragma Warnings (Off, Result);
@@ -612,7 +613,7 @@ package body GNATCOM.Dispinterface is
       Value       : in GNATCOM.Types.VARIANT;
       Index_Value : in GNATCOM.Types.VARIANT;
       Free        : in Boolean               := True;
-      LCID        : in Interfaces.C.long     := 0)
+      LCID        : in Win32_Types.Long     := 0)
    is
    begin
       Put (This, Get_DISPID (This, Name), Value, Index_Value, Free, LCID);
@@ -624,11 +625,11 @@ package body GNATCOM.Dispinterface is
 
    procedure Put
      (This        : in Dispinterface_Type;
-      DISPID      : in Interfaces.C.long;
+      DISPID      : in Win32_Types.Long;
       Value       : in GNATCOM.Types.VARIANT;
       Index_Value : in GNATCOM.Types.VARIANT;
       Free        : in Boolean               := True;
-      LCID        : in Interfaces.C.long     := 0)
+      LCID        : in Win32_Types.Long     := 0)
    is
       Result : GNATCOM.Types.VARIANT;
       pragma Warnings (Off, Result);
@@ -651,7 +652,7 @@ package body GNATCOM.Dispinterface is
       Value        : in GNATCOM.Types.VARIANT;
       Index_Values : in Parameter_Array;
       Free         : in Boolean               := True;
-      LCID         : in Interfaces.C.long     := 0)
+      LCID         : in Win32_Types.Long     := 0)
    is
    begin
       Put (This, Get_DISPID (This, Name), Value, Index_Values, Free, LCID);
@@ -663,11 +664,11 @@ package body GNATCOM.Dispinterface is
 
    procedure Put
      (This         : in Dispinterface_Type;
-      DISPID       : in Interfaces.C.long;
+      DISPID       : in Win32_Types.Long;
       Value        : in GNATCOM.Types.VARIANT;
       Index_Values : in Parameter_Array;
       Free         : in Boolean               := True;
-      LCID         : in Interfaces.C.long     := 0)
+      LCID         : in Win32_Types.Long     := 0)
    is
       Result     : GNATCOM.Types.VARIANT;
       pragma Warnings (Off, Result);
@@ -694,7 +695,7 @@ package body GNATCOM.Dispinterface is
       Name       : in String;
       Parameters : in Parameter_Array;
       Free       : in Boolean            := True;
-      LCID       : in Interfaces.C.long  := 0)
+      LCID       : in Win32_Types.Long  := 0)
    is
    begin
       Put (This, Get_DISPID (This, Name), Parameters, Free, LCID);
@@ -706,10 +707,10 @@ package body GNATCOM.Dispinterface is
 
    procedure Put
      (This       : in Dispinterface_Type;
-      DISPID     : in Interfaces.C.long;
+      DISPID     : in Win32_Types.Long;
       Parameters : in Parameter_Array;
       Free       : in Boolean            := True;
-      LCID       : in Interfaces.C.long  := 0)
+      LCID       : in Win32_Types.Long  := 0)
    is
       Result : GNATCOM.Types.VARIANT;
       pragma Warnings (Off, Result);
@@ -730,7 +731,7 @@ package body GNATCOM.Dispinterface is
      (This   : in Dispinterface_Type;
       Name   : in String;
       Value  : in GNATCOM.Types.VARIANT;
-      LCID   : in Interfaces.C.long     := 0)
+      LCID   : in Win32_Types.Long     := 0)
    is
    begin
       PutRef (This, Get_DISPID (This, Name), Value, LCID);
@@ -742,9 +743,9 @@ package body GNATCOM.Dispinterface is
 
    procedure PutRef
      (This   : in Dispinterface_Type;
-      DISPID : in Interfaces.C.long;
+      DISPID : in Win32_Types.Long;
       Value  : in GNATCOM.Types.VARIANT;
-      LCID   : in Interfaces.C.long     := 0)
+      LCID   : in Win32_Types.Long     := 0)
    is
       Result : GNATCOM.Types.VARIANT;
       pragma Warnings (Off, Result);
@@ -765,7 +766,7 @@ package body GNATCOM.Dispinterface is
      (This       : in Dispinterface_Type;
       Name       : in String;
       Parameters : in Parameter_Array;
-      LCID       : in Interfaces.C.long  := 0)
+      LCID       : in Win32_Types.Long  := 0)
    is
    begin
       PutRef (This, Get_DISPID (This, Name), Parameters, LCID);
@@ -777,9 +778,9 @@ package body GNATCOM.Dispinterface is
 
    procedure PutRef
      (This       : in Dispinterface_Type;
-      DISPID     : in Interfaces.C.long;
+      DISPID     : in Win32_Types.Long;
       Parameters : in Parameter_Array;
-      LCID       : in Interfaces.C.long  := 0)
+      LCID       : in Win32_Types.Long  := 0)
    is
       Result : GNATCOM.Types.VARIANT;
       pragma Warnings (Off, Result);

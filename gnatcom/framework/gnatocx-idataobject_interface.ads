@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IDataObject_Interface is
 
@@ -36,23 +37,23 @@ package GNATOCX.IDataObject_Interface is
      (This       : IDataObject_Type;
       pformatetc : Pointer_To_FORMATETC;
       pmedium    : Pointer_To_wireFLAG_STGMEDIUM;
-      fRelease   : Interfaces.C.long);
+      fRelease   : Win32_Types.Long);
 
    procedure EnumFormatEtc
      (This            : IDataObject_Type;
-      dwDirection     : Interfaces.C.unsigned_long;
+      dwDirection     : Win32_Types.Unsigned_Long;
       ppenumFormatEtc : Pointer_To_Pointer_To_IEnumFORMATETC);
 
    procedure DAdvise
      (This          : IDataObject_Type;
       pformatetc    : Pointer_To_FORMATETC;
-      advf          : Interfaces.C.unsigned_long;
+      advf          : Win32_Types.Unsigned_Long;
       pAdvSink      : Pointer_To_IAdviseSink;
       pdwConnection : GNATCOM.Types.Pointer_To_unsigned_long);
 
    procedure DUnadvise
      (This         : IDataObject_Type;
-      dwConnection : Interfaces.C.unsigned_long);
+      dwConnection : Win32_Types.Unsigned_Long);
 
    procedure EnumDAdvise
      (This         : IDataObject_Type;

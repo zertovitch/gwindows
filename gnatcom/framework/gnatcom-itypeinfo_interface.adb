@@ -72,7 +72,7 @@ package body GNATCOM.ITypeInfo_Interface is
 
    procedure GetDllEntry
      (This         : ITypeInfo_Type;
-      memid        : Interfaces.C.long;
+      memid        : Win32_Types.Long;
       invkind      : GNATCOM.Types.INVOKEKIND;
       pBstrDllName : GNATCOM.Types.Pointer_To_BSTR;
       pBstrName    : GNATCOM.Types.Pointer_To_BSTR;
@@ -92,7 +92,7 @@ package body GNATCOM.ITypeInfo_Interface is
 
    procedure GetDocumentation
      (This           : ITypeInfo_Type;
-      memid          : Interfaces.C.long;
+      memid          : Win32_Types.Long;
       pBstrName      : GNATCOM.Types.Pointer_To_BSTR;
       pBstrDocString : GNATCOM.Types.Pointer_To_BSTR;
       pdwHelpContext : GNATCOM.Types.Pointer_To_unsigned_long;
@@ -146,7 +146,7 @@ package body GNATCOM.ITypeInfo_Interface is
 
    function GetMops
      (This  : ITypeInfo_Type;
-      memid : Interfaces.C.long)
+      memid : Win32_Types.Long)
       return GNATCOM.Types.BSTR
    is
       BstrMops : aliased GNATCOM.Types.BSTR;
@@ -163,7 +163,7 @@ package body GNATCOM.ITypeInfo_Interface is
 
    procedure GetNames
      (This        : ITypeInfo_Type;
-      memid       : Interfaces.C.long;
+      memid       : Win32_Types.Long;
       rgBstrNames : GNATCOM.Types.Pointer_To_BSTR_PARAM_ARRAY;
       cMaxNames   : Interfaces.C.int;
       pcNames     : GNATCOM.Types.Pointer_To_unsigned)
@@ -181,7 +181,7 @@ package body GNATCOM.ITypeInfo_Interface is
 
    function GetRefTypeInfo
      (This     : ITypeInfo_Type;
-      hreftype : Interfaces.C.unsigned_long)
+      hreftype : Win32_Types.Unsigned_Long)
       return GNATCOM.Types.Pointer_To_ITypeInfo
    is
       pTInfo : aliased GNATCOM.Types.Pointer_To_ITypeInfo;
@@ -199,9 +199,9 @@ package body GNATCOM.ITypeInfo_Interface is
    function GetRefTypeOfImplType
      (This  : ITypeInfo_Type;
       index : Interfaces.C.int)
-      return Interfaces.C.unsigned_long
+      return Win32_Types.Unsigned_Long
    is
-      RefType : aliased Interfaces.C.unsigned_long;
+      RefType : aliased Win32_Types.Unsigned_Long;
    begin
       Error_Check
         (Pointer (This).Vtbl.GetRefTypeOfImplType (Pointer (This),

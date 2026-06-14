@@ -41,6 +41,7 @@
 with Ada.Calendar;
 with Interfaces.C;
 with System;
+with Win32_Types;
 
 with GNATCOM.Types;
 
@@ -79,7 +80,7 @@ package GNATCOM.VARIANT is
    function To_VARIANT_From_C (From : Interfaces.C.char_array)
      return GNATCOM.Types.VARIANT;
 
-   function To_VARIANT_From_Wide_C (From : Interfaces.C.wchar_array)
+   function To_VARIANT_From_Wide_C (From : Win32_Types.wchar_array)
      return GNATCOM.Types.VARIANT;
    --  Allocates a BSTR in a new VARIANT from a C String
 
@@ -154,7 +155,7 @@ package GNATCOM.VARIANT is
 
    function To_C_Wide (From  : GNATCOM.Types.VARIANT;
                        Clear : Boolean                   := True)
-     return Interfaces.C.wchar_array;
+     return Win32_Types.wchar_array;
    --  Returns a C string from a VARIANT and clears the BSTR in
    --  the VARIANT if Clear = True
 

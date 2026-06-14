@@ -39,6 +39,7 @@
 
 with System;
 with Ada.Unchecked_Conversion;
+with Win32_Types;
 
 package GWindows.Types is
 
@@ -66,7 +67,7 @@ package GWindows.Types is
    pragma No_Strict_Aliasing (LPTSTR);
 
    function To_Handle (I : Integer) return Handle;
-   function To_Handle (I : Interfaces.C.long) return Handle;
+   function To_Handle (I : Win32_Types.Long) return Handle;
    function To_Handle is new Ada.Unchecked_Conversion (Lparam, Handle);
    function To_Handle is new Ada.Unchecked_Conversion (Wparam, Handle);
    function To_Lresult is new Ada.Unchecked_Conversion (Handle, Lresult);

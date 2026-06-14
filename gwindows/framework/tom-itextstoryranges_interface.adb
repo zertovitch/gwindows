@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body TOM.ITextStoryRanges_Interface is
 
@@ -40,7 +41,7 @@ package body TOM.ITextStoryRanges_Interface is
 
    function Item
      (This    : ITextStoryRanges_Type;
-      Index   : Interfaces.C.long)
+      Index   : Win32_Types.Long)
      return Pointer_To_ITextRange
    is
        RetVal : aliased Pointer_To_ITextRange;
@@ -56,9 +57,9 @@ package body TOM.ITextStoryRanges_Interface is
 
    function Get_Count
      (This   : ITextStoryRanges_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Count

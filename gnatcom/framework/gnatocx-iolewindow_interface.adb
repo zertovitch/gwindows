@@ -1,4 +1,5 @@
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATOCX.IOleWindow_Interface is
 
@@ -36,7 +37,7 @@ package body GNATOCX.IOleWindow_Interface is
 
    procedure ContextSensitiveHelp
      (This       : IOleWindow_Type;
-      fEnterMode : Interfaces.C.long)
+      fEnterMode : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check

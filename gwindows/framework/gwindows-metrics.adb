@@ -45,6 +45,7 @@ package body GWindows.Metrics is
         (nIndex : Integer := Index)
         return Integer;
       pragma Import (StdCall, GetSystemMetrics, "GetSystemMetrics");
+   pragma Machine_Attribute (GetSystemMetrics, "ms_abi");
    begin
       return GetSystemMetrics;
    end Get_System_Metric;

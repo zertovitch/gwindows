@@ -6,6 +6,7 @@ with GWindows.Types;
 with Interfaces.C;
 
 with System;
+with Win32_Types;
 
 package GWindows.DIBitmaps is
 
@@ -224,7 +225,7 @@ package GWindows.DIBitmaps is
        Source_Point : in     Types.Point_Type;
        Source_Size :  in     Types.Size_Type;
        DIBitmap :     in out VGA_DIBitmap_Type;
-       Raster_Oper :  in   Interfaces.C.unsigned_long
+       Raster_Oper :  in   Win32_Types.Unsigned_Long
          := SOURCE_COPY);
    --
    --  Copies the color data for a rectangle of pixels in a

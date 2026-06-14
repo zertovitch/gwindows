@@ -1,4 +1,5 @@
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body ADO.ADORecordsetConstruction_Interface is
 
@@ -50,9 +51,9 @@ package body ADO.ADORecordsetConstruction_Interface is
 
    function Get_Chapter
      (This      : ADORecordsetConstruction_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Chapter
@@ -64,7 +65,7 @@ package body ADO.ADORecordsetConstruction_Interface is
 
    procedure Put_Chapter
      (This      : ADORecordsetConstruction_Type;
-      plChapter : Interfaces.C.long)
+      plChapter : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check

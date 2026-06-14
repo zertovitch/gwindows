@@ -51,6 +51,7 @@ package body GWindows.Timers is
                                       idEvent : Interfaces.C.unsigned;
                                       dwTime  : Interfaces.C.unsigned_long);
   pragma Convention (Stdcall, TIMERPROC);
+  pragma Machine_Attribute (TIMERPROC, "ms_abi");
 
   function SetTimer (hWnd        : Types.Handle;
                      nIDEvent    : Interfaces.C.unsigned;
@@ -63,7 +64,9 @@ package body GWindows.Timers is
                       return Interfaces.C.int;
 
   pragma Import (Stdcall, SetTimer, "SetTimer");
+  pragma Machine_Attribute (SetTimer, "ms_abi");
   pragma Import (Stdcall, KillTimer, "KillTimer");
+  pragma Machine_Attribute (KillTimer, "ms_abi");
 
   ---------------
   -- Set_Timer --

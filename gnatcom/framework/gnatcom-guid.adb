@@ -51,19 +51,23 @@ package body GNATCOM.GUID is
       pclsid : GNATCOM.Types.Pointer_To_GUID)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CLSIDFromString, "CLSIDFromString");
+   pragma Machine_Attribute (CLSIDFromString, "ms_abi");
 
    function StringFromCLSID
      (rclsid : GNATCOM.Types.Pointer_To_GUID;
       lplpsz : GNATCOM.Types.Pointer_To_LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, StringFromCLSID, "StringFromCLSID");
+   pragma Machine_Attribute (StringFromCLSID, "ms_abi");
 
    procedure CoTaskMemFree (pv : GNATCOM.Types.Pointer_To_Void);
    pragma Import (StdCall, CoTaskMemFree, "CoTaskMemFree");
+   pragma Machine_Attribute (CoTaskMemFree, "ms_abi");
 
    function CoCreateGuid (pguid : GNATCOM.Types.Pointer_To_GUID)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CoCreateGuid, "CoCreateGuid");
+   pragma Machine_Attribute (CoCreateGuid, "ms_abi");
 
    -----------------
    -- Create_GUID --

@@ -46,6 +46,7 @@ with GNATCOM.Errors;
 with GNATCOM.Utility;
 with GNATOCX.IRunningObjectTable_Interface;
 with GNATOCX.IMoniker_Interface;
+with Win32_Types;
 
 package body GNATCOM.Create.Local_Server is
 
@@ -63,25 +64,29 @@ package body GNATCOM.Create.Local_Server is
    function CoRegisterClassObject
      (rclsid       : GNATCOM.Types.Pointer_To_GUID;
       punk         : GNATCOM.Types.Pointer_To_IUnknown;
-      dwClsContext : Interfaces.C.unsigned_long;
-      flags        : Interfaces.C.unsigned_long;
+      dwClsContext : Win32_Types.Unsigned_Long;
+      flags        : Win32_Types.Unsigned_Long;
       lpdwRegister : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CoRegisterClassObject, "CoRegisterClassObject");
+   pragma Machine_Attribute (CoRegisterClassObject, "ms_abi");
 
    function CoRevokeClassObject
-     (dwRegister : Interfaces.C.unsigned_long)
+     (dwRegister : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CoRevokeClassObject, "CoRevokeClassObject");
+   pragma Machine_Attribute (CoRevokeClassObject, "ms_abi");
 
    procedure CoResumeClassObjects;
    pragma Import (StdCall, CoResumeClassObjects, "CoResumeClassObjects");
+   pragma Machine_Attribute (CoResumeClassObjects, "ms_abi");
 
    function Retrieve_hInstance return Interfaces.C.ptrdiff_t;
    pragma Import (C, Retrieve_hInstance, "rts_get_hInstance");
 
    procedure CoAddRefServerProcess;
    pragma Import (StdCall, CoAddRefServerProcess, "CoAddRefServerProcess");
+   pragma Machine_Attribute (CoAddRefServerProcess, "ms_abi");
 
    RPC_C_AUTHN_LEVEL_PKT    : constant := 4;
    RPC_C_IMP_LEVEL_IDENTITY : constant := 2;
@@ -124,7 +129,7 @@ package body GNATCOM.Create.Local_Server is
    -----------------
 
    procedure Init_Object (LIBID : in GNATCOM.Types.GUID; Run : Run_Mode) is
-      use type Interfaces.C.unsigned_long;
+      use type Win32_Types.Unsigned_Long;
       use type GNATCOM.Types.GUID_Array_Pointer;
 
       function To_Pointer_To_IUnknown is
@@ -132,7 +137,7 @@ package body GNATCOM.Create.Local_Server is
         (GNATCOM.Create.Factory.Pointer_To_IClassFactory,
          GNATCOM.Types.Pointer_To_IUnknown);
 
-      refcount : Interfaces.C.unsigned_long;
+      refcount : Win32_Types.Unsigned_Long;
       pragma Warnings (Off, refcount);
 
       ROT : GNATOCX.IRunningObjectTable_Interface.IRunningObjectTable_Type;

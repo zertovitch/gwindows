@@ -49,15 +49,18 @@ package body GNATCOM.VARIANT is
 
    procedure VariantInit (pvarg : in System.Address);
    pragma Import (StdCall, VariantInit, "VariantInit");
+   pragma Machine_Attribute (VariantInit, "ms_abi");
 
    function VariantClear (pvarg : in System.Address)
                          return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, VariantClear, "VariantClear");
+   pragma Machine_Attribute (VariantClear, "ms_abi");
 
    function VariantCopy (pvargDest : System.Address;
                          pvargSrc  : System.Address)
                         return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, VariantCopy, "VariantCopy");
+   pragma Machine_Attribute (VariantCopy, "ms_abi");
 
    function VariantChangeType (pvargDest : System.Address;
                                pvarSrc   : System.Address;
@@ -65,10 +68,12 @@ package body GNATCOM.VARIANT is
                                vt        : GNATCOM.Types.VARTYPE)
                               return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, VariantChangeType, "VariantChangeType");
+   pragma Machine_Attribute (VariantChangeType, "ms_abi");
 
    function SysAllocString (C_String : GNATCOM.Types.BSTR)
                            return GNATCOM.Types.BSTR;
    pragma Import (StdCall, SysAllocString, "SysAllocString");
+   pragma Machine_Attribute (SysAllocString, "ms_abi");
 
    type SYSTEMTIME is
       record
@@ -87,12 +92,14 @@ package body GNATCOM.VARIANT is
       lpSystemTime : access SYSTEMTIME)
      return Interfaces.C.int;
    pragma Import (StdCall, VariantTimeToSystemTime, "VariantTimeToSystemTime");
+   pragma Machine_Attribute (VariantTimeToSystemTime, "ms_abi");
 
    function SystemTimeToVariantTime
      (systemtime : in     GNATCOM.VARIANT.SYSTEMTIME;
       pvtime     : access GNATCOM.Types.DATE)
      return Interfaces.C.int;
    pragma Import (StdCall, SystemTimeToVariantTime, "SystemTimeToVariantTime");
+   pragma Machine_Attribute (SystemTimeToVariantTime, "ms_abi");
 
    -----------------
    -- Change_Type --
@@ -398,7 +405,7 @@ package body GNATCOM.VARIANT is
    function To_C_Wide
      (From  : GNATCOM.Types.VARIANT;
       Clear : Boolean               := True)
-      return Interfaces.C.wchar_array
+      return Win32_Types.wchar_array
    is
       use type GNATCOM.Types.VARTYPE;
 
@@ -425,7 +432,7 @@ package body GNATCOM.VARIANT is
    is
       Temp_Var  : GNATCOM.Types.VARIANT := From;
       P_Interface : GNATCOM.Types.Pointer_To_IDispatch;
-      Ref       : Interfaces.C.unsigned_long;
+      Ref       : Win32_Types.Unsigned_Long;
       pragma Unreferenced (Ref);
    begin
       Change_Type (Temp_Var, GNATCOM.Types.VT_DISPATCH);
@@ -450,7 +457,7 @@ package body GNATCOM.VARIANT is
    is
       Temp_Var  : GNATCOM.Types.VARIANT := From;
       P_Interface : GNATCOM.Types.Pointer_To_IUnknown;
-      Ref       : Interfaces.C.unsigned_long;
+      Ref       : Win32_Types.Unsigned_Long;
       pragma Unreferenced (Ref);
    begin
       Change_Type (Temp_Var, GNATCOM.Types.VT_DISPATCH);
@@ -509,7 +516,7 @@ package body GNATCOM.VARIANT is
    begin
       Initialize (New_Variant);
       New_Variant.vt := VT;
-      New_Variant.u.lVal := Interfaces.C.long (From);
+      New_Variant.u.lVal := Win32_Types.Long (From);
       return New_Variant;
    end To_VARIANT;
 
@@ -628,7 +635,7 @@ package body GNATCOM.VARIANT is
       AddRef : Boolean := True)
       return GNATCOM.Types.VARIANT
    is
-      Ref         : Interfaces.C.unsigned_long;
+      Ref         : Win32_Types.Unsigned_Long;
       pragma Unreferenced (Ref);
 
       New_Variant : GNATCOM.Types.VARIANT;
@@ -651,7 +658,7 @@ package body GNATCOM.VARIANT is
       AddRef : Boolean := True)
       return GNATCOM.Types.VARIANT
    is
-      Ref         : Interfaces.C.unsigned_long;
+      Ref         : Win32_Types.Unsigned_Long;
       pragma Unreferenced (Ref);
 
       New_Variant : GNATCOM.Types.VARIANT;
@@ -761,7 +768,7 @@ package body GNATCOM.VARIANT is
    ----------------------------
 
    function To_VARIANT_From_Wide_C
-     (From : Interfaces.C.wchar_array)
+     (From : Win32_Types.wchar_array)
       return GNATCOM.Types.VARIANT
    is
       New_Variant : GNATCOM.Types.VARIANT;
@@ -824,10 +831,11 @@ package body GNATCOM.VARIANT is
         (guid           : access GNATCOM.Types.GUID;
          wMaj           : Natural;
          wMin           : Natural;
-         lcid           : Interfaces.C.long;
+         lcid           : Win32_Types.Long;
          pLib           : access GNATCOM.Types.Pointer_To_ITypeLib)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, LoadRegTypeLib, "LoadRegTypeLib");
+   pragma Machine_Attribute (LoadRegTypeLib, "ms_abi");
 
       function Put_UDT_BI is new Put_UDT_By_Type_Info (Element);
    begin
@@ -866,10 +874,11 @@ package body GNATCOM.VARIANT is
         (guid           : access GNATCOM.Types.GUID;
          wMaj           : Natural;
          wMin           : Natural;
-         lcid           : Interfaces.C.long;
+         lcid           : Win32_Types.Long;
          pLib           : access GNATCOM.Types.Pointer_To_ITypeLib)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, LoadRegTypeLib, "LoadRegTypeLib");
+   pragma Machine_Attribute (LoadRegTypeLib, "ms_abi");
 
       function Put_UDT_BI is new Put_UDT_By_Type_Info (Element);
    begin
@@ -899,6 +908,7 @@ package body GNATCOM.VARIANT is
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, GetRecordInfoFromTypeInfo,
                        "GetRecordInfoFromTypeInfo");
+      pragma Machine_Attribute (GetRecordInfoFromTypeInfo, "ms_abi");
 
       Record_Info : aliased GNATCOM.Types.Pointer_To_Void;
 

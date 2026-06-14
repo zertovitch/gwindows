@@ -141,6 +141,7 @@ package body GWindows.Exceptions is
       --  http://msdn.microsoft.com/en-us/library/ms682658(VS.85).aspx
       procedure ExitProcess (uExitCode : Integer := 1);
       pragma Import (Stdcall, ExitProcess, "ExitProcess");
+      pragma Machine_Attribute (ExitProcess, "ms_abi");
    begin
       Show_Exception (Parent, E, "Exception");
       ExitProcess;

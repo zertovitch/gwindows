@@ -40,6 +40,7 @@
 with Interfaces.C;
 
 with GWindows.GStrings;
+with Win32_Types;
 
 package body GWindows.List_Boxes is
    use type Interfaces.C.unsigned;
@@ -228,6 +229,7 @@ package body GWindows.List_Boxes is
          lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Add;
@@ -246,6 +248,7 @@ package body GWindows.List_Boxes is
         return Natural;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Add;
@@ -263,6 +266,7 @@ package body GWindows.List_Boxes is
          lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Add;
@@ -281,6 +285,7 @@ package body GWindows.List_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Delete;
@@ -298,6 +303,7 @@ package body GWindows.List_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Clear;
@@ -323,6 +329,7 @@ package body GWindows.List_Boxes is
          return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Find;
@@ -348,6 +355,7 @@ package body GWindows.List_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Find_Exact;
@@ -366,6 +374,7 @@ package body GWindows.List_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Current;
@@ -379,6 +388,7 @@ package body GWindows.List_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Current;
@@ -397,6 +407,7 @@ package body GWindows.List_Boxes is
          lParam : GWindows.Types.Lparam := Data);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Item_Data;
@@ -411,6 +422,7 @@ package body GWindows.List_Boxes is
         return GWindows.Types.Lparam;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Item_Data;
@@ -428,6 +440,7 @@ package body GWindows.List_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Count;
@@ -448,6 +461,7 @@ package body GWindows.List_Boxes is
         return Natural;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Value_Length;
@@ -472,6 +486,7 @@ package body GWindows.List_Boxes is
          lParam : access GChar_C   := Buffer (Buffer'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
       return Interfaces.C.To_Ada (Buffer);
@@ -492,6 +507,7 @@ package body GWindows.List_Boxes is
          lParam : Types.Lparam     := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
       use type Types.Wparam;
    begin
       if State then
@@ -512,6 +528,7 @@ package body GWindows.List_Boxes is
          lParam : Types.Lparam     := Types.Lparam (Item - 1));
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       if State then
          SendMessage;
@@ -532,6 +549,7 @@ package body GWindows.List_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage > 0;
    end Selected;
@@ -555,6 +573,7 @@ package body GWindows.List_Boxes is
             GWindows.Types.Lparam (End_Item - 1));
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       if State then
          SendMessage;
@@ -580,6 +599,7 @@ package body GWindows.List_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Select_Count;
@@ -603,6 +623,7 @@ package body GWindows.List_Boxes is
          lParam : access Integer         := Selection_Array (1)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
       return Selection_Array;
@@ -622,6 +643,7 @@ package body GWindows.List_Boxes is
          lParam : GWindows.Types.Lparam  := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Top_Item;
@@ -636,6 +658,7 @@ package body GWindows.List_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Top_Item;
@@ -656,6 +679,7 @@ package body GWindows.List_Boxes is
          lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Text;
@@ -915,7 +939,7 @@ package body GWindows.List_Boxes is
 --                              message      : in     Interfaces.C.unsigned;
 --                              wParam       : in     Interfaces.C.int;
 --                              lParam       : in     Interfaces.C.int;
---                              Return_Value : in out Interfaces.C.long);
+--                              Return_Value : in out Win32_Types.Long);
 --    --  Must be called from the parent windows On_Message
 
 --    ---------------
@@ -927,6 +951,7 @@ package body GWindows.List_Boxes is
 --       procedure MakeDragList
 --         (HWND : GWindows.Types.Handle := Handle (Window));
 --       pragma Import (StdCall, MakeDragList, "MakeDragList");
+--       pragma Machine_Attribute (MakeDragList, "ms_abi");
 --    begin
 --       MakeDragList;
 --    end On_Create;
@@ -935,7 +960,7 @@ package body GWindows.List_Boxes is
 --                              message      : in     Interfaces.C.unsigned;
 --                              wParam       : in     Interfaces.C.int;
 --                              lParam       : in     Interfaces.C.int;
---                              Return_Value : in out Interfaces.C.long)
+--                              Return_Value : in out Win32_Types.Long)
 --    is
 --    begin
 --       if message > DL_BEGINDRAG and message < DL_CANCELDRAG then

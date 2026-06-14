@@ -35,10 +35,10 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces.C;
 with System;
 
 with GNATCOM.Types;
+with Win32_Types;
 
 package body GNATCOM.Initialize is
 
@@ -48,17 +48,20 @@ package body GNATCOM.Initialize is
      (pvReserved : Types.Pointer_To_Void := System.Null_Address)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CoInitialize, "CoInitialize");
+   pragma Machine_Attribute (CoInitialize, "ms_abi");
 
    COINIT_MULTITHREADED : constant := 0;
 
    function CoInitializeEx
      (pvReserved : Types.Pointer_To_Void := System.Null_Address;
-      dwCoInit   : Interfaces.C.unsigned_long := COINIT_MULTITHREADED)
+      dwCoInit   : Win32_Types.Unsigned_Long := COINIT_MULTITHREADED)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CoInitializeEx, "CoInitializeEx");
+   pragma Machine_Attribute (CoInitializeEx, "ms_abi");
 
    procedure CoUninitialize;
    pragma Import (StdCall, CoUninitialize, "CoUninitialize");
+   pragma Machine_Attribute (CoUninitialize, "ms_abi");
 
    RPC_E_CHANGED_MODE : constant := 16#80010106#;
    --  Attempt to re-initilalize in wrong mode

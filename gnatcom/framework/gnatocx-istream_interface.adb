@@ -1,4 +1,5 @@
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATOCX.IStream_Interface is
 
@@ -25,7 +26,7 @@ package body GNATOCX.IStream_Interface is
    procedure RemoteRead
      (This    : IStream_Type;
       pv      : Pointer_To_unsigned_char;
-      cb      : Interfaces.C.unsigned_long;
+      cb      : Win32_Types.Unsigned_Long;
       pcbRead : GNATCOM.Types.Pointer_To_unsigned_long)
    is
    begin
@@ -41,7 +42,7 @@ package body GNATOCX.IStream_Interface is
    procedure RemoteWrite
      (This       : IStream_Type;
       pv         : Pointer_To_unsigned_char;
-      cb         : Interfaces.C.unsigned_long;
+      cb         : Win32_Types.Unsigned_Long;
       pcbWritten : GNATCOM.Types.Pointer_To_unsigned_long)
    is
    begin
@@ -57,7 +58,7 @@ package body GNATOCX.IStream_Interface is
    procedure RemoteSeek
      (This            : IStream_Type;
       dlibMove        : uLARGE_INTEGER;
-      dwOrigin        : Interfaces.C.unsigned_long;
+      dwOrigin        : Win32_Types.Unsigned_Long;
       plibNewPosition : Pointer_To_uULARGE_INTEGER)
    is
    begin
@@ -102,7 +103,7 @@ package body GNATOCX.IStream_Interface is
 
    procedure Commit
      (This           : IStream_Type;
-      grfCommitFlags : Interfaces.C.unsigned_long)
+      grfCommitFlags : Win32_Types.Unsigned_Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -126,7 +127,7 @@ package body GNATOCX.IStream_Interface is
      (This       : IStream_Type;
       libOffset  : uULARGE_INTEGER;
       cb         : uULARGE_INTEGER;
-      dwLockType : Interfaces.C.unsigned_long)
+      dwLockType : Win32_Types.Unsigned_Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -142,7 +143,7 @@ package body GNATOCX.IStream_Interface is
      (This       : IStream_Type;
       libOffset  : uULARGE_INTEGER;
       cb         : uULARGE_INTEGER;
-      dwLockType : Interfaces.C.unsigned_long)
+      dwLockType : Win32_Types.Unsigned_Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -157,7 +158,7 @@ package body GNATOCX.IStream_Interface is
    procedure Stat
      (This        : IStream_Type;
       pstatstg    : Pointer_To_STATSTG;
-      grfStatFlag : Interfaces.C.unsigned_long)
+      grfStatFlag : Win32_Types.Unsigned_Long)
    is
    begin
       GNATCOM.Errors.Error_Check

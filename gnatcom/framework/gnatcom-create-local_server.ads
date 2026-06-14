@@ -42,6 +42,7 @@ with Ada.Strings.Unbounded;
 
 with GNATCOM.Create.Factory;
 with GNATCOM.Types;
+with Win32_Types;
 
 package GNATCOM.Create.Local_Server is
 
@@ -56,7 +57,7 @@ package GNATCOM.Create.Local_Server is
          Version     : Ada.Strings.Unbounded.Unbounded_String;
          Description : Ada.Strings.Unbounded.Unbounded_String;
          pFactory    : GNATCOM.Create.Factory.Pointer_To_IClassFactory := null;
-         dwRegister  : aliased Interfaces.C.unsigned_long := 0;
+         dwRegister  : aliased Win32_Types.Unsigned_Long := 0;
          Implemented_Categories : GNATCOM.Types.GUID_Array_Pointer := null;
          Service_Name : Ada.Strings.Unbounded.Unbounded_String :=
            Ada.Strings.Unbounded.Null_Unbounded_String;

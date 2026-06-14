@@ -99,6 +99,7 @@ package body GWindows.Common_Controls.Ex_Tb is
          Lparam : GWindows.Types.Lparam := 0);
       pragma Import (Stdcall, Sendmessage_Buttonstructsize,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage_Buttonstructsize, "ms_abi");
 
    begin
       if Text_Position = Right then
@@ -163,6 +164,7 @@ package body GWindows.Common_Controls.Ex_Tb is
          Lparam : Button_Array          := Tb);
       pragma Import (Stdcall, Sendmessage_Addbutton,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage_Addbutton, "ms_abi");
    begin
       case Button_Style is
          when Check_Style =>

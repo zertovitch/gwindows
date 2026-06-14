@@ -58,6 +58,7 @@ package body GWindows.Cursors is
         return Cursor_Type;
       pragma Import (StdCall, LoadCursor,
                      "LoadCursor" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadCursor, "ms_abi");
    begin
       return LoadCursor;
    end Load_System_Cursor;
@@ -75,6 +76,7 @@ package body GWindows.Cursors is
         return Cursor_Type;
       pragma Import (StdCall, LoadCursorFromFile,
                      "LoadCursorFromFile" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadCursorFromFile, "ms_abi");
    begin
       return LoadCursorFromFile;
    end Load_Cursor_From_File;
@@ -93,6 +95,7 @@ package body GWindows.Cursors is
         return Cursor_Type;
       pragma Import (StdCall, LoadCursor, "LoadCursor"
                      & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadCursor, "ms_abi");
    begin
       return LoadCursor;
    end Load_Cursor;
@@ -107,6 +110,7 @@ package body GWindows.Cursors is
         (Top  : Integer := X;
          Left : Integer := Y);
       pragma Import (StdCall, SetCursorPos, "SetCursorPos");
+   pragma Machine_Attribute (SetCursorPos, "ms_abi");
    begin
       SetCursorPos;
    end Set_Cursor_Position;
@@ -121,6 +125,7 @@ package body GWindows.Cursors is
 
       procedure GetCursorPos (Where : out GWindows.Types.Point_Type);
       pragma Import (StdCall, GetCursorPos, "GetCursorPos");
+   pragma Machine_Attribute (GetCursorPos, "ms_abi");
    begin
       GetCursorPos (Where => Point);
       return Point;
@@ -134,6 +139,7 @@ package body GWindows.Cursors is
    is
       procedure ShowCursor (bShow : Boolean := True);
       pragma Import (StdCall, ShowCursor, "ShowCursor");
+   pragma Machine_Attribute (ShowCursor, "ms_abi");
    begin
       ShowCursor;
    end Show_Cursor;
@@ -146,6 +152,7 @@ package body GWindows.Cursors is
    is
       procedure ShowCursor (bShow : Boolean := False);
       pragma Import (StdCall, ShowCursor, "ShowCursor");
+   pragma Machine_Attribute (ShowCursor, "ms_abi");
    begin
       ShowCursor;
    end Hide_Cursor;
@@ -160,6 +167,7 @@ package body GWindows.Cursors is
 
       procedure ClipCursor (NN_Area : GWindows.Types.Rectangle_Type := NArea);
       pragma Import (StdCall, ClipCursor, "ClipCursor");
+   pragma Machine_Attribute (ClipCursor, "ms_abi");
    begin
       ClipCursor;
    end Clip_Cursor;
@@ -175,6 +183,7 @@ package body GWindows.Cursors is
       procedure GetClipCursor
         (Area : out GWindows.Types.Rectangle_Type);
       pragma Import (StdCall, GetClipCursor, "GetClipCursor");
+   pragma Machine_Attribute (GetClipCursor, "ms_abi");
    begin
       GetClipCursor (Area => Result);
       return Result;
@@ -188,6 +197,7 @@ package body GWindows.Cursors is
    is
       procedure ClipCursor (Area : Integer := 0);
       pragma Import (StdCall, ClipCursor, "ClipCursor");
+   pragma Machine_Attribute (ClipCursor, "ms_abi");
    begin
       ClipCursor;
    end Release_Cursor;
@@ -200,6 +210,7 @@ package body GWindows.Cursors is
    is
       procedure SetCursor (New_Cursor : Cursor_Type := Cursor);
       pragma Import (StdCall, SetCursor, "SetCursor");
+   pragma Machine_Attribute (SetCursor, "ms_abi");
    begin
       SetCursor;
    end Set_Cursor;

@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body TOM.ITextFont_Interface is
 
@@ -52,9 +53,9 @@ package body TOM.ITextFont_Interface is
 
    function CanChange
      (This : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.CanChange
@@ -67,9 +68,9 @@ package body TOM.ITextFont_Interface is
    function IsEqual
      (This  : ITextFont_Type;
       pFont : Pointer_To_ITextFont)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.IsEqual
@@ -82,7 +83,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Reset
      (This  : ITextFont_Type;
-      Value : Interfaces.C.long)
+      Value : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -94,9 +95,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Style
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Style
@@ -108,7 +109,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Style
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -120,9 +121,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_AllCaps
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_AllCaps
@@ -134,7 +135,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_AllCaps
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -146,9 +147,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Animation
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Animation
@@ -160,7 +161,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Animation
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -172,9 +173,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_BackColor
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_BackColor
@@ -186,7 +187,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_BackColor
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -198,9 +199,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Bold
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Bold
@@ -212,7 +213,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Bold
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -224,9 +225,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Emboss
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Emboss
@@ -238,7 +239,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Emboss
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -250,9 +251,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_ForeColor
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_ForeColor
@@ -264,7 +265,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_ForeColor
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -276,9 +277,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Hidden
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Hidden
@@ -290,7 +291,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Hidden
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -302,9 +303,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Engrave
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Engrave
@@ -316,7 +317,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Engrave
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -328,9 +329,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Italic
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Italic
@@ -342,7 +343,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Italic
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -380,9 +381,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_LanguageID
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_LanguageID
@@ -394,7 +395,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_LanguageID
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -438,9 +439,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Outline
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Outline
@@ -452,7 +453,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Outline
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -490,9 +491,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Protected
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Protected
@@ -504,7 +505,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Protected
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -516,9 +517,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Shadow
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Shadow
@@ -530,7 +531,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Shadow
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -568,9 +569,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_SmallCaps
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_SmallCaps
@@ -582,7 +583,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_SmallCaps
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -620,9 +621,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_StrikeThrough
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_StrikeThrough
@@ -634,7 +635,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_StrikeThrough
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -646,9 +647,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Subscript
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Subscript
@@ -660,7 +661,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Subscript
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -672,9 +673,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Superscript
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Superscript
@@ -686,7 +687,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Superscript
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -698,9 +699,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Underline
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Underline
@@ -712,7 +713,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Underline
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -724,9 +725,9 @@ package body TOM.ITextFont_Interface is
 
    function Get_Weight
      (This   : ITextFont_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Weight
@@ -738,7 +739,7 @@ package body TOM.ITextFont_Interface is
 
    procedure Put_Weight
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check

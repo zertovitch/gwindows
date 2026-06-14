@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IOleInPlaceObject_Interface is
 
@@ -19,7 +20,7 @@ package GNATOCX.IOleInPlaceObject_Interface is
 
    procedure ContextSensitiveHelp
      (This       : IOleInPlaceObject_Type;
-      fEnterMode : Interfaces.C.long);
+      fEnterMode : Win32_Types.Long);
 
    procedure InPlaceDeactivate
      (This : IOleInPlaceObject_Type);

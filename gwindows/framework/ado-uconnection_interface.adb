@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body ADO.uConnection_Interface is
 
@@ -71,9 +72,9 @@ package body ADO.uConnection_Interface is
 
    function Get_CommandTimeout
       (This      : uConnection_Type)
-      return Interfaces.C.long
+      return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_CommandTimeout
@@ -85,7 +86,7 @@ package body ADO.uConnection_Interface is
 
    procedure Put_CommandTimeout
      (This      : uConnection_Type;
-      plTimeout : Interfaces.C.long)
+      plTimeout : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -97,9 +98,9 @@ package body ADO.uConnection_Interface is
 
    function Get_ConnectionTimeout
       (This      : uConnection_Type)
-      return Interfaces.C.long
+      return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_ConnectionTimeout
@@ -111,7 +112,7 @@ package body ADO.uConnection_Interface is
 
    procedure Put_ConnectionTimeout
      (This      : uConnection_Type;
-      plTimeout : Interfaces.C.long)
+      plTimeout : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -150,7 +151,7 @@ package body ADO.uConnection_Interface is
       CommandText     : GNATCOM.Types.BSTR;
       RecordsAffected : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Options         : Interfaces.C.long;
+      Options         : Win32_Types.Long;
       Free            : Boolean := True)
      return Pointer_To_uRecordset
    is
@@ -173,9 +174,9 @@ package body ADO.uConnection_Interface is
 
    function BeginTrans
      (This             : uConnection_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.BeginTrans
@@ -210,7 +211,7 @@ package body ADO.uConnection_Interface is
       ConnectionString : GNATCOM.Types.BSTR;
       UserID           : GNATCOM.Types.BSTR;
       Password         : GNATCOM.Types.BSTR;
-      Options          : Interfaces.C.long;
+      Options          : Win32_Types.Long;
       Free             : Boolean := True)
    is
    begin
@@ -303,9 +304,9 @@ package body ADO.uConnection_Interface is
 
    function Get_Attributes
      (This   : uConnection_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Attributes
@@ -317,7 +318,7 @@ package body ADO.uConnection_Interface is
 
    procedure Put_Attributes
      (This   : uConnection_Type;
-      plAttr : Interfaces.C.long)
+      plAttr : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -412,9 +413,9 @@ package body ADO.uConnection_Interface is
 
    function Get_State
      (This       : uConnection_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_State

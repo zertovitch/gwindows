@@ -72,6 +72,7 @@ package body GWindows.HID is
           Size       : in     Integer)
          return Integer;
    pragma Convention (StdCall, GetRawInputDeviceListPtr);
+   pragma Machine_Attribute (GetRawInputDeviceListPtr, "ms_abi");
 
 --    function GetRawInputDeviceInfoW
 --       (Device     : in     GWindows.Types.Handle;
@@ -89,6 +90,7 @@ package body GWindows.HID is
           Size       : access Integer)
          return Integer;
    pragma Convention (StdCall, GetRawInputDeviceInfoWPtr);
+   pragma Machine_Attribute (GetRawInputDeviceInfoWPtr, "ms_abi");
 
 --    function GetRawInputDeviceInfoA
 --       (Device     : in     GWindows.Types.Handle;
@@ -106,6 +108,7 @@ package body GWindows.HID is
           Size       : access Integer)
          return Integer;
    pragma Convention (StdCall, GetRawInputDeviceInfoAPtr);
+   pragma Machine_Attribute (GetRawInputDeviceInfoAPtr, "ms_abi");
 
    type Raw_Input_Device_Select_Type is
    record
@@ -123,6 +126,7 @@ package body GWindows.HID is
           Size      : in     Integer)
           return Boolean;
    pragma Convention (StdCall, RegisterRawInputDevicesPtr);
+   pragma Machine_Attribute (RegisterRawInputDevicesPtr, "ms_abi");
 
 --    function RegisterRawInputDevices
 --      (RID       : access Raw_Input_Device_Select_Arr;
@@ -141,6 +145,7 @@ package body GWindows.HID is
        SizeHdr   : in     Integer)
       return Integer;
    pragma Convention (StdCall, GetRawInputDataPtr);
+   pragma Machine_Attribute (GetRawInputDataPtr, "ms_abi");
 
 --    function GetRawInputData
 --       (RawInput  : in     GWindows.Types.Handle;
@@ -157,6 +162,7 @@ package body GWindows.HID is
        NrInput  : in     Integer;
        SizeHdr  : in     Integer);
    pragma Convention (StdCall, DefRawInputProcPtr);
+   pragma Machine_Attribute (DefRawInputProcPtr, "ms_abi");
 
 --    procedure DefRawInputProc
 --       (RawInput : access String;
@@ -532,6 +538,7 @@ package body GWindows.HID is
       return DefRawInputProcPtr;
 
    pragma Import (StdCall, GetProcAddress, "GetProcAddress");
+   pragma Machine_Attribute (GetProcAddress, "ms_abi");
 
    Name_GetRawInputDeviceList   : constant String :=
       "GetRawInputDeviceList" & ASCII.NUL;
@@ -550,6 +557,7 @@ package body GWindows.HID is
      (lpLibFileName : System.Address)
       return HINSTANCE;
    pragma Import (Stdcall, LoadLibrary, "LoadLibrary" & Character_Mode_Identifier);
+   pragma Machine_Attribute (LoadLibrary, "ms_abi");
 
    user : GString_C := To_GString_C ("user32.dll");
 

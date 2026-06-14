@@ -9,6 +9,7 @@ package body GWindows.Enum_EMF is
                 nObj     : Integer;
                 lpData   : EMF_Enum_Proc) return Integer;
    pragma Convention (Stdcall, ENHMFENUMPROC);
+   pragma Machine_Attribute (ENHMFENUMPROC, "ms_abi");
    type Prectangle_Type is access GWindows.Types.Rectangle_Type;
 
    function EnumEnhMetaFile (hdc           : GWindows.Types.Handle;
@@ -17,6 +18,7 @@ package body GWindows.Enum_EMF is
                              lpData        : EMF_Enum_Proc;
                              lpRect        : Prectangle_Type) return Integer;
    pragma Import (StdCall, EnumEnhMetaFile, "EnumEnhMetaFile");
+   pragma Machine_Attribute (EnumEnhMetaFile, "ms_abi");
 
    function Enum_Func (hDC      : GWindows.Types.Handle;
                        lpHTable : Handle_Table_Access;
@@ -24,6 +26,7 @@ package body GWindows.Enum_EMF is
                        nObj     : Integer;
                        lpData   : EMF_Enum_Proc) return Integer;
    pragma Convention (Stdcall, Enum_Func);
+   pragma Machine_Attribute (Enum_Func, "ms_abi");
    function Enum_Func (hDC      : GWindows.Types.Handle;
                        lpHTable : Handle_Table_Access;
                        lpEMFR   : PEMR_Type;

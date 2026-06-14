@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package TOM.ITextPara_Interface is
 
@@ -23,40 +24,40 @@ package TOM.ITextPara_Interface is
 
    function CanChange
      (This : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function IsEqual
      (This  : ITextPara_Type;
       pPara : Pointer_To_ITextPara)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Reset
      (This  : ITextPara_Type;
-      Value : Interfaces.C.long);
+      Value : Win32_Types.Long);
 
    function Get_Style
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Style
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Alignment
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Alignment
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Hyphenation
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Hyphenation
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_FirstLineIndent
      (This   : ITextPara_Type)
@@ -64,19 +65,19 @@ package TOM.ITextPara_Interface is
 
    function Get_KeepTogether
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_KeepTogether
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_KeepWithNext
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_KeepWithNext
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_LeftIndent
      (This   : ITextPara_Type)
@@ -88,31 +89,31 @@ package TOM.ITextPara_Interface is
 
    function Get_LineSpacingRule
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_ListAlignment
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_ListAlignment
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_ListLevelIndex
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_ListLevelIndex
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_ListStart
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_ListStart
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_ListTab
      (This   : ITextPara_Type)
@@ -124,27 +125,27 @@ package TOM.ITextPara_Interface is
 
    function Get_ListType
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_ListType
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_NoLineNumber
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_NoLineNumber
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_PageBreakBefore
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_PageBreakBefore
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_RightIndent
      (This   : ITextPara_Type)
@@ -162,7 +163,7 @@ package TOM.ITextPara_Interface is
 
    procedure SetLineSpacing
      (This            : ITextPara_Type;
-      LineSpacingRule : Interfaces.C.long;
+      LineSpacingRule : Win32_Types.Long;
       LineSpacing     : Interfaces.C.C_float);
 
    function Get_SpaceAfter
@@ -183,21 +184,21 @@ package TOM.ITextPara_Interface is
 
    function Get_WidowControl
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_WidowControl
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_TabCount
      (This   : ITextPara_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure AddTab
      (This     : ITextPara_Type;
       tbPos    : Interfaces.C.C_float;
-      tbAlign  : Interfaces.C.long;
-      tbLeader : Interfaces.C.long);
+      tbAlign  : Win32_Types.Long;
+      tbLeader : Win32_Types.Long);
 
    procedure ClearAllTabs
      (This : ITextPara_Type);
@@ -208,7 +209,7 @@ package TOM.ITextPara_Interface is
 
    procedure GetTab
      (This      : ITextPara_Type;
-      iTab      : Interfaces.C.long;
+      iTab      : Win32_Types.Long;
       ptbPos    : GNATCOM.Types.Pointer_To_C_float;
       ptbAlign  : GNATCOM.Types.Pointer_To_long;
       ptbLeader : GNATCOM.Types.Pointer_To_long);

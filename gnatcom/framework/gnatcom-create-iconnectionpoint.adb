@@ -2,12 +2,13 @@ with Ada.Unchecked_Conversion;
 with System;
 with GNATCOM.Dispinterface;
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATCOM.Create.IConnectionPoint is
 
    procedure IDispatch_Fire
      (ConnectionPoint : ConnectionPoint_Type;
-      Dispid          : Interfaces.C.long)
+      Dispid          : Win32_Types.Long)
    is
    begin
       for Connection of ConnectionPoint.Connections loop
@@ -29,7 +30,7 @@ package body GNATCOM.Create.IConnectionPoint is
 
    procedure IPropertyNotifySink_Fire
      (ConnectionPoint : ConnectionPoint_Type;
-      Dispid          : Interfaces.C.long)
+      Dispid          : Win32_Types.Long)
    is
    begin
       for Connection of ConnectionPoint.Connections loop
@@ -216,7 +217,7 @@ package body GNATCOM.Create.IConnectionPoint is
 
    procedure Fire
      (ConnectionPoint : ConnectionPoint_Type;
-      Dispid          : Interfaces.C.long)
+      Dispid          : Win32_Types.Long)
    is
    begin
       ConnectionPoint.Fire.all (ConnectionPoint, Dispid);

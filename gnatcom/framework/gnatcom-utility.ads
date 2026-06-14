@@ -35,7 +35,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces.C;
+with Win32_Types;
 
 package GNATCOM.Utility is
 
@@ -46,10 +46,10 @@ package GNATCOM.Utility is
    procedure Post_Quit;
    --  Send a WM_Quit message to the message loop in the current thread
 
-   procedure Post_Quit (Thread_ID : Interfaces.C.unsigned_long);
+   procedure Post_Quit (Thread_ID : Win32_Types.Unsigned_Long);
    --  Post a WM_Quit message to the the thread with Thread_ID
 
-   function Get_Current_Thread_ID return Interfaces.C.unsigned_long;
+   function Get_Current_Thread_ID return Win32_Types.Unsigned_Long;
    --  Returns the Thread_ID of the current executing thread
 
    procedure Message_Box (Title, Message : in String);

@@ -35,6 +35,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with Interfaces.C;
 with System;
 
 package body GNATCOM.Utility is
@@ -43,8 +44,8 @@ package body GNATCOM.Utility is
 
    type POINTL is
       record
-         x : Interfaces.C.long;
-         y : Interfaces.C.long;
+         x : Win32_Types.Long;
+         y : Win32_Types.Long;
       end record;
    pragma Convention (C_PASS_BY_COPY, POINTL);
 
@@ -53,10 +54,10 @@ package body GNATCOM.Utility is
          hwnd     : System.Address;
          message  : Interfaces.C.int;
          wParam   : Interfaces.C.int;
-         lParam   : Interfaces.C.long;
-         time     : Interfaces.C.unsigned_long;
+         lParam   : Win32_Types.Long;
+         time     : Win32_Types.Unsigned_Long;
          pt       : POINTL;
-         lPrivate : Interfaces.C.unsigned_long;
+         lPrivate : Win32_Types.Unsigned_Long;
       end record;
    pragma Convention (C_PASS_BY_COPY, MSG);
    type Pointer_To_MSG is access all MSG;
@@ -66,23 +67,27 @@ package body GNATCOM.Utility is
       hwnd          : System.Address;
       wMsgFilterMin : Interfaces.C.unsigned;
       wMsgFilterMax : Interfaces.C.unsigned)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
    pragma Import (StdCall, GetMessage, "GetMessageA");
+   pragma Machine_Attribute (GetMessage, "ms_abi");
 
    procedure DispatchMessage
      (lpMsg : Pointer_To_MSG);
    pragma Import (StdCall, DispatchMessage, "DispatchMessageA");
+   pragma Machine_Attribute (DispatchMessage, "ms_abi");
 
    function GetCurrentThreadId
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Import (StdCall, GetCurrentThreadId, "GetCurrentThreadId");
+   pragma Machine_Attribute (GetCurrentThreadId, "ms_abi");
 
    procedure PostThreadMessage
-     (idThread : Interfaces.C.unsigned_long;
+     (idThread : Win32_Types.Unsigned_Long;
       MSG_Kind : Interfaces.C.unsigned;
       wParam   : Interfaces.C.unsigned      := 0;
-      lParam   : Interfaces.C.long          := 0);
+      lParam   : Win32_Types.Long          := 0);
    pragma Import (StdCall, PostThreadMessage, "PostThreadMessageA");
+   pragma Machine_Attribute (PostThreadMessage, "ms_abi");
 
    procedure MessageBox
      (hwnd    : in System.Address := System.Null_Address;
@@ -90,12 +95,13 @@ package body GNATCOM.Utility is
       Title   : in Interfaces.C.char_array;
       uType   : in Interfaces.C.unsigned   := 0);
    pragma Import (StdCall, MessageBox, "MessageBoxA");
+   pragma Machine_Attribute (MessageBox, "ms_abi");
 
    ---------------------------
    -- Get_Current_Thread_ID --
    ---------------------------
 
-   function Get_Current_Thread_ID return Interfaces.C.unsigned_long
+   function Get_Current_Thread_ID return Win32_Types.Unsigned_Long
    is
    begin
       return GetCurrentThreadId;
@@ -106,7 +112,7 @@ package body GNATCOM.Utility is
    ------------------
 
    procedure Message_Loop is
-      use type Interfaces.C.long;
+      use type Win32_Types.Long;
 
       tMSG    : aliased MSG;
    begin
@@ -120,7 +126,7 @@ package body GNATCOM.Utility is
    -- Post_Quit --
    ---------------
 
-   procedure Post_Quit (Thread_ID : Interfaces.C.unsigned_long)
+   procedure Post_Quit (Thread_ID : Win32_Types.Unsigned_Long)
    is
    begin
       PostThreadMessage (Thread_ID, WM_QUIT);

@@ -39,6 +39,7 @@
 
 with Interfaces.C;
 with GNATCOM.Types;
+with Win32_Types;
 
 package GNATCOM.Create is
 
@@ -135,7 +136,7 @@ package GNATCOM.Create is
    --
    --  after the begin of the X.Exe procedure.
 
-   Main_Thread_ID : Interfaces.C.unsigned_long;
+   Main_Thread_ID : Win32_Types.Unsigned_Long;
    --  Local servers store the thread ID of the main thread here
 
    procedure Can_Close;
@@ -156,7 +157,7 @@ package GNATCOM.Create is
    --    function Create
    --      return GNATCOM.Create.COM_Interface.Pointer_To_COM_Interface
    --    is
-   --       use type Interfaces.C.long;
+   --       use type Win32_Types.Long;
    --    begin
    --       if Singleton = null then
    --          Singleton := new BeepClass_Type;

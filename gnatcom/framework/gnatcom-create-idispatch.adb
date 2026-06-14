@@ -39,6 +39,7 @@ with System;
 with System.Address_To_Access_Conversions;
 with Ada.Containers.Ordered_Maps;
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATCOM.Create.IDispatch is
 
@@ -46,10 +47,11 @@ package body GNATCOM.Create.IDispatch is
      (rguid     : access GNATCOM.Types.GUID;
       wVerMajor : in     Interfaces.C.unsigned_short;
       wVerMinor : in     Interfaces.C.unsigned_short;
-      lcid      : in     Interfaces.C.unsigned_long;
+      lcid      : in     Win32_Types.Unsigned_Long;
       ppTLib    : access GNATCOM.Types.Pointer_To_ITypeLib)
    return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, LoadRegTypeLib, "LoadRegTypeLib");
+   pragma Machine_Attribute (LoadRegTypeLib, "ms_abi");
 
    function DispGetIDsOfNames
      (pTInfo    : GNATCOM.Types.Pointer_To_ITypeInfo;
@@ -58,11 +60,12 @@ package body GNATCOM.Create.IDispatch is
       rgDispId  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, DispGetIDsOfNames, "DispGetIDsOfNames");
+   pragma Machine_Attribute (DispGetIDsOfNames, "ms_abi");
 
    function DispInvoke
      (uthis        : GNATCOM.Types.Pointer_To_Void;
       pTInfo       : GNATCOM.Types.Pointer_To_ITypeInfo;
-      dispIdMember : Interfaces.C.long;
+      dispIdMember : Win32_Types.Long;
       wFlags       : Interfaces.C.unsigned_short;
       pparams      : GNATCOM.Types.Pointer_To_DISPPARAMS;
       pVarResult   : GNATCOM.Types.Pointer_To_VARIANT;
@@ -70,6 +73,7 @@ package body GNATCOM.Create.IDispatch is
       puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, DispInvoke, "DispInvoke");
+   pragma Machine_Attribute (DispInvoke, "ms_abi");
 
    function Less_Than (Left, Right : GNATCOM.Types.Pointer_To_GUID)
                       return Boolean is
@@ -113,7 +117,7 @@ package body GNATCOM.Create.IDispatch is
          C  : Typelib_Maps.Cursor;
          L  : aliased GNATCOM.Types.Pointer_To_ITypeLib;
          TI : aliased GNATCOM.Types.Pointer_To_ITypeInfo;
-         N  : Interfaces.C.unsigned_long;
+         N  : Win32_Types.Unsigned_Long;
       begin
          if Typeinfo_Maps.Has_Element (CI) then
             TI := Typeinfo_Maps.Element (CI);
@@ -145,7 +149,7 @@ package body GNATCOM.Create.IDispatch is
 
    procedure Adjust (This : in out IDispatch_Type) is
 
-      Result : Interfaces.C.unsigned_long;
+      Result : Win32_Types.Unsigned_Long;
       pragma Warnings (Off, Result);
    begin
       if This.Type_Information /= null then
@@ -159,7 +163,7 @@ package body GNATCOM.Create.IDispatch is
 
    procedure Finalize (This : in out IDispatch_Type) is
 
-      Result : Interfaces.C.unsigned_long;
+      Result : Win32_Types.Unsigned_Long;
       pragma Warnings (Off, Result);
    begin
       if This.Type_Information /= null then
@@ -198,7 +202,7 @@ package body GNATCOM.Create.IDispatch is
    is
       use type Interfaces.C.unsigned;
 
-      Result  : Interfaces.C.unsigned_long;
+      Result  : Win32_Types.Unsigned_Long;
       pragma Warnings (Off, Result);
    begin
       if itinfo /= 0 then
@@ -245,7 +249,7 @@ package body GNATCOM.Create.IDispatch is
    function Invoke
      (This         : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
       Data         : access IDispatch_Type;
-      dispidMember : in     Interfaces.C.long;
+      dispidMember : in     Win32_Types.Long;
       wFlags       : in     Interfaces.C.unsigned_short;
       pdispparams  : in     GNATCOM.Types.Pointer_To_DISPPARAMS;
       pvarResult   : in     GNATCOM.Types.Pointer_To_VARIANT;

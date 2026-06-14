@@ -41,6 +41,7 @@ with Interfaces.C;
 with GNATCOM.Errors;
 with GNATCOM.GUID;
 with GNATCOM.BSTR;
+with Win32_Types;
 
 package body GNATCOM.IErrorInfo is
 
@@ -64,46 +65,54 @@ package body GNATCOM.IErrorInfo is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IErrorInfo_QueryInterface);
+   pragma Machine_Attribute (af_IErrorInfo_QueryInterface, "ms_abi");
 
    type af_IErrorInfo_AddRef is access
      function (This : access IErrorInfo)
-              return Interfaces.C.unsigned_long;
+              return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IErrorInfo_AddRef);
+   pragma Machine_Attribute (af_IErrorInfo_AddRef, "ms_abi");
 
    type af_IErrorInfo_Release is access
      function (This : access IErrorInfo)
-              return Interfaces.C.unsigned_long;
+              return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IErrorInfo_Release);
+   pragma Machine_Attribute (af_IErrorInfo_Release, "ms_abi");
 
    type af_IErrorInfo_GetGUID is access
      function (This  : access IErrorInfo;
                pGUID : GNATCOM.Types.Pointer_To_GUID)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IErrorInfo_GetGUID);
+   pragma Machine_Attribute (af_IErrorInfo_GetGUID, "ms_abi");
 
    type af_IErrorInfo_GetSource is access
      function (This        : access IErrorInfo;
                pBstrSource : GNATCOM.Types.Pointer_To_BSTR)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IErrorInfo_GetSource);
+   pragma Machine_Attribute (af_IErrorInfo_GetSource, "ms_abi");
 
    type af_IErrorInfo_GetDescription is access
      function (This             : access IErrorInfo;
                pBstrDescription : GNATCOM.Types.Pointer_To_BSTR)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IErrorInfo_GetDescription);
+   pragma Machine_Attribute (af_IErrorInfo_GetDescription, "ms_abi");
 
    type af_IErrorInfo_GetHelpFile is access
      function (This          : access IErrorInfo;
                pBstrHelpFile : GNATCOM.Types.Pointer_To_BSTR)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IErrorInfo_GetHelpFile);
+   pragma Machine_Attribute (af_IErrorInfo_GetHelpFile, "ms_abi");
 
    type af_IErrorInfo_GetHelpContext is access
      function (This           : access IErrorInfo;
                pdwHelpContext : GNATCOM.Types.Pointer_To_unsigned_long)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IErrorInfo_GetHelpContext);
+   pragma Machine_Attribute (af_IErrorInfo_GetHelpContext, "ms_abi");
 
    type IErrorInfoVtbl;
    type Pointer_To_IErrorInfoVtbl is access all IErrorInfoVtbl;
@@ -143,46 +152,54 @@ package body GNATCOM.IErrorInfo is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ICreateErrorInfo_QueryInterface);
+   pragma Machine_Attribute (af_ICreateErrorInfo_QueryInterface, "ms_abi");
 
    type af_ICreateErrorInfo_AddRef is access
      function (This : access ICreateErrorInfo)
-              return Interfaces.C.unsigned_long;
+              return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ICreateErrorInfo_AddRef);
+   pragma Machine_Attribute (af_ICreateErrorInfo_AddRef, "ms_abi");
 
    type af_ICreateErrorInfo_Release is access
      function (This : access ICreateErrorInfo)
-              return Interfaces.C.unsigned_long;
+              return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ICreateErrorInfo_Release);
+   pragma Machine_Attribute (af_ICreateErrorInfo_Release, "ms_abi");
 
    type af_ICreateErrorInfo_SetGUID is access
      function (This  : access ICreateErrorInfo;
                rguid : GNATCOM.Types.Pointer_To_GUID)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ICreateErrorInfo_SetGUID);
+   pragma Machine_Attribute (af_ICreateErrorInfo_SetGUID, "ms_abi");
 
    type af_ICreateErrorInfo_SetSource is access
      function (This     : access ICreateErrorInfo;
                szSource : GNATCOM.Types.LPWSTR)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ICreateErrorInfo_SetSource);
+   pragma Machine_Attribute (af_ICreateErrorInfo_SetSource, "ms_abi");
 
    type af_ICreateErrorInfo_SetDescription is access
      function (This          : access ICreateErrorInfo;
                szDescription : GNATCOM.Types.LPWSTR)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ICreateErrorInfo_SetDescription);
+   pragma Machine_Attribute (af_ICreateErrorInfo_SetDescription, "ms_abi");
 
    type af_ICreateErrorInfo_SetHelpFile is access
      function (This       : access ICreateErrorInfo;
                szHelpFile : GNATCOM.Types.LPWSTR)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ICreateErrorInfo_SetHelpFile);
+   pragma Machine_Attribute (af_ICreateErrorInfo_SetHelpFile, "ms_abi");
 
    type af_ICreateErrorInfo_SetHelpContext is access
      function (This          : access ICreateErrorInfo;
-               dwHelpContext : Interfaces.C.unsigned_long)
+               dwHelpContext : Win32_Types.Unsigned_Long)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ICreateErrorInfo_SetHelpContext);
+   pragma Machine_Attribute (af_ICreateErrorInfo_SetHelpContext, "ms_abi");
 
    type ICreateErrorInfoVtbl;
    type Pointer_To_ICreateErrorInfoVtbl is access all ICreateErrorInfoVtbl;
@@ -222,16 +239,19 @@ package body GNATCOM.IErrorInfo is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
               return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ISupportErrorInfo_QueryInterface);
+   pragma Machine_Attribute (af_ISupportErrorInfo_QueryInterface, "ms_abi");
 
    type af_ISupportErrorInfo_AddRef is access
      function (This : access ISupportErrorInfo)
-              return Interfaces.C.unsigned_long;
+              return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ISupportErrorInfo_AddRef);
+   pragma Machine_Attribute (af_ISupportErrorInfo_AddRef, "ms_abi");
 
    type af_ISupportErrorInfo_Release is access
      function (This : access ISupportErrorInfo)
-              return Interfaces.C.unsigned_long;
+              return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ISupportErrorInfo_Release);
+   pragma Machine_Attribute (af_ISupportErrorInfo_Release, "ms_abi");
 
    type af_ISupportErrorInfo_InterfaceSupportsErrorInfo is access
      function (This : access ISupportErrorInfo;
@@ -285,11 +305,13 @@ package body GNATCOM.IErrorInfo is
         (pperrinfo : access Pointer_To_ICreateErrorInfo)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, CreateErrorInfo, "CreateErrorInfo");
+   pragma Machine_Attribute (CreateErrorInfo, "ms_abi");
 
       procedure SetErrorInfo
         (Reserverd : Integer := 0;
          perrinfo  : GNATCOM.Types.Pointer_To_IUnknown);
       pragma Import (StdCall, SetErrorInfo, "SetErrorInfo");
+   pragma Machine_Attribute (SetErrorInfo, "ms_abi");
 
       Local_GUID       : aliased GNATCOM.Types.GUID := Associated_GUID;
       BSTR_Source      : constant GNATCOM.Types.BSTR :=
@@ -323,7 +345,7 @@ package body GNATCOM.IErrorInfo is
       GNATCOM.Errors.Error_Check
         (pcerrinfo.Vtbl.SetHelpContext
          (pcerrinfo,
-          Interfaces.C.unsigned_long (Help_Context)));
+          Win32_Types.Unsigned_Long (Help_Context)));
 
       Set_IID (Error_Interface, IID_IErrorInfo);
       Query (Error_Interface, CError_Interface);
@@ -366,6 +388,7 @@ package body GNATCOM.IErrorInfo is
          pperrinfo : access Pointer_To_IErrorInfo)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, GetErrorInfo, "GetErrorInfo");
+   pragma Machine_Attribute (GetErrorInfo, "ms_abi");
 
       pErrorInfo       : aliased Pointer_To_IErrorInfo;
       Error_Interface  : GNATCOM.Iinterface.Interface_Type;
@@ -374,7 +397,7 @@ package body GNATCOM.IErrorInfo is
       BSTR_Source      : aliased GNATCOM.Types.BSTR;
       BSTR_Description : aliased GNATCOM.Types.BSTR;
       BSTR_Path        : aliased GNATCOM.Types.BSTR;
-      Context          : aliased Interfaces.C.unsigned_long;
+      Context          : aliased Win32_Types.Unsigned_Long;
    begin
       if
         GNATCOM.Errors.Logical_Check

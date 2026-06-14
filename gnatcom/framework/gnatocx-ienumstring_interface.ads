@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IEnumString_Interface is
 
@@ -15,13 +16,13 @@ package GNATOCX.IEnumString_Interface is
 
    procedure RemoteNext
      (This         : IEnumString_Type;
-      celt         : Interfaces.C.unsigned_long;
+      celt         : Win32_Types.Unsigned_Long;
       rgelt        : GNATCOM.Types.Pointer_To_LPWSTR;
       pceltFetched : GNATCOM.Types.Pointer_To_unsigned_long);
 
    procedure Skip
      (This : IEnumString_Type;
-      celt : Interfaces.C.unsigned_long);
+      celt : Win32_Types.Unsigned_Long);
 
    procedure Reset
      (This : IEnumString_Type);

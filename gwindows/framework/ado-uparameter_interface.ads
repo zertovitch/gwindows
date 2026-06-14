@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package ADO.uParameter_Interface is
 
@@ -69,11 +70,11 @@ package ADO.uParameter_Interface is
 
    procedure Put_Size
      (This : uParameter_Type;
-      pl   : Interfaces.C.long);
+      pl   : Win32_Types.Long);
 
    function Get_Size
      (This : uParameter_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure AppendChunk
      (This : uParameter_Type;
@@ -82,10 +83,10 @@ package ADO.uParameter_Interface is
 
    function Get_Attributes
      (This          : uParameter_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Attributes
      (This          : uParameter_Type;
-      plParmAttribs : Interfaces.C.long);
+      plParmAttribs : Win32_Types.Long);
 
 end ADO.uParameter_Interface;

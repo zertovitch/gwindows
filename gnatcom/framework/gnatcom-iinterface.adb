@@ -85,6 +85,7 @@ package body GNATCOM.Iinterface is
       ppv          : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CoCreateInstance, "CoCreateInstance");
+   pragma Machine_Attribute (CoCreateInstance, "ms_abi");
 
    function CoCreateInstanceEx
      (rclsid       : GNATCOM.Types.Pointer_To_GUID;
@@ -95,11 +96,13 @@ package body GNATCOM.Iinterface is
       pResults     : Array_Of_MULTI_QI)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CoCreateInstanceEx, "CoCreateInstanceEx");
+   pragma Machine_Attribute (CoCreateInstanceEx, "ms_abi");
 
    function CLSIDFromProgID (lpszProgID : GNATCOM.Types.BSTR;
                              lpClsid    : GNATCOM.Types.Pointer_To_GUID)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CLSIDFromProgID, "CLSIDFromProgID");
+   pragma Machine_Attribute (CLSIDFromProgID, "ms_abi");
 
    function CoGetClassObject
      (rclsid       : GNATCOM.Types.Pointer_To_GUID;
@@ -109,6 +112,7 @@ package body GNATCOM.Iinterface is
       ppv          : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CoGetClassObject, "CoGetClassObject");
+   pragma Machine_Attribute (CoGetClassObject, "ms_abi");
 
    function CoGetObject
      (pszName      : GNATCOM.Types.BSTR;
@@ -117,6 +121,7 @@ package body GNATCOM.Iinterface is
       ppv          : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CoGetObject, "CoGetObject");
+   pragma Machine_Attribute (CoGetObject, "ms_abi");
 
    ------------
    -- AddRef --
@@ -126,7 +131,7 @@ package body GNATCOM.Iinterface is
    begin
       if Address (This) /= System.Null_Address then
          declare
-            Result : Interfaces.C.unsigned_long;
+            Result : Win32_Types.Unsigned_Long;
             pragma Unreferenced (Result);
          begin
             Result := Pointer (This).Vtbl.AddRef (Pointer (This));
@@ -321,7 +326,7 @@ package body GNATCOM.Iinterface is
                     ppv          => This.Interface_Address'Unchecked_Access));
 
       declare
-         Result : Interfaces.C.unsigned_long;
+         Result : Win32_Types.Unsigned_Long;
          pragma Unreferenced (Result);
       begin
          Result := Factory.Vtbl.Release (Factory);
@@ -536,7 +541,7 @@ package body GNATCOM.Iinterface is
    begin
       if Address (This) /= System.Null_Address then
          declare
-            Result : Interfaces.C.unsigned_long;
+            Result : Win32_Types.Unsigned_Long;
             pragma Unreferenced (Result);
          begin
             Result := Pointer (This).Vtbl.Release (Pointer (This));
@@ -593,7 +598,7 @@ package body GNATCOM.Iinterface is
    function Put_In_GIT (This : Interface_Type) return GIT_Cookie is
       PGIT   : constant GNATCOM.Types.Pointer_To_IGlobalInterfaceTable :=
         Get_GIT;
-      Cookie : aliased Interfaces.C.unsigned_long;
+      Cookie : aliased Win32_Types.Unsigned_Long;
       IID    : aliased GNATCOM.Types.GUID := This.IID;
    begin
       Error_Check
@@ -615,7 +620,7 @@ package body GNATCOM.Iinterface is
    begin
       Error_Check (PGIT.Vtbl.RevokeInterfaceFromGlobal
                    (PGIT,
-                    Interfaces.C.unsigned_long (Cookie)));
+                    Win32_Types.Unsigned_Long (Cookie)));
    end Remove_From_GIT;
 
    ---------------------
@@ -632,7 +637,7 @@ package body GNATCOM.Iinterface is
 
       Error_Check (PGIT.Vtbl.GetInterfaceFromGlobal
                    (PGIT,
-                    Interfaces.C.unsigned_long (Cookie),
+                    Win32_Types.Unsigned_Long (Cookie),
                     This.IID'Unchecked_Access,
                     This.Interface_Address'Unchecked_Access));
    end Attach_From_GIT;
@@ -720,7 +725,7 @@ package body GNATCOM.Iinterface is
                     Key_Local'Unchecked_Access));
 
       declare
-         Result : Interfaces.C.unsigned_long;
+         Result : Win32_Types.Unsigned_Long;
          pragma Unreferenced (Result);
       begin
          Result := Factory.Vtbl.Release (Factory);

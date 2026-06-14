@@ -64,6 +64,7 @@ package body GWindows.Image_Lists.Ex_Image_Lists is
          Grow  : Natural  := Grow_By)
         return GWindows.Types.Handle;
       pragma Import (StdCall, ImageList_Create, "ImageList_Create");
+      pragma Machine_Attribute (ImageList_Create, "ms_abi");
    begin
       Handle (List, ImageList_Create (FLAGS => Get_Color_Flag (Color_Depth)));
    end CreateEx;
@@ -87,6 +88,7 @@ package body GWindows.Image_Lists.Ex_Image_Lists is
          FLAGS : Natural                 := 0)
         return GWindows.Types.Handle;
       pragma Import (StdCall, ImageList_LoadImage, "ImageList_LoadImage");
+      pragma Machine_Attribute (ImageList_LoadImage, "ms_abi");
    begin
       Handle (List,
               ImageList_LoadImage (FLAGS => Get_Color_Flag (Color_Depth)));

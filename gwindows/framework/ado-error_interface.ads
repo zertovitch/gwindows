@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package ADO.Error_Interface is
 
@@ -15,7 +16,7 @@ package ADO.Error_Interface is
 
    function Get_Number
      (This : Error_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_Source
      (This  : Error_Type)
@@ -31,7 +32,7 @@ package ADO.Error_Interface is
 
    function Get_HelpContext
      (This : Error_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_SQLState
      (This  : Error_Type)
@@ -39,6 +40,6 @@ package ADO.Error_Interface is
 
    function Get_NativeError
      (This : Error_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
 end ADO.Error_Interface;

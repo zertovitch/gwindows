@@ -58,6 +58,7 @@ package body GWindows.Combo_Boxes.Generic_Enumeral is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Pos));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Pos;
@@ -78,6 +79,7 @@ package body GWindows.Combo_Boxes.Generic_Enumeral is
       return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Get_Pos;

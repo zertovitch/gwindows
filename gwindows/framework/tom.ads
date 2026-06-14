@@ -11,10 +11,11 @@ with Interfaces.C;
 
 with GNATCOM.Types;
 with GNATCOM.GUID;
+with Win32_Types;
 
 package TOM is
 
-   subtype tomConstants is Interfaces.C.long;
+   subtype tomConstants is Win32_Types.Long;
    type ITextDocument;
    type ITextSelection;
    type ITextRange;
@@ -179,46 +180,52 @@ package TOM is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_QueryInterface);
+   pragma Machine_Attribute (af_ITextFont_QueryInterface, "ms_abi");
 
    type af_ITextFont_AddRef is access
      function (This : access ITextFont)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextFont_AddRef);
+   pragma Machine_Attribute (af_ITextFont_AddRef, "ms_abi");
 
    type af_ITextFont_Release is access
      function (This : access ITextFont)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextFont_Release);
+   pragma Machine_Attribute (af_ITextFont_Release, "ms_abi");
 
    type af_ITextFont_GetTypeInfoCount is access
      function (This    : access ITextFont;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_GetTypeInfoCount);
+   pragma Machine_Attribute (af_ITextFont_GetTypeInfoCount, "ms_abi");
 
    type af_ITextFont_GetTypeInfo is access
      function (This    : access ITextFont;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_GetTypeInfo);
+   pragma Machine_Attribute (af_ITextFont_GetTypeInfo, "ms_abi");
 
    type af_ITextFont_GetIDsOfNames is access
      function (This      : access ITextFont;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_GetIDsOfNames);
+   pragma Machine_Attribute (af_ITextFont_GetIDsOfNames, "ms_abi");
 
    type af_ITextFont_Invoke is access
      function (This         : access ITextFont;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -226,24 +233,28 @@ package TOM is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Invoke);
+   pragma Machine_Attribute (af_ITextFont_Invoke, "ms_abi");
 
    type af_ITextFont_Get_Duplicate is access
      function (This   : access ITextFont;
                RetVal : Pointer_To_Pointer_To_ITextFont)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Duplicate);
+   pragma Machine_Attribute (af_ITextFont_Get_Duplicate, "ms_abi");
 
    type af_ITextFont_Put_Duplicate is access
      function (This   : access ITextFont;
                ppFont : Pointer_To_ITextFont)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Duplicate);
+   pragma Machine_Attribute (af_ITextFont_Put_Duplicate, "ms_abi");
 
    type af_ITextFont_CanChange is access
      function (This : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_CanChange);
+   pragma Machine_Attribute (af_ITextFont_CanChange, "ms_abi");
 
    type af_ITextFont_IsEqual is access
      function (This  : access ITextFont;
@@ -251,312 +262,364 @@ package TOM is
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_IsEqual);
+   pragma Machine_Attribute (af_ITextFont_IsEqual, "ms_abi");
 
    type af_ITextFont_Reset is access
      function (This  : access ITextFont;
-               Value : Interfaces.C.long)
+               Value : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Reset);
+   pragma Machine_Attribute (af_ITextFont_Reset, "ms_abi");
 
    type af_ITextFont_Get_Style is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Style);
+   pragma Machine_Attribute (af_ITextFont_Get_Style, "ms_abi");
 
    type af_ITextFont_Put_Style is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Style);
+   pragma Machine_Attribute (af_ITextFont_Put_Style, "ms_abi");
 
    type af_ITextFont_Get_AllCaps is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_AllCaps);
+   pragma Machine_Attribute (af_ITextFont_Get_AllCaps, "ms_abi");
 
    type af_ITextFont_Put_AllCaps is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_AllCaps);
+   pragma Machine_Attribute (af_ITextFont_Put_AllCaps, "ms_abi");
 
    type af_ITextFont_Get_Animation is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Animation);
+   pragma Machine_Attribute (af_ITextFont_Get_Animation, "ms_abi");
 
    type af_ITextFont_Put_Animation is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Animation);
+   pragma Machine_Attribute (af_ITextFont_Put_Animation, "ms_abi");
 
    type af_ITextFont_Get_BackColor is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_BackColor);
+   pragma Machine_Attribute (af_ITextFont_Get_BackColor, "ms_abi");
 
    type af_ITextFont_Put_BackColor is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_BackColor);
+   pragma Machine_Attribute (af_ITextFont_Put_BackColor, "ms_abi");
 
    type af_ITextFont_Get_Bold is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Bold);
+   pragma Machine_Attribute (af_ITextFont_Get_Bold, "ms_abi");
 
    type af_ITextFont_Put_Bold is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Bold);
+   pragma Machine_Attribute (af_ITextFont_Put_Bold, "ms_abi");
 
    type af_ITextFont_Get_Emboss is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Emboss);
+   pragma Machine_Attribute (af_ITextFont_Get_Emboss, "ms_abi");
 
    type af_ITextFont_Put_Emboss is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Emboss);
+   pragma Machine_Attribute (af_ITextFont_Put_Emboss, "ms_abi");
 
    type af_ITextFont_Get_ForeColor is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_ForeColor);
+   pragma Machine_Attribute (af_ITextFont_Get_ForeColor, "ms_abi");
 
    type af_ITextFont_Put_ForeColor is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_ForeColor);
+   pragma Machine_Attribute (af_ITextFont_Put_ForeColor, "ms_abi");
 
    type af_ITextFont_Get_Hidden is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Hidden);
+   pragma Machine_Attribute (af_ITextFont_Get_Hidden, "ms_abi");
 
    type af_ITextFont_Put_Hidden is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Hidden);
+   pragma Machine_Attribute (af_ITextFont_Put_Hidden, "ms_abi");
 
    type af_ITextFont_Get_Engrave is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Engrave);
+   pragma Machine_Attribute (af_ITextFont_Get_Engrave, "ms_abi");
 
    type af_ITextFont_Put_Engrave is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Engrave);
+   pragma Machine_Attribute (af_ITextFont_Put_Engrave, "ms_abi");
 
    type af_ITextFont_Get_Italic is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Italic);
+   pragma Machine_Attribute (af_ITextFont_Get_Italic, "ms_abi");
 
    type af_ITextFont_Put_Italic is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Italic);
+   pragma Machine_Attribute (af_ITextFont_Put_Italic, "ms_abi");
 
    type af_ITextFont_Get_Kerning is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Kerning);
+   pragma Machine_Attribute (af_ITextFont_Get_Kerning, "ms_abi");
 
    type af_ITextFont_Put_Kerning is access
      function (This   : access ITextFont;
                pValue : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Kerning);
+   pragma Machine_Attribute (af_ITextFont_Put_Kerning, "ms_abi");
 
    type af_ITextFont_Get_LanguageID is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_LanguageID);
+   pragma Machine_Attribute (af_ITextFont_Get_LanguageID, "ms_abi");
 
    type af_ITextFont_Put_LanguageID is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_LanguageID);
+   pragma Machine_Attribute (af_ITextFont_Put_LanguageID, "ms_abi");
 
    type af_ITextFont_Get_Name is access
      function (This  : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Name);
+   pragma Machine_Attribute (af_ITextFont_Get_Name, "ms_abi");
 
    type af_ITextFont_Put_Name is access
      function (This  : access ITextFont;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Name);
+   pragma Machine_Attribute (af_ITextFont_Put_Name, "ms_abi");
 
    type af_ITextFont_Get_Outline is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Outline);
+   pragma Machine_Attribute (af_ITextFont_Get_Outline, "ms_abi");
 
    type af_ITextFont_Put_Outline is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Outline);
+   pragma Machine_Attribute (af_ITextFont_Put_Outline, "ms_abi");
 
    type af_ITextFont_Get_Position is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Position);
+   pragma Machine_Attribute (af_ITextFont_Get_Position, "ms_abi");
 
    type af_ITextFont_Put_Position is access
      function (This   : access ITextFont;
                pValue : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Position);
+   pragma Machine_Attribute (af_ITextFont_Put_Position, "ms_abi");
 
    type af_ITextFont_Get_Protected is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Protected);
+   pragma Machine_Attribute (af_ITextFont_Get_Protected, "ms_abi");
 
    type af_ITextFont_Put_Protected is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Protected);
+   pragma Machine_Attribute (af_ITextFont_Put_Protected, "ms_abi");
 
    type af_ITextFont_Get_Shadow is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Shadow);
+   pragma Machine_Attribute (af_ITextFont_Get_Shadow, "ms_abi");
 
    type af_ITextFont_Put_Shadow is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Shadow);
+   pragma Machine_Attribute (af_ITextFont_Put_Shadow, "ms_abi");
 
    type af_ITextFont_Get_Size is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Size);
+   pragma Machine_Attribute (af_ITextFont_Get_Size, "ms_abi");
 
    type af_ITextFont_Put_Size is access
      function (This   : access ITextFont;
                pValue : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Size);
+   pragma Machine_Attribute (af_ITextFont_Put_Size, "ms_abi");
 
    type af_ITextFont_Get_SmallCaps is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_SmallCaps);
+   pragma Machine_Attribute (af_ITextFont_Get_SmallCaps, "ms_abi");
 
    type af_ITextFont_Put_SmallCaps is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_SmallCaps);
+   pragma Machine_Attribute (af_ITextFont_Put_SmallCaps, "ms_abi");
 
    type af_ITextFont_Get_Spacing is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Spacing);
+   pragma Machine_Attribute (af_ITextFont_Get_Spacing, "ms_abi");
 
    type af_ITextFont_Put_Spacing is access
      function (This   : access ITextFont;
                pValue : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Spacing);
+   pragma Machine_Attribute (af_ITextFont_Put_Spacing, "ms_abi");
 
    type af_ITextFont_Get_StrikeThrough is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_StrikeThrough);
+   pragma Machine_Attribute (af_ITextFont_Get_StrikeThrough, "ms_abi");
 
    type af_ITextFont_Put_StrikeThrough is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_StrikeThrough);
+   pragma Machine_Attribute (af_ITextFont_Put_StrikeThrough, "ms_abi");
 
    type af_ITextFont_Get_Subscript is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Subscript);
+   pragma Machine_Attribute (af_ITextFont_Get_Subscript, "ms_abi");
 
    type af_ITextFont_Put_Subscript is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Subscript);
+   pragma Machine_Attribute (af_ITextFont_Put_Subscript, "ms_abi");
 
    type af_ITextFont_Get_Superscript is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Superscript);
+   pragma Machine_Attribute (af_ITextFont_Get_Superscript, "ms_abi");
 
    type af_ITextFont_Put_Superscript is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Superscript);
+   pragma Machine_Attribute (af_ITextFont_Put_Superscript, "ms_abi");
 
    type af_ITextFont_Get_Underline is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Underline);
+   pragma Machine_Attribute (af_ITextFont_Get_Underline, "ms_abi");
 
    type af_ITextFont_Put_Underline is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Underline);
+   pragma Machine_Attribute (af_ITextFont_Put_Underline, "ms_abi");
 
    type af_ITextFont_Get_Weight is access
      function (This   : access ITextFont;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Get_Weight);
+   pragma Machine_Attribute (af_ITextFont_Get_Weight, "ms_abi");
 
    type af_ITextFont_Put_Weight is access
      function (This   : access ITextFont;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextFont_Put_Weight);
+   pragma Machine_Attribute (af_ITextFont_Put_Weight, "ms_abi");
 
    type ITextFontVtbl;
    type Pointer_To_ITextFontVtbl is access all ITextFontVtbl;
@@ -711,46 +774,52 @@ package TOM is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_QueryInterface);
+   pragma Machine_Attribute (af_ITextPara_QueryInterface, "ms_abi");
 
    type af_ITextPara_AddRef is access
      function (This : access ITextPara)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextPara_AddRef);
+   pragma Machine_Attribute (af_ITextPara_AddRef, "ms_abi");
 
    type af_ITextPara_Release is access
      function (This : access ITextPara)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextPara_Release);
+   pragma Machine_Attribute (af_ITextPara_Release, "ms_abi");
 
    type af_ITextPara_GetTypeInfoCount is access
      function (This    : access ITextPara;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_GetTypeInfoCount);
+   pragma Machine_Attribute (af_ITextPara_GetTypeInfoCount, "ms_abi");
 
    type af_ITextPara_GetTypeInfo is access
      function (This    : access ITextPara;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_GetTypeInfo);
+   pragma Machine_Attribute (af_ITextPara_GetTypeInfo, "ms_abi");
 
    type af_ITextPara_GetIDsOfNames is access
      function (This      : access ITextPara;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_GetIDsOfNames);
+   pragma Machine_Attribute (af_ITextPara_GetIDsOfNames, "ms_abi");
 
    type af_ITextPara_Invoke is access
      function (This         : access ITextPara;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -758,24 +827,28 @@ package TOM is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Invoke);
+   pragma Machine_Attribute (af_ITextPara_Invoke, "ms_abi");
 
    type af_ITextPara_Get_Duplicate is access
      function (This   : access ITextPara;
                RetVal : Pointer_To_Pointer_To_ITextPara)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_Duplicate);
+   pragma Machine_Attribute (af_ITextPara_Get_Duplicate, "ms_abi");
 
    type af_ITextPara_Put_Duplicate is access
      function (This   : access ITextPara;
                ppPara : Pointer_To_ITextPara)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_Duplicate);
+   pragma Machine_Attribute (af_ITextPara_Put_Duplicate, "ms_abi");
 
    type af_ITextPara_CanChange is access
      function (This : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_CanChange);
+   pragma Machine_Attribute (af_ITextPara_CanChange, "ms_abi");
 
    type af_ITextPara_IsEqual is access
      function (This  : access ITextPara;
@@ -783,192 +856,224 @@ package TOM is
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_IsEqual);
+   pragma Machine_Attribute (af_ITextPara_IsEqual, "ms_abi");
 
    type af_ITextPara_Reset is access
      function (This  : access ITextPara;
-               Value : Interfaces.C.long)
+               Value : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Reset);
+   pragma Machine_Attribute (af_ITextPara_Reset, "ms_abi");
 
    type af_ITextPara_Get_Style is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_Style);
+   pragma Machine_Attribute (af_ITextPara_Get_Style, "ms_abi");
 
    type af_ITextPara_Put_Style is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_Style);
+   pragma Machine_Attribute (af_ITextPara_Put_Style, "ms_abi");
 
    type af_ITextPara_Get_Alignment is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_Alignment);
+   pragma Machine_Attribute (af_ITextPara_Get_Alignment, "ms_abi");
 
    type af_ITextPara_Put_Alignment is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_Alignment);
+   pragma Machine_Attribute (af_ITextPara_Put_Alignment, "ms_abi");
 
    type af_ITextPara_Get_Hyphenation is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_Hyphenation);
+   pragma Machine_Attribute (af_ITextPara_Get_Hyphenation, "ms_abi");
 
    type af_ITextPara_Put_Hyphenation is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_Hyphenation);
+   pragma Machine_Attribute (af_ITextPara_Put_Hyphenation, "ms_abi");
 
    type af_ITextPara_Get_FirstLineIndent is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_FirstLineIndent);
+   pragma Machine_Attribute (af_ITextPara_Get_FirstLineIndent, "ms_abi");
 
    type af_ITextPara_Get_KeepTogether is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_KeepTogether);
+   pragma Machine_Attribute (af_ITextPara_Get_KeepTogether, "ms_abi");
 
    type af_ITextPara_Put_KeepTogether is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_KeepTogether);
+   pragma Machine_Attribute (af_ITextPara_Put_KeepTogether, "ms_abi");
 
    type af_ITextPara_Get_KeepWithNext is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_KeepWithNext);
+   pragma Machine_Attribute (af_ITextPara_Get_KeepWithNext, "ms_abi");
 
    type af_ITextPara_Put_KeepWithNext is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_KeepWithNext);
+   pragma Machine_Attribute (af_ITextPara_Put_KeepWithNext, "ms_abi");
 
    type af_ITextPara_Get_LeftIndent is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_LeftIndent);
+   pragma Machine_Attribute (af_ITextPara_Get_LeftIndent, "ms_abi");
 
    type af_ITextPara_Get_LineSpacing is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_LineSpacing);
+   pragma Machine_Attribute (af_ITextPara_Get_LineSpacing, "ms_abi");
 
    type af_ITextPara_Get_LineSpacingRule is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_LineSpacingRule);
+   pragma Machine_Attribute (af_ITextPara_Get_LineSpacingRule, "ms_abi");
 
    type af_ITextPara_Get_ListAlignment is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_ListAlignment);
+   pragma Machine_Attribute (af_ITextPara_Get_ListAlignment, "ms_abi");
 
    type af_ITextPara_Put_ListAlignment is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_ListAlignment);
+   pragma Machine_Attribute (af_ITextPara_Put_ListAlignment, "ms_abi");
 
    type af_ITextPara_Get_ListLevelIndex is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_ListLevelIndex);
+   pragma Machine_Attribute (af_ITextPara_Get_ListLevelIndex, "ms_abi");
 
    type af_ITextPara_Put_ListLevelIndex is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_ListLevelIndex);
+   pragma Machine_Attribute (af_ITextPara_Put_ListLevelIndex, "ms_abi");
 
    type af_ITextPara_Get_ListStart is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_ListStart);
+   pragma Machine_Attribute (af_ITextPara_Get_ListStart, "ms_abi");
 
    type af_ITextPara_Put_ListStart is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_ListStart);
+   pragma Machine_Attribute (af_ITextPara_Put_ListStart, "ms_abi");
 
    type af_ITextPara_Get_ListTab is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_ListTab);
+   pragma Machine_Attribute (af_ITextPara_Get_ListTab, "ms_abi");
 
    type af_ITextPara_Put_ListTab is access
      function (This   : access ITextPara;
                pValue : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_ListTab);
+   pragma Machine_Attribute (af_ITextPara_Put_ListTab, "ms_abi");
 
    type af_ITextPara_Get_ListType is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_ListType);
+   pragma Machine_Attribute (af_ITextPara_Get_ListType, "ms_abi");
 
    type af_ITextPara_Put_ListType is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_ListType);
+   pragma Machine_Attribute (af_ITextPara_Put_ListType, "ms_abi");
 
    type af_ITextPara_Get_NoLineNumber is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_NoLineNumber);
+   pragma Machine_Attribute (af_ITextPara_Get_NoLineNumber, "ms_abi");
 
    type af_ITextPara_Put_NoLineNumber is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_NoLineNumber);
+   pragma Machine_Attribute (af_ITextPara_Put_NoLineNumber, "ms_abi");
 
    type af_ITextPara_Get_PageBreakBefore is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_PageBreakBefore);
+   pragma Machine_Attribute (af_ITextPara_Get_PageBreakBefore, "ms_abi");
 
    type af_ITextPara_Put_PageBreakBefore is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_PageBreakBefore);
+   pragma Machine_Attribute (af_ITextPara_Put_PageBreakBefore, "ms_abi");
 
    type af_ITextPara_Get_RightIndent is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_RightIndent);
+   pragma Machine_Attribute (af_ITextPara_Get_RightIndent, "ms_abi");
 
    type af_ITextPara_Put_RightIndent is access
      function (This   : access ITextPara;
                pValue : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_RightIndent);
+   pragma Machine_Attribute (af_ITextPara_Put_RightIndent, "ms_abi");
 
    type af_ITextPara_SetIndents is access
      function (This        : access ITextPara;
@@ -977,83 +1082,96 @@ package TOM is
                RightIndent : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_SetIndents);
+   pragma Machine_Attribute (af_ITextPara_SetIndents, "ms_abi");
 
    type af_ITextPara_SetLineSpacing is access
      function (This            : access ITextPara;
-               LineSpacingRule : Interfaces.C.long;
+               LineSpacingRule : Win32_Types.Long;
                LineSpacing     : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_SetLineSpacing);
+   pragma Machine_Attribute (af_ITextPara_SetLineSpacing, "ms_abi");
 
    type af_ITextPara_Get_SpaceAfter is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_SpaceAfter);
+   pragma Machine_Attribute (af_ITextPara_Get_SpaceAfter, "ms_abi");
 
    type af_ITextPara_Put_SpaceAfter is access
      function (This   : access ITextPara;
                pValue : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_SpaceAfter);
+   pragma Machine_Attribute (af_ITextPara_Put_SpaceAfter, "ms_abi");
 
    type af_ITextPara_Get_SpaceBefore is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_SpaceBefore);
+   pragma Machine_Attribute (af_ITextPara_Get_SpaceBefore, "ms_abi");
 
    type af_ITextPara_Put_SpaceBefore is access
      function (This   : access ITextPara;
                pValue : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_SpaceBefore);
+   pragma Machine_Attribute (af_ITextPara_Put_SpaceBefore, "ms_abi");
 
    type af_ITextPara_Get_WidowControl is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_WidowControl);
+   pragma Machine_Attribute (af_ITextPara_Get_WidowControl, "ms_abi");
 
    type af_ITextPara_Put_WidowControl is access
      function (This   : access ITextPara;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Put_WidowControl);
+   pragma Machine_Attribute (af_ITextPara_Put_WidowControl, "ms_abi");
 
    type af_ITextPara_Get_TabCount is access
      function (This   : access ITextPara;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_Get_TabCount);
+   pragma Machine_Attribute (af_ITextPara_Get_TabCount, "ms_abi");
 
    type af_ITextPara_AddTab is access
      function (This     : access ITextPara;
                tbPos    : Interfaces.C.C_float;
-               tbAlign  : Interfaces.C.long;
-               tbLeader : Interfaces.C.long)
+               tbAlign  : Win32_Types.Long;
+               tbLeader : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_AddTab);
+   pragma Machine_Attribute (af_ITextPara_AddTab, "ms_abi");
 
    type af_ITextPara_ClearAllTabs is access
      function (This : access ITextPara)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_ClearAllTabs);
+   pragma Machine_Attribute (af_ITextPara_ClearAllTabs, "ms_abi");
 
    type af_ITextPara_DeleteTab is access
      function (This  : access ITextPara;
                tbPos : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_DeleteTab);
+   pragma Machine_Attribute (af_ITextPara_DeleteTab, "ms_abi");
 
    type af_ITextPara_GetTab is access
      function (This      : access ITextPara;
-               iTab      : Interfaces.C.long;
+               iTab      : Win32_Types.Long;
                ptbPos    : GNATCOM.Types.Pointer_To_C_float;
                ptbAlign  : GNATCOM.Types.Pointer_To_long;
                ptbLeader : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextPara_GetTab);
+   pragma Machine_Attribute (af_ITextPara_GetTab, "ms_abi");
 
    type ITextParaVtbl;
    type Pointer_To_ITextParaVtbl is access all ITextParaVtbl;
@@ -1194,46 +1312,52 @@ package TOM is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_QueryInterface);
+   pragma Machine_Attribute (af_ITextRange_QueryInterface, "ms_abi");
 
    type af_ITextRange_AddRef is access
      function (This : access ITextRange)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextRange_AddRef);
+   pragma Machine_Attribute (af_ITextRange_AddRef, "ms_abi");
 
    type af_ITextRange_Release is access
      function (This : access ITextRange)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextRange_Release);
+   pragma Machine_Attribute (af_ITextRange_Release, "ms_abi");
 
    type af_ITextRange_GetTypeInfoCount is access
      function (This    : access ITextRange;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_GetTypeInfoCount);
+   pragma Machine_Attribute (af_ITextRange_GetTypeInfoCount, "ms_abi");
 
    type af_ITextRange_GetTypeInfo is access
      function (This    : access ITextRange;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_GetTypeInfo);
+   pragma Machine_Attribute (af_ITextRange_GetTypeInfo, "ms_abi");
 
    type af_ITextRange_GetIDsOfNames is access
      function (This      : access ITextRange;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_GetIDsOfNames);
+   pragma Machine_Attribute (af_ITextRange_GetIDsOfNames, "ms_abi");
 
    type af_ITextRange_Invoke is access
      function (This         : access ITextRange;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -1241,143 +1365,166 @@ package TOM is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Invoke);
+   pragma Machine_Attribute (af_ITextRange_Invoke, "ms_abi");
 
    type af_ITextRange_Get_Text is access
      function (This  : access ITextRange;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Get_Text);
+   pragma Machine_Attribute (af_ITextRange_Get_Text, "ms_abi");
 
    type af_ITextRange_Put_Text is access
      function (This  : access ITextRange;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Put_Text);
+   pragma Machine_Attribute (af_ITextRange_Put_Text, "ms_abi");
 
    type af_ITextRange_Get_Char is access
      function (This : access ITextRange;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Get_Char);
+   pragma Machine_Attribute (af_ITextRange_Get_Char, "ms_abi");
 
    type af_ITextRange_Put_Char is access
      function (This : access ITextRange;
-               pch  : Interfaces.C.long)
+               pch  : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Put_Char);
+   pragma Machine_Attribute (af_ITextRange_Put_Char, "ms_abi");
 
    type af_ITextRange_Get_Duplicate is access
      function (This    : access ITextRange;
                RetVal : Pointer_To_Pointer_To_ITextRange)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Get_Duplicate);
+   pragma Machine_Attribute (af_ITextRange_Get_Duplicate, "ms_abi");
 
    type af_ITextRange_Get_FormattedText is access
      function (This    : access ITextRange;
                RetVal : Pointer_To_Pointer_To_ITextRange)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Get_FormattedText);
+   pragma Machine_Attribute (af_ITextRange_Get_FormattedText, "ms_abi");
 
    type af_ITextRange_Put_FormattedText is access
      function (This    : access ITextRange;
                ppRange : Pointer_To_ITextRange)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Put_FormattedText);
+   pragma Machine_Attribute (af_ITextRange_Put_FormattedText, "ms_abi");
 
    type af_ITextRange_Get_Start is access
      function (This     : access ITextRange;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Get_Start);
+   pragma Machine_Attribute (af_ITextRange_Get_Start, "ms_abi");
 
    type af_ITextRange_Put_Start is access
      function (This     : access ITextRange;
-               pcpFirst : Interfaces.C.long)
+               pcpFirst : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Put_Start);
+   pragma Machine_Attribute (af_ITextRange_Put_Start, "ms_abi");
 
    type af_ITextRange_Get_End is access
      function (This   : access ITextRange;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Get_End);
+   pragma Machine_Attribute (af_ITextRange_Get_End, "ms_abi");
 
    type af_ITextRange_Put_End is access
      function (This   : access ITextRange;
-               pcpLim : Interfaces.C.long)
+               pcpLim : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Put_End);
+   pragma Machine_Attribute (af_ITextRange_Put_End, "ms_abi");
 
    type af_ITextRange_Get_Font is access
      function (This  : access ITextRange;
                RetVal : Pointer_To_Pointer_To_ITextFont)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Get_Font);
+   pragma Machine_Attribute (af_ITextRange_Get_Font, "ms_abi");
 
    type af_ITextRange_Put_Font is access
      function (This  : access ITextRange;
                pFont : Pointer_To_ITextFont)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Put_Font);
+   pragma Machine_Attribute (af_ITextRange_Put_Font, "ms_abi");
 
    type af_ITextRange_Get_Para is access
      function (This  : access ITextRange;
                RetVal : Pointer_To_Pointer_To_ITextPara)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Get_Para);
+   pragma Machine_Attribute (af_ITextRange_Get_Para, "ms_abi");
 
    type af_ITextRange_Put_Para is access
      function (This  : access ITextRange;
                pPara : Pointer_To_ITextPara)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Put_Para);
+   pragma Machine_Attribute (af_ITextRange_Put_Para, "ms_abi");
 
    type af_ITextRange_Get_StoryLength is access
      function (This : access ITextRange;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Get_StoryLength);
+   pragma Machine_Attribute (af_ITextRange_Get_StoryLength, "ms_abi");
 
    type af_ITextRange_Get_StoryType is access
      function (This   : access ITextRange;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Get_StoryType);
+   pragma Machine_Attribute (af_ITextRange_Get_StoryType, "ms_abi");
 
    type af_ITextRange_Collapse is access
      function (This   : access ITextRange;
-               bStart : Interfaces.C.long)
+               bStart : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Collapse);
+   pragma Machine_Attribute (af_ITextRange_Collapse, "ms_abi");
 
    type af_ITextRange_Expand is access
      function (This   : access ITextRange;
-               Unit   : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Expand);
+   pragma Machine_Attribute (af_ITextRange_Expand, "ms_abi");
 
    type af_ITextRange_GetIndex is access
      function (This   : access ITextRange;
-               Unit   : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_GetIndex);
+   pragma Machine_Attribute (af_ITextRange_GetIndex, "ms_abi");
 
    type af_ITextRange_SetIndex is access
      function (This   : access ITextRange;
-               Unit   : Interfaces.C.long;
-               Index  : Interfaces.C.long;
-               Extend : Interfaces.C.long)
+               Unit   : Win32_Types.Long;
+               Index  : Win32_Types.Long;
+               Extend : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_SetIndex);
+   pragma Machine_Attribute (af_ITextRange_SetIndex, "ms_abi");
 
    type af_ITextRange_SetRange is access
      function (This     : access ITextRange;
-               cpActive : Interfaces.C.long;
-               cpOther  : Interfaces.C.long)
+               cpActive : Win32_Types.Long;
+               cpOther  : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_SetRange);
+   pragma Machine_Attribute (af_ITextRange_SetRange, "ms_abi");
 
    type af_ITextRange_InRange is access
      function (This   : access ITextRange;
@@ -1385,6 +1532,7 @@ package TOM is
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_InRange);
+   pragma Machine_Attribute (af_ITextRange_InRange, "ms_abi");
 
    type af_ITextRange_InStory is access
      function (This   : access ITextRange;
@@ -1392,6 +1540,7 @@ package TOM is
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_InStory);
+   pragma Machine_Attribute (af_ITextRange_InStory, "ms_abi");
 
    type af_ITextRange_IsEqual is access
      function (This   : access ITextRange;
@@ -1399,202 +1548,229 @@ package TOM is
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_IsEqual);
+   pragma Machine_Attribute (af_ITextRange_IsEqual, "ms_abi");
 
    type af_ITextRange_uSelect is access
      function (This : access ITextRange)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_uSelect);
+   pragma Machine_Attribute (af_ITextRange_uSelect, "ms_abi");
 
    type af_ITextRange_StartOf is access
      function (This   : access ITextRange;
-               Unit   : Interfaces.C.long;
-               Extend : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Extend : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_StartOf);
+   pragma Machine_Attribute (af_ITextRange_StartOf, "ms_abi");
 
    type af_ITextRange_EndOf is access
      function (This   : access ITextRange;
-               Unit   : Interfaces.C.long;
-               Extend : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Extend : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_EndOf);
+   pragma Machine_Attribute (af_ITextRange_EndOf, "ms_abi");
 
    type af_ITextRange_Move is access
      function (This   : access ITextRange;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Move);
+   pragma Machine_Attribute (af_ITextRange_Move, "ms_abi");
 
    type af_ITextRange_MoveStart is access
      function (This   : access ITextRange;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_MoveStart);
+   pragma Machine_Attribute (af_ITextRange_MoveStart, "ms_abi");
 
    type af_ITextRange_MoveEnd is access
      function (This   : access ITextRange;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_MoveEnd);
+   pragma Machine_Attribute (af_ITextRange_MoveEnd, "ms_abi");
 
    type af_ITextRange_MoveWhile is access
      function (This   : access ITextRange;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_MoveWhile);
+   pragma Machine_Attribute (af_ITextRange_MoveWhile, "ms_abi");
 
    type af_ITextRange_MoveStartWhile is access
      function (This   : access ITextRange;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_MoveStartWhile);
+   pragma Machine_Attribute (af_ITextRange_MoveStartWhile, "ms_abi");
 
    type af_ITextRange_MoveEndWhile is access
      function (This   : access ITextRange;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_MoveEndWhile);
+   pragma Machine_Attribute (af_ITextRange_MoveEndWhile, "ms_abi");
 
    type af_ITextRange_MoveUntil is access
      function (This   : access ITextRange;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_MoveUntil);
+   pragma Machine_Attribute (af_ITextRange_MoveUntil, "ms_abi");
 
    type af_ITextRange_MoveStartUntil is access
      function (This   : access ITextRange;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_MoveStartUntil);
+   pragma Machine_Attribute (af_ITextRange_MoveStartUntil, "ms_abi");
 
    type af_ITextRange_MoveEndUntil is access
      function (This   : access ITextRange;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_MoveEndUntil);
+   pragma Machine_Attribute (af_ITextRange_MoveEndUntil, "ms_abi");
 
    type af_ITextRange_FindText is access
      function (This    : access ITextRange;
                bstr    : GNATCOM.Types.BSTR;
-               cch     : Interfaces.C.long;
-               Flags   : Interfaces.C.long;
+               cch     : Win32_Types.Long;
+               Flags   : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_FindText);
+   pragma Machine_Attribute (af_ITextRange_FindText, "ms_abi");
 
    type af_ITextRange_FindTextStart is access
      function (This    : access ITextRange;
                bstr    : GNATCOM.Types.BSTR;
-               cch     : Interfaces.C.long;
-               Flags   : Interfaces.C.long;
+               cch     : Win32_Types.Long;
+               Flags   : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_FindTextStart);
+   pragma Machine_Attribute (af_ITextRange_FindTextStart, "ms_abi");
 
    type af_ITextRange_FindTextEnd is access
      function (This    : access ITextRange;
                bstr    : GNATCOM.Types.BSTR;
-               cch     : Interfaces.C.long;
-               Flags   : Interfaces.C.long;
+               cch     : Win32_Types.Long;
+               Flags   : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_FindTextEnd);
+   pragma Machine_Attribute (af_ITextRange_FindTextEnd, "ms_abi");
 
    type af_ITextRange_Delete is access
      function (This   : access ITextRange;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Delete);
+   pragma Machine_Attribute (af_ITextRange_Delete, "ms_abi");
 
    type af_ITextRange_Cut is access
      function (This : access ITextRange;
                pVar : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Cut);
+   pragma Machine_Attribute (af_ITextRange_Cut, "ms_abi");
 
    type af_ITextRange_Copy is access
      function (This : access ITextRange;
                pVar : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Copy);
+   pragma Machine_Attribute (af_ITextRange_Copy, "ms_abi");
 
    type af_ITextRange_Paste is access
      function (This   : access ITextRange;
                pVar   : access GNATCOM.Types.VARIANT;
-               Format : Interfaces.C.long)
+               Format : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_Paste);
+   pragma Machine_Attribute (af_ITextRange_Paste, "ms_abi");
 
    type af_ITextRange_CanPaste is access
      function (This   : access ITextRange;
                pVar   : access GNATCOM.Types.VARIANT;
-               Format : Interfaces.C.long;
+               Format : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_CanPaste);
+   pragma Machine_Attribute (af_ITextRange_CanPaste, "ms_abi");
 
    type af_ITextRange_CanEdit is access
      function (This      : access ITextRange;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_CanEdit);
+   pragma Machine_Attribute (af_ITextRange_CanEdit, "ms_abi");
 
    type af_ITextRange_ChangeCase is access
      function (This  : access ITextRange;
-               uType : Interfaces.C.long)
+               uType : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_ChangeCase);
+   pragma Machine_Attribute (af_ITextRange_ChangeCase, "ms_abi");
 
    type af_ITextRange_GetPoint is access
      function (This  : access ITextRange;
-               uType : Interfaces.C.long;
+               uType : Win32_Types.Long;
                px    : GNATCOM.Types.Pointer_To_long;
                py    : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_GetPoint);
+   pragma Machine_Attribute (af_ITextRange_GetPoint, "ms_abi");
 
    type af_ITextRange_SetPoint is access
      function (This   : access ITextRange;
-               x      : Interfaces.C.long;
-               y      : Interfaces.C.long;
-               uType  : Interfaces.C.long;
-               Extend : Interfaces.C.long)
+               x      : Win32_Types.Long;
+               y      : Win32_Types.Long;
+               uType  : Win32_Types.Long;
+               Extend : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_SetPoint);
+   pragma Machine_Attribute (af_ITextRange_SetPoint, "ms_abi");
 
    type af_ITextRange_ScrollIntoView is access
      function (This  : access ITextRange;
-               Value : Interfaces.C.long)
+               Value : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_ScrollIntoView);
+   pragma Machine_Attribute (af_ITextRange_ScrollIntoView, "ms_abi");
 
    type af_ITextRange_GetEmbeddedObject is access
      function (This : access ITextRange;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextRange_GetEmbeddedObject);
+   pragma Machine_Attribute (af_ITextRange_GetEmbeddedObject, "ms_abi");
 
    type ITextRangeVtbl;
    type Pointer_To_ITextRangeVtbl is access all ITextRangeVtbl;
@@ -1741,46 +1917,52 @@ package TOM is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_QueryInterface);
+   pragma Machine_Attribute (af_ITextSelection_QueryInterface, "ms_abi");
 
    type af_ITextSelection_AddRef is access
      function (This : access ITextSelection)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextSelection_AddRef);
+   pragma Machine_Attribute (af_ITextSelection_AddRef, "ms_abi");
 
    type af_ITextSelection_Release is access
      function (This : access ITextSelection)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextSelection_Release);
+   pragma Machine_Attribute (af_ITextSelection_Release, "ms_abi");
 
    type af_ITextSelection_GetTypeInfoCount is access
      function (This    : access ITextSelection;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_GetTypeInfoCount);
+   pragma Machine_Attribute (af_ITextSelection_GetTypeInfoCount, "ms_abi");
 
    type af_ITextSelection_GetTypeInfo is access
      function (This    : access ITextSelection;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_GetTypeInfo);
+   pragma Machine_Attribute (af_ITextSelection_GetTypeInfo, "ms_abi");
 
    type af_ITextSelection_GetIDsOfNames is access
      function (This      : access ITextSelection;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_GetIDsOfNames);
+   pragma Machine_Attribute (af_ITextSelection_GetIDsOfNames, "ms_abi");
 
    type af_ITextSelection_Invoke is access
      function (This         : access ITextSelection;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -1788,143 +1970,166 @@ package TOM is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Invoke);
+   pragma Machine_Attribute (af_ITextSelection_Invoke, "ms_abi");
 
    type af_ITextSelection_Get_Text is access
      function (This  : access ITextSelection;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_Text);
+   pragma Machine_Attribute (af_ITextSelection_Get_Text, "ms_abi");
 
    type af_ITextSelection_Put_Text is access
      function (This  : access ITextSelection;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Put_Text);
+   pragma Machine_Attribute (af_ITextSelection_Put_Text, "ms_abi");
 
    type af_ITextSelection_Get_Char is access
      function (This : access ITextSelection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_Char);
+   pragma Machine_Attribute (af_ITextSelection_Get_Char, "ms_abi");
 
    type af_ITextSelection_Put_Char is access
      function (This : access ITextSelection;
-               pch  : Interfaces.C.long)
+               pch  : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Put_Char);
+   pragma Machine_Attribute (af_ITextSelection_Put_Char, "ms_abi");
 
    type af_ITextSelection_Get_Duplicate is access
      function (This    : access ITextSelection;
                RetVal : Pointer_To_Pointer_To_ITextRange)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_Duplicate);
+   pragma Machine_Attribute (af_ITextSelection_Get_Duplicate, "ms_abi");
 
    type af_ITextSelection_Get_FormattedText is access
      function (This    : access ITextSelection;
                RetVal : Pointer_To_Pointer_To_ITextRange)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_FormattedText);
+   pragma Machine_Attribute (af_ITextSelection_Get_FormattedText, "ms_abi");
 
    type af_ITextSelection_Put_FormattedText is access
      function (This    : access ITextSelection;
                ppRange : Pointer_To_ITextRange)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Put_FormattedText);
+   pragma Machine_Attribute (af_ITextSelection_Put_FormattedText, "ms_abi");
 
    type af_ITextSelection_Get_Start is access
      function (This     : access ITextSelection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_Start);
+   pragma Machine_Attribute (af_ITextSelection_Get_Start, "ms_abi");
 
    type af_ITextSelection_Put_Start is access
      function (This     : access ITextSelection;
-               pcpFirst : Interfaces.C.long)
+               pcpFirst : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Put_Start);
+   pragma Machine_Attribute (af_ITextSelection_Put_Start, "ms_abi");
 
    type af_ITextSelection_Get_End is access
      function (This   : access ITextSelection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_End);
+   pragma Machine_Attribute (af_ITextSelection_Get_End, "ms_abi");
 
    type af_ITextSelection_Put_End is access
      function (This   : access ITextSelection;
-               pcpLim : Interfaces.C.long)
+               pcpLim : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Put_End);
+   pragma Machine_Attribute (af_ITextSelection_Put_End, "ms_abi");
 
    type af_ITextSelection_Get_Font is access
      function (This  : access ITextSelection;
                RetVal : Pointer_To_Pointer_To_ITextFont)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_Font);
+   pragma Machine_Attribute (af_ITextSelection_Get_Font, "ms_abi");
 
    type af_ITextSelection_Put_Font is access
      function (This  : access ITextSelection;
                pFont : Pointer_To_ITextFont)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Put_Font);
+   pragma Machine_Attribute (af_ITextSelection_Put_Font, "ms_abi");
 
    type af_ITextSelection_Get_Para is access
      function (This  : access ITextSelection;
                RetVal : Pointer_To_Pointer_To_ITextPara)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_Para);
+   pragma Machine_Attribute (af_ITextSelection_Get_Para, "ms_abi");
 
    type af_ITextSelection_Put_Para is access
      function (This  : access ITextSelection;
                pPara : Pointer_To_ITextPara)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Put_Para);
+   pragma Machine_Attribute (af_ITextSelection_Put_Para, "ms_abi");
 
    type af_ITextSelection_Get_StoryLength is access
      function (This : access ITextSelection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_StoryLength);
+   pragma Machine_Attribute (af_ITextSelection_Get_StoryLength, "ms_abi");
 
    type af_ITextSelection_Get_StoryType is access
      function (This   : access ITextSelection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_StoryType);
+   pragma Machine_Attribute (af_ITextSelection_Get_StoryType, "ms_abi");
 
    type af_ITextSelection_Collapse is access
      function (This   : access ITextSelection;
-               bStart : Interfaces.C.long)
+               bStart : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Collapse);
+   pragma Machine_Attribute (af_ITextSelection_Collapse, "ms_abi");
 
    type af_ITextSelection_Expand is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Expand);
+   pragma Machine_Attribute (af_ITextSelection_Expand, "ms_abi");
 
    type af_ITextSelection_GetIndex is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_GetIndex);
+   pragma Machine_Attribute (af_ITextSelection_GetIndex, "ms_abi");
 
    type af_ITextSelection_SetIndex is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Index  : Interfaces.C.long;
-               Extend : Interfaces.C.long)
+               Unit   : Win32_Types.Long;
+               Index  : Win32_Types.Long;
+               Extend : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_SetIndex);
+   pragma Machine_Attribute (af_ITextSelection_SetIndex, "ms_abi");
 
    type af_ITextSelection_SetRange is access
      function (This     : access ITextSelection;
-               cpActive : Interfaces.C.long;
-               cpOther  : Interfaces.C.long)
+               cpActive : Win32_Types.Long;
+               cpOther  : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_SetRange);
+   pragma Machine_Attribute (af_ITextSelection_SetRange, "ms_abi");
 
    type af_ITextSelection_InRange is access
      function (This   : access ITextSelection;
@@ -1932,6 +2137,7 @@ package TOM is
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_InRange);
+   pragma Machine_Attribute (af_ITextSelection_InRange, "ms_abi");
 
    type af_ITextSelection_InStory is access
      function (This   : access ITextSelection;
@@ -1939,6 +2145,7 @@ package TOM is
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_InStory);
+   pragma Machine_Attribute (af_ITextSelection_InStory, "ms_abi");
 
    type af_ITextSelection_IsEqual is access
      function (This   : access ITextSelection;
@@ -1946,278 +2153,315 @@ package TOM is
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_IsEqual);
+   pragma Machine_Attribute (af_ITextSelection_IsEqual, "ms_abi");
 
    type af_ITextSelection_uSelect is access
      function (This : access ITextSelection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_uSelect);
+   pragma Machine_Attribute (af_ITextSelection_uSelect, "ms_abi");
 
    type af_ITextSelection_StartOf is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Extend : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Extend : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_StartOf);
+   pragma Machine_Attribute (af_ITextSelection_StartOf, "ms_abi");
 
    type af_ITextSelection_EndOf is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Extend : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Extend : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_EndOf);
+   pragma Machine_Attribute (af_ITextSelection_EndOf, "ms_abi");
 
    type af_ITextSelection_Move is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Move);
+   pragma Machine_Attribute (af_ITextSelection_Move, "ms_abi");
 
    type af_ITextSelection_MoveStart is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveStart);
+   pragma Machine_Attribute (af_ITextSelection_MoveStart, "ms_abi");
 
    type af_ITextSelection_MoveEnd is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveEnd);
+   pragma Machine_Attribute (af_ITextSelection_MoveEnd, "ms_abi");
 
    type af_ITextSelection_MoveWhile is access
      function (This   : access ITextSelection;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveWhile);
+   pragma Machine_Attribute (af_ITextSelection_MoveWhile, "ms_abi");
 
    type af_ITextSelection_MoveStartWhile is access
      function (This   : access ITextSelection;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveStartWhile);
+   pragma Machine_Attribute (af_ITextSelection_MoveStartWhile, "ms_abi");
 
    type af_ITextSelection_MoveEndWhile is access
      function (This   : access ITextSelection;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveEndWhile);
+   pragma Machine_Attribute (af_ITextSelection_MoveEndWhile, "ms_abi");
 
    type af_ITextSelection_MoveUntil is access
      function (This   : access ITextSelection;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveUntil);
+   pragma Machine_Attribute (af_ITextSelection_MoveUntil, "ms_abi");
 
    type af_ITextSelection_MoveStartUntil is access
      function (This   : access ITextSelection;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveStartUntil);
+   pragma Machine_Attribute (af_ITextSelection_MoveStartUntil, "ms_abi");
 
    type af_ITextSelection_MoveEndUntil is access
      function (This   : access ITextSelection;
                Cset   : access GNATCOM.Types.VARIANT;
-               Count  : Interfaces.C.long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveEndUntil);
+   pragma Machine_Attribute (af_ITextSelection_MoveEndUntil, "ms_abi");
 
    type af_ITextSelection_FindText is access
      function (This    : access ITextSelection;
                bstr    : GNATCOM.Types.BSTR;
-               cch     : Interfaces.C.long;
-               Flags   : Interfaces.C.long;
+               cch     : Win32_Types.Long;
+               Flags   : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_FindText);
+   pragma Machine_Attribute (af_ITextSelection_FindText, "ms_abi");
 
    type af_ITextSelection_FindTextStart is access
      function (This    : access ITextSelection;
                bstr    : GNATCOM.Types.BSTR;
-               cch     : Interfaces.C.long;
-               Flags   : Interfaces.C.long;
+               cch     : Win32_Types.Long;
+               Flags   : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_FindTextStart);
+   pragma Machine_Attribute (af_ITextSelection_FindTextStart, "ms_abi");
 
    type af_ITextSelection_FindTextEnd is access
      function (This    : access ITextSelection;
                bstr    : GNATCOM.Types.BSTR;
-               cch     : Interfaces.C.long;
-               Flags   : Interfaces.C.long;
+               cch     : Win32_Types.Long;
+               Flags   : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_FindTextEnd);
+   pragma Machine_Attribute (af_ITextSelection_FindTextEnd, "ms_abi");
 
    type af_ITextSelection_Delete is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Delete);
+   pragma Machine_Attribute (af_ITextSelection_Delete, "ms_abi");
 
    type af_ITextSelection_Cut is access
      function (This : access ITextSelection;
                pVar : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Cut);
+   pragma Machine_Attribute (af_ITextSelection_Cut, "ms_abi");
 
    type af_ITextSelection_Copy is access
      function (This : access ITextSelection;
                pVar : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Copy);
+   pragma Machine_Attribute (af_ITextSelection_Copy, "ms_abi");
 
    type af_ITextSelection_Paste is access
      function (This   : access ITextSelection;
                pVar   : access GNATCOM.Types.VARIANT;
-               Format : Interfaces.C.long)
+               Format : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Paste);
+   pragma Machine_Attribute (af_ITextSelection_Paste, "ms_abi");
 
    type af_ITextSelection_CanPaste is access
      function (This   : access ITextSelection;
                pVar   : access GNATCOM.Types.VARIANT;
-               Format : Interfaces.C.long;
+               Format : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_CanPaste);
+   pragma Machine_Attribute (af_ITextSelection_CanPaste, "ms_abi");
 
    type af_ITextSelection_CanEdit is access
      function (This      : access ITextSelection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_CanEdit);
+   pragma Machine_Attribute (af_ITextSelection_CanEdit, "ms_abi");
 
    type af_ITextSelection_ChangeCase is access
      function (This  : access ITextSelection;
-               uType : Interfaces.C.long)
+               uType : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_ChangeCase);
+   pragma Machine_Attribute (af_ITextSelection_ChangeCase, "ms_abi");
 
    type af_ITextSelection_GetPoint is access
      function (This  : access ITextSelection;
-               uType : Interfaces.C.long;
+               uType : Win32_Types.Long;
                px    : GNATCOM.Types.Pointer_To_long;
                py    : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_GetPoint);
+   pragma Machine_Attribute (af_ITextSelection_GetPoint, "ms_abi");
 
    type af_ITextSelection_SetPoint is access
      function (This   : access ITextSelection;
-               x      : Interfaces.C.long;
-               y      : Interfaces.C.long;
-               uType  : Interfaces.C.long;
-               Extend : Interfaces.C.long)
+               x      : Win32_Types.Long;
+               y      : Win32_Types.Long;
+               uType  : Win32_Types.Long;
+               Extend : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_SetPoint);
+   pragma Machine_Attribute (af_ITextSelection_SetPoint, "ms_abi");
 
    type af_ITextSelection_ScrollIntoView is access
      function (This  : access ITextSelection;
-               Value : Interfaces.C.long)
+               Value : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_ScrollIntoView);
+   pragma Machine_Attribute (af_ITextSelection_ScrollIntoView, "ms_abi");
 
    type af_ITextSelection_GetEmbeddedObject is access
      function (This : access ITextSelection;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_GetEmbeddedObject);
+   pragma Machine_Attribute (af_ITextSelection_GetEmbeddedObject, "ms_abi");
 
    type af_ITextSelection_Get_Flags is access
      function (This   : access ITextSelection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_Flags);
+   pragma Machine_Attribute (af_ITextSelection_Get_Flags, "ms_abi");
 
    type af_ITextSelection_Put_Flags is access
      function (This   : access ITextSelection;
-               pFlags : Interfaces.C.long)
+               pFlags : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Put_Flags);
+   pragma Machine_Attribute (af_ITextSelection_Put_Flags, "ms_abi");
 
    type af_ITextSelection_Get_Type is access
      function (This  : access ITextSelection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_Get_Type);
+   pragma Machine_Attribute (af_ITextSelection_Get_Type, "ms_abi");
 
    type af_ITextSelection_MoveLeft is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
-               Extend : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
+               Extend : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveLeft);
+   pragma Machine_Attribute (af_ITextSelection_MoveLeft, "ms_abi");
 
    type af_ITextSelection_MoveRight is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
-               Extend : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
+               Extend : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveRight);
+   pragma Machine_Attribute (af_ITextSelection_MoveRight, "ms_abi");
 
    type af_ITextSelection_MoveUp is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
-               Extend : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
+               Extend : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveUp);
+   pragma Machine_Attribute (af_ITextSelection_MoveUp, "ms_abi");
 
    type af_ITextSelection_MoveDown is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Count  : Interfaces.C.long;
-               Extend : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Count  : Win32_Types.Long;
+               Extend : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_MoveDown);
+   pragma Machine_Attribute (af_ITextSelection_MoveDown, "ms_abi");
 
    type af_ITextSelection_HomeKey is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Extend : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Extend : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_HomeKey);
+   pragma Machine_Attribute (af_ITextSelection_HomeKey, "ms_abi");
 
    type af_ITextSelection_EndKey is access
      function (This   : access ITextSelection;
-               Unit   : Interfaces.C.long;
-               Extend : Interfaces.C.long;
+               Unit   : Win32_Types.Long;
+               Extend : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_EndKey);
+   pragma Machine_Attribute (af_ITextSelection_EndKey, "ms_abi");
 
    type af_ITextSelection_TypeText is access
      function (This : access ITextSelection;
                bstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextSelection_TypeText);
+   pragma Machine_Attribute (af_ITextSelection_TypeText, "ms_abi");
 
    type ITextSelectionVtbl;
    type Pointer_To_ITextSelectionVtbl is access all ITextSelectionVtbl;
@@ -2384,46 +2628,52 @@ package TOM is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextStoryRanges_QueryInterface);
+   pragma Machine_Attribute (af_ITextStoryRanges_QueryInterface, "ms_abi");
 
    type af_ITextStoryRanges_AddRef is access
      function (This : access ITextStoryRanges)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextStoryRanges_AddRef);
+   pragma Machine_Attribute (af_ITextStoryRanges_AddRef, "ms_abi");
 
    type af_ITextStoryRanges_Release is access
      function (This : access ITextStoryRanges)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextStoryRanges_Release);
+   pragma Machine_Attribute (af_ITextStoryRanges_Release, "ms_abi");
 
    type af_ITextStoryRanges_GetTypeInfoCount is access
      function (This    : access ITextStoryRanges;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextStoryRanges_GetTypeInfoCount);
+   pragma Machine_Attribute (af_ITextStoryRanges_GetTypeInfoCount, "ms_abi");
 
    type af_ITextStoryRanges_GetTypeInfo is access
      function (This    : access ITextStoryRanges;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextStoryRanges_GetTypeInfo);
+   pragma Machine_Attribute (af_ITextStoryRanges_GetTypeInfo, "ms_abi");
 
    type af_ITextStoryRanges_GetIDsOfNames is access
      function (This      : access ITextStoryRanges;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextStoryRanges_GetIDsOfNames);
+   pragma Machine_Attribute (af_ITextStoryRanges_GetIDsOfNames, "ms_abi");
 
    type af_ITextStoryRanges_Invoke is access
      function (This         : access ITextStoryRanges;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -2431,25 +2681,29 @@ package TOM is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextStoryRanges_Invoke);
+   pragma Machine_Attribute (af_ITextStoryRanges_Invoke, "ms_abi");
 
    type af_ITextStoryRanges_uNewEnum is access
      function (This      : access ITextStoryRanges;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextStoryRanges_uNewEnum);
+   pragma Machine_Attribute (af_ITextStoryRanges_uNewEnum, "ms_abi");
 
    type af_ITextStoryRanges_Item is access
      function (This    : access ITextStoryRanges;
-               Index   : Interfaces.C.long;
+               Index   : Win32_Types.Long;
                RetVal : Pointer_To_Pointer_To_ITextRange)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextStoryRanges_Item);
+   pragma Machine_Attribute (af_ITextStoryRanges_Item, "ms_abi");
 
    type af_ITextStoryRanges_Get_Count is access
      function (This   : access ITextStoryRanges;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextStoryRanges_Get_Count);
+   pragma Machine_Attribute (af_ITextStoryRanges_Get_Count, "ms_abi");
 
    type ITextStoryRangesVtbl;
    type Pointer_To_ITextStoryRangesVtbl is access all ITextStoryRangesVtbl;
@@ -2500,46 +2754,52 @@ package TOM is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_QueryInterface);
+   pragma Machine_Attribute (af_ITextDocument_QueryInterface, "ms_abi");
 
    type af_ITextDocument_AddRef is access
      function (This : access ITextDocument)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextDocument_AddRef);
+   pragma Machine_Attribute (af_ITextDocument_AddRef, "ms_abi");
 
    type af_ITextDocument_Release is access
      function (This : access ITextDocument)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITextDocument_Release);
+   pragma Machine_Attribute (af_ITextDocument_Release, "ms_abi");
 
    type af_ITextDocument_GetTypeInfoCount is access
      function (This    : access ITextDocument;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_GetTypeInfoCount);
+   pragma Machine_Attribute (af_ITextDocument_GetTypeInfoCount, "ms_abi");
 
    type af_ITextDocument_GetTypeInfo is access
      function (This    : access ITextDocument;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_GetTypeInfo);
+   pragma Machine_Attribute (af_ITextDocument_GetTypeInfo, "ms_abi");
 
    type af_ITextDocument_GetIDsOfNames is access
      function (This      : access ITextDocument;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_GetIDsOfNames);
+   pragma Machine_Attribute (af_ITextDocument_GetIDsOfNames, "ms_abi");
 
    type af_ITextDocument_Invoke is access
      function (This         : access ITextDocument;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -2547,127 +2807,147 @@ package TOM is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Invoke);
+   pragma Machine_Attribute (af_ITextDocument_Invoke, "ms_abi");
 
    type af_ITextDocument_Get_Name is access
      function (This  : access ITextDocument;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Get_Name);
+   pragma Machine_Attribute (af_ITextDocument_Get_Name, "ms_abi");
 
    type af_ITextDocument_Get_Selection is access
      function (This  : access ITextDocument;
                RetVal : Pointer_To_Pointer_To_ITextSelection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Get_Selection);
+   pragma Machine_Attribute (af_ITextDocument_Get_Selection, "ms_abi");
 
    type af_ITextDocument_Get_StoryCount is access
      function (This   : access ITextDocument;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Get_StoryCount);
+   pragma Machine_Attribute (af_ITextDocument_Get_StoryCount, "ms_abi");
 
    type af_ITextDocument_Get_StoryRanges is access
      function (This      : access ITextDocument;
                RetVal : Pointer_To_Pointer_To_ITextStoryRanges)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Get_StoryRanges);
+   pragma Machine_Attribute (af_ITextDocument_Get_StoryRanges, "ms_abi");
 
    type af_ITextDocument_Get_Saved is access
      function (This   : access ITextDocument;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Get_Saved);
+   pragma Machine_Attribute (af_ITextDocument_Get_Saved, "ms_abi");
 
    type af_ITextDocument_Put_Saved is access
      function (This   : access ITextDocument;
-               pValue : Interfaces.C.long)
+               pValue : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Put_Saved);
+   pragma Machine_Attribute (af_ITextDocument_Put_Saved, "ms_abi");
 
    type af_ITextDocument_Get_DefaultTabStop is access
      function (This   : access ITextDocument;
                RetVal : GNATCOM.Types.Pointer_To_C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Get_DefaultTabStop);
+   pragma Machine_Attribute (af_ITextDocument_Get_DefaultTabStop, "ms_abi");
 
    type af_ITextDocument_Put_DefaultTabStop is access
      function (This   : access ITextDocument;
                pValue : Interfaces.C.C_float)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Put_DefaultTabStop);
+   pragma Machine_Attribute (af_ITextDocument_Put_DefaultTabStop, "ms_abi");
 
    type af_ITextDocument_uNew is access
      function (This : access ITextDocument)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_uNew);
+   pragma Machine_Attribute (af_ITextDocument_uNew, "ms_abi");
 
    type af_ITextDocument_Open is access
      function (This     : access ITextDocument;
                pVar     : access GNATCOM.Types.VARIANT;
-               Flags    : Interfaces.C.long;
-               CodePage : Interfaces.C.long)
+               Flags    : Win32_Types.Long;
+               CodePage : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Open);
+   pragma Machine_Attribute (af_ITextDocument_Open, "ms_abi");
 
    type af_ITextDocument_Save is access
      function (This     : access ITextDocument;
                pVar     : access GNATCOM.Types.VARIANT;
-               Flags    : Interfaces.C.long;
-               CodePage : Interfaces.C.long)
+               Flags    : Win32_Types.Long;
+               CodePage : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Save);
+   pragma Machine_Attribute (af_ITextDocument_Save, "ms_abi");
 
    type af_ITextDocument_Freeze is access
      function (This   : access ITextDocument;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Freeze);
+   pragma Machine_Attribute (af_ITextDocument_Freeze, "ms_abi");
 
    type af_ITextDocument_Unfreeze is access
      function (This   : access ITextDocument;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Unfreeze);
+   pragma Machine_Attribute (af_ITextDocument_Unfreeze, "ms_abi");
 
    type af_ITextDocument_BeginEditCollection is access
      function (This : access ITextDocument)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_BeginEditCollection);
+   pragma Machine_Attribute (af_ITextDocument_BeginEditCollection, "ms_abi");
 
    type af_ITextDocument_EndEditCollection is access
      function (This : access ITextDocument)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_EndEditCollection);
+   pragma Machine_Attribute (af_ITextDocument_EndEditCollection, "ms_abi");
 
    type af_ITextDocument_Undo is access
      function (This  : access ITextDocument;
-               Count : Interfaces.C.long;
+               Count : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Undo);
+   pragma Machine_Attribute (af_ITextDocument_Undo, "ms_abi");
 
    type af_ITextDocument_Redo is access
      function (This  : access ITextDocument;
-               Count : Interfaces.C.long;
+               Count : Win32_Types.Long;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_Redo);
+   pragma Machine_Attribute (af_ITextDocument_Redo, "ms_abi");
 
    type af_ITextDocument_uRange is access
      function (This    : access ITextDocument;
-               cp1     : Interfaces.C.long;
-               cp2     : Interfaces.C.long;
+               cp1     : Win32_Types.Long;
+               cp2     : Win32_Types.Long;
                RetVal : Pointer_To_Pointer_To_ITextRange)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_uRange);
+   pragma Machine_Attribute (af_ITextDocument_uRange, "ms_abi");
 
    type af_ITextDocument_RangeFromPoint is access
      function (This    : access ITextDocument;
-               x       : Interfaces.C.long;
-               y       : Interfaces.C.long;
+               x       : Win32_Types.Long;
+               y       : Win32_Types.Long;
                RetVal : Pointer_To_Pointer_To_ITextRange)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITextDocument_RangeFromPoint);
+   pragma Machine_Attribute (af_ITextDocument_RangeFromPoint, "ms_abi");
 
    type ITextDocumentVtbl;
    type Pointer_To_ITextDocumentVtbl is access all ITextDocumentVtbl;

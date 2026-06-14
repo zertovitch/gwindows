@@ -50,6 +50,7 @@ with GNATOCX.IOleObject_Interface;
 with GNATOCX.IOleInPlaceObject_Interface;
 with GNATOCX_Site.Class;
 with GWindows.Types;
+with Win32_Types;
 
 package body GWindows.ActiveX is
    OLEIVERB_PRIMARY            : constant := 0;
@@ -147,7 +148,7 @@ package body GWindows.ActiveX is
 
    procedure On_Create (Window : in out ActiveX_Type)
    is
-      use type Interfaces.C.long;
+      use type Win32_Types.Long;
       use type GNATCOM.Types.BSTR;
 
       use GNATOCX.IOleObject_Interface;

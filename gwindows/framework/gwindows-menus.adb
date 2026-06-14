@@ -40,6 +40,7 @@
 with GWindows.GStrings;
 with GWindows.Internal;
 with System;
+with Win32_Types;
 
 package body GWindows.Menus is
    use type Interfaces.C.unsigned;
@@ -112,6 +113,7 @@ package body GWindows.Menus is
         return Menu_Type;
       pragma Import (StdCall, LoadMenu,
                        "LoadMenu" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadMenu, "ms_abi");
    begin
       return LoadMenu;
    end Load_Menu;
@@ -123,6 +125,7 @@ package body GWindows.Menus is
    function Create_Menu return Menu_Type is
       function CreateMenu return Menu_Type;
       pragma Import (StdCall, CreateMenu, "CreateMenu");
+   pragma Machine_Attribute (CreateMenu, "ms_abi");
    begin
       return CreateMenu;
    end Create_Menu;
@@ -134,6 +137,7 @@ package body GWindows.Menus is
    function Create_Popup return Menu_Type is
       function CreatePopupMenu return Menu_Type;
       pragma Import (StdCall, CreatePopupMenu, "CreatePopupMenu");
+   pragma Machine_Attribute (CreatePopupMenu, "ms_abi");
    begin
       return CreatePopupMenu;
    end Create_Popup;
@@ -156,6 +160,7 @@ package body GWindows.Menus is
            C_Text (C_Text'First)'Access);
       pragma Import (StdCall, AppendMenu,
                        "AppendMenu" & Character_Mode_Identifier);
+      pragma Machine_Attribute (AppendMenu, "ms_abi");
    begin
       AppendMenu;
    end Append_Menu;
@@ -183,6 +188,7 @@ package body GWindows.Menus is
            C_Text (C_Text'First)'Access);
       pragma Import (StdCall, AppendMenu,
                        "AppendMenu" & Character_Mode_Identifier);
+      pragma Machine_Attribute (AppendMenu, "ms_abi");
    begin
       case State is
          when Enabled =>
@@ -221,6 +227,7 @@ package body GWindows.Menus is
            C_Text (C_Text'First)'Access);
       pragma Import (StdCall, AppendMenu,
                        "AppendMenu" & Character_Mode_Identifier);
+      pragma Machine_Attribute (AppendMenu, "ms_abi");
    begin
       AppendMenu;
    end Append_Item;
@@ -237,6 +244,7 @@ package body GWindows.Menus is
          Item   : Integer               := 0);
       pragma Import (StdCall, AppendMenu,
                        "AppendMenu" & Character_Mode_Identifier);
+      pragma Machine_Attribute (AppendMenu, "ms_abi");
    begin
       AppendMenu;
    end Append_Separator;
@@ -262,6 +270,7 @@ package body GWindows.Menus is
            C_Text (C_Text'First)'Access);
       pragma Import (StdCall, InsertMenu,
                        "InsertMenu" & Character_Mode_Identifier);
+      pragma Machine_Attribute (InsertMenu, "ms_abi");
    begin
       if Locate_By = Position then
          InsertMenu (idItem  => Locate_At - 1,
@@ -292,6 +301,7 @@ package body GWindows.Menus is
            C_Text (C_Text'First)'Access);
       pragma Import (StdCall, InsertMenu,
                        "InsertMenu" & Character_Mode_Identifier);
+      pragma Machine_Attribute (InsertMenu, "ms_abi");
    begin
       if Locate_By = Position then
          InsertMenu (idItem  => Locate_At - 1,
@@ -318,6 +328,7 @@ package body GWindows.Menus is
          Item    : Integer          := 0);
       pragma Import (StdCall, InsertMenu,
                        "InsertMenu" & Character_Mode_Identifier);
+      pragma Machine_Attribute (InsertMenu, "ms_abi");
    begin
       if Locate_By = Position then
          InsertMenu (idItem  => Locate_At - 1,
@@ -341,6 +352,7 @@ package body GWindows.Menus is
          Pos   : Natural   := Position - 1)
         return Menu_Type;
       pragma Import (StdCall, GetSubMenu, "GetSubMenu");
+   pragma Machine_Attribute (GetSubMenu, "ms_abi");
    begin
       return GetSubMenu;
    end Get_Sub_Menu;
@@ -358,6 +370,7 @@ package body GWindows.Menus is
          idItem  : Natural;
          fuFlags : Interfaces.C.int);
       pragma Import (StdCall, DeleteMenu, "DeleteMenu");
+   pragma Machine_Attribute (DeleteMenu, "ms_abi");
    begin
       if Locate_By = Position then
          DeleteMenu (idItem  => Locate_At - 1,
@@ -383,6 +396,7 @@ package body GWindows.Menus is
          idItem  : Natural          := Position - 1;
          fuFlags : Interfaces.C.int := MF_BYPOSITION);
       pragma Import (StdCall, RemoveMenu, "RemoveMenu");
+   pragma Machine_Attribute (RemoveMenu, "ms_abi");
    begin
       Old_Menu := Get_Sub_Menu (Menu, Position);
       RemoveMenu;
@@ -403,6 +417,7 @@ package body GWindows.Menus is
          idItem  : Natural;
          fuFlags : Interfaces.C.unsigned);
       pragma Import (StdCall, EnableMenuItem, "EnableMenuItem");
+   pragma Machine_Attribute (EnableMenuItem, "ms_abi");
 
       Flags : Interfaces.C.unsigned;
    begin
@@ -435,6 +450,7 @@ package body GWindows.Menus is
          fuFlags : Interfaces.C.unsigned)
         return Interfaces.C.unsigned;
       pragma Import (StdCall, GetMenuState, "GetMenuState");
+   pragma Machine_Attribute (GetMenuState, "ms_abi");
 
       State : Interfaces.C.unsigned;
    begin
@@ -469,6 +485,7 @@ package body GWindows.Menus is
          idItem  : Natural;
          fuFlags : Interfaces.C.unsigned);
       pragma Import (StdCall, CheckMenuItem, "CheckMenuItem");
+   pragma Machine_Attribute (CheckMenuItem, "ms_abi");
 
       Flags : Interfaces.C.unsigned;
    begin
@@ -499,6 +516,7 @@ package body GWindows.Menus is
          fuFlags : Interfaces.C.unsigned)
         return Interfaces.C.unsigned;
       pragma Import (StdCall, GetMenuState, "GetMenuState");
+   pragma Machine_Attribute (GetMenuState, "ms_abi");
 
       State : Interfaces.C.unsigned;
    begin
@@ -533,6 +551,7 @@ package body GWindows.Menus is
          idItem  : Natural;
          fuFlags : Interfaces.C.unsigned);
       pragma Import (StdCall, HiliteMenuItem, "HiliteMenuItem");
+   pragma Machine_Attribute (HiliteMenuItem, "ms_abi");
 
       Flags : Interfaces.C.unsigned;
    begin
@@ -563,6 +582,7 @@ package body GWindows.Menus is
          fuFlags : Interfaces.C.unsigned)
         return Interfaces.C.unsigned;
       pragma Import (StdCall, GetMenuState, "GetMenuState");
+   pragma Machine_Attribute (GetMenuState, "ms_abi");
 
       State : Interfaces.C.unsigned;
    begin
@@ -589,6 +609,7 @@ package body GWindows.Menus is
       function GetMenuItemCount (hmenu : Menu_Type := Menu)
                                 return Integer;
       pragma Import (StdCall,  GetMenuItemCount, "GetMenuItemCount");
+   pragma Machine_Attribute (GetMenuItemCount, "ms_abi");
 
       Pre_Count : constant Integer := GetMenuItemCount;
    begin
@@ -611,6 +632,7 @@ package body GWindows.Menus is
                               Pos   : Positive  := Position - 1)
                              return Integer;
       pragma Import (StdCall,  GetMenuItemID, "GetMenuItemID");
+   pragma Machine_Attribute (GetMenuItemID, "ms_abi");
 
       Pre_ID : constant Integer := GetMenuItemID;
    begin
@@ -641,6 +663,7 @@ package body GWindows.Menus is
            C_Name (C_Name'First)'Access);
       pragma Import (StdCall, ModifyMenu,
                      "ModifyMenu" & Character_Mode_Identifier);
+      pragma Machine_Attribute (ModifyMenu, "ms_abi");
    begin
       if Locate_By = Position then
          ModifyMenu (idItem  => Locate_At - 1,
@@ -675,6 +698,7 @@ package body GWindows.Menus is
                fuFlags  : in     Interfaces.C.unsigned);
             pragma Import (StdCall, GetMenuString,
                              "GetMenuString" & Character_Mode_Identifier);
+            pragma Machine_Attribute (GetMenuString, "ms_abi");
          begin
             if Locate_By = Position then
                GetMenuString (idItem  => Locate_At - 1,
@@ -707,6 +731,7 @@ package body GWindows.Menus is
         return Natural;
       pragma Import (StdCall, GetMenuString,
                        "GetMenuString" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetMenuString, "ms_abi");
    begin
       if Locate_By = Position then
          return GetMenuString (idItem  => Locate_At - 1,
@@ -725,6 +750,7 @@ package body GWindows.Menus is
       procedure DestroyMenu
         (hmenu : Menu_Type := Menu);
       pragma Import (StdCall, DestroyMenu, "DestroyMenu");
+   pragma Machine_Attribute (DestroyMenu, "ms_abi");
    begin
       DestroyMenu (Menu);
       Menu := Null_Menu;
@@ -735,10 +761,11 @@ package body GWindows.Menus is
    -----------
 
    function Valid (Menu : in Menu_Type) return Boolean is
-      use type Interfaces.C.long;
+      use type Win32_Types.Long;
 
-      function IsMenu (Menu : in Menu_Type) return Interfaces.C.long;
+      function IsMenu (Menu : in Menu_Type) return Win32_Types.Long;
       pragma Import (StdCall, IsMenu, "IsMenu");
+   pragma Machine_Attribute (IsMenu, "ms_abi");
    begin
       return IsMenu (Menu) /= 0;
    end Valid;
@@ -760,6 +787,7 @@ package body GWindows.Menus is
          idCheck : Natural;
          fuFlags : Interfaces.C.unsigned);
       pragma Import (StdCall, CheckMenuRadioItem, "CheckMenuRadioItem");
+   pragma Machine_Attribute (CheckMenuRadioItem, "ms_abi");
 
    begin
       if Locate_By = Position then
@@ -792,6 +820,7 @@ package body GWindows.Menus is
           lParam : System.Address        := System.Null_Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
       function TrackPopupMenu
          (hMenu    : Menu_Type             := Menu;
@@ -805,6 +834,7 @@ package body GWindows.Menus is
       return GWindows.Types.Wparam;
       pragma Import (StdCall, TrackPopupMenu,
                      "TrackPopupMenu");
+      pragma Machine_Attribute (TrackPopupMenu, "ms_abi");
    begin
       cmd := TrackPopupMenu;
       SendMessage;

@@ -2,59 +2,80 @@
 -- building the GWindows samples.
 --
 -- Build me with "gprbuild -P gwindows_samples", or open me with GNAT Studio
+--
+-- For Winelib (Linux), build with: gprbuild -P gwindows_samples -XPLATFORM=Winelib
 
-with "GWindows.gpr";
+with "gwindows.gpr";
 
 project GWindows_Samples is
 
-   for Source_Dirs use ("samples\**");
+   type Platform_Type is ("Windows", "Winelib");
+   Platform : Platform_Type := External ("PLATFORM", "Windows");
+
+   for Source_Dirs use ("samples/**");
    for Object_Dir use "obj";
    for Exec_Dir use "samples";
    for Create_Missing_Dirs use "True";  --  Flips the "-p" switch
 
    for Main use
-    ("cap_test.adb",                  --  .\mouse\       Demo for mouse capture, drag & drop, and Get_Window_At_Location
-     "context_menu_example.adb",      --  .\simple\
-     "control_test.adb",              --  .\controls\    Controls
-     "dock_test.adb",                 --  .\simple\
-     "droptest.adb",                  --  .\mouse\       Demo for dragging files from Explorer onto our window
-     "game_of_life_interactive.adb",  --  .\drawing\     Passive *and* active drawing demo
-     "hello_world.adb",               --  .\simple\
-     "menu_example.adb",              --  .\simple\
-     "mdi_example.adb",               --  .\mdi\         Multi-document example (see AZip, LEA or TeXCAD for full apps)
-     "point_test.adb",                --  .\simple\      Shows mouse pointer coordinates
-     "print_hello.adb",               --  .\printing\
-     "sci_example.adb",               --  .\scintilla\   Scintilla editor demo  (see LEA for full app)
-     "scribble.adb",                  --  .\drawing\     Active drawing demo
-     "scribble2.adb",                 --  .\drawing\     Active drawing demo
-     "splitters.adb",                 --  .\simple\
-     "tab_in_dialog_test.adb",        --  .\controls\
-     "tab_test.adb",                  --  .\controls\
-     "text_spin.adb",                 --  .\drawing\     Drawing demo
-     "win_controls.adb");             --  .\controls\    Other controls (combo boxes)
+    ("cap_test.adb",                  --  ./mouse/       Demo for mouse capture, drag & drop, and Get_Window_At_Location
+     "context_menu_example.adb",      --  ./simple/
+     "control_test.adb",              --  ./controls/    Controls
+     "dock_test.adb",                 --  ./simple/
+     "droptest.adb",                  --  ./mouse/       Demo for dragging files from Explorer onto our window
+     "game_of_life_interactive.adb",  --  ./drawing/     Passive *and* active drawing demo
+     "hello_world.adb",               --  ./simple/
+     "menu_example.adb",              --  ./simple/
+     "mdi_example.adb",               --  ./mdi/         Multi-document example (see AZip, LEA or TeXCAD for full apps)
+     "point_test.adb",                --  ./simple/      Shows mouse pointer coordinates
+     "print_hello.adb",               --  ./printing/
+     "sci_example.adb",               --  ./scintilla/   Scintilla editor demo  (see LEA for full app)
+     "scribble.adb",                  --  ./drawing/     Active drawing demo
+     "scribble2.adb",                 --  ./drawing/     Active drawing demo
+     "splitters.adb",                 --  ./simple/
+     "tab_in_dialog_test.adb",        --  ./controls/
+     "tab_test.adb",                  --  ./controls/
+     "text_spin.adb",                 --  ./drawing/     Drawing demo
+     "win_controls.adb");             --  ./controls/    Other controls (combo boxes)
      --
-     --  "db_view",                   --  .\databases\   Database demo (first, need to fix the demo database...)
+     --  "db_view",                   --  ./databases/   Database demo (first, need to fix the demo database...)
      --  "tcl_example.adb"
 
+   Common_Compiler_Switches :=
+     ("-Os", "-g",
+      "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
+      "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
+      "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
+      "-gnatyO",      --  Style: check that overriding subprograms are explicitly marked as such.
+      "-gnatyx",      --  Style: check x:no extra parens
+      "-gnatye",      --  Style: check e:end/exit labels present
+      "-gnatytc",     --  Style: check t:token separation rules, c:comment format (two spaces)
+      "-gnatyM119",   --  Style: check line length < 120 characters
+      "-gnatwa");
+
    package Compiler is
-      for Default_Switches ("ada") use
-        ("-Os", "-g",
-         "-gnatyaknpr",  --  Style: check all casings: a:attribute, k:keywords, n:package Standard identifiers, p:pragma, r:identifier references
-         "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
-         "-gnatybfhiu",  --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout, u:no unnecessary blank lines
-         "-gnatyO",      --  Style: check that overriding subprograms are explicitly marked as such.
-         "-gnatyx",      --  Style: check x:no extra parens
-         "-gnatye",      --  Style: check e:end/exit labels present
-         "-gnatytc",     --  Style: check t:token separation rules, c:comment format (two spaces)
-         "-gnatyM119",   --  Style: check line length < 120 characters
-         "-gnatwa");
+      case Platform is
+         when "Winelib" =>
+            for Default_Switches ("ada") use
+              Common_Compiler_Switches & ("-fPIC");
+         when "Windows" =>
+            for Default_Switches ("ada") use Common_Compiler_Switches;
+      end case;
    end Compiler;
 
    package Linker is
       --  Get the Windows Visual Styles switched on through manifest.xml:
       --  for Default_Switches ("ada") use ("contrib/test/visual_styles.rbj");   --   Binary file is different for 32 and 64 bit platforms.
+      case Platform is
+         when "Winelib" =>
+            for Driver use "winegcc";
+            for Default_Switches ("ada") use
+              ("-L/usr/lib/gcc/x86_64-linux-gnu/12/adalib", "-lgnat");
+         when "Windows" =>
+            null;
+      end case;
    end Linker;
-   
+
    package Binder is
       --  -Es: Store tracebacks in exception occurrences, and enable symbolic tracebacks
       for Default_Switches ("ada") use ("-Es");

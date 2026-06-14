@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IPersistStream_Interface is
 
@@ -27,7 +28,7 @@ package GNATOCX.IPersistStream_Interface is
    procedure Save
      (This        : IPersistStream_Type;
       pstm        : Pointer_To_IStream;
-      fClearDirty : Interfaces.C.long);
+      fClearDirty : Win32_Types.Long);
 
    procedure GetSizeMax
      (This    : IPersistStream_Type;

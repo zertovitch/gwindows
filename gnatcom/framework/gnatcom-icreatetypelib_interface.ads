@@ -41,6 +41,7 @@ with Interfaces.C;
 
 with GNATCOM.Iinterface;
 with GNATCOM.Types;
+with Win32_Types;
 
 package GNATCOM.ICreateTypeLib_Interface is
 
@@ -93,11 +94,11 @@ package GNATCOM.ICreateTypeLib_Interface is
 
    procedure SetHelpContext
      (This          : ICreateTypeLib_Type;
-      dwHelpContext : Interfaces.C.unsigned_long);
+      dwHelpContext : Win32_Types.Unsigned_Long);
 
    procedure SetLcid
      (This : ICreateTypeLib_Type;
-      lcid : Interfaces.C.unsigned_long);
+      lcid : Win32_Types.Unsigned_Long);
 
    procedure SetLibFlags
      (This      : ICreateTypeLib_Type;

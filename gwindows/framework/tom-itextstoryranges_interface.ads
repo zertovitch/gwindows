@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package TOM.ITextStoryRanges_Interface is
 
@@ -19,11 +20,11 @@ package TOM.ITextStoryRanges_Interface is
 
    function Item
      (This    : ITextStoryRanges_Type;
-      Index   : Interfaces.C.long)
+      Index   : Win32_Types.Long)
      return Pointer_To_ITextRange;
 
    function Get_Count
      (This   : ITextStoryRanges_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
 end TOM.ITextStoryRanges_Interface;

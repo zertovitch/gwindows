@@ -43,6 +43,7 @@ with GWindows.GStrings; use GWindows.GStrings;
 with GWindows.Types;
 
 with System;
+with Win32_Types;
 
 package body GWindows.Clipboard is
 
@@ -206,12 +207,13 @@ package body GWindows.Clipboard is
         (lpszFormat : System.Address   := S (S'First)'Address)
         return Natural;
       pragma Import (StdCall, RegisterClipboardFormat_C, "RegisterClipboardFormatA");
+   pragma Machine_Attribute (RegisterClipboardFormat_C, "ms_abi");
 
    begin
       return RegisterClipboardFormat_C;
    end Register_Clipboard_Format;
 
-   subtype HGlobal is Interfaces.C.long;
+   subtype HGlobal is Win32_Types.Long;
    subtype LPVOID is GWindows.Types.Handle;
 
 --   GHND           : constant := 16#0042#;
@@ -242,8 +244,9 @@ package body GWindows.Clipboard is
       function GlobalAlloc
          (uFlags   : Integer := Flags;
           dwBytes  : Integer := Size)
-         return Interfaces.C.long;
+         return Win32_Types.Long;
       pragma Import (StdCall, GlobalAlloc, "GlobalAlloc");
+   pragma Machine_Attribute (GlobalAlloc, "ms_abi");
 
    begin
       return GlobalAlloc;
@@ -257,9 +260,10 @@ package body GWindows.Clipboard is
          Ada.Unchecked_Conversion (LPVOID, Global_Alloc_Ptr);
 
       function GlobalLock
-         (hMem   : Interfaces.C.long := Data)
+         (hMem   : Win32_Types.Long := Data)
          return LPVOID;
       pragma Import (StdCall, GlobalLock, "GlobalLock");
+   pragma Machine_Attribute (GlobalLock, "ms_abi");
 
    begin
       return To_Ptr (GlobalLock);
@@ -270,9 +274,10 @@ package body GWindows.Clipboard is
       return Boolean
    is
       function GlobalUnlock
-         (hMem   : Interfaces.C.long := Data)
+         (hMem   : Win32_Types.Long := Data)
          return Boolean;
       pragma Import (StdCall, GlobalUnlock, "GlobalUnlock");
+   pragma Machine_Attribute (GlobalUnlock, "ms_abi");
 
    begin
       return GlobalUnlock;
@@ -286,6 +291,7 @@ package body GWindows.Clipboard is
         (hWndNewOwner  : GWindows.Types.Handle := Owner.Handle)
         return Boolean;
       pragma Import (StdCall, OpenClipboard, "OpenClipboard");
+   pragma Machine_Attribute (OpenClipboard, "ms_abi");
 
    begin
       return OpenClipboard;
@@ -297,6 +303,7 @@ package body GWindows.Clipboard is
       function CloseClipboard
         return Boolean;
       pragma Import (StdCall, CloseClipboard, "CloseClipboard");
+   pragma Machine_Attribute (CloseClipboard, "ms_abi");
    begin
       return CloseClipboard;
    end Close_Clipboard;
@@ -309,6 +316,7 @@ package body GWindows.Clipboard is
         (Frmt : Natural := Format)
         return HGlobal;
       pragma Import (StdCall, GetClipboardData, "GetClipboardData");
+   pragma Machine_Attribute (GetClipboardData, "ms_abi");
 
    begin
       return GetClipboardData;
@@ -329,6 +337,7 @@ package body GWindows.Clipboard is
          Dat  : LPVOID  := To_lpVoid (Data))
         return LPVOID;
       pragma Import (StdCall, SetClipboardData, "SetClipboardData");
+   pragma Machine_Attribute (SetClipboardData, "ms_abi");
    begin
       return To_Ptr (SetClipboardData) /= null;
    end Set_Clipboard_Data;
@@ -339,6 +348,7 @@ package body GWindows.Clipboard is
       function EmptyClipboard
         return Boolean;
       pragma Import (StdCall, EmptyClipboard, "EmptyClipboard");
+   pragma Machine_Attribute (EmptyClipboard, "ms_abi");
    begin
       return EmptyClipboard;
    end Empty_Clipboard;
@@ -352,6 +362,7 @@ package body GWindows.Clipboard is
         return Boolean;
       pragma Import (StdCall, IsClipboardFormatAvailable,
          "IsClipboardFormatAvailable");
+      pragma Machine_Attribute (IsClipboardFormatAvailable, "ms_abi");
    begin
       return IsClipboardFormatAvailable;
    end Is_Clipboard_Format_Available;

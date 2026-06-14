@@ -46,6 +46,7 @@ with GWindows.GStrings;
 with GWindows.Errors;
 with GWindows.Internal;
 with GWindows.Types;
+with Win32_Types;
 
 package body GWindows.Registry is
 
@@ -71,6 +72,7 @@ package body GWindows.Registry is
          cbFileName   : in     Integer           := MAX_PATH)
         return Integer;
       pragma Import (StdCall, GetModuleFileName, "GetModuleFileNameA");
+   pragma Machine_Attribute (GetModuleFileName, "ms_abi");
    begin
       if GetModuleFileName < 0 then
          Ada.Exceptions.Raise_Exception
@@ -105,16 +107,18 @@ package body GWindows.Registry is
          cchBuffer     : Integer   := Server_Path'Length);
       pragma Import (StdCall, GetShortPathName,
                        "GetShortPathName" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetShortPathName, "ms_abi");
    begin
       GetShortPathName;
       return GWindows.GStrings.To_GString_From_C (Server_Path);
    end Get_Short_Directory_Name;
 
-   subtype LSTATUS is Interfaces.C.long;
+   subtype LSTATUS is Win32_Types.Long;
    subtype HKEY_T is GWindows.Types.Handle;
 
    procedure RegCloseKey (HKEY : HKEY_T);
    pragma Import (StdCall, RegCloseKey, "RegCloseKey");
+   pragma Machine_Attribute (RegCloseKey, "ms_abi");
 
    --------------
    -- Register --
@@ -124,7 +128,7 @@ package body GWindows.Registry is
      (Key_Name, Name, Value : in GString;
       Root_Key              : in Integer)
    is
-      use type Interfaces.C.long, GWindows.Types.DWORD;
+      use type Win32_Types.Long, GWindows.Types.DWORD;
 
       C_Key      : GString_C := GWindows.GStrings.To_GString_C (Key_Name);
       Name_Name  : GString_C := GWindows.GStrings.To_GString_C (Name);
@@ -139,6 +143,7 @@ package body GWindows.Registry is
         return LSTATUS;
       pragma Import (StdCall, RegCreateKey,
                        "RegCreateKey" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegCreateKey, "ms_abi");
 
       function RegSetValueEx
         (hKey        : in     HKEY_T               := Key;
@@ -153,6 +158,7 @@ package body GWindows.Registry is
         return LSTATUS;
       pragma Import (StdCall, RegSetValueEx,
                        "RegSetValueEx" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegSetValueEx, "ms_abi");
 
       Result : LSTATUS;
    begin
@@ -193,6 +199,7 @@ package body GWindows.Registry is
         return LSTATUS;
       pragma Import (StdCall, RegDeleteKey,
                        "RegDeleteKey" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegDeleteKey, "ms_abi");
       Result : LSTATUS;
       use type LSTATUS;
    begin
@@ -223,6 +230,7 @@ package body GWindows.Registry is
         return LSTATUS;
       pragma Import (StdCall, RegCreateKey,
                        "RegCreateKey" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegCreateKey, "ms_abi");
 
       function RegDeleteValue
         (hKey   : in     HKEY_T  := Key;
@@ -231,6 +239,7 @@ package body GWindows.Registry is
         return LSTATUS;
       pragma Import (StdCall, RegDeleteValue,
                        "RegDeleteValue" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegDeleteValue, "ms_abi");
 
       Result : LSTATUS;
       use type LSTATUS;
@@ -275,6 +284,7 @@ package body GWindows.Registry is
         return LSTATUS;
       pragma Import (StdCall, RegOpenKey,
                        "RegOpenKey" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegOpenKey, "ms_abi");
 
       procedure RegQueryInfoKey
         (HKEY             :        HKEY_T  := Key;
@@ -284,6 +294,7 @@ package body GWindows.Registry is
          G, H, I          : access GWindows.Types.DWORD := null);
       pragma Import (StdCall, RegQueryInfoKey,
                        "RegQueryInfoKey" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegQueryInfoKey, "ms_abi");
 
       Result : LSTATUS;
       use type LSTATUS;
@@ -312,6 +323,7 @@ package body GWindows.Registry is
             A, B, C, D : access Integer              := null);
          pragma Import (StdCall, RegEnumValue,
                           "RegEnumValue" & Character_Mode_Identifier);
+         pragma Machine_Attribute (RegEnumValue, "ms_abi");
 
          Results : Value_Name_Array (1 .. Integer (Num_Vals));
          use type GWindows.Types.DWORD;
@@ -350,6 +362,7 @@ package body GWindows.Registry is
         return LSTATUS;
       pragma Import (StdCall, RegOpenKey,
                        "RegOpenKey" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegOpenKey, "ms_abi");
 
       procedure RegQueryInfoKey
         (HKEY         :        HKEY_T               := Key;
@@ -359,6 +372,7 @@ package body GWindows.Registry is
          I, J         : access GWindows.Types.DWORD := null);
       pragma Import (StdCall, RegQueryInfoKey,
                        "RegQueryInfoKey" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegQueryInfoKey, "ms_abi");
 
       Result : LSTATUS;
       use type GWindows.Types.DWORD, LSTATUS;
@@ -389,6 +403,7 @@ package body GWindows.Registry is
             Max      : access GWindows.Types.DWORD := Max_Value'Access);
          pragma Import (StdCall, RegQueryValueEx,
                           "RegQueryValueEx" & Character_Mode_Identifier);
+         pragma Machine_Attribute (RegQueryValueEx, "ms_abi");
       begin
          RegQueryValueEx;
          RegCloseKey (Key);
@@ -417,6 +432,7 @@ package body GWindows.Registry is
         return LSTATUS;
       pragma Import (StdCall, RegOpenKey,
                        "RegOpenKey" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegOpenKey, "ms_abi");
 
       procedure RegQueryInfoKey
         (HKEY             :        HKEY_T               := Key;
@@ -426,9 +442,10 @@ package body GWindows.Registry is
          D, E, F, G, H, I : access GWindows.Types.DWORD := null);
       pragma Import (StdCall, RegQueryInfoKey,
                        "RegQueryInfoKey" & Character_Mode_Identifier);
+      pragma Machine_Attribute (RegQueryInfoKey, "ms_abi");
 
       Result : LSTATUS;
-      use type Interfaces.C.long;
+      use type Win32_Types.Long;
    begin
       Result := RegOpenKey;
       if Result /= 0 then
@@ -452,6 +469,7 @@ package body GWindows.Registry is
             cchName :        GWindows.Types.DWORD := Tmp_Max);
          pragma Import (StdCall, RegEnumKey,
                           "RegEnumKey" & Character_Mode_Identifier);
+         pragma Machine_Attribute (RegEnumKey, "ms_abi");
 
          Results : Key_Name_Array (1 .. Integer (Num_Keys));
          use type GWindows.Types.DWORD;

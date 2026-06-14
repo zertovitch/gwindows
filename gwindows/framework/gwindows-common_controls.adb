@@ -44,6 +44,7 @@ with GWindows.Drawing_Objects;
 with GWindows.GStrings.Unbounded;
 with GWindows.Internal;
 with GWindows.Cursors;
+with Win32_Types;
 
 package body GWindows.Common_Controls is
 
@@ -403,20 +404,22 @@ package body GWindows.Common_Controls is
    type PAINTSTRUCT_Type is
       record
          HDC         : GWindows.Types.Handle;
-         fErase      : Interfaces.C.long;
+         fErase      : Win32_Types.Long;
          rcPaint     : GWindows.Types.Rectangle_Type;
-         fRestore    : Interfaces.C.long;
-         fIncUpdate  : Interfaces.C.long;
+         fRestore    : Win32_Types.Long;
+         fIncUpdate  : Win32_Types.Long;
          rgbReserved : PS_RESERVE_TYPE;
       end record;
 
    procedure BeginPaint (HWND    : GWindows.Types.Handle;
                          lpPaint : out PAINTSTRUCT_Type);
    pragma Import (StdCall, BeginPaint, "BeginPaint");
+   pragma Machine_Attribute (BeginPaint, "ms_abi");
 
    procedure EndPaint (HWND    : GWindows.Types.Handle;
                        lpPaint : in PAINTSTRUCT_Type);
    pragma Import (StdCall, EndPaint, "EndPaint");
+   pragma Machine_Attribute (EndPaint, "ms_abi");
 
    type Rectangle_Access is access all GWindows.Types.Rectangle_Type;
    procedure InvalidateRect
@@ -424,6 +427,7 @@ package body GWindows.Common_Controls is
        lpRect : Rectangle_Access;
        bErase : Integer);
    pragma Import (StdCall, InvalidateRect, "InvalidateRect");
+   pragma Machine_Attribute (InvalidateRect, "ms_abi");
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -794,6 +798,7 @@ package body GWindows.Common_Controls is
           lParam : System.Address        := Positions'Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
 
@@ -834,6 +839,7 @@ package body GWindows.Common_Controls is
              GWindows.Types.Wparam (Format (How) + Part);
           lParam : System.Address := C_Text'Address);
       pragma Import (StdCall, SendMessageA, "SendMessageA");
+   pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
          (hwnd   : GWindows.Types.Handle := Handle (Bar);
@@ -842,6 +848,7 @@ package body GWindows.Common_Controls is
              GWindows.Types.Wparam (Format (How) + Part);
           lParam : System.Address := C_Text'Address);
       pragma Import (StdCall, SendMessageW, "SendMessageW");
+   pragma Machine_Attribute (SendMessageW, "ms_abi");
 
       Bar_Part : Status_Bar_Part_Type renames Bar.Parts (Part);
       New_Text : constant GString_Unbounded
@@ -887,6 +894,7 @@ package body GWindows.Common_Controls is
       --      lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Color));
       --  pragma Import (StdCall, SendMessage,
       --                 "SendMessage" & Character_Mode_Identifier);
+      --  pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       --  SendMessage;
       Background_Color (Common_Control_Type (Bar), Color);
@@ -1314,6 +1322,7 @@ package body GWindows.Common_Controls is
          lParam : access GChar_C        := C_Text (C_Text'First)'Access);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -1322,6 +1331,7 @@ package body GWindows.Common_Controls is
          lParam : GString_C             := C_Text);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       case Character_Mode is
          when Unicode =>
@@ -1344,6 +1354,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -1352,6 +1363,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       case Character_Mode is
          when Unicode =>
@@ -1381,6 +1393,7 @@ package body GWindows.Common_Controls is
            16#10000# * GWindows.Types.Lparam (Interfaces.C.short (End_Frame)));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Play;
@@ -1405,6 +1418,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Stop;
@@ -1870,6 +1884,7 @@ package body GWindows.Common_Controls is
          lParam : access Interfaces.C.char := C_Text (C_Text'First)'Access);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       Control.Format :=
         GWindows.GStrings.To_GString_Unbounded (Format);
@@ -1901,6 +1916,7 @@ package body GWindows.Common_Controls is
          lParam : in out Range_Type);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage (lParam => The_Range);
    end Set_Range;
@@ -1919,6 +1935,7 @@ package body GWindows.Common_Controls is
          lParam : in out SYSTEMTIME);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
       C_Time : SYSTEMTIME := Calendar_To_SYSTEMTIME (Date_Time);
    begin
@@ -1935,6 +1952,7 @@ package body GWindows.Common_Controls is
          lParam : out SYSTEMTIME);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
       C_Time : SYSTEMTIME;
    begin
@@ -2011,6 +2029,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end None_Date_Time;
@@ -2026,6 +2045,7 @@ package body GWindows.Common_Controls is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
       C_Time : constant SYSTEMTIME := (0, 0, 0, 0, 0, 0, 0, 0);
    begin
@@ -2187,6 +2207,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Position;
@@ -2201,6 +2222,7 @@ package body GWindows.Common_Controls is
         return Natural;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Position;
@@ -2220,6 +2242,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (High));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Progress_Range;
@@ -2238,6 +2261,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Increment;
@@ -2256,6 +2280,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Step_Size;
@@ -2273,6 +2298,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Step;
@@ -2393,6 +2419,7 @@ package body GWindows.Common_Controls is
          lParam : LVITEM            := Item);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -2401,6 +2428,7 @@ package body GWindows.Common_Controls is
          lParam : LVITEM                := Item);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       Item.Mask  := LVIF_TEXT or LVIF_IMAGE;
       Item.Item  := Interfaces.C.int (Index);
@@ -2435,6 +2463,7 @@ package body GWindows.Common_Controls is
          lParam : LVITEM                := Item);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -2443,6 +2472,7 @@ package body GWindows.Common_Controls is
          lParam : LVITEM                := Item);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       Item.Mask    := LVIF_TEXT;
       Item.Item    := Interfaces.C.int (Index);
@@ -2483,6 +2513,7 @@ package body GWindows.Common_Controls is
       return GWindows.Types.Lparam;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       Item.Mask    := LVIF_TEXT or LVIF_IMAGE;
       Item.Item    := Interfaces.C.int (Index);
@@ -2526,6 +2557,7 @@ package body GWindows.Common_Controls is
          lParam : LVCOLUMN          := Item);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       Item.Mask  := LVCF_TEXT or LVCF_WIDTH;
       Item.Text  := C_Text (0)'Unchecked_Access;
@@ -2553,6 +2585,7 @@ package body GWindows.Common_Controls is
          lParam : LVCOLUMN              := Item);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       Item.Mask  := LVCF_TEXT or LVCF_WIDTH;
       Item.Text  := C_Text (0)'Unchecked_Access;
@@ -2574,6 +2607,7 @@ package body GWindows.Common_Controls is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Item_Count;
@@ -2593,6 +2627,7 @@ package body GWindows.Common_Controls is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Selected_Item_Count;
@@ -2613,6 +2648,7 @@ package body GWindows.Common_Controls is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return (SendMessage /= 0);
    end Is_Selected;
@@ -2637,6 +2673,7 @@ package body GWindows.Common_Controls is
          lParam : LVITEM);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
       LVI : LVITEM;
       LVIS_UNCHECKED   : constant := 16#1000#;
@@ -2669,6 +2706,7 @@ package body GWindows.Common_Controls is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return (SendMessage / 16#2000# = 1);
    end Is_Checked;
@@ -2689,6 +2727,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Clear;
@@ -2705,6 +2744,7 @@ package body GWindows.Common_Controls is
                                   Lparam : GWindows.Types.Lparam := 0);
       pragma Import (Stdcall, Sendmessage_proc,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage_proc, "ms_abi");
       Lvm_First                    : constant := 16#1000#;
       Lvs_Ex_Gridlines             : constant := 1;
       Lvs_Ex_Checkboxes            : constant := 4;
@@ -2773,6 +2813,7 @@ package body GWindows.Common_Controls is
          lParam : in out LVHITTESTINFO);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
       HitTestInfo : LVHITTESTINFO := (Position, 0, 0, 0);
    begin
@@ -2813,6 +2854,7 @@ package body GWindows.Common_Controls is
          lParam : in out LVITEM) return Interfaces.C.int;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       LVI.Mask    := LVIF_TEXT;
       LVI.Item    := Interfaces.C.int (Item);
@@ -2848,6 +2890,7 @@ package body GWindows.Common_Controls is
       --  occurs if the item is at least partially visible.
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Ensure_Visible;
@@ -2872,6 +2915,7 @@ package body GWindows.Common_Controls is
          lParam : LVITEM);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
       LVI : LVITEM;
    begin
@@ -2902,6 +2946,7 @@ package body GWindows.Common_Controls is
          lParam : LVCOLUMN              := Item);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       Item.Mask  := LVCF_WIDTH;
       Item.Text  := null;
@@ -2928,6 +2973,7 @@ package body GWindows.Common_Controls is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Column_Width;
@@ -2962,6 +3008,7 @@ package body GWindows.Common_Controls is
          lParam : in out LVCOLUMN);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       LVC.Mask := LVCF_TEXT;
       C_Text (0) := GChar_C'Val (0);  --  Empty C string in case of failure.
@@ -2988,6 +3035,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Delete_Item;
@@ -3076,6 +3124,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Handle);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
       ImgType : GWindows.Types.Wparam;
    begin
       case ImageType is
@@ -3182,6 +3231,7 @@ package body GWindows.Common_Controls is
         return Tree_Item_Node;
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       function SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -3191,6 +3241,7 @@ package body GWindows.Common_Controls is
         return Tree_Item_Node;
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       TS.Item.Mask := TVIF_TEXT;
       TS.Item.Text := C_Text (0)'Unchecked_Access;
@@ -3243,6 +3294,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Where));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Delete_Item;
@@ -3262,6 +3314,7 @@ package body GWindows.Common_Controls is
         return Tree_Item_Node;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Selected_Item;
@@ -3288,6 +3341,7 @@ package body GWindows.Common_Controls is
         return Tree_Item_Node;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Get_Root_Item;
@@ -3308,6 +3362,7 @@ package body GWindows.Common_Controls is
         return Tree_Item_Node;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Get_Parent_Item;
@@ -3328,6 +3383,7 @@ package body GWindows.Common_Controls is
         return Tree_Item_Node;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Get_First_Child_Item;
@@ -3348,6 +3404,7 @@ package body GWindows.Common_Controls is
         return Tree_Item_Node;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Get_Next_Item;
@@ -3368,6 +3425,7 @@ package body GWindows.Common_Controls is
         return Tree_Item_Node;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Get_Previous_Item;
@@ -3395,6 +3453,7 @@ package body GWindows.Common_Controls is
          Lparam : System.Address    := Hit_Test_Structure'Address);
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage, "ms_abi");
 
    begin
       Sendmessage;
@@ -3434,6 +3493,7 @@ package body GWindows.Common_Controls is
          lParam : in out TVITEM);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -3442,6 +3502,7 @@ package body GWindows.Common_Controls is
          lParam : in out TVITEM);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       TV.Mask := TVIF_TEXT;
       TV.HItem := Where;
@@ -3485,6 +3546,7 @@ package body GWindows.Common_Controls is
          lParam : Tree_Item_Node        := At_Node);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Expand;
@@ -3506,6 +3568,7 @@ package body GWindows.Common_Controls is
          lParam : Tree_Item_Node        := At_Node);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Collapse;
@@ -3537,6 +3600,7 @@ package body GWindows.Common_Controls is
       return Boolean;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Select_Item;
@@ -3568,6 +3632,7 @@ package body GWindows.Common_Controls is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Get_Count;
@@ -3593,6 +3658,7 @@ package body GWindows.Common_Controls is
          lParam : TVITEM                := TV);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -3601,6 +3667,7 @@ package body GWindows.Common_Controls is
          lParam : TVITEM                := TV);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       TV.Mask := Interfaces.C.unsigned (Mask);
       TV.HItem := Where;
@@ -3628,6 +3695,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Handle);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage (lParam => GWindows.Image_Lists.Handle (List));
    end Set_Image_List;
@@ -3884,6 +3952,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Where));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Position;
@@ -3898,6 +3967,7 @@ package body GWindows.Common_Controls is
         return Natural;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Position;
@@ -3917,6 +3987,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Where));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Minimum;
@@ -3931,6 +4002,7 @@ package body GWindows.Common_Controls is
         return Natural;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Minimum;
@@ -3950,6 +4022,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Where));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Maximum;
@@ -3964,6 +4037,7 @@ package body GWindows.Common_Controls is
         return Natural;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Maximum;
@@ -4068,6 +4142,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Where));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Position;
@@ -4082,6 +4157,7 @@ package body GWindows.Common_Controls is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       --  mod: filter possible error flag on HIWORD (see MSDN doc for details)
       return SendMessage mod 65536;
@@ -4104,6 +4180,7 @@ package body GWindows.Common_Controls is
             Low  => Interfaces.C.short (Max)));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Range;
@@ -4348,6 +4425,7 @@ package body GWindows.Common_Controls is
          lParam : TCITEM                := TC);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
          uMsg   : Interfaces.C.int      := TCM_INSERTITEMW;
@@ -4355,6 +4433,7 @@ package body GWindows.Common_Controls is
          lParam : TCITEM                := TC);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       TC.Mask := TCIF_TEXT or TCIF_PARAM;
       TC.Text := C_Text (0)'Unchecked_Access;
@@ -4387,6 +4466,7 @@ package body GWindows.Common_Controls is
          lParam : TCITEM                := TC);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -4395,6 +4475,7 @@ package body GWindows.Common_Controls is
          lParam : TCITEM                := TC);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
 
    begin
       TC.Mask := TCIF_TEXT;
@@ -4428,6 +4509,7 @@ package body GWindows.Common_Controls is
          lParam : in out TCITEM);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -4436,6 +4518,7 @@ package body GWindows.Common_Controls is
          lParam : in out TCITEM);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
 
    begin
       TC.Mask := TCIF_TEXT;
@@ -4467,6 +4550,7 @@ package body GWindows.Common_Controls is
         return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Integer (SendMessage);
    end Tab_Count;
@@ -4485,6 +4569,7 @@ package body GWindows.Common_Controls is
         return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Integer (SendMessage);
    end Tab_Row_Count;
@@ -4503,6 +4588,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Selected_Tab;
@@ -4517,6 +4603,7 @@ package body GWindows.Common_Controls is
         return GWindows.Types.INT_PTR;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Integer (SendMessage);
    end Selected_Tab;
@@ -4535,6 +4622,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Delete_Tab;
@@ -4552,6 +4640,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Delete_All_Tabs;
@@ -4571,6 +4660,7 @@ package body GWindows.Common_Controls is
          lParam : Types.Lparam     := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Tool_Tips;
@@ -4624,6 +4714,7 @@ package body GWindows.Common_Controls is
          lParam : in out GWindows.Types.Rectangle_Type);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage (lParam => RT);
       return RT;
@@ -4645,6 +4736,7 @@ package body GWindows.Common_Controls is
          lParam : in out GWindows.Types.Rectangle_Type);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage (lParam => RT);
       return RT;
@@ -4663,6 +4755,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Focused_Tab;
@@ -4677,6 +4770,7 @@ package body GWindows.Common_Controls is
          return Interfaces.C.int;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Integer (SendMessage);
    end Focused_Tab;
@@ -4703,6 +4797,7 @@ package body GWindows.Common_Controls is
       return Interfaces.C.int;
       pragma Import (Stdcall, Sendmessage, "SendMessage" &
          Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage, "ms_abi");
 
    begin
       return Integer (Sendmessage);
@@ -5010,6 +5105,7 @@ package body GWindows.Common_Controls is
       newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong,
                     "SetWindowLong" & Character_Mode_Identifier);
+   pragma Machine_Attribute (SetWindowLong, "ms_abi");
 
    function GetWindowLong
      (hwnd : GWindows.Types.Handle;
@@ -5017,10 +5113,11 @@ package body GWindows.Common_Controls is
      return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong,
                     "GetWindowLong" & Character_Mode_Identifier);
+   pragma Machine_Attribute (GetWindowLong, "ms_abi");
 
    procedure Set_As_Control_Parent (Control : in out Tab_Window_Control_Type)
    is
-     --  By André van Splunter, 6-Jan-2007.
+     --  By Andrï¿½ van Splunter, 6-Jan-2007.
      WS_EX_CONTROLPARENT : constant := 16#00010000#;
      use GWindows.Base;
    begin
@@ -5047,6 +5144,7 @@ package body GWindows.Common_Controls is
          lParam : TCITEM                := TC);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -5055,6 +5153,7 @@ package body GWindows.Common_Controls is
          lParam : TCITEM                := TC);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       TC.Mask := TCIF_PARAM;
       TC.LPARAM := Window;
@@ -5084,6 +5183,7 @@ package body GWindows.Common_Controls is
          lParam : in out TCITEM);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -5092,6 +5192,7 @@ package body GWindows.Common_Controls is
          lParam : in out TCITEM);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       TC.Mask := TCIF_PARAM;
 
@@ -5190,6 +5291,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := HINST_COMMCTRL);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
    begin
       SendMessage;
@@ -5210,6 +5312,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Handle);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
    begin
       SendMessage (lParam => GWindows.Image_Lists.Handle (List));
@@ -5239,6 +5342,7 @@ package body GWindows.Common_Controls is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       Index := SendMessage;
    end Add_Image_List;
@@ -5268,6 +5372,7 @@ package body GWindows.Common_Controls is
          lParam : System.Address        := C_Text'Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Add_String;
@@ -5299,6 +5404,7 @@ package body GWindows.Common_Controls is
          lParam : System.Address        := Text'Address) return Natural;
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       Length := SendMessage;
    end Get_String;
@@ -5324,6 +5430,7 @@ package body GWindows.Common_Controls is
          lParam : BUTTON_ARRAY          := TB);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       TB (1).Image := Image_Index;
       TB (1).Command := Command;
@@ -5350,6 +5457,7 @@ package body GWindows.Common_Controls is
          lParam : BUTTON_ARRAY          := TB);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       TB (1).Image := Image_Index;
       TB (1).Command := Command;
@@ -5376,6 +5484,7 @@ package body GWindows.Common_Controls is
         lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Image_Index));
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Button_Image;
@@ -5396,6 +5505,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
       High : Interfaces.C.short;
    begin
       case State is
@@ -5422,6 +5532,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0) return Interfaces.C.unsigned;
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Button_State;
@@ -5436,6 +5547,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (State));
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Button_State;
@@ -5499,6 +5611,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0) return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
       Result : GWindows.Types.Lresult;
    begin
       Result := SendMessage;
@@ -5523,6 +5636,7 @@ package body GWindows.Common_Controls is
          lParam : BUTTON_ARRAY          := TB);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       TB (1).Image := Width;
       TB (1).Style := TBSTYLE_SEP;
@@ -5545,6 +5659,7 @@ package body GWindows.Common_Controls is
         return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Interfaces.C.unsigned (SendMessage);
    end Get_Style;
@@ -5564,6 +5679,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Style));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Style;
@@ -5579,6 +5695,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Style));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Extended_Style;
@@ -5613,6 +5730,7 @@ package body GWindows.Common_Controls is
          lParam : in out TBBUTTONINFO);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -5621,6 +5739,7 @@ package body GWindows.Common_Controls is
          lParam : in out TBBUTTONINFO);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
 
    begin
       case Character_Mode is
@@ -5641,6 +5760,7 @@ package body GWindows.Common_Controls is
          lParam : in     TBBUTTONINFO);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -5649,6 +5769,7 @@ package body GWindows.Common_Controls is
          lParam : in     TBBUTTONINFO);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
 
    begin
       case Character_Mode is
@@ -5736,6 +5857,7 @@ package body GWindows.Common_Controls is
          lParam : Types.Lparam     := 0);
       pragma Import (StdCall, SendMessage_TB_Button_Struct_Size,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage_TB_Button_Struct_Size, "ms_abi");
    begin
       SendMessage_TB_Button_Struct_Size;
       --  ^ This call is needed in order to have, for instance, tool
@@ -5836,6 +5958,7 @@ package body GWindows.Common_Controls is
          lParam : TOOLINFO              := Info);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -5844,6 +5967,7 @@ package body GWindows.Common_Controls is
          lParam : TOOLINFO              := Info);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
       use GWindows.Base;
    begin
       Info.Flags := TTF_IDISHWND or TTF_SUBCLASS;
@@ -5884,6 +6008,7 @@ package body GWindows.Common_Controls is
          lParam : TOOLINFO              := Info);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -5892,6 +6017,7 @@ package body GWindows.Common_Controls is
          lParam : TOOLINFO              := Info);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       Info.Flags := TTF_IDISHWND or TTF_SUBCLASS;
       Info.HWND := Base.Handle (Parent (Control).all);
@@ -5920,6 +6046,7 @@ package body GWindows.Common_Controls is
          lParam : TOOLINFO              := Info);
       pragma Import (StdCall, SendMessageA,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageA, "ms_abi");
 
       procedure SendMessageW
         (hwnd   : GWindows.Types.Handle := Handle (Control);
@@ -5928,6 +6055,7 @@ package body GWindows.Common_Controls is
          lParam : TOOLINFO              := Info);
       pragma Import (StdCall, SendMessageW,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessageW, "ms_abi");
    begin
       Info.HWND := Base.Handle (Parent (Control).all);
       Info.UID  := Base.Handle (Window);
@@ -5951,6 +6079,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := GWindows.Types.Lparam (Width));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Maximum_Width;
@@ -5972,6 +6101,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam := 0) return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
       TTDT_RESHOW  : constant := 1;
       TTDT_AUTOPOP : constant := 2;
       TTDT_INITIAL : constant := 3;
@@ -5998,6 +6128,7 @@ package body GWindows.Common_Controls is
          lParam : GWindows.Types.Lparam);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
       TTDT_RESHOW  : constant := 1;
       TTDT_AUTOPOP : constant := 2;
       TTDT_INITIAL : constant := 3;

@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package ADO.Fields15_Interface is
 
@@ -15,7 +16,7 @@ package ADO.Fields15_Interface is
 
    function Get_Count
      (This : Fields15_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function uNewEnum
      (This      : Fields15_Type)

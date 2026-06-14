@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IEnumMoniker_Interface is
 
@@ -15,13 +16,13 @@ package GNATOCX.IEnumMoniker_Interface is
 
    procedure RemoteNext
      (This         : IEnumMoniker_Type;
-      celt         : Interfaces.C.unsigned_long;
+      celt         : Win32_Types.Unsigned_Long;
       rgelt        : Pointer_To_Pointer_To_IMoniker;
       pceltFetched : GNATCOM.Types.Pointer_To_unsigned_long);
 
    procedure Skip
      (This : IEnumMoniker_Type;
-      celt : Interfaces.C.unsigned_long);
+      celt : Win32_Types.Unsigned_Long);
 
    procedure Reset
      (This : IEnumMoniker_Type);

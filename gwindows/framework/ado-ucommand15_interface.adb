@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body ADO.uCommand15_Interface is
 
@@ -116,9 +117,9 @@ package body ADO.uCommand15_Interface is
 
    function Get_CommandTimeout
      (This : uCommand15_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_CommandTimeout
@@ -130,7 +131,7 @@ package body ADO.uCommand15_Interface is
 
    procedure Put_CommandTimeout
      (This : uCommand15_Type;
-      pl   : Interfaces.C.long)
+      pl   : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -172,7 +173,7 @@ package body ADO.uCommand15_Interface is
         GNATCOM.Types.PVARIANT_MISSING;
       Parameters      : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Options         : Interfaces.C.long)
+      Options         : Win32_Types.Long)
      return Pointer_To_uRecordset
    is
        RetVal : aliased Pointer_To_uRecordset;
@@ -193,7 +194,7 @@ package body ADO.uCommand15_Interface is
       Name      : GNATCOM.Types.BSTR;
       uType     : DataTypeEnum;
       Direction : ParameterDirectionEnum;
-      Size      : Interfaces.C.long;
+      Size      : Win32_Types.Long;
       Value     : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
       Free      : Boolean := True)
      return Pointer_To_uParameter

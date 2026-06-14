@@ -36,6 +36,7 @@
 ------------------------------------------------------------------------------
 
 with Ada.Unchecked_Conversion;
+with Win32_Types;
 
 package body GNATOCX_Site.Class is
 
@@ -43,9 +44,9 @@ package body GNATOCX_Site.Class is
      (This      : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       pwcsName  : GNATCOM.Types.LPWSTR;
-      grfMode   : Interfaces.C.unsigned_long;
-      reserved1 : Interfaces.C.unsigned_long;
-      reserved2 : Interfaces.C.unsigned_long;
+      grfMode   : Win32_Types.Unsigned_Long;
+      reserved1 : Win32_Types.Unsigned_Long;
+      reserved2 : Win32_Types.Unsigned_Long;
       ppstm     : Pointer_To_Pointer_To_IStream)
      return GNATCOM.Types.HRESULT
    is
@@ -59,10 +60,10 @@ package body GNATOCX_Site.Class is
      (This        : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       pwcsName    : GNATCOM.Types.LPWSTR;
-      cbReserved1 : Interfaces.C.unsigned_long;
+      cbReserved1 : Win32_Types.Unsigned_Long;
       reserved1   : Pointer_To_unsigned_char;
-      grfMode     : Interfaces.C.unsigned_long;
-      reserved2   : Interfaces.C.unsigned_long;
+      grfMode     : Win32_Types.Unsigned_Long;
+      reserved2   : Win32_Types.Unsigned_Long;
       ppstm       : Pointer_To_Pointer_To_IStream)
      return GNATCOM.Types.HRESULT
    is
@@ -76,9 +77,9 @@ package body GNATOCX_Site.Class is
      (This      : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       pwcsName  : GNATCOM.Types.LPWSTR;
-      grfMode   : Interfaces.C.unsigned_long;
-      reserved1 : Interfaces.C.unsigned_long;
-      reserved2 : Interfaces.C.unsigned_long;
+      grfMode   : Win32_Types.Unsigned_Long;
+      reserved1 : Win32_Types.Unsigned_Long;
+      reserved2 : Win32_Types.Unsigned_Long;
       ppstg     : Pointer_To_Pointer_To_IStorage)
      return GNATCOM.Types.HRESULT
    is
@@ -93,9 +94,9 @@ package body GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       pwcsName     : GNATCOM.Types.LPWSTR;
       pstgPriority : Pointer_To_IStorage;
-      grfMode      : Interfaces.C.unsigned_long;
+      grfMode      : Win32_Types.Unsigned_Long;
       snbExclude   : SNB;
-      reserved     : Interfaces.C.unsigned_long;
+      reserved     : Win32_Types.Unsigned_Long;
       ppstg        : Pointer_To_Pointer_To_IStorage)
      return GNATCOM.Types.HRESULT
    is
@@ -108,7 +109,7 @@ package body GNATOCX_Site.Class is
    function IStorage_CopyTo
      (This         : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      ciidExclude  : Interfaces.C.unsigned_long;
+      ciidExclude  : Win32_Types.Unsigned_Long;
       rgiidExclude : GNATCOM.Types.Pointer_To_GUID;
       snbExclude   : SNB;
       pstgDest     : Pointer_To_IStorage)
@@ -126,7 +127,7 @@ package body GNATOCX_Site.Class is
       pwcsName    : GNATCOM.Types.LPWSTR;
       pstgDest    : Pointer_To_IStorage;
       pwcsNewName : GNATCOM.Types.LPWSTR;
-      grfFlags    : Interfaces.C.unsigned_long)
+      grfFlags    : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, pwcsName, pstgDest, pwcsNewName, grfFlags);
@@ -137,7 +138,7 @@ package body GNATOCX_Site.Class is
    function IStorage_Commit
      (This           : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      grfCommitFlags : Interfaces.C.unsigned_long)
+      grfCommitFlags : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, grfCommitFlags);
@@ -158,10 +159,10 @@ package body GNATOCX_Site.Class is
    function IStorage_RemoteEnumElements
      (This        : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      reserved1   : Interfaces.C.unsigned_long;
-      cbReserved2 : Interfaces.C.unsigned_long;
+      reserved1   : Win32_Types.Unsigned_Long;
+      cbReserved2 : Win32_Types.Unsigned_Long;
       reserved2   : Pointer_To_unsigned_char;
-      reserved3   : Interfaces.C.unsigned_long;
+      reserved3   : Win32_Types.Unsigned_Long;
       ppenum      : Pointer_To_Pointer_To_IEnumSTATSTG)
      return GNATCOM.Types.HRESULT
    is
@@ -222,8 +223,8 @@ package body GNATOCX_Site.Class is
    function IStorage_SetStateBits
      (This         : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      grfStateBits : Interfaces.C.unsigned_long;
-      grfMask      : Interfaces.C.unsigned_long)
+      grfStateBits : Win32_Types.Unsigned_Long;
+      grfMask      : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, grfStateBits, grfMask);
@@ -235,7 +236,7 @@ package body GNATOCX_Site.Class is
      (This        : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       pstatstg    : Pointer_To_STATSTG;
-      grfStatFlag : Interfaces.C.unsigned_long)
+      grfStatFlag : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, pstatstg, grfStatFlag);
@@ -257,7 +258,7 @@ package body GNATOCX_Site.Class is
    function IOleInPlaceFrame_ContextSensitiveHelp
      (This       : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fEnterMode : Interfaces.C.long)
+      fEnterMode : Win32_Types.Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, fEnterMode);
@@ -360,7 +361,7 @@ package body GNATOCX_Site.Class is
    function IOleInPlaceFrame_EnableModeless
      (This    : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fEnable : Interfaces.C.long)
+      fEnable : Win32_Types.Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, fEnable);
@@ -393,8 +394,8 @@ package body GNATOCX_Site.Class is
    function IOleClientSite_GetMoniker
      (This           : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      dwAssign       : Interfaces.C.unsigned_long;
-      dwWhichMoniker : Interfaces.C.unsigned_long;
+      dwAssign       : Win32_Types.Unsigned_Long;
+      dwWhichMoniker : Win32_Types.Unsigned_Long;
       ppmk           : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT
    is
@@ -428,7 +429,7 @@ package body GNATOCX_Site.Class is
    function IOleClientSite_OnShowWindow
      (This  : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fShow : Interfaces.C.long)
+      fShow : Win32_Types.Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (fShow, This);
@@ -462,7 +463,7 @@ package body GNATOCX_Site.Class is
    function IOleInPlaceSite_ContextSensitiveHelp
      (This       : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fEnterMode : Interfaces.C.long)
+      fEnterMode : Win32_Types.Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, fEnterMode);
@@ -523,6 +524,7 @@ package body GNATOCX_Site.Class is
         (hwnd            : System.Address := Object.HWND;
          Rect            : out GNATOCX_Site.RECT);
       pragma Import (StdCall, GetClientRect, "GetClientRect");
+   pragma Machine_Attribute (GetClientRect, "ms_abi");
 
       RIID   : aliased GNATCOM.Types.GUID := IID_IOleInPlaceFrame;
       Result : GNATCOM.Types.HRESULT;
@@ -560,7 +562,7 @@ package body GNATOCX_Site.Class is
    function IOleInPlaceSite_OnUIDeactivate
      (This      : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fUndoable : Interfaces.C.long)
+      fUndoable : Win32_Types.Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, fUndoable);
@@ -626,7 +628,7 @@ package body GNATOCX_Site.Class is
    function IOleContainer_EnumObjects
      (This     : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      grfFlags : Interfaces.C.unsigned_long;
+      grfFlags : Win32_Types.Unsigned_Long;
       ppenum   : Pointer_To_Pointer_To_IEnumUnknown)
      return GNATCOM.Types.HRESULT
    is
@@ -638,7 +640,7 @@ package body GNATOCX_Site.Class is
    function IOleContainer_LockContainer
      (This  : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fLock : Interfaces.C.long)
+      fLock : Win32_Types.Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, fLock);
@@ -662,7 +664,7 @@ package body GNATOCX_Site.Class is
    function IOleWindow_ContextSensitiveHelp
      (This       : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fEnterMode : Interfaces.C.long)
+      fEnterMode : Win32_Types.Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, fEnterMode);
@@ -684,7 +686,7 @@ package body GNATOCX_Site.Class is
    function IOleInPlaceUIWindow_ContextSensitiveHelp
      (This       : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fEnterMode : Interfaces.C.long)
+      fEnterMode : Win32_Types.Long)
      return GNATCOM.Types.HRESULT
    is
       pragma Unreferenced (This, fEnterMode);

@@ -16,6 +16,7 @@ package body GWindows.Drawing_EMF_Canvas is
                                   lpDescription : Pointer_To_GChar_C)
         return GWindows.Types.Handle;
       pragma Import (Stdcall, CreateEnhMetaFile, "CreateEnhMetaFileW");
+      pragma Machine_Attribute (CreateEnhMetaFile, "ms_abi");
       Filename : GString_C := GWindows.GStrings.To_GString_C (File_Name);
       Filedesc : GString_C := GWindows.GStrings.To_GString_C (File_Desc);
       lpFilename    : Pointer_To_GChar_C;
@@ -47,6 +48,7 @@ package body GWindows.Drawing_EMF_Canvas is
       function CloseEnhMetaFile (hdc : GWindows.Types.Handle)
         return GWindows.Types.Handle;
       pragma Import (Stdcall, CloseEnhMetaFile, "CloseEnhMetaFile");
+      pragma Machine_Attribute (CloseEnhMetaFile, "ms_abi");
    begin
       if Handle (Canvas) /= GWindows.Types.Null_Handle then
          Delete (Emf);
@@ -74,6 +76,7 @@ package body GWindows.Drawing_EMF_Canvas is
                                  HENHMETAFILE : GWindows.Types.Handle;
                                  Rect         : GWindows.Types.Rectangle_Type);
       pragma Import (Stdcall, PlayEnhMetaFile, "PlayEnhMetaFile");
+      pragma Machine_Attribute (PlayEnhMetaFile, "ms_abi");
    begin
       PlayEnhMetaFile (GWindows.Drawing.Handle (Canvas),
                        Handle (Emf),

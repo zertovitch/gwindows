@@ -42,12 +42,13 @@ with System;
 with GNATCOM.Iinterface;
 with GNATCOM.Types;
 with GNATCOM.Create.COM_Interface;
+with Win32_Types;
 
 package GNATCOM.Events is
 
    type IConnectionPoint_Type is new GNATCOM.Iinterface.Interface_Type with
       record
-         Cookie : aliased Interfaces.C.unsigned_long := 0;
+         Cookie : aliased Win32_Types.Unsigned_Long := 0;
       end record;
    --  Interface to an event connection point. This is usually retrieved
    --  using an IConnectionPointContainer. For convenience a function

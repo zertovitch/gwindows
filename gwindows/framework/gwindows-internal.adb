@@ -43,11 +43,13 @@ package body GWindows.Internal is
 
    function GetDesktopWindow return GWindows.Types.Handle;
    pragma Import (StdCall, GetDesktopWindow, "GetDesktopWindow");
+   pragma Machine_Attribute (GetDesktopWindow, "ms_abi");
 
    procedure GetClientRect
      (hwnd            : in  GWindows.Types.Handle;
       Rect            : out GWindows.Types.Rectangle_Type);
    pragma Import (StdCall, GetClientRect, "GetClientRect");
+   pragma Machine_Attribute (GetClientRect, "ms_abi");
 
    --------------------------
    -- Add_Keyboard_Control --
@@ -131,15 +133,17 @@ begin
    declare
       function hInst (MName : Integer := 0) return GWindows.Types.Handle;
       pragma Import (StdCall, hInst, "GetModuleHandleA");
+   pragma Machine_Attribute (hInst, "ms_abi");
       --  Load instance handle via Win32 API
 
-      --        function hInst return Interfaces.C.long;
+      --        function hInst return Win32_Types.Long;
       --        pragma Import (C, hInst, "rts_get_hInstance");
       --  Load Instance information from Ada Windows run time
 
       function GetCurrentThreadId
-        return Interfaces.C.unsigned_long;
+        return Win32_Types.Unsigned_Long;
       pragma Import (StdCall, GetCurrentThreadId, "GetCurrentThreadId");
+   pragma Machine_Attribute (GetCurrentThreadId, "ms_abi");
    begin
       Current_hInstance := hInst;
 

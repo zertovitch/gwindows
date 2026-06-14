@@ -43,6 +43,7 @@ package body GNATCOM.Create is
 
    procedure CoReleaseServerProcess;
    pragma Import (StdCall, CoReleaseServerProcess, "CoReleaseServerProcess");
+   pragma Machine_Attribute (CoReleaseServerProcess, "ms_abi");
 
    -- Can_Close --
 

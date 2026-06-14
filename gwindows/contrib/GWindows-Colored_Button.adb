@@ -105,6 +105,7 @@ package body GWindows.Colored_Button is
        newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong,
                   "SetWindowLong" & Character_Mode_Identifier);
+   pragma Machine_Attribute (SetWindowLong, "ms_abi");
 
    function GetWindowLong
       (hwnd   : GWindows.Types.Handle;
@@ -112,6 +113,7 @@ package body GWindows.Colored_Button is
     return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong,
                   "GetWindowLong" & Character_Mode_Identifier);
+   pragma Machine_Attribute (GetWindowLong, "ms_abi");
 
    procedure On_Create (Button : in out Colored_Button_Type) is
    begin

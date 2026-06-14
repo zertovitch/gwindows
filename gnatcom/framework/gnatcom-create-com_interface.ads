@@ -41,6 +41,7 @@
 
 with GNATCOM.Types;
 with System;
+with Win32_Types;
 
 package GNATCOM.Create.COM_Interface is
 
@@ -83,14 +84,17 @@ package GNATCOM.Create.COM_Interface is
                ppvObject : access GNATCOM.Types.Pointer_To_Void)
       return GNATCOM.Types.HRESULT;
    pragma Convention (Stdcall, Af_QueryInterface);
+   pragma Machine_Attribute (Af_QueryInterface, "ms_abi");
 
    type Af_AddRef is access function (This : access COM_Interface_Type)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (Stdcall, Af_AddRef);
+   pragma Machine_Attribute (Af_AddRef, "ms_abi");
 
    type Af_Release is access function (This : access COM_Interface_Type)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (Stdcall, Af_Release);
+   pragma Machine_Attribute (Af_Release, "ms_abi");
 
    function QueryInterface
      (This      : access COM_Interface_Type;
@@ -98,6 +102,7 @@ package GNATCOM.Create.COM_Interface is
       ppvObject : access GNATCOM.Types.Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (Stdcall, QueryInterface);
+   pragma Machine_Attribute (QueryInterface, "ms_abi");
    --  Query COM object for the interface riid and return a pointer to it
    --  if possible. QueryInterface will call AddRef on the interface before
    --  returning it in ppvObject
@@ -128,13 +133,15 @@ package GNATCOM.Create.COM_Interface is
    --  a COM object to another.
 
    function AddRef (This : access COM_Interface_Type)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (Stdcall, AddRef);
+   pragma Machine_Attribute (AddRef, "ms_abi");
    --  Add a reference count to the object
 
    function Release (This : access COM_Interface_Type)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (Stdcall, Release);
+   pragma Machine_Attribute (Release, "ms_abi");
    --  Reduce reference count. If 0 free object from memory
 
    procedure Release (This : access COM_Interface_Type);

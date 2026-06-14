@@ -69,12 +69,14 @@ package body GWin_Util is
         return Interfaces.C.int;
       pragma Import (StdCall, GetObject,
                        "GetObject" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetObject, "ms_abi");
 
       function CreateFontIndirect
         (lpvObject : LPVOID                 := Log_of_current_font'Address)
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreateFontIndirect,
                        "CreateFontIndirect" & Character_Mode_Identifier);
+      pragma Machine_Attribute (CreateFontIndirect, "ms_abi");
 
     begin
       GWindows.Drawing_Objects.Create_Stock_Font (
@@ -155,6 +157,7 @@ package body GWin_Util is
        SW_ShowMinimized);
     function GetFocus return HWND;              --  winuser.h:2939
     pragma Import (Stdcall, GetFocus, "GetFocus");
+    pragma Machine_Attribute (GetFocus, "ms_abi");
     subtype CHAR is Interfaces.C.char;
     type PCCH is access constant CHAR;
     type PCHAR is access all CHAR;
@@ -171,6 +174,7 @@ package body GWin_Util is
     pragma Import (Stdcall, ShellExecuteA, "ShellExecuteA");   --  shellapi.h:54
     function ShellExecute
       (hwnd0 : HWND;
+    pragma Machine_Attribute (ShellExecuteA, "ms_abi");
        lpOperation : LPCSTR;
        lpFile : LPCSTR;
        lpParameters : LPSTR;
@@ -354,6 +358,7 @@ package body GWin_Util is
 
     function GetVersionEx (lpVersionInformation : LPOSVERSIONINFOA)
                           return BOOL renames GetVersionExA;
+    pragma Machine_Attribute (GetVersionExA, "ms_abi");
     --  ^^^^ Parts from Win32Ada
     res :  BOOL;
     info : aliased OSVERSIONINFO;
@@ -412,6 +417,7 @@ package body GWin_Util is
                                return DWORD;
     --  winbase.h :1417
     pragma Import (Stdcall, GetShortPathNameA, "GetShortPathNameA");
+    pragma Machine_Attribute (GetShortPathNameA, "ms_abi");
     --  winbase.h :1417
     function GetShortPathName (lpszLongPath : LPCSTR;
                                lpszShortPath : LPSTR;

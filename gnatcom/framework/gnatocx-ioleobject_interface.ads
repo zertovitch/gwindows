@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IOleObject_Interface is
 
@@ -29,36 +30,36 @@ package GNATOCX.IOleObject_Interface is
 
    procedure Close
      (This         : IOleObject_Type;
-      dwSaveOption : Interfaces.C.unsigned_long);
+      dwSaveOption : Win32_Types.Unsigned_Long);
 
    procedure SetMoniker
      (This           : IOleObject_Type;
-      dwWhichMoniker : Interfaces.C.unsigned_long;
+      dwWhichMoniker : Win32_Types.Unsigned_Long;
       pmk            : Pointer_To_IMoniker);
 
    procedure GetMoniker
      (This           : IOleObject_Type;
-      dwAssign       : Interfaces.C.unsigned_long;
-      dwWhichMoniker : Interfaces.C.unsigned_long;
+      dwAssign       : Win32_Types.Unsigned_Long;
+      dwWhichMoniker : Win32_Types.Unsigned_Long;
       ppmk           : Pointer_To_Pointer_To_IMoniker);
 
    procedure InitFromData
      (This        : IOleObject_Type;
       pDataObject : Pointer_To_IDataObject;
-      fCreation   : Interfaces.C.long;
-      dwReserved  : Interfaces.C.unsigned_long);
+      fCreation   : Win32_Types.Long;
+      dwReserved  : Win32_Types.Unsigned_Long);
 
    procedure GetClipboardData
      (This         : IOleObject_Type;
-      dwReserved   : Interfaces.C.unsigned_long;
+      dwReserved   : Win32_Types.Unsigned_Long;
       ppDataObject : Pointer_To_Pointer_To_IDataObject);
 
    procedure DoVerb
      (This        : IOleObject_Type;
-      iVerb       : Interfaces.C.long;
+      iVerb       : Win32_Types.Long;
       lpmsg       : Pointer_To_MSG;
       pActiveSite : Pointer_To_IOleClientSite;
-      lindex      : Interfaces.C.long;
+      lindex      : Win32_Types.Long;
       hwndParent  : wireHWND;
       lprcPosRect : Pointer_To_RECT);
 
@@ -78,17 +79,17 @@ package GNATOCX.IOleObject_Interface is
 
    procedure GetUserType
      (This         : IOleObject_Type;
-      dwFormOfType : Interfaces.C.unsigned_long;
+      dwFormOfType : Win32_Types.Unsigned_Long;
       pszUserType  : GNATCOM.Types.Pointer_To_LPWSTR);
 
    procedure SetExtent
      (This         : IOleObject_Type;
-      dwDrawAspect : Interfaces.C.unsigned_long;
+      dwDrawAspect : Win32_Types.Unsigned_Long;
       psizel       : Pointer_To_SIZEL);
 
    procedure GetExtent
      (This         : IOleObject_Type;
-      dwDrawAspect : Interfaces.C.unsigned_long;
+      dwDrawAspect : Win32_Types.Unsigned_Long;
       psizel       : Pointer_To_SIZEL);
 
    procedure Advise
@@ -98,7 +99,7 @@ package GNATOCX.IOleObject_Interface is
 
    procedure Unadvise
      (This         : IOleObject_Type;
-      dwConnection : Interfaces.C.unsigned_long);
+      dwConnection : Win32_Types.Unsigned_Long);
 
    procedure EnumAdvise
      (This         : IOleObject_Type;
@@ -106,7 +107,7 @@ package GNATOCX.IOleObject_Interface is
 
    procedure GetMiscStatus
      (This      : IOleObject_Type;
-      dwAspect  : Interfaces.C.unsigned_long;
+      dwAspect  : Win32_Types.Unsigned_Long;
       pdwStatus : GNATCOM.Types.Pointer_To_unsigned_long);
 
    procedure SetColorScheme

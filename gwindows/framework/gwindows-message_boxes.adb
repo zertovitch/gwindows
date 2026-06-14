@@ -93,6 +93,7 @@ package body GWindows.Message_Boxes is
         return Integer;
       pragma Import (StdCall, MessageBox,
                        "MessageBox" & Character_Mode_Identifier);
+      pragma Machine_Attribute (MessageBox, "ms_abi");
 
       BoxTitle   : GString_C := GWindows.GStrings.To_GString_C (Title);
       BoxMessage : GString_C := GWindows.GStrings.To_GString_C (Text);
@@ -211,6 +212,7 @@ package body GWindows.Message_Boxes is
    is
       procedure MessageBeep (Tone : Integer);
       pragma Import (StdCall, MessageBeep, "MessageBeep");
+   pragma Machine_Attribute (MessageBeep, "ms_abi");
 
       Tone : Integer;
    begin

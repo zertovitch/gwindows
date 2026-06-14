@@ -40,6 +40,7 @@
 with GWindows.Constants;
 with GWindows.GStrings;
 with GWindows.Types;
+with Win32_Types;
 
 package body GWindows.Locales is
 
@@ -72,14 +73,15 @@ package body GWindows.Locales is
       Buffer : GString_C (0 .. Constants.Max_Text);
 
       function GetLocaleInfo
-        (Locale   : Interfaces.C.long  := LOCALE_USER_DEFAULT;
-         LCType   : Interfaces.C.long  := Interfaces.C.long (Locale_Info_Code);
+        (Locale   : Win32_Types.Long  := LOCALE_USER_DEFAULT;
+         LCType   : Win32_Types.Long  := Win32_Types.Long (Locale_Info_Code);
          lpLCData : Types.LPTSTR       := Buffer (0)'Unchecked_Access;
          cchData  : Interfaces.C.int   := Constants.Max_Text)
       return Interfaces.C.int;
 
       pragma Import (StdCall, GetLocaleInfo,
                     "GetLocaleInfo" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetLocaleInfo, "ms_abi");
 
       use type Interfaces.C.int;
    begin

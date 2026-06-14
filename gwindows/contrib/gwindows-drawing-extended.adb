@@ -18,6 +18,7 @@ package body GWindows.Drawing.Extended is
         (hdc          : GWindows.Types.Handle := Handle (Canvas);
          iStretchMode : Integer               := HALFTONE);
       pragma Import (StdCall, GDI_SetStretchBltMode, "SetStretchBltMode");
+      pragma Machine_Attribute (GDI_SetStretchBltMode, "ms_abi");
    begin
       Create_Memory_Canvas (MDC, Canvas);
       Select_Object (MDC, Bitmap);
@@ -49,8 +50,9 @@ package body GWindows.Drawing.Extended is
          nHeightSrc : Integer               := Source_Height;
          BLENDFUNC  : Blend_Function        := Blending);
       pragma Import (StdCall, GDI_AlphaBlend, "GdiAlphaBlend");
+      pragma Machine_Attribute (GDI_AlphaBlend, "ms_abi");
    begin
       GDI_AlphaBlend;
    end AlphaBlend;
 
-end GWindows.Drawing.Extended;
+end GWindows.Drawing.Extended;

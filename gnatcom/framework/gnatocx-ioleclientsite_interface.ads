@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IOleClientSite_Interface is
 
@@ -18,8 +19,8 @@ package GNATOCX.IOleClientSite_Interface is
 
    procedure GetMoniker
      (This           : IOleClientSite_Type;
-      dwAssign       : Interfaces.C.unsigned_long;
-      dwWhichMoniker : Interfaces.C.unsigned_long;
+      dwAssign       : Win32_Types.Unsigned_Long;
+      dwWhichMoniker : Win32_Types.Unsigned_Long;
       ppmk           : Pointer_To_Pointer_To_IMoniker);
 
    procedure GetContainer
@@ -31,7 +32,7 @@ package GNATOCX.IOleClientSite_Interface is
 
    procedure OnShowWindow
      (This  : IOleClientSite_Type;
-      fShow : Interfaces.C.long);
+      fShow : Win32_Types.Long);
 
    procedure RequestNewObjectLayout
      (This : IOleClientSite_Type);

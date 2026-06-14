@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body ADO.uParameter_Interface is
 
@@ -208,7 +209,7 @@ package body ADO.uParameter_Interface is
 
    procedure Put_Size
      (This : uParameter_Type;
-      pl   : Interfaces.C.long)
+      pl   : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -220,9 +221,9 @@ package body ADO.uParameter_Interface is
 
    function Get_Size
      (This : uParameter_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Size
@@ -252,9 +253,9 @@ package body ADO.uParameter_Interface is
 
    function Get_Attributes
      (This          : uParameter_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Attributes
@@ -266,7 +267,7 @@ package body ADO.uParameter_Interface is
 
    procedure Put_Attributes
      (This          : uParameter_Type;
-      plParmAttribs : Interfaces.C.long)
+      plParmAttribs : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check

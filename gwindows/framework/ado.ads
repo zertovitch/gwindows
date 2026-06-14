@@ -11,46 +11,47 @@ with Interfaces.C;
 
 with GNATCOM.Types;
 with GNATCOM.GUID;
+with Win32_Types;
 
 package ADO is
 
-   subtype CursorTypeEnum is Interfaces.C.long;
-   subtype CursorOptionEnum is Interfaces.C.long;
-   subtype LockTypeEnum is Interfaces.C.long;
-   subtype ExecuteOptionEnum is Interfaces.C.long;
-   subtype ConnectOptionEnum is Interfaces.C.long;
-   subtype ObjectStateEnum is Interfaces.C.long;
-   subtype CursorLocationEnum is Interfaces.C.long;
-   subtype DataTypeEnum is Interfaces.C.long;
-   subtype FieldAttributeEnum is Interfaces.C.long;
-   subtype EditModeEnum is Interfaces.C.long;
-   subtype RecordStatusEnum is Interfaces.C.long;
-   subtype GetRowsOptionEnum is Interfaces.C.long;
-   subtype PositionEnum is Interfaces.C.long;
-   subtype BookmarkEnum is Interfaces.C.long;
-   subtype MarshalOptionsEnum is Interfaces.C.long;
-   subtype AffectEnum is Interfaces.C.long;
-   subtype ResyncEnum is Interfaces.C.long;
-   subtype CompareEnum is Interfaces.C.long;
-   subtype FilterGroupEnum is Interfaces.C.long;
-   subtype SearchDirectionEnum is Interfaces.C.long;
+   subtype CursorTypeEnum is Win32_Types.Long;
+   subtype CursorOptionEnum is Win32_Types.Long;
+   subtype LockTypeEnum is Win32_Types.Long;
+   subtype ExecuteOptionEnum is Win32_Types.Long;
+   subtype ConnectOptionEnum is Win32_Types.Long;
+   subtype ObjectStateEnum is Win32_Types.Long;
+   subtype CursorLocationEnum is Win32_Types.Long;
+   subtype DataTypeEnum is Win32_Types.Long;
+   subtype FieldAttributeEnum is Win32_Types.Long;
+   subtype EditModeEnum is Win32_Types.Long;
+   subtype RecordStatusEnum is Win32_Types.Long;
+   subtype GetRowsOptionEnum is Win32_Types.Long;
+   subtype PositionEnum is Win32_Types.Long;
+   subtype BookmarkEnum is Win32_Types.Long;
+   subtype MarshalOptionsEnum is Win32_Types.Long;
+   subtype AffectEnum is Win32_Types.Long;
+   subtype ResyncEnum is Win32_Types.Long;
+   subtype CompareEnum is Win32_Types.Long;
+   subtype FilterGroupEnum is Win32_Types.Long;
+   subtype SearchDirectionEnum is Win32_Types.Long;
    type SearchDirection;
-   subtype PersistFormatEnum is Interfaces.C.long;
-   subtype StringFormatEnum is Interfaces.C.long;
-   subtype ADCPROP_UPDATECRITERIA_ENUM is Interfaces.C.long;
-   subtype ADCPROP_ASYNCTHREADPRIORITY_ENUM is Interfaces.C.long;
-   subtype ConnectPromptEnum is Interfaces.C.long;
-   subtype ConnectModeEnum is Interfaces.C.long;
-   subtype IsolationLevelEnum is Interfaces.C.long;
-   subtype XactAttributeEnum is Interfaces.C.long;
-   subtype PropertyAttributesEnum is Interfaces.C.long;
-   subtype ErrorValueEnum is Interfaces.C.long;
-   subtype ParameterAttributesEnum is Interfaces.C.long;
-   subtype ParameterDirectionEnum is Interfaces.C.long;
-   subtype CommandTypeEnum is Interfaces.C.long;
-   subtype EventStatusEnum is Interfaces.C.long;
-   subtype EventReasonEnum is Interfaces.C.long;
-   subtype SchemaEnum is Interfaces.C.long;
+   subtype PersistFormatEnum is Win32_Types.Long;
+   subtype StringFormatEnum is Win32_Types.Long;
+   subtype ADCPROP_UPDATECRITERIA_ENUM is Win32_Types.Long;
+   subtype ADCPROP_ASYNCTHREADPRIORITY_ENUM is Win32_Types.Long;
+   subtype ConnectPromptEnum is Win32_Types.Long;
+   subtype ConnectModeEnum is Win32_Types.Long;
+   subtype IsolationLevelEnum is Win32_Types.Long;
+   subtype XactAttributeEnum is Win32_Types.Long;
+   subtype PropertyAttributesEnum is Win32_Types.Long;
+   subtype ErrorValueEnum is Win32_Types.Long;
+   subtype ParameterAttributesEnum is Win32_Types.Long;
+   subtype ParameterDirectionEnum is Win32_Types.Long;
+   subtype CommandTypeEnum is Win32_Types.Long;
+   subtype EventStatusEnum is Win32_Types.Long;
+   subtype EventReasonEnum is Win32_Types.Long;
+   subtype SchemaEnum is Win32_Types.Long;
    type uCollection;
    type uDynaCollection;
    type uADO;
@@ -610,46 +611,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCollection_QueryInterface);
+   pragma Machine_Attribute (af_uCollection_QueryInterface, "ms_abi");
 
    type af_uCollection_AddRef is access
      function (This : access uCollection)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uCollection_AddRef);
+   pragma Machine_Attribute (af_uCollection_AddRef, "ms_abi");
 
    type af_uCollection_Release is access
      function (This : access uCollection)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uCollection_Release);
+   pragma Machine_Attribute (af_uCollection_Release, "ms_abi");
 
    type af_uCollection_GetTypeInfoCount is access
      function (This    : access uCollection;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCollection_GetTypeInfoCount);
+   pragma Machine_Attribute (af_uCollection_GetTypeInfoCount, "ms_abi");
 
    type af_uCollection_GetTypeInfo is access
      function (This    : access uCollection;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCollection_GetTypeInfo);
+   pragma Machine_Attribute (af_uCollection_GetTypeInfo, "ms_abi");
 
    type af_uCollection_GetIDsOfNames is access
      function (This      : access uCollection;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCollection_GetIDsOfNames);
+   pragma Machine_Attribute (af_uCollection_GetIDsOfNames, "ms_abi");
 
    type af_uCollection_Invoke is access
      function (This         : access uCollection;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -657,23 +664,27 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCollection_Invoke);
+   pragma Machine_Attribute (af_uCollection_Invoke, "ms_abi");
 
    type af_uCollection_Get_Count is access
      function (This : access uCollection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCollection_Get_Count);
+   pragma Machine_Attribute (af_uCollection_Get_Count, "ms_abi");
 
    type af_uCollection_uNewEnum is access
      function (This      : access uCollection;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCollection_uNewEnum);
+   pragma Machine_Attribute (af_uCollection_uNewEnum, "ms_abi");
 
    type af_uCollection_Refresh is access
      function (This : access uCollection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCollection_Refresh);
+   pragma Machine_Attribute (af_uCollection_Refresh, "ms_abi");
 
    type uCollectionVtbl;
    type Pointer_To_uCollectionVtbl is access all uCollectionVtbl;
@@ -724,46 +735,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uDynaCollection_QueryInterface);
+   pragma Machine_Attribute (af_uDynaCollection_QueryInterface, "ms_abi");
 
    type af_uDynaCollection_AddRef is access
      function (This : access uDynaCollection)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uDynaCollection_AddRef);
+   pragma Machine_Attribute (af_uDynaCollection_AddRef, "ms_abi");
 
    type af_uDynaCollection_Release is access
      function (This : access uDynaCollection)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uDynaCollection_Release);
+   pragma Machine_Attribute (af_uDynaCollection_Release, "ms_abi");
 
    type af_uDynaCollection_GetTypeInfoCount is access
      function (This    : access uDynaCollection;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uDynaCollection_GetTypeInfoCount);
+   pragma Machine_Attribute (af_uDynaCollection_GetTypeInfoCount, "ms_abi");
 
    type af_uDynaCollection_GetTypeInfo is access
      function (This    : access uDynaCollection;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uDynaCollection_GetTypeInfo);
+   pragma Machine_Attribute (af_uDynaCollection_GetTypeInfo, "ms_abi");
 
    type af_uDynaCollection_GetIDsOfNames is access
      function (This      : access uDynaCollection;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uDynaCollection_GetIDsOfNames);
+   pragma Machine_Attribute (af_uDynaCollection_GetIDsOfNames, "ms_abi");
 
    type af_uDynaCollection_Invoke is access
      function (This         : access uDynaCollection;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -771,35 +788,41 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uDynaCollection_Invoke);
+   pragma Machine_Attribute (af_uDynaCollection_Invoke, "ms_abi");
 
    type af_uDynaCollection_Get_Count is access
      function (This : access uDynaCollection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uDynaCollection_Get_Count);
+   pragma Machine_Attribute (af_uDynaCollection_Get_Count, "ms_abi");
 
    type af_uDynaCollection_uNewEnum is access
      function (This      : access uDynaCollection;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uDynaCollection_uNewEnum);
+   pragma Machine_Attribute (af_uDynaCollection_uNewEnum, "ms_abi");
 
    type af_uDynaCollection_Refresh is access
      function (This : access uDynaCollection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uDynaCollection_Refresh);
+   pragma Machine_Attribute (af_uDynaCollection_Refresh, "ms_abi");
 
    type af_uDynaCollection_Append is access
      function (This   : access uDynaCollection;
                Object : GNATCOM.Types.Pointer_To_IDispatch)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uDynaCollection_Append);
+   pragma Machine_Attribute (af_uDynaCollection_Append, "ms_abi");
 
    type af_uDynaCollection_Delete is access
      function (This  : access uDynaCollection;
                Index : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uDynaCollection_Delete);
+   pragma Machine_Attribute (af_uDynaCollection_Delete, "ms_abi");
 
    type uDynaCollectionVtbl;
    type Pointer_To_uDynaCollectionVtbl is access all uDynaCollectionVtbl;
@@ -854,46 +877,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_QueryInterface);
+   pragma Machine_Attribute (af_Property_QueryInterface, "ms_abi");
 
    type af_Property_AddRef is access
      function (This : access Property)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Property_AddRef);
+   pragma Machine_Attribute (af_Property_AddRef, "ms_abi");
 
    type af_Property_Release is access
      function (This : access Property)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Property_Release);
+   pragma Machine_Attribute (af_Property_Release, "ms_abi");
 
    type af_Property_GetTypeInfoCount is access
      function (This    : access Property;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_GetTypeInfoCount);
+   pragma Machine_Attribute (af_Property_GetTypeInfoCount, "ms_abi");
 
    type af_Property_GetTypeInfo is access
      function (This    : access Property;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_GetTypeInfo);
+   pragma Machine_Attribute (af_Property_GetTypeInfo, "ms_abi");
 
    type af_Property_GetIDsOfNames is access
      function (This      : access Property;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_GetIDsOfNames);
+   pragma Machine_Attribute (af_Property_GetIDsOfNames, "ms_abi");
 
    type af_Property_Invoke is access
      function (This         : access Property;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -901,42 +930,49 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_Invoke);
+   pragma Machine_Attribute (af_Property_Invoke, "ms_abi");
 
    type af_Property_Get_Value is access
      function (This : access Property;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_Get_Value);
+   pragma Machine_Attribute (af_Property_Get_Value, "ms_abi");
 
    type af_Property_Put_Value is access
      function (This : access Property;
                pval : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_Put_Value);
+   pragma Machine_Attribute (af_Property_Put_Value, "ms_abi");
 
    type af_Property_Get_Name is access
      function (This  : access Property;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_Get_Name);
+   pragma Machine_Attribute (af_Property_Get_Name, "ms_abi");
 
    type af_Property_Get_Type is access
      function (This  : access Property;
                RetVal : Pointer_To_DataTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_Get_Type);
+   pragma Machine_Attribute (af_Property_Get_Type, "ms_abi");
 
    type af_Property_Get_Attributes is access
      function (This         : access Property;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_Get_Attributes);
+   pragma Machine_Attribute (af_Property_Get_Attributes, "ms_abi");
 
    type af_Property_Put_Attributes is access
      function (This         : access Property;
-               plAttributes : Interfaces.C.long)
+               plAttributes : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Property_Put_Attributes);
+   pragma Machine_Attribute (af_Property_Put_Attributes, "ms_abi");
 
    type PropertyVtbl;
    type Pointer_To_PropertyVtbl is access all PropertyVtbl;
@@ -993,46 +1029,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Properties_QueryInterface);
+   pragma Machine_Attribute (af_Properties_QueryInterface, "ms_abi");
 
    type af_Properties_AddRef is access
      function (This : access Properties)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Properties_AddRef);
+   pragma Machine_Attribute (af_Properties_AddRef, "ms_abi");
 
    type af_Properties_Release is access
      function (This : access Properties)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Properties_Release);
+   pragma Machine_Attribute (af_Properties_Release, "ms_abi");
 
    type af_Properties_GetTypeInfoCount is access
      function (This    : access Properties;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Properties_GetTypeInfoCount);
+   pragma Machine_Attribute (af_Properties_GetTypeInfoCount, "ms_abi");
 
    type af_Properties_GetTypeInfo is access
      function (This    : access Properties;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Properties_GetTypeInfo);
+   pragma Machine_Attribute (af_Properties_GetTypeInfo, "ms_abi");
 
    type af_Properties_GetIDsOfNames is access
      function (This      : access Properties;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Properties_GetIDsOfNames);
+   pragma Machine_Attribute (af_Properties_GetIDsOfNames, "ms_abi");
 
    type af_Properties_Invoke is access
      function (This         : access Properties;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -1040,23 +1082,27 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Properties_Invoke);
+   pragma Machine_Attribute (af_Properties_Invoke, "ms_abi");
 
    type af_Properties_Get_Count is access
      function (This : access Properties;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Properties_Get_Count);
+   pragma Machine_Attribute (af_Properties_Get_Count, "ms_abi");
 
    type af_Properties_uNewEnum is access
      function (This      : access Properties;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Properties_uNewEnum);
+   pragma Machine_Attribute (af_Properties_uNewEnum, "ms_abi");
 
    type af_Properties_Refresh is access
      function (This : access Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Properties_Refresh);
+   pragma Machine_Attribute (af_Properties_Refresh, "ms_abi");
 
    type af_Properties_Get_Item is access
      function (This      : access Properties;
@@ -1064,6 +1110,7 @@ package ADO is
                RetVal : Pointer_To_Pointer_To_Property)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Properties_Get_Item);
+   pragma Machine_Attribute (af_Properties_Get_Item, "ms_abi");
 
    type PropertiesVtbl;
    type Pointer_To_PropertiesVtbl is access all PropertiesVtbl;
@@ -1116,46 +1163,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uADO_QueryInterface);
+   pragma Machine_Attribute (af_uADO_QueryInterface, "ms_abi");
 
    type af_uADO_AddRef is access
      function (This : access uADO)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uADO_AddRef);
+   pragma Machine_Attribute (af_uADO_AddRef, "ms_abi");
 
    type af_uADO_Release is access
      function (This : access uADO)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uADO_Release);
+   pragma Machine_Attribute (af_uADO_Release, "ms_abi");
 
    type af_uADO_GetTypeInfoCount is access
      function (This    : access uADO;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uADO_GetTypeInfoCount);
+   pragma Machine_Attribute (af_uADO_GetTypeInfoCount, "ms_abi");
 
    type af_uADO_GetTypeInfo is access
      function (This    : access uADO;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uADO_GetTypeInfo);
+   pragma Machine_Attribute (af_uADO_GetTypeInfo, "ms_abi");
 
    type af_uADO_GetIDsOfNames is access
      function (This      : access uADO;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uADO_GetIDsOfNames);
+   pragma Machine_Attribute (af_uADO_GetIDsOfNames, "ms_abi");
 
    type af_uADO_Invoke is access
      function (This         : access uADO;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -1163,12 +1216,14 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uADO_Invoke);
+   pragma Machine_Attribute (af_uADO_Invoke, "ms_abi");
 
    type af_uADO_Get_Properties is access
      function (This      : access uADO;
                RetVal : Pointer_To_Pointer_To_Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uADO_Get_Properties);
+   pragma Machine_Attribute (af_uADO_Get_Properties, "ms_abi");
 
    type uADOVtbl;
    type Pointer_To_uADOVtbl is access all uADOVtbl;
@@ -1215,46 +1270,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_QueryInterface);
+   pragma Machine_Attribute (af_Error_QueryInterface, "ms_abi");
 
    type af_Error_AddRef is access
      function (This : access Error)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Error_AddRef);
+   pragma Machine_Attribute (af_Error_AddRef, "ms_abi");
 
    type af_Error_Release is access
      function (This : access Error)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Error_Release);
+   pragma Machine_Attribute (af_Error_Release, "ms_abi");
 
    type af_Error_GetTypeInfoCount is access
      function (This    : access Error;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_GetTypeInfoCount);
+   pragma Machine_Attribute (af_Error_GetTypeInfoCount, "ms_abi");
 
    type af_Error_GetTypeInfo is access
      function (This    : access Error;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_GetTypeInfo);
+   pragma Machine_Attribute (af_Error_GetTypeInfo, "ms_abi");
 
    type af_Error_GetIDsOfNames is access
      function (This      : access Error;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_GetIDsOfNames);
+   pragma Machine_Attribute (af_Error_GetIDsOfNames, "ms_abi");
 
    type af_Error_Invoke is access
      function (This         : access Error;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -1262,48 +1323,56 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_Invoke);
+   pragma Machine_Attribute (af_Error_Invoke, "ms_abi");
 
    type af_Error_Get_Number is access
      function (This : access Error;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_Get_Number);
+   pragma Machine_Attribute (af_Error_Get_Number, "ms_abi");
 
    type af_Error_Get_Source is access
      function (This  : access Error;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_Get_Source);
+   pragma Machine_Attribute (af_Error_Get_Source, "ms_abi");
 
    type af_Error_Get_Description is access
      function (This  : access Error;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_Get_Description);
+   pragma Machine_Attribute (af_Error_Get_Description, "ms_abi");
 
    type af_Error_Get_HelpFile is access
      function (This  : access Error;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_Get_HelpFile);
+   pragma Machine_Attribute (af_Error_Get_HelpFile, "ms_abi");
 
    type af_Error_Get_HelpContext is access
      function (This : access Error;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_Get_HelpContext);
+   pragma Machine_Attribute (af_Error_Get_HelpContext, "ms_abi");
 
    type af_Error_Get_SQLState is access
      function (This  : access Error;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_Get_SQLState);
+   pragma Machine_Attribute (af_Error_Get_SQLState, "ms_abi");
 
    type af_Error_Get_NativeError is access
      function (This : access Error;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Error_Get_NativeError);
+   pragma Machine_Attribute (af_Error_Get_NativeError, "ms_abi");
 
    type ErrorVtbl;
    type Pointer_To_ErrorVtbl is access all ErrorVtbl;
@@ -1362,46 +1431,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Errors_QueryInterface);
+   pragma Machine_Attribute (af_Errors_QueryInterface, "ms_abi");
 
    type af_Errors_AddRef is access
      function (This : access Errors)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Errors_AddRef);
+   pragma Machine_Attribute (af_Errors_AddRef, "ms_abi");
 
    type af_Errors_Release is access
      function (This : access Errors)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Errors_Release);
+   pragma Machine_Attribute (af_Errors_Release, "ms_abi");
 
    type af_Errors_GetTypeInfoCount is access
      function (This    : access Errors;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Errors_GetTypeInfoCount);
+   pragma Machine_Attribute (af_Errors_GetTypeInfoCount, "ms_abi");
 
    type af_Errors_GetTypeInfo is access
      function (This    : access Errors;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Errors_GetTypeInfo);
+   pragma Machine_Attribute (af_Errors_GetTypeInfo, "ms_abi");
 
    type af_Errors_GetIDsOfNames is access
      function (This      : access Errors;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Errors_GetIDsOfNames);
+   pragma Machine_Attribute (af_Errors_GetIDsOfNames, "ms_abi");
 
    type af_Errors_Invoke is access
      function (This         : access Errors;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -1409,23 +1484,27 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Errors_Invoke);
+   pragma Machine_Attribute (af_Errors_Invoke, "ms_abi");
 
    type af_Errors_Get_Count is access
      function (This : access Errors;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Errors_Get_Count);
+   pragma Machine_Attribute (af_Errors_Get_Count, "ms_abi");
 
    type af_Errors_uNewEnum is access
      function (This      : access Errors;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Errors_uNewEnum);
+   pragma Machine_Attribute (af_Errors_uNewEnum, "ms_abi");
 
    type af_Errors_Refresh is access
      function (This : access Errors)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Errors_Refresh);
+   pragma Machine_Attribute (af_Errors_Refresh, "ms_abi");
 
    type af_Errors_Get_Item is access
      function (This      : access Errors;
@@ -1433,11 +1512,13 @@ package ADO is
                RetVal : Pointer_To_Pointer_To_Error)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Errors_Get_Item);
+   pragma Machine_Attribute (af_Errors_Get_Item, "ms_abi");
 
    type af_Errors_Clear is access
      function (This : access Errors)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Errors_Clear);
+   pragma Machine_Attribute (af_Errors_Clear, "ms_abi");
 
    type ErrorsVtbl;
    type Pointer_To_ErrorsVtbl is access all ErrorsVtbl;
@@ -1492,46 +1573,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_QueryInterface);
+   pragma Machine_Attribute (af_Field_QueryInterface, "ms_abi");
 
    type af_Field_AddRef is access
      function (This : access Field)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Field_AddRef);
+   pragma Machine_Attribute (af_Field_AddRef, "ms_abi");
 
    type af_Field_Release is access
      function (This : access Field)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Field_Release);
+   pragma Machine_Attribute (af_Field_Release, "ms_abi");
 
    type af_Field_GetTypeInfoCount is access
      function (This    : access Field;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_GetTypeInfoCount);
+   pragma Machine_Attribute (af_Field_GetTypeInfoCount, "ms_abi");
 
    type af_Field_GetTypeInfo is access
      function (This    : access Field;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_GetTypeInfo);
+   pragma Machine_Attribute (af_Field_GetTypeInfo, "ms_abi");
 
    type af_Field_GetIDsOfNames is access
      function (This      : access Field;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_GetIDsOfNames);
+   pragma Machine_Attribute (af_Field_GetIDsOfNames, "ms_abi");
 
    type af_Field_Invoke is access
      function (This         : access Field;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -1539,133 +1626,155 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Invoke);
+   pragma Machine_Attribute (af_Field_Invoke, "ms_abi");
 
    type af_Field_Get_Properties is access
      function (This      : access Field;
                RetVal : Pointer_To_Pointer_To_Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_Properties);
+   pragma Machine_Attribute (af_Field_Get_Properties, "ms_abi");
 
    type af_Field_Get_ActualSize is access
      function (This : access Field;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_ActualSize);
+   pragma Machine_Attribute (af_Field_Get_ActualSize, "ms_abi");
 
    type af_Field_Get_Attributes is access
      function (This : access Field;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_Attributes);
+   pragma Machine_Attribute (af_Field_Get_Attributes, "ms_abi");
 
    type af_Field_Get_DefinedSize is access
      function (This : access Field;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_DefinedSize);
+   pragma Machine_Attribute (af_Field_Get_DefinedSize, "ms_abi");
 
    type af_Field_Get_Name is access
      function (This  : access Field;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_Name);
+   pragma Machine_Attribute (af_Field_Get_Name, "ms_abi");
 
    type af_Field_Get_Type is access
      function (This      : access Field;
                RetVal : Pointer_To_DataTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_Type);
+   pragma Machine_Attribute (af_Field_Get_Type, "ms_abi");
 
    type af_Field_Get_Value is access
      function (This : access Field;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_Value);
+   pragma Machine_Attribute (af_Field_Get_Value, "ms_abi");
 
    type af_Field_Put_Value is access
      function (This : access Field;
                pvar : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Put_Value);
+   pragma Machine_Attribute (af_Field_Put_Value, "ms_abi");
 
    type af_Field_Get_Precision is access
      function (This        : access Field;
                RetVal : Pointer_To_unsigned_char)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_Precision);
+   pragma Machine_Attribute (af_Field_Get_Precision, "ms_abi");
 
    type af_Field_Get_NumericScale is access
      function (This           : access Field;
                RetVal : Pointer_To_unsigned_char)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_NumericScale);
+   pragma Machine_Attribute (af_Field_Get_NumericScale, "ms_abi");
 
    type af_Field_AppendChunk is access
      function (This : access Field;
                Data : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_AppendChunk);
+   pragma Machine_Attribute (af_Field_AppendChunk, "ms_abi");
 
    type af_Field_GetChunk is access
      function (This   : access Field;
-               Length : Interfaces.C.long;
+               Length : Win32_Types.Long;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_GetChunk);
+   pragma Machine_Attribute (af_Field_GetChunk, "ms_abi");
 
    type af_Field_Get_OriginalValue is access
      function (This : access Field;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_OriginalValue);
+   pragma Machine_Attribute (af_Field_Get_OriginalValue, "ms_abi");
 
    type af_Field_Get_UnderlyingValue is access
      function (This : access Field;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_UnderlyingValue);
+   pragma Machine_Attribute (af_Field_Get_UnderlyingValue, "ms_abi");
 
    type af_Field_Get_DataFormat is access
      function (This  : access Field;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Get_DataFormat);
+   pragma Machine_Attribute (af_Field_Get_DataFormat, "ms_abi");
 
    type af_Field_PutRef_DataFormat is access
      function (This  : access Field;
                ppiDF : GNATCOM.Types.Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_PutRef_DataFormat);
+   pragma Machine_Attribute (af_Field_PutRef_DataFormat, "ms_abi");
 
    type af_Field_Put_Precision is access
      function (This        : access Field;
                pbPrecision : Interfaces.C.unsigned_char)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Put_Precision);
+   pragma Machine_Attribute (af_Field_Put_Precision, "ms_abi");
 
    type af_Field_Put_NumericScale is access
      function (This           : access Field;
                pbNumericScale : Interfaces.C.unsigned_char)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Put_NumericScale);
+   pragma Machine_Attribute (af_Field_Put_NumericScale, "ms_abi");
 
    type af_Field_Put_Type is access
      function (This      : access Field;
                pDataType : DataTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Put_Type);
+   pragma Machine_Attribute (af_Field_Put_Type, "ms_abi");
 
    type af_Field_Put_DefinedSize is access
      function (This : access Field;
-               pl   : Interfaces.C.long)
+               pl   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Put_DefinedSize);
+   pragma Machine_Attribute (af_Field_Put_DefinedSize, "ms_abi");
 
    type af_Field_Put_Attributes is access
      function (This : access Field;
-               pl   : Interfaces.C.long)
+               pl   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field_Put_Attributes);
+   pragma Machine_Attribute (af_Field_Put_Attributes, "ms_abi");
 
    type FieldVtbl;
    type Pointer_To_FieldVtbl is access all FieldVtbl;
@@ -1752,46 +1861,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_QueryInterface);
+   pragma Machine_Attribute (af_Fields_QueryInterface, "ms_abi");
 
    type af_Fields_AddRef is access
      function (This : access Fields)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Fields_AddRef);
+   pragma Machine_Attribute (af_Fields_AddRef, "ms_abi");
 
    type af_Fields_Release is access
      function (This : access Fields)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Fields_Release);
+   pragma Machine_Attribute (af_Fields_Release, "ms_abi");
 
    type af_Fields_GetTypeInfoCount is access
      function (This    : access Fields;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_GetTypeInfoCount);
+   pragma Machine_Attribute (af_Fields_GetTypeInfoCount, "ms_abi");
 
    type af_Fields_GetTypeInfo is access
      function (This    : access Fields;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_GetTypeInfo);
+   pragma Machine_Attribute (af_Fields_GetTypeInfo, "ms_abi");
 
    type af_Fields_GetIDsOfNames is access
      function (This      : access Fields;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_GetIDsOfNames);
+   pragma Machine_Attribute (af_Fields_GetIDsOfNames, "ms_abi");
 
    type af_Fields_Invoke is access
      function (This         : access Fields;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -1799,23 +1914,27 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_Invoke);
+   pragma Machine_Attribute (af_Fields_Invoke, "ms_abi");
 
    type af_Fields_Get_Count is access
      function (This : access Fields;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_Get_Count);
+   pragma Machine_Attribute (af_Fields_Get_Count, "ms_abi");
 
    type af_Fields_uNewEnum is access
      function (This      : access Fields;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_uNewEnum);
+   pragma Machine_Attribute (af_Fields_uNewEnum, "ms_abi");
 
    type af_Fields_Refresh is access
      function (This : access Fields)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_Refresh);
+   pragma Machine_Attribute (af_Fields_Refresh, "ms_abi");
 
    type af_Fields_Get_Item is access
      function (This      : access Fields;
@@ -1823,21 +1942,24 @@ package ADO is
                RetVal : Pointer_To_Pointer_To_Field)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_Get_Item);
+   pragma Machine_Attribute (af_Fields_Get_Item, "ms_abi");
 
    type af_Fields_Append is access
      function (This        : access Fields;
                Name        : GNATCOM.Types.BSTR;
                uType       : DataTypeEnum;
-               DefinedSize : Interfaces.C.long;
+               DefinedSize : Win32_Types.Long;
                Attrib      : FieldAttributeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_Append);
+   pragma Machine_Attribute (af_Fields_Append, "ms_abi");
 
    type af_Fields_Delete is access
      function (This  : access Fields;
                Index : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields_Delete);
+   pragma Machine_Attribute (af_Fields_Delete, "ms_abi");
 
    type FieldsVtbl;
    type Pointer_To_FieldsVtbl is access all FieldsVtbl;
@@ -1894,46 +2016,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_QueryInterface);
+   pragma Machine_Attribute (af_uRecordset_QueryInterface, "ms_abi");
 
    type af_uRecordset_AddRef is access
      function (This : access uRecordset)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uRecordset_AddRef);
+   pragma Machine_Attribute (af_uRecordset_AddRef, "ms_abi");
 
    type af_uRecordset_Release is access
      function (This : access uRecordset)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uRecordset_Release);
+   pragma Machine_Attribute (af_uRecordset_Release, "ms_abi");
 
    type af_uRecordset_GetTypeInfoCount is access
      function (This    : access uRecordset;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_GetTypeInfoCount);
+   pragma Machine_Attribute (af_uRecordset_GetTypeInfoCount, "ms_abi");
 
    type af_uRecordset_GetTypeInfo is access
      function (This    : access uRecordset;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_GetTypeInfo);
+   pragma Machine_Attribute (af_uRecordset_GetTypeInfo, "ms_abi");
 
    type af_uRecordset_GetIDsOfNames is access
      function (This      : access uRecordset;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_GetIDsOfNames);
+   pragma Machine_Attribute (af_uRecordset_GetIDsOfNames, "ms_abi");
 
    type af_uRecordset_Invoke is access
      function (This         : access uRecordset;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -1941,144 +2069,168 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Invoke);
+   pragma Machine_Attribute (af_uRecordset_Invoke, "ms_abi");
 
    type af_uRecordset_Get_Properties is access
      function (This      : access uRecordset;
                RetVal : Pointer_To_Pointer_To_Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_Properties);
+   pragma Machine_Attribute (af_uRecordset_Get_Properties, "ms_abi");
 
    type af_uRecordset_Get_AbsolutePosition is access
      function (This : access uRecordset;
                RetVal : Pointer_To_PositionEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_AbsolutePosition);
+   pragma Machine_Attribute (af_uRecordset_Get_AbsolutePosition, "ms_abi");
 
    type af_uRecordset_Put_AbsolutePosition is access
      function (This : access uRecordset;
                pl   : PositionEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_AbsolutePosition);
+   pragma Machine_Attribute (af_uRecordset_Put_AbsolutePosition, "ms_abi");
 
    type af_uRecordset_PutRef_ActiveConnection is access
      function (This : access uRecordset;
                pvar : GNATCOM.Types.Pointer_To_IDispatch)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_PutRef_ActiveConnection);
+   pragma Machine_Attribute (af_uRecordset_PutRef_ActiveConnection, "ms_abi");
 
    type af_uRecordset_Put_ActiveConnection is access
      function (This : access uRecordset;
                pvar : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_ActiveConnection);
+   pragma Machine_Attribute (af_uRecordset_Put_ActiveConnection, "ms_abi");
 
    type af_uRecordset_Get_ActiveConnection is access
      function (This : access uRecordset;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_ActiveConnection);
+   pragma Machine_Attribute (af_uRecordset_Get_ActiveConnection, "ms_abi");
 
    type af_uRecordset_Get_BOF is access
      function (This : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_BOF);
+   pragma Machine_Attribute (af_uRecordset_Get_BOF, "ms_abi");
 
    type af_uRecordset_Get_Bookmark is access
      function (This       : access uRecordset;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_Bookmark);
+   pragma Machine_Attribute (af_uRecordset_Get_Bookmark, "ms_abi");
 
    type af_uRecordset_Put_Bookmark is access
      function (This       : access uRecordset;
                pvBookmark : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_Bookmark);
+   pragma Machine_Attribute (af_uRecordset_Put_Bookmark, "ms_abi");
 
    type af_uRecordset_Get_CacheSize is access
      function (This : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_CacheSize);
+   pragma Machine_Attribute (af_uRecordset_Get_CacheSize, "ms_abi");
 
    type af_uRecordset_Put_CacheSize is access
      function (This : access uRecordset;
-               pl   : Interfaces.C.long)
+               pl   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_CacheSize);
+   pragma Machine_Attribute (af_uRecordset_Put_CacheSize, "ms_abi");
 
    type af_uRecordset_Get_CursorType is access
      function (This         : access uRecordset;
                RetVal : Pointer_To_CursorTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_CursorType);
+   pragma Machine_Attribute (af_uRecordset_Get_CursorType, "ms_abi");
 
    type af_uRecordset_Put_CursorType is access
      function (This         : access uRecordset;
                plCursorType : CursorTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_CursorType);
+   pragma Machine_Attribute (af_uRecordset_Put_CursorType, "ms_abi");
 
    type af_uRecordset_Get_EOF is access
      function (This : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_EOF);
+   pragma Machine_Attribute (af_uRecordset_Get_EOF, "ms_abi");
 
    type af_uRecordset_Get_Fields is access
      function (This      : access uRecordset;
                RetVal : Pointer_To_Pointer_To_Fields)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_Fields);
+   pragma Machine_Attribute (af_uRecordset_Get_Fields, "ms_abi");
 
    type af_uRecordset_Get_LockType is access
      function (This       : access uRecordset;
                RetVal : Pointer_To_LockTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_LockType);
+   pragma Machine_Attribute (af_uRecordset_Get_LockType, "ms_abi");
 
    type af_uRecordset_Put_LockType is access
      function (This       : access uRecordset;
                plLockType : LockTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_LockType);
+   pragma Machine_Attribute (af_uRecordset_Put_LockType, "ms_abi");
 
    type af_uRecordset_Get_MaxRecords is access
      function (This         : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_MaxRecords);
+   pragma Machine_Attribute (af_uRecordset_Get_MaxRecords, "ms_abi");
 
    type af_uRecordset_Put_MaxRecords is access
      function (This         : access uRecordset;
-               plMaxRecords : Interfaces.C.long)
+               plMaxRecords : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_MaxRecords);
+   pragma Machine_Attribute (af_uRecordset_Put_MaxRecords, "ms_abi");
 
    type af_uRecordset_Get_RecordCount is access
      function (This : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_RecordCount);
+   pragma Machine_Attribute (af_uRecordset_Get_RecordCount, "ms_abi");
 
    type af_uRecordset_PutRef_Source is access
      function (This     : access uRecordset;
                pvSource : GNATCOM.Types.Pointer_To_IDispatch)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_PutRef_Source);
+   pragma Machine_Attribute (af_uRecordset_PutRef_Source, "ms_abi");
 
    type af_uRecordset_Put_Source is access
      function (This     : access uRecordset;
                pvSource : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_Source);
+   pragma Machine_Attribute (af_uRecordset_Put_Source, "ms_abi");
 
    type af_uRecordset_Get_Source is access
      function (This     : access uRecordset;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_Source);
+   pragma Machine_Attribute (af_uRecordset_Get_Source, "ms_abi");
 
    type af_uRecordset_AddNew is access
      function (This      : access uRecordset;
@@ -2086,58 +2238,68 @@ package ADO is
                Values    : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_AddNew);
+   pragma Machine_Attribute (af_uRecordset_AddNew, "ms_abi");
 
    type af_uRecordset_CancelUpdate is access
      function (This : access uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_CancelUpdate);
+   pragma Machine_Attribute (af_uRecordset_CancelUpdate, "ms_abi");
 
    type af_uRecordset_Close is access
      function (This : access uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Close);
+   pragma Machine_Attribute (af_uRecordset_Close, "ms_abi");
 
    type af_uRecordset_Delete is access
      function (This          : access uRecordset;
                AffectRecords : AffectEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Delete);
+   pragma Machine_Attribute (af_uRecordset_Delete, "ms_abi");
 
    type af_uRecordset_GetRows is access
      function (This   : access uRecordset;
-               Rows   : Interfaces.C.long;
+               Rows   : Win32_Types.Long;
                Start  : GNATCOM.Types.VARIANT;
                Fields : GNATCOM.Types.VARIANT;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_GetRows);
+   pragma Machine_Attribute (af_uRecordset_GetRows, "ms_abi");
 
    type af_uRecordset_Move is access
      function (This       : access uRecordset;
-               NumRecords : Interfaces.C.long;
+               NumRecords : Win32_Types.Long;
                Start      : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Move);
+   pragma Machine_Attribute (af_uRecordset_Move, "ms_abi");
 
    type af_uRecordset_MoveNext is access
      function (This : access uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_MoveNext);
+   pragma Machine_Attribute (af_uRecordset_MoveNext, "ms_abi");
 
    type af_uRecordset_MovePrevious is access
      function (This : access uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_MovePrevious);
+   pragma Machine_Attribute (af_uRecordset_MovePrevious, "ms_abi");
 
    type af_uRecordset_MoveFirst is access
      function (This : access uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_MoveFirst);
+   pragma Machine_Attribute (af_uRecordset_MoveFirst, "ms_abi");
 
    type af_uRecordset_MoveLast is access
      function (This : access uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_MoveLast);
+   pragma Machine_Attribute (af_uRecordset_MoveLast, "ms_abi");
 
    type af_uRecordset_Open is access
      function (This             : access uRecordset;
@@ -2145,21 +2307,24 @@ package ADO is
                ActiveConnection : GNATCOM.Types.VARIANT;
                CursorType       : CursorTypeEnum;
                LockType         : LockTypeEnum;
-               Options          : Interfaces.C.long)
+               Options          : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Open);
+   pragma Machine_Attribute (af_uRecordset_Open, "ms_abi");
 
    type af_uRecordset_Requery is access
      function (This    : access uRecordset;
-               Options : Interfaces.C.long)
+               Options : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Requery);
+   pragma Machine_Attribute (af_uRecordset_Requery, "ms_abi");
 
    type af_uRecordset_uxResync is access
      function (This          : access uRecordset;
                AffectRecords : AffectEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_uxResync);
+   pragma Machine_Attribute (af_uRecordset_uxResync, "ms_abi");
 
    type af_uRecordset_Update is access
      function (This   : access uRecordset;
@@ -2167,108 +2332,126 @@ package ADO is
                Values : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Update);
+   pragma Machine_Attribute (af_uRecordset_Update, "ms_abi");
 
    type af_uRecordset_Get_AbsolutePage is access
      function (This : access uRecordset;
                RetVal : Pointer_To_PositionEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_AbsolutePage);
+   pragma Machine_Attribute (af_uRecordset_Get_AbsolutePage, "ms_abi");
 
    type af_uRecordset_Put_AbsolutePage is access
      function (This : access uRecordset;
                pl   : PositionEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_AbsolutePage);
+   pragma Machine_Attribute (af_uRecordset_Put_AbsolutePage, "ms_abi");
 
    type af_uRecordset_Get_EditMode is access
      function (This : access uRecordset;
                RetVal : Pointer_To_EditModeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_EditMode);
+   pragma Machine_Attribute (af_uRecordset_Get_EditMode, "ms_abi");
 
    type af_uRecordset_Get_Filter is access
      function (This     : access uRecordset;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_Filter);
+   pragma Machine_Attribute (af_uRecordset_Get_Filter, "ms_abi");
 
    type af_uRecordset_Put_Filter is access
      function (This     : access uRecordset;
                Criteria : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_Filter);
+   pragma Machine_Attribute (af_uRecordset_Put_Filter, "ms_abi");
 
    type af_uRecordset_Get_PageCount is access
      function (This : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_PageCount);
+   pragma Machine_Attribute (af_uRecordset_Get_PageCount, "ms_abi");
 
    type af_uRecordset_Get_PageSize is access
      function (This : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_PageSize);
+   pragma Machine_Attribute (af_uRecordset_Get_PageSize, "ms_abi");
 
    type af_uRecordset_Put_PageSize is access
      function (This : access uRecordset;
-               pl   : Interfaces.C.long)
+               pl   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_PageSize);
+   pragma Machine_Attribute (af_uRecordset_Put_PageSize, "ms_abi");
 
    type af_uRecordset_Get_Sort is access
      function (This     : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_Sort);
+   pragma Machine_Attribute (af_uRecordset_Get_Sort, "ms_abi");
 
    type af_uRecordset_Put_Sort is access
      function (This     : access uRecordset;
                Criteria : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_Sort);
+   pragma Machine_Attribute (af_uRecordset_Put_Sort, "ms_abi");
 
    type af_uRecordset_Get_Status is access
      function (This : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_Status);
+   pragma Machine_Attribute (af_uRecordset_Get_Status, "ms_abi");
 
    type af_uRecordset_Get_State is access
      function (This       : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_State);
+   pragma Machine_Attribute (af_uRecordset_Get_State, "ms_abi");
 
    type af_uRecordset_uxClone is access
      function (This      : access uRecordset;
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_uxClone);
+   pragma Machine_Attribute (af_uRecordset_uxClone, "ms_abi");
 
    type af_uRecordset_UpdateBatch is access
      function (This          : access uRecordset;
                AffectRecords : AffectEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_UpdateBatch);
+   pragma Machine_Attribute (af_uRecordset_UpdateBatch, "ms_abi");
 
    type af_uRecordset_CancelBatch is access
      function (This          : access uRecordset;
                AffectRecords : AffectEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_CancelBatch);
+   pragma Machine_Attribute (af_uRecordset_CancelBatch, "ms_abi");
 
    type af_uRecordset_Get_CursorLocation is access
      function (This        : access uRecordset;
                RetVal : Pointer_To_CursorLocationEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_CursorLocation);
+   pragma Machine_Attribute (af_uRecordset_Get_CursorLocation, "ms_abi");
 
    type af_uRecordset_Put_CursorLocation is access
      function (This        : access uRecordset;
                plCursorLoc : CursorLocationEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_CursorLocation);
+   pragma Machine_Attribute (af_uRecordset_Put_CursorLocation, "ms_abi");
 
    type af_uRecordset_NextRecordset is access
      function (This            : access uRecordset;
@@ -2276,6 +2459,7 @@ package ADO is
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_NextRecordset);
+   pragma Machine_Attribute (af_uRecordset_NextRecordset, "ms_abi");
 
    type af_uRecordset_Supports is access
      function (This          : access uRecordset;
@@ -2283,6 +2467,7 @@ package ADO is
                RetVal : GNATCOM.Types.Pointer_To_VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Supports);
+   pragma Machine_Attribute (af_uRecordset_Supports, "ms_abi");
 
    type af_uRecordset_Get_Collect is access
      function (This  : access uRecordset;
@@ -2290,6 +2475,7 @@ package ADO is
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_Collect);
+   pragma Machine_Attribute (af_uRecordset_Get_Collect, "ms_abi");
 
    type af_uRecordset_Put_Collect is access
      function (This  : access uRecordset;
@@ -2297,44 +2483,51 @@ package ADO is
                pvar  : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_Collect);
+   pragma Machine_Attribute (af_uRecordset_Put_Collect, "ms_abi");
 
    type af_uRecordset_Get_MarshalOptions is access
      function (This      : access uRecordset;
                RetVal : Pointer_To_MarshalOptionsEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_MarshalOptions);
+   pragma Machine_Attribute (af_uRecordset_Get_MarshalOptions, "ms_abi");
 
    type af_uRecordset_Put_MarshalOptions is access
      function (This      : access uRecordset;
                peMarshal : MarshalOptionsEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_MarshalOptions);
+   pragma Machine_Attribute (af_uRecordset_Put_MarshalOptions, "ms_abi");
 
    type af_uRecordset_Find is access
      function (This            : access uRecordset;
                Criteria        : GNATCOM.Types.BSTR;
-               SkipRecords     : Interfaces.C.long;
+               SkipRecords     : Win32_Types.Long;
                SearchDirection : SearchDirectionEnum;
                Start           : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Find);
+   pragma Machine_Attribute (af_uRecordset_Find, "ms_abi");
 
    type af_uRecordset_Cancel is access
      function (This : access uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Cancel);
+   pragma Machine_Attribute (af_uRecordset_Cancel, "ms_abi");
 
    type af_uRecordset_Get_DataSource is access
      function (This            : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_DataSource);
+   pragma Machine_Attribute (af_uRecordset_Get_DataSource, "ms_abi");
 
    type af_uRecordset_PutRef_DataSource is access
      function (This            : access uRecordset;
                ppunkDataSource : GNATCOM.Types.Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_PutRef_DataSource);
+   pragma Machine_Attribute (af_uRecordset_PutRef_DataSource, "ms_abi");
 
    type af_uRecordset_Save is access
      function (This          : access uRecordset;
@@ -2342,47 +2535,54 @@ package ADO is
                PersistFormat : PersistFormatEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Save);
+   pragma Machine_Attribute (af_uRecordset_Save, "ms_abi");
 
    type af_uRecordset_Get_ActiveCommand is access
      function (This  : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IDispatch)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_ActiveCommand);
+   pragma Machine_Attribute (af_uRecordset_Get_ActiveCommand, "ms_abi");
 
    type af_uRecordset_Put_StayInSync is access
      function (This         : access uRecordset;
                pbStayInSync : GNATCOM.Types.VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_StayInSync);
+   pragma Machine_Attribute (af_uRecordset_Put_StayInSync, "ms_abi");
 
    type af_uRecordset_Get_StayInSync is access
      function (This         : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_StayInSync);
+   pragma Machine_Attribute (af_uRecordset_Get_StayInSync, "ms_abi");
 
    type af_uRecordset_GetString is access
      function (This            : access uRecordset;
                StringFormat    : StringFormatEnum;
-               NumRows         : Interfaces.C.long;
+               NumRows         : Win32_Types.Long;
                ColumnDelimeter : GNATCOM.Types.BSTR;
                RowDelimeter    : GNATCOM.Types.BSTR;
                NullExpr        : GNATCOM.Types.BSTR;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_GetString);
+   pragma Machine_Attribute (af_uRecordset_GetString, "ms_abi");
 
    type af_uRecordset_Get_DataMember is access
      function (This            : access uRecordset;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Get_DataMember);
+   pragma Machine_Attribute (af_uRecordset_Get_DataMember, "ms_abi");
 
    type af_uRecordset_Put_DataMember is access
      function (This            : access uRecordset;
                pbstrDataMember : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Put_DataMember);
+   pragma Machine_Attribute (af_uRecordset_Put_DataMember, "ms_abi");
 
    type af_uRecordset_CompareBookmarks is access
      function (This      : access uRecordset;
@@ -2391,6 +2591,7 @@ package ADO is
                RetVal : Pointer_To_CompareEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_CompareBookmarks);
+   pragma Machine_Attribute (af_uRecordset_CompareBookmarks, "ms_abi");
 
    type af_uRecordset_Clone is access
      function (This      : access uRecordset;
@@ -2398,6 +2599,7 @@ package ADO is
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Clone);
+   pragma Machine_Attribute (af_uRecordset_Clone, "ms_abi");
 
    type af_uRecordset_Resync is access
      function (This          : access uRecordset;
@@ -2405,6 +2607,7 @@ package ADO is
                ResyncValues  : ResyncEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset_Resync);
+   pragma Machine_Attribute (af_uRecordset_Resync, "ms_abi");
 
    type uRecordsetVtbl;
    type Pointer_To_uRecordsetVtbl is access all uRecordsetVtbl;
@@ -2597,46 +2800,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_QueryInterface);
+   pragma Machine_Attribute (af_uConnection_QueryInterface, "ms_abi");
 
    type af_uConnection_AddRef is access
      function (This : access uConnection)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uConnection_AddRef);
+   pragma Machine_Attribute (af_uConnection_AddRef, "ms_abi");
 
    type af_uConnection_Release is access
      function (This : access uConnection)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uConnection_Release);
+   pragma Machine_Attribute (af_uConnection_Release, "ms_abi");
 
    type af_uConnection_GetTypeInfoCount is access
      function (This    : access uConnection;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_GetTypeInfoCount);
+   pragma Machine_Attribute (af_uConnection_GetTypeInfoCount, "ms_abi");
 
    type af_uConnection_GetTypeInfo is access
      function (This    : access uConnection;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_GetTypeInfo);
+   pragma Machine_Attribute (af_uConnection_GetTypeInfo, "ms_abi");
 
    type af_uConnection_GetIDsOfNames is access
      function (This      : access uConnection;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_GetIDsOfNames);
+   pragma Machine_Attribute (af_uConnection_GetIDsOfNames, "ms_abi");
 
    type af_uConnection_Invoke is access
      function (This         : access uConnection;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -2644,177 +2853,206 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Invoke);
+   pragma Machine_Attribute (af_uConnection_Invoke, "ms_abi");
 
    type af_uConnection_Get_Properties is access
      function (This      : access uConnection;
                RetVal : Pointer_To_Pointer_To_Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_Properties);
+   pragma Machine_Attribute (af_uConnection_Get_Properties, "ms_abi");
 
    type af_uConnection_Get_ConnectionString is access
      function (This  : access uConnection;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_ConnectionString);
+   pragma Machine_Attribute (af_uConnection_Get_ConnectionString, "ms_abi");
 
    type af_uConnection_Put_ConnectionString is access
      function (This  : access uConnection;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Put_ConnectionString);
+   pragma Machine_Attribute (af_uConnection_Put_ConnectionString, "ms_abi");
 
    type af_uConnection_Get_CommandTimeout is access
      function (This      : access uConnection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_CommandTimeout);
+   pragma Machine_Attribute (af_uConnection_Get_CommandTimeout, "ms_abi");
 
    type af_uConnection_Put_CommandTimeout is access
      function (This      : access uConnection;
-               plTimeout : Interfaces.C.long)
+               plTimeout : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Put_CommandTimeout);
+   pragma Machine_Attribute (af_uConnection_Put_CommandTimeout, "ms_abi");
 
    type af_uConnection_Get_ConnectionTimeout is access
      function (This      : access uConnection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_ConnectionTimeout);
+   pragma Machine_Attribute (af_uConnection_Get_ConnectionTimeout, "ms_abi");
 
    type af_uConnection_Put_ConnectionTimeout is access
      function (This      : access uConnection;
-               plTimeout : Interfaces.C.long)
+               plTimeout : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Put_ConnectionTimeout);
+   pragma Machine_Attribute (af_uConnection_Put_ConnectionTimeout, "ms_abi");
 
    type af_uConnection_Get_Version is access
      function (This  : access uConnection;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_Version);
+   pragma Machine_Attribute (af_uConnection_Get_Version, "ms_abi");
 
    type af_uConnection_Close is access
      function (This : access uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Close);
+   pragma Machine_Attribute (af_uConnection_Close, "ms_abi");
 
    type af_uConnection_Execute is access
      function (This            : access uConnection;
                CommandText     : GNATCOM.Types.BSTR;
                RecordsAffected : access GNATCOM.Types.VARIANT;
-               Options         : Interfaces.C.long;
+               Options         : Win32_Types.Long;
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Execute);
+   pragma Machine_Attribute (af_uConnection_Execute, "ms_abi");
 
    type af_uConnection_BeginTrans is access
      function (This             : access uConnection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_BeginTrans);
+   pragma Machine_Attribute (af_uConnection_BeginTrans, "ms_abi");
 
    type af_uConnection_CommitTrans is access
      function (This : access uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_CommitTrans);
+   pragma Machine_Attribute (af_uConnection_CommitTrans, "ms_abi");
 
    type af_uConnection_RollbackTrans is access
      function (This : access uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_RollbackTrans);
+   pragma Machine_Attribute (af_uConnection_RollbackTrans, "ms_abi");
 
    type af_uConnection_Open is access
      function (This             : access uConnection;
                ConnectionString : GNATCOM.Types.BSTR;
                UserID           : GNATCOM.Types.BSTR;
                Password         : GNATCOM.Types.BSTR;
-               Options          : Interfaces.C.long)
+               Options          : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Open);
+   pragma Machine_Attribute (af_uConnection_Open, "ms_abi");
 
    type af_uConnection_Get_Errors is access
      function (This      : access uConnection;
                RetVal : Pointer_To_Pointer_To_Errors)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_Errors);
+   pragma Machine_Attribute (af_uConnection_Get_Errors, "ms_abi");
 
    type af_uConnection_Get_DefaultDatabase is access
      function (This  : access uConnection;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_DefaultDatabase);
+   pragma Machine_Attribute (af_uConnection_Get_DefaultDatabase, "ms_abi");
 
    type af_uConnection_Put_DefaultDatabase is access
      function (This  : access uConnection;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Put_DefaultDatabase);
+   pragma Machine_Attribute (af_uConnection_Put_DefaultDatabase, "ms_abi");
 
    type af_uConnection_Get_IsolationLevel is access
      function (This  : access uConnection;
                RetVal : Pointer_To_IsolationLevelEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_IsolationLevel);
+   pragma Machine_Attribute (af_uConnection_Get_IsolationLevel, "ms_abi");
 
    type af_uConnection_Put_IsolationLevel is access
      function (This  : access uConnection;
                Level : IsolationLevelEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Put_IsolationLevel);
+   pragma Machine_Attribute (af_uConnection_Put_IsolationLevel, "ms_abi");
 
    type af_uConnection_Get_Attributes is access
      function (This   : access uConnection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_Attributes);
+   pragma Machine_Attribute (af_uConnection_Get_Attributes, "ms_abi");
 
    type af_uConnection_Put_Attributes is access
      function (This   : access uConnection;
-               plAttr : Interfaces.C.long)
+               plAttr : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Put_Attributes);
+   pragma Machine_Attribute (af_uConnection_Put_Attributes, "ms_abi");
 
    type af_uConnection_Get_CursorLocation is access
      function (This        : access uConnection;
                RetVal : Pointer_To_CursorLocationEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_CursorLocation);
+   pragma Machine_Attribute (af_uConnection_Get_CursorLocation, "ms_abi");
 
    type af_uConnection_Put_CursorLocation is access
      function (This        : access uConnection;
                plCursorLoc : CursorLocationEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Put_CursorLocation);
+   pragma Machine_Attribute (af_uConnection_Put_CursorLocation, "ms_abi");
 
    type af_uConnection_Get_Mode is access
      function (This   : access uConnection;
                RetVal : Pointer_To_ConnectModeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_Mode);
+   pragma Machine_Attribute (af_uConnection_Get_Mode, "ms_abi");
 
    type af_uConnection_Put_Mode is access
      function (This   : access uConnection;
                plMode : ConnectModeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Put_Mode);
+   pragma Machine_Attribute (af_uConnection_Put_Mode, "ms_abi");
 
    type af_uConnection_Get_Provider is access
      function (This  : access uConnection;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_Provider);
+   pragma Machine_Attribute (af_uConnection_Get_Provider, "ms_abi");
 
    type af_uConnection_Put_Provider is access
      function (This  : access uConnection;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Put_Provider);
+   pragma Machine_Attribute (af_uConnection_Put_Provider, "ms_abi");
 
    type af_uConnection_Get_State is access
      function (This       : access uConnection;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Get_State);
+   pragma Machine_Attribute (af_uConnection_Get_State, "ms_abi");
 
    type af_uConnection_OpenSchema is access
      function (This         : access uConnection;
@@ -2824,11 +3062,13 @@ package ADO is
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_OpenSchema);
+   pragma Machine_Attribute (af_uConnection_OpenSchema, "ms_abi");
 
    type af_uConnection_Cancel is access
      function (This : access uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection_Cancel);
+   pragma Machine_Attribute (af_uConnection_Cancel, "ms_abi");
 
    type uConnectionVtbl;
    type Pointer_To_uConnectionVtbl is access all uConnectionVtbl;
@@ -2933,46 +3173,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_QueryInterface);
+   pragma Machine_Attribute (af_uParameter_QueryInterface, "ms_abi");
 
    type af_uParameter_AddRef is access
      function (This : access uParameter)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uParameter_AddRef);
+   pragma Machine_Attribute (af_uParameter_AddRef, "ms_abi");
 
    type af_uParameter_Release is access
      function (This : access uParameter)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uParameter_Release);
+   pragma Machine_Attribute (af_uParameter_Release, "ms_abi");
 
    type af_uParameter_GetTypeInfoCount is access
      function (This    : access uParameter;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_GetTypeInfoCount);
+   pragma Machine_Attribute (af_uParameter_GetTypeInfoCount, "ms_abi");
 
    type af_uParameter_GetTypeInfo is access
      function (This    : access uParameter;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_GetTypeInfo);
+   pragma Machine_Attribute (af_uParameter_GetTypeInfo, "ms_abi");
 
    type af_uParameter_GetIDsOfNames is access
      function (This      : access uParameter;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_GetIDsOfNames);
+   pragma Machine_Attribute (af_uParameter_GetIDsOfNames, "ms_abi");
 
    type af_uParameter_Invoke is access
      function (This         : access uParameter;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -2980,114 +3226,133 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Invoke);
+   pragma Machine_Attribute (af_uParameter_Invoke, "ms_abi");
 
    type af_uParameter_Get_Properties is access
      function (This      : access uParameter;
                RetVal : Pointer_To_Pointer_To_Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Get_Properties);
+   pragma Machine_Attribute (af_uParameter_Get_Properties, "ms_abi");
 
    type af_uParameter_Get_Name is access
      function (This  : access uParameter;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Get_Name);
+   pragma Machine_Attribute (af_uParameter_Get_Name, "ms_abi");
 
    type af_uParameter_Put_Name is access
      function (This  : access uParameter;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Put_Name);
+   pragma Machine_Attribute (af_uParameter_Put_Name, "ms_abi");
 
    type af_uParameter_Get_Value is access
      function (This : access uParameter;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Get_Value);
+   pragma Machine_Attribute (af_uParameter_Get_Value, "ms_abi");
 
    type af_uParameter_Put_Value is access
      function (This : access uParameter;
                pvar : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Put_Value);
+   pragma Machine_Attribute (af_uParameter_Put_Value, "ms_abi");
 
    type af_uParameter_Get_Type is access
      function (This       : access uParameter;
                RetVal : Pointer_To_DataTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Get_Type);
+   pragma Machine_Attribute (af_uParameter_Get_Type, "ms_abi");
 
    type af_uParameter_Put_Type is access
      function (This       : access uParameter;
                psDataType : DataTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Put_Type);
+   pragma Machine_Attribute (af_uParameter_Put_Type, "ms_abi");
 
    type af_uParameter_Put_Direction is access
      function (This            : access uParameter;
                plParmDirection : ParameterDirectionEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Put_Direction);
+   pragma Machine_Attribute (af_uParameter_Put_Direction, "ms_abi");
 
    type af_uParameter_Get_Direction is access
      function (This            : access uParameter;
                RetVal : Pointer_To_ParameterDirectionEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Get_Direction);
+   pragma Machine_Attribute (af_uParameter_Get_Direction, "ms_abi");
 
    type af_uParameter_Put_Precision is access
      function (This        : access uParameter;
                pbPrecision : Interfaces.C.unsigned_char)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Put_Precision);
+   pragma Machine_Attribute (af_uParameter_Put_Precision, "ms_abi");
 
    type af_uParameter_Get_Precision is access
      function (This        : access uParameter;
                RetVal : Pointer_To_unsigned_char)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Get_Precision);
+   pragma Machine_Attribute (af_uParameter_Get_Precision, "ms_abi");
 
    type af_uParameter_Put_NumericScale is access
      function (This    : access uParameter;
                pbScale : Interfaces.C.unsigned_char)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Put_NumericScale);
+   pragma Machine_Attribute (af_uParameter_Put_NumericScale, "ms_abi");
 
    type af_uParameter_Get_NumericScale is access
      function (This    : access uParameter;
                RetVal : Pointer_To_unsigned_char)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Get_NumericScale);
+   pragma Machine_Attribute (af_uParameter_Get_NumericScale, "ms_abi");
 
    type af_uParameter_Put_Size is access
      function (This : access uParameter;
-               pl   : Interfaces.C.long)
+               pl   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Put_Size);
+   pragma Machine_Attribute (af_uParameter_Put_Size, "ms_abi");
 
    type af_uParameter_Get_Size is access
      function (This : access uParameter;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Get_Size);
+   pragma Machine_Attribute (af_uParameter_Get_Size, "ms_abi");
 
    type af_uParameter_AppendChunk is access
      function (This : access uParameter;
                Val  : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_AppendChunk);
+   pragma Machine_Attribute (af_uParameter_AppendChunk, "ms_abi");
 
    type af_uParameter_Get_Attributes is access
      function (This          : access uParameter;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Get_Attributes);
+   pragma Machine_Attribute (af_uParameter_Get_Attributes, "ms_abi");
 
    type af_uParameter_Put_Attributes is access
      function (This          : access uParameter;
-               plParmAttribs : Interfaces.C.long)
+               plParmAttribs : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uParameter_Put_Attributes);
+   pragma Machine_Attribute (af_uParameter_Put_Attributes, "ms_abi");
 
    type uParameterVtbl;
    type Pointer_To_uParameterVtbl is access all uParameterVtbl;
@@ -3168,46 +3433,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_QueryInterface);
+   pragma Machine_Attribute (af_Parameters_QueryInterface, "ms_abi");
 
    type af_Parameters_AddRef is access
      function (This : access Parameters)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Parameters_AddRef);
+   pragma Machine_Attribute (af_Parameters_AddRef, "ms_abi");
 
    type af_Parameters_Release is access
      function (This : access Parameters)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Parameters_Release);
+   pragma Machine_Attribute (af_Parameters_Release, "ms_abi");
 
    type af_Parameters_GetTypeInfoCount is access
      function (This    : access Parameters;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_GetTypeInfoCount);
+   pragma Machine_Attribute (af_Parameters_GetTypeInfoCount, "ms_abi");
 
    type af_Parameters_GetTypeInfo is access
      function (This    : access Parameters;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_GetTypeInfo);
+   pragma Machine_Attribute (af_Parameters_GetTypeInfo, "ms_abi");
 
    type af_Parameters_GetIDsOfNames is access
      function (This      : access Parameters;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_GetIDsOfNames);
+   pragma Machine_Attribute (af_Parameters_GetIDsOfNames, "ms_abi");
 
    type af_Parameters_Invoke is access
      function (This         : access Parameters;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -3215,35 +3486,41 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_Invoke);
+   pragma Machine_Attribute (af_Parameters_Invoke, "ms_abi");
 
    type af_Parameters_Get_Count is access
      function (This : access Parameters;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_Get_Count);
+   pragma Machine_Attribute (af_Parameters_Get_Count, "ms_abi");
 
    type af_Parameters_uNewEnum is access
      function (This      : access Parameters;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_uNewEnum);
+   pragma Machine_Attribute (af_Parameters_uNewEnum, "ms_abi");
 
    type af_Parameters_Refresh is access
      function (This : access Parameters)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_Refresh);
+   pragma Machine_Attribute (af_Parameters_Refresh, "ms_abi");
 
    type af_Parameters_Append is access
      function (This   : access Parameters;
                Object : GNATCOM.Types.Pointer_To_IDispatch)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_Append);
+   pragma Machine_Attribute (af_Parameters_Append, "ms_abi");
 
    type af_Parameters_Delete is access
      function (This  : access Parameters;
                Index : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_Delete);
+   pragma Machine_Attribute (af_Parameters_Delete, "ms_abi");
 
    type af_Parameters_Get_Item is access
      function (This      : access Parameters;
@@ -3251,6 +3528,7 @@ package ADO is
                RetVal : Pointer_To_Pointer_To_uParameter)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Parameters_Get_Item);
+   pragma Machine_Attribute (af_Parameters_Get_Item, "ms_abi");
 
    type ParametersVtbl;
    type Pointer_To_ParametersVtbl is access all ParametersVtbl;
@@ -3307,46 +3585,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_QueryInterface);
+   pragma Machine_Attribute (af_uCommand15_QueryInterface, "ms_abi");
 
    type af_uCommand15_AddRef is access
      function (This : access uCommand15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uCommand15_AddRef);
+   pragma Machine_Attribute (af_uCommand15_AddRef, "ms_abi");
 
    type af_uCommand15_Release is access
      function (This : access uCommand15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uCommand15_Release);
+   pragma Machine_Attribute (af_uCommand15_Release, "ms_abi");
 
    type af_uCommand15_GetTypeInfoCount is access
      function (This    : access uCommand15;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_GetTypeInfoCount);
+   pragma Machine_Attribute (af_uCommand15_GetTypeInfoCount, "ms_abi");
 
    type af_uCommand15_GetTypeInfo is access
      function (This    : access uCommand15;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_GetTypeInfo);
+   pragma Machine_Attribute (af_uCommand15_GetTypeInfo, "ms_abi");
 
    type af_uCommand15_GetIDsOfNames is access
      function (This      : access uCommand15;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_GetIDsOfNames);
+   pragma Machine_Attribute (af_uCommand15_GetIDsOfNames, "ms_abi");
 
    type af_uCommand15_Invoke is access
      function (This         : access uCommand15;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -3354,116 +3638,134 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Invoke);
+   pragma Machine_Attribute (af_uCommand15_Invoke, "ms_abi");
 
    type af_uCommand15_Get_Properties is access
      function (This      : access uCommand15;
                RetVal : Pointer_To_Pointer_To_Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Get_Properties);
+   pragma Machine_Attribute (af_uCommand15_Get_Properties, "ms_abi");
 
    type af_uCommand15_Get_ActiveConnection is access
      function (This      : access uCommand15;
                RetVal : Pointer_To_Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Get_ActiveConnection);
+   pragma Machine_Attribute (af_uCommand15_Get_ActiveConnection, "ms_abi");
 
    type af_uCommand15_PutRef_ActiveConnection is access
      function (This      : access uCommand15;
                ppvObject : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_PutRef_ActiveConnection);
+   pragma Machine_Attribute (af_uCommand15_PutRef_ActiveConnection, "ms_abi");
 
    type af_uCommand15_Put_ActiveConnection is access
      function (This      : access uCommand15;
                ppvObject : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Put_ActiveConnection);
+   pragma Machine_Attribute (af_uCommand15_Put_ActiveConnection, "ms_abi");
 
    type af_uCommand15_Get_CommandText is access
      function (This  : access uCommand15;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Get_CommandText);
+   pragma Machine_Attribute (af_uCommand15_Get_CommandText, "ms_abi");
 
    type af_uCommand15_Put_CommandText is access
      function (This  : access uCommand15;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Put_CommandText);
+   pragma Machine_Attribute (af_uCommand15_Put_CommandText, "ms_abi");
 
    type af_uCommand15_Get_CommandTimeout is access
      function (This : access uCommand15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Get_CommandTimeout);
+   pragma Machine_Attribute (af_uCommand15_Get_CommandTimeout, "ms_abi");
 
    type af_uCommand15_Put_CommandTimeout is access
      function (This : access uCommand15;
-               pl   : Interfaces.C.long)
+               pl   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Put_CommandTimeout);
+   pragma Machine_Attribute (af_uCommand15_Put_CommandTimeout, "ms_abi");
 
    type af_uCommand15_Get_Prepared is access
      function (This       : access uCommand15;
                RetVal : GNATCOM.Types.Pointer_To_VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Get_Prepared);
+   pragma Machine_Attribute (af_uCommand15_Get_Prepared, "ms_abi");
 
    type af_uCommand15_Put_Prepared is access
      function (This       : access uCommand15;
                pfPrepared : GNATCOM.Types.VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Put_Prepared);
+   pragma Machine_Attribute (af_uCommand15_Put_Prepared, "ms_abi");
 
    type af_uCommand15_Execute is access
      function (This            : access uCommand15;
                RecordsAffected : access GNATCOM.Types.VARIANT;
                Parameters      : access GNATCOM.Types.VARIANT;
-               Options         : Interfaces.C.long;
+               Options         : Win32_Types.Long;
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Execute);
+   pragma Machine_Attribute (af_uCommand15_Execute, "ms_abi");
 
    type af_uCommand15_CreateParameter is access
      function (This      : access uCommand15;
                Name      : GNATCOM.Types.BSTR;
                uType     : DataTypeEnum;
                Direction : ParameterDirectionEnum;
-               Size      : Interfaces.C.long;
+               Size      : Win32_Types.Long;
                Value     : GNATCOM.Types.VARIANT;
                RetVal : Pointer_To_Pointer_To_uParameter)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_CreateParameter);
+   pragma Machine_Attribute (af_uCommand15_CreateParameter, "ms_abi");
 
    type af_uCommand15_Get_Parameters is access
      function (This      : access uCommand15;
                RetVal : Pointer_To_Pointer_To_Parameters)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Get_Parameters);
+   pragma Machine_Attribute (af_uCommand15_Get_Parameters, "ms_abi");
 
    type af_uCommand15_Put_CommandType is access
      function (This      : access uCommand15;
                plCmdType : CommandTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Put_CommandType);
+   pragma Machine_Attribute (af_uCommand15_Put_CommandType, "ms_abi");
 
    type af_uCommand15_Get_CommandType is access
      function (This      : access uCommand15;
                RetVal : Pointer_To_CommandTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Get_CommandType);
+   pragma Machine_Attribute (af_uCommand15_Get_CommandType, "ms_abi");
 
    type af_uCommand15_Get_Name is access
      function (This      : access uCommand15;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Get_Name);
+   pragma Machine_Attribute (af_uCommand15_Get_Name, "ms_abi");
 
    type af_uCommand15_Put_Name is access
      function (This      : access uCommand15;
                pbstrName : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand15_Put_Name);
+   pragma Machine_Attribute (af_uCommand15_Put_Name, "ms_abi");
 
    type uCommand15Vtbl;
    type Pointer_To_uCommand15Vtbl is access all uCommand15Vtbl;
@@ -3542,46 +3844,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_QueryInterface);
+   pragma Machine_Attribute (af_uConnection15_QueryInterface, "ms_abi");
 
    type af_uConnection15_AddRef is access
      function (This : access uConnection15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uConnection15_AddRef);
+   pragma Machine_Attribute (af_uConnection15_AddRef, "ms_abi");
 
    type af_uConnection15_Release is access
      function (This : access uConnection15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uConnection15_Release);
+   pragma Machine_Attribute (af_uConnection15_Release, "ms_abi");
 
    type af_uConnection15_GetTypeInfoCount is access
      function (This    : access uConnection15;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_GetTypeInfoCount);
+   pragma Machine_Attribute (af_uConnection15_GetTypeInfoCount, "ms_abi");
 
    type af_uConnection15_GetTypeInfo is access
      function (This    : access uConnection15;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_GetTypeInfo);
+   pragma Machine_Attribute (af_uConnection15_GetTypeInfo, "ms_abi");
 
    type af_uConnection15_GetIDsOfNames is access
      function (This      : access uConnection15;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_GetIDsOfNames);
+   pragma Machine_Attribute (af_uConnection15_GetIDsOfNames, "ms_abi");
 
    type af_uConnection15_Invoke is access
      function (This         : access uConnection15;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -3589,177 +3897,206 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Invoke);
+   pragma Machine_Attribute (af_uConnection15_Invoke, "ms_abi");
 
    type af_uConnection15_Get_Properties is access
      function (This      : access uConnection15;
                RetVal : Pointer_To_Pointer_To_Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_Properties);
+   pragma Machine_Attribute (af_uConnection15_Get_Properties, "ms_abi");
 
    type af_uConnection15_Get_ConnectionString is access
      function (This  : access uConnection15;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_ConnectionString);
+   pragma Machine_Attribute (af_uConnection15_Get_ConnectionString, "ms_abi");
 
    type af_uConnection15_Put_ConnectionString is access
      function (This  : access uConnection15;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Put_ConnectionString);
+   pragma Machine_Attribute (af_uConnection15_Put_ConnectionString, "ms_abi");
 
    type af_uConnection15_Get_CommandTimeout is access
      function (This      : access uConnection15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_CommandTimeout);
+   pragma Machine_Attribute (af_uConnection15_Get_CommandTimeout, "ms_abi");
 
    type af_uConnection15_Put_CommandTimeout is access
      function (This      : access uConnection15;
-               plTimeout : Interfaces.C.long)
+               plTimeout : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Put_CommandTimeout);
+   pragma Machine_Attribute (af_uConnection15_Put_CommandTimeout, "ms_abi");
 
    type af_uConnection15_Get_ConnectionTimeout is access
      function (This      : access uConnection15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_ConnectionTimeout);
+   pragma Machine_Attribute (af_uConnection15_Get_ConnectionTimeout, "ms_abi");
 
    type af_uConnection15_Put_ConnectionTimeout is access
      function (This      : access uConnection15;
-               plTimeout : Interfaces.C.long)
+               plTimeout : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Put_ConnectionTimeout);
+   pragma Machine_Attribute (af_uConnection15_Put_ConnectionTimeout, "ms_abi");
 
    type af_uConnection15_Get_Version is access
      function (This  : access uConnection15;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_Version);
+   pragma Machine_Attribute (af_uConnection15_Get_Version, "ms_abi");
 
    type af_uConnection15_Close is access
      function (This : access uConnection15)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Close);
+   pragma Machine_Attribute (af_uConnection15_Close, "ms_abi");
 
    type af_uConnection15_Execute is access
      function (This            : access uConnection15;
                CommandText     : GNATCOM.Types.BSTR;
                RecordsAffected : access GNATCOM.Types.VARIANT;
-               Options         : Interfaces.C.long;
+               Options         : Win32_Types.Long;
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Execute);
+   pragma Machine_Attribute (af_uConnection15_Execute, "ms_abi");
 
    type af_uConnection15_BeginTrans is access
      function (This             : access uConnection15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_BeginTrans);
+   pragma Machine_Attribute (af_uConnection15_BeginTrans, "ms_abi");
 
    type af_uConnection15_CommitTrans is access
      function (This : access uConnection15)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_CommitTrans);
+   pragma Machine_Attribute (af_uConnection15_CommitTrans, "ms_abi");
 
    type af_uConnection15_RollbackTrans is access
      function (This : access uConnection15)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_RollbackTrans);
+   pragma Machine_Attribute (af_uConnection15_RollbackTrans, "ms_abi");
 
    type af_uConnection15_Open is access
      function (This             : access uConnection15;
                ConnectionString : GNATCOM.Types.BSTR;
                UserID           : GNATCOM.Types.BSTR;
                Password         : GNATCOM.Types.BSTR;
-               Options          : Interfaces.C.long)
+               Options          : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Open);
+   pragma Machine_Attribute (af_uConnection15_Open, "ms_abi");
 
    type af_uConnection15_Get_Errors is access
      function (This      : access uConnection15;
                RetVal : Pointer_To_Pointer_To_Errors)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_Errors);
+   pragma Machine_Attribute (af_uConnection15_Get_Errors, "ms_abi");
 
    type af_uConnection15_Get_DefaultDatabase is access
      function (This  : access uConnection15;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_DefaultDatabase);
+   pragma Machine_Attribute (af_uConnection15_Get_DefaultDatabase, "ms_abi");
 
    type af_uConnection15_Put_DefaultDatabase is access
      function (This  : access uConnection15;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Put_DefaultDatabase);
+   pragma Machine_Attribute (af_uConnection15_Put_DefaultDatabase, "ms_abi");
 
    type af_uConnection15_Get_IsolationLevel is access
      function (This  : access uConnection15;
                RetVal : Pointer_To_IsolationLevelEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_IsolationLevel);
+   pragma Machine_Attribute (af_uConnection15_Get_IsolationLevel, "ms_abi");
 
    type af_uConnection15_Put_IsolationLevel is access
      function (This  : access uConnection15;
                Level : IsolationLevelEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Put_IsolationLevel);
+   pragma Machine_Attribute (af_uConnection15_Put_IsolationLevel, "ms_abi");
 
    type af_uConnection15_Get_Attributes is access
      function (This   : access uConnection15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_Attributes);
+   pragma Machine_Attribute (af_uConnection15_Get_Attributes, "ms_abi");
 
    type af_uConnection15_Put_Attributes is access
      function (This   : access uConnection15;
-               plAttr : Interfaces.C.long)
+               plAttr : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Put_Attributes);
+   pragma Machine_Attribute (af_uConnection15_Put_Attributes, "ms_abi");
 
    type af_uConnection15_Get_CursorLocation is access
      function (This        : access uConnection15;
                RetVal : Pointer_To_CursorLocationEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_CursorLocation);
+   pragma Machine_Attribute (af_uConnection15_Get_CursorLocation, "ms_abi");
 
    type af_uConnection15_Put_CursorLocation is access
      function (This        : access uConnection15;
                plCursorLoc : CursorLocationEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Put_CursorLocation);
+   pragma Machine_Attribute (af_uConnection15_Put_CursorLocation, "ms_abi");
 
    type af_uConnection15_Get_Mode is access
      function (This   : access uConnection15;
                RetVal : Pointer_To_ConnectModeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_Mode);
+   pragma Machine_Attribute (af_uConnection15_Get_Mode, "ms_abi");
 
    type af_uConnection15_Put_Mode is access
      function (This   : access uConnection15;
                plMode : ConnectModeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Put_Mode);
+   pragma Machine_Attribute (af_uConnection15_Put_Mode, "ms_abi");
 
    type af_uConnection15_Get_Provider is access
      function (This  : access uConnection15;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_Provider);
+   pragma Machine_Attribute (af_uConnection15_Get_Provider, "ms_abi");
 
    type af_uConnection15_Put_Provider is access
      function (This  : access uConnection15;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Put_Provider);
+   pragma Machine_Attribute (af_uConnection15_Put_Provider, "ms_abi");
 
    type af_uConnection15_Get_State is access
      function (This       : access uConnection15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_Get_State);
+   pragma Machine_Attribute (af_uConnection15_Get_State, "ms_abi");
 
    type af_uConnection15_OpenSchema is access
      function (This         : access uConnection15;
@@ -3769,6 +4106,7 @@ package ADO is
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uConnection15_OpenSchema);
+   pragma Machine_Attribute (af_uConnection15_OpenSchema, "ms_abi");
 
    type uConnection15Vtbl;
    type Pointer_To_uConnection15Vtbl is access all uConnection15Vtbl;
@@ -3871,46 +4209,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_QueryInterface);
+   pragma Machine_Attribute (af_uRecordset15_QueryInterface, "ms_abi");
 
    type af_uRecordset15_AddRef is access
      function (This : access uRecordset15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uRecordset15_AddRef);
+   pragma Machine_Attribute (af_uRecordset15_AddRef, "ms_abi");
 
    type af_uRecordset15_Release is access
      function (This : access uRecordset15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uRecordset15_Release);
+   pragma Machine_Attribute (af_uRecordset15_Release, "ms_abi");
 
    type af_uRecordset15_GetTypeInfoCount is access
      function (This    : access uRecordset15;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_GetTypeInfoCount);
+   pragma Machine_Attribute (af_uRecordset15_GetTypeInfoCount, "ms_abi");
 
    type af_uRecordset15_GetTypeInfo is access
      function (This    : access uRecordset15;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_GetTypeInfo);
+   pragma Machine_Attribute (af_uRecordset15_GetTypeInfo, "ms_abi");
 
    type af_uRecordset15_GetIDsOfNames is access
      function (This      : access uRecordset15;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_GetIDsOfNames);
+   pragma Machine_Attribute (af_uRecordset15_GetIDsOfNames, "ms_abi");
 
    type af_uRecordset15_Invoke is access
      function (This         : access uRecordset15;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -3918,144 +4262,168 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Invoke);
+   pragma Machine_Attribute (af_uRecordset15_Invoke, "ms_abi");
 
    type af_uRecordset15_Get_Properties is access
      function (This      : access uRecordset15;
                RetVal : Pointer_To_Pointer_To_Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_Properties);
+   pragma Machine_Attribute (af_uRecordset15_Get_Properties, "ms_abi");
 
    type af_uRecordset15_Get_AbsolutePosition is access
      function (This : access uRecordset15;
                RetVal : Pointer_To_PositionEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_AbsolutePosition);
+   pragma Machine_Attribute (af_uRecordset15_Get_AbsolutePosition, "ms_abi");
 
    type af_uRecordset15_Put_AbsolutePosition is access
      function (This : access uRecordset15;
                pl   : PositionEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_AbsolutePosition);
+   pragma Machine_Attribute (af_uRecordset15_Put_AbsolutePosition, "ms_abi");
 
    type af_uRecordset15_PutRef_ActiveConnection is access
      function (This : access uRecordset15;
                pvar : GNATCOM.Types.Pointer_To_IDispatch)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_PutRef_ActiveConnection);
+   pragma Machine_Attribute (af_uRecordset15_PutRef_ActiveConnection, "ms_abi");
 
    type af_uRecordset15_Put_ActiveConnection is access
      function (This : access uRecordset15;
                pvar : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_ActiveConnection);
+   pragma Machine_Attribute (af_uRecordset15_Put_ActiveConnection, "ms_abi");
 
    type af_uRecordset15_Get_ActiveConnection is access
      function (This : access uRecordset15;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_ActiveConnection);
+   pragma Machine_Attribute (af_uRecordset15_Get_ActiveConnection, "ms_abi");
 
    type af_uRecordset15_Get_BOF is access
      function (This : access uRecordset15;
                RetVal : GNATCOM.Types.Pointer_To_VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_BOF);
+   pragma Machine_Attribute (af_uRecordset15_Get_BOF, "ms_abi");
 
    type af_uRecordset15_Get_Bookmark is access
      function (This       : access uRecordset15;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_Bookmark);
+   pragma Machine_Attribute (af_uRecordset15_Get_Bookmark, "ms_abi");
 
    type af_uRecordset15_Put_Bookmark is access
      function (This       : access uRecordset15;
                pvBookmark : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_Bookmark);
+   pragma Machine_Attribute (af_uRecordset15_Put_Bookmark, "ms_abi");
 
    type af_uRecordset15_Get_CacheSize is access
      function (This : access uRecordset15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_CacheSize);
+   pragma Machine_Attribute (af_uRecordset15_Get_CacheSize, "ms_abi");
 
    type af_uRecordset15_Put_CacheSize is access
      function (This : access uRecordset15;
-               pl   : Interfaces.C.long)
+               pl   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_CacheSize);
+   pragma Machine_Attribute (af_uRecordset15_Put_CacheSize, "ms_abi");
 
    type af_uRecordset15_Get_CursorType is access
      function (This         : access uRecordset15;
                RetVal : Pointer_To_CursorTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_CursorType);
+   pragma Machine_Attribute (af_uRecordset15_Get_CursorType, "ms_abi");
 
    type af_uRecordset15_Put_CursorType is access
      function (This         : access uRecordset15;
                plCursorType : CursorTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_CursorType);
+   pragma Machine_Attribute (af_uRecordset15_Put_CursorType, "ms_abi");
 
    type af_uRecordset15_Get_EOF is access
      function (This : access uRecordset15;
                RetVal : GNATCOM.Types.Pointer_To_VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_EOF);
+   pragma Machine_Attribute (af_uRecordset15_Get_EOF, "ms_abi");
 
    type af_uRecordset15_Get_Fields is access
      function (This      : access uRecordset15;
                RetVal : Pointer_To_Pointer_To_Fields)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_Fields);
+   pragma Machine_Attribute (af_uRecordset15_Get_Fields, "ms_abi");
 
    type af_uRecordset15_Get_LockType is access
      function (This       : access uRecordset15;
                RetVal : Pointer_To_LockTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_LockType);
+   pragma Machine_Attribute (af_uRecordset15_Get_LockType, "ms_abi");
 
    type af_uRecordset15_Put_LockType is access
      function (This       : access uRecordset15;
                plLockType : LockTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_LockType);
+   pragma Machine_Attribute (af_uRecordset15_Put_LockType, "ms_abi");
 
    type af_uRecordset15_Get_MaxRecords is access
      function (This         : access uRecordset15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_MaxRecords);
+   pragma Machine_Attribute (af_uRecordset15_Get_MaxRecords, "ms_abi");
 
    type af_uRecordset15_Put_MaxRecords is access
      function (This         : access uRecordset15;
-               plMaxRecords : Interfaces.C.long)
+               plMaxRecords : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_MaxRecords);
+   pragma Machine_Attribute (af_uRecordset15_Put_MaxRecords, "ms_abi");
 
    type af_uRecordset15_Get_RecordCount is access
      function (This : access uRecordset15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_RecordCount);
+   pragma Machine_Attribute (af_uRecordset15_Get_RecordCount, "ms_abi");
 
    type af_uRecordset15_PutRef_Source is access
      function (This     : access uRecordset15;
                pvSource : GNATCOM.Types.Pointer_To_IDispatch)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_PutRef_Source);
+   pragma Machine_Attribute (af_uRecordset15_PutRef_Source, "ms_abi");
 
    type af_uRecordset15_Put_Source is access
      function (This     : access uRecordset15;
                pvSource : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_Source);
+   pragma Machine_Attribute (af_uRecordset15_Put_Source, "ms_abi");
 
    type af_uRecordset15_Get_Source is access
      function (This     : access uRecordset15;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_Source);
+   pragma Machine_Attribute (af_uRecordset15_Get_Source, "ms_abi");
 
    type af_uRecordset15_AddNew is access
      function (This      : access uRecordset15;
@@ -4063,58 +4431,68 @@ package ADO is
                Values    : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_AddNew);
+   pragma Machine_Attribute (af_uRecordset15_AddNew, "ms_abi");
 
    type af_uRecordset15_CancelUpdate is access
      function (This : access uRecordset15)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_CancelUpdate);
+   pragma Machine_Attribute (af_uRecordset15_CancelUpdate, "ms_abi");
 
    type af_uRecordset15_Close is access
      function (This : access uRecordset15)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Close);
+   pragma Machine_Attribute (af_uRecordset15_Close, "ms_abi");
 
    type af_uRecordset15_Delete is access
      function (This          : access uRecordset15;
                AffectRecords : AffectEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Delete);
+   pragma Machine_Attribute (af_uRecordset15_Delete, "ms_abi");
 
    type af_uRecordset15_GetRows is access
      function (This   : access uRecordset15;
-               Rows   : Interfaces.C.long;
+               Rows   : Win32_Types.Long;
                Start  : GNATCOM.Types.VARIANT;
                Fields : GNATCOM.Types.VARIANT;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_GetRows);
+   pragma Machine_Attribute (af_uRecordset15_GetRows, "ms_abi");
 
    type af_uRecordset15_Move is access
      function (This       : access uRecordset15;
-               NumRecords : Interfaces.C.long;
+               NumRecords : Win32_Types.Long;
                Start      : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Move);
+   pragma Machine_Attribute (af_uRecordset15_Move, "ms_abi");
 
    type af_uRecordset15_MoveNext is access
      function (This : access uRecordset15)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_MoveNext);
+   pragma Machine_Attribute (af_uRecordset15_MoveNext, "ms_abi");
 
    type af_uRecordset15_MovePrevious is access
      function (This : access uRecordset15)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_MovePrevious);
+   pragma Machine_Attribute (af_uRecordset15_MovePrevious, "ms_abi");
 
    type af_uRecordset15_MoveFirst is access
      function (This : access uRecordset15)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_MoveFirst);
+   pragma Machine_Attribute (af_uRecordset15_MoveFirst, "ms_abi");
 
    type af_uRecordset15_MoveLast is access
      function (This : access uRecordset15)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_MoveLast);
+   pragma Machine_Attribute (af_uRecordset15_MoveLast, "ms_abi");
 
    type af_uRecordset15_Open is access
      function (This             : access uRecordset15;
@@ -4122,21 +4500,24 @@ package ADO is
                ActiveConnection : GNATCOM.Types.VARIANT;
                CursorType       : CursorTypeEnum;
                LockType         : LockTypeEnum;
-               Options          : Interfaces.C.long)
+               Options          : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Open);
+   pragma Machine_Attribute (af_uRecordset15_Open, "ms_abi");
 
    type af_uRecordset15_Requery is access
      function (This    : access uRecordset15;
-               Options : Interfaces.C.long)
+               Options : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Requery);
+   pragma Machine_Attribute (af_uRecordset15_Requery, "ms_abi");
 
    type af_uRecordset15_uxResync is access
      function (This          : access uRecordset15;
                AffectRecords : AffectEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_uxResync);
+   pragma Machine_Attribute (af_uRecordset15_uxResync, "ms_abi");
 
    type af_uRecordset15_Update is access
      function (This   : access uRecordset15;
@@ -4144,108 +4525,126 @@ package ADO is
                Values : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Update);
+   pragma Machine_Attribute (af_uRecordset15_Update, "ms_abi");
 
    type af_uRecordset15_Get_AbsolutePage is access
      function (This : access uRecordset15;
                RetVal : Pointer_To_PositionEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_AbsolutePage);
+   pragma Machine_Attribute (af_uRecordset15_Get_AbsolutePage, "ms_abi");
 
    type af_uRecordset15_Put_AbsolutePage is access
      function (This : access uRecordset15;
                pl   : PositionEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_AbsolutePage);
+   pragma Machine_Attribute (af_uRecordset15_Put_AbsolutePage, "ms_abi");
 
    type af_uRecordset15_Get_EditMode is access
      function (This : access uRecordset15;
                RetVal : Pointer_To_EditModeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_EditMode);
+   pragma Machine_Attribute (af_uRecordset15_Get_EditMode, "ms_abi");
 
    type af_uRecordset15_Get_Filter is access
      function (This     : access uRecordset15;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_Filter);
+   pragma Machine_Attribute (af_uRecordset15_Get_Filter, "ms_abi");
 
    type af_uRecordset15_Put_Filter is access
      function (This     : access uRecordset15;
                Criteria : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_Filter);
+   pragma Machine_Attribute (af_uRecordset15_Put_Filter, "ms_abi");
 
    type af_uRecordset15_Get_PageCount is access
      function (This : access uRecordset15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_PageCount);
+   pragma Machine_Attribute (af_uRecordset15_Get_PageCount, "ms_abi");
 
    type af_uRecordset15_Get_PageSize is access
      function (This : access uRecordset15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_PageSize);
+   pragma Machine_Attribute (af_uRecordset15_Get_PageSize, "ms_abi");
 
    type af_uRecordset15_Put_PageSize is access
      function (This : access uRecordset15;
-               pl   : Interfaces.C.long)
+               pl   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_PageSize);
+   pragma Machine_Attribute (af_uRecordset15_Put_PageSize, "ms_abi");
 
    type af_uRecordset15_Get_Sort is access
      function (This     : access uRecordset15;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_Sort);
+   pragma Machine_Attribute (af_uRecordset15_Get_Sort, "ms_abi");
 
    type af_uRecordset15_Put_Sort is access
      function (This     : access uRecordset15;
                Criteria : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_Sort);
+   pragma Machine_Attribute (af_uRecordset15_Put_Sort, "ms_abi");
 
    type af_uRecordset15_Get_Status is access
      function (This : access uRecordset15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_Status);
+   pragma Machine_Attribute (af_uRecordset15_Get_Status, "ms_abi");
 
    type af_uRecordset15_Get_State is access
      function (This       : access uRecordset15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_State);
+   pragma Machine_Attribute (af_uRecordset15_Get_State, "ms_abi");
 
    type af_uRecordset15_uxClone is access
      function (This      : access uRecordset15;
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_uxClone);
+   pragma Machine_Attribute (af_uRecordset15_uxClone, "ms_abi");
 
    type af_uRecordset15_UpdateBatch is access
      function (This          : access uRecordset15;
                AffectRecords : AffectEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_UpdateBatch);
+   pragma Machine_Attribute (af_uRecordset15_UpdateBatch, "ms_abi");
 
    type af_uRecordset15_CancelBatch is access
      function (This          : access uRecordset15;
                AffectRecords : AffectEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_CancelBatch);
+   pragma Machine_Attribute (af_uRecordset15_CancelBatch, "ms_abi");
 
    type af_uRecordset15_Get_CursorLocation is access
      function (This        : access uRecordset15;
                RetVal : Pointer_To_CursorLocationEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_CursorLocation);
+   pragma Machine_Attribute (af_uRecordset15_Get_CursorLocation, "ms_abi");
 
    type af_uRecordset15_Put_CursorLocation is access
      function (This        : access uRecordset15;
                plCursorLoc : CursorLocationEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_CursorLocation);
+   pragma Machine_Attribute (af_uRecordset15_Put_CursorLocation, "ms_abi");
 
    type af_uRecordset15_NextRecordset is access
      function (This            : access uRecordset15;
@@ -4253,6 +4652,7 @@ package ADO is
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_NextRecordset);
+   pragma Machine_Attribute (af_uRecordset15_NextRecordset, "ms_abi");
 
    type af_uRecordset15_Supports is access
      function (This          : access uRecordset15;
@@ -4260,6 +4660,7 @@ package ADO is
                RetVal : GNATCOM.Types.Pointer_To_VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Supports);
+   pragma Machine_Attribute (af_uRecordset15_Supports, "ms_abi");
 
    type af_uRecordset15_Get_Collect is access
      function (This  : access uRecordset15;
@@ -4267,6 +4668,7 @@ package ADO is
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_Collect);
+   pragma Machine_Attribute (af_uRecordset15_Get_Collect, "ms_abi");
 
    type af_uRecordset15_Put_Collect is access
      function (This  : access uRecordset15;
@@ -4274,27 +4676,31 @@ package ADO is
                pvar  : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_Collect);
+   pragma Machine_Attribute (af_uRecordset15_Put_Collect, "ms_abi");
 
    type af_uRecordset15_Get_MarshalOptions is access
      function (This      : access uRecordset15;
                RetVal : Pointer_To_MarshalOptionsEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Get_MarshalOptions);
+   pragma Machine_Attribute (af_uRecordset15_Get_MarshalOptions, "ms_abi");
 
    type af_uRecordset15_Put_MarshalOptions is access
      function (This      : access uRecordset15;
                peMarshal : MarshalOptionsEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Put_MarshalOptions);
+   pragma Machine_Attribute (af_uRecordset15_Put_MarshalOptions, "ms_abi");
 
    type af_uRecordset15_Find is access
      function (This            : access uRecordset15;
                Criteria        : GNATCOM.Types.BSTR;
-               SkipRecords     : Interfaces.C.long;
+               SkipRecords     : Win32_Types.Long;
                SearchDirection : SearchDirectionEnum;
                Start           : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uRecordset15_Find);
+   pragma Machine_Attribute (af_uRecordset15_Find, "ms_abi");
 
    type uRecordset15Vtbl;
    type Pointer_To_uRecordset15Vtbl is access all uRecordset15Vtbl;
@@ -4461,46 +4867,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields15_QueryInterface);
+   pragma Machine_Attribute (af_Fields15_QueryInterface, "ms_abi");
 
    type af_Fields15_AddRef is access
      function (This : access Fields15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Fields15_AddRef);
+   pragma Machine_Attribute (af_Fields15_AddRef, "ms_abi");
 
    type af_Fields15_Release is access
      function (This : access Fields15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Fields15_Release);
+   pragma Machine_Attribute (af_Fields15_Release, "ms_abi");
 
    type af_Fields15_GetTypeInfoCount is access
      function (This    : access Fields15;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields15_GetTypeInfoCount);
+   pragma Machine_Attribute (af_Fields15_GetTypeInfoCount, "ms_abi");
 
    type af_Fields15_GetTypeInfo is access
      function (This    : access Fields15;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields15_GetTypeInfo);
+   pragma Machine_Attribute (af_Fields15_GetTypeInfo, "ms_abi");
 
    type af_Fields15_GetIDsOfNames is access
      function (This      : access Fields15;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields15_GetIDsOfNames);
+   pragma Machine_Attribute (af_Fields15_GetIDsOfNames, "ms_abi");
 
    type af_Fields15_Invoke is access
      function (This         : access Fields15;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -4508,23 +4920,27 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields15_Invoke);
+   pragma Machine_Attribute (af_Fields15_Invoke, "ms_abi");
 
    type af_Fields15_Get_Count is access
      function (This : access Fields15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields15_Get_Count);
+   pragma Machine_Attribute (af_Fields15_Get_Count, "ms_abi");
 
    type af_Fields15_uNewEnum is access
      function (This      : access Fields15;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields15_uNewEnum);
+   pragma Machine_Attribute (af_Fields15_uNewEnum, "ms_abi");
 
    type af_Fields15_Refresh is access
      function (This : access Fields15)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields15_Refresh);
+   pragma Machine_Attribute (af_Fields15_Refresh, "ms_abi");
 
    type af_Fields15_Get_Item is access
      function (This      : access Fields15;
@@ -4532,6 +4948,7 @@ package ADO is
                RetVal : Pointer_To_Pointer_To_Field)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Fields15_Get_Item);
+   pragma Machine_Attribute (af_Fields15_Get_Item, "ms_abi");
 
    type Fields15Vtbl;
    type Pointer_To_Fields15Vtbl is access all Fields15Vtbl;
@@ -4584,46 +5001,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_QueryInterface);
+   pragma Machine_Attribute (af_uCommand_QueryInterface, "ms_abi");
 
    type af_uCommand_AddRef is access
      function (This : access uCommand)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uCommand_AddRef);
+   pragma Machine_Attribute (af_uCommand_AddRef, "ms_abi");
 
    type af_uCommand_Release is access
      function (This : access uCommand)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_uCommand_Release);
+   pragma Machine_Attribute (af_uCommand_Release, "ms_abi");
 
    type af_uCommand_GetTypeInfoCount is access
      function (This    : access uCommand;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_GetTypeInfoCount);
+   pragma Machine_Attribute (af_uCommand_GetTypeInfoCount, "ms_abi");
 
    type af_uCommand_GetTypeInfo is access
      function (This    : access uCommand;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_GetTypeInfo);
+   pragma Machine_Attribute (af_uCommand_GetTypeInfo, "ms_abi");
 
    type af_uCommand_GetIDsOfNames is access
      function (This      : access uCommand;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_GetIDsOfNames);
+   pragma Machine_Attribute (af_uCommand_GetIDsOfNames, "ms_abi");
 
    type af_uCommand_Invoke is access
      function (This         : access uCommand;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -4631,127 +5054,147 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Invoke);
+   pragma Machine_Attribute (af_uCommand_Invoke, "ms_abi");
 
    type af_uCommand_Get_Properties is access
      function (This      : access uCommand;
                RetVal : Pointer_To_Pointer_To_Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Get_Properties);
+   pragma Machine_Attribute (af_uCommand_Get_Properties, "ms_abi");
 
    type af_uCommand_Get_ActiveConnection is access
      function (This      : access uCommand;
                RetVal : Pointer_To_Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Get_ActiveConnection);
+   pragma Machine_Attribute (af_uCommand_Get_ActiveConnection, "ms_abi");
 
    type af_uCommand_PutRef_ActiveConnection is access
      function (This      : access uCommand;
                ppvObject : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_PutRef_ActiveConnection);
+   pragma Machine_Attribute (af_uCommand_PutRef_ActiveConnection, "ms_abi");
 
    type af_uCommand_Put_ActiveConnection is access
      function (This      : access uCommand;
                ppvObject : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Put_ActiveConnection);
+   pragma Machine_Attribute (af_uCommand_Put_ActiveConnection, "ms_abi");
 
    type af_uCommand_Get_CommandText is access
      function (This  : access uCommand;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Get_CommandText);
+   pragma Machine_Attribute (af_uCommand_Get_CommandText, "ms_abi");
 
    type af_uCommand_Put_CommandText is access
      function (This  : access uCommand;
                pbstr : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Put_CommandText);
+   pragma Machine_Attribute (af_uCommand_Put_CommandText, "ms_abi");
 
    type af_uCommand_Get_CommandTimeout is access
      function (This : access uCommand;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Get_CommandTimeout);
+   pragma Machine_Attribute (af_uCommand_Get_CommandTimeout, "ms_abi");
 
    type af_uCommand_Put_CommandTimeout is access
      function (This : access uCommand;
-               pl   : Interfaces.C.long)
+               pl   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Put_CommandTimeout);
+   pragma Machine_Attribute (af_uCommand_Put_CommandTimeout, "ms_abi");
 
    type af_uCommand_Get_Prepared is access
      function (This       : access uCommand;
                RetVal : GNATCOM.Types.Pointer_To_VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Get_Prepared);
+   pragma Machine_Attribute (af_uCommand_Get_Prepared, "ms_abi");
 
    type af_uCommand_Put_Prepared is access
      function (This       : access uCommand;
                pfPrepared : GNATCOM.Types.VARIANT_BOOL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Put_Prepared);
+   pragma Machine_Attribute (af_uCommand_Put_Prepared, "ms_abi");
 
    type af_uCommand_Execute is access
      function (This            : access uCommand;
                RecordsAffected : access GNATCOM.Types.VARIANT;
                Parameters      : access GNATCOM.Types.VARIANT;
-               Options         : Interfaces.C.long;
+               Options         : Win32_Types.Long;
                RetVal : Pointer_To_Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Execute);
+   pragma Machine_Attribute (af_uCommand_Execute, "ms_abi");
 
    type af_uCommand_CreateParameter is access
      function (This      : access uCommand;
                Name      : GNATCOM.Types.BSTR;
                uType     : DataTypeEnum;
                Direction : ParameterDirectionEnum;
-               Size      : Interfaces.C.long;
+               Size      : Win32_Types.Long;
                Value     : GNATCOM.Types.VARIANT;
                RetVal : Pointer_To_Pointer_To_uParameter)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_CreateParameter);
+   pragma Machine_Attribute (af_uCommand_CreateParameter, "ms_abi");
 
    type af_uCommand_Get_Parameters is access
      function (This      : access uCommand;
                RetVal : Pointer_To_Pointer_To_Parameters)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Get_Parameters);
+   pragma Machine_Attribute (af_uCommand_Get_Parameters, "ms_abi");
 
    type af_uCommand_Put_CommandType is access
      function (This      : access uCommand;
                plCmdType : CommandTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Put_CommandType);
+   pragma Machine_Attribute (af_uCommand_Put_CommandType, "ms_abi");
 
    type af_uCommand_Get_CommandType is access
      function (This      : access uCommand;
                RetVal : Pointer_To_CommandTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Get_CommandType);
+   pragma Machine_Attribute (af_uCommand_Get_CommandType, "ms_abi");
 
    type af_uCommand_Get_Name is access
      function (This      : access uCommand;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Get_Name);
+   pragma Machine_Attribute (af_uCommand_Get_Name, "ms_abi");
 
    type af_uCommand_Put_Name is access
      function (This      : access uCommand;
                pbstrName : GNATCOM.Types.BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Put_Name);
+   pragma Machine_Attribute (af_uCommand_Put_Name, "ms_abi");
 
    type af_uCommand_Get_State is access
      function (This       : access uCommand;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Get_State);
+   pragma Machine_Attribute (af_uCommand_Get_State, "ms_abi");
 
    type af_uCommand_Cancel is access
      function (This : access uCommand)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_uCommand_Cancel);
+   pragma Machine_Attribute (af_uCommand_Cancel, "ms_abi");
 
    type uCommandVtbl;
    type Pointer_To_uCommandVtbl is access all uCommandVtbl;
@@ -4834,16 +5277,19 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ConnectionEventsVt_QueryInterface);
+   pragma Machine_Attribute (af_ConnectionEventsVt_QueryInterface, "ms_abi");
 
    type af_ConnectionEventsVt_AddRef is access
      function (This : access ConnectionEventsVt)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ConnectionEventsVt_AddRef);
+   pragma Machine_Attribute (af_ConnectionEventsVt_AddRef, "ms_abi");
 
    type af_ConnectionEventsVt_Release is access
      function (This : access ConnectionEventsVt)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ConnectionEventsVt_Release);
+   pragma Machine_Attribute (af_ConnectionEventsVt_Release, "ms_abi");
 
    type af_ConnectionEventsVt_InfoMessage is access
      function (This        : access ConnectionEventsVt;
@@ -4852,15 +5298,17 @@ package ADO is
                pConnection : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ConnectionEventsVt_InfoMessage);
+   pragma Machine_Attribute (af_ConnectionEventsVt_InfoMessage, "ms_abi");
 
    type af_ConnectionEventsVt_BeginTransComplete is access
      function (This             : access ConnectionEventsVt;
-               TransactionLevel : Interfaces.C.long;
+               TransactionLevel : Win32_Types.Long;
                pError           : Pointer_To_Error;
                adStatus         : Pointer_To_EventStatusEnum;
                pConnection      : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ConnectionEventsVt_BeginTransComplete);
+   pragma Machine_Attribute (af_ConnectionEventsVt_BeginTransComplete, "ms_abi");
 
    type af_ConnectionEventsVt_CommitTransComplete is access
      function (This        : access ConnectionEventsVt;
@@ -4869,6 +5317,7 @@ package ADO is
                pConnection : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ConnectionEventsVt_CommitTransComplete);
+   pragma Machine_Attribute (af_ConnectionEventsVt_CommitTransComplete, "ms_abi");
 
    type af_ConnectionEventsVt_RollbackTransComplete is access
      function (This        : access ConnectionEventsVt;
@@ -4877,6 +5326,7 @@ package ADO is
                pConnection : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ConnectionEventsVt_RollbackTransComplete);
+   pragma Machine_Attribute (af_ConnectionEventsVt_RollbackTransComplete, "ms_abi");
 
    type af_ConnectionEventsVt_WillExecute is access
      function (This        : access ConnectionEventsVt;
@@ -4890,10 +5340,11 @@ package ADO is
                pConnection : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ConnectionEventsVt_WillExecute);
+   pragma Machine_Attribute (af_ConnectionEventsVt_WillExecute, "ms_abi");
 
    type af_ConnectionEventsVt_ExecuteComplete is access
      function (This            : access ConnectionEventsVt;
-               RecordsAffected : Interfaces.C.long;
+               RecordsAffected : Win32_Types.Long;
                pError          : Pointer_To_Error;
                adStatus        : Pointer_To_EventStatusEnum;
                pCommand        : Pointer_To_uCommand;
@@ -4901,6 +5352,7 @@ package ADO is
                pConnection     : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ConnectionEventsVt_ExecuteComplete);
+   pragma Machine_Attribute (af_ConnectionEventsVt_ExecuteComplete, "ms_abi");
 
    type af_ConnectionEventsVt_WillConnect is access
      function (This             : access ConnectionEventsVt;
@@ -4912,6 +5364,7 @@ package ADO is
                pConnection      : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ConnectionEventsVt_WillConnect);
+   pragma Machine_Attribute (af_ConnectionEventsVt_WillConnect, "ms_abi");
 
    type af_ConnectionEventsVt_ConnectComplete is access
      function (This        : access ConnectionEventsVt;
@@ -4920,6 +5373,7 @@ package ADO is
                pConnection : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ConnectionEventsVt_ConnectComplete);
+   pragma Machine_Attribute (af_ConnectionEventsVt_ConnectComplete, "ms_abi");
 
    type af_ConnectionEventsVt_Disconnect is access
      function (This        : access ConnectionEventsVt;
@@ -4927,6 +5381,7 @@ package ADO is
                pConnection : Pointer_To_uConnection)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ConnectionEventsVt_Disconnect);
+   pragma Machine_Attribute (af_ConnectionEventsVt_Disconnect, "ms_abi");
 
    type ConnectionEventsVtVtbl;
    type Pointer_To_ConnectionEventsVtVtbl is access all ConnectionEventsVtVtbl;
@@ -4971,54 +5426,61 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_QueryInterface);
+   pragma Machine_Attribute (af_RecordsetEventsVt_QueryInterface, "ms_abi");
 
    type af_RecordsetEventsVt_AddRef is access
      function (This : access RecordsetEventsVt)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_RecordsetEventsVt_AddRef);
+   pragma Machine_Attribute (af_RecordsetEventsVt_AddRef, "ms_abi");
 
    type af_RecordsetEventsVt_Release is access
      function (This : access RecordsetEventsVt)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_RecordsetEventsVt_Release);
+   pragma Machine_Attribute (af_RecordsetEventsVt_Release, "ms_abi");
 
    type af_RecordsetEventsVt_WillChangeField is access
      function (This       : access RecordsetEventsVt;
-               cFields    : Interfaces.C.long;
+               cFields    : Win32_Types.Long;
                Fields     : GNATCOM.Types.VARIANT;
                adStatus   : Pointer_To_EventStatusEnum;
                pRecordset : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_WillChangeField);
+   pragma Machine_Attribute (af_RecordsetEventsVt_WillChangeField, "ms_abi");
 
    type af_RecordsetEventsVt_FieldChangeComplete is access
      function (This       : access RecordsetEventsVt;
-               cFields    : Interfaces.C.long;
+               cFields    : Win32_Types.Long;
                Fields     : GNATCOM.Types.VARIANT;
                pError     : Pointer_To_Error;
                adStatus   : Pointer_To_EventStatusEnum;
                pRecordset : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_FieldChangeComplete);
+   pragma Machine_Attribute (af_RecordsetEventsVt_FieldChangeComplete, "ms_abi");
 
    type af_RecordsetEventsVt_WillChangeRecord is access
      function (This       : access RecordsetEventsVt;
                adReason   : EventReasonEnum;
-               cRecords   : Interfaces.C.long;
+               cRecords   : Win32_Types.Long;
                adStatus   : Pointer_To_EventStatusEnum;
                pRecordset : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_WillChangeRecord);
+   pragma Machine_Attribute (af_RecordsetEventsVt_WillChangeRecord, "ms_abi");
 
    type af_RecordsetEventsVt_RecordChangeComplete is access
      function (This       : access RecordsetEventsVt;
                adReason   : EventReasonEnum;
-               cRecords   : Interfaces.C.long;
+               cRecords   : Win32_Types.Long;
                pError     : Pointer_To_Error;
                adStatus   : Pointer_To_EventStatusEnum;
                pRecordset : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_RecordChangeComplete);
+   pragma Machine_Attribute (af_RecordsetEventsVt_RecordChangeComplete, "ms_abi");
 
    type af_RecordsetEventsVt_WillChangeRecordset is access
      function (This       : access RecordsetEventsVt;
@@ -5027,6 +5489,7 @@ package ADO is
                pRecordset : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_WillChangeRecordset);
+   pragma Machine_Attribute (af_RecordsetEventsVt_WillChangeRecordset, "ms_abi");
 
    type af_RecordsetEventsVt_RecordsetChangeComplete is access
      function (This       : access RecordsetEventsVt;
@@ -5036,6 +5499,7 @@ package ADO is
                pRecordset : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_RecordsetChangeComplete);
+   pragma Machine_Attribute (af_RecordsetEventsVt_RecordsetChangeComplete, "ms_abi");
 
    type af_RecordsetEventsVt_WillMove is access
      function (This       : access RecordsetEventsVt;
@@ -5044,6 +5508,7 @@ package ADO is
                pRecordset : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_WillMove);
+   pragma Machine_Attribute (af_RecordsetEventsVt_WillMove, "ms_abi");
 
    type af_RecordsetEventsVt_MoveComplete is access
      function (This       : access RecordsetEventsVt;
@@ -5053,6 +5518,7 @@ package ADO is
                pRecordset : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_MoveComplete);
+   pragma Machine_Attribute (af_RecordsetEventsVt_MoveComplete, "ms_abi");
 
    type af_RecordsetEventsVt_EndOfRecordset is access
      function (This       : access RecordsetEventsVt;
@@ -5061,15 +5527,17 @@ package ADO is
                pRecordset : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_EndOfRecordset);
+   pragma Machine_Attribute (af_RecordsetEventsVt_EndOfRecordset, "ms_abi");
 
    type af_RecordsetEventsVt_FetchProgress is access
      function (This        : access RecordsetEventsVt;
-               Progress    : Interfaces.C.long;
-               MaxProgress : Interfaces.C.long;
+               Progress    : Win32_Types.Long;
+               MaxProgress : Win32_Types.Long;
                adStatus    : Pointer_To_EventStatusEnum;
                pRecordset  : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_FetchProgress);
+   pragma Machine_Attribute (af_RecordsetEventsVt_FetchProgress, "ms_abi");
 
    type af_RecordsetEventsVt_FetchComplete is access
      function (This       : access RecordsetEventsVt;
@@ -5078,6 +5546,7 @@ package ADO is
                pRecordset : Pointer_To_uRecordset)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_RecordsetEventsVt_FetchComplete);
+   pragma Machine_Attribute (af_RecordsetEventsVt_FetchComplete, "ms_abi");
 
    type RecordsetEventsVtVtbl;
    type Pointer_To_RecordsetEventsVtVtbl is access all RecordsetEventsVtVtbl;
@@ -5161,28 +5630,33 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADOConnectionConstruction15_QueryInterface);
+   pragma Machine_Attribute (af_ADOConnectionConstruction15_QueryInterface, "ms_abi");
 
    type af_ADOConnectionConstruction15_AddRef is access
      function (This : access ADOConnectionConstruction15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ADOConnectionConstruction15_AddRef);
+   pragma Machine_Attribute (af_ADOConnectionConstruction15_AddRef, "ms_abi");
 
    type af_ADOConnectionConstruction15_Release is access
      function (This : access ADOConnectionConstruction15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ADOConnectionConstruction15_Release);
+   pragma Machine_Attribute (af_ADOConnectionConstruction15_Release, "ms_abi");
 
    type af_ADOConnectionConstruction15_Get_DSO is access
      function (This  : access ADOConnectionConstruction15;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADOConnectionConstruction15_Get_DSO);
+   pragma Machine_Attribute (af_ADOConnectionConstruction15_Get_DSO, "ms_abi");
 
    type af_ADOConnectionConstruction15_Get_Session is access
      function (This      : access ADOConnectionConstruction15;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADOConnectionConstruction15_Get_Session);
+   pragma Machine_Attribute (af_ADOConnectionConstruction15_Get_Session, "ms_abi");
 
    type af_ADOConnectionConstruction15_WrapDSOandSession is access
      function (This     : access ADOConnectionConstruction15;
@@ -5230,28 +5704,33 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADOConnectionConstruction_QueryInterface);
+   pragma Machine_Attribute (af_ADOConnectionConstruction_QueryInterface, "ms_abi");
 
    type af_ADOConnectionConstruction_AddRef is access
      function (This : access ADOConnectionConstruction)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ADOConnectionConstruction_AddRef);
+   pragma Machine_Attribute (af_ADOConnectionConstruction_AddRef, "ms_abi");
 
    type af_ADOConnectionConstruction_Release is access
      function (This : access ADOConnectionConstruction)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ADOConnectionConstruction_Release);
+   pragma Machine_Attribute (af_ADOConnectionConstruction_Release, "ms_abi");
 
    type af_ADOConnectionConstruction_Get_DSO is access
      function (This  : access ADOConnectionConstruction;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADOConnectionConstruction_Get_DSO);
+   pragma Machine_Attribute (af_ADOConnectionConstruction_Get_DSO, "ms_abi");
 
    type af_ADOConnectionConstruction_Get_Session is access
      function (This      : access ADOConnectionConstruction;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADOConnectionConstruction_Get_Session);
+   pragma Machine_Attribute (af_ADOConnectionConstruction_Get_Session, "ms_abi");
 
    type af_ADOConnectionConstruction_WrapDSOandSession is access
      function (This     : access ADOConnectionConstruction;
@@ -5259,6 +5738,7 @@ package ADO is
                pSession : GNATCOM.Types.Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADOConnectionConstruction_WrapDSOandSession);
+   pragma Machine_Attribute (af_ADOConnectionConstruction_WrapDSOandSession, "ms_abi");
 
    type ADOConnectionConstructionVtbl;
    type Pointer_To_ADOConnectionConstructionVtbl is
@@ -5305,28 +5785,33 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADOCommandConstruction_QueryInterface);
+   pragma Machine_Attribute (af_ADOCommandConstruction_QueryInterface, "ms_abi");
 
    type af_ADOCommandConstruction_AddRef is access
      function (This : access ADOCommandConstruction)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ADOCommandConstruction_AddRef);
+   pragma Machine_Attribute (af_ADOCommandConstruction_AddRef, "ms_abi");
 
    type af_ADOCommandConstruction_Release is access
      function (This : access ADOCommandConstruction)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ADOCommandConstruction_Release);
+   pragma Machine_Attribute (af_ADOCommandConstruction_Release, "ms_abi");
 
    type af_ADOCommandConstruction_Get_OLEDBCommand is access
      function (This           : access ADOCommandConstruction;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADOCommandConstruction_Get_OLEDBCommand);
+   pragma Machine_Attribute (af_ADOCommandConstruction_Get_OLEDBCommand, "ms_abi");
 
    type af_ADOCommandConstruction_Put_OLEDBCommand is access
      function (This           : access ADOCommandConstruction;
                ppOLEDBCommand : GNATCOM.Types.Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADOCommandConstruction_Put_OLEDBCommand);
+   pragma Machine_Attribute (af_ADOCommandConstruction_Put_OLEDBCommand, "ms_abi");
 
    type ADOCommandConstructionVtbl;
    type Pointer_To_ADOCommandConstructionVtbl is
@@ -5378,46 +5863,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_QueryInterface);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_QueryInterface, "ms_abi");
 
    type af_ADORecordsetConstruction_AddRef is access
      function (This : access ADORecordsetConstruction)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ADORecordsetConstruction_AddRef);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_AddRef, "ms_abi");
 
    type af_ADORecordsetConstruction_Release is access
      function (This : access ADORecordsetConstruction)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ADORecordsetConstruction_Release);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_Release, "ms_abi");
 
    type af_ADORecordsetConstruction_GetTypeInfoCount is access
      function (This    : access ADORecordsetConstruction;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_GetTypeInfoCount);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_GetTypeInfoCount, "ms_abi");
 
    type af_ADORecordsetConstruction_GetTypeInfo is access
      function (This    : access ADORecordsetConstruction;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_GetTypeInfo);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_GetTypeInfo, "ms_abi");
 
    type af_ADORecordsetConstruction_GetIDsOfNames is access
      function (This      : access ADORecordsetConstruction;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_GetIDsOfNames);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_GetIDsOfNames, "ms_abi");
 
    type af_ADORecordsetConstruction_Invoke is access
      function (This         : access ADORecordsetConstruction;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -5425,42 +5916,49 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_Invoke);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_Invoke, "ms_abi");
 
    type af_ADORecordsetConstruction_Get_Rowset is access
      function (This     : access ADORecordsetConstruction;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_Get_Rowset);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_Get_Rowset, "ms_abi");
 
    type af_ADORecordsetConstruction_Put_Rowset is access
      function (This     : access ADORecordsetConstruction;
                ppRowset : GNATCOM.Types.Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_Put_Rowset);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_Put_Rowset, "ms_abi");
 
    type af_ADORecordsetConstruction_Get_Chapter is access
      function (This      : access ADORecordsetConstruction;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_Get_Chapter);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_Get_Chapter, "ms_abi");
 
    type af_ADORecordsetConstruction_Put_Chapter is access
      function (This      : access ADORecordsetConstruction;
-               plChapter : Interfaces.C.long)
+               plChapter : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_Put_Chapter);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_Put_Chapter, "ms_abi");
 
    type af_ADORecordsetConstruction_Get_RowPosition is access
      function (This     : access ADORecordsetConstruction;
                RetVal : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_Get_RowPosition);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_Get_RowPosition, "ms_abi");
 
    type af_ADORecordsetConstruction_Put_RowPosition is access
      function (This     : access ADORecordsetConstruction;
                ppRowPos : GNATCOM.Types.Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ADORecordsetConstruction_Put_RowPosition);
+   pragma Machine_Attribute (af_ADORecordsetConstruction_Put_RowPosition, "ms_abi");
 
    type ADORecordsetConstructionVtbl;
    type Pointer_To_ADORecordsetConstructionVtbl is
@@ -5507,46 +6005,52 @@ package ADO is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_QueryInterface);
+   pragma Machine_Attribute (af_Field15_QueryInterface, "ms_abi");
 
    type af_Field15_AddRef is access
      function (This : access Field15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Field15_AddRef);
+   pragma Machine_Attribute (af_Field15_AddRef, "ms_abi");
 
    type af_Field15_Release is access
      function (This : access Field15)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_Field15_Release);
+   pragma Machine_Attribute (af_Field15_Release, "ms_abi");
 
    type af_Field15_GetTypeInfoCount is access
      function (This    : access Field15;
                pctinfo : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_GetTypeInfoCount);
+   pragma Machine_Attribute (af_Field15_GetTypeInfoCount, "ms_abi");
 
    type af_Field15_GetTypeInfo is access
      function (This    : access Field15;
                itinfo  : Interfaces.C.unsigned;
-               lcid    : Interfaces.C.unsigned_long;
+               lcid    : Win32_Types.Unsigned_Long;
                pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_GetTypeInfo);
+   pragma Machine_Attribute (af_Field15_GetTypeInfo, "ms_abi");
 
    type af_Field15_GetIDsOfNames is access
      function (This      : access Field15;
                riid      : GNATCOM.Types.Pointer_To_GUID;
                rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
                cNames    : Interfaces.C.unsigned;
-               lcid      : Interfaces.C.unsigned_long;
+               lcid      : Win32_Types.Unsigned_Long;
                rgdispid  : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_GetIDsOfNames);
+   pragma Machine_Attribute (af_Field15_GetIDsOfNames, "ms_abi");
 
    type af_Field15_Invoke is access
      function (This         : access Field15;
-               dispidMember : Interfaces.C.long;
+               dispidMember : Win32_Types.Long;
                riid         : GNATCOM.Types.Pointer_To_GUID;
-               lcid         : Interfaces.C.unsigned_long;
+               lcid         : Win32_Types.Unsigned_Long;
                wFlags       : Interfaces.C.unsigned_short;
                pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
                pvarResult   : access GNATCOM.Types.VARIANT;
@@ -5554,91 +6058,106 @@ package ADO is
                puArgErr     : GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Invoke);
+   pragma Machine_Attribute (af_Field15_Invoke, "ms_abi");
 
    type af_Field15_Get_Properties is access
      function (This      : access Field15;
                RetVal : Pointer_To_Pointer_To_Properties)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_Properties);
+   pragma Machine_Attribute (af_Field15_Get_Properties, "ms_abi");
 
    type af_Field15_Get_ActualSize is access
      function (This : access Field15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_ActualSize);
+   pragma Machine_Attribute (af_Field15_Get_ActualSize, "ms_abi");
 
    type af_Field15_Get_Attributes is access
      function (This : access Field15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_Attributes);
+   pragma Machine_Attribute (af_Field15_Get_Attributes, "ms_abi");
 
    type af_Field15_Get_DefinedSize is access
      function (This : access Field15;
                RetVal : GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_DefinedSize);
+   pragma Machine_Attribute (af_Field15_Get_DefinedSize, "ms_abi");
 
    type af_Field15_Get_Name is access
      function (This  : access Field15;
                RetVal : GNATCOM.Types.Pointer_To_BSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_Name);
+   pragma Machine_Attribute (af_Field15_Get_Name, "ms_abi");
 
    type af_Field15_Get_Type is access
      function (This      : access Field15;
                RetVal : Pointer_To_DataTypeEnum)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_Type);
+   pragma Machine_Attribute (af_Field15_Get_Type, "ms_abi");
 
    type af_Field15_Get_Value is access
      function (This : access Field15;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_Value);
+   pragma Machine_Attribute (af_Field15_Get_Value, "ms_abi");
 
    type af_Field15_Put_Value is access
      function (This : access Field15;
                pvar : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Put_Value);
+   pragma Machine_Attribute (af_Field15_Put_Value, "ms_abi");
 
    type af_Field15_Get_Precision is access
      function (This        : access Field15;
                RetVal : Pointer_To_unsigned_char)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_Precision);
+   pragma Machine_Attribute (af_Field15_Get_Precision, "ms_abi");
 
    type af_Field15_Get_NumericScale is access
      function (This           : access Field15;
                RetVal : Pointer_To_unsigned_char)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_NumericScale);
+   pragma Machine_Attribute (af_Field15_Get_NumericScale, "ms_abi");
 
    type af_Field15_AppendChunk is access
      function (This : access Field15;
                Data : GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_AppendChunk);
+   pragma Machine_Attribute (af_Field15_AppendChunk, "ms_abi");
 
    type af_Field15_GetChunk is access
      function (This   : access Field15;
-               Length : Interfaces.C.long;
+               Length : Win32_Types.Long;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_GetChunk);
+   pragma Machine_Attribute (af_Field15_GetChunk, "ms_abi");
 
    type af_Field15_Get_OriginalValue is access
      function (This : access Field15;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_OriginalValue);
+   pragma Machine_Attribute (af_Field15_Get_OriginalValue, "ms_abi");
 
    type af_Field15_Get_UnderlyingValue is access
      function (This : access Field15;
                RetVal : access GNATCOM.Types.VARIANT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_Field15_Get_UnderlyingValue);
+   pragma Machine_Attribute (af_Field15_Get_UnderlyingValue, "ms_abi");
 
    type Field15Vtbl;
    type Pointer_To_Field15Vtbl is access all Field15Vtbl;

@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body TOM.ITextDocument_Interface is
 
@@ -54,9 +55,9 @@ package body TOM.ITextDocument_Interface is
 
    function Get_StoryCount
      (This   : ITextDocument_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_StoryCount
@@ -82,9 +83,9 @@ package body TOM.ITextDocument_Interface is
 
    function Get_Saved
      (This   : ITextDocument_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Saved
@@ -96,7 +97,7 @@ package body TOM.ITextDocument_Interface is
 
    procedure Put_Saved
      (This   : ITextDocument_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -146,8 +147,8 @@ package body TOM.ITextDocument_Interface is
      (This     : ITextDocument_Type;
       pVar     : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Flags    : Interfaces.C.long;
-      CodePage : Interfaces.C.long)
+      Flags    : Win32_Types.Long;
+      CodePage : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -163,8 +164,8 @@ package body TOM.ITextDocument_Interface is
      (This     : ITextDocument_Type;
       pVar     : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Flags    : Interfaces.C.long;
-      CodePage : Interfaces.C.long)
+      Flags    : Win32_Types.Long;
+      CodePage : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -178,9 +179,9 @@ package body TOM.ITextDocument_Interface is
 
    function Freeze
      (This   : ITextDocument_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Freeze
@@ -192,9 +193,9 @@ package body TOM.ITextDocument_Interface is
 
    function Unfreeze
      (This   : ITextDocument_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Unfreeze
@@ -226,10 +227,10 @@ package body TOM.ITextDocument_Interface is
 
    function Undo
      (This  : ITextDocument_Type;
-      Count : Interfaces.C.long)
-     return Interfaces.C.long
+      Count : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Undo
@@ -242,10 +243,10 @@ package body TOM.ITextDocument_Interface is
 
    function Redo
      (This  : ITextDocument_Type;
-      Count : Interfaces.C.long)
-     return Interfaces.C.long
+      Count : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Redo
@@ -258,8 +259,8 @@ package body TOM.ITextDocument_Interface is
 
    function uRange
      (This    : ITextDocument_Type;
-      cp1     : Interfaces.C.long;
-      cp2     : Interfaces.C.long)
+      cp1     : Win32_Types.Long;
+      cp2     : Win32_Types.Long)
      return Pointer_To_ITextRange
    is
        RetVal : aliased Pointer_To_ITextRange;
@@ -276,8 +277,8 @@ package body TOM.ITextDocument_Interface is
 
    function RangeFromPoint
      (This    : ITextDocument_Type;
-      x       : Interfaces.C.long;
-      y       : Interfaces.C.long)
+      x       : Win32_Types.Long;
+      y       : Win32_Types.Long)
      return Pointer_To_ITextRange
    is
        RetVal : aliased Pointer_To_ITextRange;

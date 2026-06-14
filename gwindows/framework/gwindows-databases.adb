@@ -53,6 +53,7 @@ use ADO.Field_Interface;
 with GNATCOM.Dispinterface;
 use GNATCOM.Dispinterface;
 with GNATCOM.VARIANT;
+with Win32_Types;
 
 package body GWindows.Databases is
    ---------------------
@@ -204,7 +205,7 @@ package body GWindows.Databases is
       Seconds  :        Natural)
    is
    begin
-      Put_CommandTimeout (Database.Connection, Interfaces.C.long (Seconds));
+      Put_CommandTimeout (Database.Connection, Win32_Types.Long (Seconds));
    end Command_Timeout;
 
    function Command_Timeout (Database : in Database_Type) return Natural
@@ -218,7 +219,7 @@ package body GWindows.Databases is
       Seconds  :        Natural)
    is
    begin
-      Put_ConnectionTimeout (Database.Connection, Interfaces.C.long (Seconds));
+      Put_ConnectionTimeout (Database.Connection, Win32_Types.Long (Seconds));
    end Connection_Timeout;
 
    function Connection_Timeout (Database : in Database_Type) return Natural
@@ -533,7 +534,7 @@ package body GWindows.Databases is
 
       if Change then
          Move (Recordset.Recordset,
-               Interfaces.C.long (Count),
+               Win32_Types.Long (Count),
                GNATCOM.VARIANT.To_VARIANT (Move_Values (From)));
          On_Change (Recordset_Type'Class (Recordset));
       end if;
@@ -628,8 +629,8 @@ package body GWindows.Databases is
       Cursor    : in     Cursor_Type;
       Lock      : in     Lock_Type)
    is
-      type Cursor_Array is array (Cursor_Type) of Interfaces.C.long;
-      type Lock_Array is array (Lock_Type) of Interfaces.C.long;
+      type Cursor_Array is array (Cursor_Type) of Win32_Types.Long;
+      type Lock_Array is array (Lock_Type) of Win32_Types.Long;
 
       Cursor_Values : constant Cursor_Array :=
         (Dynamic      => ADO.adOpenDynamic,

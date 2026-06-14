@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package ADO.uConnection15_Interface is
 
@@ -28,19 +29,19 @@ package ADO.uConnection15_Interface is
 
    function Get_CommandTimeout
      (This      : uConnection15_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_CommandTimeout
      (This      : uConnection15_Type;
-      plTimeout : Interfaces.C.long);
+      plTimeout : Win32_Types.Long);
 
    function Get_ConnectionTimeout
      (This      : uConnection15_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_ConnectionTimeout
      (This      : uConnection15_Type;
-      plTimeout : Interfaces.C.long);
+      plTimeout : Win32_Types.Long);
 
    function Get_Version
      (This  : uConnection15_Type)
@@ -54,13 +55,13 @@ package ADO.uConnection15_Interface is
       CommandText     : GNATCOM.Types.BSTR;
       RecordsAffected : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Options         : Interfaces.C.long;
+      Options         : Win32_Types.Long;
       Free            : Boolean := True)
      return Pointer_To_uRecordset;
 
    function BeginTrans
      (This             : uConnection15_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure CommitTrans
      (This : uConnection15_Type);
@@ -73,7 +74,7 @@ package ADO.uConnection15_Interface is
       ConnectionString : GNATCOM.Types.BSTR;
       UserID           : GNATCOM.Types.BSTR;
       Password         : GNATCOM.Types.BSTR;
-      Options          : Interfaces.C.long;
+      Options          : Win32_Types.Long;
       Free             : Boolean := True);
 
    function Get_Errors
@@ -99,11 +100,11 @@ package ADO.uConnection15_Interface is
 
    function Get_Attributes
      (This   : uConnection15_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Attributes
      (This   : uConnection15_Type;
-      plAttr : Interfaces.C.long);
+      plAttr : Win32_Types.Long);
 
    function Get_CursorLocation
      (This        : uConnection15_Type)
@@ -132,7 +133,7 @@ package ADO.uConnection15_Interface is
 
    function Get_State
      (This       : uConnection15_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function OpenSchema
      (This         : uConnection15_Type;

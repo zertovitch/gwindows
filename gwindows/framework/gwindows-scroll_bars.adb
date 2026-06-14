@@ -39,6 +39,7 @@
 
 with Interfaces.C;
 with GWindows.Types;
+with Win32_Types;
 
 package body GWindows.Scroll_Bars is
    use type Interfaces.C.unsigned;
@@ -74,14 +75,16 @@ package body GWindows.Scroll_Bars is
      (hwnd    : GWindows.Types.Handle;
       fnBar   : Interfaces.C.int;
       lpsi    : SCROLLINFO;
-      fRedraw : Interfaces.C.long     := 1);
+      fRedraw : Win32_Types.Long     := 1);
    pragma Import (StdCall, SetScrollInfo, "SetScrollInfo");
+   pragma Machine_Attribute (SetScrollInfo, "ms_abi");
 
    procedure GetScrollInfo
      (hwnd    : GWindows.Types.Handle;
       fnBar   : Interfaces.C.int;
       lpsi    : SCROLLINFO);
    pragma Import (StdCall, GetScrollInfo, "GetScrollInfo");
+   pragma Machine_Attribute (GetScrollInfo, "ms_abi");
 
    -------------------------------------------------------------------------
    --  Package Body

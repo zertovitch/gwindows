@@ -44,10 +44,10 @@
 with Ada.Finalization;
 with Ada.Unchecked_Conversion;
 with System;
-with Interfaces.C;
 
 with GNATCOM.Types;
 with GNATCOM.Create.COM_Interface;
+with Win32_Types;
 
 pragma Elaborate_All (GNATCOM);
 
@@ -168,7 +168,7 @@ package GNATCOM.Iinterface is
    --  address. According to the COM specification all QueryInterfaces for
    --  IUnknown must return the same pointer value.
 
-   type GIT_Cookie is new Interfaces.C.unsigned_long;
+   type GIT_Cookie is new Win32_Types.Unsigned_Long;
    --  Used for holding a reference value to an interface placed in the
    --  Global Interface Table
 

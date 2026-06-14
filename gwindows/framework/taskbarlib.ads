@@ -11,6 +11,7 @@ with Interfaces.C;
 
 with GNATCOM.Types;
 with GNATCOM.GUID;
+with Win32_Types;
 
 package TaskbarLib is
 
@@ -21,11 +22,11 @@ package TaskbarLib is
    type ITaskbarList2;
    type tagTHUMBBUTTON;
    type ITaskbarList3;
-   subtype TBPFLAG is Interfaces.C.long;
+   subtype TBPFLAG is Win32_Types.Long;
    type wireHWND;
    type uRemotableHandle;
    type u_MIDL_IWinTypes_0009;
-   subtype TBATFLAG is Interfaces.C.long;
+   subtype TBATFLAG is Win32_Types.Long;
    type tagRECT;
 
    type Pointer_To_ITaskbarList is access all ITaskbarList;
@@ -52,45 +53,53 @@ package TaskbarLib is
                ppvObject : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList_QueryInterface);
+   pragma Machine_Attribute (af_ITaskbarList_QueryInterface, "ms_abi");
 
    type af_ITaskbarList_AddRef is access
      function (This : access ITaskbarList)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITaskbarList_AddRef);
+   pragma Machine_Attribute (af_ITaskbarList_AddRef, "ms_abi");
 
    type af_ITaskbarList_Release is access
      function (This : access ITaskbarList)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITaskbarList_Release);
+   pragma Machine_Attribute (af_ITaskbarList_Release, "ms_abi");
 
    type af_ITaskbarList_HrInit is access
      function (This : access ITaskbarList)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList_HrInit);
+   pragma Machine_Attribute (af_ITaskbarList_HrInit, "ms_abi");
 
    type af_ITaskbarList_AddTab is access
      function (This : access ITaskbarList;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList_AddTab);
+   pragma Machine_Attribute (af_ITaskbarList_AddTab, "ms_abi");
 
    type af_ITaskbarList_DeleteTab is access
      function (This : access ITaskbarList;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList_DeleteTab);
+   pragma Machine_Attribute (af_ITaskbarList_DeleteTab, "ms_abi");
 
    type af_ITaskbarList_ActivateTab is access
      function (This : access ITaskbarList;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList_ActivateTab);
+   pragma Machine_Attribute (af_ITaskbarList_ActivateTab, "ms_abi");
 
    type af_ITaskbarList_SetActivateAlt is access
      function (This : access ITaskbarList;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList_SetActivateAlt);
+   pragma Machine_Attribute (af_ITaskbarList_SetActivateAlt, "ms_abi");
 
    type ITaskbarListVtbl;
    type Pointer_To_ITaskbarListVtbl is access all ITaskbarListVtbl;
@@ -131,16 +140,19 @@ package TaskbarLib is
                ppvObject : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IUnknown_QueryInterface);
+   pragma Machine_Attribute (af_IUnknown_QueryInterface, "ms_abi");
 
    type af_IUnknown_AddRef is access
      function (This : access IUnknown)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IUnknown_AddRef);
+   pragma Machine_Attribute (af_IUnknown_AddRef, "ms_abi");
 
    type af_IUnknown_Release is access
      function (This : access IUnknown)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IUnknown_Release);
+   pragma Machine_Attribute (af_IUnknown_Release, "ms_abi");
 
    type IUnknownVtbl;
    type Pointer_To_IUnknownVtbl is access all IUnknownVtbl;
@@ -175,7 +187,7 @@ package TaskbarLib is
 
    type T2 is
       record
-         Data1 : Interfaces.C.unsigned_long;
+         Data1 : Win32_Types.Unsigned_Long;
          Data2 : Interfaces.C.unsigned_short;
          Data3 : Interfaces.C.unsigned_short;
          Data4 : T1;
@@ -183,7 +195,7 @@ package TaskbarLib is
    pragma Convention (C_Pass_By_Copy, T2);
    for T2 use
       record
-         Data1 at 0 range 0 .. 0 + Interfaces.C.unsigned_long'Size - 1;
+         Data1 at 0 range 0 .. 0 + Win32_Types.Unsigned_Long'Size - 1;
          Data2 at 0 range 32 .. 32 + Interfaces.C.unsigned_short'Size - 1;
          Data3 at 0 range 48 .. 48 + Interfaces.C.unsigned_short'Size - 1;
          Data4 at 0 range 64 .. 64 + Size_Of_T1 - 1;
@@ -207,52 +219,61 @@ package TaskbarLib is
                ppvObject : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList2_QueryInterface);
+   pragma Machine_Attribute (af_ITaskbarList2_QueryInterface, "ms_abi");
 
    type af_ITaskbarList2_AddRef is access
      function (This : access ITaskbarList2)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITaskbarList2_AddRef);
+   pragma Machine_Attribute (af_ITaskbarList2_AddRef, "ms_abi");
 
    type af_ITaskbarList2_Release is access
      function (This : access ITaskbarList2)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITaskbarList2_Release);
+   pragma Machine_Attribute (af_ITaskbarList2_Release, "ms_abi");
 
    type af_ITaskbarList2_HrInit is access
      function (This : access ITaskbarList2)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList2_HrInit);
+   pragma Machine_Attribute (af_ITaskbarList2_HrInit, "ms_abi");
 
    type af_ITaskbarList2_AddTab is access
      function (This : access ITaskbarList2;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList2_AddTab);
+   pragma Machine_Attribute (af_ITaskbarList2_AddTab, "ms_abi");
 
    type af_ITaskbarList2_DeleteTab is access
      function (This : access ITaskbarList2;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList2_DeleteTab);
+   pragma Machine_Attribute (af_ITaskbarList2_DeleteTab, "ms_abi");
 
    type af_ITaskbarList2_ActivateTab is access
      function (This : access ITaskbarList2;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList2_ActivateTab);
+   pragma Machine_Attribute (af_ITaskbarList2_ActivateTab, "ms_abi");
 
    type af_ITaskbarList2_SetActivateAlt is access
      function (This : access ITaskbarList2;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList2_SetActivateAlt);
+   pragma Machine_Attribute (af_ITaskbarList2_SetActivateAlt, "ms_abi");
 
    type af_ITaskbarList2_MarkFullscreenWindow is access
      function (This        : access ITaskbarList2;
-               hwnd        : Interfaces.C.long;
-               fFullscreen : Interfaces.C.long)
+               hwnd        : Win32_Types.Long;
+               fFullscreen : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList2_MarkFullscreenWindow);
+   pragma Machine_Attribute (af_ITaskbarList2_MarkFullscreenWindow, "ms_abi");
 
    type ITaskbarList2Vtbl;
    type Pointer_To_ITaskbarList2Vtbl is access all ITaskbarList2Vtbl;
@@ -296,17 +317,17 @@ package TaskbarLib is
 
    type tagTHUMBBUTTON is
       record
-         dwMask  : Interfaces.C.unsigned_long;
+         dwMask  : Win32_Types.Unsigned_Long;
          iId     : Interfaces.C.unsigned;
          iBitmap : Interfaces.C.unsigned;
          hIcon   : GNATCOM.Types.Pointer_To_IUnknown;
          szTip   : T3;
-         dwFlags : Interfaces.C.unsigned_long;
+         dwFlags : Win32_Types.Unsigned_Long;
       end record;
    pragma Convention (C_Pass_By_Copy, tagTHUMBBUTTON);
    for tagTHUMBBUTTON use
       record
-         dwMask  at 0 range 0 .. 0 + Interfaces.C.unsigned_long'Size - 1;
+         dwMask  at 0 range 0 .. 0 + Win32_Types.Unsigned_Long'Size - 1;
          iId     at 0 range 32 .. 32 + Interfaces.C.unsigned'Size - 1;
          iBitmap at 0 range 64 .. 64 + Interfaces.C.unsigned'Size - 1;
          hIcon   at 0 range 96 .. 96 + GNATCOM.Types.Size_Of_Pointers - 1;
@@ -314,7 +335,7 @@ package TaskbarLib is
                             128 + Adj_64_Bits + Size_Of_T3 - 1;
          dwFlags at 0 range 4288 + Adj_64_Bits ..
                             4288 + Adj_64_Bits +
-                            Interfaces.C.unsigned_long'Size - 1;
+                            Win32_Types.Unsigned_Long'Size - 1;
       end record;
    for tagTHUMBBUTTON'Size use Size_Of_tagTHUMBBUTTON;
    for tagTHUMBBUTTON'Alignment use 4;
@@ -340,9 +361,9 @@ package TaskbarLib is
       record
          case Which is
             when 1 =>
-               hInproc : Interfaces.C.long;
+               hInproc : Win32_Types.Long;
             when 2 =>
-               hRemote : Interfaces.C.long;
+               hRemote : Win32_Types.Long;
          end case;
       end record;
    pragma Convention (C_Pass_By_Copy, u_MIDL_IWinTypes_0009);
@@ -357,13 +378,13 @@ package TaskbarLib is
 
    type uRemotableHandle is
       record
-         fContext : Interfaces.C.long;
+         fContext : Win32_Types.Long;
          u        : u_MIDL_IWinTypes_0009;
       end record;
    pragma Convention (C_Pass_By_Copy, uRemotableHandle);
    for uRemotableHandle use
       record
-         fContext at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
+         fContext at 0 range 0 .. 0 + Win32_Types.Long'Size - 1;
          u        at 0 range 32 .. 32 + Size_Of_u_MIDL_IWinTypes_0009 - 1;
       end record;
    for uRemotableHandle'Size use Size_Of_uRemotableHandle;
@@ -387,18 +408,18 @@ package TaskbarLib is
 
    type tagRECT is
       record
-         left   : Interfaces.C.long;
-         top    : Interfaces.C.long;
-         right  : Interfaces.C.long;
-         bottom : Interfaces.C.long;
+         left   : Win32_Types.Long;
+         top    : Win32_Types.Long;
+         right  : Win32_Types.Long;
+         bottom : Win32_Types.Long;
       end record;
    pragma Convention (C_Pass_By_Copy, tagRECT);
    for tagRECT use
       record
-         left   at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
-         top    at 0 range 32 .. 32 + Interfaces.C.long'Size - 1;
-         right  at 0 range 64 .. 64 + Interfaces.C.long'Size - 1;
-         bottom at 0 range 96 .. 96 + Interfaces.C.long'Size - 1;
+         left   at 0 range 0 .. 0 + Win32_Types.Long'Size - 1;
+         top    at 0 range 32 .. 32 + Win32_Types.Long'Size - 1;
+         right  at 0 range 64 .. 64 + Win32_Types.Long'Size - 1;
+         bottom at 0 range 96 .. 96 + Win32_Types.Long'Size - 1;
       end record;
    for tagRECT'Size use Size_Of_tagRECT;
    for tagRECT'Alignment use 4;
@@ -416,140 +437,161 @@ package TaskbarLib is
                ppvObject : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_QueryInterface);
+   pragma Machine_Attribute (af_ITaskbarList3_QueryInterface, "ms_abi");
 
    type af_ITaskbarList3_AddRef is access
      function (This : access ITaskbarList3)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITaskbarList3_AddRef);
+   pragma Machine_Attribute (af_ITaskbarList3_AddRef, "ms_abi");
 
    type af_ITaskbarList3_Release is access
      function (This : access ITaskbarList3)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ITaskbarList3_Release);
+   pragma Machine_Attribute (af_ITaskbarList3_Release, "ms_abi");
 
    type af_ITaskbarList3_HrInit is access
      function (This : access ITaskbarList3)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_HrInit);
+   pragma Machine_Attribute (af_ITaskbarList3_HrInit, "ms_abi");
 
    type af_ITaskbarList3_AddTab is access
      function (This : access ITaskbarList3;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_AddTab);
+   pragma Machine_Attribute (af_ITaskbarList3_AddTab, "ms_abi");
 
    type af_ITaskbarList3_DeleteTab is access
      function (This : access ITaskbarList3;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_DeleteTab);
+   pragma Machine_Attribute (af_ITaskbarList3_DeleteTab, "ms_abi");
 
    type af_ITaskbarList3_ActivateTab is access
      function (This : access ITaskbarList3;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_ActivateTab);
+   pragma Machine_Attribute (af_ITaskbarList3_ActivateTab, "ms_abi");
 
    type af_ITaskbarList3_SetActivateAlt is access
      function (This : access ITaskbarList3;
-               hwnd : Interfaces.C.long)
+               hwnd : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_SetActivateAlt);
+   pragma Machine_Attribute (af_ITaskbarList3_SetActivateAlt, "ms_abi");
 
    type af_ITaskbarList3_MarkFullscreenWindow is access
      function (This        : access ITaskbarList3;
-               hwnd        : Interfaces.C.long;
-               fFullscreen : Interfaces.C.long)
+               hwnd        : Win32_Types.Long;
+               fFullscreen : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_MarkFullscreenWindow);
+   pragma Machine_Attribute (af_ITaskbarList3_MarkFullscreenWindow, "ms_abi");
 
    type af_ITaskbarList3_SetProgressValue is access
      function (This         : access ITaskbarList3;
-               hwnd         : Interfaces.C.long;
+               hwnd         : Win32_Types.Long;
                ullCompleted : GNATCOM.Types.DWORDLONG;
                ullTotal     : GNATCOM.Types.DWORDLONG)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_SetProgressValue);
+   pragma Machine_Attribute (af_ITaskbarList3_SetProgressValue, "ms_abi");
 
    type af_ITaskbarList3_SetProgressState is access
      function (This     : access ITaskbarList3;
-               hwnd     : Interfaces.C.long;
+               hwnd     : Win32_Types.Long;
                tbpFlags : TBPFLAG)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_SetProgressState);
+   pragma Machine_Attribute (af_ITaskbarList3_SetProgressState, "ms_abi");
 
    type af_ITaskbarList3_RegisterTab is access
      function (This    : access ITaskbarList3;
-               hwndTab : Interfaces.C.long;
+               hwndTab : Win32_Types.Long;
                hwndMDI : wireHWND)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_RegisterTab);
+   pragma Machine_Attribute (af_ITaskbarList3_RegisterTab, "ms_abi");
 
    type af_ITaskbarList3_UnregisterTab is access
      function (This    : access ITaskbarList3;
-               hwndTab : Interfaces.C.long)
+               hwndTab : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_UnregisterTab);
+   pragma Machine_Attribute (af_ITaskbarList3_UnregisterTab, "ms_abi");
 
    type af_ITaskbarList3_SetTabOrder is access
      function (This             : access ITaskbarList3;
-               hwndTab          : Interfaces.C.long;
-               hwndInsertBefore : Interfaces.C.long)
+               hwndTab          : Win32_Types.Long;
+               hwndInsertBefore : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_SetTabOrder);
+   pragma Machine_Attribute (af_ITaskbarList3_SetTabOrder, "ms_abi");
 
    type af_ITaskbarList3_SetTabActive is access
      function (This      : access ITaskbarList3;
-               hwndTab   : Interfaces.C.long;
-               hwndMDI   : Interfaces.C.long;
+               hwndTab   : Win32_Types.Long;
+               hwndMDI   : Win32_Types.Long;
                tbatFlags : TBATFLAG)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_SetTabActive);
+   pragma Machine_Attribute (af_ITaskbarList3_SetTabActive, "ms_abi");
 
    type af_ITaskbarList3_ThumbBarAddButtons is access
      function (This     : access ITaskbarList3;
-               hwnd     : Interfaces.C.long;
+               hwnd     : Win32_Types.Long;
                cButtons : Interfaces.C.unsigned;
                pButton  : Pointer_To_tagTHUMBBUTTON)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_ThumbBarAddButtons);
+   pragma Machine_Attribute (af_ITaskbarList3_ThumbBarAddButtons, "ms_abi");
 
    type af_ITaskbarList3_ThumbBarUpdateButtons is access
      function (This     : access ITaskbarList3;
-               hwnd     : Interfaces.C.long;
+               hwnd     : Win32_Types.Long;
                cButtons : Interfaces.C.unsigned;
                pButton  : Pointer_To_tagTHUMBBUTTON)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_ThumbBarUpdateButtons);
+   pragma Machine_Attribute (af_ITaskbarList3_ThumbBarUpdateButtons, "ms_abi");
 
    type af_ITaskbarList3_ThumbBarSetImageList is access
      function (This : access ITaskbarList3;
-               hwnd : Interfaces.C.long;
+               hwnd : Win32_Types.Long;
                himl : GNATCOM.Types.Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_ThumbBarSetImageList);
+   pragma Machine_Attribute (af_ITaskbarList3_ThumbBarSetImageList, "ms_abi");
 
    type af_ITaskbarList3_SetOverlayIcon is access
      function (This           : access ITaskbarList3;
-               hwnd           : Interfaces.C.long;
+               hwnd           : Win32_Types.Long;
                hIcon          : GNATCOM.Types.Pointer_To_IUnknown;
                pszDescription : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_SetOverlayIcon);
+   pragma Machine_Attribute (af_ITaskbarList3_SetOverlayIcon, "ms_abi");
 
    type af_ITaskbarList3_SetThumbnailTooltip is access
      function (This   : access ITaskbarList3;
-               hwnd   : Interfaces.C.long;
+               hwnd   : Win32_Types.Long;
                pszTip : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_SetThumbnailTooltip);
+   pragma Machine_Attribute (af_ITaskbarList3_SetThumbnailTooltip, "ms_abi");
 
    type af_ITaskbarList3_SetThumbnailClip is access
      function (This    : access ITaskbarList3;
-               hwnd    : Interfaces.C.long;
+               hwnd    : Win32_Types.Long;
                prcClip : Pointer_To_tagRECT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ITaskbarList3_SetThumbnailClip);
+   pragma Machine_Attribute (af_ITaskbarList3_SetThumbnailClip, "ms_abi");
 
    type ITaskbarList3Vtbl;
    type Pointer_To_ITaskbarList3Vtbl is access all ITaskbarList3Vtbl;

@@ -305,6 +305,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Text_Limit;
@@ -323,6 +324,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       if State then
          SendMessage;
@@ -342,6 +344,7 @@ package body GWindows.Combo_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage /= 0;
    end Dropped;
@@ -365,6 +368,7 @@ package body GWindows.Combo_Boxes is
          lParam : access Natural        := End_Pos'Access);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
       Start_Position := Start_Pos;
@@ -387,6 +391,7 @@ package body GWindows.Combo_Boxes is
          lParam  : GWindows.Types.Lparam);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
       DWord : GWindows.Types.Lparam;
    begin
@@ -408,6 +413,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       if State then
          SendMessage;
@@ -427,6 +433,7 @@ package body GWindows.Combo_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage /= 0;
    end Alternate_User_Interface;
@@ -447,6 +454,7 @@ package body GWindows.Combo_Boxes is
          lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Add;
@@ -465,6 +473,7 @@ package body GWindows.Combo_Boxes is
         return Natural;
       pragma Import (StdCall, SendMessage,
                         "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Add;
@@ -483,6 +492,7 @@ package body GWindows.Combo_Boxes is
       return Interfaces.C.int;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
       Status : constant Interfaces.C.int := SendMessage;
    begin
       case Status is
@@ -506,6 +516,7 @@ package body GWindows.Combo_Boxes is
          lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Add;
@@ -524,6 +535,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Delete;
@@ -540,6 +552,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Cut;
@@ -556,6 +569,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Copy;
@@ -572,6 +586,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Paste;
@@ -589,6 +604,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Clear;
@@ -605,6 +621,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Undo;
@@ -629,6 +646,7 @@ package body GWindows.Combo_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Find;
@@ -654,6 +672,7 @@ package body GWindows.Combo_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Find_Exact;
@@ -700,6 +719,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Current;
@@ -713,6 +733,7 @@ package body GWindows.Combo_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Current;
@@ -731,6 +752,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam := Data);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Item_Data;
@@ -745,6 +767,7 @@ package body GWindows.Combo_Boxes is
         return GWindows.Types.Lparam;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Item_Data;
@@ -762,6 +785,7 @@ package body GWindows.Combo_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Count;
@@ -782,6 +806,7 @@ package body GWindows.Combo_Boxes is
         return Natural;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Value_Length;
@@ -807,6 +832,7 @@ package body GWindows.Combo_Boxes is
          lParam : out GString_C);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage (lParam => Buffer);
       return GWindows.GStrings.To_GString_From_C (Buffer);
@@ -826,6 +852,7 @@ package body GWindows.Combo_Boxes is
          lParam : GWindows.Types.Lparam   := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Top_Item;
@@ -840,6 +867,7 @@ package body GWindows.Combo_Boxes is
         return Integer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage + 1;
    end Top_Item;
@@ -860,6 +888,7 @@ package body GWindows.Combo_Boxes is
          lParam : access GChar_C        := C_Value (C_Value'First)'Access);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Text;

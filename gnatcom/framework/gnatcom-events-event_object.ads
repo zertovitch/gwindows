@@ -38,6 +38,7 @@
 with GNATCOM.Types;
 with GNATCOM.Create.COM_Interface;
 with Interfaces.C;
+with Win32_Types;
 
 package GNATCOM.Events.Event_Object is
 
@@ -48,7 +49,7 @@ package GNATCOM.Events.Event_Object is
    --  to the call back Invoke_Function
 
    type Invoke_Function is access
-     procedure (dispidMember : in Interfaces.C.long;
+     procedure (dispidMember : in Win32_Types.Long;
                 wFlags       : in Interfaces.C.unsigned_short;
                 pdispparams  : in GNATCOM.Types.Pointer_To_DISPPARAMS;
                 Event_Object : in Event_Pointer);

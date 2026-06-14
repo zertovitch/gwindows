@@ -79,7 +79,7 @@ package body GNATCOM.Create.COM_Interface is
    ------------
 
    function AddRef (This : access COM_Interface_Type)
-                   return Interfaces.C.unsigned_long
+                   return Win32_Types.Unsigned_Long
    is
       Result : Interfaces.Unsigned_32;
       pragma Unreferenced (Result);
@@ -90,7 +90,7 @@ package body GNATCOM.Create.COM_Interface is
       --  Interface reference increment
       Result := InterlockedIncrement (This.Ref_Count'Access);
 
-      return Interfaces.C.unsigned_long (This.Ref_Count);
+      return Win32_Types.Unsigned_Long (This.Ref_Count);
    end AddRef;
 
    --------------------
@@ -205,7 +205,7 @@ package body GNATCOM.Create.COM_Interface is
    -------------
 
    function Release (This : access COM_Interface_Type)
-                    return Interfaces.C.unsigned_long
+                    return Win32_Types.Unsigned_Long
    is
       use type Interfaces.Unsigned_32;
 
@@ -219,7 +219,7 @@ package body GNATCOM.Create.COM_Interface is
       --  Reduce the Interface ref count and check to see if this
       --  is the last release
       if InterlockedDecrement (This.Ref_Count'Access) /= 0 then
-         return Interfaces.C.unsigned_long (This.Ref_Count);
+         return Win32_Types.Unsigned_Long (This.Ref_Count);
       else
          --  Last reference to the interface released, so free interface
          Free_Interface (This.all'Address);
@@ -232,7 +232,7 @@ package body GNATCOM.Create.COM_Interface is
    -------------
 
    procedure Release (This : access COM_Interface_Type) is
-      Result : Interfaces.C.unsigned_long;
+      Result : Win32_Types.Unsigned_Long;
       pragma Unreferenced (Result);
    begin
       --  The results of a release are in general bogus as

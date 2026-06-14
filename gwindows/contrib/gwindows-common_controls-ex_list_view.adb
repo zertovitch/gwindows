@@ -236,12 +236,14 @@ package body GWindows.Common_Controls.Ex_List_View is
                          Wparam : Types.Wparam := 0;
                          Lparam : Types.Lparam := 0) return Types.Lparam;
    pragma Import (Stdcall, Sendmessage, "SendMessage" & Character_Mode_Identifier);
+   pragma Machine_Attribute (Sendmessage, "ms_abi");
 
    procedure Sendmessage_proc (Hwnd   : Types.Handle;
                                Umsg   : Interfaces.C.int;
                                Wparam : Types.Wparam := 0;
                                Lparam : Types.Lparam := 0);
    pragma Import (Stdcall, Sendmessage_proc, "SendMessage" & Character_Mode_Identifier);
+   pragma Machine_Attribute (Sendmessage_proc, "ms_abi");
 
    procedure Redraw_subitem (Lvcd_Ptr     : in     Pointer_To_Nmlvcustomdraw_Type;
                              Control      : in out Ex_List_View_Control_Type;
@@ -273,6 +275,7 @@ package body GWindows.Common_Controls.Ex_List_View is
 
       function Getmodulehandle (LpModulname : in Types.LPTSTR) return Types.Handle;
       pragma Import (Stdcall, Getmodulehandle, "GetModuleHandle" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Getmodulehandle, "ms_abi");
 
       type Dllversioninfo is
          record
@@ -294,6 +297,7 @@ package body GWindows.Common_Controls.Ex_List_View is
                                Lpprocname : in char_array)
                              return Dll_Get_Version_Func;
       pragma Import (Stdcall, Getprocaddress, "GetProcAddress");
+      pragma Machine_Attribute (Getprocaddress, "ms_abi");
 
       libname   : GString_C := GWindows.GStrings.To_GString_C ("comctl32");
       Procname  : aliased constant char_array := To_C ("DllGetVersion");
@@ -497,6 +501,7 @@ package body GWindows.Common_Controls.Ex_List_View is
         (hwnd : Types.Handle := Base.Handle (Base.Base_Window_Type (Window)))
         return Types.Handle;
       pragma Import (StdCall, GetDC, "GetDC");
+      pragma Machine_Attribute (GetDC, "ms_abi");
 
       Header : Types.Handle;
       Left   : Natural  := 0;
@@ -1249,6 +1254,7 @@ package body GWindows.Common_Controls.Ex_List_View is
          lParam : in out LVITEM);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
       diff : Integer;
    begin
       LVI.Mask    := LVIF_TEXT;
@@ -1394,6 +1400,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       function On_compare_internal (Lparam1, Lparam2, Lparamsort : GWindows.Types.Lparam)
          return Interfaces.C.int;
       pragma Convention (Stdcall, On_compare_internal);
+      pragma Machine_Attribute (On_compare_internal, "ms_abi");
 
       Local_Sort_Direction : Integer;
       pragma Volatile (Local_Sort_Direction);

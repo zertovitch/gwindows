@@ -37,6 +37,7 @@
 
 with GNATCOM.Errors;
 with Interfaces.C;
+with Win32_Types;
 
 package body GNATCOM.IEnumVARIANT_Interface is
 
@@ -66,7 +67,7 @@ package body GNATCOM.IEnumVARIANT_Interface is
      return Array_Of_Variants
    is
       Var_Array : aliased Array_Of_Variants (1 .. celt);
-      pceltFetched : aliased Interfaces.C.long;
+      pceltFetched : aliased Win32_Types.Long;
    begin
       if celt < 1 then
          return Var_Array;
@@ -75,7 +76,7 @@ package body GNATCOM.IEnumVARIANT_Interface is
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Next
          (Pointer (This),
-          Interfaces.C.long (celt),
+          Win32_Types.Long (celt),
           Var_Array (1)'Access,
           pceltFetched'Unchecked_Access));
 
@@ -90,7 +91,7 @@ package body GNATCOM.IEnumVARIANT_Interface is
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Skip
          (Pointer (This),
-          Interfaces.C.long (celt)));
+          Win32_Types.Long (celt)));
 
    end Skip;
 

@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.ISequentialStream_Interface is
 
@@ -16,13 +17,13 @@ package GNATOCX.ISequentialStream_Interface is
    procedure RemoteRead
      (This    : ISequentialStream_Type;
       pv      : Pointer_To_unsigned_char;
-      cb      : Interfaces.C.unsigned_long;
+      cb      : Win32_Types.Unsigned_Long;
       pcbRead : GNATCOM.Types.Pointer_To_unsigned_long);
 
    procedure RemoteWrite
      (This       : ISequentialStream_Type;
       pv         : Pointer_To_unsigned_char;
-      cb         : Interfaces.C.unsigned_long;
+      cb         : Win32_Types.Unsigned_Long;
       pcbWritten : GNATCOM.Types.Pointer_To_unsigned_long);
 
 end GNATOCX.ISequentialStream_Interface;

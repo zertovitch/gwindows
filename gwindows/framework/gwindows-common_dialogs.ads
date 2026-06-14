@@ -43,6 +43,7 @@ with GWindows.Drawing_Objects;
 with GWindows.Drawing;
 with GWindows.Types;                                                --  * AnSp
 with GWindows.Windows;
+with Win32_Types;
 
 package GWindows.Common_Dialogs is
 
@@ -101,7 +102,7 @@ package GWindows.Common_Dialogs is
       function (hWnd    : GWindows.Types.Handle;
                 uiMsg   : Interfaces.C.unsigned;
                 wParam  : GWindows.Types.Wparam;
-                lParam  : GWindows.Types.Lparam) return Interfaces.C.long;
+                lParam  : GWindows.Types.Lparam) return Win32_Types.Long;
 
    type Filter_Type is
       record
