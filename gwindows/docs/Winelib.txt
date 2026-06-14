@@ -1,0 +1,291 @@
+GWindows Winelib Port
+=====================
+
+This document describes how to build and run GWindows applications
+on Linux using Winelib.  The result is a native ELF executable that
+calls Win32 APIs through Wine's implementation.
+
+
+Prerequisites
+-------------
+
+  Debian 12 (Bookworm) or later.  Other distributions should work
+  with equivalent packages.
+
+  Required packages:
+
+    sudo apt install gnat gprbuild wine libwine-dev
+
+  The libwine-dev package pulls in wine64-tools, which provides
+  winegcc, winebuild, and the Win32 import libraries
+  (libuser32.a, libgdi32.a, libkernel32.a, etc.) under
+  /usr/lib/x86_64-linux-gnu/wine/x86_64-unix/.
+
+
+Building
+--------
+
+  From the gwindows directory:
+
+    gprbuild -P gwindows_samples.gpr -XPLATFORM=Winelib -p
+
+  To build a single sample:
+
+    gprbuild -P gwindows_samples.gpr -XPLATFORM=Winelib hello_world -p
+
+  The PLATFORM variable selects the Winelib configuration.  When
+  omitted it defaults to "Windows", preserving the original build
+  behaviour.
+
+  After modifying framework sources, always clean before rebuilding
+  to avoid stale objects:
+
+    gprclean -P gwindows_samples.gpr -XPLATFORM=Winelib
+    gprbuild -P gwindows_samples.gpr -XPLATFORM=Winelib -p -j0
+
+
+Running
+-------
+
+  Each built sample produces two files, e.g.:
+
+    samples/hello_world.exe      -- shell script launcher
+    samples/hello_world.exe.so   -- native ELF shared object
+
+  Run with:
+
+    ./samples/hello_world.exe
+
+  The .exe launcher sets WINEDLLPATH and invokes the Wine loader
+  with the .exe.so binary.  An X11 display (or Wayland with
+  XWayland) is required for GUI applications.
+
+
+Technical Details
+-----------------
+
+  Three problems had to be solved to make GWindows compile and run
+  correctly under Winelib on Linux x86_64.
+
+  1. Calling convention (ms_abi)
+
+     On x86_64 Linux, GNAT's "pragma Import (StdCall, ...)" generates
+     calls using the System V ABI (parameters in rdi, rsi, rdx, rcx).
+     Wine's import library stubs jump directly into PE code that
+     expects the Windows ABI (parameters in rcx, rdx, r8, r9, plus
+     32-byte shadow space on the stack).
+
+     Fix: every "pragma Import (StdCall, Func, ...)",
+     "pragma Convention (StdCall, Func)" and
+     "pragma Export (StdCall, Func, ...)" is followed by
+     "pragma Machine_Attribute (Func, ""ms_abi"")".  This GCC
+     attribute forces the correct Windows calling convention for
+     imported functions, exported functions, and callbacks (window
+     procedures, enumeration callbacks, COM vtable methods, etc.).
+     On Windows, where ms_abi is already the default, the attribute
+     is redundant but harmless.
+
+  2. Type sizes (unsigned long, wchar_t)
+
+     The C type "unsigned long" is 32-bit on Windows but 64-bit on
+     Linux x86_64.  Win32 types DWORD, ULONG, and LONG are always
+     32-bit.  Code using Interfaces.C.unsigned_long for these types
+     produces records with wrong sizes and wrong parameter widths.
+
+     Similarly, C "wchar_t" is 16-bit on Windows but 32-bit on
+     Linux x86_64.  Win32 WCHAR is always 16-bit (UTF-16).  Using
+     Interfaces.C.wchar_t for string parameters passes 32-bit
+     characters to Win32 W-functions that expect 16-bit, causing
+     strings to display only the first character.
+
+     Fix: a new package Win32_Types provides portable subtypes.
+     Two versions of this package exist:
+
+       framework/coding/windows/win32_types.ads
+         subtype Unsigned_Long is Interfaces.C.unsigned_long;
+         subtype Long          is Interfaces.C.long;
+         subtype wchar_t       is Interfaces.C.wchar_t;
+         subtype wchar_array   is Interfaces.C.wchar_array;
+
+       framework/coding/winelib/win32_types.ads
+         subtype Unsigned_Long is Interfaces.Unsigned_32;
+         subtype Long          is Interfaces.Integer_32;
+         subtype wchar_t       is Interfaces.C.char16_t;
+         subtype wchar_array   is Interfaces.C.char16_array;
+
+     The GPR files select the appropriate source directory based on
+     the PLATFORM variable.  On Windows, all Win32_Types subtypes
+     map to their Interfaces.C equivalents, so existing user code
+     remains compatible.  On Winelib, char16_t/char16_array are
+     used instead of wchar_t/wchar_array to get 16-bit characters.
+
+     Note: Interfaces.C.unsigned (C "unsigned int") is 32-bit on
+     both platforms and did not require changes.
+
+  3. Build flags
+
+     -fPIC is required for all Ada compilations because Winelib
+     produces the executable as an ELF shared object (.exe.so).
+
+     winegcc is used as the linker driver.  It invokes winebuild
+     to generate the spec stubs and the .exe launcher script, and
+     links against Wine's import libraries.
+
+     These flags are set conditionally in the GPR files and only
+     apply when PLATFORM=Winelib.
+
+
+Resource Files
+--------------
+
+  Samples that include Windows resource files (.rc) reference
+  pre-compiled .coff files via "pragma Linker_Options".  The
+  .coff files shipped in obj/ are built with windres for native
+  Windows and cannot be linked by winegcc.
+
+  Before building these samples for Winelib, run Wine's resource
+  compiler (wrc) manually.  Name the output .coff so the existing
+  pragma picks it up without source changes — winegcc accepts
+  .res-format files regardless of extension:
+
+    wrc -o obj/control_test.coff samples/controls/control_test.rc
+    wrc -o obj/mdi_example.coff  samples/mdi/mdi_example.rc
+
+  This overwrites the Windows .coff files in obj/.  To restore
+  them afterwards:
+
+    git checkout -- obj/control_test.coff obj/mdi_example.coff
+
+  Samples affected: control_test, game_of_life_interactive
+  (uses control_test.coff), mdi_example.
+
+
+GPR Changes Summary
+-------------------
+
+  gwindows.gpr, gwindows_samples.gpr, gnatcom.gpr:
+
+  - Path separators changed from "\" to "/" (works on both platforms).
+  - PLATFORM scenario variable added (default "Windows").
+  - When PLATFORM=Winelib:
+      Compiler: adds -fPIC
+      Linker:   driver set to winegcc; adds -lgnat and Ada runtime
+                library path
+  - Source_Dirs for gnatcom.gpr includes framework/coding/windows/
+    or framework/coding/winelib/ based on PLATFORM.
+
+  gwindows-drawing_objects.adb:
+
+  - "-lShell32" changed to "-lshell32" (Linux linker is
+    case-sensitive; Windows linker is not, so this is safe on both).
+
+
+Framework Callback Changes
+--------------------------
+
+  Since Wine 5.18, core Win32 libraries (user32, kernel32, gdi32)
+  are built as PE-only DLLs.  Callbacks from PE DLLs into
+  application code go through PE-to-Unix thunks.  GNAT's stack
+  trampolines (generated when taking 'Access of a nested function
+  that captures enclosing-scope variables) are incompatible with
+  this mechanism: the trampoline address on the stack cannot be
+  called back through the PE-to-Unix thunk, resulting in a page
+  fault (STORAGE_ERROR).
+
+  Three framework callbacks were restructured to avoid this:
+
+  1. gwindows-application.adb: Monitor_Enum_Callback
+
+     Used by Enumerate_Display_Monitors.  Was a nested function
+     inside the procedure; now a package-level function.  The
+     user's callback (Monitor_Dimensions access) is passed through
+     the Win32 LPARAM parameter using Unchecked_Conversion.
+
+  2. gwindows-application.adb: Enum_Child_Callback
+
+     Used by Explorer_Path_At_Location (EnumChildWindows).  Was a
+     nested function capturing the result path variable; now a
+     package-level function.  The path variable address is passed
+     through LPARAM via an Enum_Child_Data record.
+
+  3. gwindows-common_dialogs.adb: Browse_Folder_Callback
+
+     Used by Get_Directory (SHBrowseForFolder).  Was a nested
+     function capturing the initial-directory string; now a
+     package-level function.  The initial-directory pointer is
+     passed through the BROWSEINFO.lParam field, which
+     SHBrowseForFolder forwards to the callback as lpData.
+
+  All three changes are transparent to callers.  On Windows, the
+  restructured callbacks work identically (package-level functions
+  with ms_abi are harmless when ms_abi is already the default).
+
+  Note: nested callbacks in user code (samples) that are registered
+  as GWindows event handlers (On_Click_Handler, On_Mouse_Move_Handler,
+  etc.) are NOT affected.  These handlers are called from the
+  framework's own window procedure (Ada-to-Ada), not directly from
+  Win32 PE code, so trampolines work fine for them.
+
+
+Sample Status
+-------------
+
+  Tested with Wine 8.0 on Debian 12 (x86_64).
+
+  Working (14 samples):
+
+    cap_test, context_menu_example, dock_test, droptest,
+    hello_world, menu_example, point_test, print_hello,
+    scribble, scribble2, splitters, tab_in_dialog_test,
+    tab_test, win_controls
+
+  Need wrc resource compilation before linking (3 samples):
+
+    control_test, game_of_life_interactive, mdi_example
+
+    These fail to link because the shipped .coff files are built
+    with windres for native Windows.  See "Resource Files" above.
+    After running wrc they build and run correctly.
+
+  Ada tasking limitation (1 sample):
+
+    text_spin — the task calls SetWindowText and GDI functions
+    directly from a non-GUI thread.  Wine only recognises threads
+    created via CreateThread; GNAT tasks use pthread_create, so
+    Win32 API calls from a task thread are not supported.  Ada
+    tasking itself (delay, rendezvous, etc.) works under Winelib.
+
+    Additionally, the GNAT tasking runtime installs signal handlers
+    for SIGSEGV/SIGBUS that conflict with Wine's own use of those
+    signals.  Adding these pragmas before the main procedure avoids
+    the resulting STORAGE_ERROR at startup:
+
+      pragma Interrupt_State (11, System);  --  SIGSEGV
+      pragma Interrupt_State (7, System);   --  SIGBUS
+
+  Requires external DLL (1 sample):
+
+    sci_example — links but needs a Winelib build of the
+    Scintilla DLL to run.
+
+
+Limitations
+-----------
+
+  - Tested with Wine 7.0 and 8.0 on Debian 12.
+
+  - Ada tasks cannot call Win32 APIs.  Wine only recognises threads
+    created via CreateThread; GNAT tasks use pthread_create.  Tasks
+    that only use Ada operations (delay, rendezvous, protected
+    objects) work fine.  See "Sample Status" for the signal handler
+    workaround needed when using tasking at all.
+
+  - COM/ActiveX features (GNATCOM) compile but are untested under
+    Winelib.  Wine's COM support may have gaps.
+
+  - The Scintilla sample (sci_example) links but requires a Winelib
+    build of the Scintilla DLL to run.
+
+  - Only x86_64 has been tested.  The ms_abi attribute is specific
+    to x86_64; on i386, StdCall already works correctly as there is
+    no ABI split.
