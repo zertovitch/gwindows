@@ -1,0 +1,7 @@
+*/obj/
+*.ali
+*.o
+*.exe
+*.exe.so
+*.bexch
+*.res
