@@ -1289,7 +1289,7 @@ package body RC_Help is
     Delete (symbols_by_name);
     Delete (symbols_by_value);
     if generate_test then
-      Test_generation;
+      Test_Generation;
     end if;
   end YY_Accept;
 

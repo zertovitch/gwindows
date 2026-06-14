@@ -492,7 +492,7 @@ package body GWen_Windows is
     end if;
   end On_About;
 
-  procedure Call_windres (gw : in out GWen_Window_Type) is
+  procedure Call_Windres (gw : in out GWen_Window_Type) is
     use Ada.Characters.Handling;
     sn : constant String := S (gw.proj.RC_name);                             --  proj.rc
     on : constant String := To_Lower (sn (sn'First .. sn'Last - 1)) & "bj";  --  proj.rbj
@@ -512,7 +512,23 @@ package body GWen_Windows is
       GWindows.Pipes.Check_Progress (p);
     end loop;
     gw.RC_to_GWindows_messages.Add ("Resource compiled. " & S2G (Time_display));
-  end Call_windres;
+  exception
+    when GWindows.Pipes.Cannot_Create_Pipe =>
+      Message_Box
+         (gw,
+          "Process error (Windres)",
+          "Cannot create pipe for Windres",
+          OK_Box,
+          Error_Icon);
+    when GWindows.Pipes.Cannot_Start =>
+      Message_Box
+         (gw,
+          "Process error (Windres)",
+          "Cannot start process:" & NL & S2G (Command),
+          OK_Box,
+          Error_Icon);
+      On_Options (gw);
+  end Call_Windres;
 
   procedure Check_resource_name (gw : in out GWen_Window_Type; ok : out Boolean) is
     sn : constant String := S (gw.proj.RC_name);
@@ -540,18 +556,18 @@ package body GWen_Windows is
           if optional then
             null;
           elsif
-            Message_Box (
-              gw,
-              "Resource compilation",
-              "No resource compiler has been defined." & NL &
-              "Use Windres ?",
-              Yes_No_Box, Question_Icon
-            ) = Yes
+            Message_Box
+              (gw,
+               "Resource compilation",
+               "No resource compiler has been defined." & NL &
+               "Use Windres ?",
+               Yes_No_Box, Question_Icon)
+            = Yes
           then
-            Call_windres (gw);
+            Call_Windres (gw);
           end if;
         when windres =>
-          Call_windres (gw);
+          Call_Windres (gw);
       end case;
     end if;
   end Resource_compilation;
@@ -703,14 +719,14 @@ package body GWen_Windows is
         when GWindows.Pipes.Cannot_Create_Pipe =>
           Message_Box
             (Window,
-             "Process error",
+             "Process error (build)",
              "Cannot create pipe",
              OK_Box,
              Error_Icon);
         when GWindows.Pipes.Cannot_Start =>
           Message_Box
             (Window,
-             "Process error",
+             "Process error (build)",
              "Cannot start process:" & NL &
              S2G (S ((gw.proj.Ada_command))),
              OK_Box,
@@ -732,11 +748,10 @@ package body GWen_Windows is
       Message_Box (GWen_Window,
         "Main application", "Executable file doesn't exist:" & NL & S2G (main), OK_Box, Error_Icon);
     else
-      GWin_Util.Start (
-        File         => main,
-        Parameter    => "",
-        As_Minimized => False
-      );
+      GWin_Util.Start
+        (File         => main,
+         Parameter    => "",
+         As_Minimized => False);
     end if;
   end Do_Run;
 

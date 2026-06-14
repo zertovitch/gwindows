@@ -33,6 +33,7 @@ project GWenerator is
          "-gnatQ",  --  Don't quit, write ali/tree file even if compile errors
          --
          "-gnatyk",      --  Style: check casings: k:keywords
+         "-gnatyr",
          --  "-gnatyanpr",   --  Style: check casings: a:attribute, n:package Standard identifiers, p:pragma, r:identifier references
          "-gnatybfhi",   --  Style: check b:no blanks at end of lines, f:no ff/vtabs, h: no htabs, i:if-then layout
          --  "-gnatyu",      --  Style: check u:no unnecessary blank lines
