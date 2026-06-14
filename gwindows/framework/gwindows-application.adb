@@ -47,6 +47,8 @@ with Ada.Strings.Wide_Fixed;
 with Ada.Text_IO;
 with GNAT.OS_Lib;
 with System;
+with Win32_Types;
+with Ada.Unchecked_Conversion;
 
 package body GWindows.Application is
 
@@ -54,10 +56,36 @@ package body GWindows.Application is
    --  Local Specs
    -------------------------------------------------------------------------
 
+   --  Package-level callbacks for Win32 enumeration APIs.
+   --  These must NOT be nested functions because GNAT generates
+   --  stack trampolines for nested function access values, and
+   --  Wine cannot execute code on the stack (NX protection).
+   --  Captured state is passed through the LPARAM/dwData parameter.
+
+   function Monitor_Enum_Callback
+      (hMonitor :        GWindows.Types.Handle;
+       hdc      :        GWindows.Types.Handle;
+       lpRect   : access GWindows.Types.Rectangle_Type;
+       dwData   :        GWindows.Types.Lparam)
+      return Interfaces.C.int;
+   pragma Convention (Stdcall, Monitor_Enum_Callback);
+   pragma Machine_Attribute (Monitor_Enum_Callback, "ms_abi");
+
+   type Enum_Child_Data is record
+      Path : access GString_Unbounded;
+   end record;
+
+   function Enum_Child_Callback
+      (child : GWindows.Types.Handle;
+       lp    : GWindows.Types.Lparam)
+      return Interfaces.C.int;
+   pragma Convention (StdCall, Enum_Child_Callback);
+   pragma Machine_Attribute (Enum_Child_Callback, "ms_abi");
+
    type POINTL is
       record
-         x : Interfaces.C.long;
-         y : Interfaces.C.long;
+         x : Win32_Types.Long;
+         y : Win32_Types.Long;
       end record;
    pragma Convention (C_PASS_BY_COPY, POINTL);
    --  Part of MSG
@@ -68,7 +96,7 @@ package body GWindows.Application is
          message : Interfaces.C.int;
          wParam  : GWindows.Types.Wparam;
          lParam  : GWindows.Types.Lparam;
-         time    : Interfaces.C.unsigned_long;
+         time    : Win32_Types.Unsigned_Long;
          pt      : POINTL;
       end record;
    pragma Convention (C_PASS_BY_COPY, MSG);
@@ -85,18 +113,40 @@ package body GWindows.Application is
    -------------------------------------------------------------------------
 
    function GetCurrentThreadId
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Import (StdCall, GetCurrentThreadId, "GetCurrentThreadId");
+   pragma Machine_Attribute (GetCurrentThreadId, "ms_abi");
 
    WM_QUIT      : constant := 18;
 
    procedure PostThreadMessage
-     (idThread : Interfaces.C.unsigned_long;
+     (idThread : Win32_Types.Unsigned_Long;
       thr_msg  : Interfaces.C.unsigned;
       wParam   : GWindows.Types.Wparam := 0;
       lParam   : GWindows.Types.Lparam := 0);
    pragma Import (StdCall, PostThreadMessage,
                     "PostThreadMessage" & Character_Mode_Identifier);
+   pragma Machine_Attribute (PostThreadMessage, "ms_abi");
+
+   -------------------------------------------------------------------------
+   --  Package-level callback implementations
+   -------------------------------------------------------------------------
+
+   function Monitor_Enum_Callback
+      (hMonitor :        GWindows.Types.Handle;
+       hdc      :        GWindows.Types.Handle;
+       lpRect   : access GWindows.Types.Rectangle_Type;
+       dwData   :        GWindows.Types.Lparam)
+      return Interfaces.C.int
+   is
+      pragma Unreferenced (hMonitor, hdc);
+      function To_Monitor_Dimensions is new Ada.Unchecked_Conversion
+         (GWindows.Types.Lparam, Monitor_Dimensions);
+      M : constant Monitor_Dimensions := To_Monitor_Dimensions (dwData);
+   begin
+      M (lpRect.all);
+      return 1;  --  Continue enumeration (TRUE)
+   end Monitor_Enum_Callback;
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -139,6 +189,7 @@ package body GWindows.Application is
         return Integer;
       pragma Import (StdCall, LoadString,
                        "LoadString" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadString, "ms_abi");
 
       Result : constant Integer := LoadString;
    begin
@@ -165,7 +216,7 @@ package body GWindows.Application is
 
    procedure Message_Check
    is
-      use type Interfaces.C.long;
+      use type Win32_Types.Long;
 
       PM_REMOVE   : constant := 1;
 
@@ -175,9 +226,10 @@ package body GWindows.Application is
          wMsgFilterMin : Interfaces.C.unsigned;
          wMsgFilterMax : Interfaces.C.unsigned;
          RemoveMsg     : Interfaces.C.unsigned := PM_REMOVE)
-        return Interfaces.C.long;
+        return Win32_Types.Long;
       pragma Import (StdCall, PeekMessage,
                        "PeekMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (PeekMessage, "ms_abi");
 
       tMSG        : aliased MSG;
       Null_Window : GWindows.Base.Base_Window_Type;
@@ -195,16 +247,17 @@ package body GWindows.Application is
 
    procedure Modal_Loop (Window : in out GWindows.Base.Base_Window_Type'Class)
    is
-      use type Interfaces.C.long;
+      use type Win32_Types.Long;
 
       function GetMessage
         (lpMsg         : Pointer_To_MSG;
          hwnd          : GWindows.Types.Handle;
          wMsgFilterMin : Interfaces.C.unsigned;
          wMsgFilterMax : Interfaces.C.unsigned)
-        return Interfaces.C.long;
+        return Win32_Types.Long;
       pragma Import (StdCall, GetMessage,
                        "GetMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetMessage, "ms_abi");
 
       tMSG : aliased MSG;
    begin
@@ -258,44 +311,28 @@ package body GWindows.Application is
    procedure Enumerate_Display_Monitors (M : Monitor_Dimensions) is
       use GWindows.Types;
 
-      function Output_Monitor_Dims
-         (HMONITOR :        Handle;
-          HDC      :        Handle;
-          LPRECT   : access Rectangle_Type;
-          mLPARAM  :        Lparam)
-         return Boolean;
-      pragma Convention (Stdcall, Output_Monitor_Dims);
-
-      function Output_Monitor_Dims
-         (HMONITOR :        Handle;
-          HDC      :        Handle;
-          LPRECT   : access Rectangle_Type;
-          mLPARAM  :        Lparam)
-         return Boolean
-      is
-         pragma Unreferenced (HMONITOR, HDC, mLPARAM);
-      begin
-         M (LPRECT.all);
-         return True;  --  Continue enumeration
-      end Output_Monitor_Dims;
-
       type MONITORENUMPROC is access
          function
             (HMONITOR :        Handle;
              HDC      :        Handle;
              LPRECT   : access Rectangle_Type;
              mLPARAM  :        Lparam)
-         return Boolean;
+         return Interfaces.C.int;
       pragma Convention (Stdcall, MONITORENUMPROC);
+      pragma Machine_Attribute (MONITORENUMPROC, "ms_abi");
 
       procedure EnumDisplayMonitors
          (hdc      : Handle          := Null_Handle;
           lprcClip : Wparam          := 0;
-          lpfnEnum : MONITORENUMPROC := Output_Monitor_Dims'Access;
+          lpfnEnum : MONITORENUMPROC := Monitor_Enum_Callback'Access;
           dwData   : Lparam          := 0);
       pragma Import (StdCall, EnumDisplayMonitors, "EnumDisplayMonitors");
+      pragma Machine_Attribute (EnumDisplayMonitors, "ms_abi");
+
+      function To_Lparam is new Ada.Unchecked_Conversion
+         (Monitor_Dimensions, Lparam);
    begin
-      EnumDisplayMonitors;
+      EnumDisplayMonitors (dwData => To_Lparam (M));
    end Enumerate_Display_Monitors;
 
    -----------------------
@@ -348,6 +385,7 @@ package body GWindows.Application is
         (uFlags : Interfaces.C.int;
          pv     : Types.Handle);
       pragma Import (StdCall, SHAddToRecentDocs, "SHAddToRecentDocs");
+   pragma Machine_Attribute (SHAddToRecentDocs, "ms_abi");
 
       SHARD_Value : constant GWindows.Utilities.ANSI_Unicode_Choice :=
         (ANSI => 2, Unicode => 3);
@@ -366,6 +404,7 @@ package body GWindows.Application is
    is
       procedure FreeConsole;
       pragma Import (StdCall, FreeConsole, "FreeConsole");
+   pragma Machine_Attribute (FreeConsole, "ms_abi");
    begin
       FreeConsole;
    end Detach_From_Console;
@@ -384,6 +423,7 @@ package body GWindows.Application is
    function WindowFromPoint (Point : Static_Point_Type)
       return GWindows.Types.Handle;
    pragma Import (StdCall, WindowFromPoint, "WindowFromPoint");
+   pragma Machine_Attribute (WindowFromPoint, "ms_abi");
 
    function Get_Window_At_Location
      (X, Y : Integer)
@@ -402,12 +442,14 @@ package body GWindows.Application is
          return Integer;
       pragma Import (StdCall, GetWindowTextLength,
                        "GetWindowTextLength" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetWindowTextLength, "ms_abi");
       procedure GetWindowText
         (hwnd : in     GWindows.Types.Handle;
          Text : access GChar_C;
          Max  : in     Interfaces.C.size_t);
       pragma Import (StdCall, GetWindowText,
                        "GetWindowText" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetWindowText, "ms_abi");
       use GWindows.Types;
    begin
       if WH = Null_Handle then
@@ -438,6 +480,7 @@ package body GWindows.Application is
          Max  : in     Interfaces.C.size_t);
       pragma Import (StdCall, GetClassName,
                        "GetClassName" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetClassName, "ms_abi");
       use GWindows.Types;
    begin
       if WH = Null_Handle then
@@ -465,6 +508,7 @@ package body GWindows.Application is
        gaFlags : Interfaces.C.unsigned)
    return GWindows.Types.Handle;
    pragma Import (StdCall, GetAncestor, "GetAncestor");
+   pragma Machine_Attribute (GetAncestor, "ms_abi");
    GA_ROOT : constant := 2;
 
    function Get_Window_Root_Class_Name_At_Location (X, Y : Integer)
@@ -482,6 +526,43 @@ package body GWindows.Application is
        Get_Window_Class_Name_At_Location (X, Y) = "SysListView32";
    end Is_Desktop_At_Location;
 
+   function Enum_Child_Callback
+      (child : GWindows.Types.Handle;
+       lp    : GWindows.Types.Lparam)
+      return Interfaces.C.int
+   is
+      use GWindows.GStrings;
+      function To_Data_Access is new Ada.Unchecked_Conversion
+         (GWindows.Types.Lparam, System.Address);
+      Data : Enum_Child_Data;
+      for Data'Address use To_Data_Access (lp);
+      Child_Class_Name : constant GString := Get_Window_Class_Name (child);
+      CT  : constant GString := Get_Window_Text (child);
+      WCT : constant Wide_String := To_Wide_String (CT);
+      is_candidate : Boolean := False;
+      start_index : Integer;
+      use Ada.Strings.Wide_Fixed;
+   begin
+      if Child_Class_Name = "ToolbarWindow32" then
+         start_index := Index (WCT, ": ");
+         is_candidate := start_index > 0;
+         start_index := start_index + 2;
+      elsif Child_Class_Name = "ShellTabWindowClass" then
+         start_index := WCT'First;
+         is_candidate := True;
+      end if;
+      if is_candidate then
+         if Index (WCT, ":\") = 0 and then Index (WCT, "\\") = 0 then
+            null;
+         else
+            Data.Path.all :=
+               To_GString_Unbounded (CT (start_index .. CT'Last));
+            return 0;  --  Found, stop enumeration (FALSE)
+         end if;
+      end if;
+      return 1;  --  Continue enumeration (TRUE)
+   end Enum_Child_Callback;
+
    function Explorer_Path_At_Location (X, Y : Integer) return GString is
       trace_mode : constant Boolean := False;
       --
@@ -489,68 +570,16 @@ package body GWindows.Application is
                                   Proc   : System.Address;
                                   lp     : GWindows.Types.Lparam);
       pragma Import (StdCall, EnumChildWindows, "EnumChildWindows");
+      pragma Machine_Attribute (EnumChildWindows, "ms_abi");
       --  NB: EnumChildWindows is recursive:
       --  "If a child window has created child windows of its own,
       --   EnumChildWindows enumerates those windows as well."
-      Path : GString_Unbounded;
+      Path : aliased GString_Unbounded;
+      Data : aliased Enum_Child_Data := (Path => Path'Unchecked_Access);
       use GWindows.GStrings;
       --
-      function Capture_Edit_Box (child  : GWindows.Types.Handle;
-                                 lp     : GWindows.Types.Lparam)
-                         return Boolean;
-      pragma Convention (StdCall, Capture_Edit_Box);
-      function Capture_Edit_Box (child  : GWindows.Types.Handle;
-                                 lp     : GWindows.Types.Lparam)
-                         return Boolean
-      is
-      pragma Unreferenced (lp);
-         Child_Class_Name : constant GString := Get_Window_Class_Name (child);
-         CT  : constant GString := Get_Window_Text (child);
-         --  Force to Unicode (for the Index function)
-         WCT : constant Wide_String := To_Wide_String (CT);
-         is_candidate : Boolean := False;
-         start_index : Integer;
-         use Ada.Strings.Wide_Fixed;
-      begin
-         --  List everything:
-         if trace_mode then
-           Ada.Text_IO.Put_Line (To_String ("    " & Child_Class_Name & ": " & CT));
-         end if;
-         if Child_Class_Name = "ToolbarWindow32" then
-            --  Windows 95 to Windows 10
-            ----------------------------
-            --  There are many children with the class name
-            --  ToolbarWindow32! Only one may contain a path.
-            --  Examples of such strings (Windows 10 in French, accents removed):
-            --    "Boutons de navigation"
-            --    "Barre d'outils du bandeau superieur"
-            --    "Adresse: C:\Ada\gnavi\gwindows\samples"
-            start_index := Index (WCT, ": ");
-            is_candidate := start_index > 0;
-            start_index := start_index + 2;
-         elsif Child_Class_Name = "ShellTabWindowClass" then
-            --  Windows 11.
-            start_index := WCT'First;
-            is_candidate := True;
-         end if;
-         if is_candidate then
-            if Index (WCT, ":\") = 0 and then Index (WCT, "\\") = 0 then
-               --  It is a bogus directory, like "My Computer"
-               --  or "Documents" (in various languages...).
-               null;
-            else
-               Path := To_GString_Unbounded (CT (start_index .. CT'Last));
-               if trace_mode then
-                  Ada.Text_IO.Put_Line
-                    ('[' & To_String (To_GString_From_Unbounded (Path)) & ']');
-               end if;
-               return False;  --  Found, then stop enumeration
-            end if;
-         end if;
-         --  Recurse on children (not needed: EnumChildWindows is recursive):
-         --  EnumChildWindows (child, Capture_Edit_Box'Address, 0);
-         return True;  --  Continue enumeration
-      end Capture_Edit_Box;
+      function To_Lparam is new Ada.Unchecked_Conversion
+         (System.Address, GWindows.Types.Lparam);
       --
       RWH : constant GWindows.Types.Handle :=
                         GetAncestor (WindowFromPoint ((X, Y)), GA_ROOT);
@@ -575,7 +604,9 @@ package body GWindows.Application is
          if trace_mode then
            Ada.Text_IO.Put_Line (To_String (RCN) & " -> ENUM Explorer");
          end if;
-         EnumChildWindows (RWH, Capture_Edit_Box'Address, 0);
+         EnumChildWindows
+            (RWH, Enum_Child_Callback'Address,
+             To_Lparam (Data'Address));
          return To_GString_From_Unbounded (Path);
       end if;
       return "";
@@ -590,6 +621,7 @@ package body GWindows.Application is
    is
       function GetActiveWindow return GWindows.Types.Handle;
       pragma Import (StdCall, GetActiveWindow, "GetActiveWindow");
+   pragma Machine_Attribute (GetActiveWindow, "ms_abi");
 
       Win_Ptr : constant GWindows.Base.Pointer_To_Base_Window_Class :=
         GWindows.Base.Window_From_Handle (GetActiveWindow);
@@ -791,12 +823,14 @@ package body GWindows.Application is
         return Integer;
       pragma Import (StdCall, IsDialogMessage,
                        "IsDialogMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (IsDialogMessage, "ms_abi");
 
       function TranslateMDISysAccel
         (hwnd   : GWindows.Types.Handle;
          lpMsg  : Pointer_To_MSG)
         return Integer;
       pragma Import (StdCall, TranslateMDISysAccel, "TranslateMDISysAccel");
+   pragma Machine_Attribute (TranslateMDISysAccel, "ms_abi");
 
       function TranslateAccelerator
         (hwnd   : GWindows.Types.Handle;
@@ -805,15 +839,18 @@ package body GWindows.Application is
         return Integer;
       pragma Import (StdCall, TranslateAccelerator,
                        "TranslateAccelerator" & Character_Mode_Identifier);
+      pragma Machine_Attribute (TranslateAccelerator, "ms_abi");
 
       procedure TranslateMessage
         (lpMsg : Pointer_To_MSG);
       pragma Import (StdCall, TranslateMessage, "TranslateMessage");
+   pragma Machine_Attribute (TranslateMessage, "ms_abi");
 
       procedure DispatchMessage
         (lpMsg : Pointer_To_MSG);
       pragma Import (StdCall, DispatchMessage,
                        "DispatchMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (DispatchMessage, "ms_abi");
 
       Current_Keyboard_Control : GWindows.Internal.Pointer_To_Keyboard_Control;
       Processed                : Integer;
