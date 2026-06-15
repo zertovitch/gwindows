@@ -25,6 +25,17 @@ Prerequisites
 Building
 --------
 
+  The ADALIB_DIR variable must point to the GNAT runtime library
+  directory.  winegcc does not know where libgnat is, so this path
+  is needed for linking.  Find it with:
+
+    gnatls -v
+
+  Look for the adalib line, e.g. /usr/lib/gcc/x86_64-linux-gnu/12/adalib,
+  then export it:
+
+    export ADALIB_DIR=/usr/lib/gcc/x86_64-linux-gnu/12/adalib
+
   From the gwindows directory:
 
     gprbuild -P gwindows_samples.gpr -XPLATFORM=Winelib -p

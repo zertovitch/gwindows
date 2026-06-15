@@ -70,7 +70,7 @@ project GWindows_Samples is
          when "Winelib" =>
             for Driver use "winegcc";
             for Default_Switches ("ada") use
-              ("-L/usr/lib/gcc/x86_64-linux-gnu/12/adalib", "-lgnat");
+              ("-L" & external ("ADALIB_DIR"), "-lgnat");
          when "Windows" =>
             null;
       end case;
