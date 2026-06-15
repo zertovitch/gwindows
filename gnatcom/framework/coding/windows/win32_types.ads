@@ -11,4 +11,10 @@ package Win32_Types is
    subtype wchar_t       is Interfaces.C.wchar_t;
    subtype wchar_array   is Interfaces.C.wchar_array;
    wide_nul : constant wchar_t := Interfaces.C.wide_nul;
+
+   function To_C
+     (Item       : Wide_String;
+      Append_Nul : Boolean := True) return wchar_array;
+
+   function To_Native_Path (S : String) return String;
 end Win32_Types;

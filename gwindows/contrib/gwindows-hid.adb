@@ -58,6 +58,7 @@ package body GWindows.HID is
 --        Size     : in     Integer)
 --       return Natural;
 --    pragma Import (StdCall, SendInput, "SendInput");
+--  pragma Machine_Attribute (SendInput, "ms_abi");  --  Winelib
 
 --    function GetRawInputDeviceList
 --       (RIDList    : in     Raw_Input_Device_Arrs;
@@ -65,6 +66,7 @@ package body GWindows.HID is
 --        Size       : in     Integer)
 --       return Integer;
 --    pragma Import (StdCall, GetRawInputDeviceList, "GetRawInputDeviceList");
+--  pragma Machine_Attribute (GetRawInputDeviceList, "ms_abi");  --  Winelib
 
    type GetRawInputDeviceListPtr is access function
          (RIDList    : in     Raw_Input_Device_Arrs;
@@ -82,6 +84,7 @@ package body GWindows.HID is
 --       return Integer;
 --    pragma Import (StdCall, GetRawInputDeviceInfoW,
 --       "GetRawInputDeviceInfoW");
+--  pragma Machine_Attribute (GetRawInputDeviceInfoW, "ms_abi");  --  Winelib
 
    type GetRawInputDeviceInfoWPtr is access function
          (Device     : in     GWindows.Types.Handle;
@@ -100,6 +103,7 @@ package body GWindows.HID is
 --       return Integer;
 --    pragma Import (StdCall, GetRawInputDeviceInfoA,
 --       "GetRawInputDeviceInfoA");
+--  pragma Machine_Attribute (GetRawInputDeviceInfoA, "ms_abi");  --  Winelib
 
    type GetRawInputDeviceInfoAPtr is access function
          (Device     : in     GWindows.Types.Handle;
@@ -136,6 +140,7 @@ package body GWindows.HID is
 --        return Boolean;
 --    pragma Import (StdCall, RegisterRawInputDevices,
 --      "RegisterRawInputDevices");
+--  pragma Machine_Attribute (RegisterRawInputDevices, "ms_abi");  --  Winelib
 
    type GetRawInputDataPtr is access function
       (RawInput  : in     GWindows.Types.Handle;
@@ -156,6 +161,7 @@ package body GWindows.HID is
 --       return Integer;
 --    pragma Import (StdCall, GetRawInputData,
 --      "GetRawInputData");
+--  pragma Machine_Attribute (GetRawInputData, "ms_abi");  --  Winelib
 
    type DefRawInputProcPtr is access procedure
       (RawInput : access String;
@@ -169,6 +175,7 @@ package body GWindows.HID is
 --        NrInput  : in     Integer;
 --        SizeHdr  : in     Integer);
 --    pragma Import (StdCall, DefRawInputProc, "DefRawInputProc");
+--  pragma Machine_Attribute (DefRawInputProc, "ms_abi");  --  Winelib
 
    --  All pointers to dynamicly load the functions
    Dll                     : GWindows.Types.Handle;

@@ -39,6 +39,8 @@
 
 package body GWindows.Pipes is
 
+   use type Win32_Types.Unsigned_Long;
+
    type PHANDLE is access all HANDLE;
 
    function Create_Pipe

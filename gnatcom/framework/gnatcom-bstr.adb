@@ -224,7 +224,7 @@ package body GNATCOM.BSTR is
                       return Win32_Types.wchar_array
    is
    begin
-      return Interfaces.C.To_C (To_Ada_Wide (From, Free));
+      return Win32_Types.To_C (To_Ada_Wide (From, Free));
    end To_C_Wide;
 
    ------------

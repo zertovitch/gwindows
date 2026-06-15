@@ -58,6 +58,7 @@
 
 with Ada.Strings.Unbounded;
 with Interfaces.C, System;
+with Win32_Types;
 
 package GWindows.Pipes is
 
@@ -101,10 +102,10 @@ private
    subtype USHORT     is Interfaces.C.unsigned_short;
    subtype WORD       is USHORT;
    subtype UINT       is Interfaces.C.unsigned;
-   subtype LONG       is Interfaces.C.long;
+   subtype LONG       is Win32_Types.Long;
    subtype LPARAM     is LONG;
    subtype LRESULT    is LONG;
-   subtype ULONG       is Interfaces.C.unsigned_long;
+   subtype ULONG       is Win32_Types.Unsigned_Long;
    subtype DWORD       is ULONG;
    type    PULONG      is access all ULONG;
    subtype PDWORD      is PULONG;

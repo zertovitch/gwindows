@@ -943,6 +943,7 @@ package body GWindows.Drawing is
         return GWindows.Types.Handle;
       pragma Import
         (StdCall, CreateCompatibleBitmap, "CreateCompatibleBitmap");
+      pragma Machine_Attribute (CreateCompatibleBitmap, "ms_abi");
 
    begin
       GWindows.Drawing_Objects.Handle (Bitmap, CreateCompatibleBitmap);

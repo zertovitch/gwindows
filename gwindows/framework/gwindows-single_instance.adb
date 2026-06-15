@@ -222,6 +222,7 @@ package body GWindows.Single_Instance is
               (StdCall,
                SendMessage,
                "SendMessage" & Character_Mode_Identifier);
+            pragma Machine_Attribute (SendMessage, "ms_abi");
             Stream : aliased Memory_Streams.Memory_Stream;
             Buffer :
               System.Storage_Elements.Storage_Array (1 .. IPC_BUFFER_SIZE) :=
@@ -286,6 +287,7 @@ package body GWindows.Single_Instance is
         (StdCall,
          LoadIcon,
          "LoadIcon" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadIcon, "ms_abi");
 
       Window_Class        : Base.WNDCLASS;
       Window_Class_Name_C : constant
@@ -295,7 +297,7 @@ package body GWindows.Single_Instance is
       Window_Class.hIcon         := LoadIcon;
       Window_Class.lpszClassName :=
         Window_Class_Name_C (Window_Class_Name_C'First)'Unrestricted_Access;
-      Window_Class.lpfnWndProc   := Application_Custom_WndProc'Address;
+      Window_Class.lpfnWndProc   := Application_Custom_WndProc'Code_Address;
       Base.Register_Class (Window_Class);
   end Register_Class_Name;
 
@@ -314,6 +316,7 @@ package body GWindows.Single_Instance is
       (StdCall,
        CreateMutex,
        "CreateMutex" & Character_Mode_Identifier);
+    pragma Machine_Attribute (CreateMutex, "ms_abi");
 
     Error        : Integer;
     Mutex_Handle : Types.Handle;

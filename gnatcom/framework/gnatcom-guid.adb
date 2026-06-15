@@ -37,14 +37,12 @@
 
 with Ada.Characters.Handling;
 with Ada.Unchecked_Conversion;
-with Interfaces.C;
 with System;
+with Win32_Types;
 
 with GNATCOM.Errors;
 
 package body GNATCOM.GUID is
-
-   package C renames Interfaces.C;
 
    function CLSIDFromString
      (lpsz   : GNATCOM.Types.LPWSTR;
@@ -97,8 +95,8 @@ package body GNATCOM.GUID is
       function To_LPWSTR is
          new Ada.Unchecked_Conversion (System.Address, GNATCOM.Types.LPWSTR);
 
-      ID_String : C.wchar_array :=
-        C.To_C (Ada.Characters.Handling.To_Wide_String (From));
+      ID_String : Win32_Types.wchar_array :=
+        Win32_Types.To_C (Ada.Characters.Handling.To_Wide_String (From));
       ID        : aliased GNATCOM.Types.GUID;
    begin
       if FAILED (CLSIDFromString (To_LPWSTR (ID_String'Address),

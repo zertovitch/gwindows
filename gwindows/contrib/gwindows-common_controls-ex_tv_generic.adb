@@ -42,6 +42,7 @@ use GWindows.Base;
 with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
 with GWindows.GStrings; use GWindows.GStrings;
+with Win32_Types;
 
 package body GWindows.Common_Controls.Ex_TV_Generic is
 
@@ -92,10 +93,10 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    type Nmcustomdraw_Type is
       record
          Hdr         : Notification;
-         Dwdrawstage : Interfaces.C.long;
+         Dwdrawstage : Win32_Types.Long;
          Hdc         : GWindows.Types.Handle;
          Rect        : GWindows.Types.Rectangle_Type;
-         Dwitemspec  : Interfaces.C.long;
+         Dwitemspec  : Win32_Types.Long;
          Uitemstate  : Interfaces.C.unsigned;
          Litemlparam : System.Address;
       end record;
@@ -646,7 +647,7 @@ procedure Do_On_Redraw_Items (Tvcd_Ptr : in Pointer_To_NmTvcustomdraw_Type;
       case Tvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
                Return_Value := Cdrf_Notifyitemdraw;
-         when Interfaces.C.long (Cdds_Itemprepaint) =>
+         when Win32_Types.Long (Cdds_Itemprepaint) =>
             declare
                Data_Access : Extended_Data_Access;
             begin

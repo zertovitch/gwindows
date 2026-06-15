@@ -11,6 +11,7 @@ with Ada.Environment_Variables,
 
 with GNAT.OS_Lib;
 with Interfaces.C;
+with Win32_Types;
 with System;
 
 pragma Elaborate_All (GWindows.Drawing_Objects);  --  For GUI_Font initialisation
@@ -41,11 +42,11 @@ package body GWin_Util is
       type Face_Name_Type is array (1 .. 32) of GWindows.GChar_C;
 
       type LOGFONT is record
-        lfHeight : Interfaces.C.long;
-        lfWidth  : Interfaces.C.long;
-        lfEscapement : Interfaces.C.long;
-        lfOrientation : Interfaces.C.long;
-        lfWeight : Interfaces.C.long;
+        lfHeight : Win32_Types.Long;
+        lfWidth  : Win32_Types.Long;
+        lfEscapement : Win32_Types.Long;
+        lfOrientation : Win32_Types.Long;
+        lfWeight : Win32_Types.Long;
         lfItalic : Interfaces.C.char;
         lfUnderline : Interfaces.C.char;
         lfStrikeOut : Interfaces.C.char;
@@ -335,7 +336,7 @@ package body GWin_Util is
   )
   is
     --  Parts from Win32Ada:
-    subtype ULONG is Interfaces.C.unsigned_long;      --  windef.h
+    subtype ULONG is Win32_Types.Unsigned_Long;      --  windef.h
     subtype INT is Interfaces.C.int;                  --  windef.h
     subtype DWORD is ULONG;                           --  windef.h
     type  BOOL  is new INT;                           --  windef.h
@@ -355,6 +356,7 @@ package body GWin_Util is
     function GetVersionExA (lpVersionInformation : LPOSVERSIONINFOA)
                            return BOOL;                --  winbase.h :6686
     pragma Import (Stdcall, GetVersionExA, "GetVersionExA"); --  winbase.h :6686
+    pragma Machine_Attribute (GetVersionExA, "ms_abi");
 
     function GetVersionEx (lpVersionInformation : LPOSVERSIONINFOA)
                           return BOOL renames GetVersionExA;
@@ -404,7 +406,7 @@ package body GWin_Util is
   --  GdM 22-Feb-2003
   function Find_short_path_name (long : String) return String is
     --  Parts from Win32Ada:
-    subtype ULONG is Interfaces.C.unsigned_long;      --  windef.h
+    subtype ULONG is Win32_Types.Unsigned_Long;      --  windef.h
     subtype DWORD is ULONG;                           --  windef.h
     subtype CHAR is Interfaces.C.char;                --  winnt.h
     type PCCH is access constant CHAR;

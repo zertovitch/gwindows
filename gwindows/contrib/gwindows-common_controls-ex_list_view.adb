@@ -43,6 +43,7 @@ with Ada.Unchecked_Deallocation;
 with Ada.Exceptions;
 
 with GWindows.Constants;
+with Win32_Types;
 with GWindows.GStrings;
 with GWindows.Drawing;
 
@@ -108,7 +109,7 @@ package body GWindows.Common_Controls.Ex_List_View is
    type Nmcustomdraw_Type is
       record
          Hdr         : Base.Notification;
-         Dwdrawstage : Interfaces.C.long;
+         Dwdrawstage : Win32_Types.Long;
          Hdc         : Types.Handle;
          Rect        : Types.Rectangle_Type;
          Dwitemspec  : Types.DWORD_PTR;  --  Fix 2020-07-10: was Interfaces.C.long;
@@ -279,16 +280,16 @@ package body GWindows.Common_Controls.Ex_List_View is
 
       type Dllversioninfo is
          record
-            Cbsize       : Interfaces.C.long := 0;
-            majorversion : Interfaces.C.long := 0;
-            minorversion : Interfaces.C.long := 0;
-            buildnumber  : Interfaces.C.long := 0;
-            platformid   : Interfaces.C.long := 0;
+            Cbsize       : Win32_Types.Long := 0;
+            majorversion : Win32_Types.Long := 0;
+            minorversion : Win32_Types.Long := 0;
+            buildnumber  : Win32_Types.Long := 0;
+            platformid   : Win32_Types.Long := 0;
          end record;
       type Dllversioninfo_Pointer is access all Dllversioninfo;
 
       type Dll_Get_Version_Func is access
-        function (Versioninfo : in Dllversioninfo_Pointer) return Interfaces.C.unsigned_long;
+        function (Versioninfo : in Dllversioninfo_Pointer) return Win32_Types.Unsigned_Long;
       pragma Convention (C, Dll_Get_Version_Func);
 
       use Interfaces.C;
@@ -305,7 +306,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       FuncPtr   : Dll_Get_Version_Func;
       pragma Unreferenced (FuncPtr);
       Info : aliased Dllversioninfo;
-      Ret_Func : Interfaces.C.unsigned_long;
+      Ret_Func : Win32_Types.Unsigned_Long;
       pragma Unreferenced (Ret_Func);
 
    begin
@@ -315,7 +316,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       FuncPtr := Getprocaddress (hmodule => ModHandle,
                                  Lpprocname => Procname);
       --  call dllgetversion
-      Info.Cbsize := Info'Size / 8;
+      Info.Cbsize := Win32_Types.Long (Info'Size / 8);
       return 6;
       --  Ret_Func := FuncPtr(Info'unchecked_access) ;  --  ** This hangs GNAT GPL 2015 **
       --  Put_Line("Major version...." & Info.majorversion'Img);
@@ -536,7 +537,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       Nmlistview_Pointer : Pointer_To_Nmlistview_Type;
       Item               : LVITEM;
 
-      use type Interfaces.C.long, Types.Lresult;
+      use type Win32_Types.Long, Types.Lresult;
 
    begin
       if Message.Code = Nm_Customdraw then
@@ -705,9 +706,9 @@ package body GWindows.Common_Controls.Ex_List_View is
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
             Return_Value := Return_Value or Cdrf_Notifyitemdraw;
-         when Interfaces.C.long (Cdds_Itemprepaint) =>
+         when Win32_Types.Long (Cdds_Itemprepaint) =>
             Return_Value := Cdrf_Notifysubitemdraw;
-         when Interfaces.C.long (Cdds_Itemprepaint + Cdds_Subitem) =>
+         when Win32_Types.Long (Cdds_Itemprepaint + Cdds_Subitem) =>
             declare
                internal : constant Internal_Access :=
                   Get_Internal (Control => Control,
@@ -748,7 +749,7 @@ package body GWindows.Common_Controls.Ex_List_View is
       case Lvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
             Return_Value := Return_Value or Cdrf_Notifyitemdraw;
-         when Interfaces.C.long (Cdds_Itemprepaint) =>
+         when Win32_Types.Long (Cdds_Itemprepaint) =>
             Return_Value := Cdrf_Notifysubitemdraw;
             Lvcd_Ptr.Clrtext := Control.List_Text_Color;
             if Integer (Lvcd_Ptr.Nmcd.Dwitemspec) mod 2 = 0 then

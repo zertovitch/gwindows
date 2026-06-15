@@ -38,6 +38,7 @@
 ------------------------------------------------------------------------------
 
 with GWindows.Types, Interfaces.C;
+with Win32_Types;
 
 package body GWindows.Timers is
 
@@ -49,7 +50,7 @@ package body GWindows.Timers is
   type TIMERPROC is access procedure (hwnd    : Types.Handle;
                                       uMsg    : Interfaces.C.unsigned;
                                       idEvent : Interfaces.C.unsigned;
-                                      dwTime  : Interfaces.C.unsigned_long);
+                                      dwTime  : Win32_Types.Unsigned_Long);
   pragma Convention (Stdcall, TIMERPROC);
   pragma Machine_Attribute (TIMERPROC, "ms_abi");
 

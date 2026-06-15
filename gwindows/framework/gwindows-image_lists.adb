@@ -269,6 +269,7 @@ package body GWindows.Image_Lists is
       pragma Import (StdCall,
                      ImageList_GetImageCount,
                      "ImageList_GetImageCount");
+      pragma Machine_Attribute (ImageList_GetImageCount, "ms_abi");
    begin
       return ImageList_GetImageCount;
    end Count;
@@ -302,6 +303,7 @@ package body GWindows.Image_Lists is
       pragma Import (StdCall,
                      ImageList_EndDrag,
                      "ImageList_EndDrag");
+      pragma Machine_Attribute (ImageList_EndDrag, "ms_abi");
    begin
       ImageList_EndDrag;
    end End_Drag;
@@ -322,6 +324,7 @@ package body GWindows.Image_Lists is
       pragma Import (StdCall,
                      ImageList_SetDragCursorImage,
                      "ImageList_SetDragCursorImage");
+      pragma Machine_Attribute (ImageList_SetDragCursorImage, "ms_abi");
    begin
       ImageList_SetDragCursorImage;
    end Drag_Cursor_Image;
@@ -386,6 +389,7 @@ package body GWindows.Image_Lists is
       pragma Import (StdCall,
                      ImageList_DragShowNolock,
                      "ImageList_DragShowNolock");
+      pragma Machine_Attribute (ImageList_DragShowNolock, "ms_abi");
    begin
       ImageList_DragShowNolock;
    end Drag_Show_Image;
@@ -401,6 +405,7 @@ package body GWindows.Image_Lists is
       pragma Import (StdCall,
                      ImageList_DragShowNolock,
                      "ImageList_DragShowNolock");
+      pragma Machine_Attribute (ImageList_DragShowNolock, "ms_abi");
    begin
       ImageList_DragShowNolock;
    end Drag_Hide_Image;

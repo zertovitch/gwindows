@@ -279,6 +279,7 @@ package body GWindows.Buttons.Ex_buttons is
 --                           return GWindows.Types.handle;
 --      pragma Import (Stdcall, Sendmessage,
 --                       "SendMessage" & Character_Mode_Identifier);
+--  pragma Machine_Attribute (Sendmessage, "ms_abi");  --  Winelib
 --   begin
 --      return Sendmessage;
 --   end get_Image;
