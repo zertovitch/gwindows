@@ -93,9 +93,9 @@ package body GWindows.Static_Controls.Web is
        nShowCmd : INT)
       return HINSTANCE;               --  shellapi.h:54
     pragma Import (Stdcall, ShellExecuteA, "ShellExecuteA"); --  shellapi.h:54
+    pragma Machine_Attribute (ShellExecuteA, "ms_abi");
     function ShellExecute
       (hwnd0 : HWND;
-    pragma Machine_Attribute (ShellExecuteA, "ms_abi");
        lpOperation : LPCSTR;
        lpFile : LPCSTR;
        lpParameters : LPSTR;

@@ -172,9 +172,9 @@ package body GWin_Util is
        nShowCmd : INT)
       return HINSTANCE;               --  shellapi.h:54
     pragma Import (Stdcall, ShellExecuteA, "ShellExecuteA");   --  shellapi.h:54
+    pragma Machine_Attribute (ShellExecuteA, "ms_abi");
     function ShellExecute
       (hwnd0 : HWND;
-    pragma Machine_Attribute (ShellExecuteA, "ms_abi");
        lpOperation : LPCSTR;
        lpFile : LPCSTR;
        lpParameters : LPSTR;
@@ -480,7 +480,7 @@ package body GWin_Util is
           Show => False
         );
         --  Link (tab(s), Handle(tab(s)), False, Control_Link);
-        --  -- ^ for buttons from a resource file (André van Splunter)
+        --  -- ^ for buttons from a resource file (Andrï¿½ van Splunter)
         tabs.Tab_Window
           (Tab_enumeration'Pos (s) - Tab_enumeration'Pos (Tab_enumeration'First), tab (s)'Unrestricted_Access);
       end loop;
