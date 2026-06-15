@@ -13,4 +13,9 @@ package body Win32_Types is
       return S;
    end To_Native_Path;
 
+   function To_Native_Path (S : Wide_String) return Wide_String is
+   begin
+      return S;
+   end To_Native_Path;
+
 end Win32_Types;

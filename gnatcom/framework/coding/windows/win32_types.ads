@@ -17,4 +17,5 @@ package Win32_Types is
       Append_Nul : Boolean := True) return wchar_array;
 
    function To_Native_Path (S : String) return String;
+   function To_Native_Path (S : Wide_String) return Wide_String;
 end Win32_Types;

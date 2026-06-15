@@ -22,4 +22,18 @@ package body Win32_Types is
       return R;
    end To_Native_Path;
 
+   function To_Native_Path (S : Wide_String) return Wide_String is
+      R : Wide_String := S;
+   begin
+      for I in R'Range loop
+         if R (I) = '\' then
+            R (I) := '/';
+         end if;
+      end loop;
+      if R'Length >= 3 and then R (R'First + 1) = ':' then
+         return R (R'First + 2 .. R'Last);
+      end if;
+      return R;
+   end To_Native_Path;
+
 end Win32_Types;

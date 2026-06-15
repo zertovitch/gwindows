@@ -40,7 +40,6 @@
 with Interfaces.C;
 
 with GWindows.GStrings;
-with Win32_Types;
 
 package body GWindows.List_Boxes is
    use type Interfaces.C.unsigned;
