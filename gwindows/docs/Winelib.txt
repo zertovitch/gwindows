@@ -276,8 +276,13 @@ Sample Status
 
   Requires external DLL (1 sample):
 
-    sci_example — links but needs a Winelib build of the
-    Scintilla DLL to run.
+    sci_example — needs SciLexer.dll at runtime (loaded via
+    LoadLibrary).  The DLL is shipped in redist/; copy it next
+    to the .exe launcher before running:
+
+      cp redist/SciLexer.dll samples/
+
+    Wine loads PE DLLs natively, so no Winelib rebuild is needed.
 
 
 Limitations
@@ -293,9 +298,6 @@ Limitations
 
   - COM/ActiveX features (GNATCOM) compile but are untested under
     Winelib.  Wine's COM support may have gaps.
-
-  - The Scintilla sample (sci_example) links but requires a Winelib
-    build of the Scintilla DLL to run.
 
   - Only x86_64 has been tested.  The ms_abi attribute is specific
     to x86_64; on i386, StdCall already works correctly as there is
