@@ -1968,13 +1968,13 @@ package body GWindows.Base is
 
    function Enum_Proc (hwnd   : GWindows.Types.Handle;
                        lparam : GWindows.Types.Lparam)
-                      return Boolean;
+                      return Interfaces.C.int;
    pragma Convention (StdCall, Enum_Proc);
    pragma Machine_Attribute (Enum_Proc, "ms_abi");
 
    function Enum_Proc (hwnd   : GWindows.Types.Handle;
                        lparam : GWindows.Types.Lparam)
-                      return Boolean
+                      return Interfaces.C.int
    is
       function To_Enumerate_Function is
         new Ada.Unchecked_Conversion (GWindows.Types.Lparam,
@@ -1986,7 +1986,7 @@ package body GWindows.Base is
       if Win_Ptr /= null then
          Proc (Win_Ptr);
       end if;
-      return True;
+      return 1;
    end Enum_Proc;
 
    procedure Enumerate_Children (Window : in Base_Window_Type;
