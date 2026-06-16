@@ -1,7 +1,6 @@
 with Ada.Unchecked_Conversion;
 
 with GWindows.Errors;
-with Win32_Types;
 
 package body GWindows.DIBitmaps is
 

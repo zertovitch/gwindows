@@ -1,5 +1,4 @@
 with GNATCOM.Errors;
-with Win32_Types;
 
 package body ADO.RecordsetEventsVt_Interface is
 

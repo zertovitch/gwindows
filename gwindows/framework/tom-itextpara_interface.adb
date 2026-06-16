@@ -1,7 +1,6 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
-with Win32_Types;
 
 package body TOM.ITextPara_Interface is
 

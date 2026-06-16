@@ -1,7 +1,6 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
-with Win32_Types;
 
 package body TOM.ITextStoryRanges_Interface is
 
