@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package TOM.ITextFont_Interface is
 
@@ -23,96 +24,96 @@ package TOM.ITextFont_Interface is
 
    function CanChange
      (This : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function IsEqual
      (This  : ITextFont_Type;
       pFont : Pointer_To_ITextFont)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Reset
      (This  : ITextFont_Type;
-      Value : Interfaces.C.long);
+      Value : Win32_Types.Long);
 
    function Get_Style
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Style
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_AllCaps
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_AllCaps
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Animation
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Animation
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_BackColor
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_BackColor
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Bold
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Bold
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Emboss
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Emboss
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_ForeColor
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_ForeColor
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Hidden
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Hidden
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Engrave
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Engrave
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Italic
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Italic
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Kerning
      (This   : ITextFont_Type)
@@ -124,11 +125,11 @@ package TOM.ITextFont_Interface is
 
    function Get_LanguageID
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_LanguageID
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Name
      (This  : ITextFont_Type)
@@ -141,11 +142,11 @@ package TOM.ITextFont_Interface is
 
    function Get_Outline
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Outline
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Position
      (This   : ITextFont_Type)
@@ -157,19 +158,19 @@ package TOM.ITextFont_Interface is
 
    function Get_Protected
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Protected
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Shadow
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Shadow
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Size
      (This   : ITextFont_Type)
@@ -181,11 +182,11 @@ package TOM.ITextFont_Interface is
 
    function Get_SmallCaps
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_SmallCaps
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Spacing
      (This   : ITextFont_Type)
@@ -197,42 +198,42 @@ package TOM.ITextFont_Interface is
 
    function Get_StrikeThrough
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_StrikeThrough
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Subscript
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Subscript
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Superscript
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Superscript
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Underline
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Underline
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_Weight
      (This   : ITextFont_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Weight
      (This   : ITextFont_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
 end TOM.ITextFont_Interface;

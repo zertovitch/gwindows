@@ -403,6 +403,7 @@ package body GWindows.Scintilla is
    function Load_Library (LibName : GString_C) return Types.Handle;
    pragma Import (StdCall, Load_Library, "LoadLibrary"
                   & Character_Mode_Identifier);
+   pragma Machine_Attribute (Load_Library, "ms_abi");
 
    WS_TABSTOP : constant := 65536;
 
@@ -438,6 +439,7 @@ package body GWindows.Scintilla is
         return Types.INT_PTR;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Query;
@@ -514,6 +516,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := c (c'First)'Address);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Add_Styled_Text;
@@ -535,6 +538,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S_Text (S_Text'First)'Address);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Add_Text;
@@ -660,6 +664,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S_Text (S_Text'First)'Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Auto_C_Select;
@@ -726,6 +731,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S_Text (S_Text'First)'Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Auto_C_Set_Fill_Ups;
@@ -771,6 +777,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S_Text (S_Text'First)'Address);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Auto_C_Show;
@@ -791,6 +798,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S_Text (S_Text'First)'Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Auto_C_Stops;
@@ -936,6 +944,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S_Text (S_Text'First)'Address);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Call_Tip_Show;
@@ -1314,6 +1323,7 @@ package body GWindows.Scintilla is
         return Int;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Find_Text;
@@ -1334,6 +1344,7 @@ package body GWindows.Scintilla is
          lParam : Text_Range_Type  := fr);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Format_Range;
@@ -1496,6 +1507,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       Caret_Position := Integer (SendMessage);
       text := GStrings.To_GString_From_String (S (S'First .. S'Last - 1));
@@ -1542,6 +1554,7 @@ package body GWindows.Scintilla is
         return Pointer;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Get_Doc_Pointer;
@@ -1751,6 +1764,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       Length := Integer (SendMessage);
       return GStrings.To_GString_From_String (S (S'First .. S'Last - 1));
@@ -2082,6 +2096,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       length := Integer (SendMessage);
       text := GStrings.To_GString_From_String (S (S'First .. S'Last - 1));
@@ -2133,6 +2148,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Integer (SendMessage);
    end Get_Styled_Text;
@@ -2192,6 +2208,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       length := Integer (SendMessage);
       text := GStrings.To_GString_From_String (S (S'First .. S'Last - 1));
@@ -2214,6 +2231,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Integer (SendMessage);
    end Get_Text_Range;
@@ -2510,6 +2528,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S (S'First)'Address);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Insert_Text;
@@ -3214,6 +3233,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S (S'First)'Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Replace_Sel;
@@ -3236,6 +3256,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Types.To_Integer (SendMessage);
    end Replace_Target;
@@ -3258,6 +3279,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Types.To_Integer (SendMessage);
    end Replace_Target_RE;
@@ -3299,6 +3321,7 @@ package body GWindows.Scintilla is
         return Int;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return SendMessage;
    end Search_In_Target;
@@ -3321,6 +3344,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return GWindows.Types.To_Integer (SendMessage);
    end Search_Next;
@@ -3343,6 +3367,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Integer (SendMessage);
    end Search_Prev;
@@ -3553,6 +3578,7 @@ package body GWindows.Scintilla is
          lParam : Pointer          := doc_pointer);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Doc_Pointer;
@@ -3717,6 +3743,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S (S'First)'Address);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Key_Words;
@@ -3757,6 +3784,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S (S'First)'Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Lexer_Language;
@@ -3975,6 +4003,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S2 (S2'First)'Address);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Property;
@@ -4129,6 +4158,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S (S'First)'Address);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Styling_Ex;
@@ -4191,6 +4221,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S (S'First)'Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Text;
@@ -4295,6 +4326,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S (S'First)'Address);
       pragma Import (StdCall, SendMessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Word_Chars;
@@ -4514,6 +4546,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S (S'First)'Address);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Style_Set_Font;
@@ -4608,6 +4641,7 @@ package body GWindows.Scintilla is
         return Types.Lresult;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Integer (SendMessage);
    end Text_Width;
@@ -4668,6 +4702,7 @@ package body GWindows.Scintilla is
          lParam : System.Address   := S (S'First)'Address);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end User_List_Show;

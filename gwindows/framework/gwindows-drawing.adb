@@ -41,6 +41,7 @@ with Ada.Numerics;
 with Ada.Numerics.Elementary_Functions;
 with GWindows.Drawing.Capabilities;
 with GWindows.GStrings;
+with Win32_Types;
 
 package body GWindows.Drawing is
 
@@ -95,46 +96,55 @@ package body GWindows.Drawing is
       M   : out Font_Metrics_W);
    pragma Import (StdCall, GetTextMetrics,
                     "GetTextMetrics" & Character_Mode_Identifier);
+   pragma Machine_Attribute (GetTextMetrics, "ms_abi");
 
    procedure SetTextColor
      (hDC    : GWindows.Types.Handle;
       clrref : GWindows.Colors.Color_Type);
    pragma Import (StdCall, SetTextColor, "SetTextColor");
+   pragma Machine_Attribute (SetTextColor, "ms_abi");
 
    function GetTextColor
      (hDC : GWindows.Types.Handle)
      return GWindows.Colors.Color_Type;
    pragma Import (StdCall, GetTextColor, "GetTextColor");
+   pragma Machine_Attribute (GetTextColor, "ms_abi");
 
    procedure SetTextAlign
      (hDC   : GWindows.Types.Handle;
       fmode : Interfaces.C.unsigned);
    pragma Import (StdCall, SetTextAlign, "SetTextAlign");
+   pragma Machine_Attribute (SetTextAlign, "ms_abi");
 
    function GetTextAlign
      (hDC : GWindows.Types.Handle)
      return Interfaces.C.unsigned;
    pragma Import (StdCall, GetTextAlign, "GetTextAlign");
+   pragma Machine_Attribute (GetTextAlign, "ms_abi");
 
    procedure SetBkColor
      (hDC    : GWindows.Types.Handle;
       clrref : GWindows.Colors.Color_Type);
    pragma Import (StdCall, SetBkColor, "SetBkColor");
+   pragma Machine_Attribute (SetBkColor, "ms_abi");
 
    procedure SetBkMode
      (hDC      : GWindows.Types.Handle;
       fnBkMode : Interfaces.C.int);
    pragma Import (StdCall, SetBkMode, "SetBkMode");
+   pragma Machine_Attribute (SetBkMode, "ms_abi");
 
    function GetBkColor
      (hDC : GWindows.Types.Handle)
      return GWindows.Colors.Color_Type;
    pragma Import (StdCall, GetBkColor, "GetBkColor");
+   pragma Machine_Attribute (GetBkColor, "ms_abi");
 
    function GetBkMode
      (hDC : GWindows.Types.Handle)
      return Interfaces.C.int;
    pragma Import (StdCall, GetBkMode, "GetBkMode");
+   pragma Machine_Attribute (GetBkMode, "ms_abi");
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -177,6 +187,7 @@ package body GWindows.Drawing is
         (hDC : GWindows.Types.Handle := Canvas.HDC)
         return Canvas_State_Type;
       pragma Import (StdCall, SaveDC, "SaveDC");
+   pragma Machine_Attribute (SaveDC, "ms_abi");
    begin
       return SaveDC;
    end Save_State;
@@ -192,6 +203,7 @@ package body GWindows.Drawing is
         (hDC       : GWindows.Types.Handle := Canvas.HDC;
          SaveState : Canvas_State_Type := State);
       pragma Import (StdCall, RestoreDC, "RestoreDC");
+   pragma Machine_Attribute (RestoreDC, "ms_abi");
    begin
       RestoreDC;
    end Load_State;
@@ -232,6 +244,7 @@ package body GWindows.Drawing is
          Text : GString_C             := C_Text;
          Size : Integer               := C_Text'Length - 1); -- W/O c_nul
       pragma Import (StdCall, TextOut, "TextOut" & Character_Mode_Identifier);
+   pragma Machine_Attribute (TextOut, "ms_abi");
 
    begin
       TextOut;
@@ -260,6 +273,7 @@ package body GWindows.Drawing is
          lpDX      : GWindows.Types.Lparam         := 0);
       pragma Import (StdCall, ExtTextOut,
                        "ExtTextOut" & Character_Mode_Identifier);
+      pragma Machine_Attribute (ExtTextOut, "ms_abi");
    begin
       ExtTextOut;
    end Put;
@@ -305,6 +319,7 @@ package body GWindows.Drawing is
          Extn : out GWindows.Types.Size_Type);
       pragma Import (StdCall, GetTextExtentPoint32,
                        "GetTextExtentPoint32" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetTextExtentPoint32, "ms_abi");
    begin
       GetTextExtentPoint32 (Extn => Text_Size);
 
@@ -480,9 +495,10 @@ package body GWindows.Drawing is
       procedure FillRect
         (hDC  : GWindows.Types.Handle         := Canvas.HDC;
          rect : GWindows.Types.Rectangle_Type := Rectangle;
-         hbr  : Interfaces.C.long             :=
-           Interfaces.C.long (Color_Const + 1));
+         hbr  : Win32_Types.Long             :=
+           Win32_Types.Long (Color_Const + 1));
       pragma Import (StdCall, FillRect, "FillRect");
+   pragma Machine_Attribute (FillRect, "ms_abi");
    begin
       FillRect;
    end Fill_Rectangle;
@@ -498,6 +514,7 @@ package body GWindows.Drawing is
          hbr  : GWindows.Types.Handle         :=
            GWindows.Drawing_Objects.Handle (Brush));
       pragma Import (StdCall, FillRect, "FillRect");
+   pragma Machine_Attribute (FillRect, "ms_abi");
    begin
       FillRect;
    end Fill_Rectangle;
@@ -517,6 +534,7 @@ package body GWindows.Drawing is
          hbr  : GWindows.Types.Handle         :=
            GWindows.Drawing_Objects.Handle (Brush));
       pragma Import (StdCall, FrameRect, "FrameRect");
+   pragma Machine_Attribute (FrameRect, "ms_abi");
    begin
       FrameRect;
    end Frame_Rectangle;
@@ -533,6 +551,7 @@ package body GWindows.Drawing is
         (hDC  : GWindows.Types.Handle         := Canvas.HDC;
          rect : GWindows.Types.Rectangle_Type := Rectangle);
       pragma Import (StdCall, InvertRect, "InvertRect");
+   pragma Machine_Attribute (InvertRect, "ms_abi");
    begin
       InvertRect;
    end Invert_Rectangle;
@@ -550,6 +569,7 @@ package body GWindows.Drawing is
          HOBJECT : GWindows.Types.Handle :=
            GWindows.Drawing_Objects.Handle (Object));
       pragma Import (StdCall, SelectObject, "SelectObject");
+   pragma Machine_Attribute (SelectObject, "ms_abi");
    begin
       SelectObject;
    end Select_Object;
@@ -564,6 +584,7 @@ package body GWindows.Drawing is
          HOBJECT : GWindows.Types.Handle := GWindows.Drawing_Objects.Handle (Object))
         return GWindows.Types.Handle;
       pragma Import (StdCall, SelectObject, "SelectObject");
+   pragma Machine_Attribute (SelectObject, "ms_abi");
    begin
       GWindows.Drawing_Objects.Handle (Previous_Object, SelectObject);
    end Select_Object;
@@ -593,6 +614,7 @@ package body GWindows.Drawing is
         (hWnd : GWindows.Types.Handle := Canvas.HWND;
          hDC  : GWindows.Types.Handle := Canvas.HDC);
       pragma Import (StdCall, ReleaseDC, "ReleaseDC");
+   pragma Machine_Attribute (ReleaseDC, "ms_abi");
    begin
       if Canvas.HDC /= GWindows.Types.Null_Handle then
          Load_State (Canvas, Canvas.Orig_State);
@@ -618,6 +640,7 @@ package body GWindows.Drawing is
          NRight  : Integer           := Right;
          NBottom : Integer           := Bottom);
       pragma Import (StdCall, GDI_Rectangle, "Rectangle");
+   pragma Machine_Attribute (GDI_Rectangle, "ms_abi");
    begin
       GDI_Rectangle;
    end Rectangle;
@@ -640,6 +663,7 @@ package body GWindows.Drawing is
          NWidth  : Integer           := Ellipse_Width;
          NHeight : Integer           := Ellipse_Height);
       pragma Import (StdCall, GDI_RoundRect, "RoundRect");
+   pragma Machine_Attribute (GDI_RoundRect, "ms_abi");
    begin
       GDI_RoundRect;
    end Rounded_Rectangle;
@@ -663,6 +687,7 @@ package body GWindows.Drawing is
          NXR2    : Integer           := XRadial2;
          NYR2    : Integer           := YRadial2);
       pragma Import (StdCall, GDI_Chord, "Chord");
+   pragma Machine_Attribute (GDI_Chord, "ms_abi");
    begin
       GDI_Chord;
    end Chord;
@@ -681,6 +706,7 @@ package body GWindows.Drawing is
          NRight  : Integer           := Right;
          NBottom : Integer           := Bottom);
       pragma Import (StdCall, GDI_Ellipse, "Ellipse");
+   pragma Machine_Attribute (GDI_Ellipse, "ms_abi");
    begin
       GDI_Ellipse;
    end Ellipse;
@@ -704,6 +730,7 @@ package body GWindows.Drawing is
          NXR2    : Integer           := XRadial2;
          NYR2    : Integer           := YRadial2);
       pragma Import (StdCall, GDI_Pie, "Pie");
+   pragma Machine_Attribute (GDI_Pie, "ms_abi");
    begin
       GDI_Pie;
    end Pie;
@@ -720,6 +747,7 @@ package body GWindows.Drawing is
          Points : GWindows.Types.Point_Array_Type := Vertices;
          Count  : Integer                         := Vertices'Length);
       pragma Import (StdCall, GDI_Polygon, "Polygon");
+   pragma Machine_Attribute (GDI_Polygon, "ms_abi");
    begin
       GDI_Polygon;
    end Polygon;
@@ -738,6 +766,7 @@ package body GWindows.Drawing is
          nYPos : Integer           := Y)
         return GWindows.Colors.Color_Type;
       pragma Import (StdCall, GetPixel, "GetPixel");
+   pragma Machine_Attribute (GetPixel, "ms_abi");
    begin
       return GetPixel;
    end Point;
@@ -752,6 +781,7 @@ package body GWindows.Drawing is
          nYPos  : Integer                    := Y;
          clrref : GWindows.Colors.Color_Type := Color);
       pragma Import (StdCall, SetPixelV, "SetPixelV");
+   pragma Machine_Attribute (SetPixelV, "ms_abi");
    begin
       SetPixelV;
    end Point;
@@ -769,12 +799,14 @@ package body GWindows.Drawing is
          Y      : Integer      := Y1;
          Unused : Types.Lparam := 0);
       pragma Import (StdCall, MoveToEx, "MoveToEx");
+   pragma Machine_Attribute (MoveToEx, "ms_abi");
 
       procedure LineTo
         (hDC    : GWindows.Types.Handle := Canvas.HDC;
          X      : Integer := X2;
          Y      : Integer := Y2);
       pragma Import (StdCall, LineTo, "LineTo");
+   pragma Machine_Attribute (LineTo, "ms_abi");
    begin
       MoveToEx;
       LineTo;
@@ -799,6 +831,7 @@ package body GWindows.Drawing is
          NXR2    : Integer           := XEndArc;
          NYR2    : Integer           := YEndArc);
       pragma Import (StdCall, GDI_Arc, "Arc");
+   pragma Machine_Attribute (GDI_Arc, "ms_abi");
    begin
       GDI_Arc;
    end Arc;
@@ -815,6 +848,7 @@ package body GWindows.Drawing is
          pPoints : GWindows.Types.Point_Array_Type := Points;
          Count   : Integer                         := Points'Length);
       pragma Import (StdCall, PolyBezier, "PolyBezier");
+   pragma Machine_Attribute (PolyBezier, "ms_abi");
    begin
       PolyBezier;
    end Beziers;
@@ -831,6 +865,7 @@ package body GWindows.Drawing is
          pPoints : GWindows.Types.Point_Array_Type := Points;
          Count   : Integer                         := Points'Length);
       pragma Import (StdCall, Polyline, "Polyline");
+   pragma Machine_Attribute (Polyline, "ms_abi");
    begin
       Polyline;
    end Lines;
@@ -849,6 +884,7 @@ package body GWindows.Drawing is
         (hDC    : GWindows.Types.Handle := Canvas.HDC;
          Direct : Integer);
       pragma Import (StdCall, SetArcDirection, "SetArcDirection");
+   pragma Machine_Attribute (SetArcDirection, "ms_abi");
    begin
       if Direction = Clock_Wise then
          SetArcDirection (Direct => AD_CLOCKWISE);
@@ -907,6 +943,7 @@ package body GWindows.Drawing is
         return GWindows.Types.Handle;
       pragma Import
         (StdCall, CreateCompatibleBitmap, "CreateCompatibleBitmap");
+      pragma Machine_Attribute (CreateCompatibleBitmap, "ms_abi");
 
    begin
       GWindows.Drawing_Objects.Handle (Bitmap, CreateCompatibleBitmap);
@@ -949,6 +986,7 @@ package body GWindows.Drawing is
         (hdc          : GWindows.Types.Handle := Handle (Canvas);
          iStretchMode : Integer               := HALFTONE);
       pragma Import (StdCall, GDI_SetStretchBltMode, "SetStretchBltMode");
+   pragma Machine_Attribute (GDI_SetStretchBltMode, "ms_abi");
    begin
       Create_Memory_Canvas (MDC, Canvas);
       Select_Object (MDC, Bitmap);
@@ -972,6 +1010,7 @@ package body GWindows.Drawing is
          hIcon : GWindows.Types.Handle :=
                  GWindows.Drawing_Objects.Handle (Icon));
       pragma Import (StdCall, DrawIcon, "DrawIcon");
+   pragma Machine_Attribute (DrawIcon, "ms_abi");
    begin
       DrawIcon;
    end Paint_Icon;
@@ -1000,6 +1039,7 @@ package body GWindows.Drawing is
          nYSrc   : Integer := Source_Y;
          dwRop   : Interfaces.C.unsigned := Raster_Operation_Code);
       pragma Import (StdCall, GDI_BitBlt, "BitBlt");
+   pragma Machine_Attribute (GDI_BitBlt, "ms_abi");
    begin
       GDI_BitBlt;
    end BitBlt;
@@ -1031,6 +1071,7 @@ package body GWindows.Drawing is
          nHeightSrc : Integer               := Source_Height;
          dwRop      : Interfaces.C.unsigned := Raster_Operation_Code);
       pragma Import (StdCall, GDI_StretchBlt, "StretchBlt");
+   pragma Machine_Attribute (GDI_StretchBlt, "ms_abi");
    begin
       GDI_StretchBlt;
    end StretchBlt;
@@ -1046,6 +1087,7 @@ package body GWindows.Drawing is
         (hDC : GWindows.Types.Handle := Source_Canvas.HDC)
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreateCompatibleDC, "CreateCompatibleDC");
+   pragma Machine_Attribute (CreateCompatibleDC, "ms_abi");
    begin
       Handle (Canvas, CreateCompatibleDC);
       Canvas.Orig_State := Save_State (Canvas);
@@ -1058,6 +1100,7 @@ package body GWindows.Drawing is
    procedure Finalize (Canvas : in out Memory_Canvas_Type) is
       procedure DeleteDC (hdc : GWindows.Types.Handle := Canvas.HDC);
       pragma Import (StdCall, DeleteDC, "DeleteDC");
+   pragma Machine_Attribute (DeleteDC, "ms_abi");
    begin
       DeleteDC;
    end Finalize;
@@ -1073,6 +1116,7 @@ package body GWindows.Drawing is
         (hDC : GWindows.Types.Handle := Canvas.HDC;
          ROP : Natural := Mode);
       pragma Import (StdCall, SetROP2, "SetROP2");
+   pragma Machine_Attribute (SetROP2, "ms_abi");
    begin
       SetROP2;
    end Set_Mix_Mode;
@@ -1090,6 +1134,7 @@ package body GWindows.Drawing is
         (hDC  : GWindows.Types.Handle := Canvas.HDC;
          Rect : out GWindows.Types.Rectangle_Type);
       pragma Import (StdCall, GetClipBox, "GetClipBox");
+   pragma Machine_Attribute (GetClipBox, "ms_abi");
    begin
       GetClipBox (Rect => Result);
       return Result;
@@ -1110,6 +1155,7 @@ package body GWindows.Drawing is
          X2 : Integer               := Right;
          Y2 : Integer               := Bottom);
       pragma Import (StdCall, IntersectClipRect, "IntersectClipRect");
+   pragma Machine_Attribute (IntersectClipRect, "ms_abi");
    begin
       IntersectClipRect;
    end Include_Clipping_Area;
@@ -1129,6 +1175,7 @@ package body GWindows.Drawing is
          X2 : Integer               := Right;
          Y2 : Integer               := Bottom);
       pragma Import (StdCall, ExcludeClipRect, "ExcludeClipRect");
+   pragma Machine_Attribute (ExcludeClipRect, "ms_abi");
    begin
       ExcludeClipRect;
    end Exclude_Clipping_Area;
@@ -1147,6 +1194,7 @@ package body GWindows.Drawing is
          Y1 : Integer               := Y)
         return Boolean;
       pragma Import (StdCall, PtVisible, "PtVisible");
+   pragma Machine_Attribute (PtVisible, "ms_abi");
    begin
       return PtVisible;
    end Inside_Clipping_Area;
@@ -1163,6 +1211,7 @@ package body GWindows.Drawing is
          R1 : GWindows.Types.Rectangle_Type := Rect)
         return Boolean;
       pragma Import (StdCall, RectVisible, "RectVisible");
+   pragma Machine_Attribute (RectVisible, "ms_abi");
    begin
       return RectVisible;
    end Inside_Clipping_Area;
@@ -1175,6 +1224,7 @@ package body GWindows.Drawing is
    is
       procedure StartPage (HDC : GWindows.Types.Handle := Canvas.HDC);
       pragma Import (StdCall, StartPage, "StartPage");
+   pragma Machine_Attribute (StartPage, "ms_abi");
    begin
       StartPage;
    end Start_Page;
@@ -1187,6 +1237,7 @@ package body GWindows.Drawing is
    is
       procedure EndPage (HDC : GWindows.Types.Handle := Canvas.HDC);
       pragma Import (StdCall, EndPage, "EndPage");
+   pragma Machine_Attribute (EndPage, "ms_abi");
    begin
       EndPage;
    end End_Page;
@@ -1205,9 +1256,9 @@ package body GWindows.Drawing is
          record
             cbSize       : Integer := 20;
             lpszDocName  : Pointer_To_Char := C_Text (0)'Unchecked_Access;
-            lpszOutput   : Interfaces.C.long := 0;
-            lpszDatatype : Interfaces.C.long := 0;
-            fwType       : Interfaces.C.long := 0;
+            lpszOutput   : Win32_Types.Long := 0;
+            lpszDatatype : Win32_Types.Long := 0;
+            fwType       : Win32_Types.Long := 0;
          end record;
 
       DInfo : DOCINFO;
@@ -1216,6 +1267,7 @@ package body GWindows.Drawing is
                           DI  : DOCINFO               := DInfo);
       pragma Import (StdCall, StartDoc,
                        "StartDoc" & Character_Mode_Identifier);
+      pragma Machine_Attribute (StartDoc, "ms_abi");
    begin
       StartDoc;
    end Start_Document;
@@ -1228,6 +1280,7 @@ package body GWindows.Drawing is
    is
       procedure EndDoc (HDC : GWindows.Types.Handle := Canvas.HDC);
       pragma Import (StdCall, EndDoc, "EndDoc");
+   pragma Machine_Attribute (EndDoc, "ms_abi");
    begin
       EndDoc;
    end End_Document;
@@ -1240,6 +1293,7 @@ package body GWindows.Drawing is
    is
       procedure AbortDoc (HDC : GWindows.Types.Handle := Canvas.HDC);
       pragma Import (StdCall, AbortDoc, "AbortDoc");
+   pragma Machine_Attribute (AbortDoc, "ms_abi");
    begin
       AbortDoc;
    end Abort_Document;
@@ -1254,6 +1308,7 @@ package body GWindows.Drawing is
       procedure SetMapMode (HDC     : GWindows.Types.Handle := Canvas.HDC;
                             MapMode : Integer               := Mode);
       pragma Import (StdCall, SetMapMode, "SetMapMode");
+   pragma Machine_Attribute (SetMapMode, "ms_abi");
    begin
       SetMapMode;
    end Map_Mode;
@@ -1263,6 +1318,7 @@ package body GWindows.Drawing is
       function GetMapMode (HDC : GWindows.Types.Handle := Canvas.HDC)
                           return Integer;
       pragma Import (StdCall, GetMapMode, "GetMapMode");
+   pragma Machine_Attribute (GetMapMode, "ms_abi");
    begin
       return GetMapMode;
    end Map_Mode;
@@ -1276,6 +1332,7 @@ package body GWindows.Drawing is
       procedure SetGraphicsMode (HDC   : GWindows.Types.Handle := Canvas.HDC;
                                  iMode : Integer               := Mode);
       pragma Import (StdCall, SetGraphicsMode, "SetGraphicsMode");
+   pragma Machine_Attribute (SetGraphicsMode, "ms_abi");
    begin
       SetGraphicsMode;
    end Graphics_Mode;
@@ -1285,6 +1342,7 @@ package body GWindows.Drawing is
       function GetGraphicsMode (HDC : GWindows.Types.Handle := Canvas.HDC)
         return Integer;
       pragma Import (StdCall, GetGraphicsMode, "GetGraphicsMode");
+   pragma Machine_Attribute (GetGraphicsMode, "ms_abi");
    begin
       return GetGraphicsMode;
    end Graphics_Mode;
@@ -1299,6 +1357,7 @@ package body GWindows.Drawing is
       procedure SetWorldTransform (HDC   : GWindows.Types.Handle := Canvas.HDC;
                                    Xfor  : XFORM                 := X_form);
       pragma Import (StdCall, SetWorldTransform, "SetWorldTransform");
+   pragma Machine_Attribute (SetWorldTransform, "ms_abi");
    begin
       SetWorldTransform;
    end World_Transform;
@@ -1309,6 +1368,7 @@ package body GWindows.Drawing is
       procedure GetWorldTransform (HDC  : in     GWindows.Types.Handle;
                                    Xfor : in out XFORM);
       pragma Import (StdCall, GetWorldTransform, "GetWorldTransform");
+   pragma Machine_Attribute (GetWorldTransform, "ms_abi");
 
    begin
       GetWorldTransform (Canvas.HDC, X_Form);
@@ -1349,6 +1409,7 @@ package body GWindows.Drawing is
          H   : Integer := Height;
          LPS : Integer := 0);
       pragma Import (StdCall, SetViewportExtEx, "SetViewportExtEx");
+   pragma Machine_Attribute (SetViewportExtEx, "ms_abi");
    begin
       SetViewportExtEx;
    end Viewport_Extents;
@@ -1362,6 +1423,7 @@ package body GWindows.Drawing is
         (HDC :     GWindows.Types.Handle    := Canvas.HDC;
          LPS : out GWindows.Types.Size_Type);
       pragma Import (StdCall, GetViewportExtEx, "GetViewportExtEx");
+   pragma Machine_Attribute (GetViewportExtEx, "ms_abi");
 
    begin
       GetViewportExtEx (LPS => Result);
@@ -1385,6 +1447,7 @@ package body GWindows.Drawing is
          Y2  : Integer := Y_Divisor;
          LPS : Integer := 0);
       pragma Import (StdCall, ScaleViewportExtEx, "ScaleViewportExtEx");
+   pragma Machine_Attribute (ScaleViewportExtEx, "ms_abi");
    begin
       ScaleViewportExtEx;
    end Scale_Viewport_Extents;
@@ -1402,6 +1465,7 @@ package body GWindows.Drawing is
          Y1  : Integer := Y;
          LPP : Integer := 0);
       pragma Import (StdCall, SetViewportOrgEx, "SetViewportOrgEx");
+   pragma Machine_Attribute (SetViewportOrgEx, "ms_abi");
    begin
       SetViewportOrgEx;
    end Viewport_Origin;
@@ -1416,6 +1480,7 @@ package body GWindows.Drawing is
          Y1  :     Integer := Y;
          LPS : out GWindows.Types.Point_Type);
       pragma Import (StdCall, SetViewportOrgEx, "SetViewportOrgEx");
+   pragma Machine_Attribute (SetViewportOrgEx, "ms_abi");
    begin
       SetViewportOrgEx (LPS => Previous_Origin);
    end Viewport_Origin;
@@ -1429,6 +1494,7 @@ package body GWindows.Drawing is
         (HDC :     GWindows.Types.Handle     := Canvas.HDC;
          LPS : out GWindows.Types.Point_Type);
       pragma Import (StdCall, GetViewportOrgEx, "GetViewportOrgEx");
+   pragma Machine_Attribute (GetViewportOrgEx, "ms_abi");
 
    begin
       GetViewportOrgEx (LPS => Result);
@@ -1449,6 +1515,7 @@ package body GWindows.Drawing is
          Y1  : Integer := DY;
          LPS : Integer := 0);
       pragma Import (StdCall, OffsetViewportOrgEx, "OffsetViewportOrgEx");
+   pragma Machine_Attribute (OffsetViewportOrgEx, "ms_abi");
    begin
       OffsetViewportOrgEx;
    end Offset_Viewport_Origin;
@@ -1463,6 +1530,7 @@ package body GWindows.Drawing is
          Y1  :     Integer := DY;
          LPS : out GWindows.Types.Point_Type);
       pragma Import (StdCall, OffsetViewportOrgEx, "OffsetViewportOrgEx");
+   pragma Machine_Attribute (OffsetViewportOrgEx, "ms_abi");
    begin
       OffsetViewportOrgEx (LPS => Previous_Origin);
    end Offset_Viewport_Origin;
@@ -1481,6 +1549,7 @@ package body GWindows.Drawing is
          H   : Integer := Height;
          LPS : Integer := 0);
       pragma Import (StdCall, SetWindowExtEx, "SetWindowExtEx");
+   pragma Machine_Attribute (SetWindowExtEx, "ms_abi");
    begin
       SetWindowExtEx;
    end Window_Extents;
@@ -1494,6 +1563,7 @@ package body GWindows.Drawing is
         (HDC :     GWindows.Types.Handle    := Canvas.HDC;
          LPS : out GWindows.Types.Size_Type);
       pragma Import (StdCall, GetWindowExtEx, "GetWindowExtEx");
+   pragma Machine_Attribute (GetWindowExtEx, "ms_abi");
 
    begin
       GetWindowExtEx (LPS => Result);
@@ -1517,6 +1587,7 @@ package body GWindows.Drawing is
          Y2  : Integer := Y_Divisor;
          LPS : Integer := 0);
       pragma Import (StdCall, ScaleWindowExtEx, "ScaleWindowExtEx");
+   pragma Machine_Attribute (ScaleWindowExtEx, "ms_abi");
    begin
       ScaleWindowExtEx;
    end Scale_Window_Extents;
@@ -1534,6 +1605,7 @@ package body GWindows.Drawing is
          Y1  : Integer := Y;
          LPP : Integer := 0);
       pragma Import (StdCall, SetWindowOrgEx, "SetWindowOrgEx");
+   pragma Machine_Attribute (SetWindowOrgEx, "ms_abi");
    begin
       SetWindowOrgEx;
    end Window_Origin;
@@ -1547,6 +1619,7 @@ package body GWindows.Drawing is
         (HDC :     GWindows.Types.Handle     := Canvas.HDC;
          LPS : out GWindows.Types.Point_Type);
       pragma Import (StdCall, GetWindowOrgEx, "GetWindowOrgEx");
+   pragma Machine_Attribute (GetWindowOrgEx, "ms_abi");
 
    begin
       GetWindowOrgEx (LPS => Result);
@@ -1566,6 +1639,7 @@ package body GWindows.Drawing is
          Y1  : Integer := DY;
          LPS : Integer := 0);
       pragma Import (StdCall, OffsetWindowOrgEx, "OffsetWindowOrgEx");
+   pragma Machine_Attribute (OffsetWindowOrgEx, "ms_abi");
    begin
       OffsetWindowOrgEx;
    end Offset_Window_Origin;
@@ -1583,6 +1657,7 @@ package body GWindows.Drawing is
          LPP : in out GWindows.Types.Point_Array_Type;
          CNT :        Integer                         := Points'Length);
       pragma Import (StdCall, DPtoLP, "DPtoLP");
+   pragma Machine_Attribute (DPtoLP, "ms_abi");
    begin
       DPtoLP (LPP => Points);
    end Device_To_Logical;
@@ -1619,6 +1694,7 @@ package body GWindows.Drawing is
          LPP : in out GWindows.Types.Point_Array_Type;
          CNT :        Integer                         := Points'Length);
       pragma Import (StdCall, LPtoDP, "LPtoDP");
+   pragma Machine_Attribute (LPtoDP, "ms_abi");
    begin
       LPtoDP (LPP => Points);
    end Logical_To_Device;
@@ -1720,6 +1796,7 @@ package body GWindows.Drawing is
          BUF : access GChar_C               := Buffer (Buffer'First)'Access);
       pragma Import (StdCall, GetTextFace,
                        "GetTextFace" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetTextFace, "ms_abi");
    begin
       GetTextFace;
       return GWindows.GStrings.To_GString_From_C (Buffer);

@@ -390,6 +390,7 @@ package body GWindows.Static_Controls is
             GWindows.Drawing_Objects.Handle (Bitmap));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Set_Bitmap;

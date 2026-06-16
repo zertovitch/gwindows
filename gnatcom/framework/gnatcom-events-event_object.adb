@@ -36,6 +36,7 @@
 ------------------------------------------------------------------------------
 
 with System;
+with Win32_Types;
 
 package body GNATCOM.Events.Event_Object is
 
@@ -47,7 +48,7 @@ package body GNATCOM.Events.Event_Object is
    function Event_GetTypeInfo
      (This    : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
       itinfo  : in     Interfaces.C.unsigned;
-      lcid    : in     Interfaces.C.unsigned_long;
+      lcid    : in     Win32_Types.Unsigned_Long;
       pptinfo : in     GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
 
@@ -56,15 +57,15 @@ package body GNATCOM.Events.Event_Object is
       riid      : in     GNATCOM.Types.Pointer_To_GUID;
       rgszNames : in     GNATCOM.Types.Pointer_To_Pointer_To_char;
       cNames    : in     Interfaces.C.unsigned;
-      lcid      : in     Interfaces.C.unsigned_long;
+      lcid      : in     Win32_Types.Unsigned_Long;
       rgdispid  : in     GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT;
 
    function Event_Invoke
      (This         : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      dispidMember : in     Interfaces.C.long;
+      dispidMember : in     Win32_Types.Long;
       riid         : in     GNATCOM.Types.Pointer_To_GUID;
-      lcid         : in     Interfaces.C.unsigned_long;
+      lcid         : in     Win32_Types.Unsigned_Long;
       wFlags       : in     Interfaces.C.unsigned_short;
       pdispparams  : in     GNATCOM.Types.Pointer_To_DISPPARAMS;
       pvarResult   : in     GNATCOM.Types.Pointer_To_VARIANT;
@@ -72,6 +73,7 @@ package body GNATCOM.Events.Event_Object is
       puArgErr     : in     GNATCOM.Types.Pointer_To_unsigned)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, Event_Invoke);
+   pragma Machine_Attribute (Event_Invoke, "ms_abi");
 
    type Event_Vtbl_Record is
       record
@@ -134,9 +136,9 @@ package body GNATCOM.Events.Event_Object is
 
    function Event_Invoke
      (This         : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      dispidMember : in     Interfaces.C.long;
+      dispidMember : in     Win32_Types.Long;
       riid         : in     GNATCOM.Types.Pointer_To_GUID;
-      lcid         : in     Interfaces.C.unsigned_long;
+      lcid         : in     Win32_Types.Unsigned_Long;
       wFlags       : in     Interfaces.C.unsigned_short;
       pdispparams  : in     GNATCOM.Types.Pointer_To_DISPPARAMS;
       pvarResult   : in     GNATCOM.Types.Pointer_To_VARIANT;
@@ -182,7 +184,7 @@ package body GNATCOM.Events.Event_Object is
    function Event_GetTypeInfo
      (This    : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
       itinfo  : in     Interfaces.C.unsigned;
-      lcid    : in     Interfaces.C.unsigned_long;
+      lcid    : in     Win32_Types.Unsigned_Long;
       pptinfo : in     GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT
    is
@@ -203,7 +205,7 @@ package body GNATCOM.Events.Event_Object is
       riid      : in     GNATCOM.Types.Pointer_To_GUID;
       rgszNames : in     GNATCOM.Types.Pointer_To_Pointer_To_char;
       cNames    : in     Interfaces.C.unsigned;
-      lcid      : in     Interfaces.C.unsigned_long;
+      lcid      : in     Win32_Types.Unsigned_Long;
       rgdispid  : in     GNATCOM.Types.Pointer_To_long)
      return GNATCOM.Types.HRESULT
    is

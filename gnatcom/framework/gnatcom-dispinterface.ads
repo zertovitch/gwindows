@@ -47,6 +47,7 @@ with Interfaces.C;
 
 with GNATCOM.Types;
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATCOM.Dispinterface is
 
@@ -87,7 +88,7 @@ package GNATCOM.Dispinterface is
 
    function Get_Type_Info
      (This : Dispinterface_Type;
-      LCID : Interfaces.C.long  := 0)
+      LCID : Win32_Types.Long  := 0)
       return GNATCOM.Types.Pointer_To_ITypeInfo;
    --  Retrieves the type information for an object, which can then be used
    --  to get the type information for an interface.
@@ -95,7 +96,7 @@ package GNATCOM.Dispinterface is
    function Get_DISPID
      (This    : Dispinterface_Type;
       Of_Name : String)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
    --  Retrieve the DISPID Of_Name in object
 
    type Parameter_Array is array (Positive range <>) of GNATCOM.Types.VARIANT;
@@ -107,13 +108,13 @@ package GNATCOM.Dispinterface is
       Name   : in String;
       Value  : in GNATCOM.Types.VARIANT;
       Free   : in Boolean               := True;
-      LCID   : in Interfaces.C.long     := 0);
+      LCID   : in Win32_Types.Long     := 0);
    procedure Put
      (This   : in Dispinterface_Type;
-      DISPID : in Interfaces.C.long;
+      DISPID : in Win32_Types.Long;
       Value  : in GNATCOM.Types.VARIANT;
       Free   : in Boolean               := True;
-      LCID   : in Interfaces.C.long     := 0);
+      LCID   : in Win32_Types.Long     := 0);
    --  Invoke a member as a put
    --  If Free then Free Variants after put
 
@@ -123,14 +124,14 @@ package GNATCOM.Dispinterface is
       Value       : in GNATCOM.Types.VARIANT;
       Index_Value : in GNATCOM.Types.VARIANT;
       Free        : in Boolean               := True;
-      LCID        : in Interfaces.C.long     := 0);
+      LCID        : in Win32_Types.Long     := 0);
    procedure Put
      (This        : in Dispinterface_Type;
-      DISPID      : in Interfaces.C.long;
+      DISPID      : in Win32_Types.Long;
       Value       : in GNATCOM.Types.VARIANT;
       Index_Value : in GNATCOM.Types.VARIANT;
       Free        : in Boolean               := True;
-      LCID        : in Interfaces.C.long     := 0);
+      LCID        : in Win32_Types.Long     := 0);
    --  Invoke a member as a put on a collection indexed by Index_Value
    --  If Free then Free Variants after put
 
@@ -140,14 +141,14 @@ package GNATCOM.Dispinterface is
       Value        : in GNATCOM.Types.VARIANT;
       Index_Values : in Parameter_Array;
       Free         : in Boolean               := True;
-      LCID         : in Interfaces.C.long     := 0);
+      LCID         : in Win32_Types.Long     := 0);
    procedure Put
      (This         : in Dispinterface_Type;
-      DISPID       : in Interfaces.C.long;
+      DISPID       : in Win32_Types.Long;
       Value        : in GNATCOM.Types.VARIANT;
       Index_Values : in Parameter_Array;
       Free         : in Boolean               := True;
-      LCID         : in Interfaces.C.long     := 0);
+      LCID         : in Win32_Types.Long     := 0);
    --  Invoke a member as a get on a multi-dimensional collection indexed by
    --  Index_Value. Index_Values are passed in column-major order, ie, right
    --  to left order (1,2,3) = IndexValues(1) = 3, IndexValues(2) = 2 ...
@@ -158,13 +159,13 @@ package GNATCOM.Dispinterface is
       Name       : in String;
       Parameters : in Parameter_Array;
       Free       : in Boolean            := True;
-      LCID       : in Interfaces.C.long  := 0);
+      LCID       : in Win32_Types.Long  := 0);
    procedure Put
      (This       : in Dispinterface_Type;
-      DISPID     : in Interfaces.C.long;
+      DISPID     : in Win32_Types.Long;
       Parameters : in Parameter_Array;
       Free       : in Boolean            := True;
-      LCID       : in Interfaces.C.long  := 0);
+      LCID       : in Win32_Types.Long  := 0);
    --  Invoke a member as a put with variable number of parameters
    --  If Free then Free Variants after put
 
@@ -172,35 +173,35 @@ package GNATCOM.Dispinterface is
      (This   : in Dispinterface_Type;
       Name   : in String;
       Value  : in GNATCOM.Types.VARIANT;
-      LCID   : in Interfaces.C.long     := 0);
+      LCID   : in Win32_Types.Long     := 0);
    procedure PutRef
      (This   : in Dispinterface_Type;
-      DISPID : in Interfaces.C.long;
+      DISPID : in Win32_Types.Long;
       Value  : in GNATCOM.Types.VARIANT;
-      LCID   : in Interfaces.C.long     := 0);
+      LCID   : in Win32_Types.Long     := 0);
    --  Invoke a member as a putref
 
    procedure PutRef
      (This       : in Dispinterface_Type;
       Name       : in String;
       Parameters : in Parameter_Array;
-      LCID       : in Interfaces.C.long  := 0);
+      LCID       : in Win32_Types.Long  := 0);
    procedure PutRef
      (This       : in Dispinterface_Type;
-      DISPID     : in Interfaces.C.long;
+      DISPID     : in Win32_Types.Long;
       Parameters : in Parameter_Array;
-      LCID       : in Interfaces.C.long  := 0);
+      LCID       : in Win32_Types.Long  := 0);
    --  Invoke a member as a putref with multiple paramters
 
    function Get
      (This   : Dispinterface_Type;
       Name   : String;
-      LCID   : Interfaces.C.long  := 0)
+      LCID   : Win32_Types.Long  := 0)
       return GNATCOM.Types.VARIANT;
    function Get
      (This   : Dispinterface_Type;
-      DISPID : Interfaces.C.long;
-      LCID   : Interfaces.C.long  := 0)
+      DISPID : Win32_Types.Long;
+      LCID   : Win32_Types.Long  := 0)
       return GNATCOM.Types.VARIANT;
    --  Invoke a member as a get
 
@@ -209,14 +210,14 @@ package GNATCOM.Dispinterface is
       Name        : String;
       Index_Value : GNATCOM.Types.VARIANT;
       Free        : Boolean               := True;
-      LCID        : Interfaces.C.long     := 0)
+      LCID        : Win32_Types.Long     := 0)
       return GNATCOM.Types.VARIANT;
    function Get
      (This        : Dispinterface_Type;
-      DISPID      : Interfaces.C.long;
+      DISPID      : Win32_Types.Long;
       Index_Value : GNATCOM.Types.VARIANT;
       Free        : Boolean               := True;
-      LCID        : Interfaces.C.long     := 0)
+      LCID        : Win32_Types.Long     := 0)
       return GNATCOM.Types.VARIANT;
    --  Invoke a member as a get on a collection indexed by Index_Value
 
@@ -225,14 +226,14 @@ package GNATCOM.Dispinterface is
       Name         : String;
       Index_Values : Parameter_Array;
       Free         : Boolean            := True;
-      LCID         : Interfaces.C.long  := 0)
+      LCID         : Win32_Types.Long  := 0)
       return GNATCOM.Types.VARIANT;
    function Get
      (This         : Dispinterface_Type;
-      DISPID       : Interfaces.C.long;
+      DISPID       : Win32_Types.Long;
       Index_Values : Parameter_Array;
       Free         : Boolean            := True;
-      LCID         : Interfaces.C.long  := 0)
+      LCID         : Win32_Types.Long  := 0)
       return GNATCOM.Types.VARIANT;
    --  Invoke a member as a get on a multi-dimensional collection indexed by
    --  Index_Value. Index_Values are passed in column-major order, ie, right
@@ -243,14 +244,14 @@ package GNATCOM.Dispinterface is
       Name       : String;
       Parameters : Parameter_Array;
       Free       : Boolean            := True;
-      LCID       : Interfaces.C.long  := 0)
+      LCID       : Win32_Types.Long  := 0)
       return  GNATCOM.Types.VARIANT;
    function Invoke
      (This       : Dispinterface_Type;
-      DISPID     : Interfaces.C.long;
+      DISPID     : Win32_Types.Long;
       Parameters : Parameter_Array;
       Free       : Boolean            := True;
-      LCID       : Interfaces.C.long  := 0)
+      LCID       : Win32_Types.Long  := 0)
       return  GNATCOM.Types.VARIANT;
    --  Invoke a member as a method
    --  If Free then Free Variants after put
@@ -260,36 +261,36 @@ package GNATCOM.Dispinterface is
       Name       : in String;
       Parameters : in Parameter_Array;
       Free       : in Boolean            := True;
-      LCID       : in Interfaces.C.long  := 0);
+      LCID       : in Win32_Types.Long  := 0);
    procedure Invoke
      (This       : in Dispinterface_Type;
-      DISPID     : in Interfaces.C.long;
+      DISPID     : in Win32_Types.Long;
       Parameters : in Parameter_Array;
       Free       : in Boolean            := True;
-      LCID       : in Interfaces.C.long  := 0);
+      LCID       : in Win32_Types.Long  := 0);
    --  Invoke a member as a method
    --  If Free then Free Variants after put
 
    function Invoke
      (This   : Dispinterface_Type;
       Name   : String;
-      LCID   : Interfaces.C.long  := 0)
+      LCID   : Win32_Types.Long  := 0)
       return  GNATCOM.Types.VARIANT;
    function Invoke
      (This   : Dispinterface_Type;
-      DISPID : Interfaces.C.long;
-      LCID   : Interfaces.C.long  := 0)
+      DISPID : Win32_Types.Long;
+      LCID   : Win32_Types.Long  := 0)
       return  GNATCOM.Types.VARIANT;
    --  Invoke a member as a method
 
    procedure Invoke
      (This   : in Dispinterface_Type;
       Name   : in String;
-      LCID   : in Interfaces.C.long  := 0);
+      LCID   : in Win32_Types.Long  := 0);
    procedure Invoke
      (This   : in Dispinterface_Type;
-      DISPID : in Interfaces.C.long;
-      LCID   : in Interfaces.C.long  := 0);
+      DISPID : in Win32_Types.Long;
+      LCID   : in Win32_Types.Long  := 0);
    --  Invoke a member as a method
 
    function Invoke
@@ -298,15 +299,15 @@ package GNATCOM.Dispinterface is
       wFlags     : Interfaces.C.short;
       Parameters : Parameter_Array;
       Free       : Boolean            := True;
-      LCID       : Interfaces.C.long  := 0)
+      LCID       : Win32_Types.Long  := 0)
       return  GNATCOM.Types.VARIANT;
    function Invoke
      (This       : Dispinterface_Type;
-      DISPID     : Interfaces.C.long;
+      DISPID     : Win32_Types.Long;
       wFlags     : Interfaces.C.short;
       Parameters : Parameter_Array;
       Free       : Boolean            := True;
-      LCID       : Interfaces.C.long  := 0)
+      LCID       : Win32_Types.Long  := 0)
       return  GNATCOM.Types.VARIANT;
    --  Generic invoke of a member of the dispinterface
    --  If Free then Free Variants after put

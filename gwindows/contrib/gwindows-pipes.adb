@@ -39,6 +39,8 @@
 
 package body GWindows.Pipes is
 
+   use type Win32_Types.Unsigned_Long;
+
    type PHANDLE is access all HANDLE;
 
    function Create_Pipe
@@ -49,6 +51,7 @@ package body GWindows.Pipes is
    return BOOL;
 
    pragma Import (Stdcall, Create_Pipe, "CreatePipe");
+   pragma Machine_Attribute (Create_Pipe, "ms_abi");
 
    function CreateProcessA
      (lpApplicationName    : LPCSTR;
@@ -64,6 +67,7 @@ package body GWindows.Pipes is
    return BOOL;
 
    pragma Import (Stdcall, CreateProcessA, "CreateProcessA");
+   pragma Machine_Attribute (CreateProcessA, "ms_abi");
 
    function Create_Process
      (lpApplicationName    : LPCSTR;
@@ -82,6 +86,7 @@ package body GWindows.Pipes is
    function CloseHandle (hObject : HANDLE) return BOOL;
 
    pragma Import (Stdcall, CloseHandle, "CloseHandle");
+   pragma Machine_Attribute (CloseHandle, "ms_abi");
 
    function Terminate_Process
      (hProcess  : HANDLE;
@@ -89,6 +94,7 @@ package body GWindows.Pipes is
    return BOOL;
 
    pragma Import (Stdcall, Terminate_Process, "TerminateProcess");
+   pragma Machine_Attribute (Terminate_Process, "ms_abi");
 
    function Get_Exit_Code_Process
      (hProcess : HANDLE;
@@ -96,6 +102,7 @@ package body GWindows.Pipes is
    return BOOL;
 
    pragma Import (Stdcall, Get_Exit_Code_Process, "GetExitCodeProcess");
+   pragma Machine_Attribute (Get_Exit_Code_Process, "ms_abi");
 
    STATUS_PENDING : constant := 16#103#;
    STILL_ACTIVE_W : constant := STATUS_PENDING;
@@ -110,6 +117,7 @@ package body GWindows.Pipes is
    return BOOL;
 
    pragma Import (Stdcall, Peek_Named_Pipe, "PeekNamedPipe");
+   pragma Machine_Attribute (Peek_Named_Pipe, "ms_abi");
 
    type OVERLAPPED is
       record
@@ -131,6 +139,7 @@ package body GWindows.Pipes is
    return BOOL;
 
    pragma Import (Stdcall, ReadFile, "ReadFile");
+   pragma Machine_Attribute (ReadFile, "ms_abi");
 
   -----------
   -- Start --

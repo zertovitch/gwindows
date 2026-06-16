@@ -38,6 +38,7 @@
 
 with GWindows.Base; use GWindows.Base;
 with GWindows.Common_Controls.Ex_Tb; use GWindows.Common_Controls.Ex_Tb;
+with Win32_Types;
 
 package GWindows.Windows.Ex_Windows is
 
@@ -56,7 +57,7 @@ package GWindows.Windows.Ex_Windows is
    procedure On_Notify (Window       : in out Ex_Window_Type;
                         Message      : in     Pointer_To_Notification;
                         Control      : in     Pointer_To_Base_Window_Class;
-                        Return_Value : in out Interfaces.C.long);
+                        Return_Value : in out Win32_Types.Long);
 private
 
    type Ex_Window_Type is new Window_Type with

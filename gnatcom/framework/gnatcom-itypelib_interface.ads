@@ -41,6 +41,7 @@ with Interfaces.C;
 
 with GNATCOM.Iinterface;
 with GNATCOM.Types;
+with Win32_Types;
 
 package GNATCOM.ITypeLib_Interface is
 
@@ -114,14 +115,14 @@ package GNATCOM.ITypeLib_Interface is
 
    function IsName (This      : ITypeLib_Type;
                     szNameBuf : GNATCOM.Types.BSTR;
-                    lHashVal  : Interfaces.C.unsigned_long;
+                    lHashVal  : Win32_Types.Unsigned_Long;
                     Clear     : Boolean                       := True)
      return GNATCOM.Types.bool;
 
    procedure FindName
      (This      : ITypeLib_Type;
       szNameBuf : GNATCOM.Types.BSTR;
-      lHashVal  : Interfaces.C.unsigned_long;
+      lHashVal  : Win32_Types.Unsigned_Long;
       ppTInfo   : GNATCOM.Types.Pointer_To_Pointer_To_ITypeInfo;
       rgMemId   : GNATCOM.Types.Pointer_To_long;
       pcFound   : GNATCOM.Types.Pointer_To_int;

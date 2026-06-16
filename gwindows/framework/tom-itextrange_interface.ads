@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package TOM.ITextRange_Interface is
 
@@ -24,11 +25,11 @@ package TOM.ITextRange_Interface is
 
    function Get_Char
      (This : ITextRange_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Char
      (This : ITextRange_Type;
-      pch  : Interfaces.C.long);
+      pch  : Win32_Types.Long);
 
    function Get_Duplicate
      (This    : ITextRange_Type)
@@ -44,19 +45,19 @@ package TOM.ITextRange_Interface is
 
    function Get_Start
      (This     : ITextRange_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Start
      (This     : ITextRange_Type;
-      pcpFirst : Interfaces.C.long);
+      pcpFirst : Win32_Types.Long);
 
    function Get_End
      (This   : ITextRange_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_End
      (This   : ITextRange_Type;
-      pcpLim : Interfaces.C.long);
+      pcpLim : Win32_Types.Long);
 
    function Get_Font
      (This  : ITextRange_Type)
@@ -76,156 +77,156 @@ package TOM.ITextRange_Interface is
 
    function Get_StoryLength
      (This : ITextRange_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_StoryType
      (This   : ITextRange_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Collapse
      (This   : ITextRange_Type;
-      bStart : Interfaces.C.long);
+      bStart : Win32_Types.Long);
 
    function Expand
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long)
-     return Interfaces.C.long;
+      Unit   : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function GetIndex
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long)
-     return Interfaces.C.long;
+      Unit   : Win32_Types.Long)
+     return Win32_Types.Long;
 
    procedure SetIndex
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Index  : Interfaces.C.long;
-      Extend : Interfaces.C.long);
+      Unit   : Win32_Types.Long;
+      Index  : Win32_Types.Long;
+      Extend : Win32_Types.Long);
 
    procedure SetRange
      (This     : ITextRange_Type;
-      cpActive : Interfaces.C.long;
-      cpOther  : Interfaces.C.long);
+      cpActive : Win32_Types.Long;
+      cpOther  : Win32_Types.Long);
 
    function InRange
      (This   : ITextRange_Type;
       pRange : Pointer_To_ITextRange)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function InStory
      (This   : ITextRange_Type;
       pRange : Pointer_To_ITextRange)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function IsEqual
      (This   : ITextRange_Type;
       pRange : Pointer_To_ITextRange)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure uSelect
      (This : ITextRange_Type);
 
    function StartOf
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Extend : Interfaces.C.long)
-     return Interfaces.C.long;
+      Unit   : Win32_Types.Long;
+      Extend : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function EndOf
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Extend : Interfaces.C.long)
-     return Interfaces.C.long;
+      Unit   : Win32_Types.Long;
+      Extend : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function Move
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long;
+      Unit   : Win32_Types.Long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function MoveStart
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long;
+      Unit   : Win32_Types.Long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function MoveEnd
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long;
+      Unit   : Win32_Types.Long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function MoveWhile
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function MoveStartWhile
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function MoveEndWhile
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function MoveUntil
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function MoveStartUntil
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function MoveEndUntil
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function FindText
      (This    : ITextRange_Type;
       bstr    : GNATCOM.Types.BSTR;
-      cch     : Interfaces.C.long;
-      Flags   : Interfaces.C.long;
+      cch     : Win32_Types.Long;
+      Flags   : Win32_Types.Long;
       Free    : Boolean := True)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function FindTextStart
      (This    : ITextRange_Type;
       bstr    : GNATCOM.Types.BSTR;
-      cch     : Interfaces.C.long;
-      Flags   : Interfaces.C.long;
+      cch     : Win32_Types.Long;
+      Flags   : Win32_Types.Long;
       Free    : Boolean := True)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function FindTextEnd
      (This    : ITextRange_Type;
       bstr    : GNATCOM.Types.BSTR;
-      cch     : Interfaces.C.long;
-      Flags   : Interfaces.C.long;
+      cch     : Win32_Types.Long;
+      Flags   : Win32_Types.Long;
       Free    : Boolean := True)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Delete
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long;
+      Unit   : Win32_Types.Long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long;
 
    procedure Cut
      (This : ITextRange_Type;
@@ -241,39 +242,39 @@ package TOM.ITextRange_Interface is
      (This   : ITextRange_Type;
       pVar   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Format : Interfaces.C.long);
+      Format : Win32_Types.Long);
 
    function CanPaste
      (This   : ITextRange_Type;
       pVar   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Format : Interfaces.C.long)
-     return Interfaces.C.long;
+      Format : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function CanEdit
      (This      : ITextRange_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure ChangeCase
      (This  : ITextRange_Type;
-      uType : Interfaces.C.long);
+      uType : Win32_Types.Long);
 
    procedure GetPoint
      (This  : ITextRange_Type;
-      uType : Interfaces.C.long;
+      uType : Win32_Types.Long;
       px    : GNATCOM.Types.Pointer_To_long;
       py    : GNATCOM.Types.Pointer_To_long);
 
    procedure SetPoint
      (This   : ITextRange_Type;
-      x      : Interfaces.C.long;
-      y      : Interfaces.C.long;
-      uType  : Interfaces.C.long;
-      Extend : Interfaces.C.long);
+      x      : Win32_Types.Long;
+      y      : Win32_Types.Long;
+      uType  : Win32_Types.Long;
+      Extend : Win32_Types.Long);
 
    procedure ScrollIntoView
      (This  : ITextRange_Type;
-      Value : Interfaces.C.long);
+      Value : Win32_Types.Long);
 
    function GetEmbeddedObject
      (This : ITextRange_Type)

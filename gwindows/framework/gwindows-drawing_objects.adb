@@ -43,7 +43,7 @@ with GWindows.GStrings;
 with GWindows.Internal;
 
 package body GWindows.Drawing_Objects is
-   pragma Linker_Options ("-lShell32");
+   pragma Linker_Options ("-lshell32");
 
    use type Interfaces.C.unsigned;
 
@@ -90,6 +90,7 @@ package body GWindows.Drawing_Objects is
    function GetStockObject (Object : Integer)
                            return GWindows.Types.Handle;
    pragma Import (StdCall, GetStockObject, "GetStockObject");
+   pragma Machine_Attribute (GetStockObject, "ms_abi");
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -127,6 +128,7 @@ package body GWindows.Drawing_Objects is
       procedure DeleteObject
         (HOBJECT : GWindows.Types.Handle := Object.HOBJECT);
       pragma Import (StdCall, DeleteObject, "DeleteObject");
+   pragma Machine_Attribute (DeleteObject, "ms_abi");
    begin
       if Object.HOBJECT /= GWindows.Types.Null_Handle then
          if not Object.Protected_Object then
@@ -215,6 +217,7 @@ package body GWindows.Drawing_Objects is
         (hBitmap : GWindows.Types.Handle := Handle (Bitmap_Pattern))
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreatePatternBrush, "CreatePatternBrush");
+   pragma Machine_Attribute (CreatePatternBrush, "ms_abi");
    begin
       Delete (Brush);
       Handle (Brush, CreatePatternBrush);
@@ -307,6 +310,7 @@ package body GWindows.Drawing_Objects is
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreateFont,
                        "CreateFont" & Character_Mode_Identifier);
+      pragma Machine_Attribute (CreateFont, "ms_abi");
    begin
       Delete (Font);
 
@@ -330,6 +334,7 @@ package body GWindows.Drawing_Objects is
          crColor    : GWindows.Colors.Color_Type)
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreatePen, "CreatePen");
+   pragma Machine_Attribute (CreatePen, "ms_abi");
    begin
       Delete (Pen);
 
@@ -368,6 +373,7 @@ package body GWindows.Drawing_Objects is
         (crColor : GWindows.Colors.Color_Type := Color)
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreateSolidBrush, "CreateSolidBrush");
+   pragma Machine_Attribute (CreateSolidBrush, "ms_abi");
    begin
       Delete (Brush);
 
@@ -389,6 +395,7 @@ package body GWindows.Drawing_Objects is
          clrref  : GWindows.Colors.Color_Type)
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreateHatchBrush, "CreateHatchBrush");
+   pragma Machine_Attribute (CreateHatchBrush, "ms_abi");
    begin
       Delete (Brush);
 
@@ -421,6 +428,7 @@ package body GWindows.Drawing_Objects is
         (crColor : Integer)
         return GWindows.Types.Handle;
       pragma Import (StdCall, GetSysColorBrush, "GetSysColorBrush");
+   pragma Machine_Attribute (GetSysColorBrush, "ms_abi");
    begin
       Delete (Brush);
 
@@ -440,6 +448,7 @@ package body GWindows.Drawing_Objects is
         return GWindows.Types.Handle;
       pragma Import (StdCall, LoadBitmap,
                        "LoadBitmap" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadBitmap, "ms_abi");
    begin
       Delete (Bitmap);
 
@@ -472,6 +481,7 @@ package body GWindows.Drawing_Objects is
         return GWindows.Types.Handle;
       pragma Import (StdCall, LoadImage,
                        "LoadImage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadImage, "ms_abi");
 
       Flags : Interfaces.C.unsigned;
    begin
@@ -519,6 +529,7 @@ package body GWindows.Drawing_Objects is
         return GWindows.Types.Handle;
       pragma Import (StdCall, LoadImage,
                        "LoadImage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadImage, "ms_abi");
 
       Flags : Interfaces.C.unsigned;
    begin
@@ -569,6 +580,7 @@ package body GWindows.Drawing_Objects is
         return GWindows.Types.Handle;
       pragma Import (StdCall, LoadImage,
                        "LoadImage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadImage, "ms_abi");
 
       Flags : Interfaces.C.unsigned;
    begin
@@ -621,6 +633,7 @@ package body GWindows.Drawing_Objects is
         return GWindows.Types.Handle;
       pragma Import (StdCall, LoadImage,
                        "LoadImage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadImage, "ms_abi");
 
       Flags : Interfaces.C.unsigned;
    begin
@@ -662,6 +675,7 @@ package body GWindows.Drawing_Objects is
          lpvBits     : Address := Bits)
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreateBitmap, "CreateBitmap");
+   pragma Machine_Attribute (CreateBitmap, "ms_abi");
    begin
       Delete (Bitmap);
       Handle (Bitmap, CreateBitmap);
@@ -680,6 +694,7 @@ package body GWindows.Drawing_Objects is
         return GWindows.Types.Handle;
       pragma Import (StdCall, LoadIcon,
                        "LoadIcon" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadIcon, "ms_abi");
    begin
       Delete (Icon);
 
@@ -702,6 +717,7 @@ package body GWindows.Drawing_Objects is
         return GWindows.Types.Handle;
       pragma Import (StdCall, LoadIcon,
                        "LoadIcon" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadIcon, "ms_abi");
    begin
       Delete (Icon);
 
@@ -731,6 +747,7 @@ package body GWindows.Drawing_Objects is
         return GWindows.Types.Handle;
       pragma Import (StdCall, LoadImage,
                        "LoadImage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadImage, "ms_abi");
    begin
       Delete (Icon);
 
@@ -756,6 +773,7 @@ package body GWindows.Drawing_Objects is
         return GWindows.Types.Handle;
       pragma Import (StdCall, ExtractAssociatedIcon,
                        "ExtractAssociatedIcon" & Character_Mode_Identifier);
+      pragma Machine_Attribute (ExtractAssociatedIcon, "ms_abi");
    begin
       Delete (Icon);
 

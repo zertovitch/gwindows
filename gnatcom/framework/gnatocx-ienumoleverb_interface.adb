@@ -1,4 +1,5 @@
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATOCX.IEnumOLEVERB_Interface is
 
@@ -24,7 +25,7 @@ package body GNATOCX.IEnumOLEVERB_Interface is
 
    procedure RemoteNext
      (This         : IEnumOLEVERB_Type;
-      celt         : Interfaces.C.unsigned_long;
+      celt         : Win32_Types.Unsigned_Long;
       rgelt        : Pointer_To_OLEVERB;
       pceltFetched : GNATCOM.Types.Pointer_To_unsigned_long)
    is
@@ -40,7 +41,7 @@ package body GNATOCX.IEnumOLEVERB_Interface is
 
    procedure Skip
      (This : IEnumOLEVERB_Type;
-      celt : Interfaces.C.unsigned_long)
+      celt : Win32_Types.Unsigned_Long)
    is
    begin
       GNATCOM.Errors.Error_Check

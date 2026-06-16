@@ -89,6 +89,7 @@ package body GWindows.Multi_Media is
          fdwSound : in     Interfaces.C.unsigned);
       pragma Import (StdCall, PlaySound,
                        "PlaySound" & Character_Mode_Identifier);
+      pragma Machine_Attribute (PlaySound, "ms_abi");
    begin
       if Async_Play then
          Flags := Flags or SND_ASYNC;

@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body TOM.ITextRange_Interface is
 
@@ -58,9 +59,9 @@ package body TOM.ITextRange_Interface is
 
    function Get_Char
      (This : ITextRange_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Char
@@ -72,7 +73,7 @@ package body TOM.ITextRange_Interface is
 
    procedure Put_Char
      (This : ITextRange_Type;
-      pch  : Interfaces.C.long)
+      pch  : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -124,9 +125,9 @@ package body TOM.ITextRange_Interface is
 
    function Get_Start
      (This     : ITextRange_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Start
@@ -138,7 +139,7 @@ package body TOM.ITextRange_Interface is
 
    procedure Put_Start
      (This     : ITextRange_Type;
-      pcpFirst : Interfaces.C.long)
+      pcpFirst : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -150,9 +151,9 @@ package body TOM.ITextRange_Interface is
 
    function Get_End
      (This   : ITextRange_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_End
@@ -164,7 +165,7 @@ package body TOM.ITextRange_Interface is
 
    procedure Put_End
      (This   : ITextRange_Type;
-      pcpLim : Interfaces.C.long)
+      pcpLim : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -228,9 +229,9 @@ package body TOM.ITextRange_Interface is
 
    function Get_StoryLength
      (This : ITextRange_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_StoryLength
@@ -242,9 +243,9 @@ package body TOM.ITextRange_Interface is
 
    function Get_StoryType
      (This   : ITextRange_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_StoryType
@@ -256,7 +257,7 @@ package body TOM.ITextRange_Interface is
 
    procedure Collapse
      (This   : ITextRange_Type;
-      bStart : Interfaces.C.long)
+      bStart : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -268,10 +269,10 @@ package body TOM.ITextRange_Interface is
 
    function Expand
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long)
-     return Interfaces.C.long
+      Unit   : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Expand
@@ -284,10 +285,10 @@ package body TOM.ITextRange_Interface is
 
    function GetIndex
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long)
-     return Interfaces.C.long
+      Unit   : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.GetIndex
@@ -300,9 +301,9 @@ package body TOM.ITextRange_Interface is
 
    procedure SetIndex
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Index  : Interfaces.C.long;
-      Extend : Interfaces.C.long)
+      Unit   : Win32_Types.Long;
+      Index  : Win32_Types.Long;
+      Extend : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -316,8 +317,8 @@ package body TOM.ITextRange_Interface is
 
    procedure SetRange
      (This     : ITextRange_Type;
-      cpActive : Interfaces.C.long;
-      cpOther  : Interfaces.C.long)
+      cpActive : Win32_Types.Long;
+      cpOther  : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -331,9 +332,9 @@ package body TOM.ITextRange_Interface is
    function InRange
      (This   : ITextRange_Type;
       pRange : Pointer_To_ITextRange)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.InRange
@@ -347,9 +348,9 @@ package body TOM.ITextRange_Interface is
    function InStory
      (This   : ITextRange_Type;
       pRange : Pointer_To_ITextRange)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.InStory
@@ -363,9 +364,9 @@ package body TOM.ITextRange_Interface is
    function IsEqual
      (This   : ITextRange_Type;
       pRange : Pointer_To_ITextRange)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.IsEqual
@@ -388,11 +389,11 @@ package body TOM.ITextRange_Interface is
 
    function StartOf
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Extend : Interfaces.C.long)
-     return Interfaces.C.long
+      Unit   : Win32_Types.Long;
+      Extend : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.StartOf
@@ -406,11 +407,11 @@ package body TOM.ITextRange_Interface is
 
    function EndOf
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Extend : Interfaces.C.long)
-     return Interfaces.C.long
+      Unit   : Win32_Types.Long;
+      Extend : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.EndOf
@@ -424,11 +425,11 @@ package body TOM.ITextRange_Interface is
 
    function Move
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long
+      Unit   : Win32_Types.Long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Move
@@ -442,11 +443,11 @@ package body TOM.ITextRange_Interface is
 
    function MoveStart
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long
+      Unit   : Win32_Types.Long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.MoveStart
@@ -460,11 +461,11 @@ package body TOM.ITextRange_Interface is
 
    function MoveEnd
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long
+      Unit   : Win32_Types.Long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.MoveEnd
@@ -480,10 +481,10 @@ package body TOM.ITextRange_Interface is
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.MoveWhile
@@ -499,10 +500,10 @@ package body TOM.ITextRange_Interface is
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.MoveStartWhile
@@ -518,10 +519,10 @@ package body TOM.ITextRange_Interface is
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.MoveEndWhile
@@ -537,10 +538,10 @@ package body TOM.ITextRange_Interface is
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.MoveUntil
@@ -556,10 +557,10 @@ package body TOM.ITextRange_Interface is
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.MoveStartUntil
@@ -575,10 +576,10 @@ package body TOM.ITextRange_Interface is
      (This   : ITextRange_Type;
       Cset   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.MoveEndUntil
@@ -593,12 +594,12 @@ package body TOM.ITextRange_Interface is
    function FindText
      (This    : ITextRange_Type;
       bstr    : GNATCOM.Types.BSTR;
-      cch     : Interfaces.C.long;
-      Flags   : Interfaces.C.long;
+      cch     : Win32_Types.Long;
+      Flags   : Win32_Types.Long;
       Free    : Boolean := True)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.FindText
@@ -619,12 +620,12 @@ package body TOM.ITextRange_Interface is
    function FindTextStart
      (This    : ITextRange_Type;
       bstr    : GNATCOM.Types.BSTR;
-      cch     : Interfaces.C.long;
-      Flags   : Interfaces.C.long;
+      cch     : Win32_Types.Long;
+      Flags   : Win32_Types.Long;
       Free    : Boolean := True)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.FindTextStart
@@ -645,12 +646,12 @@ package body TOM.ITextRange_Interface is
    function FindTextEnd
      (This    : ITextRange_Type;
       bstr    : GNATCOM.Types.BSTR;
-      cch     : Interfaces.C.long;
-      Flags   : Interfaces.C.long;
+      cch     : Win32_Types.Long;
+      Flags   : Win32_Types.Long;
       Free    : Boolean := True)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.FindTextEnd
@@ -670,11 +671,11 @@ package body TOM.ITextRange_Interface is
 
    function Delete
      (This   : ITextRange_Type;
-      Unit   : Interfaces.C.long;
-      Count  : Interfaces.C.long)
-     return Interfaces.C.long
+      Unit   : Win32_Types.Long;
+      Count  : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Delete
@@ -716,7 +717,7 @@ package body TOM.ITextRange_Interface is
      (This   : ITextRange_Type;
       pVar   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Format : Interfaces.C.long)
+      Format : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -731,10 +732,10 @@ package body TOM.ITextRange_Interface is
      (This   : ITextRange_Type;
       pVar   : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Format : Interfaces.C.long)
-     return Interfaces.C.long
+      Format : Win32_Types.Long)
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.CanPaste
@@ -748,9 +749,9 @@ package body TOM.ITextRange_Interface is
 
    function CanEdit
      (This      : ITextRange_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.CanEdit
@@ -762,7 +763,7 @@ package body TOM.ITextRange_Interface is
 
    procedure ChangeCase
      (This  : ITextRange_Type;
-      uType : Interfaces.C.long)
+      uType : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -774,7 +775,7 @@ package body TOM.ITextRange_Interface is
 
    procedure GetPoint
      (This  : ITextRange_Type;
-      uType : Interfaces.C.long;
+      uType : Win32_Types.Long;
       px    : GNATCOM.Types.Pointer_To_long;
       py    : GNATCOM.Types.Pointer_To_long)
    is
@@ -790,10 +791,10 @@ package body TOM.ITextRange_Interface is
 
    procedure SetPoint
      (This   : ITextRange_Type;
-      x      : Interfaces.C.long;
-      y      : Interfaces.C.long;
-      uType  : Interfaces.C.long;
-      Extend : Interfaces.C.long)
+      x      : Win32_Types.Long;
+      y      : Win32_Types.Long;
+      uType  : Win32_Types.Long;
+      Extend : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -808,7 +809,7 @@ package body TOM.ITextRange_Interface is
 
    procedure ScrollIntoView
      (This  : ITextRange_Type;
-      Value : Interfaces.C.long)
+      Value : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check

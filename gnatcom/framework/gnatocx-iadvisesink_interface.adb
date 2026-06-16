@@ -1,5 +1,6 @@
 
 with GNATCOM.Errors;
+with Win32_Types;
 package body GNATOCX.IAdviseSink_Interface is
 
    procedure Initialize (This : in out IAdviseSink_Type) is
@@ -38,8 +39,8 @@ package body GNATOCX.IAdviseSink_Interface is
 
    procedure RemoteOnViewChange
      (This     : IAdviseSink_Type;
-      dwAspect : Interfaces.C.unsigned_long;
-      lindex   : Interfaces.C.long)
+      dwAspect : Win32_Types.Unsigned_Long;
+      lindex   : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check

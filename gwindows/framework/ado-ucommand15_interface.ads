@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package ADO.uCommand15_Interface is
 
@@ -41,11 +42,11 @@ package ADO.uCommand15_Interface is
 
    function Get_CommandTimeout
      (This : uCommand15_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_CommandTimeout
      (This : uCommand15_Type;
-      pl   : Interfaces.C.long);
+      pl   : Win32_Types.Long);
 
    function Get_Prepared
      (This       : uCommand15_Type)
@@ -61,7 +62,7 @@ package ADO.uCommand15_Interface is
         GNATCOM.Types.PVARIANT_MISSING;
       Parameters      : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Options         : Interfaces.C.long)
+      Options         : Win32_Types.Long)
      return Pointer_To_uRecordset;
 
    function CreateParameter
@@ -69,7 +70,7 @@ package ADO.uCommand15_Interface is
       Name      : GNATCOM.Types.BSTR;
       uType     : DataTypeEnum;
       Direction : ParameterDirectionEnum;
-      Size      : Interfaces.C.long;
+      Size      : Win32_Types.Long;
       Value     : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
       Free      : Boolean := True)
      return Pointer_To_uParameter;

@@ -58,6 +58,7 @@ package body GWindows.HID is
 --        Size     : in     Integer)
 --       return Natural;
 --    pragma Import (StdCall, SendInput, "SendInput");
+--  pragma Machine_Attribute (SendInput, "ms_abi");  --  Winelib
 
 --    function GetRawInputDeviceList
 --       (RIDList    : in     Raw_Input_Device_Arrs;
@@ -65,6 +66,7 @@ package body GWindows.HID is
 --        Size       : in     Integer)
 --       return Integer;
 --    pragma Import (StdCall, GetRawInputDeviceList, "GetRawInputDeviceList");
+--  pragma Machine_Attribute (GetRawInputDeviceList, "ms_abi");  --  Winelib
 
    type GetRawInputDeviceListPtr is access function
          (RIDList    : in     Raw_Input_Device_Arrs;
@@ -72,6 +74,7 @@ package body GWindows.HID is
           Size       : in     Integer)
          return Integer;
    pragma Convention (StdCall, GetRawInputDeviceListPtr);
+   pragma Machine_Attribute (GetRawInputDeviceListPtr, "ms_abi");
 
 --    function GetRawInputDeviceInfoW
 --       (Device     : in     GWindows.Types.Handle;
@@ -81,6 +84,7 @@ package body GWindows.HID is
 --       return Integer;
 --    pragma Import (StdCall, GetRawInputDeviceInfoW,
 --       "GetRawInputDeviceInfoW");
+--  pragma Machine_Attribute (GetRawInputDeviceInfoW, "ms_abi");  --  Winelib
 
    type GetRawInputDeviceInfoWPtr is access function
          (Device     : in     GWindows.Types.Handle;
@@ -89,6 +93,7 @@ package body GWindows.HID is
           Size       : access Integer)
          return Integer;
    pragma Convention (StdCall, GetRawInputDeviceInfoWPtr);
+   pragma Machine_Attribute (GetRawInputDeviceInfoWPtr, "ms_abi");
 
 --    function GetRawInputDeviceInfoA
 --       (Device     : in     GWindows.Types.Handle;
@@ -98,6 +103,7 @@ package body GWindows.HID is
 --       return Integer;
 --    pragma Import (StdCall, GetRawInputDeviceInfoA,
 --       "GetRawInputDeviceInfoA");
+--  pragma Machine_Attribute (GetRawInputDeviceInfoA, "ms_abi");  --  Winelib
 
    type GetRawInputDeviceInfoAPtr is access function
          (Device     : in     GWindows.Types.Handle;
@@ -106,6 +112,7 @@ package body GWindows.HID is
           Size       : access Integer)
          return Integer;
    pragma Convention (StdCall, GetRawInputDeviceInfoAPtr);
+   pragma Machine_Attribute (GetRawInputDeviceInfoAPtr, "ms_abi");
 
    type Raw_Input_Device_Select_Type is
    record
@@ -123,6 +130,7 @@ package body GWindows.HID is
           Size      : in     Integer)
           return Boolean;
    pragma Convention (StdCall, RegisterRawInputDevicesPtr);
+   pragma Machine_Attribute (RegisterRawInputDevicesPtr, "ms_abi");
 
 --    function RegisterRawInputDevices
 --      (RID       : access Raw_Input_Device_Select_Arr;
@@ -132,6 +140,7 @@ package body GWindows.HID is
 --        return Boolean;
 --    pragma Import (StdCall, RegisterRawInputDevices,
 --      "RegisterRawInputDevices");
+--  pragma Machine_Attribute (RegisterRawInputDevices, "ms_abi");  --  Winelib
 
    type GetRawInputDataPtr is access function
       (RawInput  : in     GWindows.Types.Handle;
@@ -141,6 +150,7 @@ package body GWindows.HID is
        SizeHdr   : in     Integer)
       return Integer;
    pragma Convention (StdCall, GetRawInputDataPtr);
+   pragma Machine_Attribute (GetRawInputDataPtr, "ms_abi");
 
 --    function GetRawInputData
 --       (RawInput  : in     GWindows.Types.Handle;
@@ -151,18 +161,21 @@ package body GWindows.HID is
 --       return Integer;
 --    pragma Import (StdCall, GetRawInputData,
 --      "GetRawInputData");
+--  pragma Machine_Attribute (GetRawInputData, "ms_abi");  --  Winelib
 
    type DefRawInputProcPtr is access procedure
       (RawInput : access String;
        NrInput  : in     Integer;
        SizeHdr  : in     Integer);
    pragma Convention (StdCall, DefRawInputProcPtr);
+   pragma Machine_Attribute (DefRawInputProcPtr, "ms_abi");
 
 --    procedure DefRawInputProc
 --       (RawInput : access String;
 --        NrInput  : in     Integer;
 --        SizeHdr  : in     Integer);
 --    pragma Import (StdCall, DefRawInputProc, "DefRawInputProc");
+--  pragma Machine_Attribute (DefRawInputProc, "ms_abi");  --  Winelib
 
    --  All pointers to dynamicly load the functions
    Dll                     : GWindows.Types.Handle;
@@ -532,6 +545,7 @@ package body GWindows.HID is
       return DefRawInputProcPtr;
 
    pragma Import (StdCall, GetProcAddress, "GetProcAddress");
+   pragma Machine_Attribute (GetProcAddress, "ms_abi");
 
    Name_GetRawInputDeviceList   : constant String :=
       "GetRawInputDeviceList" & ASCII.NUL;
@@ -550,6 +564,7 @@ package body GWindows.HID is
      (lpLibFileName : System.Address)
       return HINSTANCE;
    pragma Import (Stdcall, LoadLibrary, "LoadLibrary" & Character_Mode_Identifier);
+   pragma Machine_Attribute (LoadLibrary, "ms_abi");
 
    user : GString_C := To_GString_C ("user32.dll");
 

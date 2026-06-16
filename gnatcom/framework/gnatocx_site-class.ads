@@ -37,6 +37,7 @@
 
 with GNATOCX.IOleObject_Interface;
 with System;
+with Win32_Types;
 
 package GNATOCX_Site.Class is
 
@@ -44,57 +45,62 @@ package GNATOCX_Site.Class is
      (This      : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       pwcsName  : GNATCOM.Types.LPWSTR;
-      grfMode   : Interfaces.C.unsigned_long;
-      reserved1 : Interfaces.C.unsigned_long;
-      reserved2 : Interfaces.C.unsigned_long;
+      grfMode   : Win32_Types.Unsigned_Long;
+      reserved1 : Win32_Types.Unsigned_Long;
+      reserved2 : Win32_Types.Unsigned_Long;
       ppstm     : Pointer_To_Pointer_To_IStream)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_CreateStream);
+   pragma Machine_Attribute (IStorage_CreateStream, "ms_abi");
 
    function IStorage_RemoteOpenStream
      (This        : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       pwcsName    : GNATCOM.Types.LPWSTR;
-      cbReserved1 : Interfaces.C.unsigned_long;
+      cbReserved1 : Win32_Types.Unsigned_Long;
       reserved1   : Pointer_To_unsigned_char;
-      grfMode     : Interfaces.C.unsigned_long;
-      reserved2   : Interfaces.C.unsigned_long;
+      grfMode     : Win32_Types.Unsigned_Long;
+      reserved2   : Win32_Types.Unsigned_Long;
       ppstm       : Pointer_To_Pointer_To_IStream)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_RemoteOpenStream);
+   pragma Machine_Attribute (IStorage_RemoteOpenStream, "ms_abi");
 
    function IStorage_CreateStorage
      (This      : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       pwcsName  : GNATCOM.Types.LPWSTR;
-      grfMode   : Interfaces.C.unsigned_long;
-      reserved1 : Interfaces.C.unsigned_long;
-      reserved2 : Interfaces.C.unsigned_long;
+      grfMode   : Win32_Types.Unsigned_Long;
+      reserved1 : Win32_Types.Unsigned_Long;
+      reserved2 : Win32_Types.Unsigned_Long;
       ppstg     : Pointer_To_Pointer_To_IStorage)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_CreateStorage);
+   pragma Machine_Attribute (IStorage_CreateStorage, "ms_abi");
 
    function IStorage_OpenStorage
      (This         : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       pwcsName     : GNATCOM.Types.LPWSTR;
       pstgPriority : Pointer_To_IStorage;
-      grfMode      : Interfaces.C.unsigned_long;
+      grfMode      : Win32_Types.Unsigned_Long;
       snbExclude   : SNB;
-      reserved     : Interfaces.C.unsigned_long;
+      reserved     : Win32_Types.Unsigned_Long;
       ppstg        : Pointer_To_Pointer_To_IStorage)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_OpenStorage);
+   pragma Machine_Attribute (IStorage_OpenStorage, "ms_abi");
 
    function IStorage_CopyTo
      (This         : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      ciidExclude  : Interfaces.C.unsigned_long;
+      ciidExclude  : Win32_Types.Unsigned_Long;
       rgiidExclude : GNATCOM.Types.Pointer_To_GUID;
       snbExclude   : SNB;
       pstgDest     : Pointer_To_IStorage)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_CopyTo);
+   pragma Machine_Attribute (IStorage_CopyTo, "ms_abi");
 
    function IStorage_MoveElementTo
      (This        : access
@@ -102,33 +108,37 @@ package GNATOCX_Site.Class is
       pwcsName    : GNATCOM.Types.LPWSTR;
       pstgDest    : Pointer_To_IStorage;
       pwcsNewName : GNATCOM.Types.LPWSTR;
-      grfFlags    : Interfaces.C.unsigned_long)
+      grfFlags    : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_MoveElementTo);
+   pragma Machine_Attribute (IStorage_MoveElementTo, "ms_abi");
 
    function IStorage_Commit
      (This           : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      grfCommitFlags : Interfaces.C.unsigned_long)
+      grfCommitFlags : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_Commit);
+   pragma Machine_Attribute (IStorage_Commit, "ms_abi");
 
    function IStorage_Revert
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_Revert);
+   pragma Machine_Attribute (IStorage_Revert, "ms_abi");
 
    function IStorage_RemoteEnumElements
      (This        : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      reserved1   : Interfaces.C.unsigned_long;
-      cbReserved2 : Interfaces.C.unsigned_long;
+      reserved1   : Win32_Types.Unsigned_Long;
+      cbReserved2 : Win32_Types.Unsigned_Long;
       reserved2   : Pointer_To_unsigned_char;
-      reserved3   : Interfaces.C.unsigned_long;
+      reserved3   : Win32_Types.Unsigned_Long;
       ppenum      : Pointer_To_Pointer_To_IEnumSTATSTG)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_RemoteEnumElements);
+   pragma Machine_Attribute (IStorage_RemoteEnumElements, "ms_abi");
 
    function IStorage_DestroyElement
      (This     : access
@@ -136,6 +146,7 @@ package GNATOCX_Site.Class is
       pwcsName : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_DestroyElement);
+   pragma Machine_Attribute (IStorage_DestroyElement, "ms_abi");
 
    function IStorage_RenameElement
      (This        : access
@@ -144,6 +155,7 @@ package GNATOCX_Site.Class is
       pwcsNewName : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_RenameElement);
+   pragma Machine_Attribute (IStorage_RenameElement, "ms_abi");
 
    function IStorage_SetElementTimes
      (This     : access
@@ -154,6 +166,7 @@ package GNATOCX_Site.Class is
       pmtime   : Pointer_To_uFILETIME)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_SetElementTimes);
+   pragma Machine_Attribute (IStorage_SetElementTimes, "ms_abi");
 
    function IStorage_SetClass
      (This  : access
@@ -161,22 +174,25 @@ package GNATOCX_Site.Class is
       clsid : GNATCOM.Types.Pointer_To_GUID)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_SetClass);
+   pragma Machine_Attribute (IStorage_SetClass, "ms_abi");
 
    function IStorage_SetStateBits
      (This         : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      grfStateBits : Interfaces.C.unsigned_long;
-      grfMask      : Interfaces.C.unsigned_long)
+      grfStateBits : Win32_Types.Unsigned_Long;
+      grfMask      : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_SetStateBits);
+   pragma Machine_Attribute (IStorage_SetStateBits, "ms_abi");
 
    function IStorage_Stat
      (This        : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       pstatstg    : Pointer_To_STATSTG;
-      grfStatFlag : Interfaces.C.unsigned_long)
+      grfStatFlag : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IStorage_Stat);
+   pragma Machine_Attribute (IStorage_Stat, "ms_abi");
 
    type IStorage_Vtbl_Record is
       record
@@ -226,13 +242,15 @@ package GNATOCX_Site.Class is
       phwnd : Pointer_To_HWND)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_GetWindow);
+   pragma Machine_Attribute (IOleInPlaceFrame_GetWindow, "ms_abi");
 
    function IOleInPlaceFrame_ContextSensitiveHelp
      (This       : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fEnterMode : Interfaces.C.long)
+      fEnterMode : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_ContextSensitiveHelp);
+   pragma Machine_Attribute (IOleInPlaceFrame_ContextSensitiveHelp, "ms_abi");
 
    function IOleInPlaceFrame_GetBorder
      (This         : access
@@ -240,6 +258,7 @@ package GNATOCX_Site.Class is
       lprectBorder : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_GetBorder);
+   pragma Machine_Attribute (IOleInPlaceFrame_GetBorder, "ms_abi");
 
    function IOleInPlaceFrame_RequestBorderSpace
      (This          : access
@@ -247,6 +266,7 @@ package GNATOCX_Site.Class is
       pborderwidths : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_RequestBorderSpace);
+   pragma Machine_Attribute (IOleInPlaceFrame_RequestBorderSpace, "ms_abi");
 
    function IOleInPlaceFrame_SetBorderSpace
      (This          : access
@@ -254,6 +274,7 @@ package GNATOCX_Site.Class is
       pborderwidths : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_SetBorderSpace);
+   pragma Machine_Attribute (IOleInPlaceFrame_SetBorderSpace, "ms_abi");
 
    function IOleInPlaceFrame_SetActiveObject
      (This          : access
@@ -262,6 +283,7 @@ package GNATOCX_Site.Class is
       pszObjName    : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_SetActiveObject);
+   pragma Machine_Attribute (IOleInPlaceFrame_SetActiveObject, "ms_abi");
 
    function IOleInPlaceFrame_InsertMenus
      (This         : access
@@ -270,6 +292,7 @@ package GNATOCX_Site.Class is
       lpMenuWidths : Pointer_To_OleMenuGroupWidths)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_InsertMenus);
+   pragma Machine_Attribute (IOleInPlaceFrame_InsertMenus, "ms_abi");
 
    function IOleInPlaceFrame_SetMenu
      (This             : access
@@ -279,6 +302,7 @@ package GNATOCX_Site.Class is
       hwndActiveObject : HWND)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_SetMenu);
+   pragma Machine_Attribute (IOleInPlaceFrame_SetMenu, "ms_abi");
 
    function IOleInPlaceFrame_RemoveMenus
      (This        : access
@@ -286,6 +310,7 @@ package GNATOCX_Site.Class is
       hmenuShared : HMENU)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_RemoveMenus);
+   pragma Machine_Attribute (IOleInPlaceFrame_RemoveMenus, "ms_abi");
 
    function IOleInPlaceFrame_SetStatusText
      (This          : access
@@ -293,13 +318,15 @@ package GNATOCX_Site.Class is
       pszStatusText : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_SetStatusText);
+   pragma Machine_Attribute (IOleInPlaceFrame_SetStatusText, "ms_abi");
 
    function IOleInPlaceFrame_EnableModeless
      (This    : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fEnable : Interfaces.C.long)
+      fEnable : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_EnableModeless);
+   pragma Machine_Attribute (IOleInPlaceFrame_EnableModeless, "ms_abi");
 
    function IOleInPlaceFrame_TranslateAccelerator
      (This  : access
@@ -308,6 +335,7 @@ package GNATOCX_Site.Class is
       wID   : Interfaces.C.unsigned_short)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceFrame_TranslateAccelerator);
+   pragma Machine_Attribute (IOleInPlaceFrame_TranslateAccelerator, "ms_abi");
 
    type IOleInPlaceFrame_Vtbl_Record is
       record
@@ -350,15 +378,17 @@ package GNATOCX_Site.Class is
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleClientSite_SaveObject);
+   pragma Machine_Attribute (IOleClientSite_SaveObject, "ms_abi");
 
    function IOleClientSite_GetMoniker
      (This           : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      dwAssign       : Interfaces.C.unsigned_long;
-      dwWhichMoniker : Interfaces.C.unsigned_long;
+      dwAssign       : Win32_Types.Unsigned_Long;
+      dwWhichMoniker : Win32_Types.Unsigned_Long;
       ppmk           : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleClientSite_GetMoniker);
+   pragma Machine_Attribute (IOleClientSite_GetMoniker, "ms_abi");
 
    function IOleClientSite_GetContainer
      (This        : access
@@ -366,25 +396,29 @@ package GNATOCX_Site.Class is
       ppContainer : Pointer_To_Pointer_To_IOleContainer)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleClientSite_GetContainer);
+   pragma Machine_Attribute (IOleClientSite_GetContainer, "ms_abi");
 
    function IOleClientSite_ShowObject
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleClientSite_ShowObject);
+   pragma Machine_Attribute (IOleClientSite_ShowObject, "ms_abi");
 
    function IOleClientSite_OnShowWindow
      (This  : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fShow : Interfaces.C.long)
+      fShow : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleClientSite_OnShowWindow);
+   pragma Machine_Attribute (IOleClientSite_OnShowWindow, "ms_abi");
 
    function IOleClientSite_RequestNewObjectLayout
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleClientSite_RequestNewObjectLayout);
+   pragma Machine_Attribute (IOleClientSite_RequestNewObjectLayout, "ms_abi");
 
    type IOleClientSite_Vtbl_Record is
       record
@@ -416,31 +450,36 @@ package GNATOCX_Site.Class is
       phwnd : Pointer_To_HWND)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_GetWindow);
+   pragma Machine_Attribute (IOleInPlaceSite_GetWindow, "ms_abi");
 
    function IOleInPlaceSite_ContextSensitiveHelp
      (This       : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fEnterMode : Interfaces.C.long)
+      fEnterMode : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_ContextSensitiveHelp);
+   pragma Machine_Attribute (IOleInPlaceSite_ContextSensitiveHelp, "ms_abi");
 
    function IOleInPlaceSite_CanInPlaceActivate
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_CanInPlaceActivate);
+   pragma Machine_Attribute (IOleInPlaceSite_CanInPlaceActivate, "ms_abi");
 
    function IOleInPlaceSite_OnInPlaceActivate
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_OnInPlaceActivate);
+   pragma Machine_Attribute (IOleInPlaceSite_OnInPlaceActivate, "ms_abi");
 
    function IOleInPlaceSite_OnUIActivate
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_OnUIActivate);
+   pragma Machine_Attribute (IOleInPlaceSite_OnUIActivate, "ms_abi");
 
    function IOleInPlaceSite_GetWindowContext
      (This         : access
@@ -452,6 +491,7 @@ package GNATOCX_Site.Class is
       lpFrameInfo  : Pointer_To_OIFI)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_GetWindowContext);
+   pragma Machine_Attribute (IOleInPlaceSite_GetWindowContext, "ms_abi");
 
    function IOleInPlaceSite_Scroll
      (This         : access
@@ -459,31 +499,36 @@ package GNATOCX_Site.Class is
       scrollExtant : SIZE)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_Scroll);
+   pragma Machine_Attribute (IOleInPlaceSite_Scroll, "ms_abi");
 
    function IOleInPlaceSite_OnUIDeactivate
      (This      : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fUndoable : Interfaces.C.long)
+      fUndoable : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_OnUIDeactivate);
+   pragma Machine_Attribute (IOleInPlaceSite_OnUIDeactivate, "ms_abi");
 
    function IOleInPlaceSite_OnInPlaceDeactivate
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_OnInPlaceDeactivate);
+   pragma Machine_Attribute (IOleInPlaceSite_OnInPlaceDeactivate, "ms_abi");
 
    function IOleInPlaceSite_DiscardUndoState
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_DiscardUndoState);
+   pragma Machine_Attribute (IOleInPlaceSite_DiscardUndoState, "ms_abi");
 
    function IOleInPlaceSite_DeactivateAndUndo
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_DeactivateAndUndo);
+   pragma Machine_Attribute (IOleInPlaceSite_DeactivateAndUndo, "ms_abi");
 
    function IOleInPlaceSite_OnPosRectChange
      (This        : access
@@ -491,6 +536,7 @@ package GNATOCX_Site.Class is
       lprcPosRect : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceSite_OnPosRectChange);
+   pragma Machine_Attribute (IOleInPlaceSite_OnPosRectChange, "ms_abi");
 
    type IOleInPlaceSite_Vtbl_Record is
       record
@@ -537,21 +583,24 @@ package GNATOCX_Site.Class is
       ppmkOut        : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleContainer_ParseDisplayName);
+   pragma Machine_Attribute (IOleContainer_ParseDisplayName, "ms_abi");
 
    function IOleContainer_EnumObjects
      (This     : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      grfFlags : Interfaces.C.unsigned_long;
+      grfFlags : Win32_Types.Unsigned_Long;
       ppenum   : Pointer_To_Pointer_To_IEnumUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleContainer_EnumObjects);
+   pragma Machine_Attribute (IOleContainer_EnumObjects, "ms_abi");
 
    function IOleContainer_LockContainer
      (This  : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fLock : Interfaces.C.long)
+      fLock : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleContainer_LockContainer);
+   pragma Machine_Attribute (IOleContainer_LockContainer, "ms_abi");
 
    type IOleContainer_Vtbl_Record is
       record
@@ -576,13 +625,15 @@ package GNATOCX_Site.Class is
       phwnd : Pointer_To_HWND)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleWindow_GetWindow);
+   pragma Machine_Attribute (IOleWindow_GetWindow, "ms_abi");
 
    function IOleWindow_ContextSensitiveHelp
      (This       : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fEnterMode : Interfaces.C.long)
+      fEnterMode : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleWindow_ContextSensitiveHelp);
+   pragma Machine_Attribute (IOleWindow_ContextSensitiveHelp, "ms_abi");
 
    type IOleWindow_Vtbl_Record is
       record
@@ -606,13 +657,15 @@ package GNATOCX_Site.Class is
       phwnd : Pointer_To_HWND)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceUIWindow_GetWindow);
+   pragma Machine_Attribute (IOleInPlaceUIWindow_GetWindow, "ms_abi");
 
    function IOleInPlaceUIWindow_ContextSensitiveHelp
      (This       : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      fEnterMode : Interfaces.C.long)
+      fEnterMode : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceUIWindow_ContextSensitiveHelp);
+   pragma Machine_Attribute (IOleInPlaceUIWindow_ContextSensitiveHelp, "ms_abi");
 
    function IOleInPlaceUIWindow_GetBorder
      (This         : access
@@ -620,6 +673,7 @@ package GNATOCX_Site.Class is
       lprectBorder : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceUIWindow_GetBorder);
+   pragma Machine_Attribute (IOleInPlaceUIWindow_GetBorder, "ms_abi");
 
    function IOleInPlaceUIWindow_RequestBorderSpace
      (This          : access
@@ -627,6 +681,7 @@ package GNATOCX_Site.Class is
       pborderwidths : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceUIWindow_RequestBorderSpace);
+   pragma Machine_Attribute (IOleInPlaceUIWindow_RequestBorderSpace, "ms_abi");
 
    function IOleInPlaceUIWindow_SetBorderSpace
      (This          : access
@@ -634,6 +689,7 @@ package GNATOCX_Site.Class is
       pborderwidths : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceUIWindow_SetBorderSpace);
+   pragma Machine_Attribute (IOleInPlaceUIWindow_SetBorderSpace, "ms_abi");
 
    function IOleInPlaceUIWindow_SetActiveObject
      (This          : access
@@ -642,6 +698,7 @@ package GNATOCX_Site.Class is
       pszObjName    : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, IOleInPlaceUIWindow_SetActiveObject);
+   pragma Machine_Attribute (IOleInPlaceUIWindow_SetActiveObject, "ms_abi");
 
    type IOleInPlaceUIWindow_Vtbl_Record is
       record

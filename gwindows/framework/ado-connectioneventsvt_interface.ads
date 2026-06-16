@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package ADO.ConnectionEventsVt_Interface is
 
@@ -21,7 +22,7 @@ package ADO.ConnectionEventsVt_Interface is
 
    procedure BeginTransComplete
      (This             : ConnectionEventsVt_Type;
-      TransactionLevel : Interfaces.C.long;
+      TransactionLevel : Win32_Types.Long;
       pError           : Pointer_To_Error;
       adStatus         : Pointer_To_EventStatusEnum;
       pConnection      : Pointer_To_uConnection);
@@ -51,7 +52,7 @@ package ADO.ConnectionEventsVt_Interface is
 
    procedure ExecuteComplete
      (This            : ConnectionEventsVt_Type;
-      RecordsAffected : Interfaces.C.long;
+      RecordsAffected : Win32_Types.Long;
       pError          : Pointer_To_Error;
       adStatus        : Pointer_To_EventStatusEnum;
       pCommand        : Pointer_To_uCommand;

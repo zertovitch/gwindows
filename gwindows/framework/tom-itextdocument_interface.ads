@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package TOM.ITextDocument_Interface is
 
@@ -23,7 +24,7 @@ package TOM.ITextDocument_Interface is
 
    function Get_StoryCount
      (This   : ITextDocument_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_StoryRanges
      (This      : ITextDocument_Type)
@@ -31,11 +32,11 @@ package TOM.ITextDocument_Interface is
 
    function Get_Saved
      (This   : ITextDocument_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Saved
      (This   : ITextDocument_Type;
-      pValue : Interfaces.C.long);
+      pValue : Win32_Types.Long);
 
    function Get_DefaultTabStop
      (This   : ITextDocument_Type)
@@ -52,23 +53,23 @@ package TOM.ITextDocument_Interface is
      (This     : ITextDocument_Type;
       pVar     : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Flags    : Interfaces.C.long;
-      CodePage : Interfaces.C.long);
+      Flags    : Win32_Types.Long;
+      CodePage : Win32_Types.Long);
 
    procedure Save
      (This     : ITextDocument_Type;
       pVar     : access GNATCOM.Types.VARIANT :=
         GNATCOM.Types.PVARIANT_MISSING;
-      Flags    : Interfaces.C.long;
-      CodePage : Interfaces.C.long);
+      Flags    : Win32_Types.Long;
+      CodePage : Win32_Types.Long);
 
    function Freeze
      (This   : ITextDocument_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Unfreeze
      (This   : ITextDocument_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure BeginEditCollection
      (This : ITextDocument_Type);
@@ -78,24 +79,24 @@ package TOM.ITextDocument_Interface is
 
    function Undo
      (This  : ITextDocument_Type;
-      Count : Interfaces.C.long)
-     return Interfaces.C.long;
+      Count : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function Redo
      (This  : ITextDocument_Type;
-      Count : Interfaces.C.long)
-     return Interfaces.C.long;
+      Count : Win32_Types.Long)
+     return Win32_Types.Long;
 
    function uRange
      (This    : ITextDocument_Type;
-      cp1     : Interfaces.C.long;
-      cp2     : Interfaces.C.long)
+      cp1     : Win32_Types.Long;
+      cp2     : Win32_Types.Long)
      return Pointer_To_ITextRange;
 
    function RangeFromPoint
      (This    : ITextDocument_Type;
-      x       : Interfaces.C.long;
-      y       : Interfaces.C.long)
+      x       : Win32_Types.Long;
+      y       : Win32_Types.Long)
      return Pointer_To_ITextRange;
 
 end TOM.ITextDocument_Interface;

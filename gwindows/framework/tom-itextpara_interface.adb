@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body TOM.ITextPara_Interface is
 
@@ -52,9 +53,9 @@ package body TOM.ITextPara_Interface is
 
    function CanChange
      (This : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.CanChange
@@ -67,9 +68,9 @@ package body TOM.ITextPara_Interface is
    function IsEqual
      (This  : ITextPara_Type;
       pPara : Pointer_To_ITextPara)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.IsEqual
@@ -82,7 +83,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Reset
      (This  : ITextPara_Type;
-      Value : Interfaces.C.long)
+      Value : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -94,9 +95,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_Style
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Style
@@ -108,7 +109,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_Style
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -120,9 +121,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_Alignment
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Alignment
@@ -134,7 +135,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_Alignment
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -146,9 +147,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_Hyphenation
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Hyphenation
@@ -160,7 +161,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_Hyphenation
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -186,9 +187,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_KeepTogether
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_KeepTogether
@@ -200,7 +201,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_KeepTogether
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -212,9 +213,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_KeepWithNext
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_KeepWithNext
@@ -226,7 +227,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_KeepWithNext
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -266,9 +267,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_LineSpacingRule
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_LineSpacingRule
@@ -280,9 +281,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_ListAlignment
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_ListAlignment
@@ -294,7 +295,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_ListAlignment
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -306,9 +307,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_ListLevelIndex
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_ListLevelIndex
@@ -320,7 +321,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_ListLevelIndex
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -332,9 +333,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_ListStart
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_ListStart
@@ -346,7 +347,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_ListStart
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -384,9 +385,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_ListType
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_ListType
@@ -398,7 +399,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_ListType
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -410,9 +411,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_NoLineNumber
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_NoLineNumber
@@ -424,7 +425,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_NoLineNumber
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -436,9 +437,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_PageBreakBefore
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_PageBreakBefore
@@ -450,7 +451,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_PageBreakBefore
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -504,7 +505,7 @@ package body TOM.ITextPara_Interface is
 
    procedure SetLineSpacing
      (This            : ITextPara_Type;
-      LineSpacingRule : Interfaces.C.long;
+      LineSpacingRule : Win32_Types.Long;
       LineSpacing     : Interfaces.C.C_float)
    is
    begin
@@ -570,9 +571,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_WidowControl
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_WidowControl
@@ -584,7 +585,7 @@ package body TOM.ITextPara_Interface is
 
    procedure Put_WidowControl
      (This   : ITextPara_Type;
-      pValue : Interfaces.C.long)
+      pValue : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -596,9 +597,9 @@ package body TOM.ITextPara_Interface is
 
    function Get_TabCount
      (This   : ITextPara_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_TabCount
@@ -611,8 +612,8 @@ package body TOM.ITextPara_Interface is
    procedure AddTab
      (This     : ITextPara_Type;
       tbPos    : Interfaces.C.C_float;
-      tbAlign  : Interfaces.C.long;
-      tbLeader : Interfaces.C.long)
+      tbAlign  : Win32_Types.Long;
+      tbLeader : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -648,7 +649,7 @@ package body TOM.ITextPara_Interface is
 
    procedure GetTab
      (This      : ITextPara_Type;
-      iTab      : Interfaces.C.long;
+      iTab      : Win32_Types.Long;
       ptbPos    : GNATCOM.Types.Pointer_To_C_float;
       ptbAlign  : GNATCOM.Types.Pointer_To_long;
       ptbLeader : GNATCOM.Types.Pointer_To_long)

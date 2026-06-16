@@ -205,6 +205,7 @@ package body GWindows.Drawing_Panels is
          lpRect : Integer               := 0;
          bErase : Integer               := 0);
       pragma Import (StdCall, InvalidateRect, "InvalidateRect");
+   pragma Machine_Attribute (InvalidateRect, "ms_abi");
 
    begin
       InvalidateRect;

@@ -1,4 +1,5 @@
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATOCX.IDataObject_Interface is
 
@@ -80,7 +81,7 @@ package body GNATOCX.IDataObject_Interface is
      (This       : IDataObject_Type;
       pformatetc : Pointer_To_FORMATETC;
       pmedium    : Pointer_To_wireFLAG_STGMEDIUM;
-      fRelease   : Interfaces.C.long)
+      fRelease   : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -94,7 +95,7 @@ package body GNATOCX.IDataObject_Interface is
 
    procedure EnumFormatEtc
      (This            : IDataObject_Type;
-      dwDirection     : Interfaces.C.unsigned_long;
+      dwDirection     : Win32_Types.Unsigned_Long;
       ppenumFormatEtc : Pointer_To_Pointer_To_IEnumFORMATETC)
    is
    begin
@@ -109,7 +110,7 @@ package body GNATOCX.IDataObject_Interface is
    procedure DAdvise
      (This          : IDataObject_Type;
       pformatetc    : Pointer_To_FORMATETC;
-      advf          : Interfaces.C.unsigned_long;
+      advf          : Win32_Types.Unsigned_Long;
       pAdvSink      : Pointer_To_IAdviseSink;
       pdwConnection : GNATCOM.Types.Pointer_To_unsigned_long)
    is
@@ -126,7 +127,7 @@ package body GNATOCX.IDataObject_Interface is
 
    procedure DUnadvise
      (This         : IDataObject_Type;
-      dwConnection : Interfaces.C.unsigned_long)
+      dwConnection : Win32_Types.Unsigned_Long)
    is
    begin
       GNATCOM.Errors.Error_Check

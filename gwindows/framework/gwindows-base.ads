@@ -813,6 +813,7 @@ package GWindows.Base is
       lParam  : GWindows.Types.Lparam)
      return GWindows.Types.Lresult;
    pragma Convention (Stdcall, WndProc);
+   pragma Machine_Attribute (WndProc, "ms_abi");
    --  GWindows Implementation of Win32 Procedure Call Back
    --  Procedure and Message Dispatch
 
@@ -823,6 +824,7 @@ package GWindows.Base is
       lParam  : GWindows.Types.Lparam)
      return GWindows.Types.Lresult;
    pragma Convention (Stdcall, WndProc_MDI_Client);
+   pragma Machine_Attribute (WndProc_MDI_Client, "ms_abi");
    --  GWindows Implementation of Win32 Procedure Call Back
    --  Procedure and Message Dispatch for MDI_CLient
 
@@ -833,6 +835,7 @@ package GWindows.Base is
       lParam  : GWindows.Types.Lparam)
      return GWindows.Types.Lresult;
    pragma Convention (Stdcall, WndProc_Control);
+   pragma Machine_Attribute (WndProc_Control, "ms_abi");
    --  GWindows Implementation of Win32 Procedure Call Back
    --  Procedure and Message Dispatch for controls
 
@@ -874,6 +877,7 @@ private
                lParam  : Types.Lparam)
               return Types.Lresult;
    pragma Convention (Stdcall, Windproc_Access);
+   pragma Machine_Attribute (Windproc_Access, "ms_abi");
 
    type Base_Window_Type is
      new Ada.Finalization.Limited_Controlled with

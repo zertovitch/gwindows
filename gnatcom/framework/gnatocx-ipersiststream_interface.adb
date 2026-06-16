@@ -1,4 +1,5 @@
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATOCX.IPersistStream_Interface is
 
@@ -59,7 +60,7 @@ package body GNATOCX.IPersistStream_Interface is
    procedure Save
      (This        : IPersistStream_Type;
       pstm        : Pointer_To_IStream;
-      fClearDirty : Interfaces.C.long)
+      fClearDirty : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check

@@ -39,6 +39,7 @@
 
 with GWindows.Drawing;
 with Interfaces.C;
+with Win32_Types;
 
 package body GWindows.Buttons is
    use type Interfaces.C.unsigned;
@@ -117,6 +118,7 @@ package body GWindows.Buttons is
       newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong,
                     "SetWindowLong" & Character_Mode_Identifier);
+   pragma Machine_Attribute (SetWindowLong, "ms_abi");
 
    function GetWindowLong
      (hwnd   : GWindows.Types.Handle;
@@ -124,6 +126,7 @@ package body GWindows.Buttons is
      return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong,
                     "GetWindowLong" & Character_Mode_Identifier);
+   pragma Machine_Attribute (GetWindowLong, "ms_abi");
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -497,9 +500,10 @@ package body GWindows.Buttons is
          uMsg   : Interfaces.C.int  := BM_GETCHECK;
          wParam : GWindows.Types.Wparam := 0;
          lParam : GWindows.Types.Lparam := 0)
-        return Interfaces.C.long;
+        return Win32_Types.Long;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       case SendMessage is
          when BST_CHECKED =>
@@ -523,9 +527,10 @@ package body GWindows.Buttons is
          uMsg   : Interfaces.C.int  := BM_GETCHECK;
          wParam : GWindows.Types.Wparam := 0;
          lParam : GWindows.Types.Lparam := 0)
-        return Interfaces.C.long;
+        return Win32_Types.Long;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       case SendMessage is
          when BST_CHECKED =>
@@ -549,6 +554,7 @@ package body GWindows.Buttons is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       case State is
          when Checked =>
@@ -574,6 +580,7 @@ package body GWindows.Buttons is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       case State is
          when Checked =>

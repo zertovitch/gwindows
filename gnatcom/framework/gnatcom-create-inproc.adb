@@ -36,6 +36,7 @@
 ------------------------------------------------------------------------------
 
 with GNATCOM.Register;
+with Win32_Types;
 
 package body GNATCOM.Create.Inproc is
 
@@ -58,6 +59,7 @@ package body GNATCOM.Create.Inproc is
       lpvReserved : GNATCOM.Types.Pointer_To_Void)
      return Interfaces.C.int;
    pragma Export (StdCall, DllMain, "DllMain");
+   pragma Machine_Attribute (DllMain, "ms_abi");
 
    ---------------------
    -- DllCanUnloadNow --
@@ -97,7 +99,7 @@ package body GNATCOM.Create.Inproc is
       declare
          pFactory : GNATCOM.Create.Factory.Pointer_To_IClassFactory := null;
          hr       : GNATCOM.Types.HRESULT;
-         refcount : Interfaces.C.unsigned_long;
+         refcount : Win32_Types.Unsigned_Long;
          pragma Warnings (Off, refcount);
       begin
          for N in

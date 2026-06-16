@@ -55,6 +55,7 @@ package GNATCOM.Create.Inproc is
       ppv   : access GNATCOM.Types.Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Export (Stdcall, DllGetClassObject, "DllGetClassObject");
+   pragma Machine_Attribute (DllGetClassObject, "ms_abi");
    --  Used to expose the Class Factory Object's IClassFactory interface to
    --  the SCM that can create objects of the CLSID riid. The SCM (a part of
    --  the OS) then delivers this interface through proxies were needed to
@@ -62,6 +63,7 @@ package GNATCOM.Create.Inproc is
 
    function DllCanUnloadNow return GNATCOM.Types.HRESULT;
    pragma Export (Stdcall, DllCanUnloadNow, "DllCanUnloadNow");
+   pragma Machine_Attribute (DllCanUnloadNow, "ms_abi");
    --  This is called by the OS to determine if the Dll can be unloaded.
    --  This returns true if there are no instance of the COM object in use
    --  and there are no locks placed on the server through
@@ -69,11 +71,13 @@ package GNATCOM.Create.Inproc is
 
    function DllRegisterServer return GNATCOM.Types.HRESULT;
    pragma Export (Stdcall, DllRegisterServer, "DllRegisterServer");
+   pragma Machine_Attribute (DllRegisterServer, "ms_abi");
    --  Is called by RegSvr32 (or other application) to request the DLL to
    --  register its COM objects in the registry
 
    function DllUnregisterServer return GNATCOM.Types.HRESULT;
    pragma Export (Stdcall, DllUnregisterServer, "DllUnregisterServer");
+   pragma Machine_Attribute (DllUnregisterServer, "ms_abi");
    --  Is called by RegSvr32 (or other application) to request the DLL to
    --  unregister its COM objects from the registry.
 

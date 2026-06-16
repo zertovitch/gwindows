@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IOleContainer_Interface is
 
@@ -22,11 +23,11 @@ package GNATOCX.IOleContainer_Interface is
 
    procedure EnumObjects
      (This     : IOleContainer_Type;
-      grfFlags : Interfaces.C.unsigned_long;
+      grfFlags : Win32_Types.Unsigned_Long;
       ppenum   : Pointer_To_Pointer_To_IEnumUnknown);
 
    procedure LockContainer
      (This  : IOleContainer_Type;
-      fLock : Interfaces.C.long);
+      fLock : Win32_Types.Long);
 
 end GNATOCX.IOleContainer_Interface;

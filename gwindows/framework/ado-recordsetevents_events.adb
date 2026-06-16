@@ -1,7 +1,7 @@
 package body ADO.RecordsetEvents_Events is
 
    procedure Invoke
-     (dispidMember : in Interfaces.C.long;
+     (dispidMember : in Win32_Types.Long;
       wFlags       : in Interfaces.C.unsigned_short;
       pdispparams  : in GNATCOM.Types.Pointer_To_DISPPARAMS;
       Event_Object : in GNATCOM.Events.Event_Object.Event_Pointer)

@@ -3,7 +3,7 @@
 --
 -- Build me with "gnatmake -P gwindows_contrib", or open me with GNAT Studio
 
-with "GWindows.gpr";
+with "gwindows.gpr";
 
 project GWindows_Contrib is
 

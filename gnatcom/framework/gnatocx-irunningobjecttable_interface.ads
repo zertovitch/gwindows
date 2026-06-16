@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IRunningObjectTable_Interface is
 
@@ -19,7 +20,7 @@ package GNATOCX.IRunningObjectTable_Interface is
 
    procedure Register
      (This          : IRunningObjectTable_Type;
-      grfFlags      : Interfaces.C.unsigned_long;
+      grfFlags      : Win32_Types.Unsigned_Long;
       punkObject    : GNATCOM.Types.Pointer_To_IUnknown;
       pmkObjectName : Pointer_To_IMoniker;
       pdwRegister   : GNATCOM.Types.Pointer_To_DWORD);
@@ -39,7 +40,7 @@ package GNATOCX.IRunningObjectTable_Interface is
 
    procedure NoteChangeTime
      (This       : IRunningObjectTable_Type;
-      dwRegister : Interfaces.C.unsigned_long;
+      dwRegister : Win32_Types.Unsigned_Long;
       pfiletime  : Pointer_To_uFILETIME);
 
    procedure GetTimeOfLastChange

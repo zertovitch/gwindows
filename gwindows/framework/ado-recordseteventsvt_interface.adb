@@ -1,4 +1,5 @@
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body ADO.RecordsetEventsVt_Interface is
 
@@ -24,7 +25,7 @@ package body ADO.RecordsetEventsVt_Interface is
 
    procedure WillChangeField
      (This       : RecordsetEventsVt_Type;
-      cFields    : Interfaces.C.long;
+      cFields    : Win32_Types.Long;
       Fields     : GNATCOM.Types.VARIANT;
       adStatus   : Pointer_To_EventStatusEnum;
       pRecordset : Pointer_To_uRecordset;
@@ -48,7 +49,7 @@ package body ADO.RecordsetEventsVt_Interface is
 
    procedure FieldChangeComplete
      (This       : RecordsetEventsVt_Type;
-      cFields    : Interfaces.C.long;
+      cFields    : Win32_Types.Long;
       Fields     : GNATCOM.Types.VARIANT;
       pError     : Pointer_To_Error;
       adStatus   : Pointer_To_EventStatusEnum;
@@ -75,7 +76,7 @@ package body ADO.RecordsetEventsVt_Interface is
    procedure WillChangeRecord
      (This       : RecordsetEventsVt_Type;
       adReason   : EventReasonEnum;
-      cRecords   : Interfaces.C.long;
+      cRecords   : Win32_Types.Long;
       adStatus   : Pointer_To_EventStatusEnum;
       pRecordset : Pointer_To_uRecordset)
    is
@@ -93,7 +94,7 @@ package body ADO.RecordsetEventsVt_Interface is
    procedure RecordChangeComplete
      (This       : RecordsetEventsVt_Type;
       adReason   : EventReasonEnum;
-      cRecords   : Interfaces.C.long;
+      cRecords   : Win32_Types.Long;
       pError     : Pointer_To_Error;
       adStatus   : Pointer_To_EventStatusEnum;
       pRecordset : Pointer_To_uRecordset)
@@ -196,8 +197,8 @@ package body ADO.RecordsetEventsVt_Interface is
 
    procedure FetchProgress
      (This        : RecordsetEventsVt_Type;
-      Progress    : Interfaces.C.long;
-      MaxProgress : Interfaces.C.long;
+      Progress    : Win32_Types.Long;
+      MaxProgress : Win32_Types.Long;
       adStatus    : Pointer_To_EventStatusEnum;
       pRecordset  : Pointer_To_uRecordset)
    is

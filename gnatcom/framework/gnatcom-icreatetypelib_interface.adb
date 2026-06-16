@@ -37,6 +37,7 @@
 
 with GNATCOM.Errors;
 with GNATCOM.BSTR;
+with Win32_Types;
 
 package body GNATCOM.ICreateTypeLib_Interface is
 
@@ -46,6 +47,7 @@ package body GNATCOM.ICreateTypeLib_Interface is
       CT : access GNATCOM.Types.Pointer_To_ICreateTypeLib)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, CreateTypeLib, "CreateTypeLib");
+   pragma Machine_Attribute (CreateTypeLib, "ms_abi");
 
    procedure Create_Type_Library
      (This      : in out ICreateTypeLib_Type;
@@ -164,7 +166,7 @@ package body GNATCOM.ICreateTypeLib_Interface is
 
    procedure SetHelpContext
      (This          : ICreateTypeLib_Type;
-      dwHelpContext : Interfaces.C.unsigned_long)
+      dwHelpContext : Win32_Types.Unsigned_Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -176,7 +178,7 @@ package body GNATCOM.ICreateTypeLib_Interface is
 
    procedure SetLcid
      (This : ICreateTypeLib_Type;
-      lcid : Interfaces.C.unsigned_long)
+      lcid : Win32_Types.Unsigned_Long)
    is
    begin
       GNATCOM.Errors.Error_Check

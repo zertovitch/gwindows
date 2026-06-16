@@ -41,14 +41,17 @@ package body GNATCOM.BSTR is
 
    procedure SysFreeString (bstr : GNATCOM.Types.BSTR);
    pragma Import (StdCall, SysFreeString, "SysFreeString");
+   pragma Machine_Attribute (SysFreeString, "ms_abi");
 
    function SysStringLen (bstr : GNATCOM.Types.BSTR)
                          return Interfaces.C.unsigned;
    pragma Import (StdCall, SysStringLen, "SysStringLen");
+   pragma Machine_Attribute (SysStringLen, "ms_abi");
 
-   function SysAllocString (C_String : Interfaces.C.wchar_array)
+   function SysAllocString (C_String : Win32_Types.wchar_array)
                            return GNATCOM.Types.BSTR;
    pragma Import (StdCall, SysAllocString, "SysAllocString");
+   pragma Machine_Attribute (SysAllocString, "ms_abi");
 
    --------------
    -- Is_Empty --
@@ -88,9 +91,9 @@ package body GNATCOM.BSTR is
    begin
       if From = "" then
          declare
-            Empty_String : Interfaces.C.wchar_array (1 .. 1);
+            Empty_String : Win32_Types.wchar_array (1 .. 1);
          begin
-            Empty_String (1) := Interfaces.C.wide_nul;
+            Empty_String (1) := Win32_Types.wide_nul;
             return SysAllocString (Empty_String);
          end;
       end if;
@@ -107,9 +110,9 @@ package body GNATCOM.BSTR is
    begin
       if From = "" then
          declare
-            Empty_String : Interfaces.C.wchar_array (1 .. 1);
+            Empty_String : Win32_Types.wchar_array (1 .. 1);
          begin
-            Empty_String (1) := Interfaces.C.wide_nul;
+            Empty_String (1) := Win32_Types.wide_nul;
             return SysAllocString (Empty_String);
          end;
       end if;
@@ -132,7 +135,7 @@ package body GNATCOM.BSTR is
    -- TO_BSTR_From_Wide_C --
    -------------------------
 
-   function To_BSTR_From_Wide_C (From : Interfaces.C.wchar_array)
+   function To_BSTR_From_Wide_C (From : Win32_Types.wchar_array)
                                 return GNATCOM.Types.BSTR
    is
       use type GNATCOM.Types.BSTR;
@@ -218,10 +221,10 @@ package body GNATCOM.BSTR is
 
    function To_C_Wide (From : GNATCOM.Types.BSTR;
                        Free : Boolean            := True)
-                      return Interfaces.C.wchar_array
+                      return Win32_Types.wchar_array
    is
    begin
-      return Interfaces.C.To_C (To_Ada_Wide (From, Free));
+      return Win32_Types.To_C (To_Ada_Wide (From, Free));
    end To_C_Wide;
 
    ------------

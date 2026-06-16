@@ -42,18 +42,18 @@ package body GNATCOM.Types is
 
    package wchar_array_pointer is new Interfaces.C.Pointers
      (index              => Interfaces.C.size_t,
-      element            => Interfaces.C.wchar_t,
-      element_array      => Interfaces.C.wchar_array,
-      default_terminator => Interfaces.C.wide_nul);
+      element            => Win32_Types.wchar_t,
+      element_array      => Win32_Types.wchar_array,
+      default_terminator => Win32_Types.wide_nul);
 
    --------------------
    -- To_wchar_array --
    --------------------
 
-   function To_C (From : access Interfaces.C.wchar_t)
-     return Interfaces.C.wchar_array
+   function To_C (From : access Win32_Types.wchar_t)
+     return Win32_Types.wchar_array
    is
-      WC_Array : constant Interfaces.C.wchar_array :=
+      WC_Array : constant Win32_Types.wchar_array :=
         wchar_array_pointer.Value (wchar_array_pointer.Pointer (From));
    begin
       return WC_Array;
@@ -63,7 +63,7 @@ package body GNATCOM.Types is
    -- To_Ada --
    ------------
 
-   function To_Ada (From : access Interfaces.C.wchar_t) return String is
+   function To_Ada (From : access Win32_Types.wchar_t) return String is
    begin
       --  To_String Should be replaced with a function that better
       --  handles internationalization.
@@ -71,7 +71,7 @@ package body GNATCOM.Types is
       return Ada.Characters.Handling.To_String (To_Ada (From));
    end To_Ada;
 
-   function To_Ada (From : access Interfaces.C.wchar_t) return Wide_String is
+   function To_Ada (From : access Win32_Types.wchar_t) return Wide_String is
    begin
       return Interfaces.C.To_Ada (To_C (From));
    end To_Ada;

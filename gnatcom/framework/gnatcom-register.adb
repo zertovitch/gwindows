@@ -43,14 +43,15 @@ with GNATCOM.Errors;
 with GNATCOM.BSTR;
 with GNATCOM.GUID;
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package body GNATCOM.Register is
 
    REG_SZ : constant := 1;
-   subtype EREGTYPE is Interfaces.C.long;
+   subtype EREGTYPE is Win32_Types.Long;
 
    SYS_WIN32 : constant := 1;
-   subtype SYSKIND is Interfaces.C.long;
+   subtype SYSKIND is Win32_Types.Long;
 
    procedure Error_Check (Result : in GNATCOM.Types.HRESULT);
 
@@ -60,22 +61,25 @@ package body GNATCOM.Register is
       phkResult : access Interfaces.C.ptrdiff_t)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, RegCreateKey, "RegCreateKeyA");
+   pragma Machine_Attribute (RegCreateKey, "ms_abi");
 
    function RegSetValueEx
      (hKey        : Interfaces.C.ptrdiff_t;
       lpValueName : Interfaces.C.char_array;
-      reserved    : Interfaces.C.unsigned_long;
+      reserved    : Win32_Types.Unsigned_Long;
       dwType      : EREGTYPE;
       lpData      : Interfaces.C.char_array;
-      cbData      : Interfaces.C.unsigned_long)
+      cbData      : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, RegSetValueEx, "RegSetValueExA");
+   pragma Machine_Attribute (RegSetValueEx, "ms_abi");
 
    function RegDeleteKey
      (hKey     : Interfaces.C.ptrdiff_t;
       lpSubKey : Interfaces.C.char_array)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, RegDeleteKey, "RegDeleteKeyA");
+   pragma Machine_Attribute (RegDeleteKey, "ms_abi");
 
    function GetModuleFileName
      (hInst        : in     Interfaces.C.ptrdiff_t;
@@ -83,12 +87,14 @@ package body GNATCOM.Register is
       cbFileName   : in     Interfaces.C.int)
      return Interfaces.C.int;
    pragma Import (StdCall, GetModuleFileName, "GetModuleFileNameA");
+   pragma Machine_Attribute (GetModuleFileName, "ms_abi");
 
    function LoadTypeLib
      (wszFile : in     GNATCOM.Types.BSTR;
       ppTLib  : access GNATCOM.Types.Pointer_To_ITypeLib)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, LoadTypeLib, "LoadTypeLib");
+   pragma Machine_Attribute (LoadTypeLib, "ms_abi");
 
    function RegisterTypeLib
      (ptlib       : GNATCOM.Types.Pointer_To_ITypeLib;
@@ -96,15 +102,17 @@ package body GNATCOM.Register is
       wszHelpDir  : GNATCOM.Types.BSTR)
     return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, RegisterTypeLib, "RegisterTypeLib");
+   pragma Machine_Attribute (RegisterTypeLib, "ms_abi");
 
    function UnregisterTypeLib
      (libid     : access GNATCOM.Types.GUID;
       wVerMajor : Interfaces.C.unsigned_short;
       wVerMinor : Interfaces.C.unsigned_short;
-      lcid      : Interfaces.C.unsigned_long;
+      lcid      : Win32_Types.Unsigned_Long;
       syskind   : GNATCOM.Register.SYSKIND)
      return GNATCOM.Types.HRESULT;
    pragma Import (Stdcall, UnregisterTypeLib, "UnRegisterTypeLib");
+   pragma Machine_Attribute (UnregisterTypeLib, "ms_abi");
 
    --------------
    -- Register --
@@ -114,7 +122,7 @@ package body GNATCOM.Register is
                        Root_Key             : in Interfaces.C.ptrdiff_t :=
                          HKEY_CLASSES_ROOT)
    is
-      use type Interfaces.C.unsigned_long;
+      use type Win32_Types.Unsigned_Long;
 
       Key : aliased Interfaces.C.ptrdiff_t;
    begin
@@ -147,7 +155,7 @@ package body GNATCOM.Register is
       Cat_Mgr    : GNATCOM.Iinterface.Interface_Type;
       Cat_Reg    : aliased GNATCOM.Types.Pointer_To_ICatRegister;
       Hr         : GNATCOM.Types.HRESULT;
-      Ignored    : Interfaces.C.unsigned_long;
+      Ignored    : Win32_Types.Unsigned_Long;
    begin
       GNATCOM.Iinterface.Create
         (Cat_Mgr, GNATCOM.Types.CLSID_StdComponentCategoriesMgr);
@@ -361,7 +369,7 @@ package body GNATCOM.Register is
       Clear : in Boolean            := True)
    is
       TypeLib    : aliased GNATCOM.Types.Pointer_To_ITypeLib;
-      Refcount   : Interfaces.C.unsigned_long;
+      Refcount   : Win32_Types.Unsigned_Long;
       pragma Warnings (Off, Refcount);
    begin
       Error_Check (LoadTypeLib (Path, TypeLib'Access));
@@ -437,7 +445,7 @@ package body GNATCOM.Register is
       Cat_Mgr    : GNATCOM.Iinterface.Interface_Type;
       Cat_Reg    : aliased GNATCOM.Types.Pointer_To_ICatRegister;
       Hr         : GNATCOM.Types.HRESULT;
-      Ignored    : Interfaces.C.unsigned_long;
+      Ignored    : Win32_Types.Unsigned_Long;
    begin
       if Categories /= null then
          GNATCOM.Iinterface.Create

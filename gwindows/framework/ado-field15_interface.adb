@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body ADO.Field15_Interface is
 
@@ -40,9 +41,9 @@ package body ADO.Field15_Interface is
 
    function Get_ActualSize
      (This : Field15_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_ActualSize
@@ -54,9 +55,9 @@ package body ADO.Field15_Interface is
 
    function Get_Attributes
      (This : Field15_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Attributes
@@ -68,9 +69,9 @@ package body ADO.Field15_Interface is
 
    function Get_DefinedSize
      (This : Field15_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_DefinedSize
@@ -188,7 +189,7 @@ package body ADO.Field15_Interface is
 
    function GetChunk
      (This   : Field15_Type;
-      Length : Interfaces.C.long)
+      Length : Win32_Types.Long)
      return GNATCOM.Types.VARIANT
    is
        RetVal : aliased GNATCOM.Types.VARIANT;

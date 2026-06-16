@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package ADO.Parameters_Interface is
 
@@ -15,7 +16,7 @@ package ADO.Parameters_Interface is
 
    function Get_Count
      (This : Parameters_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function uNewEnum
      (This      : Parameters_Type)

@@ -37,8 +37,8 @@
 
 with Ada.Unchecked_Conversion;
 with Ada.Exceptions;
-with Interfaces.C;
 with System.Storage_Elements;
+with Win32_Types;
 
 package body GNATCOM.Errors is
 
@@ -52,6 +52,7 @@ package body GNATCOM.Errors is
 
    function TlsAlloc return GNATCOM.Types.DWORD;
    pragma Import (StdCall, TlsAlloc, "TlsAlloc");
+   pragma Machine_Attribute (TlsAlloc, "ms_abi");
    --  Returns a TLS Index used to access OS allocated thread storage for
    --  last HRESULT
 
@@ -59,10 +60,12 @@ package body GNATCOM.Errors is
 
    procedure TlsSetValue (Index  : GNATCOM.Types.DWORD; Result : Uns);
    pragma Import (StdCall, TlsSetValue, "TlsSetValue");
+   pragma Machine_Attribute (TlsSetValue, "ms_abi");
    --  Sets the HRESULT in to the TLS storage
 
    function TlsGetValue (Index : GNATCOM.Types.DWORD) return Uns;
    pragma Import (StdCall, TlsGetValue, "TlsGetValue");
+   pragma Machine_Attribute (TlsGetValue, "ms_abi");
    --  Gets the HRESULT ouf of TLS storage
 
    ---------------
@@ -72,11 +75,11 @@ package body GNATCOM.Errors is
    function SUCCEEDED (Result : GNATCOM.Types.HRESULT)
      return Boolean
    is
-      use type Interfaces.C.long;
+      use type Win32_Types.Long;
 
       function To_Long is
          new Ada.Unchecked_Conversion (GNATCOM.Types.HRESULT,
-                                       Interfaces.C.long);
+                                       Win32_Types.Long);
    begin
       if To_Long (Result) >= 0 then
          return True;
@@ -107,12 +110,13 @@ package body GNATCOM.Errors is
          := FORMAT_MESSAGE_FROM_SYSTEM;
          lpSource     : in     System.Address := System.Null_Address;
          dwMessageId  : in     GNATCOM.Types.HRESULT;
-         dwLanguageId : in     Interfaces.C.unsigned_long := 0;
+         dwLanguageId : in     Win32_Types.Unsigned_Long := 0;
          lpBuffer     : in     System.Address;
-         nSize        : in     Interfaces.C.unsigned_long;
+         nSize        : in     Win32_Types.Unsigned_Long;
          Arguments    : in     System.Address := System.Null_Address)
          return Integer;
       pragma Import (StdCall, FormatMessage, "FormatMessageA");
+   pragma Machine_Attribute (FormatMessage, "ms_abi");
 
       Message : String (1 .. 1024);
       Len     : Integer;

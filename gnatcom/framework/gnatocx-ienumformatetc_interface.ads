@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IEnumFORMATETC_Interface is
 
@@ -15,13 +16,13 @@ package GNATOCX.IEnumFORMATETC_Interface is
 
    procedure RemoteNext
      (This         : IEnumFORMATETC_Type;
-      celt         : Interfaces.C.unsigned_long;
+      celt         : Win32_Types.Unsigned_Long;
       rgelt        : Pointer_To_FORMATETC;
       pceltFetched : GNATCOM.Types.Pointer_To_unsigned_long);
 
    procedure Skip
      (This : IEnumFORMATETC_Type;
-      celt : Interfaces.C.unsigned_long);
+      celt : Win32_Types.Unsigned_Long);
 
    procedure Reset
      (This : IEnumFORMATETC_Type);

@@ -40,6 +40,7 @@
 --  This package deals with the taskbar.
 
 with GWindows.Types, GNATCOM.Initialize, Interfaces.C;
+with Win32_Types;
 
 package body GWindows.Taskbar is
 
@@ -59,8 +60,8 @@ package body GWindows.Taskbar is
        Window : in     GWindows.Base.Base_Window_Type'Class;
        State  : in     Taskbar_Progress_State)
    is
-      hwnd : constant Interfaces.C.long :=
-                Interfaces.C.long (GWindows.Types.To_Lresult
+      hwnd : constant Win32_Types.Long :=
+                Win32_Types.Long (GWindows.Types.To_Lresult
                    (GWindows.Base.Handle (Window)));
       TBPF_NOPROGRESS    : constant := 16#0000_0000#;
       TBPF_INDETERMINATE : constant := 16#0000_0001#;
@@ -89,8 +90,8 @@ package body GWindows.Taskbar is
        Completed : in     Natural;
        Total     : in     Natural)
    is
-      hwnd : constant Interfaces.C.long :=
-                Interfaces.C.long (GWindows.Types.To_Lresult
+      hwnd : constant Win32_Types.Long :=
+                Win32_Types.Long (GWindows.Types.To_Lresult
                    (GWindows.Base.Handle (Window)));
    begin
       Init_if_needed (List);

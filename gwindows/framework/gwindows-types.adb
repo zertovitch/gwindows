@@ -71,7 +71,7 @@ package body GWindows.Types is
       return Integer (To_Int (Result));
    end To_Integer;
 
-   function To_Handle (I : Interfaces.C.long) return Handle is
+   function To_Handle (I : Win32_Types.Long) return Handle is
       type Uns is mod 2 ** Standard'Address_Size;
       function To_Handle is new Ada.Unchecked_Conversion (Uns, Handle);
    begin

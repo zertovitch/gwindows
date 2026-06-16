@@ -22,6 +22,7 @@ package body GW_In_A_DLL is
       lpvReserved : Integer)
      return Interfaces.C.int;
    pragma Export (StdCall, DllMain, "DllMain");
+   pragma Machine_Attribute (DllMain, "ms_abi");
 
    -------------
    -- DllMain --

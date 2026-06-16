@@ -42,12 +42,13 @@ with GWindows.GStrings;
 with GWindows.Utilities;
 with GWindows.Internal;
 with GWindows.Packing_Boxes;
+with Win32_Types;
 
 pragma Elaborate_All (GWindows.Cursors);
 
 package body GWindows.Windows is
    use type Interfaces.C.unsigned;
-   use type Interfaces.C.long;
+   use type Win32_Types.Long;
 
    -------------------------------------------------------------------------
    --  Local Specs
@@ -102,14 +103,16 @@ package body GWindows.Windows is
      (hwnd    : GWindows.Types.Handle;
       fnBar   : Interfaces.C.int;
       lpsi    : SCROLLINFO;
-      fRedraw : Interfaces.C.long     := 1);
+      fRedraw : Win32_Types.Long     := 1);
    pragma Import (StdCall, SetScrollInfo, "SetScrollInfo");
+   pragma Machine_Attribute (SetScrollInfo, "ms_abi");
 
    procedure GetScrollInfo
      (hwnd    : GWindows.Types.Handle;
       fnBar   : Interfaces.C.int;
       lpsi    : SCROLLINFO);
    pragma Import (StdCall, GetScrollInfo, "GetScrollInfo");
+   pragma Machine_Attribute (GetScrollInfo, "ms_abi");
 
    WM_SETICON                 : constant := 128;
 
@@ -129,6 +132,7 @@ package body GWindows.Windows is
       fuLoad    : Interfaces.C.int := 0)
      return GWindows.Types.Handle;
    pragma Import (StdCall, LoadImage, "LoadImage" & Character_Mode_Identifier);
+   pragma Machine_Attribute (LoadImage, "ms_abi");
 
    TPM_RIGHTBUTTON            : constant := 2;
    TPM_LEFTALIGN              : constant := 0;
@@ -140,35 +144,39 @@ package body GWindows.Windows is
       y         : Integer;
       nReserved : Interfaces.C.int;
       hwnd      : GWindows.Types.Handle;
-      lprc      : Interfaces.C.long := 0);
+      lprc      : Win32_Types.Long := 0);
    pragma Import (StdCall, TrackPopupMenu, "TrackPopupMenu");
+   pragma Machine_Attribute (TrackPopupMenu, "ms_abi");
 
    type PS_RESERVE_TYPE is array (1 .. 32) of Character;
    type PAINTSTRUCT_Type is
       record
          HDC         : GWindows.Types.Handle;
-         fErase      : Interfaces.C.long;
+         fErase      : Win32_Types.Long;
          rcPaint     : GWindows.Types.Rectangle_Type;
-         fRestore    : Interfaces.C.long;
-         fIncUpdate  : Interfaces.C.long;
+         fRestore    : Win32_Types.Long;
+         fIncUpdate  : Win32_Types.Long;
          rgbReserved : PS_RESERVE_TYPE;
       end record;
 
    procedure BeginPaint (HWND    : GWindows.Types.Handle;
                          lpPaint : out PAINTSTRUCT_Type);
    pragma Import (StdCall, BeginPaint, "BeginPaint");
+   pragma Machine_Attribute (BeginPaint, "ms_abi");
 
    procedure EndPaint (HWND    : GWindows.Types.Handle;
                        lpPaint : in PAINTSTRUCT_Type);
    pragma Import (StdCall, EndPaint, "EndPaint");
+   pragma Machine_Attribute (EndPaint, "ms_abi");
 
    SW_MAXIMIZE        : constant := 3;
    SW_MINIMIZE        : constant := 6;
    SW_RESTORE         : constant := 9;
 
    procedure ShowWindow (hwnd     : GWindows.Types.Handle;
-                         nCmdShow : Interfaces.C.long);
+                         nCmdShow : Win32_Types.Long);
    pragma Import (StdCall, ShowWindow, "ShowWindow");
+   pragma Machine_Attribute (ShowWindow, "ms_abi");
 
    WS_EX_CONTEXTHELP   : constant := 1024;
    WS_EX_TOOLWINDOW    : constant := 128;
@@ -206,10 +214,11 @@ package body GWindows.Windows is
       hMenu        : GWindows.Types.Handle   := GWindows.Types.Null_Handle;
       hInst        : GWindows.Types.Handle   :=
         GWindows.Internal.Current_hInstance;
-      lpParam      : Interfaces.C.long       := 0)
+      lpParam      : Win32_Types.Long       := 0)
      return GWindows.Types.Handle;
    pragma Import (StdCall, CreateWindowEx,
                     "CreateWindowEx" & Character_Mode_Identifier);
+   pragma Machine_Attribute (CreateWindowEx, "ms_abi");
 
    type CLIENTCREATESTRUCT is
       record
@@ -244,6 +253,7 @@ package body GWindows.Windows is
      return GWindows.Types.Handle;
    pragma Import (StdCall, CreateWindowEx_MDI_CLIENT,
                     "CreateWindowEx" & Character_Mode_Identifier);
+   pragma Machine_Attribute (CreateWindowEx_MDI_CLIENT, "ms_abi");
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -625,6 +635,7 @@ package body GWindows.Windows is
          lParam : MDICREATESTRUCT       := MdiCreate)
         return GWindows.Types.Handle;
       pragma Import (StdCall, SendMessage, "SendMessage" & Character_Mode_Identifier);
+   pragma Machine_Attribute (SendMessage, "ms_abi");
 
       RDW_INVALIDATE : constant := 16#0001#;
       RDW_UPDATENOW  : constant := 16#0100#;
@@ -637,6 +648,7 @@ package body GWindows.Windows is
          Flags      : Interfaces.C.unsigned :=
                       RDW_INVALIDATE or RDW_UPDATENOW or RDW_FRAME);
       pragma Import (StdCall, RedrawWindow, "RedrawWindow");
+   pragma Machine_Attribute (RedrawWindow, "ms_abi");
 
    begin
       if CClass = "" then
@@ -683,6 +695,7 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Handle := LoadImage (lpszName => C_Name));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Large_Icon;
@@ -702,6 +715,7 @@ package body GWindows.Windows is
             GWindows.Drawing_Objects.Handle (Icon));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Large_Icon;
@@ -722,6 +736,7 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Handle := LoadImage (lpszName => C_Name));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Small_Icon;
@@ -741,6 +756,7 @@ package body GWindows.Windows is
             GWindows.Drawing_Objects.Handle (Icon));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Small_Icon;
@@ -767,6 +783,7 @@ package body GWindows.Windows is
         (hwnd   : GWindows.Types.Handle := Handle (Window);
          hmenu  : GWindows.Menus.Menu_Type := Menu);
       pragma Import (StdCall, SetMenu, "SetMenu");
+   pragma Machine_Attribute (SetMenu, "ms_abi");
 
       Old_Menu : Menu_Type := GWindows.Windows.Menu (Window);
    begin
@@ -784,6 +801,7 @@ package body GWindows.Windows is
         (hwnd : GWindows.Types.Handle := Handle (Window))
         return GWindows.Menus.Menu_Type;
       pragma Import (StdCall, GetMenu, "GetMenu");
+   pragma Machine_Attribute (GetMenu, "ms_abi");
    begin
       return GetMenu;
    end Menu;
@@ -806,6 +824,7 @@ package body GWindows.Windows is
          GWindows.Menus.Get_Sub_Menu (Menu, Window_Menu));
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
       Menu_Refresh (Window);
@@ -819,6 +838,7 @@ package body GWindows.Windows is
       procedure DrawMenuBar
         (hwnd   : GWindows.Types.Handle := Handle (Window));
       pragma Import (StdCall, DrawMenuBar, "DrawMenuBar");
+   pragma Machine_Attribute (DrawMenuBar, "ms_abi");
    begin
       DrawMenuBar;
    end Menu_Refresh;
@@ -1082,6 +1102,7 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end MDI_Active_Window;
@@ -1099,6 +1120,7 @@ package body GWindows.Windows is
       return GWindows.Types.Handle;
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
       Client_Window : constant GWindows.Base.Base_Window_Access :=
         MDI_Client_Window (Window);
@@ -1128,6 +1150,7 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end MDI_Maximize_Window;
@@ -1148,6 +1171,7 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end MDI_Restore_Window;
@@ -1165,6 +1189,7 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end MDI_Tile_Horizontal;
@@ -1182,6 +1207,7 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end MDI_Tile_Vertical;
@@ -1199,6 +1225,7 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end MDI_Cascade;
@@ -1216,6 +1243,7 @@ package body GWindows.Windows is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end MDI_Arrange_Icons;
@@ -1903,6 +1931,7 @@ package body GWindows.Windows is
                return Natural;
                pragma Import (StdCall, Number_Of_Files,
                               "DragQueryFile" & Character_Mode_Identifier);
+               pragma Machine_Attribute (Number_Of_Files, "ms_abi");
 
                File_Count : constant Natural := Number_Of_Files;
 
@@ -1914,10 +1943,12 @@ package body GWindows.Windows is
                   Cch   : Integer        := C_File_Name'Length);
                pragma Import (StdCall, DragQueryFile,
                               "DragQueryFile" & Character_Mode_Identifier);
+               pragma Machine_Attribute (DragQueryFile, "ms_abi");
 
                procedure DragFinish
                  (HDROP : Types.Handle := Types.To_Handle (wParam));
                pragma Import (StdCall, DragFinish, "DragFinish");
+   pragma Machine_Attribute (DragFinish, "ms_abi");
 
             begin
                if File_Count > 0 then
@@ -2530,8 +2561,9 @@ package body GWindows.Windows is
 
       function IsZoomed
         (hwnd : GWindows.Types.Handle   := Handle (Window))
-        return Interfaces.C.long;
+        return Win32_Types.Long;
       pragma Import (StdCall, IsZoomed, "IsZoomed");
+   pragma Machine_Attribute (IsZoomed, "ms_abi");
    begin
       return IsZoomed /= 0;
    end Zoom;
@@ -2555,8 +2587,9 @@ package body GWindows.Windows is
 
       function IsIconic
         (hwnd : GWindows.Types.Handle   := Handle (Window))
-        return Interfaces.C.long;
+        return Win32_Types.Long;
       pragma Import (StdCall, IsIconic, "IsIconic");
+   pragma Machine_Attribute (IsIconic, "ms_abi");
    begin
       return IsIconic /= 0;
    end Iconic;
@@ -3660,6 +3693,7 @@ package body GWindows.Windows is
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreateDialog,
                        "CreateDialogParam" & Character_Mode_Identifier);
+      pragma Machine_Attribute (CreateDialog, "ms_abi");
 
    begin
       Attach_Dialog (Window, CreateDialog, Is_Dynamic);
@@ -3687,6 +3721,7 @@ package body GWindows.Windows is
         (hwnd  : GWindows.Types.Handle := Handle (Window);
          fAcpt : Boolean := State);
       pragma Import (StdCall, DragAcceptFiles, "DragAcceptFiles");
+   pragma Machine_Attribute (DragAcceptFiles, "ms_abi");
    begin
       DragAcceptFiles;
    end Accept_File_Drag_And_Drop;
@@ -3799,6 +3834,7 @@ package body GWindows.Windows is
       procedure GetKeyboardState
         (lpbKeyState : access Character := Keyboard_State (0)'Access);
       pragma Import (StdCall, GetKeyboardState, "GetKeyboardState");
+   pragma Machine_Attribute (GetKeyboardState, "ms_abi");
 
       Key_Value : aliased Interfaces.C.unsigned := 0;
 
@@ -3809,6 +3845,7 @@ package body GWindows.Windows is
          lpChar      : access Interfaces.C.unsigned := Key_Value'Access;
          uFlags      : in     Interfaces.C.int      := 0);
       pragma Import (StdCall, ToAscii, "ToAscii");
+   pragma Machine_Attribute (ToAscii, "ms_abi");
 
       procedure ToUnicode
         (uVirtKey    : in     Interfaces.C.int :=  Interfaces.C.int (wParam);
@@ -3818,6 +3855,7 @@ package body GWindows.Windows is
          ccBuff      : in     Integer               := 1;
          uFlags      : in     Interfaces.C.int      := 0);
       pragma Import (StdCall, ToUnicode, "ToUnicode");
+   pragma Machine_Attribute (ToUnicode, "ms_abi");
 
       VK_SHIFT                   : constant := 16;
       VK_CONTROL                 : constant := 17;

@@ -9,6 +9,7 @@ package body GWindows.Multi_Line_Edit_Without_Tab is
    function GetAsyncKeyState (vKey : Interfaces.C.int) return
       Interfaces.C.short;
    pragma Import (Stdcall, GetAsyncKeyState, "GetAsyncKeyState");
+   pragma Machine_Attribute (GetAsyncKeyState, "ms_abi");
 
    procedure On_Message
       (Window       : in out Multi_Line_Edit_Without_Tab_Type;

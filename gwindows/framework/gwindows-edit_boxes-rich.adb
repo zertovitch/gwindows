@@ -79,6 +79,7 @@ package body GWindows.Edit_Boxes.Rich is
    procedure LoadLibrary (LibName : GString_C);
    pragma Import (StdCall, LoadLibrary, "LoadLibrary"
                     & Character_Mode_Identifier);
+   pragma Machine_Attribute (LoadLibrary, "ms_abi");
 
    -------------------------------------------------------------------------
    --  Package Body
@@ -228,6 +229,7 @@ package body GWindows.Edit_Boxes.Rich is
          lParam : access Pointer_To_IUnknown := RichEditOle'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
       Document : ITextDocument_Type;
 
@@ -252,6 +254,7 @@ package body GWindows.Edit_Boxes.Rich is
            ENM_CHANGE or ENM_SCROLL or ENM_UPDATE);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
       On_Create (Edit_Box_Type (Edit));

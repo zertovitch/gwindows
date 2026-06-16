@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body ADO.Fields_Interface is
 
@@ -26,9 +27,9 @@ package body ADO.Fields_Interface is
 
    function Get_Count
       (This : Fields_Type)
-      return Interfaces.C.long
+      return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Count
@@ -87,7 +88,7 @@ package body ADO.Fields_Interface is
      (This        : Fields_Type;
       Name        : GNATCOM.Types.BSTR;
       uType       : DataTypeEnum;
-      DefinedSize : Interfaces.C.long;
+      DefinedSize : Win32_Types.Long;
       Attrib      : FieldAttributeEnum;
       Free        : Boolean := True)
    is

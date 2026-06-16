@@ -12,6 +12,7 @@ package body GWindows.Colored_Control_Window is
      (hwnd            : in  GWindows.Types.Handle;
       Rect            : out GWindows.Types.Rectangle_Type);
    pragma Import (StdCall, GetClientRect, "GetClientRect");
+   pragma Machine_Attribute (GetClientRect, "ms_abi");
 
    IMAGE_BITMAP : constant := 0;
    function CopyImage (hImage    : in GWindows.Types.Handle;
@@ -20,6 +21,7 @@ package body GWindows.Colored_Control_Window is
                        cyDesired : in Integer;
                        fuFlags   : in Integer) return GWindows.Types.Handle;
    pragma Import (StdCall, CopyImage, "CopyImage");
+   pragma Machine_Attribute (CopyImage, "ms_abi");
 
    procedure On_Message (Window       : in out Colored_Control_Window_Type;
                          message      : in     Interfaces.C.unsigned;

@@ -1,6 +1,7 @@
 with Ada.Unchecked_Conversion;
 with GNATCOM.Create.IConnectionPoint;
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATCOM.Create.IConnectionPointContainer is
 
@@ -50,14 +51,14 @@ package body GNATCOM.Create.IConnectionPointContainer is
      with Convention => Stdcall;
 
    type Pointer_To_IConnectionPoint_Array is array
-     (Interfaces.C.unsigned_long range <>) of
+     (Win32_Types.Unsigned_Long range <>) of
      GNATCOM.Types.Pointer_To_IConnectionPoint;
 
    type af_IEnumConnectionPoints_Next is access
      function (This   : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
-               cConnections : Interfaces.C.unsigned_long;
+               cConnections : Win32_Types.Unsigned_Long;
                ppCP         : out Pointer_To_IConnectionPoint_Array;
-               pcFetched    : access Interfaces.C.unsigned_long)
+               pcFetched    : access Win32_Types.Unsigned_Long)
                return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
 
@@ -68,7 +69,7 @@ package body GNATCOM.Create.IConnectionPointContainer is
 
    type af_IEnumConnectionPoints_Skip is access
      function (This : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
-               cConnections : Interfaces.C.unsigned_long)
+               cConnections : Win32_Types.Unsigned_Long)
                return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
 
@@ -83,9 +84,9 @@ package body GNATCOM.Create.IConnectionPointContainer is
 
    function IEnumConnectionPoints_Next
      (This         : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      cConnections : Interfaces.C.unsigned_long;
+      cConnections : Win32_Types.Unsigned_Long;
       ppCP         : out Pointer_To_IConnectionPoint_Array;
-      pcFetched    : access Interfaces.C.unsigned_long)
+      pcFetched    : access Win32_Types.Unsigned_Long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
 
@@ -96,7 +97,7 @@ package body GNATCOM.Create.IConnectionPointContainer is
 
    function IEnumConnectionPoints_Skip
      (This : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      cConnections : Interfaces.C.unsigned_long)
+      cConnections : Win32_Types.Unsigned_Long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
 
@@ -159,12 +160,12 @@ package body GNATCOM.Create.IConnectionPointContainer is
 
    function IEnumConnectionPoints_Next
      (This         : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      cConnections : Interfaces.C.unsigned_long;
+      cConnections : Win32_Types.Unsigned_Long;
       ppCP         : out Pointer_To_IConnectionPoint_Array;
-      pcFetched    : access Interfaces.C.unsigned_long)
+      pcFetched    : access Win32_Types.Unsigned_Long)
       return GNATCOM.Types.HRESULT
    is
-      use type Interfaces.C.unsigned_long;
+      use type Win32_Types.Unsigned_Long;
 
       function To_Pointer_To_Pointer_To_Void is new Ada.Unchecked_Conversion
         (GNATCOM.Types.Pointer_To_Pointer_To_IConnectionPoint,
@@ -172,9 +173,9 @@ package body GNATCOM.Create.IConnectionPointContainer is
 
       Obj : constant Pointer_To_EnumConnectionPoints_Type :=
         Pointer_To_EnumConnectionPoints_Type (This.CoClass);
-      Fetched : constant Interfaces.C.unsigned_long :=
-        Interfaces.C.unsigned_long'Min
-          (cConnections, Interfaces.C.unsigned_long (Obj.Last - Obj.I + 1));
+      Fetched : constant Win32_Types.Unsigned_Long :=
+        Win32_Types.Unsigned_Long'Min
+          (cConnections, Win32_Types.Unsigned_Long (Obj.Last - Obj.I + 1));
       Result : GNATCOM.Types.HRESULT;
       CP     : aliased GNATCOM.Types.Pointer_To_IConnectionPoint;
    begin
@@ -210,15 +211,15 @@ package body GNATCOM.Create.IConnectionPointContainer is
 
    function IEnumConnectionPoints_Skip
      (This         : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      cConnections : Interfaces.C.unsigned_long)
+      cConnections : Win32_Types.Unsigned_Long)
       return GNATCOM.Types.HRESULT
    is
-      use type Interfaces.C.unsigned_long;
+      use type Win32_Types.Unsigned_Long;
 
       Obj : constant Pointer_To_EnumConnectionPoints_Type :=
         Pointer_To_EnumConnectionPoints_Type (This.CoClass);
    begin
-      Obj.I := Positive (Interfaces.C.unsigned_long (Obj.I) + cConnections);
+      Obj.I := Positive (Win32_Types.Unsigned_Long (Obj.I) + cConnections);
       if Obj.I > Obj.Connections'Last then
          Obj.I := Obj.Connections'Last;
          return S_FALSE;

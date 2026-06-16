@@ -41,6 +41,7 @@ with Interfaces.C;
 
 with GNATCOM.Iinterface;
 with GNATCOM.Types;
+with Win32_Types;
 
 package GNATCOM.ICreateTypeInfo_Interface is
 
@@ -73,7 +74,7 @@ package GNATCOM.ICreateTypeInfo_Interface is
 
    procedure SetHelpContext
      (This          : ICreateTypeInfo_Type;
-      dwHelpContext : Interfaces.C.unsigned_long);
+      dwHelpContext : Win32_Types.Unsigned_Long);
 
    procedure SetVersion
      (This         : ICreateTypeInfo_Type;
@@ -93,7 +94,7 @@ package GNATCOM.ICreateTypeInfo_Interface is
    procedure AddImplType
      (This     : ICreateTypeInfo_Type;
       index    : Interfaces.C.unsigned;
-      hreftype : Interfaces.C.unsigned_long);
+      hreftype : Win32_Types.Unsigned_Long);
 
    procedure SetImplTypeFlags
      (This          : ICreateTypeInfo_Type;
@@ -147,12 +148,12 @@ package GNATCOM.ICreateTypeInfo_Interface is
    procedure SetFuncHelpContext
      (This          : ICreateTypeInfo_Type;
       index         : Interfaces.C.unsigned;
-      dwHelpContext : Interfaces.C.unsigned_long);
+      dwHelpContext : Win32_Types.Unsigned_Long);
 
    procedure SetVarHelpContext
      (This          : ICreateTypeInfo_Type;
       index         : Interfaces.C.unsigned;
-      dwHelpContext : Interfaces.C.unsigned_long);
+      dwHelpContext : Win32_Types.Unsigned_Long);
 
    procedure SetMops
      (This     : ICreateTypeInfo_Type;

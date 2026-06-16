@@ -1,5 +1,6 @@
 with GNATCOM.Create.COM_Interface;
 with GNATCOM.Types;
+with Win32_Types;
 
 package GNATCOM.Create.IDispatchEx is
 
@@ -14,7 +15,7 @@ package GNATCOM.Create.IDispatchEx is
      (This    : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       itinfo  : Interfaces.C.unsigned;
-      lcid    : Interfaces.C.unsigned_long;
+      lcid    : Win32_Types.Unsigned_Long;
       pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -25,7 +26,7 @@ package GNATCOM.Create.IDispatchEx is
       riid      : GNATCOM.Types.Pointer_To_GUID;
       rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
       cNames    : Interfaces.C.unsigned;
-      lcid      : Interfaces.C.unsigned_long;
+      lcid      : Win32_Types.Unsigned_Long;
       rgdispid  : GNATCOM.Types.Pointer_To_long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -33,9 +34,9 @@ package GNATCOM.Create.IDispatchEx is
    function IDispatchEx_Invoke
      (This         : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      dispidMember : Interfaces.C.long;
+      dispidMember : Win32_Types.Long;
       riid         : GNATCOM.Types.Pointer_To_GUID;
-      lcid         : Interfaces.C.unsigned_long;
+      lcid         : Win32_Types.Unsigned_Long;
       wFlags       : Interfaces.C.unsigned_short;
       pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
       pvarResult   : GNATCOM.Types.Pointer_To_VARIANT;
@@ -48,7 +49,7 @@ package GNATCOM.Create.IDispatchEx is
      (This     : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       bstrName : GNATCOM.Types.BSTR;
-      grfdex   : Interfaces.C.unsigned_long;
+      grfdex   : Win32_Types.Unsigned_Long;
       pid      : GNATCOM.Types.Pointer_To_long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -56,8 +57,8 @@ package GNATCOM.Create.IDispatchEx is
    function IDispatchEx_InvokeEx
      (This        : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      id          : Interfaces.C.long;
-      lcid        : Interfaces.C.unsigned_long;
+      id          : Win32_Types.Long;
+      lcid        : Win32_Types.Unsigned_Long;
       wFlags      : Interfaces.C.unsigned_short;
       pdp         : GNATCOM.Types.Pointer_To_DISPPARAMS;
       pvarRes     : GNATCOM.Types.Pointer_To_VARIANT;
@@ -70,22 +71,22 @@ package GNATCOM.Create.IDispatchEx is
      (This     : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       bstrName : GNATCOM.Types.BSTR;
-      grfdex   : Interfaces.C.unsigned_long)
+      grfdex   : Win32_Types.Unsigned_Long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
 
    function IDispatchEx_DeleteMemberByDispID
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      id   : Interfaces.C.long)
+      id   : Win32_Types.Long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
 
    function IDispatchEx_GetMemberProperties
      (This        : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      id          : Interfaces.C.long;
-      grfdexFetch : Interfaces.C.unsigned_long;
+      id          : Win32_Types.Long;
+      grfdexFetch : Win32_Types.Unsigned_Long;
       pgrfdex     : GNATCOM.Types.Pointer_To_unsigned_long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -93,7 +94,7 @@ package GNATCOM.Create.IDispatchEx is
    function IDispatchEx_GetMemberName
      (This      : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      id        : Interfaces.C.long;
+      id        : Win32_Types.Long;
       pbstrName : GNATCOM.Types.Pointer_To_BSTR)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -101,8 +102,8 @@ package GNATCOM.Create.IDispatchEx is
    function IDispatchEx_GetNextDispID
      (This   : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      grfdex : Interfaces.C.unsigned_long;
-      id     : Interfaces.C.long;
+      grfdex : Win32_Types.Unsigned_Long;
+      id     : Win32_Types.Long;
       pid    : GNATCOM.Types.Pointer_To_long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -125,7 +126,7 @@ package GNATCOM.Create.IDispatchEx is
      (This    : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       itinfo  : Interfaces.C.unsigned;
-      lcid    : Interfaces.C.unsigned_long;
+      lcid    : Win32_Types.Unsigned_Long;
       pptinfo : GNATCOM.Types.Pointer_To_Pointer_To_Void)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -136,7 +137,7 @@ package GNATCOM.Create.IDispatchEx is
       riid      : GNATCOM.Types.Pointer_To_GUID;
       rgszNames : GNATCOM.Types.Pointer_To_Pointer_To_char;
       cNames    : Interfaces.C.unsigned;
-      lcid      : Interfaces.C.unsigned_long;
+      lcid      : Win32_Types.Unsigned_Long;
       rgdispid  : GNATCOM.Types.Pointer_To_long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -144,9 +145,9 @@ package GNATCOM.Create.IDispatchEx is
    type af_IDispatchEx_Invoke is access function
      (This         : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      dispidMember : Interfaces.C.long;
+      dispidMember : Win32_Types.Long;
       riid         : GNATCOM.Types.Pointer_To_GUID;
-      lcid         : Interfaces.C.unsigned_long;
+      lcid         : Win32_Types.Unsigned_Long;
       wFlags       : Interfaces.C.unsigned_short;
       pdispparams  : GNATCOM.Types.Pointer_To_DISPPARAMS;
       pvarResult   : GNATCOM.Types.Pointer_To_VARIANT;
@@ -159,7 +160,7 @@ package GNATCOM.Create.IDispatchEx is
      (This     : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       bstrName : GNATCOM.Types.BSTR;
-      grfdex   : Interfaces.C.unsigned_long;
+      grfdex   : Win32_Types.Unsigned_Long;
       pid      : GNATCOM.Types.Pointer_To_long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -167,8 +168,8 @@ package GNATCOM.Create.IDispatchEx is
    type af_IDispatchEx_InvokeEx is access function
      (This        : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      id          : Interfaces.C.long;
-      lcid        : Interfaces.C.unsigned_long;
+      id          : Win32_Types.Long;
+      lcid        : Win32_Types.Unsigned_Long;
       wFlags      : Interfaces.C.unsigned_short;
       pdp         : GNATCOM.Types.Pointer_To_DISPPARAMS;
       pvarRes     : GNATCOM.Types.Pointer_To_VARIANT;
@@ -181,22 +182,22 @@ package GNATCOM.Create.IDispatchEx is
      (This     : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
       bstrName : GNATCOM.Types.BSTR;
-      grfdex   : Interfaces.C.unsigned_long)
+      grfdex   : Win32_Types.Unsigned_Long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
 
    type af_IDispatchEx_DeleteMemberByDispID is access function
      (This : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      id   : Interfaces.C.long)
+      id   : Win32_Types.Long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
 
    type af_IDispatchEx_GetMemberProperties is access function
      (This        : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      id          : Interfaces.C.long;
-      grfdexFetch : Interfaces.C.unsigned_long;
+      id          : Win32_Types.Long;
+      grfdexFetch : Win32_Types.Unsigned_Long;
       pgrfdex     : GNATCOM.Types.Pointer_To_unsigned_long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -204,7 +205,7 @@ package GNATCOM.Create.IDispatchEx is
    type af_IDispatchEx_GetMemberName is access function
      (This      : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      id        : Interfaces.C.long;
+      id        : Win32_Types.Long;
       pbstrName : GNATCOM.Types.Pointer_To_BSTR)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;
@@ -212,8 +213,8 @@ package GNATCOM.Create.IDispatchEx is
    type af_IDispatchEx_GetNextDispID is access function
      (This   : access
         GNATCOM.Create.COM_Interface.COM_Interface_Type;
-      grfdex : Interfaces.C.unsigned_long;
-      id     : Interfaces.C.long;
+      grfdex : Win32_Types.Unsigned_Long;
+      id     : Win32_Types.Long;
       pid    : GNATCOM.Types.Pointer_To_long)
       return GNATCOM.Types.HRESULT
      with Convention => Stdcall;

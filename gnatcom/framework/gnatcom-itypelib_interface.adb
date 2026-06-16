@@ -45,6 +45,7 @@ package body GNATCOM.ITypeLib_Interface is
       ppTLib  : access GNATCOM.Types.Pointer_To_ITypeLib)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, LoadTypeLib, "LoadTypeLib");
+   pragma Machine_Attribute (LoadTypeLib, "ms_abi");
 
    ----------
    -- Open --
@@ -86,7 +87,7 @@ package body GNATCOM.ITypeLib_Interface is
    procedure FindName
      (This      : ITypeLib_Type;
       szNameBuf : GNATCOM.Types.BSTR;
-      lHashVal  : Interfaces.C.unsigned_long;
+      lHashVal  : Win32_Types.Unsigned_Long;
       ppTInfo   : GNATCOM.Types.Pointer_To_Pointer_To_ITypeInfo;
       rgMemId   : GNATCOM.Types.Pointer_To_long;
       pcFound   : GNATCOM.Types.Pointer_To_int;
@@ -243,7 +244,7 @@ package body GNATCOM.ITypeLib_Interface is
    function IsName
      (This      : ITypeLib_Type;
       szNameBuf : GNATCOM.Types.BSTR;
-      lHashVal  : Interfaces.C.unsigned_long;
+      lHashVal  : Win32_Types.Unsigned_Long;
       Clear     : Boolean                       := True)
      return GNATCOM.Types.bool
    is

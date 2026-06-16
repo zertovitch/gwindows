@@ -46,6 +46,7 @@ package body GWindows.Key_States is
    --  winuser.h declares this to return SHORT, but we need it
    --  unsigned for Is_Key_Down.
    pragma Import (StdCall, GetKeyState, "GetKeyState");
+   pragma Machine_Attribute (GetKeyState, "ms_abi");
 
    -----------------
    -- Is_Key_Down --

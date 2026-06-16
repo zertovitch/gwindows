@@ -40,6 +40,7 @@
 --  should be deallocated with the Free procedure
 
 with Interfaces.C;
+with Win32_Types;
 
 with GNATCOM.Types;
 
@@ -65,7 +66,7 @@ package GNATCOM.BSTR is
    function To_BSTR_From_C (From : Interfaces.C.char_array)
                            return GNATCOM.Types.BSTR;
 
-   function To_BSTR_From_Wide_C (From : Interfaces.C.wchar_array)
+   function To_BSTR_From_Wide_C (From : Win32_Types.wchar_array)
                                 return GNATCOM.Types.BSTR;
    --  Allocates a new BSTR from a C String
    --
@@ -91,7 +92,7 @@ package GNATCOM.BSTR is
 
    function To_C_Wide (From : GNATCOM.Types.BSTR;
                        Free : Boolean            := True)
-                      return Interfaces.C.wchar_array;
+                      return Win32_Types.wchar_array;
    --  Returns a C string and dallocates the BSTR if Free is true
    --  The BSTR can not be empty or BSTR_ERROR will be raised
    --  Non-standard use of BSTRs, ie. those that contain nulls in the

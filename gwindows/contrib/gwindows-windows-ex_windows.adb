@@ -35,6 +35,7 @@
 
 with Ada.Unchecked_Conversion; use Ada;
 with Interfaces.C; use Interfaces.C;
+with Win32_Types;
 with GWindows.GStrings; use GWindows.GStrings;
 
 package body GWindows.Windows.Ex_Windows is
@@ -47,7 +48,7 @@ package body GWindows.Windows.Ex_Windows is
          hdr       : GWindows.Base.Notification;
          lptstr    : Interfaces.C.int;
          SzText    : char_array (1 .. 80);
-         Hinst     : Interfaces.C.long;
+         Hinst     : Win32_Types.Long;
          UFlags    : Interfaces.C.int;
          Lparam    : Integer;
       end record;
@@ -80,7 +81,7 @@ package body GWindows.Windows.Ex_Windows is
    procedure On_Notify (Window       : in out Ex_Window_Type;
                         Message      : in     Pointer_To_Notification;
                         Control      : in     Pointer_To_Base_Window_Class;
-                        Return_Value : in out Interfaces.C.long)
+                        Return_Value : in out Win32_Types.Long)
    is
       pragma Warnings (Off, Control);
       pragma Warnings (Off, Return_Value);

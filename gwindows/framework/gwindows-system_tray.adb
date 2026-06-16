@@ -175,6 +175,7 @@ package body GWindows.System_Tray  is
 
       pragma Import (StdCall, Shell_NotifyIcon,
                      "Shell_NotifyIcon" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Shell_NotifyIcon, "ms_abi");
 
       use type Interfaces.C.int;
    begin

@@ -1,4 +1,5 @@
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATOCX.ISequentialStream_Interface is
 
@@ -25,7 +26,7 @@ package body GNATOCX.ISequentialStream_Interface is
    procedure RemoteRead
      (This    : ISequentialStream_Type;
       pv      : Pointer_To_unsigned_char;
-      cb      : Interfaces.C.unsigned_long;
+      cb      : Win32_Types.Unsigned_Long;
       pcbRead : GNATCOM.Types.Pointer_To_unsigned_long)
    is
    begin
@@ -41,7 +42,7 @@ package body GNATOCX.ISequentialStream_Interface is
    procedure RemoteWrite
      (This       : ISequentialStream_Type;
       pv         : Pointer_To_unsigned_char;
-      cb         : Interfaces.C.unsigned_long;
+      cb         : Win32_Types.Unsigned_Long;
       pcbWritten : GNATCOM.Types.Pointer_To_unsigned_long)
    is
    begin

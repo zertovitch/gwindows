@@ -50,6 +50,7 @@ with Ada.Command_Line,
 with Interfaces.C;
 
 with System.Storage_Elements;
+with Win32_Types;
 
 package body GWindows.Single_Instance is
 
@@ -87,6 +88,7 @@ package body GWindows.Single_Instance is
      lParam  : Types.Lparam)
      return Types.Lresult;
   pragma Convention (Stdcall, Application_Custom_WndProc);
+   pragma Machine_Attribute (Application_Custom_WndProc, "ms_abi");
 
   ----------------------------------------------------------------------
   --  Streams writing/reading to/from a bounded memory block          --
@@ -220,6 +222,7 @@ package body GWindows.Single_Instance is
               (StdCall,
                SendMessage,
                "SendMessage" & Character_Mode_Identifier);
+            pragma Machine_Attribute (SendMessage, "ms_abi");
             Stream : aliased Memory_Streams.Memory_Stream;
             Buffer :
               System.Storage_Elements.Storage_Array (1 .. IPC_BUFFER_SIZE) :=
@@ -284,6 +287,7 @@ package body GWindows.Single_Instance is
         (StdCall,
          LoadIcon,
          "LoadIcon" & Character_Mode_Identifier);
+      pragma Machine_Attribute (LoadIcon, "ms_abi");
 
       Window_Class        : Base.WNDCLASS;
       Window_Class_Name_C : constant
@@ -293,7 +297,7 @@ package body GWindows.Single_Instance is
       Window_Class.hIcon         := LoadIcon;
       Window_Class.lpszClassName :=
         Window_Class_Name_C (Window_Class_Name_C'First)'Unrestricted_Access;
-      Window_Class.lpfnWndProc   := Application_Custom_WndProc'Address;
+      Window_Class.lpfnWndProc   := Application_Custom_WndProc'Code_Address;
       Base.Register_Class (Window_Class);
   end Register_Class_Name;
 
@@ -312,6 +316,7 @@ package body GWindows.Single_Instance is
       (StdCall,
        CreateMutex,
        "CreateMutex" & Character_Mode_Identifier);
+    pragma Machine_Attribute (CreateMutex, "ms_abi");
 
     Error        : Integer;
     Mutex_Handle : Types.Handle;
@@ -339,6 +344,7 @@ package body GWindows.Single_Instance is
                         return Types.Handle;
     pragma Import (StdCall, FindWindow,
                    "FindWindow" & Character_Mode_Identifier);
+    pragma Machine_Attribute (FindWindow, "ms_abi");
 
     ClassName  : constant GString_C :=
       GStrings.To_GString_C (Class_Name);
@@ -350,6 +356,7 @@ package body GWindows.Single_Instance is
   function Is_Zoomed (hWnd : Types.Handle) return Boolean is
     function IsZoomed (hWnd2 : Types.Handle) return BOOL;
     pragma Import (StdCall, IsZoomed, "IsZoomed");
+   pragma Machine_Attribute (IsZoomed, "ms_abi");
   begin
     return IsZoomed (hWnd) /= 0;
   end Is_Zoomed;
@@ -358,6 +365,7 @@ package body GWindows.Single_Instance is
   function Is_Iconic (hWnd : Types.Handle) return Boolean is
     function IsIconic (hWnd2 : Types.Handle) return BOOL;
     pragma Import (StdCall, IsIconic, "IsIconic");
+   pragma Machine_Attribute (IsIconic, "ms_abi");
   begin
     return IsIconic (hWnd) /= 0;
   end Is_Iconic;
@@ -366,6 +374,7 @@ package body GWindows.Single_Instance is
   procedure Set_Foreground_Window (hWnd : Types.Handle) is
     procedure SetForegroundWindow (hWnd2 : Types.Handle);
     pragma Import (StdCall, SetForegroundWindow, "SetForegroundWindow");
+   pragma Machine_Attribute (SetForegroundWindow, "ms_abi");
   begin
     SetForegroundWindow (hWnd);
   end Set_Foreground_Window;
@@ -375,10 +384,11 @@ package body GWindows.Single_Instance is
                          Cmd  : Integer)
   is
     procedure ShowWindow (hwnd2    : Types.Handle;
-                          nCmdShow : Interfaces.C.long);
+                          nCmdShow : Win32_Types.Long);
     pragma Import (StdCall, ShowWindow, "ShowWindow");
+   pragma Machine_Attribute (ShowWindow, "ms_abi");
   begin
-    ShowWindow (hWnd, Interfaces.C.long (Cmd));
+    ShowWindow (hWnd, Win32_Types.Long (Cmd));
   end Show_Window;
 
   --  ************************************************************************

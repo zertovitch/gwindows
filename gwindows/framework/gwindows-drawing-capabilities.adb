@@ -58,6 +58,7 @@ package body GWindows.Drawing.Capabilities is
          iCapability : Integer               := Index)
         return Interfaces.C.unsigned;
       pragma Import (StdCall, GetDeviceCaps, "GetDeviceCaps");
+   pragma Machine_Attribute (GetDeviceCaps, "ms_abi");
    begin
       return GetDeviceCaps;
    end Get_Capability;

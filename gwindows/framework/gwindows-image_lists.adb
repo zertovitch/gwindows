@@ -76,6 +76,7 @@ package body GWindows.Image_Lists is
       procedure ImageList_Destroy
         (HIML : GWindows.Types.Handle := List.HIMAGELIST);
       pragma Import (StdCall, ImageList_Destroy, "ImageList_Destroy");
+   pragma Machine_Attribute (ImageList_Destroy, "ms_abi");
    begin
       ImageList_Destroy;
    end Destroy;
@@ -135,6 +136,7 @@ package body GWindows.Image_Lists is
          Grow  : Interfaces.C.int      := Interfaces.C.int (Grow_By))
         return GWindows.Types.Handle;
       pragma Import (StdCall, ImageList_Create, "ImageList_Create");
+   pragma Machine_Attribute (ImageList_Create, "ms_abi");
    begin
       Handle (List, ImageList_Create (FLAGS => Get_Color_Flag (Color_Option)));
    end Create;
@@ -160,6 +162,7 @@ package body GWindows.Image_Lists is
          FLAGS : in     Interfaces.C.unsigned  := LR_CREATEDIBSECTION)
         return GWindows.Types.Handle;
       pragma Import (StdCall, ImageList_LoadImage, "ImageList_LoadImage");
+   pragma Machine_Attribute (ImageList_LoadImage, "ms_abi");
    begin
       Handle (List, ImageList_LoadImage
         (FLAGS => Get_Color_Flag (Color_Option)));
@@ -192,6 +195,7 @@ package body GWindows.Image_Lists is
          FLAGS : in     Interfaces.C.unsigned := LR_LOADFROMFILE)
         return GWindows.Types.Handle;
       pragma Import (StdCall, ImageList_LoadImage, "ImageList_LoadImage");
+   pragma Machine_Attribute (ImageList_LoadImage, "ms_abi");
       use type Interfaces.C.unsigned;
    begin
       Handle (List, ImageList_LoadImage
@@ -211,6 +215,7 @@ package body GWindows.Image_Lists is
          HICON : GWindows.Types.Handle :=
            GWindows.Drawing_Objects.Handle (Icon));
       pragma Import (StdCall, ImageList_ReplaceIcon, "ImageList_ReplaceIcon");
+   pragma Machine_Attribute (ImageList_ReplaceIcon, "ms_abi");
    begin
       ImageList_ReplaceIcon;
    end Add_Icon;
@@ -229,6 +234,7 @@ package body GWindows.Image_Lists is
          HICON : GWindows.Types.Handle :=
            GWindows.Drawing_Objects.Handle (Icon));
       pragma Import (StdCall, ImageList_ReplaceIcon, "ImageList_ReplaceIcon");
+   pragma Machine_Attribute (ImageList_ReplaceIcon, "ms_abi");
    begin
       ImageList_ReplaceIcon;
    end Replace_Icon;
@@ -246,6 +252,7 @@ package body GWindows.Image_Lists is
            GWindows.Drawing_Objects.Handle (Bitmap);
          Mask : Integer               := 0);
       pragma Import (StdCall, ImageList_Add, "ImageList_Add");
+   pragma Machine_Attribute (ImageList_Add, "ms_abi");
    begin
       ImageList_Add;
    end Add;
@@ -262,6 +269,7 @@ package body GWindows.Image_Lists is
       pragma Import (StdCall,
                      ImageList_GetImageCount,
                      "ImageList_GetImageCount");
+      pragma Machine_Attribute (ImageList_GetImageCount, "ms_abi");
    begin
       return ImageList_GetImageCount;
    end Count;
@@ -280,6 +288,7 @@ package body GWindows.Image_Lists is
          DX   : Integer               := X;
          DY   : Integer               := Y);
       pragma Import (StdCall, ImageList_BeginDrag, "ImageList_BeginDrag");
+   pragma Machine_Attribute (ImageList_BeginDrag, "ms_abi");
    begin
       ImageList_BeginDrag;
    end Begin_Drag;
@@ -294,6 +303,7 @@ package body GWindows.Image_Lists is
       pragma Import (StdCall,
                      ImageList_EndDrag,
                      "ImageList_EndDrag");
+      pragma Machine_Attribute (ImageList_EndDrag, "ms_abi");
    begin
       ImageList_EndDrag;
    end End_Drag;
@@ -314,6 +324,7 @@ package body GWindows.Image_Lists is
       pragma Import (StdCall,
                      ImageList_SetDragCursorImage,
                      "ImageList_SetDragCursorImage");
+      pragma Machine_Attribute (ImageList_SetDragCursorImage, "ms_abi");
    begin
       ImageList_SetDragCursorImage;
    end Drag_Cursor_Image;
@@ -330,6 +341,7 @@ package body GWindows.Image_Lists is
          DX   : Integer               := X;
          DY   : Integer               := Y);
       pragma Import (StdCall, ImageList_DragEnter, "ImageList_DragEnter");
+   pragma Machine_Attribute (ImageList_DragEnter, "ms_abi");
    begin
       ImageList_DragEnter;
    end Drag_Enter;
@@ -343,6 +355,7 @@ package body GWindows.Image_Lists is
       procedure ImageList_DragLeave
         (HWIN : GWindows.Types.Handle := GWindows.Base.Handle (Window));
       pragma Import (StdCall, ImageList_DragLeave, "ImageList_DragLeave");
+   pragma Machine_Attribute (ImageList_DragLeave, "ms_abi");
    begin
       ImageList_DragLeave;
    end Drag_Leave;
@@ -360,6 +373,7 @@ package body GWindows.Image_Lists is
         (DX : Integer := X;
          DY : Integer := Y);
       pragma Import (StdCall, ImageList_DragMove, "ImageList_DragMove");
+   pragma Machine_Attribute (ImageList_DragMove, "ms_abi");
    begin
       ImageList_DragMove;
    end Drag_Move;
@@ -375,6 +389,7 @@ package body GWindows.Image_Lists is
       pragma Import (StdCall,
                      ImageList_DragShowNolock,
                      "ImageList_DragShowNolock");
+      pragma Machine_Attribute (ImageList_DragShowNolock, "ms_abi");
    begin
       ImageList_DragShowNolock;
    end Drag_Show_Image;
@@ -390,6 +405,7 @@ package body GWindows.Image_Lists is
       pragma Import (StdCall,
                      ImageList_DragShowNolock,
                      "ImageList_DragShowNolock");
+      pragma Machine_Attribute (ImageList_DragShowNolock, "ms_abi");
    begin
       ImageList_DragShowNolock;
    end Drag_Hide_Image;
@@ -426,6 +442,7 @@ package body GWindows.Image_Lists is
          Flags : Natural               := 0)
         return GWindows.Types.Handle;
       pragma Import (StdCall, ImageList_GetIcon, "ImageList_GetIcon");
+   pragma Machine_Attribute (ImageList_GetIcon, "ms_abi");
    begin
       GWindows.Drawing_Objects.Handle (Icon, ImageList_GetIcon);
    end Get_Icon;
@@ -447,6 +464,7 @@ package body GWindows.Image_Lists is
          DY    : Integer               := Y;
          Style : Integer               := 0);
       pragma Import (StdCall, ImageList_Draw, "ImageList_Draw");
+   pragma Machine_Attribute (ImageList_Draw, "ms_abi");
    begin
       ImageList_Draw;
    end Draw;

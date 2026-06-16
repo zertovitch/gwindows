@@ -58,6 +58,7 @@ package body GWindows.Edit_Boxes is
       newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong, "SetWindowLong"
                     & Character_Mode_Identifier);
+   pragma Machine_Attribute (SetWindowLong, "ms_abi");
 
    function GetWindowLong
      (hwnd   : GWindows.Types.Handle;
@@ -65,6 +66,7 @@ package body GWindows.Edit_Boxes is
      return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong, "GetWindowLong"
                     & Character_Mode_Identifier);
+   pragma Machine_Attribute (GetWindowLong, "ms_abi");
 
    SWP_NOSIZE                 : constant := 1;
    SWP_NOMOVE                 : constant := 2;
@@ -81,6 +83,7 @@ package body GWindows.Edit_Boxes is
       fuFlags         : Interfaces.C.unsigned :=
         SWP_NOMOVE or SWP_NOSIZE or SWP_NOZORDER or SWP_FRAMECHANGED);
    pragma Import (StdCall, SetWindowPos, "SetWindowPos");
+   pragma Machine_Attribute (SetWindowPos, "ms_abi");
 
    ------------
    -- Create --
@@ -368,6 +371,7 @@ package body GWindows.Edit_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       if State then
          SendMessage;
@@ -395,6 +399,7 @@ package body GWindows.Edit_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Password;
@@ -408,6 +413,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Types.To_Integer (SendMessage) /= 0;
    end Password;
@@ -424,6 +430,7 @@ package body GWindows.Edit_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Cut;
@@ -440,6 +447,7 @@ package body GWindows.Edit_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Copy;
@@ -456,6 +464,7 @@ package body GWindows.Edit_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Paste;
@@ -472,6 +481,7 @@ package body GWindows.Edit_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Clear;
@@ -488,6 +498,7 @@ package body GWindows.Edit_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Undo;
@@ -504,6 +515,7 @@ package body GWindows.Edit_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Clear_Undo;
@@ -522,6 +534,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
       use type Types.Lresult;
    begin
       return SendMessage /= 0;
@@ -541,6 +554,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Types.To_Integer (SendMessage);
    end First_Visible;
@@ -559,6 +573,7 @@ package body GWindows.Edit_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Text_Limit;
@@ -573,6 +588,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Types.To_Integer (SendMessage);
    end Text_Limit;
@@ -591,6 +607,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Types.To_Integer (SendMessage);
    end Line_Count;
@@ -609,6 +626,7 @@ package body GWindows.Edit_Boxes is
          lParam : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       if State then
          SendMessage;
@@ -626,6 +644,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
       use type Types.Lresult;
    begin
       return SendMessage /= 0;
@@ -650,6 +669,7 @@ package body GWindows.Edit_Boxes is
          lParam : access Natural    := End_Pos'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
       Start_Position := Start_Pos;
@@ -672,6 +692,7 @@ package body GWindows.Edit_Boxes is
          lParam  : GWindows.Types.Lparam);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
 
    begin
       SendMessage (wParam => Types.To_Wparam (Start_Position),
@@ -696,6 +717,7 @@ package body GWindows.Edit_Boxes is
          lParam : access GChar_C           := C_Text (C_Text'First)'Access);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       if Can_Undo then
          SendMessage;
@@ -720,6 +742,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Types.To_Integer (SendMessage) + 1;
    end Line_From_Position;
@@ -740,6 +763,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Types.To_Integer (SendMessage) + 1;
    end Position_From_Line;
@@ -775,6 +799,7 @@ package body GWindows.Edit_Boxes is
               return GWindows.Types.Lresult;
             pragma Import (StdCall, SendMessage, "SendMessage"
                              & Character_Mode_Identifier);
+            pragma Machine_Attribute (SendMessage, "ms_abi");
             use type Types.Lresult;
          begin
             To_PINT (C_Text (0)'Unchecked_Access).all := Length;
@@ -805,6 +830,7 @@ package body GWindows.Edit_Boxes is
         return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       if Position = 0 then
          return 0;
@@ -828,6 +854,7 @@ package body GWindows.Edit_Boxes is
       return GWindows.Types.Lresult;
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       return Types.To_Integer (SendMessage);
    end Scroll_Position;
@@ -846,6 +873,7 @@ package body GWindows.Edit_Boxes is
          lParam  : GWindows.Types.Lparam   := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       case Command is
          when Line_Up =>
@@ -871,6 +899,7 @@ package body GWindows.Edit_Boxes is
          lParam  : GWindows.Types.Lparam := 0);
       pragma Import (StdCall, SendMessage, "SendMessage"
                        & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
    begin
       SendMessage;
    end Scroll_To_Caret;

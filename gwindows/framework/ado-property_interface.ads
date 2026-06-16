@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package ADO.Property_Interface is
 
@@ -32,10 +33,10 @@ package ADO.Property_Interface is
 
    function Get_Attributes
      (This         : Property_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Attributes
      (This         : Property_Type;
-      plAttributes : Interfaces.C.long);
+      plAttributes : Win32_Types.Long);
 
 end ADO.Property_Interface;

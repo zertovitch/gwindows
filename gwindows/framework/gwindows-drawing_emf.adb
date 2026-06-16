@@ -1,4 +1,5 @@
 with GWindows.GStrings;
+with Win32_Types;
 
 package body GWindows.Drawing_EMF is
 
@@ -11,6 +12,7 @@ package body GWindows.Drawing_EMF is
       function GetEnhMetaFile (lpFilename    : Pointer_To_GChar_C)
         return GWindows.Types.Handle;
       pragma Import (Stdcall, GetEnhMetaFile, "GetEnhMetaFileW");
+      pragma Machine_Attribute (GetEnhMetaFile, "ms_abi");
       Filename : GString_C := GWindows.GStrings.To_GString_C (File_Name);
    begin
       Delete (Emf);
@@ -19,19 +21,19 @@ package body GWindows.Drawing_EMF is
 
    type ENHMETAHEADER is
       record
-         iType          : Interfaces.C.unsigned_long;
-         nSize          : Interfaces.C.unsigned_long;
+         iType          : Win32_Types.Unsigned_Long;
+         nSize          : Win32_Types.Unsigned_Long;
          rclBounds      : GWindows.Types.Rectangle_Type;
          rclFrame       : GWindows.Types.Rectangle_Type;
-         dSignature     : Interfaces.C.unsigned_long;
-         nVersion       : Interfaces.C.unsigned_long;
-         nBytes         : Interfaces.C.unsigned_long;
-         nRecords       : Interfaces.C.unsigned_long;
-         nHandles       : Interfaces.C.unsigned_long;
-         sReserved      : Interfaces.C.unsigned_long;
-         nDescription   : Interfaces.C.unsigned_long;
-         offDescription : Interfaces.C.unsigned_long;
-         nPalEntries    : Interfaces.C.unsigned_long;
+         dSignature     : Win32_Types.Unsigned_Long;
+         nVersion       : Win32_Types.Unsigned_Long;
+         nBytes         : Win32_Types.Unsigned_Long;
+         nRecords       : Win32_Types.Unsigned_Long;
+         nHandles       : Win32_Types.Unsigned_Long;
+         sReserved      : Win32_Types.Unsigned_Long;
+         nDescription   : Win32_Types.Unsigned_Long;
+         offDescription : Win32_Types.Unsigned_Long;
+         nPalEntries    : Win32_Types.Unsigned_Long;
          szlDevice      : GWindows.Types.Size_Type;
          szlMillimeters : GWindows.Types.Size_Type;
       end record;
@@ -44,6 +46,7 @@ package body GWindows.Drawing_EMF is
          cbBuffer     : in     Interfaces.C.unsigned;
          emh          : in out ENHMETAHEADER);
       pragma Import (Stdcall, GetEnhMetaFileHeader, "GetEnhMetaFileHeader");
+      pragma Machine_Attribute (GetEnhMetaFileHeader, "ms_abi");
       emh    : ENHMETAHEADER;
       Result : GWindows.Types.Rectangle_Type;
    begin
@@ -62,6 +65,7 @@ package body GWindows.Drawing_EMF is
    is
       procedure DeleteEnhMetaFile (HENHMETAFILE : GWindows.Types.Handle);
       pragma Import (StdCall, DeleteEnhMetaFile, "DeleteEnhMetaFile");
+   pragma Machine_Attribute (DeleteEnhMetaFile, "ms_abi");
    begin
       if Handle (Emf) /= GWindows.Types.Null_Handle then
          DeleteEnhMetaFile (Handle (Emf));

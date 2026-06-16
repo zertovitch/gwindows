@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package ADO.Field_Interface is
 
@@ -19,15 +20,15 @@ package ADO.Field_Interface is
 
    function Get_ActualSize
      (This : Field_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_Attributes
      (This : Field_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_DefinedSize
      (This : Field_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_Name
      (This  : Field_Type)
@@ -61,7 +62,7 @@ package ADO.Field_Interface is
 
    function GetChunk
      (This   : Field_Type;
-      Length : Interfaces.C.long)
+      Length : Win32_Types.Long)
      return GNATCOM.Types.VARIANT;
 
    function Get_OriginalValue
@@ -94,10 +95,10 @@ package ADO.Field_Interface is
 
    procedure Put_DefinedSize
      (This : Field_Type;
-      pl   : Interfaces.C.long);
+      pl   : Win32_Types.Long);
 
    procedure Put_Attributes
      (This : Field_Type;
-      pl   : Interfaces.C.long);
+      pl   : Win32_Types.Long);
 
 end ADO.Field_Interface;

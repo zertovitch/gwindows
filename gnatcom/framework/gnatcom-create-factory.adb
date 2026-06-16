@@ -38,6 +38,7 @@
 with System;
 with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
+with Win32_Types;
 
 package body GNATCOM.Create.Factory is
 
@@ -80,7 +81,7 @@ package body GNATCOM.Create.Factory is
 
    function AddRef
      (This : access IClassFactory)
-      return Interfaces.C.unsigned_long
+      return Win32_Types.Unsigned_Long
    is
       Result : Interfaces.Unsigned_32;
       pragma Warnings (Off, Result);
@@ -89,7 +90,7 @@ package body GNATCOM.Create.Factory is
       --  is also the object
       Result := InterlockedIncrement (This.Ref_Count'Access);
 
-      return Interfaces.C.unsigned_long (This.Ref_Count);
+      return Win32_Types.Unsigned_Long (This.Ref_Count);
    end AddRef;
 
    -- CreateInstance --
@@ -108,7 +109,7 @@ package body GNATCOM.Create.Factory is
       Result   : Interfaces.Unsigned_32;
       pragma Warnings (Off, Result);
 
-      Refcount : Interfaces.C.unsigned_long;
+      Refcount : Win32_Types.Unsigned_Long;
       pragma Warnings (Off, Refcount);
    begin
       if pUnkOuter /= null then
@@ -145,7 +146,7 @@ package body GNATCOM.Create.Factory is
       fLock : in     GNATCOM.Types.bool)
       return GNATCOM.Types.HRESULT
    is
-      use type Interfaces.C.long;
+      use type Win32_Types.Long;
 
       pragma Warnings (Off, This);
 
@@ -201,12 +202,12 @@ package body GNATCOM.Create.Factory is
 
    function Release
      (This : access IClassFactory)
-      return Interfaces.C.unsigned_long
+      return Win32_Types.Unsigned_Long
    is
       use type Interfaces.Unsigned_32;
    begin
       if InterlockedDecrement (This.Ref_Count'Access) /= 0 then
-         return Interfaces.C.unsigned_long (This.Ref_Count);
+         return Win32_Types.Unsigned_Long (This.Ref_Count);
       else
          --  Last reference to IClassFactory and IUnknown released,
          --  so free the object

@@ -56,6 +56,7 @@ package body GWindows.Carets is
          W    : Integer := Width;
          H    : Integer := Height);
       pragma Import (StdCall, CreateCaret, "CreateCaret");
+   pragma Machine_Attribute (CreateCaret, "ms_abi");
    begin
       CreateCaret;
    end Create_Solid_Caret;
@@ -75,6 +76,7 @@ package body GWindows.Carets is
          W    : Integer := Width;
          H    : Integer := Height);
       pragma Import (StdCall, CreateCaret, "CreateCaret");
+   pragma Machine_Attribute (CreateCaret, "ms_abi");
    begin
       CreateCaret;
    end Create_Gray_Caret;
@@ -93,6 +95,7 @@ package body GWindows.Carets is
          W    : Integer := 0;
          H    : Integer := 0);
       pragma Import (StdCall, CreateCaret, "CreateCaret");
+   pragma Machine_Attribute (CreateCaret, "ms_abi");
    begin
       CreateCaret;
    end Create_Bitmap_Caret;
@@ -105,6 +108,7 @@ package body GWindows.Carets is
    is
       procedure DestroyCaret;
       pragma Import (StdCall, DestroyCaret, "DestroyCaret");
+   pragma Machine_Attribute (DestroyCaret, "ms_abi");
    begin
       DestroyCaret;
    end Destroy_Caret;
@@ -119,6 +123,7 @@ package body GWindows.Carets is
       procedure ShowCaret
         (HWND : GWindows.Types.Handle := Handle (Window));
       pragma Import (StdCall, ShowCaret, "ShowCaret");
+   pragma Machine_Attribute (ShowCaret, "ms_abi");
    begin
       ShowCaret;
    end Show_Caret;
@@ -133,6 +138,7 @@ package body GWindows.Carets is
       procedure HideCaret
         (HWND : GWindows.Types.Handle := Handle (Window));
       pragma Import (StdCall, HideCaret, "HideCaret");
+   pragma Machine_Attribute (HideCaret, "ms_abi");
    begin
       HideCaret;
    end Hide_Caret;
@@ -145,6 +151,7 @@ package body GWindows.Carets is
    is
       procedure SetCaretPos (X, Y : Integer);
       pragma Import (StdCall, SetCaretPos, "SetCaretPos");
+   pragma Machine_Attribute (SetCaretPos, "ms_abi");
    begin
       SetCaretPos (X, Y);
    end Set_Caret_Position;
@@ -160,6 +167,7 @@ package body GWindows.Carets is
       procedure GetCaretPos
         (Pos : in out GWindows.Types.Point_Type);
       pragma Import (StdCall, GetCaretPos, "GetCaretPos");
+   pragma Machine_Attribute (GetCaretPos, "ms_abi");
    begin
       GetCaretPos (Result);
       return Result;

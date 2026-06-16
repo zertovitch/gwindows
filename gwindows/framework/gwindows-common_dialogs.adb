@@ -43,12 +43,13 @@ with GWindows.Application;
 with GWindows.GStrings;
 with GWindows.GStrings.Unbounded;
 with GWindows.Utilities;
-
 package body GWindows.Common_Dialogs is
    pragma Linker_Options ("-lcomdlg32");
 
    use type Interfaces.C.unsigned;
    use type GWindows.Types.DWORD;
+   use type Win32_Types.Long;
+   use type Win32_Types.Unsigned_Long;
 
    -------------------------------------------------------------------------
    --  Operating System Imports
@@ -97,6 +98,7 @@ package body GWindows.Common_Dialogs is
           lpData     : GWindows.Types.Handle)
       return Types.INT_PTR;
       pragma Convention (StdCall, Dummy_Callback_Access);
+   pragma Machine_Attribute (Dummy_Callback_Access, "ms_abi");
    --  Definition: look for LPCCHOOKPROC.
 
    type TCHOOSECOLOR is  --  Windows API name: CHOOSECOLORA.
@@ -117,6 +119,7 @@ package body GWindows.Common_Dialogs is
      (lpcc : in TCHOOSECOLOR)
      return Integer;
    pragma Import (StdCall, ChooseColor, "ChooseColorA");
+   pragma Machine_Attribute (ChooseColor, "ms_abi");
 
    type gLPSTR is access all GChar_C;
 
@@ -124,8 +127,9 @@ package body GWindows.Common_Dialogs is
       function (hWnd    : GWindows.Types.Handle;
                 uiMsg   : Interfaces.C.unsigned;
                 wParam  : GWindows.Types.Wparam;
-                lParam  : GWindows.Types.Lparam) return Interfaces.C.long;
+                lParam  : GWindows.Types.Lparam) return Win32_Types.Long;
    pragma Convention (Stdcall, OFNHookProcStdcall);
+   pragma Machine_Attribute (OFNHookProcStdcall, "ms_abi");
 
    type OPENFILENAME is
       record
@@ -134,15 +138,15 @@ package body GWindows.Common_Dialogs is
          hInstance       : GWindows.Types.Handle := GWindows.Types.Null_Handle;
          lpstrFilter       : gLPSTR; -- Pairs of filter strings
          lpstrCustomFilter : gLPSTR; -- (out) Filter pattern chosen by the user
-         nMaxCustFilter    : Interfaces.C.long := 0;
-         nFilterIndex      : Interfaces.C.long := 0;
+         nMaxCustFilter    : Win32_Types.Long := 0;
+         nFilterIndex      : Win32_Types.Long := 0;
          lpstrFile         : gLPSTR; -- The file name used for initialization
-         nMaxFile          : Interfaces.C.long;
+         nMaxFile          : Win32_Types.Long;
          lpstrFileTitle    : gLPSTR; -- (out) File name of the selected file
-         nMaxFileTitle     : Interfaces.C.long := 0;
+         nMaxFileTitle     : Win32_Types.Long := 0;
          lpstrInitialDir   : gLPSTR; -- The initial directory
          lpstrTitle        : gLPSTR; -- A string to be placed in the title bar
-         flags             : Interfaces.C.long := OFN_HIDEREADONLY;
+         flags             : Win32_Types.Long := OFN_HIDEREADONLY;
          nFileOffset       : Interfaces.C.short := 0;
          nFileExtension    : Interfaces.C.short := 0;
          lpstrDefExt       : gLPSTR; -- The default extension
@@ -156,23 +160,25 @@ package body GWindows.Common_Dialogs is
      return Integer;
    pragma Import (StdCall, GetOpenFileName,
                            "GetOpenFileName" & Character_Mode_Identifier);
+   pragma Machine_Attribute (GetOpenFileName, "ms_abi");
 
    function GetSaveFileName
      (lpOFN : in OPENFILENAME)
      return Integer;
    pragma Import (StdCall, GetSaveFileName,
                            "GetSaveFileName" & Character_Mode_Identifier);
+   pragma Machine_Attribute (GetSaveFileName, "ms_abi");
 
    type Face_Name_Type is new Interfaces.C.char_array (0 .. 32);
    type Pointer_To_Face_Name_Type is access all Face_Name_Type;
 
    type LOGFONT is
       record
-         lfHeight         : Interfaces.C.long := 0;
-         lfWidth          : Interfaces.C.long := 0;
-         lfEscapement     : Interfaces.C.long := 0;
-         lfOrientation    : Interfaces.C.long := 0;
-         lfWeight         : Interfaces.C.long := 0;
+         lfHeight         : Win32_Types.Long := 0;
+         lfWidth          : Win32_Types.Long := 0;
+         lfEscapement     : Win32_Types.Long := 0;
+         lfOrientation    : Win32_Types.Long := 0;
+         lfWeight         : Win32_Types.Long := 0;
          lfItalic         : Interfaces.C.unsigned_char := 0;
          lfUnderline      : Interfaces.C.unsigned_char := 0;
          lfStrikeOut      : Interfaces.C.unsigned_char := 0;
@@ -236,7 +242,7 @@ package body GWindows.Common_Dialogs is
          hwndOwner           : GWindows.Types.Handle  :=
                                   GWindows.Types.Null_Handle;
          hDevMode            : Pointer_To_DEVMODE     := null;
-         hDevNames           : Interfaces.C.long      := 0;
+         hDevNames           : Win32_Types.Long      := 0;
          hDC                 : GWindows.Types.Handle  :=
                                   GWindows.Types.Null_Handle;
          flags               : GWindows.Types.DWORD   := 0;
@@ -252,8 +258,8 @@ package body GWindows.Common_Dialogs is
          lpfnSetupHook       : GWindows.Types.Lparam  := 0;
          lpPrintTemplateName : GWindows.Types.Lparam  := 0;
          lpSetupTemplateName : GWindows.Types.Lparam  := 0;
-         hPrintTemplate      : Interfaces.C.long      := 0;
-         hSetupTemplate      : Interfaces.C.long      := 0;
+         hPrintTemplate      : Win32_Types.Long      := 0;
+         hSetupTemplate      : Win32_Types.Long      := 0;
          Filler              : PRINTDLG_Filler_Type   := (others => 0);
       end record;
 
@@ -275,15 +281,76 @@ package body GWindows.Common_Dialogs is
 
    function SHBrowseForFolder
      (lpbi : BROWSEINFO)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
    pragma Import (StdCall, SHBrowseForFolder,
                            "SHBrowseForFolder" & Character_Mode_Identifier);
+   pragma Machine_Attribute (SHBrowseForFolder, "ms_abi");
 
    procedure  SHGetPathFromIDList
-     (pidl    : Interfaces.C.long;
+     (pidl    : Win32_Types.Long;
       pszpath : GString_C);
    pragma Import (StdCall, SHGetPathFromIDList,
                            "SHGetPathFromIDList" & Character_Mode_Identifier);
+   pragma Machine_Attribute (SHGetPathFromIDList, "ms_abi");
+
+   --  Package-level callback for SHBrowseForFolder.
+   --  Must not be a nested function (see Winelib trampoline issue).
+   --  The initial path C string is passed via BROWSEINFO.lParam/lpData.
+
+   function Browse_Folder_Callback
+      (handle_bpc : Types.Handle;
+       uMsg_bpc   : Interfaces.C.unsigned;
+       lParam     : Types.Lparam;
+       lpData     : Types.Handle)
+      return Interfaces.C.int;
+   pragma Convention (StdCall, Browse_Folder_Callback);
+   pragma Machine_Attribute (Browse_Folder_Callback, "ms_abi");
+
+   function Browse_Folder_Callback
+      (handle_bpc : Types.Handle;
+       uMsg_bpc   : Interfaces.C.unsigned;
+       lParam     : Types.Lparam;
+       lpData     : Types.Handle)
+      return Interfaces.C.int
+   is
+      pragma Unreferenced (lParam);
+      use type GChar_C;
+      function To_gLPSTR is
+         new Ada.Unchecked_Conversion (Types.Handle, gLPSTR);
+      function To_Lparam is
+         new Ada.Unchecked_Conversion (gLPSTR, Types.Lparam);
+
+      WM_USER : constant := 1024;
+      BFFM_SETSELECTIONA : constant := WM_USER + 102;
+      BFFM_SETSELECTIONW : constant := WM_USER + 103;
+      BFFM_SETSELECTION  : constant Utilities.ANSI_Unicode_Choice :=
+         (ANSI    => BFFM_SETSELECTIONA,
+          Unicode => BFFM_SETSELECTIONW);
+      BFFM_INITIALIZED : constant := 1;
+      BFFM_SELCHANGED  : constant := 2;
+      ini : constant gLPSTR := To_gLPSTR (lpData);
+      procedure SendMessage
+         (hwnd     : Types.Handle := handle_bpc;
+          uMsg     : Interfaces.C.int :=
+                        BFFM_SETSELECTION (Character_Mode);
+          wParam   : Types.Wparam := 1;  --  (windef's TRUE)
+          s_lParam : Types.Lparam := To_Lparam (ini));
+      pragma Import (StdCall, SendMessage,
+                     "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (SendMessage, "ms_abi");
+   begin
+      case uMsg_bpc is
+         when BFFM_INITIALIZED =>
+            if ini /= null and then ini.all /= GString_C_Null then
+               SendMessage;
+            end if;
+         when BFFM_SELCHANGED =>
+            null;
+         when others =>
+            null;
+      end case;
+      return 0;
+   end Browse_Folder_Callback;
 
    function Convert (B : BCHARSTR) return String is
       use Interfaces.C;
@@ -345,14 +412,15 @@ package body GWindows.Common_Dialogs is
                          uiMsg  : Interfaces.C.unsigned;
                          wParam : GWindows.Types.Wparam;
                          lParam : GWindows.Types.Lparam)
-                         return Interfaces.C.long;
+                         return Win32_Types.Long;
    pragma Convention (Stdcall, Stdcallhook);
+   pragma Machine_Attribute (Stdcallhook, "ms_abi");
 
    function Stdcallhook (hWnd   : GWindows.Types.Handle;
                          uiMsg  : Interfaces.C.unsigned;
                          wParam : GWindows.Types.Wparam;
                          lParam : GWindows.Types.Lparam)
-                         return Interfaces.C.long is
+                         return Win32_Types.Long is
    begin
       return Hook (hWnd, uiMsg, wParam, lParam);
    end Stdcallhook;
@@ -431,17 +499,17 @@ package body GWindows.Common_Dialogs is
          --  * AnSp: next if statements are new
          if TemplateId /= 0 or UserProc /= null then
             --  Need to set explorer style with user template or procedure
-            OFN.flags := OFN.flags + Interfaces.C.long (OFN_EXPLORER);
+            OFN.flags := OFN.flags + Win32_Types.Long (OFN_EXPLORER);
          end if;
          if TemplateId /= 0 then
             OFN.lpTemplateName := MAKEINTRESOURCE (TemplateId);
             OFN.hInstance := GWindows.Application.hInstance;
-            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLETEMPLATE);
+            OFN.flags := OFN.flags + Win32_Types.Long (OFN_ENABLETEMPLATE);
          end if;
          if UserProc /= null then
             Hook := UserProc;
             OFN.lpfnHook := Stdcallhook'Access;
-            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLEHOOK);
+            OFN.flags := OFN.flags + Win32_Types.Long (OFN_ENABLEHOOK);
          end if;
          Result := GetOpenFileName (OFN);
       end;
@@ -516,15 +584,15 @@ package body GWindows.Common_Dialogs is
          if TemplateId /= 0 then
             OFN.lpTemplateName := MAKEINTRESOURCE (TemplateId);
             OFN.hInstance := GWindows.Application.hInstance;
-            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLETEMPLATE);
+            OFN.flags := OFN.flags + Win32_Types.Long (OFN_ENABLETEMPLATE);
          end if;
          if UserProc /= null then
             Hook := UserProc;
             OFN.lpfnHook := Stdcallhook'Access;
-            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLEHOOK);
+            OFN.flags := OFN.flags + Win32_Types.Long (OFN_ENABLEHOOK);
          end if;
          OFN.flags := OFN.flags +
-            Interfaces.C.long (OFN_EXPLORER + OFN_ALLOWMULTISELECT);
+            Win32_Types.Long (OFN_EXPLORER + OFN_ALLOWMULTISELECT);
          Result := GetOpenFileName (OFN);
       end;
       Success := Result /= 0;
@@ -657,17 +725,17 @@ package body GWindows.Common_Dialogs is
          --  * AnSp: next if statements are new
          if TemplateId /= 0 or UserProc /= null then
             --  Need to set explorer style with user template or procedure
-            OFN.flags := OFN.flags + Interfaces.C.long (OFN_EXPLORER);
+            OFN.flags := OFN.flags + Win32_Types.Long (OFN_EXPLORER);
          end if;
          if TemplateId /= 0 then
             OFN.lpTemplateName := MAKEINTRESOURCE (TemplateId);
             OFN.hInstance := GWindows.Application.hInstance;
-            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLETEMPLATE);
+            OFN.flags := OFN.flags + Win32_Types.Long (OFN_ENABLETEMPLATE);
          end if;
          if UserProc /= null then
             Hook := UserProc;
             OFN.lpfnHook := Stdcallhook'Access;
-            OFN.flags := OFN.flags + Interfaces.C.long (OFN_ENABLEHOOK);
+            OFN.flags := OFN.flags + Win32_Types.Long (OFN_ENABLEHOOK);
          end if;
          --  * AnSp: added code up to here
          Result := GetSaveFileName (OFN);
@@ -703,27 +771,26 @@ package body GWindows.Common_Dialogs is
       use GWindows.Drawing_Objects;
       use GWindows.Drawing;
       use GWindows.Colors;
-      use type Interfaces.C.unsigned_long;
 
       FName : aliased Face_Name_Type;
       LFont : aliased LOGFONT;
 
       type TCHOOSEFONT is
          record
-            lStructSize            : Interfaces.C.long  := 60;
+            lStructSize            : Win32_Types.Long  := 60;
             hwndOwner              : GWindows.Types.Handle  := Handle (Window);
             hDC                    : GWindows.Types.Handle  := Handle (Canvas);
             lpLogFont              : Pointer_To_LOGFONT
               := LFont'Unchecked_Access;
             iPointSize             : Interfaces.C.int   := 0;
-            flags                  : Interfaces.C.unsigned_long
+            flags                  : Win32_Types.Unsigned_Long
               := CF_BOTH or CF_INITTOLOGFONTSTRUCT or CF_LIMITSIZE;
             rgbColors              : Color_Type         := 0;
-            lCustData              : Interfaces.C.long  := 0;
-            lpfnHook               : Interfaces.C.long  := 0;
-            lpTemplateName         : Interfaces.C.long  := 0;
-            hInstance              : Interfaces.C.long  := 0;
-            lpszStyle              : Interfaces.C.long  := 0;
+            lCustData              : Win32_Types.Long  := 0;
+            lpfnHook               : Win32_Types.Long  := 0;
+            lpTemplateName         : Win32_Types.Long  := 0;
+            hInstance              : Win32_Types.Long  := 0;
+            lpszStyle              : Win32_Types.Long  := 0;
             nFontType              : Interfaces.C.short := 0;
             uu_MISSING_ALIGNMENT_u : Interfaces.C.short := 0;
             nSizeMin               : Integer            := Min_Size;
@@ -737,13 +804,16 @@ package body GWindows.Common_Dialogs is
          SizeOf   : Integer := 60;
          GO_LFont : in out LOGFONT);
       pragma Import (StdCall, GetObject, "GetObjectA");
+   pragma Machine_Attribute (GetObject, "ms_abi");
 
       procedure ChooseFont (CF : TCHOOSEFONT := CFont);
       pragma Import (StdCall, ChooseFont, "ChooseFontA");
+   pragma Machine_Attribute (ChooseFont, "ms_abi");
 
       function CreateFontIndirect (LF : Pointer_To_LOGFONT)
                                   return GWindows.Types.Handle;
       pragma Import (StdCall, CreateFontIndirect, "CreateFontIndirectA");
+   pragma Machine_Attribute (CreateFontIndirect, "ms_abi");
    begin
 
       if Color < 16#FFFFFFFF# then
@@ -805,10 +875,12 @@ package body GWindows.Common_Dialogs is
         (lppd : TPRINTDLG := PD)
         return Integer;
       pragma Import (StdCall, PrintDlg, "PrintDlgA");
+   pragma Machine_Attribute (PrintDlg, "ms_abi");
 
-      procedure GlobalFree (handle : Interfaces.C.long);
+      procedure GlobalFree (handle : Win32_Types.Long);
       procedure GlobalFree (handle : Pointer_To_DEVMODE);
       pragma Import (StdCall, GlobalFree, "GlobalFree");
+   pragma Machine_Attribute (GlobalFree, "ms_abi");
    begin
       PD.hwndOwner   := Base.Handle (Window);
       PD.flags       := PD_RETURNDC or DWORD (Flags);
@@ -851,10 +923,12 @@ package body GWindows.Common_Dialogs is
         (lppd : TPRINTDLG := PD)
         return Integer;
       pragma Import (StdCall, PrintDlg, "PrintDlgA");
+   pragma Machine_Attribute (PrintDlg, "ms_abi");
 
-      procedure GlobalFree (handle : Interfaces.C.long);
+      procedure GlobalFree (handle : Win32_Types.Long);
       procedure GlobalFree (handle : Pointer_To_DEVMODE);
       pragma Import (StdCall, GlobalFree, "GlobalFree");
+   pragma Machine_Attribute (GlobalFree, "ms_abi");
    begin
       PD.flags := PD_RETURNDC or PD_RETURNDEFAULT;
 
@@ -887,6 +961,7 @@ package body GWindows.Common_Dialogs is
       return Types.Handle;
       pragma Import (StdCall, CreateDC, "CreateDC" &
                      Character_Mode_Identifier);
+      pragma Machine_Attribute (CreateDC, "ms_abi");
 
       HDC : Types.Handle;
       Driver_Name_C  : GString_C := GStrings.To_GString_C ("WINSPOOL");
@@ -944,17 +1019,16 @@ package body GWindows.Common_Dialogs is
       Directory_Path         : out GString_Unbounded;
       Initial_Path           : in GString := "")
    is
-      use type Interfaces.C.long;
       use GStrings;
 
       C_Directory : GString_C (1 .. 1024);
       C_Title     : GString_C := To_GString_C (Dialog_Title);
       C_Initial   : GString_C := To_GString_C (Initial_Path);
       BInfo       : BROWSEINFO;
-      Pidl        : Interfaces.C.long;
+      Pidl        : Win32_Types.Long;
       BIF_NEWDIALOGSTYLE   : constant := 16#00000040#;
       BIF_EDITBOX          : constant := 16#00000010#;
-      --
+
       type Callback_Access is access
       function
          (handle_bpc : Types.Handle;
@@ -963,57 +1037,8 @@ package body GWindows.Common_Dialogs is
           lpData     : Types.Handle)
       return Interfaces.C.int;
       pragma Convention (StdCall, Callback_Access);
+      pragma Machine_Attribute (Callback_Access, "ms_abi");
 
-      function Browse_Callback
-         (handle_bpc : Types.Handle;
-          uMsg_bpc   : Interfaces.C.unsigned;
-          lParam     : Types.Lparam;
-          lpData     : Types.Handle)
-      return Interfaces.C.int;
-      pragma Convention (StdCall, Browse_Callback);
-      function Browse_Callback
-         (handle_bpc : Types.Handle;
-          uMsg_bpc   : Interfaces.C.unsigned;
-          lParam     : Types.Lparam;
-          lpData     : Types.Handle)
-      return Interfaces.C.int
-      is
-         pragma Unreferenced (lParam, lpData);
-         ini : constant gLPSTR := C_Initial (C_Initial'First)'Unchecked_Access;
-         function Cvt is
-            new Ada.Unchecked_Conversion (gLPSTR, GWindows.Types.Lparam);
-
-         WM_USER : constant := 1024;
-         BFFM_SETSELECTIONA : constant := WM_USER + 102;
-         BFFM_SETSELECTIONW : constant := WM_USER + 103;
-         BFFM_SETSELECTION  : constant Utilities.ANSI_Unicode_Choice :=
-            (ANSI    => BFFM_SETSELECTIONA,
-             Unicode => BFFM_SETSELECTIONW);
-         BFFM_INITIALIZED : constant := 1;
-         BFFM_SELCHANGED  : constant := 2;
-         procedure SendMessage
-            (hwnd     : Types.Handle := handle_bpc;
-             uMsg     : Interfaces.C.int :=
-                           BFFM_SETSELECTION (Character_Mode);
-             wParam   : Types.Wparam := 1;  --  (windef's TRUE)
-             s_lParam : Types.Lparam := Cvt (ini));
-         pragma Import (StdCall, SendMessage,
-                        "SendMessage" & Character_Mode_Identifier);
-      begin
-         --  If the BFFM_INITIALIZED message is received,
-         --  set the path to the start path.
-         case uMsg_bpc is
-            when BFFM_INITIALIZED =>
-               if Initial_Path /= "" then
-                  SendMessage;
-               end if;
-            when BFFM_SELCHANGED =>
-               null;
-            when others =>
-               null;
-         end case;
-         return 0; -- The function should always return 0.
-      end Browse_Callback;
       function Access_To_Handle is
          new Ada.Unchecked_Conversion (Callback_Access, GWindows.Types.Handle);
    begin
@@ -1021,8 +1046,8 @@ package body GWindows.Common_Dialogs is
       BInfo.pszDisplayName := C_Directory (C_Directory'First)'Unchecked_Access;
       BInfo.lpszTitle := C_Title (C_Title'First)'Unchecked_Access;
       BInfo.ulFlags := BIF_NEWDIALOGSTYLE or BIF_EDITBOX;
-      BInfo.lpfn := Access_To_Handle (Browse_Callback'Access);
-      BInfo.lParam := null;
+      BInfo.lpfn := Access_To_Handle (Browse_Folder_Callback'Access);
+      BInfo.lParam := C_Initial (C_Initial'First)'Unchecked_Access;
 
       Pidl :=  SHBrowseForFolder (BInfo);
 

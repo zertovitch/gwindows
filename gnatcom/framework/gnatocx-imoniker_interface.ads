@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package GNATOCX.IMoniker_Interface is
 
@@ -28,7 +29,7 @@ package GNATOCX.IMoniker_Interface is
    procedure Save
      (This        : IMoniker_Type;
       pstm        : Pointer_To_IStream;
-      fClearDirty : Interfaces.C.long);
+      fClearDirty : Win32_Types.Long);
 
    procedure GetSizeMax
      (This    : IMoniker_Type;
@@ -51,19 +52,19 @@ package GNATOCX.IMoniker_Interface is
    procedure Reduce
      (This           : IMoniker_Type;
       pbc            : Pointer_To_IBindCtx;
-      dwReduceHowFar : Interfaces.C.unsigned_long;
+      dwReduceHowFar : Win32_Types.Unsigned_Long;
       ppmkToLeft     : Pointer_To_Pointer_To_IMoniker;
       ppmkReduced    : Pointer_To_Pointer_To_IMoniker);
 
    procedure ComposeWith
      (This              : IMoniker_Type;
       pmkRight          : Pointer_To_IMoniker;
-      fOnlyIfNotGeneric : Interfaces.C.long;
+      fOnlyIfNotGeneric : Win32_Types.Long;
       ppmkComposite     : Pointer_To_Pointer_To_IMoniker);
 
    procedure Enum
      (This          : IMoniker_Type;
-      fForward      : Interfaces.C.long;
+      fForward      : Win32_Types.Long;
       ppenumMoniker : Pointer_To_Pointer_To_IEnumMoniker);
 
    procedure IsEqual

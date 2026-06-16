@@ -42,6 +42,7 @@
 with GWindows.Base;
 with GWindows.GStrings;
 with GWindows.Types;
+with Win32_Types;
 pragma Elaborate_All (GWindows.GStrings);
 
 private package GWindows.Internal is
@@ -59,7 +60,7 @@ private package GWindows.Internal is
    GWindows_Object_Property_Atom : Interfaces.C.unsigned_short := 0;
    --  Atomized version of custom property
 
-   Main_Thread_ID : Interfaces.C.unsigned_long;
+   Main_Thread_ID : Win32_Types.Unsigned_Long;
    --  Main application thread ID
 
    Current_hInstance : GWindows.Types.Handle;

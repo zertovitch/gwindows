@@ -39,6 +39,7 @@
 
 with GNATCOM.Create.COM_Interface;
 with GNATCOM.Types;
+with Win32_Types;
 
 package GNATCOM.Create.IDispatch is
 
@@ -92,7 +93,7 @@ package GNATCOM.Create.IDispatch is
    function Invoke
      (This         : access GNATCOM.Create.COM_Interface.COM_Interface_Type;
       Data         : access IDispatch_Type;
-      dispidMember : in     Interfaces.C.long;
+      dispidMember : in     Win32_Types.Long;
       wFlags       : in     Interfaces.C.unsigned_short;
       pdispparams  : in     GNATCOM.Types.Pointer_To_DISPPARAMS;
       pvarResult   : in     GNATCOM.Types.Pointer_To_VARIANT;

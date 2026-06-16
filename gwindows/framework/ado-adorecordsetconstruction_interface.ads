@@ -1,4 +1,5 @@
 with GNATCOM.Iinterface;
+with Win32_Types;
 
 package ADO.ADORecordsetConstruction_Interface is
 
@@ -23,11 +24,11 @@ package ADO.ADORecordsetConstruction_Interface is
 
    function Get_Chapter
      (This      : ADORecordsetConstruction_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    procedure Put_Chapter
      (This      : ADORecordsetConstruction_Type;
-      plChapter : Interfaces.C.long);
+      plChapter : Win32_Types.Long);
 
    function Get_RowPosition
      (This     : ADORecordsetConstruction_Type)

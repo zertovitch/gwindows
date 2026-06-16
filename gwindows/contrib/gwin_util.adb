@@ -11,6 +11,7 @@ with Ada.Environment_Variables,
 
 with GNAT.OS_Lib;
 with Interfaces.C;
+with Win32_Types;
 with System;
 
 pragma Elaborate_All (GWindows.Drawing_Objects);  --  For GUI_Font initialisation
@@ -41,11 +42,11 @@ package body GWin_Util is
       type Face_Name_Type is array (1 .. 32) of GWindows.GChar_C;
 
       type LOGFONT is record
-        lfHeight : Interfaces.C.long;
-        lfWidth  : Interfaces.C.long;
-        lfEscapement : Interfaces.C.long;
-        lfOrientation : Interfaces.C.long;
-        lfWeight : Interfaces.C.long;
+        lfHeight : Win32_Types.Long;
+        lfWidth  : Win32_Types.Long;
+        lfEscapement : Win32_Types.Long;
+        lfOrientation : Win32_Types.Long;
+        lfWeight : Win32_Types.Long;
         lfItalic : Interfaces.C.char;
         lfUnderline : Interfaces.C.char;
         lfStrikeOut : Interfaces.C.char;
@@ -69,12 +70,14 @@ package body GWin_Util is
         return Interfaces.C.int;
       pragma Import (StdCall, GetObject,
                        "GetObject" & Character_Mode_Identifier);
+      pragma Machine_Attribute (GetObject, "ms_abi");
 
       function CreateFontIndirect
         (lpvObject : LPVOID                 := Log_of_current_font'Address)
         return GWindows.Types.Handle;
       pragma Import (StdCall, CreateFontIndirect,
                        "CreateFontIndirect" & Character_Mode_Identifier);
+      pragma Machine_Attribute (CreateFontIndirect, "ms_abi");
 
     begin
       GWindows.Drawing_Objects.Create_Stock_Font (
@@ -155,6 +158,7 @@ package body GWin_Util is
        SW_ShowMinimized);
     function GetFocus return HWND;              --  winuser.h:2939
     pragma Import (Stdcall, GetFocus, "GetFocus");
+    pragma Machine_Attribute (GetFocus, "ms_abi");
     subtype CHAR is Interfaces.C.char;
     type PCCH is access constant CHAR;
     type PCHAR is access all CHAR;
@@ -169,6 +173,7 @@ package body GWin_Util is
        nShowCmd : INT)
       return HINSTANCE;               --  shellapi.h:54
     pragma Import (Stdcall, ShellExecuteA, "ShellExecuteA");   --  shellapi.h:54
+    pragma Machine_Attribute (ShellExecuteA, "ms_abi");
     function ShellExecute
       (hwnd0 : HWND;
        lpOperation : LPCSTR;
@@ -331,7 +336,7 @@ package body GWin_Util is
   )
   is
     --  Parts from Win32Ada:
-    subtype ULONG is Interfaces.C.unsigned_long;      --  windef.h
+    subtype ULONG is Win32_Types.Unsigned_Long;      --  windef.h
     subtype INT is Interfaces.C.int;                  --  windef.h
     subtype DWORD is ULONG;                           --  windef.h
     type  BOOL  is new INT;                           --  windef.h
@@ -351,9 +356,11 @@ package body GWin_Util is
     function GetVersionExA (lpVersionInformation : LPOSVERSIONINFOA)
                            return BOOL;                --  winbase.h :6686
     pragma Import (Stdcall, GetVersionExA, "GetVersionExA"); --  winbase.h :6686
+    pragma Machine_Attribute (GetVersionExA, "ms_abi");
 
     function GetVersionEx (lpVersionInformation : LPOSVERSIONINFOA)
                           return BOOL renames GetVersionExA;
+    pragma Machine_Attribute (GetVersionExA, "ms_abi");
     --  ^^^^ Parts from Win32Ada
     res :  BOOL;
     info : aliased OSVERSIONINFO;
@@ -399,7 +406,7 @@ package body GWin_Util is
   --  GdM 22-Feb-2003
   function Find_short_path_name (long : String) return String is
     --  Parts from Win32Ada:
-    subtype ULONG is Interfaces.C.unsigned_long;      --  windef.h
+    subtype ULONG is Win32_Types.Unsigned_Long;      --  windef.h
     subtype DWORD is ULONG;                           --  windef.h
     subtype CHAR is Interfaces.C.char;                --  winnt.h
     type PCCH is access constant CHAR;
@@ -412,6 +419,7 @@ package body GWin_Util is
                                return DWORD;
     --  winbase.h :1417
     pragma Import (Stdcall, GetShortPathNameA, "GetShortPathNameA");
+    pragma Machine_Attribute (GetShortPathNameA, "ms_abi");
     --  winbase.h :1417
     function GetShortPathName (lpszLongPath : LPCSTR;
                                lpszShortPath : LPSTR;
@@ -474,7 +482,7 @@ package body GWin_Util is
           Show => False
         );
         --  Link (tab(s), Handle(tab(s)), False, Control_Link);
-        --  -- ^ for buttons from a resource file (André van Splunter)
+        --  -- ^ for buttons from a resource file (Andrï¿½ van Splunter)
         tabs.Tab_Window
           (Tab_enumeration'Pos (s) - Tab_enumeration'Pos (Tab_enumeration'First), tab (s)'Unrestricted_Access);
       end loop;

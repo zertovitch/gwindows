@@ -43,6 +43,7 @@ with Interfaces.C;
 
 with GNATCOM.Types;
 with GNATCOM.GUID;
+with Win32_Types;
 
 package GNATOCX is
 
@@ -264,16 +265,16 @@ package GNATOCX is
    type STATSTG is
       record
          pwcsName          : GNATCOM.Types.LPWSTR;
-         utype             : Interfaces.C.unsigned_long;
+         utype             : Win32_Types.Unsigned_Long;
          cbSize            : uULARGE_INTEGER;
          mtime             : uFILETIME;
          ctime             : uFILETIME;
          atime             : uFILETIME;
-         grfMode           : Interfaces.C.unsigned_long;
-         grfLocksSupported : Interfaces.C.unsigned_long;
+         grfMode           : Win32_Types.Unsigned_Long;
+         grfLocksSupported : Win32_Types.Unsigned_Long;
          clsid             : GNATCOM.Types.GUID;
-         grfStateBits      : Interfaces.C.unsigned_long;
-         reserved          : Interfaces.C.unsigned_long;
+         grfStateBits      : Win32_Types.Unsigned_Long;
+         reserved          : Win32_Types.Unsigned_Long;
       end record;
    pragma Convention (C_Pass_By_Copy, STATSTG);
 
@@ -286,46 +287,53 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_QueryInterface);
+   pragma Machine_Attribute (af_IStream_QueryInterface, "ms_abi");
 
    type af_IStream_AddRef is access
      function (This : access IStream)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IStream_AddRef);
+   pragma Machine_Attribute (af_IStream_AddRef, "ms_abi");
 
    type af_IStream_Release is access
      function (This : access IStream)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IStream_Release);
+   pragma Machine_Attribute (af_IStream_Release, "ms_abi");
 
    type af_IStream_RemoteRead is access
      function (This    : access IStream;
                pv      : Pointer_To_unsigned_char;
-               cb      : Interfaces.C.unsigned_long;
+               cb      : Win32_Types.Unsigned_Long;
                pcbRead : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_RemoteRead);
+   pragma Machine_Attribute (af_IStream_RemoteRead, "ms_abi");
 
    type af_IStream_RemoteWrite is access
      function (This       : access IStream;
                pv         : Pointer_To_unsigned_char;
-               cb         : Interfaces.C.unsigned_long;
+               cb         : Win32_Types.Unsigned_Long;
                pcbWritten : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_RemoteWrite);
+   pragma Machine_Attribute (af_IStream_RemoteWrite, "ms_abi");
 
    type af_IStream_RemoteSeek is access
      function (This            : access IStream;
                dlibMove        : uLARGE_INTEGER;
-               dwOrigin        : Interfaces.C.unsigned_long;
+               dwOrigin        : Win32_Types.Unsigned_Long;
                plibNewPosition : Pointer_To_uULARGE_INTEGER)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_RemoteSeek);
+   pragma Machine_Attribute (af_IStream_RemoteSeek, "ms_abi");
 
    type af_IStream_SetSize is access
      function (This       : access IStream;
                libNewSize : uULARGE_INTEGER)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_SetSize);
+   pragma Machine_Attribute (af_IStream_SetSize, "ms_abi");
 
    type af_IStream_RemoteCopyTo is access
      function (This       : access IStream;
@@ -335,46 +343,53 @@ package GNATOCX is
                pcbWritten : Pointer_To_uULARGE_INTEGER)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_RemoteCopyTo);
+   pragma Machine_Attribute (af_IStream_RemoteCopyTo, "ms_abi");
 
    type af_IStream_Commit is access
      function (This           : access IStream;
-               grfCommitFlags : Interfaces.C.unsigned_long)
+               grfCommitFlags : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_Commit);
+   pragma Machine_Attribute (af_IStream_Commit, "ms_abi");
 
    type af_IStream_Revert is access
      function (This : access IStream)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_Revert);
+   pragma Machine_Attribute (af_IStream_Revert, "ms_abi");
 
    type af_IStream_LockRegion is access
      function (This       : access IStream;
                libOffset  : uULARGE_INTEGER;
                cb         : uULARGE_INTEGER;
-               dwLockType : Interfaces.C.unsigned_long)
+               dwLockType : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_LockRegion);
+   pragma Machine_Attribute (af_IStream_LockRegion, "ms_abi");
 
    type af_IStream_UnlockRegion is access
      function (This       : access IStream;
                libOffset  : uULARGE_INTEGER;
                cb         : uULARGE_INTEGER;
-               dwLockType : Interfaces.C.unsigned_long)
+               dwLockType : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_UnlockRegion);
+   pragma Machine_Attribute (af_IStream_UnlockRegion, "ms_abi");
 
    type af_IStream_Stat is access
      function (This        : access IStream;
                pstatstg    : Pointer_To_STATSTG;
-               grfStatFlag : Interfaces.C.unsigned_long)
+               grfStatFlag : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_Stat);
+   pragma Machine_Attribute (af_IStream_Stat, "ms_abi");
 
    type af_IStream_Clone is access
      function (This  : access IStream;
                ppstm : Pointer_To_Pointer_To_IStream)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IStream_Clone);
+   pragma Machine_Attribute (af_IStream_Clone, "ms_abi");
 
    type IStreamVtbl;
    type Pointer_To_IStreamVtbl is access all IStreamVtbl;
@@ -414,12 +429,12 @@ package GNATOCX is
    type uCOAUTHIDENTITY is
       record
          User           : GNATCOM.Types.Pointer_To_unsigned_short;
-         UserLength     : Interfaces.C.unsigned_long;
+         UserLength     : Win32_Types.Unsigned_Long;
          Domain         : GNATCOM.Types.Pointer_To_unsigned_short;
-         DomainLength   : Interfaces.C.unsigned_long;
+         DomainLength   : Win32_Types.Unsigned_Long;
          Password       : GNATCOM.Types.Pointer_To_unsigned_short;
-         PasswordLength : Interfaces.C.unsigned_long;
-         Flags          : Interfaces.C.unsigned_long;
+         PasswordLength : Win32_Types.Unsigned_Long;
+         Flags          : Win32_Types.Unsigned_Long;
       end record;
    pragma Convention (C_Pass_By_Copy, uCOAUTHIDENTITY);
    --  Element Name          : _COAUTHINFO
@@ -427,13 +442,13 @@ package GNATOCX is
 
    type uCOAUTHINFO is
       record
-         dwAuthnSvc           : Interfaces.C.unsigned_long;
-         dwAuthzSvc           : Interfaces.C.unsigned_long;
+         dwAuthnSvc           : Win32_Types.Unsigned_Long;
+         dwAuthzSvc           : Win32_Types.Unsigned_Long;
          pwszServerPrincName  : GNATCOM.Types.LPWSTR;
-         dwAuthnLevel         : Interfaces.C.unsigned_long;
-         dwImpersonationLevel : Interfaces.C.unsigned_long;
+         dwAuthnLevel         : Win32_Types.Unsigned_Long;
+         dwImpersonationLevel : Win32_Types.Unsigned_Long;
          pAuthIdentityData    : Pointer_To_uCOAUTHIDENTITY;
-         dwCapabilities       : Interfaces.C.unsigned_long;
+         dwCapabilities       : Win32_Types.Unsigned_Long;
       end record;
    pragma Convention (C_Pass_By_Copy, uCOAUTHINFO);
    --  Element Name          : _COSERVERINFO
@@ -441,10 +456,10 @@ package GNATOCX is
 
    type uCOSERVERINFO is
       record
-         dwReserved1 : Interfaces.C.unsigned_long;
+         dwReserved1 : Win32_Types.Unsigned_Long;
          pwszName    : GNATCOM.Types.LPWSTR;
          pAuthInfo   : Pointer_To_uCOAUTHINFO;
-         dwReserved2 : Interfaces.C.unsigned_long;
+         dwReserved2 : Win32_Types.Unsigned_Long;
       end record;
    pragma Convention (C_Pass_By_Copy, uCOSERVERINFO);
    --  Element Name          : BIND_OPTS2
@@ -452,13 +467,13 @@ package GNATOCX is
 
    type BIND_OPTS2 is
       record
-         cbStruct            : Interfaces.C.unsigned_long;
-         grfFlags            : Interfaces.C.unsigned_long;
-         grfMode             : Interfaces.C.unsigned_long;
-         dwTickCountDeadline : Interfaces.C.unsigned_long;
-         dwTrackFlags        : Interfaces.C.unsigned_long;
-         dwClassContext      : Interfaces.C.unsigned_long;
-         locale              : Interfaces.C.unsigned_long;
+         cbStruct            : Win32_Types.Unsigned_Long;
+         grfFlags            : Win32_Types.Unsigned_Long;
+         grfMode             : Win32_Types.Unsigned_Long;
+         dwTickCountDeadline : Win32_Types.Unsigned_Long;
+         dwTrackFlags        : Win32_Types.Unsigned_Long;
+         dwClassContext      : Win32_Types.Unsigned_Long;
+         locale              : Win32_Types.Unsigned_Long;
          pServerInfo         : Pointer_To_uCOSERVERINFO;
       end record;
    pragma Convention (C_Pass_By_Copy, BIND_OPTS2);
@@ -474,41 +489,48 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumMoniker_QueryInterface);
+   pragma Machine_Attribute (af_IEnumMoniker_QueryInterface, "ms_abi");
 
    type af_IEnumMoniker_AddRef is access
      function (This : access IEnumMoniker)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumMoniker_AddRef);
+   pragma Machine_Attribute (af_IEnumMoniker_AddRef, "ms_abi");
 
    type af_IEnumMoniker_Release is access
      function (This : access IEnumMoniker)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumMoniker_Release);
+   pragma Machine_Attribute (af_IEnumMoniker_Release, "ms_abi");
 
    type af_IEnumMoniker_RemoteNext is access
      function (This         : access IEnumMoniker;
-               celt         : Interfaces.C.unsigned_long;
+               celt         : Win32_Types.Unsigned_Long;
                rgelt        : Pointer_To_Pointer_To_IMoniker;
                pceltFetched : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumMoniker_RemoteNext);
+   pragma Machine_Attribute (af_IEnumMoniker_RemoteNext, "ms_abi");
 
    type af_IEnumMoniker_Skip is access
      function (This : access IEnumMoniker;
-               celt : Interfaces.C.unsigned_long)
+               celt : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumMoniker_Skip);
+   pragma Machine_Attribute (af_IEnumMoniker_Skip, "ms_abi");
 
    type af_IEnumMoniker_Reset is access
      function (This : access IEnumMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumMoniker_Reset);
+   pragma Machine_Attribute (af_IEnumMoniker_Reset, "ms_abi");
 
    type af_IEnumMoniker_Clone is access
      function (This   : access IEnumMoniker;
                ppenum : Pointer_To_Pointer_To_IEnumMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumMoniker_Clone);
+   pragma Machine_Attribute (af_IEnumMoniker_Clone, "ms_abi");
 
    type IEnumMonikerVtbl;
    type Pointer_To_IEnumMonikerVtbl is access all IEnumMonikerVtbl;
@@ -547,37 +569,43 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_QueryInterface);
+   pragma Machine_Attribute (af_IRunningObjectTable_QueryInterface, "ms_abi");
 
    type af_IRunningObjectTable_AddRef is access
      function (This : access IRunningObjectTable)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IRunningObjectTable_AddRef);
+   pragma Machine_Attribute (af_IRunningObjectTable_AddRef, "ms_abi");
 
    type af_IRunningObjectTable_Release is access
      function (This : access IRunningObjectTable)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IRunningObjectTable_Release);
+   pragma Machine_Attribute (af_IRunningObjectTable_Release, "ms_abi");
 
    type af_IRunningObjectTable_Register is access
      function (This          : access IRunningObjectTable;
-               grfFlags      : Interfaces.C.unsigned_long;
+               grfFlags      : Win32_Types.Unsigned_Long;
                punkObject    : GNATCOM.Types.Pointer_To_IUnknown;
                pmkObjectName : Pointer_To_IMoniker;
                pdwRegister   : GNATCOM.Types.Pointer_To_DWORD)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_Register);
+   pragma Machine_Attribute (af_IRunningObjectTable_Register, "ms_abi");
 
    type af_IRunningObjectTable_Revoke is access
      function (This       : access IRunningObjectTable;
                dwRegister : GNATCOM.Types.DWORD)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_Revoke);
+   pragma Machine_Attribute (af_IRunningObjectTable_Revoke, "ms_abi");
 
    type af_IRunningObjectTable_IsRunning is access
      function (This          : access IRunningObjectTable;
                pmkObjectName : Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_IsRunning);
+   pragma Machine_Attribute (af_IRunningObjectTable_IsRunning, "ms_abi");
 
    type af_IRunningObjectTable_GetObject is access
      function (This          : access IRunningObjectTable;
@@ -585,13 +613,15 @@ package GNATOCX is
                ppunkObject   : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_GetObject);
+   pragma Machine_Attribute (af_IRunningObjectTable_GetObject, "ms_abi");
 
    type af_IRunningObjectTable_NoteChangeTime is access
      function (This       : access IRunningObjectTable;
-               dwRegister : Interfaces.C.unsigned_long;
+               dwRegister : Win32_Types.Unsigned_Long;
                pfiletime  : Pointer_To_uFILETIME)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_NoteChangeTime);
+   pragma Machine_Attribute (af_IRunningObjectTable_NoteChangeTime, "ms_abi");
 
    type af_IRunningObjectTable_GetTimeOfLastChange is access
      function (This          : access IRunningObjectTable;
@@ -599,12 +629,14 @@ package GNATOCX is
                pfiletime     : Pointer_To_uFILETIME)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_GetTimeOfLastChange);
+   pragma Machine_Attribute (af_IRunningObjectTable_GetTimeOfLastChange, "ms_abi");
 
    type af_IRunningObjectTable_EnumRunning is access
      function (This          : access IRunningObjectTable;
                ppenumMoniker : Pointer_To_Pointer_To_IEnumMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IRunningObjectTable_EnumRunning);
+   pragma Machine_Attribute (af_IRunningObjectTable_EnumRunning, "ms_abi");
 
    type IRunningObjectTableVtbl;
    type Pointer_To_IRunningObjectTableVtbl is
@@ -647,41 +679,48 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumString_QueryInterface);
+   pragma Machine_Attribute (af_IEnumString_QueryInterface, "ms_abi");
 
    type af_IEnumString_AddRef is access
      function (This : access IEnumString)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumString_AddRef);
+   pragma Machine_Attribute (af_IEnumString_AddRef, "ms_abi");
 
    type af_IEnumString_Release is access
      function (This : access IEnumString)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumString_Release);
+   pragma Machine_Attribute (af_IEnumString_Release, "ms_abi");
 
    type af_IEnumString_RemoteNext is access
      function (This         : access IEnumString;
-               celt         : Interfaces.C.unsigned_long;
+               celt         : Win32_Types.Unsigned_Long;
                rgelt        : GNATCOM.Types.Pointer_To_LPWSTR;
                pceltFetched : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumString_RemoteNext);
+   pragma Machine_Attribute (af_IEnumString_RemoteNext, "ms_abi");
 
    type af_IEnumString_Skip is access
      function (This : access IEnumString;
-               celt : Interfaces.C.unsigned_long)
+               celt : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumString_Skip);
+   pragma Machine_Attribute (af_IEnumString_Skip, "ms_abi");
 
    type af_IEnumString_Reset is access
      function (This : access IEnumString)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumString_Reset);
+   pragma Machine_Attribute (af_IEnumString_Reset, "ms_abi");
 
    type af_IEnumString_Clone is access
      function (This   : access IEnumString;
                ppenum : Pointer_To_Pointer_To_IEnumString)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumString_Clone);
+   pragma Machine_Attribute (af_IEnumString_Clone, "ms_abi");
 
    type IEnumStringVtbl;
    type Pointer_To_IEnumStringVtbl is access all IEnumStringVtbl;
@@ -720,51 +759,60 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_QueryInterface);
+   pragma Machine_Attribute (af_IBindCtx_QueryInterface, "ms_abi");
 
    type af_IBindCtx_AddRef is access
      function (This : access IBindCtx)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IBindCtx_AddRef);
+   pragma Machine_Attribute (af_IBindCtx_AddRef, "ms_abi");
 
    type af_IBindCtx_Release is access
      function (This : access IBindCtx)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IBindCtx_Release);
+   pragma Machine_Attribute (af_IBindCtx_Release, "ms_abi");
 
    type af_IBindCtx_RegisterObjectBound is access
      function (This : access IBindCtx;
                punk : GNATCOM.Types.Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_RegisterObjectBound);
+   pragma Machine_Attribute (af_IBindCtx_RegisterObjectBound, "ms_abi");
 
    type af_IBindCtx_RevokeObjectBound is access
      function (This : access IBindCtx;
                punk : GNATCOM.Types.Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_RevokeObjectBound);
+   pragma Machine_Attribute (af_IBindCtx_RevokeObjectBound, "ms_abi");
 
    type af_IBindCtx_ReleaseBoundObjects is access
      function (This : access IBindCtx)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_ReleaseBoundObjects);
+   pragma Machine_Attribute (af_IBindCtx_ReleaseBoundObjects, "ms_abi");
 
    type af_IBindCtx_RemoteSetBindOptions is access
      function (This      : access IBindCtx;
                pbindopts : Pointer_To_BIND_OPTS2)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_RemoteSetBindOptions);
+   pragma Machine_Attribute (af_IBindCtx_RemoteSetBindOptions, "ms_abi");
 
    type af_IBindCtx_RemoteGetBindOptions is access
      function (This      : access IBindCtx;
                pbindopts : Pointer_To_BIND_OPTS2)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_RemoteGetBindOptions);
+   pragma Machine_Attribute (af_IBindCtx_RemoteGetBindOptions, "ms_abi");
 
    type af_IBindCtx_GetRunningObjectTable is access
      function (This  : access IBindCtx;
                pprot : Pointer_To_Pointer_To_IRunningObjectTable)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_GetRunningObjectTable);
+   pragma Machine_Attribute (af_IBindCtx_GetRunningObjectTable, "ms_abi");
 
    type af_IBindCtx_RegisterObjectParam is access
      function (This   : access IBindCtx;
@@ -772,6 +820,7 @@ package GNATOCX is
                punk   : GNATCOM.Types.Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_RegisterObjectParam);
+   pragma Machine_Attribute (af_IBindCtx_RegisterObjectParam, "ms_abi");
 
    type af_IBindCtx_GetObjectParam is access
      function (This   : access IBindCtx;
@@ -779,18 +828,21 @@ package GNATOCX is
                ppunk  : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_GetObjectParam);
+   pragma Machine_Attribute (af_IBindCtx_GetObjectParam, "ms_abi");
 
    type af_IBindCtx_EnumObjectParam is access
      function (This   : access IBindCtx;
                ppenum : Pointer_To_Pointer_To_IEnumString)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_EnumObjectParam);
+   pragma Machine_Attribute (af_IBindCtx_EnumObjectParam, "ms_abi");
 
    type af_IBindCtx_RevokeObjectParam is access
      function (This   : access IBindCtx;
                pszKey : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IBindCtx_RevokeObjectParam);
+   pragma Machine_Attribute (af_IBindCtx_RevokeObjectParam, "ms_abi");
 
    type IBindCtxVtbl;
    type Pointer_To_IBindCtxVtbl is access all IBindCtxVtbl;
@@ -835,46 +887,54 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_QueryInterface);
+   pragma Machine_Attribute (af_IMoniker_QueryInterface, "ms_abi");
 
    type af_IMoniker_AddRef is access
      function (This : access IMoniker)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IMoniker_AddRef);
+   pragma Machine_Attribute (af_IMoniker_AddRef, "ms_abi");
 
    type af_IMoniker_Release is access
      function (This : access IMoniker)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IMoniker_Release);
+   pragma Machine_Attribute (af_IMoniker_Release, "ms_abi");
 
    type af_IMoniker_GetClassID is access
      function (This     : access IMoniker;
                pClassID : GNATCOM.Types.Pointer_To_GUID)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_GetClassID);
+   pragma Machine_Attribute (af_IMoniker_GetClassID, "ms_abi");
 
    type af_IMoniker_IsDirty is access
      function (This : access IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_IsDirty);
+   pragma Machine_Attribute (af_IMoniker_IsDirty, "ms_abi");
 
    type af_IMoniker_Load is access
      function (This : access IMoniker;
                pstm : Pointer_To_IStream)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_Load);
+   pragma Machine_Attribute (af_IMoniker_Load, "ms_abi");
 
    type af_IMoniker_Save is access
      function (This        : access IMoniker;
                pstm        : Pointer_To_IStream;
-               fClearDirty : Interfaces.C.long)
+               fClearDirty : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_Save);
+   pragma Machine_Attribute (af_IMoniker_Save, "ms_abi");
 
    type af_IMoniker_GetSizeMax is access
      function (This    : access IMoniker;
                pcbSize : Pointer_To_uULARGE_INTEGER)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_GetSizeMax);
+   pragma Machine_Attribute (af_IMoniker_GetSizeMax, "ms_abi");
 
    type af_IMoniker_RemoteBindToObject is access
      function (This       : access IMoniker;
@@ -884,6 +944,7 @@ package GNATOCX is
                ppvResult  : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_RemoteBindToObject);
+   pragma Machine_Attribute (af_IMoniker_RemoteBindToObject, "ms_abi");
 
    type af_IMoniker_RemoteBindToStorage is access
      function (This      : access IMoniker;
@@ -893,42 +954,48 @@ package GNATOCX is
                ppvObj    : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_RemoteBindToStorage);
+   pragma Machine_Attribute (af_IMoniker_RemoteBindToStorage, "ms_abi");
 
    type af_IMoniker_Reduce is access
      function (This           : access IMoniker;
                pbc            : Pointer_To_IBindCtx;
-               dwReduceHowFar : Interfaces.C.unsigned_long;
+               dwReduceHowFar : Win32_Types.Unsigned_Long;
                ppmkToLeft     : Pointer_To_Pointer_To_IMoniker;
                ppmkReduced    : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_Reduce);
+   pragma Machine_Attribute (af_IMoniker_Reduce, "ms_abi");
 
    type af_IMoniker_ComposeWith is access
      function (This              : access IMoniker;
                pmkRight          : Pointer_To_IMoniker;
-               fOnlyIfNotGeneric : Interfaces.C.long;
+               fOnlyIfNotGeneric : Win32_Types.Long;
                ppmkComposite     : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_ComposeWith);
+   pragma Machine_Attribute (af_IMoniker_ComposeWith, "ms_abi");
 
    type af_IMoniker_Enum is access
      function (This          : access IMoniker;
-               fForward      : Interfaces.C.long;
+               fForward      : Win32_Types.Long;
                ppenumMoniker : Pointer_To_Pointer_To_IEnumMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_Enum);
+   pragma Machine_Attribute (af_IMoniker_Enum, "ms_abi");
 
    type af_IMoniker_IsEqual is access
      function (This            : access IMoniker;
                pmkOtherMoniker : Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_IsEqual);
+   pragma Machine_Attribute (af_IMoniker_IsEqual, "ms_abi");
 
    type af_IMoniker_Hash is access
      function (This    : access IMoniker;
                pdwHash : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_Hash);
+   pragma Machine_Attribute (af_IMoniker_Hash, "ms_abi");
 
    type af_IMoniker_IsRunning is access
      function (This            : access IMoniker;
@@ -937,6 +1004,7 @@ package GNATOCX is
                pmkNewlyRunning : Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_IsRunning);
+   pragma Machine_Attribute (af_IMoniker_IsRunning, "ms_abi");
 
    type af_IMoniker_GetTimeOfLastChange is access
      function (This      : access IMoniker;
@@ -945,12 +1013,14 @@ package GNATOCX is
                pfiletime : Pointer_To_uFILETIME)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_GetTimeOfLastChange);
+   pragma Machine_Attribute (af_IMoniker_GetTimeOfLastChange, "ms_abi");
 
    type af_IMoniker_Inverse is access
      function (This : access IMoniker;
                ppmk : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_Inverse);
+   pragma Machine_Attribute (af_IMoniker_Inverse, "ms_abi");
 
    type af_IMoniker_CommonPrefixWith is access
      function (This       : access IMoniker;
@@ -958,6 +1028,7 @@ package GNATOCX is
                ppmkPrefix : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_CommonPrefixWith);
+   pragma Machine_Attribute (af_IMoniker_CommonPrefixWith, "ms_abi");
 
    type af_IMoniker_RelativePathTo is access
      function (This        : access IMoniker;
@@ -965,6 +1036,7 @@ package GNATOCX is
                ppmkRelPath : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_RelativePathTo);
+   pragma Machine_Attribute (af_IMoniker_RelativePathTo, "ms_abi");
 
    type af_IMoniker_GetDisplayName is access
      function (This            : access IMoniker;
@@ -973,6 +1045,7 @@ package GNATOCX is
                ppszDisplayName : GNATCOM.Types.Pointer_To_LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_GetDisplayName);
+   pragma Machine_Attribute (af_IMoniker_GetDisplayName, "ms_abi");
 
    type af_IMoniker_ParseDisplayName is access
      function (This           : access IMoniker;
@@ -983,12 +1056,14 @@ package GNATOCX is
                ppmkOut        : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_ParseDisplayName);
+   pragma Machine_Attribute (af_IMoniker_ParseDisplayName, "ms_abi");
 
    type af_IMoniker_IsSystemMoniker is access
      function (This     : access IMoniker;
                pdwMksys : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IMoniker_IsSystemMoniker);
+   pragma Machine_Attribute (af_IMoniker_IsSystemMoniker, "ms_abi");
 
    type IMonikerVtbl;
    type Pointer_To_IMonikerVtbl is access all IMonikerVtbl;
@@ -1043,41 +1118,48 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumUnknown_QueryInterface);
+   pragma Machine_Attribute (af_IEnumUnknown_QueryInterface, "ms_abi");
 
    type af_IEnumUnknown_AddRef is access
      function (This : access IEnumUnknown)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumUnknown_AddRef);
+   pragma Machine_Attribute (af_IEnumUnknown_AddRef, "ms_abi");
 
    type af_IEnumUnknown_Release is access
      function (This : access IEnumUnknown)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumUnknown_Release);
+   pragma Machine_Attribute (af_IEnumUnknown_Release, "ms_abi");
 
    type af_IEnumUnknown_RemoteNext is access
      function (This         : access IEnumUnknown;
-               celt         : Interfaces.C.unsigned_long;
+               celt         : Win32_Types.Unsigned_Long;
                rgelt        : GNATCOM.Types.Pointer_To_Pointer_To_IUnknown;
                pceltFetched : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumUnknown_RemoteNext);
+   pragma Machine_Attribute (af_IEnumUnknown_RemoteNext, "ms_abi");
 
    type af_IEnumUnknown_Skip is access
      function (This : access IEnumUnknown;
-               celt : Interfaces.C.unsigned_long)
+               celt : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumUnknown_Skip);
+   pragma Machine_Attribute (af_IEnumUnknown_Skip, "ms_abi");
 
    type af_IEnumUnknown_Reset is access
      function (This : access IEnumUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumUnknown_Reset);
+   pragma Machine_Attribute (af_IEnumUnknown_Reset, "ms_abi");
 
    type af_IEnumUnknown_Clone is access
      function (This   : access IEnumUnknown;
                ppenum : Pointer_To_Pointer_To_IEnumUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumUnknown_Clone);
+   pragma Machine_Attribute (af_IEnumUnknown_Clone, "ms_abi");
 
    type IEnumUnknownVtbl;
    type Pointer_To_IEnumUnknownVtbl is access all IEnumUnknownVtbl;
@@ -1116,16 +1198,19 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleContainer_QueryInterface);
+   pragma Machine_Attribute (af_IOleContainer_QueryInterface, "ms_abi");
 
    type af_IOleContainer_AddRef is access
      function (This : access IOleContainer)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IOleContainer_AddRef);
+   pragma Machine_Attribute (af_IOleContainer_AddRef, "ms_abi");
 
    type af_IOleContainer_Release is access
      function (This : access IOleContainer)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IOleContainer_Release);
+   pragma Machine_Attribute (af_IOleContainer_Release, "ms_abi");
 
    type af_IOleContainer_ParseDisplayName is access
      function (This           : access IOleContainer;
@@ -1135,19 +1220,22 @@ package GNATOCX is
                ppmkOut        : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleContainer_ParseDisplayName);
+   pragma Machine_Attribute (af_IOleContainer_ParseDisplayName, "ms_abi");
 
    type af_IOleContainer_EnumObjects is access
      function (This     : access IOleContainer;
-               grfFlags : Interfaces.C.unsigned_long;
+               grfFlags : Win32_Types.Unsigned_Long;
                ppenum   : Pointer_To_Pointer_To_IEnumUnknown)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleContainer_EnumObjects);
+   pragma Machine_Attribute (af_IOleContainer_EnumObjects, "ms_abi");
 
    type af_IOleContainer_LockContainer is access
      function (This  : access IOleContainer;
-               fLock : Interfaces.C.long)
+               fLock : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleContainer_LockContainer);
+   pragma Machine_Attribute (af_IOleContainer_LockContainer, "ms_abi");
 
    type IOleContainerVtbl;
    type Pointer_To_IOleContainerVtbl is access all IOleContainerVtbl;
@@ -1185,51 +1273,60 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleClientSite_QueryInterface);
+   pragma Machine_Attribute (af_IOleClientSite_QueryInterface, "ms_abi");
 
    type af_IOleClientSite_AddRef is access
      function (This : access IOleClientSite)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IOleClientSite_AddRef);
+   pragma Machine_Attribute (af_IOleClientSite_AddRef, "ms_abi");
 
    type af_IOleClientSite_Release is access
      function (This : access IOleClientSite)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IOleClientSite_Release);
+   pragma Machine_Attribute (af_IOleClientSite_Release, "ms_abi");
 
    type af_IOleClientSite_SaveObject is access
      function (This : access IOleClientSite)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleClientSite_SaveObject);
+   pragma Machine_Attribute (af_IOleClientSite_SaveObject, "ms_abi");
 
    type af_IOleClientSite_GetMoniker is access
      function (This           : access IOleClientSite;
-               dwAssign       : Interfaces.C.unsigned_long;
-               dwWhichMoniker : Interfaces.C.unsigned_long;
+               dwAssign       : Win32_Types.Unsigned_Long;
+               dwWhichMoniker : Win32_Types.Unsigned_Long;
                ppmk           : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleClientSite_GetMoniker);
+   pragma Machine_Attribute (af_IOleClientSite_GetMoniker, "ms_abi");
 
    type af_IOleClientSite_GetContainer is access
      function (This        : access IOleClientSite;
                ppContainer : Pointer_To_Pointer_To_IOleContainer)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleClientSite_GetContainer);
+   pragma Machine_Attribute (af_IOleClientSite_GetContainer, "ms_abi");
 
    type af_IOleClientSite_ShowObject is access
      function (This : access IOleClientSite)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleClientSite_ShowObject);
+   pragma Machine_Attribute (af_IOleClientSite_ShowObject, "ms_abi");
 
    type af_IOleClientSite_OnShowWindow is access
      function (This  : access IOleClientSite;
-               fShow : Interfaces.C.long)
+               fShow : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleClientSite_OnShowWindow);
+   pragma Machine_Attribute (af_IOleClientSite_OnShowWindow, "ms_abi");
 
    type af_IOleClientSite_RequestNewObjectLayout is access
      function (This : access IOleClientSite)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleClientSite_RequestNewObjectLayout);
+   pragma Machine_Attribute (af_IOleClientSite_RequestNewObjectLayout, "ms_abi");
 
    type IOleClientSiteVtbl;
    type Pointer_To_IOleClientSiteVtbl is access all IOleClientSiteVtbl;
@@ -1266,7 +1363,7 @@ package GNATOCX is
       record
          case Which is
             when 1 =>
-               dwValue  : Interfaces.C.unsigned_long;
+               dwValue  : Win32_Types.Unsigned_Long;
             when 2 =>
                pwszName : GNATCOM.Types.LPWSTR;
          end case;
@@ -1279,7 +1376,7 @@ package GNATOCX is
 
    type uuserCLIPFORMAT is
       record
-         fContext : Interfaces.C.long;
+         fContext : Win32_Types.Long;
          u        : u_MIDL_IWinTypes_0001;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserCLIPFORMAT);
@@ -1289,7 +1386,7 @@ package GNATOCX is
 
    type DVTARGETDEVICE is
       record
-         tdSize             : Interfaces.C.unsigned_long;
+         tdSize             : Win32_Types.Unsigned_Long;
          tdDriverNameOffset : Interfaces.C.unsigned_short;
          tdDeviceNameOffset : Interfaces.C.unsigned_short;
          tdPortNameOffset   : Interfaces.C.unsigned_short;
@@ -1305,9 +1402,9 @@ package GNATOCX is
       record
          cfFormat : wireCLIPFORMAT;
          ptd      : Pointer_To_DVTARGETDEVICE;
-         dwAspect : Interfaces.C.unsigned_long;
-         lindex   : Interfaces.C.long;
-         tymed    : Interfaces.C.unsigned_long;
+         dwAspect : Win32_Types.Unsigned_Long;
+         lindex   : Win32_Types.Long;
+         tymed    : Win32_Types.Unsigned_Long;
       end record;
    pragma Convention (C_Pass_By_Copy, FORMATETC);
 
@@ -1316,7 +1413,7 @@ package GNATOCX is
 
    type uBYTE_BLOB is
       record
-         clSize : Interfaces.C.unsigned_long;
+         clSize : Win32_Types.Unsigned_Long;
          abData : Pointer_To_unsigned_char;
       end record;
    pragma Convention (C_Pass_By_Copy, uBYTE_BLOB);
@@ -1331,7 +1428,7 @@ package GNATOCX is
       record
          case Which is
             when 1 =>
-               hInproc   : Interfaces.C.long;
+               hInproc   : Win32_Types.Long;
             when 2 =>
                hRemote   : Pointer_To_uBYTE_BLOB;
             when 3 =>
@@ -1349,13 +1446,13 @@ package GNATOCX is
 
    type uuserHMETAFILE is
       record
-         fContext : Interfaces.C.long;
+         fContext : Win32_Types.Long;
          u        : u_MIDL_IWinTypes_0004;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserHMETAFILE);
    for uuserHMETAFILE use
       record
-         fContext at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
+         fContext at 0 range 0 .. 0 + Win32_Types.Long'Size - 1;
          u        at 0 range 64 .. 64 + Size_Of_u_MIDL_IWinTypes_0004 - 1;
       end record;
    for uuserHMETAFILE'Size use Size_Of_uuserHMETAFILE;
@@ -1365,9 +1462,9 @@ package GNATOCX is
 
    type uremoteMETAFILEPICT is
       record
-         mm   : Interfaces.C.long;
-         xExt : Interfaces.C.long;
-         yExt : Interfaces.C.long;
+         mm   : Win32_Types.Long;
+         xExt : Win32_Types.Long;
+         yExt : Win32_Types.Long;
          hMF  : Pointer_To_uuserHMETAFILE;
       end record;
    pragma Convention (C_Pass_By_Copy, uremoteMETAFILEPICT);
@@ -1382,7 +1479,7 @@ package GNATOCX is
       record
          case Which is
             when 1 =>
-               hInproc   : Interfaces.C.long;
+               hInproc   : Win32_Types.Long;
             when 2 =>
                hRemote   : Pointer_To_uremoteMETAFILEPICT;
             when 3 =>
@@ -1400,13 +1497,13 @@ package GNATOCX is
 
    type uuserHMETAFILEPICT is
       record
-         fContext : Interfaces.C.long;
+         fContext : Win32_Types.Long;
          u        : u_MIDL_IWinTypes_0005;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserHMETAFILEPICT);
    for uuserHMETAFILEPICT use
       record
-         fContext at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
+         fContext at 0 range 0 .. 0 + Win32_Types.Long'Size - 1;
          u        at 0 range 64 .. 64 + Size_Of_u_MIDL_IWinTypes_0005 - 1;
       end record;
    for uuserHMETAFILEPICT'Size use Size_Of_uuserHMETAFILEPICT;
@@ -1421,7 +1518,7 @@ package GNATOCX is
       record
          case Which is
             when 1 =>
-               hInproc   : Interfaces.C.long;
+               hInproc   : Win32_Types.Long;
             when 2 =>
                hRemote   : Pointer_To_uBYTE_BLOB;
             when 3 =>
@@ -1439,13 +1536,13 @@ package GNATOCX is
 
    type uuserHENHMETAFILE is
       record
-         fContext : Interfaces.C.long;
+         fContext : Win32_Types.Long;
          u        : u_MIDL_IWinTypes_0006;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserHENHMETAFILE);
    for uuserHENHMETAFILE use
       record
-         fContext at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
+         fContext at 0 range 0 .. 0 + Win32_Types.Long'Size - 1;
          u        at 0 range 64 .. 64 + Size_Of_u_MIDL_IWinTypes_0006 - 1;
       end record;
    for uuserHENHMETAFILE'Size use Size_Of_uuserHENHMETAFILE;
@@ -1455,13 +1552,13 @@ package GNATOCX is
 
    type uuserBITMAP is
       record
-         bmType       : Interfaces.C.long;
-         bmWidth      : Interfaces.C.long;
-         bmHeight     : Interfaces.C.long;
-         bmWidthBytes : Interfaces.C.long;
+         bmType       : Win32_Types.Long;
+         bmWidth      : Win32_Types.Long;
+         bmHeight     : Win32_Types.Long;
+         bmWidthBytes : Win32_Types.Long;
          bmPlanes     : Interfaces.C.unsigned_short;
          bmBitsPixel  : Interfaces.C.unsigned_short;
-         cbSize       : Interfaces.C.unsigned_long;
+         cbSize       : Win32_Types.Unsigned_Long;
          pBuffer      : Pointer_To_unsigned_char;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserBITMAP);
@@ -1476,7 +1573,7 @@ package GNATOCX is
       record
          case Which is
             when 1 =>
-               hInproc   : Interfaces.C.long;
+               hInproc   : Win32_Types.Long;
             when 2 =>
                hRemote   : Pointer_To_uuserBITMAP;
             when 3 =>
@@ -1494,13 +1591,13 @@ package GNATOCX is
 
    type uuserHBITMAP is
       record
-         fContext : Interfaces.C.long;
+         fContext : Win32_Types.Long;
          u        : u_MIDL_IWinTypes_0007;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserHBITMAP);
    for uuserHBITMAP use
       record
-         fContext at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
+         fContext at 0 range 0 .. 0 + Win32_Types.Long'Size - 1;
          u        at 0 range 64 .. 64 + Size_Of_u_MIDL_IWinTypes_0007 - 1;
       end record;
    for uuserHBITMAP'Size use Size_Of_uuserHBITMAP;
@@ -1549,7 +1646,7 @@ package GNATOCX is
       record
          case Which is
             when 1 =>
-               hInproc   : Interfaces.C.long;
+               hInproc   : Win32_Types.Long;
             when 2 =>
                hRemote   : Pointer_To_LOGPALETTE;
             when 3 =>
@@ -1567,13 +1664,13 @@ package GNATOCX is
 
    type uuserHPALETTE is
       record
-         fContext : Interfaces.C.long;
+         fContext : Win32_Types.Long;
          u        : u_MIDL_IWinTypes_0008;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserHPALETTE);
    for uuserHPALETTE use
       record
-         fContext at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
+         fContext at 0 range 0 .. 0 + Win32_Types.Long'Size - 1;
          u        at 0 range 64 .. 64 + Size_Of_u_MIDL_IWinTypes_0008 - 1;
       end record;
    for uuserHPALETTE'Size use Size_Of_uuserHPALETTE;
@@ -1583,8 +1680,8 @@ package GNATOCX is
 
    type uFLAGGED_BYTE_BLOB is
       record
-         fFlags : Interfaces.C.unsigned_long;
-         clSize : Interfaces.C.unsigned_long;
+         fFlags : Win32_Types.Unsigned_Long;
+         clSize : Win32_Types.Unsigned_Long;
          abData : Pointer_To_unsigned_char;
       end record;
    pragma Convention (C_Pass_By_Copy, uFLAGGED_BYTE_BLOB);
@@ -1599,7 +1696,7 @@ package GNATOCX is
       record
          case Which is
             when 1 =>
-               hInproc   : Interfaces.C.long;
+               hInproc   : Win32_Types.Long;
             when 2 =>
                hRemote   : Pointer_To_uFLAGGED_BYTE_BLOB;
             when 3 =>
@@ -1617,13 +1714,13 @@ package GNATOCX is
 
    type uuserHGLOBAL is
       record
-         fContext : Interfaces.C.long;
+         fContext : Win32_Types.Long;
          u        : u_MIDL_IWinTypes_0003;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserHGLOBAL);
    for uuserHGLOBAL use
       record
-         fContext at 0 range 0 .. 0 + Interfaces.C.long'Size - 1;
+         fContext at 0 range 0 .. 0 + Win32_Types.Long'Size - 1;
          u        at 0 range 64 .. 64 + Size_Of_u_MIDL_IWinTypes_0003 - 1;
       end record;
    for uuserHGLOBAL'Size use Size_Of_uuserHGLOBAL;
@@ -1651,7 +1748,7 @@ package GNATOCX is
 
    type uGDI_OBJECT is
       record
-         ObjectType : Interfaces.C.unsigned_long;
+         ObjectType : Win32_Types.Unsigned_Long;
          u          : u_MIDL_IAdviseSink_0002;
       end record;
    pragma Convention (C_Pass_By_Copy, uGDI_OBJECT);
@@ -1687,7 +1784,7 @@ package GNATOCX is
 
    type uSTGMEDIUM_UNION is
       record
-         tymed : Interfaces.C.unsigned_long;
+         tymed : Win32_Types.Unsigned_Long;
          u     : u_MIDL_IAdviseSink_0003;
       end record;
    pragma Convention (C_Pass_By_Copy, uSTGMEDIUM_UNION);
@@ -1707,8 +1804,8 @@ package GNATOCX is
 
    type uuserFLAG_STGMEDIUM is
       record
-         ContextFlags   : Interfaces.C.long;
-         fPassOwnership : Interfaces.C.long;
+         ContextFlags   : Win32_Types.Long;
+         fPassOwnership : Win32_Types.Long;
          Stgmed         : uuserSTGMEDIUM;
       end record;
    pragma Convention (C_Pass_By_Copy, uuserFLAG_STGMEDIUM);
@@ -1725,41 +1822,48 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumFORMATETC_QueryInterface);
+   pragma Machine_Attribute (af_IEnumFORMATETC_QueryInterface, "ms_abi");
 
    type af_IEnumFORMATETC_AddRef is access
      function (This : access IEnumFORMATETC)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumFORMATETC_AddRef);
+   pragma Machine_Attribute (af_IEnumFORMATETC_AddRef, "ms_abi");
 
    type af_IEnumFORMATETC_Release is access
      function (This : access IEnumFORMATETC)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumFORMATETC_Release);
+   pragma Machine_Attribute (af_IEnumFORMATETC_Release, "ms_abi");
 
    type af_IEnumFORMATETC_RemoteNext is access
      function (This         : access IEnumFORMATETC;
-               celt         : Interfaces.C.unsigned_long;
+               celt         : Win32_Types.Unsigned_Long;
                rgelt        : Pointer_To_FORMATETC;
                pceltFetched : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumFORMATETC_RemoteNext);
+   pragma Machine_Attribute (af_IEnumFORMATETC_RemoteNext, "ms_abi");
 
    type af_IEnumFORMATETC_Skip is access
      function (This : access IEnumFORMATETC;
-               celt : Interfaces.C.unsigned_long)
+               celt : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumFORMATETC_Skip);
+   pragma Machine_Attribute (af_IEnumFORMATETC_Skip, "ms_abi");
 
    type af_IEnumFORMATETC_Reset is access
      function (This : access IEnumFORMATETC)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumFORMATETC_Reset);
+   pragma Machine_Attribute (af_IEnumFORMATETC_Reset, "ms_abi");
 
    type af_IEnumFORMATETC_Clone is access
      function (This   : access IEnumFORMATETC;
                ppenum : Pointer_To_Pointer_To_IEnumFORMATETC)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumFORMATETC_Clone);
+   pragma Machine_Attribute (af_IEnumFORMATETC_Clone, "ms_abi");
 
    type IEnumFORMATETCVtbl;
    type Pointer_To_IEnumFORMATETCVtbl is access all IEnumFORMATETCVtbl;
@@ -1798,16 +1902,19 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IAdviseSink_QueryInterface);
+   pragma Machine_Attribute (af_IAdviseSink_QueryInterface, "ms_abi");
 
    type af_IAdviseSink_AddRef is access
      function (This : access IAdviseSink)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IAdviseSink_AddRef);
+   pragma Machine_Attribute (af_IAdviseSink_AddRef, "ms_abi");
 
    type af_IAdviseSink_Release is access
      function (This : access IAdviseSink)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IAdviseSink_Release);
+   pragma Machine_Attribute (af_IAdviseSink_Release, "ms_abi");
 
    type af_IAdviseSink_RemoteOnDataChange is access
      function (This       : access IAdviseSink;
@@ -1815,29 +1922,34 @@ package GNATOCX is
                pStgmed    : Pointer_To_wireASYNC_STGMEDIUM)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IAdviseSink_RemoteOnDataChange);
+   pragma Machine_Attribute (af_IAdviseSink_RemoteOnDataChange, "ms_abi");
 
    type af_IAdviseSink_RemoteOnViewChange is access
      function (This     : access IAdviseSink;
-               dwAspect : Interfaces.C.unsigned_long;
-               lindex   : Interfaces.C.long)
+               dwAspect : Win32_Types.Unsigned_Long;
+               lindex   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IAdviseSink_RemoteOnViewChange);
+   pragma Machine_Attribute (af_IAdviseSink_RemoteOnViewChange, "ms_abi");
 
    type af_IAdviseSink_RemoteOnRename is access
      function (This : access IAdviseSink;
                pmk  : Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IAdviseSink_RemoteOnRename);
+   pragma Machine_Attribute (af_IAdviseSink_RemoteOnRename, "ms_abi");
 
    type af_IAdviseSink_RemoteOnSave is access
      function (This : access IAdviseSink)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IAdviseSink_RemoteOnSave);
+   pragma Machine_Attribute (af_IAdviseSink_RemoteOnSave, "ms_abi");
 
    type af_IAdviseSink_RemoteOnClose is access
      function (This : access IAdviseSink)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IAdviseSink_RemoteOnClose);
+   pragma Machine_Attribute (af_IAdviseSink_RemoteOnClose, "ms_abi");
 
    type IAdviseSinkVtbl;
    type Pointer_To_IAdviseSinkVtbl is access all IAdviseSinkVtbl;
@@ -1871,9 +1983,9 @@ package GNATOCX is
    type STATDATA is
       record
          formatetc    : GNATOCX.FORMATETC;
-         advf         : Interfaces.C.unsigned_long;
+         advf         : Win32_Types.Unsigned_Long;
          pAdvSink     : Pointer_To_IAdviseSink;
-         dwConnection : Interfaces.C.unsigned_long;
+         dwConnection : Win32_Types.Unsigned_Long;
       end record;
    pragma Convention (C_Pass_By_Copy, STATDATA);
 
@@ -1889,41 +2001,48 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumSTATDATA_QueryInterface);
+   pragma Machine_Attribute (af_IEnumSTATDATA_QueryInterface, "ms_abi");
 
    type af_IEnumSTATDATA_AddRef is access
      function (This : access IEnumSTATDATA)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumSTATDATA_AddRef);
+   pragma Machine_Attribute (af_IEnumSTATDATA_AddRef, "ms_abi");
 
    type af_IEnumSTATDATA_Release is access
      function (This : access IEnumSTATDATA)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumSTATDATA_Release);
+   pragma Machine_Attribute (af_IEnumSTATDATA_Release, "ms_abi");
 
    type af_IEnumSTATDATA_RemoteNext is access
      function (This         : access IEnumSTATDATA;
-               celt         : Interfaces.C.unsigned_long;
+               celt         : Win32_Types.Unsigned_Long;
                rgelt        : Pointer_To_STATDATA;
                pceltFetched : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumSTATDATA_RemoteNext);
+   pragma Machine_Attribute (af_IEnumSTATDATA_RemoteNext, "ms_abi");
 
    type af_IEnumSTATDATA_Skip is access
      function (This : access IEnumSTATDATA;
-               celt : Interfaces.C.unsigned_long)
+               celt : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumSTATDATA_Skip);
+   pragma Machine_Attribute (af_IEnumSTATDATA_Skip, "ms_abi");
 
    type af_IEnumSTATDATA_Reset is access
      function (This : access IEnumSTATDATA)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumSTATDATA_Reset);
+   pragma Machine_Attribute (af_IEnumSTATDATA_Reset, "ms_abi");
 
    type af_IEnumSTATDATA_Clone is access
      function (This   : access IEnumSTATDATA;
                ppenum : Pointer_To_Pointer_To_IEnumSTATDATA)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumSTATDATA_Clone);
+   pragma Machine_Attribute (af_IEnumSTATDATA_Clone, "ms_abi");
 
    type IEnumSTATDATAVtbl;
    type Pointer_To_IEnumSTATDATAVtbl is access all IEnumSTATDATAVtbl;
@@ -1962,16 +2081,19 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IDataObject_QueryInterface);
+   pragma Machine_Attribute (af_IDataObject_QueryInterface, "ms_abi");
 
    type af_IDataObject_AddRef is access
      function (This : access IDataObject)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IDataObject_AddRef);
+   pragma Machine_Attribute (af_IDataObject_AddRef, "ms_abi");
 
    type af_IDataObject_Release is access
      function (This : access IDataObject)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IDataObject_Release);
+   pragma Machine_Attribute (af_IDataObject_Release, "ms_abi");
 
    type af_IDataObject_RemoteGetData is access
      function (This          : access IDataObject;
@@ -1979,6 +2101,7 @@ package GNATOCX is
                pRemoteMedium : Pointer_To_wireSTGMEDIUM)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IDataObject_RemoteGetData);
+   pragma Machine_Attribute (af_IDataObject_RemoteGetData, "ms_abi");
 
    type af_IDataObject_RemoteGetDataHere is access
      function (This          : access IDataObject;
@@ -1986,12 +2109,14 @@ package GNATOCX is
                pRemoteMedium : Pointer_To_wireSTGMEDIUM)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IDataObject_RemoteGetDataHere);
+   pragma Machine_Attribute (af_IDataObject_RemoteGetDataHere, "ms_abi");
 
    type af_IDataObject_QueryGetData is access
      function (This       : access IDataObject;
                pformatetc : Pointer_To_FORMATETC)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IDataObject_QueryGetData);
+   pragma Machine_Attribute (af_IDataObject_QueryGetData, "ms_abi");
 
    type af_IDataObject_GetCanonicalFormatEtc is access
      function (This          : access IDataObject;
@@ -1999,42 +2124,48 @@ package GNATOCX is
                pformatetcOut : Pointer_To_FORMATETC)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IDataObject_GetCanonicalFormatEtc);
+   pragma Machine_Attribute (af_IDataObject_GetCanonicalFormatEtc, "ms_abi");
 
    type af_IDataObject_RemoteSetData is access
      function (This       : access IDataObject;
                pformatetc : Pointer_To_FORMATETC;
                pmedium    : Pointer_To_wireFLAG_STGMEDIUM;
-               fRelease   : Interfaces.C.long)
+               fRelease   : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IDataObject_RemoteSetData);
+   pragma Machine_Attribute (af_IDataObject_RemoteSetData, "ms_abi");
 
    type af_IDataObject_EnumFormatEtc is access
      function (This            : access IDataObject;
-               dwDirection     : Interfaces.C.unsigned_long;
+               dwDirection     : Win32_Types.Unsigned_Long;
                ppenumFormatEtc : Pointer_To_Pointer_To_IEnumFORMATETC)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IDataObject_EnumFormatEtc);
+   pragma Machine_Attribute (af_IDataObject_EnumFormatEtc, "ms_abi");
 
    type af_IDataObject_DAdvise is access
      function (This          : access IDataObject;
                pformatetc    : Pointer_To_FORMATETC;
-               advf          : Interfaces.C.unsigned_long;
+               advf          : Win32_Types.Unsigned_Long;
                pAdvSink      : Pointer_To_IAdviseSink;
                pdwConnection : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IDataObject_DAdvise);
+   pragma Machine_Attribute (af_IDataObject_DAdvise, "ms_abi");
 
    type af_IDataObject_DUnadvise is access
      function (This         : access IDataObject;
-               dwConnection : Interfaces.C.unsigned_long)
+               dwConnection : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IDataObject_DUnadvise);
+   pragma Machine_Attribute (af_IDataObject_DUnadvise, "ms_abi");
 
    type af_IDataObject_EnumDAdvise is access
      function (This         : access IDataObject;
                ppenumAdvise : Pointer_To_Pointer_To_IEnumSTATDATA)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IDataObject_EnumDAdvise);
+   pragma Machine_Attribute (af_IDataObject_EnumDAdvise, "ms_abi");
 
    type IDataObjectVtbl;
    type Pointer_To_IDataObjectVtbl is access all IDataObjectVtbl;
@@ -2130,9 +2261,9 @@ package GNATOCX is
       record
          hwnd    : wireHWND;
          message : Interfaces.C.unsigned;
-         wParam  : Interfaces.C.unsigned_long;
-         lParam  : Interfaces.C.long;
-         time    : Interfaces.C.unsigned_long;
+         wParam  : Win32_Types.Unsigned_Long;
+         lParam  : Win32_Types.Long;
+         time    : Win32_Types.Unsigned_Long;
          pt      : POINT;
       end record;
    pragma Convention (C_Pass_By_Copy, MSG);
@@ -2165,10 +2296,10 @@ package GNATOCX is
 
    type OLEVERB is
       record
-         lVerb        : Interfaces.C.long;
+         lVerb        : Win32_Types.Long;
          lpszVerbName : GNATCOM.Types.LPWSTR;
-         fuFlags      : Interfaces.C.unsigned_long;
-         grfAttribs   : Interfaces.C.unsigned_long;
+         fuFlags      : Win32_Types.Unsigned_Long;
+         grfAttribs   : Win32_Types.Unsigned_Long;
       end record;
    pragma Convention (C_Pass_By_Copy, OLEVERB);
 
@@ -2184,41 +2315,48 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumOLEVERB_QueryInterface);
+   pragma Machine_Attribute (af_IEnumOLEVERB_QueryInterface, "ms_abi");
 
    type af_IEnumOLEVERB_AddRef is access
      function (This : access IEnumOLEVERB)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumOLEVERB_AddRef);
+   pragma Machine_Attribute (af_IEnumOLEVERB_AddRef, "ms_abi");
 
    type af_IEnumOLEVERB_Release is access
      function (This : access IEnumOLEVERB)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IEnumOLEVERB_Release);
+   pragma Machine_Attribute (af_IEnumOLEVERB_Release, "ms_abi");
 
    type af_IEnumOLEVERB_RemoteNext is access
      function (This         : access IEnumOLEVERB;
-               celt         : Interfaces.C.unsigned_long;
+               celt         : Win32_Types.Unsigned_Long;
                rgelt        : Pointer_To_OLEVERB;
                pceltFetched : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumOLEVERB_RemoteNext);
+   pragma Machine_Attribute (af_IEnumOLEVERB_RemoteNext, "ms_abi");
 
    type af_IEnumOLEVERB_Skip is access
      function (This : access IEnumOLEVERB;
-               celt : Interfaces.C.unsigned_long)
+               celt : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumOLEVERB_Skip);
+   pragma Machine_Attribute (af_IEnumOLEVERB_Skip, "ms_abi");
 
    type af_IEnumOLEVERB_Reset is access
      function (This : access IEnumOLEVERB)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumOLEVERB_Reset);
+   pragma Machine_Attribute (af_IEnumOLEVERB_Reset, "ms_abi");
 
    type af_IEnumOLEVERB_Clone is access
      function (This   : access IEnumOLEVERB;
                ppenum : Pointer_To_Pointer_To_IEnumOLEVERB)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IEnumOLEVERB_Clone);
+   pragma Machine_Attribute (af_IEnumOLEVERB_Clone, "ms_abi");
 
    type IEnumOLEVERBVtbl;
    type Pointer_To_IEnumOLEVERBVtbl is access all IEnumOLEVERBVtbl;
@@ -2276,28 +2414,33 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_QueryInterface);
+   pragma Machine_Attribute (af_IOleObject_QueryInterface, "ms_abi");
 
    type af_IOleObject_AddRef is access
      function (This : access IOleObject)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IOleObject_AddRef);
+   pragma Machine_Attribute (af_IOleObject_AddRef, "ms_abi");
 
    type af_IOleObject_Release is access
      function (This : access IOleObject)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IOleObject_Release);
+   pragma Machine_Attribute (af_IOleObject_Release, "ms_abi");
 
    type af_IOleObject_SetClientSite is access
      function (This        : access IOleObject;
                pClientSite : Pointer_To_IOleClientSite)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_SetClientSite);
+   pragma Machine_Attribute (af_IOleObject_SetClientSite, "ms_abi");
 
    type af_IOleObject_GetClientSite is access
      function (This         : access IOleObject;
                ppClientSite : Pointer_To_Pointer_To_IOleClientSite)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_GetClientSite);
+   pragma Machine_Attribute (af_IOleObject_GetClientSite, "ms_abi");
 
    type af_IOleObject_SetHostNames is access
      function (This           : access IOleObject;
@@ -2305,96 +2448,110 @@ package GNATOCX is
                szContainerObj : GNATCOM.Types.LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_SetHostNames);
+   pragma Machine_Attribute (af_IOleObject_SetHostNames, "ms_abi");
 
    type af_IOleObject_Close is access
      function (This         : access IOleObject;
-               dwSaveOption : Interfaces.C.unsigned_long)
+               dwSaveOption : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_Close);
+   pragma Machine_Attribute (af_IOleObject_Close, "ms_abi");
 
    type af_IOleObject_SetMoniker is access
      function (This           : access IOleObject;
-               dwWhichMoniker : Interfaces.C.unsigned_long;
+               dwWhichMoniker : Win32_Types.Unsigned_Long;
                pmk            : Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_SetMoniker);
+   pragma Machine_Attribute (af_IOleObject_SetMoniker, "ms_abi");
 
    type af_IOleObject_GetMoniker is access
      function (This           : access IOleObject;
-               dwAssign       : Interfaces.C.unsigned_long;
-               dwWhichMoniker : Interfaces.C.unsigned_long;
+               dwAssign       : Win32_Types.Unsigned_Long;
+               dwWhichMoniker : Win32_Types.Unsigned_Long;
                ppmk           : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_GetMoniker);
+   pragma Machine_Attribute (af_IOleObject_GetMoniker, "ms_abi");
 
    type af_IOleObject_InitFromData is access
      function (This        : access IOleObject;
                pDataObject : Pointer_To_IDataObject;
-               fCreation   : Interfaces.C.long;
-               dwReserved  : Interfaces.C.unsigned_long)
+               fCreation   : Win32_Types.Long;
+               dwReserved  : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_InitFromData);
+   pragma Machine_Attribute (af_IOleObject_InitFromData, "ms_abi");
 
    type af_IOleObject_GetClipboardData is access
      function (This         : access IOleObject;
-               dwReserved   : Interfaces.C.unsigned_long;
+               dwReserved   : Win32_Types.Unsigned_Long;
                ppDataObject : Pointer_To_Pointer_To_IDataObject)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_GetClipboardData);
+   pragma Machine_Attribute (af_IOleObject_GetClipboardData, "ms_abi");
 
    type af_IOleObject_DoVerb is access
      function (This        : access IOleObject;
-               iVerb       : Interfaces.C.long;
+               iVerb       : Win32_Types.Long;
                lpmsg       : Pointer_To_MSG;
                pActiveSite : Pointer_To_IOleClientSite;
-               lindex      : Interfaces.C.long;
+               lindex      : Win32_Types.Long;
                hwndParent  : wireHWND;
                lprcPosRect : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_DoVerb);
+   pragma Machine_Attribute (af_IOleObject_DoVerb, "ms_abi");
 
    type af_IOleObject_EnumVerbs is access
      function (This          : access IOleObject;
                ppEnumOleVerb : Pointer_To_Pointer_To_IEnumOLEVERB)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_EnumVerbs);
+   pragma Machine_Attribute (af_IOleObject_EnumVerbs, "ms_abi");
 
    type af_IOleObject_Update is access
      function (This : access IOleObject)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_Update);
+   pragma Machine_Attribute (af_IOleObject_Update, "ms_abi");
 
    type af_IOleObject_IsUpToDate is access
      function (This : access IOleObject)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_IsUpToDate);
+   pragma Machine_Attribute (af_IOleObject_IsUpToDate, "ms_abi");
 
    type af_IOleObject_GetUserClassID is access
      function (This   : access IOleObject;
                pClsid : GNATCOM.Types.Pointer_To_GUID)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_GetUserClassID);
+   pragma Machine_Attribute (af_IOleObject_GetUserClassID, "ms_abi");
 
    type af_IOleObject_GetUserType is access
      function (This         : access IOleObject;
-               dwFormOfType : Interfaces.C.unsigned_long;
+               dwFormOfType : Win32_Types.Unsigned_Long;
                pszUserType  : GNATCOM.Types.Pointer_To_LPWSTR)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_GetUserType);
+   pragma Machine_Attribute (af_IOleObject_GetUserType, "ms_abi");
 
    type af_IOleObject_SetExtent is access
      function (This         : access IOleObject;
-               dwDrawAspect : Interfaces.C.unsigned_long;
+               dwDrawAspect : Win32_Types.Unsigned_Long;
                psizel       : Pointer_To_SIZEL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_SetExtent);
+   pragma Machine_Attribute (af_IOleObject_SetExtent, "ms_abi");
 
    type af_IOleObject_GetExtent is access
      function (This         : access IOleObject;
-               dwDrawAspect : Interfaces.C.unsigned_long;
+               dwDrawAspect : Win32_Types.Unsigned_Long;
                psizel       : Pointer_To_SIZEL)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_GetExtent);
+   pragma Machine_Attribute (af_IOleObject_GetExtent, "ms_abi");
 
    type af_IOleObject_Advise is access
      function (This          : access IOleObject;
@@ -2402,31 +2559,36 @@ package GNATOCX is
                pdwConnection : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_Advise);
+   pragma Machine_Attribute (af_IOleObject_Advise, "ms_abi");
 
    type af_IOleObject_Unadvise is access
      function (This         : access IOleObject;
-               dwConnection : Interfaces.C.unsigned_long)
+               dwConnection : Win32_Types.Unsigned_Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_Unadvise);
+   pragma Machine_Attribute (af_IOleObject_Unadvise, "ms_abi");
 
    type af_IOleObject_EnumAdvise is access
      function (This         : access IOleObject;
                ppenumAdvise : Pointer_To_Pointer_To_IEnumSTATDATA)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_EnumAdvise);
+   pragma Machine_Attribute (af_IOleObject_EnumAdvise, "ms_abi");
 
    type af_IOleObject_GetMiscStatus is access
      function (This      : access IOleObject;
-               dwAspect  : Interfaces.C.unsigned_long;
+               dwAspect  : Win32_Types.Unsigned_Long;
                pdwStatus : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_GetMiscStatus);
+   pragma Machine_Attribute (af_IOleObject_GetMiscStatus, "ms_abi");
 
    type af_IOleObject_SetColorScheme is access
      function (This    : access IOleObject;
                pLogpal : Pointer_To_LOGPALETTE)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleObject_SetColorScheme);
+   pragma Machine_Attribute (af_IOleObject_SetColorScheme, "ms_abi");
 
    type IOleObjectVtbl;
    type Pointer_To_IOleObjectVtbl is access all IOleObjectVtbl;
@@ -2482,46 +2644,54 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IPersistStream_QueryInterface);
+   pragma Machine_Attribute (af_IPersistStream_QueryInterface, "ms_abi");
 
    type af_IPersistStream_AddRef is access
      function (This : access IPersistStream)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IPersistStream_AddRef);
+   pragma Machine_Attribute (af_IPersistStream_AddRef, "ms_abi");
 
    type af_IPersistStream_Release is access
      function (This : access IPersistStream)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IPersistStream_Release);
+   pragma Machine_Attribute (af_IPersistStream_Release, "ms_abi");
 
    type af_IPersistStream_GetClassID is access
      function (This     : access IPersistStream;
                pClassID : GNATCOM.Types.Pointer_To_GUID)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IPersistStream_GetClassID);
+   pragma Machine_Attribute (af_IPersistStream_GetClassID, "ms_abi");
 
    type af_IPersistStream_IsDirty is access
      function (This : access IPersistStream)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IPersistStream_IsDirty);
+   pragma Machine_Attribute (af_IPersistStream_IsDirty, "ms_abi");
 
    type af_IPersistStream_Load is access
      function (This : access IPersistStream;
                pstm : Pointer_To_IStream)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IPersistStream_Load);
+   pragma Machine_Attribute (af_IPersistStream_Load, "ms_abi");
 
    type af_IPersistStream_Save is access
      function (This        : access IPersistStream;
                pstm        : Pointer_To_IStream;
-               fClearDirty : Interfaces.C.long)
+               fClearDirty : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IPersistStream_Save);
+   pragma Machine_Attribute (af_IPersistStream_Save, "ms_abi");
 
    type af_IPersistStream_GetSizeMax is access
      function (This    : access IPersistStream;
                pcbSize : Pointer_To_uULARGE_INTEGER)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IPersistStream_GetSizeMax);
+   pragma Machine_Attribute (af_IPersistStream_GetSizeMax, "ms_abi");
 
    type IPersistStreamVtbl;
    type Pointer_To_IPersistStreamVtbl is access all IPersistStreamVtbl;
@@ -2561,22 +2731,26 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IPersist_QueryInterface);
+   pragma Machine_Attribute (af_IPersist_QueryInterface, "ms_abi");
 
    type af_IPersist_AddRef is access
      function (This : access IPersist)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IPersist_AddRef);
+   pragma Machine_Attribute (af_IPersist_AddRef, "ms_abi");
 
    type af_IPersist_Release is access
      function (This : access IPersist)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IPersist_Release);
+   pragma Machine_Attribute (af_IPersist_Release, "ms_abi");
 
    type af_IPersist_GetClassID is access
      function (This     : access IPersist;
                pClassID : GNATCOM.Types.Pointer_To_GUID)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IPersist_GetClassID);
+   pragma Machine_Attribute (af_IPersist_GetClassID, "ms_abi");
 
    type IPersistVtbl;
    type Pointer_To_IPersistVtbl is access all IPersistVtbl;
@@ -2612,32 +2786,37 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ISequentialStream_QueryInterface);
+   pragma Machine_Attribute (af_ISequentialStream_QueryInterface, "ms_abi");
 
    type af_ISequentialStream_AddRef is access
      function (This : access ISequentialStream)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ISequentialStream_AddRef);
+   pragma Machine_Attribute (af_ISequentialStream_AddRef, "ms_abi");
 
    type af_ISequentialStream_Release is access
      function (This : access ISequentialStream)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_ISequentialStream_Release);
+   pragma Machine_Attribute (af_ISequentialStream_Release, "ms_abi");
 
    type af_ISequentialStream_RemoteRead is access
      function (This    : access ISequentialStream;
                pv      : Pointer_To_unsigned_char;
-               cb      : Interfaces.C.unsigned_long;
+               cb      : Win32_Types.Unsigned_Long;
                pcbRead : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ISequentialStream_RemoteRead);
+   pragma Machine_Attribute (af_ISequentialStream_RemoteRead, "ms_abi");
 
    type af_ISequentialStream_RemoteWrite is access
      function (This       : access ISequentialStream;
                pv         : Pointer_To_unsigned_char;
-               cb         : Interfaces.C.unsigned_long;
+               cb         : Win32_Types.Unsigned_Long;
                pcbWritten : GNATCOM.Types.Pointer_To_unsigned_long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_ISequentialStream_RemoteWrite);
+   pragma Machine_Attribute (af_ISequentialStream_RemoteWrite, "ms_abi");
 
    type ISequentialStreamVtbl;
    type Pointer_To_ISequentialStreamVtbl is access all ISequentialStreamVtbl;
@@ -2674,16 +2853,19 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IParseDisplayName_QueryInterface);
+   pragma Machine_Attribute (af_IParseDisplayName_QueryInterface, "ms_abi");
 
    type af_IParseDisplayName_AddRef is access
      function (This : access IParseDisplayName)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IParseDisplayName_AddRef);
+   pragma Machine_Attribute (af_IParseDisplayName_AddRef, "ms_abi");
 
    type af_IParseDisplayName_Release is access
      function (This : access IParseDisplayName)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IParseDisplayName_Release);
+   pragma Machine_Attribute (af_IParseDisplayName_Release, "ms_abi");
 
    type af_IParseDisplayName_ParseDisplayName is access
      function (This           : access IParseDisplayName;
@@ -2693,6 +2875,7 @@ package GNATOCX is
                ppmkOut        : Pointer_To_Pointer_To_IMoniker)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IParseDisplayName_ParseDisplayName);
+   pragma Machine_Attribute (af_IParseDisplayName_ParseDisplayName, "ms_abi");
 
    type IParseDisplayNameVtbl;
    type Pointer_To_IParseDisplayNameVtbl is access all IParseDisplayNameVtbl;
@@ -2728,28 +2911,33 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleWindow_QueryInterface);
+   pragma Machine_Attribute (af_IOleWindow_QueryInterface, "ms_abi");
 
    type af_IOleWindow_AddRef is access
      function (This : access IOleWindow)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IOleWindow_AddRef);
+   pragma Machine_Attribute (af_IOleWindow_AddRef, "ms_abi");
 
    type af_IOleWindow_Release is access
      function (This : access IOleWindow)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IOleWindow_Release);
+   pragma Machine_Attribute (af_IOleWindow_Release, "ms_abi");
 
    type af_IOleWindow_GetWindow is access
      function (This  : access IOleWindow;
                phwnd : Pointer_To_wireHWND)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleWindow_GetWindow);
+   pragma Machine_Attribute (af_IOleWindow_GetWindow, "ms_abi");
 
    type af_IOleWindow_ContextSensitiveHelp is access
      function (This       : access IOleWindow;
-               fEnterMode : Interfaces.C.long)
+               fEnterMode : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleWindow_ContextSensitiveHelp);
+   pragma Machine_Attribute (af_IOleWindow_ContextSensitiveHelp, "ms_abi");
 
    type IOleWindowVtbl;
    type Pointer_To_IOleWindowVtbl is access all IOleWindowVtbl;
@@ -2786,38 +2974,45 @@ package GNATOCX is
                ppvObj : GNATCOM.Types.Pointer_To_Pointer_To_Void)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleInPlaceObject_QueryInterface);
+   pragma Machine_Attribute (af_IOleInPlaceObject_QueryInterface, "ms_abi");
 
    type af_IOleInPlaceObject_AddRef is access
      function (This : access IOleInPlaceObject)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IOleInPlaceObject_AddRef);
+   pragma Machine_Attribute (af_IOleInPlaceObject_AddRef, "ms_abi");
 
    type af_IOleInPlaceObject_Release is access
      function (This : access IOleInPlaceObject)
-     return Interfaces.C.unsigned_long;
+     return Win32_Types.Unsigned_Long;
    pragma Convention (StdCall, af_IOleInPlaceObject_Release);
+   pragma Machine_Attribute (af_IOleInPlaceObject_Release, "ms_abi");
 
    type af_IOleInPlaceObject_GetWindow is access
      function (This  : access IOleInPlaceObject;
                phwnd : Pointer_To_wireHWND)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleInPlaceObject_GetWindow);
+   pragma Machine_Attribute (af_IOleInPlaceObject_GetWindow, "ms_abi");
 
    type af_IOleInPlaceObject_ContextSensitiveHelp is access
      function (This       : access IOleInPlaceObject;
-               fEnterMode : Interfaces.C.long)
+               fEnterMode : Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleInPlaceObject_ContextSensitiveHelp);
+   pragma Machine_Attribute (af_IOleInPlaceObject_ContextSensitiveHelp, "ms_abi");
 
    type af_IOleInPlaceObject_InPlaceDeactivate is access
      function (This : access IOleInPlaceObject)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleInPlaceObject_InPlaceDeactivate);
+   pragma Machine_Attribute (af_IOleInPlaceObject_InPlaceDeactivate, "ms_abi");
 
    type af_IOleInPlaceObject_UIDeactivate is access
      function (This : access IOleInPlaceObject)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleInPlaceObject_UIDeactivate);
+   pragma Machine_Attribute (af_IOleInPlaceObject_UIDeactivate, "ms_abi");
 
    type af_IOleInPlaceObject_SetObjectRects is access
      function (This         : access IOleInPlaceObject;
@@ -2825,11 +3020,13 @@ package GNATOCX is
                lprcClipRect : Pointer_To_RECT)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleInPlaceObject_SetObjectRects);
+   pragma Machine_Attribute (af_IOleInPlaceObject_SetObjectRects, "ms_abi");
 
    type af_IOleInPlaceObject_ReactivateAndUndo is access
      function (This : access IOleInPlaceObject)
      return GNATCOM.Types.HRESULT;
    pragma Convention (StdCall, af_IOleInPlaceObject_ReactivateAndUndo);
+   pragma Machine_Attribute (af_IOleInPlaceObject_ReactivateAndUndo, "ms_abi");
 
    type IOleInPlaceObjectVtbl;
    type Pointer_To_IOleInPlaceObjectVtbl is access all IOleInPlaceObjectVtbl;

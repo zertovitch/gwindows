@@ -1,4 +1,5 @@
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body GNATOCX.IOleClientSite_Interface is
 
@@ -34,8 +35,8 @@ package body GNATOCX.IOleClientSite_Interface is
 
    procedure GetMoniker
      (This           : IOleClientSite_Type;
-      dwAssign       : Interfaces.C.unsigned_long;
-      dwWhichMoniker : Interfaces.C.unsigned_long;
+      dwAssign       : Win32_Types.Unsigned_Long;
+      dwWhichMoniker : Win32_Types.Unsigned_Long;
       ppmk           : Pointer_To_Pointer_To_IMoniker)
    is
    begin
@@ -72,7 +73,7 @@ package body GNATOCX.IOleClientSite_Interface is
 
    procedure OnShowWindow
      (This  : IOleClientSite_Type;
-      fShow : Interfaces.C.long)
+      fShow : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check

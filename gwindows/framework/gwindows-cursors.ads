@@ -37,13 +37,12 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces.C;
-
 with GWindows.Types;
+with Win32_Types;
 
 package GWindows.Cursors is
 
-   type Cursor_Type is new Interfaces.C.long;
+   type Cursor_Type is new Win32_Types.Long;
 
    --  System cursor constants
 

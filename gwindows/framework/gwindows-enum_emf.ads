@@ -4,6 +4,7 @@ with GWindows.Drawing_EMF; use GWindows.Drawing_EMF;
 with GWindows.Types;       use GWindows.Types;
 with Interfaces;           use Interfaces;
 with Interfaces.C;         use Interfaces.C;
+with Win32_Types;
 
 package GWindows.Enum_EMF is
 
@@ -116,8 +117,8 @@ package GWindows.Enum_EMF is
    pragma Convention (C, Point_16_Array);
    type SIZEL is
       record
-         cx : Interfaces.C.long;
-         cy : Interfaces.C.long;
+         cx : Win32_Types.Long;
+         cy : Win32_Types.Long;
       end record;
    pragma Convention (C_Pass_By_Copy, SIZEL);
 
@@ -125,19 +126,19 @@ package GWindows.Enum_EMF is
       record
          lopnStyle : Interfaces.C.int;
          lopnWidth : Point_Type;
-         lopnColor : Interfaces.C.long;
+         lopnColor : Win32_Types.Long;
       end record;
    pragma Convention (C_Pass_By_Copy, LOGPEN);
 
    type Integer_Array is array (Integer range <>) of Integer;
    type EXTLOGPEN is
       record
-         elpPenStyle   : Interfaces.C.long;
-         elpWidth      : Interfaces.C.long;
+         elpPenStyle   : Win32_Types.Long;
+         elpWidth      : Win32_Types.Long;
          elpBrushStyle : Interfaces.C.int;
-         elpColor      : Interfaces.C.long;
-         elpHatch      : Interfaces.C.long;
-         elpNumEntries : Interfaces.C.long;
+         elpColor      : Win32_Types.Long;
+         elpHatch      : Win32_Types.Long;
+         elpNumEntries : Win32_Types.Long;
          elpStyleEntry : Integer_Array (Integer range 0 .. 1);
       end record;
    pragma Convention (C_Pass_By_Copy, EXTLOGPEN);

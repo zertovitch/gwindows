@@ -12,6 +12,7 @@ package body GWindows.Buttons.Graphic is
       newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong,
                     "SetWindowLong" & Character_Mode_Identifier);
+   pragma Machine_Attribute (SetWindowLong, "ms_abi");
 
    function GetWindowLong
      (hwnd   : GWindows.Types.Handle;
@@ -19,6 +20,7 @@ package body GWindows.Buttons.Graphic is
      return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong,
                     "GetWindowLong" & Character_Mode_Identifier);
+   pragma Machine_Attribute (GetWindowLong, "ms_abi");
 
    BS_ICON      : constant := 16#40#;
    BS_BITMAP    : constant := 16#80#;
@@ -58,6 +60,7 @@ package body GWindows.Buttons.Graphic is
                                   (Types.To_Lresult (Handle (Icon))));
       pragma Import (Stdcall, Sendmessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage, "ms_abi");
    begin
       Sendmessage;
    end Set_Icon;
@@ -92,6 +95,7 @@ package body GWindows.Buttons.Graphic is
                                    (Types.To_Lresult (Handle (Bitmap))));
       pragma Import (Stdcall, Sendmessage,
                      "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage, "ms_abi");
    begin
       Sendmessage;
    end Set_Bitmap;

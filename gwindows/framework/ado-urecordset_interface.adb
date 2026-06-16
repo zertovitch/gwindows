@@ -1,6 +1,7 @@
 with GNATCOM.Iinterface;
 
 with GNATCOM.Errors;
+with Win32_Types;
 
 package body ADO.uRecordset_Interface is
 
@@ -154,9 +155,9 @@ package body ADO.uRecordset_Interface is
 
    function Get_CacheSize
      (This : uRecordset_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_CacheSize
@@ -168,7 +169,7 @@ package body ADO.uRecordset_Interface is
 
    procedure Put_CacheSize
      (This : uRecordset_Type;
-      pl   : Interfaces.C.long)
+      pl   : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -260,9 +261,9 @@ package body ADO.uRecordset_Interface is
 
    function Get_MaxRecords
      (This         : uRecordset_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_MaxRecords
@@ -274,7 +275,7 @@ package body ADO.uRecordset_Interface is
 
    procedure Put_MaxRecords
      (This         : uRecordset_Type;
-      plMaxRecords : Interfaces.C.long)
+      plMaxRecords : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -286,9 +287,9 @@ package body ADO.uRecordset_Interface is
 
    function Get_RecordCount
      (This : uRecordset_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_RecordCount
@@ -395,7 +396,7 @@ package body ADO.uRecordset_Interface is
 
    function GetRows
      (This   : uRecordset_Type;
-      Rows   : Interfaces.C.long;
+      Rows   : Win32_Types.Long;
       Start  : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
       Fields : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
       Free   : Boolean := True)
@@ -421,7 +422,7 @@ package body ADO.uRecordset_Interface is
 
    procedure Move
      (This       : uRecordset_Type;
-      NumRecords : Interfaces.C.long;
+      NumRecords : Win32_Types.Long;
       Start      : GNATCOM.Types.VARIANT  := GNATCOM.Types.VARIANT_MISSING;
       Free       : Boolean := True)
    is
@@ -486,7 +487,7 @@ package body ADO.uRecordset_Interface is
          := GNATCOM.Types.VARIANT_MISSING;
       CursorType       : CursorTypeEnum;
       LockType         : LockTypeEnum;
-      Options          : Interfaces.C.long;
+      Options          : Win32_Types.Long;
       Free             : Boolean := True)
    is
    begin
@@ -508,7 +509,7 @@ package body ADO.uRecordset_Interface is
 
    procedure Requery
      (This    : uRecordset_Type;
-      Options : Interfaces.C.long)
+      Options : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -623,9 +624,9 @@ package body ADO.uRecordset_Interface is
 
    function Get_PageCount
      (This : uRecordset_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_PageCount
@@ -637,9 +638,9 @@ package body ADO.uRecordset_Interface is
 
    function Get_PageSize
      (This : uRecordset_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_PageSize
@@ -651,7 +652,7 @@ package body ADO.uRecordset_Interface is
 
    procedure Put_PageSize
      (This : uRecordset_Type;
-      pl   : Interfaces.C.long)
+      pl   : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -694,9 +695,9 @@ package body ADO.uRecordset_Interface is
 
    function Get_Status
      (This : uRecordset_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_Status
@@ -708,9 +709,9 @@ package body ADO.uRecordset_Interface is
 
    function Get_State
      (This       : uRecordset_Type)
-     return Interfaces.C.long
+     return Win32_Types.Long
    is
-       RetVal : aliased Interfaces.C.long;
+       RetVal : aliased Win32_Types.Long;
    begin
       GNATCOM.Errors.Error_Check
         (Pointer (This).Vtbl.Get_State
@@ -887,7 +888,7 @@ package body ADO.uRecordset_Interface is
    procedure Find
      (This            : uRecordset_Type;
       Criteria        : GNATCOM.Types.BSTR;
-      SkipRecords     : Interfaces.C.long;
+      SkipRecords     : Win32_Types.Long;
       SearchDirection : SearchDirectionEnum;
       Start           : GNATCOM.Types.VARIANT
          := GNATCOM.Types.VARIANT_MISSING;
@@ -1007,7 +1008,7 @@ package body ADO.uRecordset_Interface is
    function GetString
      (This            : uRecordset_Type;
       StringFormat    : StringFormatEnum;
-      NumRows         : Interfaces.C.long;
+      NumRows         : Win32_Types.Long;
       ColumnDelimeter : GNATCOM.Types.BSTR;
       RowDelimeter    : GNATCOM.Types.BSTR;
       NullExpr        : GNATCOM.Types.BSTR;

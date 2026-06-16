@@ -1,6 +1,7 @@
 with Ada.Unchecked_Conversion;
 
 with GWindows.Errors;
+with Win32_Types;
 
 package body GWindows.DIBitmaps is
 
@@ -76,6 +77,7 @@ package body GWindows.DIBitmaps is
            GWindows.Types.Null_Handle;
          dwOffset : Integer := 0) return GWindows.Types.Handle;
       pragma Import (Stdcall, CreateDIBSection, "CreateDIBSection");
+      pragma Machine_Attribute (CreateDIBSection, "ms_abi");
 
    begin
       GWindows.Drawing_Objects.Handle (Bitmap, CreateDIBSection);
@@ -119,6 +121,7 @@ package body GWindows.DIBitmaps is
      return Interfaces.C.int;
 
    pragma Import (StdCall, Get_DIBits, "GetDIBits");
+   pragma Machine_Attribute (Get_DIBits, "ms_abi");
 
    procedure Copy (Canvas : in     Drawing.Canvas_Type'Class;
                    Target : in out Extended_DIBitmap_Type;
@@ -198,9 +201,10 @@ package body GWindows.DIBitmaps is
                             Bits        : Pixel_Byte_Ptr_Type;
                             Bits_Info   : DIB_Info_Header_Ptr_Type;
                             Usage       : Interfaces.C.unsigned;
-                            Rop         : Interfaces.C.unsigned_long)
+                            Rop         : Win32_Types.Unsigned_Long)
      return Interfaces.C.int;
    pragma Import (StdCall, Stretch_DIBits, "StretchDIBits");
+   pragma Machine_Attribute (Stretch_DIBits, "ms_abi");
 
    procedure Stretch_To_Canvas
       (Canvas :       in     Drawing.Canvas_Type'Class;
@@ -209,7 +213,7 @@ package body GWindows.DIBitmaps is
        Source_Point : in     Types.Point_Type;
        Source_Size :  in     Types.Size_Type;
        DIBitmap :     in out VGA_DIBitmap_Type;
-       Raster_Oper :  in   Interfaces.C.unsigned_long
+       Raster_Oper :  in   Win32_Types.Unsigned_Long
          := SOURCE_COPY)
    is
       --

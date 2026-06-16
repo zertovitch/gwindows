@@ -35,6 +35,7 @@ with GNATCOM.Register; use GNATCOM.Register;
 with GNATCOM.Types;
 
 with GNAT.IO; use GNAT.IO;
+with Win32_Types;
 
 procedure RegGNATCOM is
    pragma Linker_Options ("-lole32");
@@ -44,19 +45,21 @@ procedure RegGNATCOM is
    FILE_NAME_ERROR : exception;
 
    function GetModuleFileName
-     (hInst        : in     Interfaces.C.long;
+     (hInst        : in     Win32_Types.Long;
       lpszFileName : access Interfaces.C.char;
       cbFileName   : in     Interfaces.C.int)
      return Interfaces.C.int;
    pragma Import (StdCall, GetModuleFileName, "GetModuleFileNameA");
+   pragma Machine_Attribute (GetModuleFileName, "ms_abi");
 
    procedure GetShortPathName
      (lpszLongPath  : Interfaces.C.char_array;
       lpszShortPath : Interfaces.C.char_array;
       cchBuffer     : GNATCOM.Types.DWORD);
    pragma Import (StdCall, GetShortPathName, "GetShortPathNameA");
+   pragma Machine_Attribute (GetShortPathName, "ms_abi");
 
-   function Retrieve_hInstance return Interfaces.C.long;
+   function Retrieve_hInstance return Win32_Types.Long;
    pragma Import (C, Retrieve_hInstance, "rts_get_hInstance");
 
    MAX_PATH   : constant := 1024;

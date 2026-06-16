@@ -1,4 +1,5 @@
 with GNATCOM.Dispinterface;
+with Win32_Types;
 
 package ADO.Field15_Interface is
 
@@ -19,15 +20,15 @@ package ADO.Field15_Interface is
 
    function Get_ActualSize
      (This : Field15_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_Attributes
      (This : Field15_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_DefinedSize
      (This : Field15_Type)
-     return Interfaces.C.long;
+     return Win32_Types.Long;
 
    function Get_Name
      (This  : Field15_Type)
@@ -61,7 +62,7 @@ package ADO.Field15_Interface is
 
    function GetChunk
      (This   : Field15_Type;
-      Length : Interfaces.C.long)
+      Length : Win32_Types.Long)
      return GNATCOM.Types.VARIANT;
 
    function Get_OriginalValue

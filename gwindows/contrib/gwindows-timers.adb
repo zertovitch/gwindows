@@ -38,6 +38,7 @@
 ------------------------------------------------------------------------------
 
 with GWindows.Types, Interfaces.C;
+with Win32_Types;
 
 package body GWindows.Timers is
 
@@ -49,8 +50,9 @@ package body GWindows.Timers is
   type TIMERPROC is access procedure (hwnd    : Types.Handle;
                                       uMsg    : Interfaces.C.unsigned;
                                       idEvent : Interfaces.C.unsigned;
-                                      dwTime  : Interfaces.C.unsigned_long);
+                                      dwTime  : Win32_Types.Unsigned_Long);
   pragma Convention (Stdcall, TIMERPROC);
+  pragma Machine_Attribute (TIMERPROC, "ms_abi");
 
   function SetTimer (hWnd        : Types.Handle;
                      nIDEvent    : Interfaces.C.unsigned;
@@ -63,7 +65,9 @@ package body GWindows.Timers is
                       return Interfaces.C.int;
 
   pragma Import (Stdcall, SetTimer, "SetTimer");
+  pragma Machine_Attribute (SetTimer, "ms_abi");
   pragma Import (Stdcall, KillTimer, "KillTimer");
+  pragma Machine_Attribute (KillTimer, "ms_abi");
 
   ---------------
   -- Set_Timer --

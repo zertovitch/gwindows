@@ -69,6 +69,7 @@ package body GWindows.Errors is
          Arguments    : access GChar_C          := null);
       pragma Import (StdCall, FormatMessage, "FormatMessage" &
                     Character_Mode_Identifier);
+      pragma Machine_Attribute (FormatMessage, "ms_abi");
    begin
       FormatMessage;
       return GWindows.GStrings.To_GString_From_C (Message);
@@ -96,6 +97,7 @@ package body GWindows.Errors is
    is
       function GetLastError return GWindows.Types.DWORD;
       pragma Import (StdCall, GetLastError, "GetLastError");
+   pragma Machine_Attribute (GetLastError, "ms_abi");
    begin
       return Integer (GetLastError);
    end Get_Last_Error;

@@ -42,6 +42,7 @@ with GNATCOM.Errors;
 
 with GNATCOM.ITypeInfo_Interface;
 with GNATCOM.ITypeLib_Interface;
+with Win32_Types;
 
 package body GNATCOM.SafeArray is
 
@@ -50,45 +51,52 @@ package body GNATCOM.SafeArray is
 
    function SafeArrayCreateVector
      (vt        : Interfaces.C.unsigned_short;
-      lLBound   : Interfaces.C.long;
+      lLBound   : Win32_Types.Long;
       cElements : Interfaces.C.unsigned)
      return GNATCOM.Types.Pointer_To_SAFEARRAY;
    pragma Import (StdCall, SafeArrayCreateVector, "SafeArrayCreateVector");
+   pragma Machine_Attribute (SafeArrayCreateVector, "ms_abi");
 
    function SafeArrayCopy
      (psa     : access GNATCOM.Types.SAFEARRAY;
       ppsaOut : access GNATCOM.Types.Pointer_To_SAFEARRAY)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, SafeArrayCopy, "SafeArrayCopy");
+   pragma Machine_Attribute (SafeArrayCopy, "ms_abi");
 
    function SafeArrayGetDim
      (psa : access GNATCOM.Types.SAFEARRAY)
      return Interfaces.C.unsigned;
    pragma Import (StdCall, SafeArrayGetDim, "SafeArrayGetDim");
+   pragma Machine_Attribute (SafeArrayGetDim, "ms_abi");
 
    function SafeArrayGetLBound
      (psa      : access GNATCOM.Types.SAFEARRAY;
       nDim     : in     Interfaces.C.unsigned;
-      plLbound : access Interfaces.C.long)
+      plLbound : access Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, SafeArrayGetLBound, "SafeArrayGetLBound");
+   pragma Machine_Attribute (SafeArrayGetLBound, "ms_abi");
 
    function SafeArrayGetUBound
      (psa      : access GNATCOM.Types.SAFEARRAY;
       nDim     : in     Interfaces.C.unsigned;
-      plUBound : access Interfaces.C.long)
+      plUBound : access Win32_Types.Long)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, SafeArrayGetUBound, "SafeArrayGetUBound");
+   pragma Machine_Attribute (SafeArrayGetUBound, "ms_abi");
 
    function SafeArrayDestroy
      (psa      : access GNATCOM.Types.SAFEARRAY)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, SafeArrayDestroy, "SafeArrayDestroy");
+   pragma Machine_Attribute (SafeArrayDestroy, "ms_abi");
 
    function SafeArrayAllocData
      (psa      : access GNATCOM.Types.SAFEARRAY)
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, SafeArrayAllocData, "SafeArrayAllocData");
+   pragma Machine_Attribute (SafeArrayAllocData, "ms_abi");
 
    function SafeArrayAllocDescriptor
      (cDims   : in     Interfaces.C.unsigned;
@@ -96,11 +104,13 @@ package body GNATCOM.SafeArray is
      return GNATCOM.Types.HRESULT;
    pragma Import (StdCall, SafeArrayAllocDescriptor,
                     "SafeArrayAllocDescriptor");
+   pragma Machine_Attribute (SafeArrayAllocDescriptor, "ms_abi");
 
    procedure SafeArrayDestroyDescriptor
      (psa      : access GNATCOM.Types.SAFEARRAY);
    pragma Import (StdCall, SafeArrayDestroyDescriptor,
                     "SafeArrayDestroyDescriptor");
+   pragma Machine_Attribute (SafeArrayDestroyDescriptor, "ms_abi");
 
    -- Copy --
 
@@ -128,7 +138,7 @@ package body GNATCOM.SafeArray is
       Temp : GNATCOM.Types.Pointer_To_SAFEARRAY;
    begin
       Temp := SafeArrayCreateVector (VT,
-                                     Interfaces.C.long (Lower_Bound),
+                                     Win32_Types.Long (Lower_Bound),
                                      Interfaces.C.unsigned (Elements));
       if Temp = null then
          raise ARRAY_CREATION_ERROR;
@@ -155,6 +165,7 @@ package body GNATCOM.SafeArray is
          rgsabound : access Bound_Array)
         return GNATCOM.Types.Pointer_To_SAFEARRAY;
       pragma Import (StdCall, SafeArrayCreate, "SafeArrayCreate");
+   pragma Machine_Attribute (SafeArrayCreate, "ms_abi");
 
       Temp    : GNATCOM.Types.Pointer_To_SAFEARRAY;
       SABound : aliased Bound_Array;
@@ -165,9 +176,9 @@ package body GNATCOM.SafeArray is
 
       for N in Bounds'Range loop
          SABound (N).cElements :=
-           Interfaces.C.unsigned_long (Bounds (N).Elements);
+           Win32_Types.Unsigned_Long (Bounds (N).Elements);
          SABound (N).lLbound :=
-           Interfaces.C.long (Bounds (N).Lower_Bound);
+           Win32_Types.Long (Bounds (N).Lower_Bound);
       end loop;
 
       Temp := SafeArrayCreate (VT,
@@ -204,10 +215,11 @@ package body GNATCOM.SafeArray is
         (guid           : access GNATCOM.Types.GUID;
          wMaj           : Natural;
          wMin           : Natural;
-         lcid           : Interfaces.C.long;
+         lcid           : Win32_Types.Long;
          pLib           : access GNATCOM.Types.Pointer_To_ITypeLib)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, LoadRegTypeLib, "LoadRegTypeLib");
+   pragma Machine_Attribute (LoadRegTypeLib, "ms_abi");
 
    begin
       GNATCOM.Errors.Error_Check
@@ -275,10 +287,11 @@ package body GNATCOM.SafeArray is
         (guid           : access GNATCOM.Types.GUID;
          wMaj           : Natural;
          wMin           : Natural;
-         lcid           : Interfaces.C.long;
+         lcid           : Win32_Types.Long;
          pLib           : access GNATCOM.Types.Pointer_To_ITypeLib)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, LoadRegTypeLib, "LoadRegTypeLib");
+   pragma Machine_Attribute (LoadRegTypeLib, "ms_abi");
 
    begin
       GNATCOM.Errors.Error_Check
@@ -317,6 +330,7 @@ package body GNATCOM.SafeArray is
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, GetRecordInfoFromTypeInfo,
                        "GetRecordInfoFromTypeInfo");
+      pragma Machine_Attribute (GetRecordInfoFromTypeInfo, "ms_abi");
 
       Record_Info : aliased GNATCOM.Types.Pointer_To_Void;
 
@@ -332,6 +346,7 @@ package body GNATCOM.SafeArray is
          pRecInfo  : in     GNATCOM.Types.Pointer_To_Void)
         return GNATCOM.Types.Pointer_To_SAFEARRAY;
       pragma Import (StdCall, SafeArrayCreateEx, "SafeArrayCreateEx");
+   pragma Machine_Attribute (SafeArrayCreateEx, "ms_abi");
 
       Temp    : GNATCOM.Types.Pointer_To_SAFEARRAY;
       SABound : aliased Bound_Array;
@@ -345,9 +360,9 @@ package body GNATCOM.SafeArray is
 
       for N in Bounds'Range loop
          SABound (N).cElements :=
-           Interfaces.C.unsigned_long (Bounds (N).Elements);
+           Win32_Types.Unsigned_Long (Bounds (N).Elements);
          SABound (N).lLbound :=
-           Interfaces.C.long (Bounds (N).Lower_Bound);
+           Win32_Types.Long (Bounds (N).Lower_Bound);
       end loop;
 
       Temp := SafeArrayCreateEx (GNATCOM.Types.VT_RECORD,
@@ -406,15 +421,15 @@ package body GNATCOM.SafeArray is
          raise ARRAY_CREATION_ERROR;
       end if;
 
-      Result.cbElements := Interfaces.C.unsigned_long (Size_Of_Element);
+      Result.cbElements := Win32_Types.Unsigned_Long (Size_Of_Element);
 
       SABound := To_Pointer_To_SA_Bounds (Result.rgsabound'Address);
 
       for N in SABound.all'Range loop
          SABound (N).cElements :=
-           Interfaces.C.unsigned_long (Bounds (N).Elements);
+           Win32_Types.Unsigned_Long (Bounds (N).Elements);
          SABound (N).lLbound :=
-           Interfaces.C.long (Bounds (N).Lower_Bound);
+           Win32_Types.Long (Bounds (N).Lower_Bound);
       end loop;
 
       if SafeArrayAllocData (Result) /= GNATCOM.S_OK then
@@ -479,7 +494,7 @@ package body GNATCOM.SafeArray is
       Index    : in     Integer)
       return Element
    is
-      type Index_Array is array (1 .. 1) of Interfaces.C.long;
+      type Index_Array is array (1 .. 1) of Win32_Types.Long;
 
       function SafeArrayGetElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -487,11 +502,12 @@ package body GNATCOM.SafeArray is
          pv        : access Element)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayGetElement, "SafeArrayGetElement");
+   pragma Machine_Attribute (SafeArrayGetElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
       SAElement : aliased Element;
    begin
-      SAIndex (1) := Interfaces.C.long (Index);
+      SAIndex (1) := Win32_Types.Long (Index);
       Error_Check
         (SafeArrayGetElement (Of_Array,
                               SAIndex'Access,
@@ -506,7 +522,7 @@ package body GNATCOM.SafeArray is
       Dimension : in     Positive                := 1)
       return Integer
    is
-      LBound : aliased Interfaces.C.long;
+      LBound : aliased Win32_Types.Long;
    begin
       Error_Check
         (SafeArrayGetLBound (Of_Array,
@@ -523,7 +539,7 @@ package body GNATCOM.SafeArray is
       Dimension : in     Positive                := 1)
       return Integer
    is
-      UBound : aliased Interfaces.C.long;
+      UBound : aliased Win32_Types.Long;
    begin
       Error_Check
         (SafeArrayGetUBound (Of_Array,
@@ -540,7 +556,7 @@ package body GNATCOM.SafeArray is
       Index    : in     Index_Array)
       return Element
    is
-      type Index_Array is array (Index'Range) of Interfaces.C.long;
+      type Index_Array is array (Index'Range) of Win32_Types.Long;
 
       function SafeArrayGetElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -548,12 +564,13 @@ package body GNATCOM.SafeArray is
          pv        : access Element)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayGetElement, "SafeArrayGetElement");
+   pragma Machine_Attribute (SafeArrayGetElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
       SAElement : aliased Element;
    begin
       for N in Index'Range loop
-         SAIndex (N) := Interfaces.C.long (Index (N));
+         SAIndex (N) := Win32_Types.Long (Index (N));
       end loop;
 
       Error_Check
@@ -570,7 +587,7 @@ package body GNATCOM.SafeArray is
       Index    : in     Integer;
       Value    : in     Element)
    is
-      type Index_Array is array (1 .. 1) of Interfaces.C.long;
+      type Index_Array is array (1 .. 1) of Win32_Types.Long;
 
       function SafeArrayPutElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -578,11 +595,12 @@ package body GNATCOM.SafeArray is
          pv        : access Element)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayPutElement, "SafeArrayPutElement");
+   pragma Machine_Attribute (SafeArrayPutElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
       SAElement : aliased Element := Value;
    begin
-      SAIndex (1) := Interfaces.C.long (Index);
+      SAIndex (1) := Win32_Types.Long (Index);
       Error_Check
         (SafeArrayPutElement (Of_Array,
                               SAIndex'Access,
@@ -596,7 +614,7 @@ package body GNATCOM.SafeArray is
       Index    : in     Index_Array;
       Value    : in     Element)
    is
-      type Index_Array is array (Index'Range) of Interfaces.C.long;
+      type Index_Array is array (Index'Range) of Win32_Types.Long;
 
       function SafeArrayPutElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -604,12 +622,13 @@ package body GNATCOM.SafeArray is
          pv        : access Element)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayPutElement, "SafeArrayPutElement");
+   pragma Machine_Attribute (SafeArrayPutElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
       SAElement : aliased Element := Value;
    begin
       for N in Index'Range loop
-         SAIndex (N) := Interfaces.C.long (Index (N));
+         SAIndex (N) := Win32_Types.Long (Index (N));
       end loop;
 
       Error_Check
@@ -625,7 +644,7 @@ package body GNATCOM.SafeArray is
       Index    : in     Integer;
       Value    : in     GNATCOM.Types.Pointer_To_IUnknown)
    is
-      type Index_Array is array (1 .. 1) of Interfaces.C.long;
+      type Index_Array is array (1 .. 1) of Win32_Types.Long;
 
       function SafeArrayPutElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -633,10 +652,11 @@ package body GNATCOM.SafeArray is
          pv        : in     GNATCOM.Types.Pointer_To_IUnknown)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayPutElement, "SafeArrayPutElement");
+   pragma Machine_Attribute (SafeArrayPutElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
    begin
-      SAIndex (1) := Interfaces.C.long (Index);
+      SAIndex (1) := Win32_Types.Long (Index);
 
       Error_Check
         (SafeArrayPutElement (Of_Array,
@@ -651,7 +671,7 @@ package body GNATCOM.SafeArray is
       Index    : in     Index_Array;
       Value    : in     GNATCOM.Types.Pointer_To_IUnknown)
    is
-      type Index_Array is array (Index'Range) of Interfaces.C.long;
+      type Index_Array is array (Index'Range) of Win32_Types.Long;
 
       function SafeArrayPutElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -659,11 +679,12 @@ package body GNATCOM.SafeArray is
          pv        : GNATCOM.Types.Pointer_To_IUnknown)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayPutElement, "SafeArrayPutElement");
+   pragma Machine_Attribute (SafeArrayPutElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
    begin
       for N in Index'Range loop
-         SAIndex (N) := Interfaces.C.long (Index (N));
+         SAIndex (N) := Win32_Types.Long (Index (N));
       end loop;
 
       Error_Check
@@ -679,7 +700,7 @@ package body GNATCOM.SafeArray is
       Index    : in     Integer;
       Value    : in     GNATCOM.Types.Pointer_To_IDispatch)
    is
-      type Index_Array is array (1 .. 1) of Interfaces.C.long;
+      type Index_Array is array (1 .. 1) of Win32_Types.Long;
 
       function SafeArrayPutElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -687,10 +708,11 @@ package body GNATCOM.SafeArray is
          pv        : in     GNATCOM.Types.Pointer_To_IDispatch)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayPutElement, "SafeArrayPutElement");
+   pragma Machine_Attribute (SafeArrayPutElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
    begin
-      SAIndex (1) := Interfaces.C.long (Index);
+      SAIndex (1) := Win32_Types.Long (Index);
 
       Error_Check
         (SafeArrayPutElement (Of_Array,
@@ -705,7 +727,7 @@ package body GNATCOM.SafeArray is
       Index    : in     Index_Array;
       Value    : in     GNATCOM.Types.Pointer_To_IDispatch)
    is
-      type Index_Array is array (Index'Range) of Interfaces.C.long;
+      type Index_Array is array (Index'Range) of Win32_Types.Long;
 
       function SafeArrayPutElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -713,11 +735,12 @@ package body GNATCOM.SafeArray is
          pv        : GNATCOM.Types.Pointer_To_IDispatch)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayPutElement, "SafeArrayPutElement");
+   pragma Machine_Attribute (SafeArrayPutElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
    begin
       for N in Index'Range loop
-         SAIndex (N) := Interfaces.C.long (Index (N));
+         SAIndex (N) := Win32_Types.Long (Index (N));
       end loop;
 
       Error_Check
@@ -734,7 +757,7 @@ package body GNATCOM.SafeArray is
       Value    : in     GNATCOM.Types.BSTR;
       Clear    : in     Boolean                 := True)
    is
-      type Index_Array is array (1 .. 1) of Interfaces.C.long;
+      type Index_Array is array (1 .. 1) of Win32_Types.Long;
 
       function SafeArrayPutElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -742,10 +765,11 @@ package body GNATCOM.SafeArray is
          pv        : in     GNATCOM.Types.BSTR)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayPutElement, "SafeArrayPutElement");
+   pragma Machine_Attribute (SafeArrayPutElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
    begin
-      SAIndex (1) := Interfaces.C.long (Index);
+      SAIndex (1) := Win32_Types.Long (Index);
 
       Error_Check
         (SafeArrayPutElement (Of_Array,
@@ -765,7 +789,7 @@ package body GNATCOM.SafeArray is
       Value    : in     GNATCOM.Types.BSTR;
       Clear    : in     Boolean                 := True)
    is
-      type Index_Array is array (Index'Range) of Interfaces.C.long;
+      type Index_Array is array (Index'Range) of Win32_Types.Long;
 
       function SafeArrayPutElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -773,11 +797,12 @@ package body GNATCOM.SafeArray is
          pv        : in     GNATCOM.Types.BSTR)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayPutElement, "SafeArrayPutElement");
+   pragma Machine_Attribute (SafeArrayPutElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
    begin
       for N in Index'Range loop
-         SAIndex (N) := Interfaces.C.long (Index (N));
+         SAIndex (N) := Win32_Types.Long (Index (N));
       end loop;
 
       Error_Check
@@ -798,7 +823,7 @@ package body GNATCOM.SafeArray is
       Value    : in     GNATCOM.Types.VARIANT;
       Clear    : in     Boolean                 := True)
    is
-      type Index_Array is array (1 .. 1) of Interfaces.C.long;
+      type Index_Array is array (1 .. 1) of Win32_Types.Long;
 
       function SafeArrayPutElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -806,11 +831,12 @@ package body GNATCOM.SafeArray is
          pv        : access GNATCOM.Types.VARIANT)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayPutElement, "SafeArrayPutElement");
+   pragma Machine_Attribute (SafeArrayPutElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
       SAElement : aliased GNATCOM.Types.VARIANT := Value;
    begin
-      SAIndex (1) := Interfaces.C.long (Index);
+      SAIndex (1) := Win32_Types.Long (Index);
 
       Error_Check
         (SafeArrayPutElement (Of_Array,
@@ -830,7 +856,7 @@ package body GNATCOM.SafeArray is
       Value    : in     GNATCOM.Types.VARIANT;
       Clear    : in     Boolean                 := True)
    is
-      type Index_Array is array (Index'Range) of Interfaces.C.long;
+      type Index_Array is array (Index'Range) of Win32_Types.Long;
 
       function SafeArrayPutElement
         (psa       : access GNATCOM.Types.SAFEARRAY;
@@ -838,12 +864,13 @@ package body GNATCOM.SafeArray is
          pv        : access GNATCOM.Types.VARIANT)
         return GNATCOM.Types.HRESULT;
       pragma Import (StdCall, SafeArrayPutElement, "SafeArrayPutElement");
+   pragma Machine_Attribute (SafeArrayPutElement, "ms_abi");
 
       SAIndex   : aliased Index_Array;
       SAElement : aliased GNATCOM.Types.VARIANT := Value;
    begin
       for N in Index'Range loop
-         SAIndex (N) := Interfaces.C.long (Index (N));
+         SAIndex (N) := Win32_Types.Long (Index (N));
       end loop;
 
       Error_Check

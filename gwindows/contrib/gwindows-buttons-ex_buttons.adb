@@ -68,6 +68,7 @@ package body GWindows.Buttons.Ex_buttons is
                             newLong : Interfaces.C.unsigned);
    pragma Import (StdCall, SetWindowLong,
                     "SetWindowLong" & Character_Mode_Identifier);
+   pragma Machine_Attribute (SetWindowLong, "ms_abi");
 
    -------------------
    -- GetWindowLong --
@@ -78,6 +79,7 @@ package body GWindows.Buttons.Ex_buttons is
                           return Interfaces.C.unsigned;
    pragma Import (StdCall, GetWindowLong,
                     "GetWindowLong" & Character_Mode_Identifier);
+   pragma Machine_Attribute (GetWindowLong, "ms_abi");
 
    ----------------------
    -- public functions --
@@ -258,6 +260,7 @@ package body GWindows.Buttons.Ex_buttons is
                              Lparam : GWindows.Types.Handle := Handle (Image));
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage, "ms_abi");
    begin
       Sendmessage;
    end Set_Image;
@@ -276,6 +279,7 @@ package body GWindows.Buttons.Ex_buttons is
 --                           return GWindows.Types.handle;
 --      pragma Import (Stdcall, Sendmessage,
 --                       "SendMessage" & Character_Mode_Identifier);
+--  pragma Machine_Attribute (Sendmessage, "ms_abi");  --  Winelib
 --   begin
 --      return Sendmessage;
 --   end get_Image;

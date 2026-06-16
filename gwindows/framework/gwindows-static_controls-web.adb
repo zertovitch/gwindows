@@ -42,6 +42,7 @@ with GWindows.GStrings;                 use GWindows.GStrings;
 with GWindows.Types;
 
 with System;
+with Win32_Types;
 
 package body GWindows.Static_Controls.Web is
 
@@ -77,6 +78,7 @@ package body GWindows.Static_Controls.Web is
        SW_SHOWMINIMIZED);
     function GetFocus return HWND;              --  winuser.h:2939
     pragma Import (Stdcall, GetFocus, "GetFocus");
+    pragma Machine_Attribute (GetFocus, "ms_abi");
     subtype CHAR is Interfaces.C.char;
     type PCCH is access constant CHAR;
     type PCHAR is access all CHAR;
@@ -91,6 +93,7 @@ package body GWindows.Static_Controls.Web is
        nShowCmd : INT)
       return HINSTANCE;               --  shellapi.h:54
     pragma Import (Stdcall, ShellExecuteA, "ShellExecuteA"); --  shellapi.h:54
+    pragma Machine_Attribute (ShellExecuteA, "ms_abi");
     function ShellExecute
       (hwnd0 : HWND;
        lpOperation : LPCSTR;
@@ -167,11 +170,11 @@ package body GWindows.Static_Controls.Web is
    type Face_Name_Type is array (1 .. 32) of GWindows.GChar_C;
 
    type LOGFONT is record
-     lfHeight         : Interfaces.C.long;
-     lfWidth          : Interfaces.C.long;
-     lfEscapement     : Interfaces.C.long;
-     lfOrientation    : Interfaces.C.long;
-     lfWeight         : Interfaces.C.long;
+     lfHeight         : Win32_Types.Long;
+     lfWidth          : Win32_Types.Long;
+     lfEscapement     : Win32_Types.Long;
+     lfOrientation    : Win32_Types.Long;
+     lfWeight         : Win32_Types.Long;
      lfItalic         : Interfaces.C.char;
      lfUnderline      : Interfaces.C.char;
      lfStrikeOut      : Interfaces.C.char;
@@ -195,12 +198,14 @@ package body GWindows.Static_Controls.Web is
      return Interfaces.C.int;
    pragma Import (StdCall, GetObject,
                     "GetObject" & Character_Mode_Identifier);
+   pragma Machine_Attribute (GetObject, "ms_abi");
 
    function CreateFontIndirect
      (lpvObject : LPVOID := Log_of_current_font'Address)
      return GWindows.Types.Handle;
    pragma Import (StdCall, CreateFontIndirect,
                     "CreateFontIndirect" & Character_Mode_Identifier);
+   pragma Machine_Attribute (CreateFontIndirect, "ms_abi");
 
   begin
     Drawing_Objects.Create_Stock_Font (GUI_Font, Drawing_Objects.Default_GUI);

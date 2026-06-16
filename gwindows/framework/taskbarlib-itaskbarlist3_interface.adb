@@ -34,7 +34,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure AddTab
      (This : ITaskbarList3_Type;
-      hwnd : Interfaces.C.long)
+      hwnd : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -46,7 +46,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure DeleteTab
      (This : ITaskbarList3_Type;
-      hwnd : Interfaces.C.long)
+      hwnd : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -58,7 +58,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure ActivateTab
      (This : ITaskbarList3_Type;
-      hwnd : Interfaces.C.long)
+      hwnd : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -70,7 +70,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure SetActivateAlt
      (This : ITaskbarList3_Type;
-      hwnd : Interfaces.C.long)
+      hwnd : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -82,8 +82,8 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure MarkFullscreenWindow
      (This        : ITaskbarList3_Type;
-      hwnd        : Interfaces.C.long;
-      fFullscreen : Interfaces.C.long)
+      hwnd        : Win32_Types.Long;
+      fFullscreen : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -96,7 +96,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure SetProgressValue
      (This         : ITaskbarList3_Type;
-      hwnd         : Interfaces.C.long;
+      hwnd         : Win32_Types.Long;
       ullCompleted : GNATCOM.Types.DWORDLONG;
       ullTotal     : GNATCOM.Types.DWORDLONG)
    is
@@ -112,7 +112,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure SetProgressState
      (This     : ITaskbarList3_Type;
-      hwnd     : Interfaces.C.long;
+      hwnd     : Win32_Types.Long;
       tbpFlags : TBPFLAG)
    is
    begin
@@ -126,7 +126,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure RegisterTab
      (This    : ITaskbarList3_Type;
-      hwndTab : Interfaces.C.long;
+      hwndTab : Win32_Types.Long;
       hwndMDI : wireHWND)
    is
    begin
@@ -140,7 +140,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure UnregisterTab
      (This    : ITaskbarList3_Type;
-      hwndTab : Interfaces.C.long)
+      hwndTab : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -152,8 +152,8 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure SetTabOrder
      (This             : ITaskbarList3_Type;
-      hwndTab          : Interfaces.C.long;
-      hwndInsertBefore : Interfaces.C.long)
+      hwndTab          : Win32_Types.Long;
+      hwndInsertBefore : Win32_Types.Long)
    is
    begin
       GNATCOM.Errors.Error_Check
@@ -166,8 +166,8 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure SetTabActive
      (This      : ITaskbarList3_Type;
-      hwndTab   : Interfaces.C.long;
-      hwndMDI   : Interfaces.C.long;
+      hwndTab   : Win32_Types.Long;
+      hwndMDI   : Win32_Types.Long;
       tbatFlags : TBATFLAG)
    is
    begin
@@ -182,7 +182,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure ThumbBarAddButtons
      (This     : ITaskbarList3_Type;
-      hwnd     : Interfaces.C.long;
+      hwnd     : Win32_Types.Long;
       cButtons : Interfaces.C.unsigned;
       pButton  : Pointer_To_tagTHUMBBUTTON)
    is
@@ -198,7 +198,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure ThumbBarUpdateButtons
      (This     : ITaskbarList3_Type;
-      hwnd     : Interfaces.C.long;
+      hwnd     : Win32_Types.Long;
       cButtons : Interfaces.C.unsigned;
       pButton  : Pointer_To_tagTHUMBBUTTON)
    is
@@ -214,7 +214,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure ThumbBarSetImageList
      (This : ITaskbarList3_Type;
-      hwnd : Interfaces.C.long;
+      hwnd : Win32_Types.Long;
       himl : GNATCOM.Types.Pointer_To_IUnknown)
    is
    begin
@@ -228,7 +228,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure SetOverlayIcon
      (This           : ITaskbarList3_Type;
-      hwnd           : Interfaces.C.long;
+      hwnd           : Win32_Types.Long;
       hIcon          : GNATCOM.Types.Pointer_To_IUnknown;
       pszDescription : GNATCOM.Types.LPWSTR)
    is
@@ -244,7 +244,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure SetThumbnailTooltip
      (This   : ITaskbarList3_Type;
-      hwnd   : Interfaces.C.long;
+      hwnd   : Win32_Types.Long;
       pszTip : GNATCOM.Types.LPWSTR)
    is
    begin
@@ -258,7 +258,7 @@ package body TaskbarLib.ITaskbarList3_Interface is
 
    procedure SetThumbnailClip
      (This    : ITaskbarList3_Type;
-      hwnd    : Interfaces.C.long;
+      hwnd    : Win32_Types.Long;
       prcClip : Pointer_To_tagRECT)
    is
    begin

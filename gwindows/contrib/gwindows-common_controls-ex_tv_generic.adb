@@ -42,6 +42,7 @@ use GWindows.Base;
 with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
 with GWindows.GStrings; use GWindows.GStrings;
+with Win32_Types;
 
 package body GWindows.Common_Controls.Ex_TV_Generic is
 
@@ -92,10 +93,10 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
    type Nmcustomdraw_Type is
       record
          Hdr         : Notification;
-         Dwdrawstage : Interfaces.C.long;
+         Dwdrawstage : Win32_Types.Long;
          Hdc         : GWindows.Types.Handle;
          Rect        : GWindows.Types.Rectangle_Type;
-         Dwitemspec  : Interfaces.C.long;
+         Dwitemspec  : Win32_Types.Long;
          Uitemstate  : Interfaces.C.unsigned;
          Litemlparam : System.Address;
       end record;
@@ -203,6 +204,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                              Lparam : Types.Handle     := Handle (Image_List));
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage, "ms_abi");
    begin
       Sendmessage;
    end Set_Image_List;
@@ -234,6 +236,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                             return Tree_Item_Node;
       pragma Import (Stdcall, Sendmessagea,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessagea, "ms_abi");
 
       function Sendmessagew (Hwnd   : GWindows.Types.Handle := Handle (Control);
                              Umsg   : Interfaces.C.int  := TVM_INSERTITEMW;
@@ -242,6 +245,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                             return Tree_Item_Node;
       pragma Import (Stdcall, Sendmessagew,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessagew, "ms_abi");
    begin
       Ts.Item.Mask := TVIF_TEXT or TVIF_PARAM;
       Ts.Item.Text := C_Text (0)'Unchecked_Access;
@@ -316,6 +320,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                               Lparam : System.Address);
       pragma Import (Stdcall, Sendmessagea,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessagea, "ms_abi");
 
       procedure Sendmessagew (Hwnd   : GWindows.Types.Handle := Handle (Control);
                               Umsg   : Interfaces.C.int  := Tvm_Setitemw;
@@ -323,6 +328,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                               Lparam : System.Address);
       pragma Import (Stdcall, Sendmessagew,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessagew, "ms_abi");
 
       Tv : Tvitem;
    begin
@@ -364,6 +370,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                              Lparam : System.Address    := Hit_Test_Structur'Address);
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage, "ms_abi");
 
    begin
       Sendmessage;
@@ -383,6 +390,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                              Lparam : Color_Type        := Line_Color);
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage, "ms_abi");
    begin
       Sendmessage;
    end Set_Line_Color;
@@ -400,6 +408,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                              Lparam : Color_Type        := Color);
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage, "ms_abi");
    begin
       Sendmessage;
    end Set_Text_Color;
@@ -417,6 +426,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                              Lparam : Color_Type        := Color);
       pragma Import (Stdcall, Sendmessage,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessage, "ms_abi");
    begin
       Sendmessage;
    end Set_Bk_Color;
@@ -600,6 +610,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                               Lparam : System.Address);
       pragma Import (Stdcall, Sendmessagea,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessagea, "ms_abi");
 
       procedure Sendmessagew (Hwnd   : GWindows.Types.Handle := Handle (Control);
                               Umsg   : Interfaces.C.int  := TVM_GETITEMW;
@@ -607,6 +618,7 @@ package body GWindows.Common_Controls.Ex_TV_Generic is
                               Lparam : System.Address);
       pragma Import (Stdcall, Sendmessagew,
                        "SendMessage" & Character_Mode_Identifier);
+      pragma Machine_Attribute (Sendmessagew, "ms_abi");
 
       Tv : Tvitem;
    begin
@@ -635,7 +647,7 @@ procedure Do_On_Redraw_Items (Tvcd_Ptr : in Pointer_To_NmTvcustomdraw_Type;
       case Tvcd_Ptr.Nmcd.Dwdrawstage is
          when Cdds_Prepaint =>
                Return_Value := Cdrf_Notifyitemdraw;
-         when Interfaces.C.long (Cdds_Itemprepaint) =>
+         when Win32_Types.Long (Cdds_Itemprepaint) =>
             declare
                Data_Access : Extended_Data_Access;
             begin

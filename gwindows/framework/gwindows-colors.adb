@@ -86,6 +86,7 @@ package body GWindows.Colors is
         (nIndex : Integer := Color_Const)
         return Color_Type;
       pragma Import (StdCall, GetSysColor, "GetSysColor");
+   pragma Machine_Attribute (GetSysColor, "ms_abi");
    begin
       return GetSysColor;
    end System_Color;
