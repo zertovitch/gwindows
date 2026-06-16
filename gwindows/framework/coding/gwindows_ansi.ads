@@ -38,7 +38,9 @@
 ------------------------------------------------------------------------------
 
 with Ada.Strings.Unbounded;
-with Interfaces.C;
+with Interfaces.C;  --  Visible to child packages
+pragma Unreferenced (Interfaces.C);
+with Win32_Types;
 
 package GWindows is
    pragma Linker_Options ("-luser32");
@@ -61,9 +63,9 @@ package GWindows is
    Null_GString_Unbounded : constant GString_Unbounded :=
       Ada.Strings.Unbounded.Null_Unbounded_String;
 
-   subtype GChar_C is Interfaces.C.char;
-   subtype GString_C is Interfaces.C.char_array;
-   GString_C_Null : constant GChar_C := Interfaces.C.nul;
+   subtype GChar_C is Win32_Types.char;
+   subtype GString_C is Win32_Types.char_array;
+   GString_C_Null : constant GChar_C := Win32_Types.nul;
 
    --  Universal
 

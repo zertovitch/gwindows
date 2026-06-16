@@ -38,7 +38,8 @@
 ------------------------------------------------------------------------------
 
 with Ada.Strings.Wide_Unbounded;
-with Interfaces.C;
+with Interfaces.C;  --  Visible to child packages
+pragma Unreferenced (Interfaces.C);
 with Win32_Types;
 
 package GWindows is
