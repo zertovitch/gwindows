@@ -2,7 +2,6 @@ with Ada.Unchecked_Conversion;
 with System;
 with GNATCOM.Dispinterface;
 with GNATCOM.Errors;
-with Win32_Types;
 
 package body GNATCOM.Create.IConnectionPoint is
 

@@ -36,7 +36,6 @@
 ------------------------------------------------------------------------------
 
 with GNATCOM.Errors;
-with Win32_Types;
 
 package body GNATCOM.ICreateTypeInfo_Interface is
 

@@ -38,7 +38,6 @@
 with System;
 with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
-with Win32_Types;
 
 package body GNATCOM.Create.Factory is
 

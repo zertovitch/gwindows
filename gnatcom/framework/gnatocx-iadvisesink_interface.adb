@@ -1,6 +1,5 @@
 
 with GNATCOM.Errors;
-with Win32_Types;
 package body GNATOCX.IAdviseSink_Interface is
 
    procedure Initialize (This : in out IAdviseSink_Type) is

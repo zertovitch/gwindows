@@ -1,5 +1,4 @@
 with GNATCOM.Errors;
-with Win32_Types;
 
 package body GNATOCX.IOleInPlaceObject_Interface is
 

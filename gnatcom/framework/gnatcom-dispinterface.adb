@@ -40,7 +40,6 @@ with Ada.Exceptions;
 with GNATCOM.BSTR;
 with GNATCOM.VARIANT;
 with GNATCOM.Errors;
-with Win32_Types;
 
 package body GNATCOM.Dispinterface is
 

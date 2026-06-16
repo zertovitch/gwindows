@@ -36,7 +36,6 @@
 ------------------------------------------------------------------------------
 
 with Ada.Unchecked_Conversion;
-with Interfaces.C;
 with System;
 
 with GNATCOM.Iinterface;

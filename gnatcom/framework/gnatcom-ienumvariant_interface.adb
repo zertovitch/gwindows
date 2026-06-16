@@ -36,7 +36,6 @@
 ------------------------------------------------------------------------------
 
 with GNATCOM.Errors;
-with Interfaces.C;
 with Win32_Types;
 
 package body GNATCOM.IEnumVARIANT_Interface is

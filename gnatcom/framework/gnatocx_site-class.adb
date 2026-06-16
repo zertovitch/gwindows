@@ -36,7 +36,6 @@
 ------------------------------------------------------------------------------
 
 with Ada.Unchecked_Conversion;
-with Win32_Types;
 
 package body GNATOCX_Site.Class is
 

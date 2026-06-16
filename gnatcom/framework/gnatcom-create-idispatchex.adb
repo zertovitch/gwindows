@@ -1,7 +1,6 @@
 with Ada.Unchecked_Conversion;
 with Interfaces.C;
 with GNATCOM.Errors;
-with Win32_Types;
 
 package body GNATCOM.Create.IDispatchEx is
 

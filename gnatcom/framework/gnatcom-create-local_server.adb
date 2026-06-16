@@ -46,7 +46,6 @@ with GNATCOM.Errors;
 with GNATCOM.Utility;
 with GNATOCX.IRunningObjectTable_Interface;
 with GNATOCX.IMoniker_Interface;
-with Win32_Types;
 
 package body GNATCOM.Create.Local_Server is
 

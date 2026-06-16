@@ -36,7 +36,6 @@
 ------------------------------------------------------------------------------
 
 with System;
-with Win32_Types;
 
 package body GNATCOM.Events.Event_Object is
 

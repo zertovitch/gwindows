@@ -37,7 +37,6 @@
 
 with GNATCOM.Errors;
 with GNATCOM.BSTR;
-with Win32_Types;
 
 package body GNATCOM.ICreateTypeLib_Interface is
 

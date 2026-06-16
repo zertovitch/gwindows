@@ -39,7 +39,6 @@ with System;
 with System.Address_To_Access_Conversions;
 with Ada.Containers.Ordered_Maps;
 with GNATCOM.Errors;
-with Win32_Types;
 
 package body GNATCOM.Create.IDispatch is
 
