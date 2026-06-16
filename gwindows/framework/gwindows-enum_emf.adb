@@ -1,3 +1,4 @@
+with Ada.Unchecked_Conversion;
 with GWindows.GStrings; use GWindows.GStrings;
 
 package body GWindows.Enum_EMF is
@@ -7,7 +8,7 @@ package body GWindows.Enum_EMF is
                 lpHTable : Handle_Table_Access;
                 lpEMFR   : PEMR_Type;
                 nObj     : Integer;
-                lpData   : EMF_Enum_Proc) return Integer;
+                lpData   : GWindows.Types.Lparam) return Integer;
    pragma Convention (Stdcall, ENHMFENUMPROC);
    pragma Machine_Attribute (ENHMFENUMPROC, "ms_abi");
    type Prectangle_Type is access GWindows.Types.Rectangle_Type;
@@ -15,7 +16,7 @@ package body GWindows.Enum_EMF is
    function EnumEnhMetaFile (hdc           : GWindows.Types.Handle;
                              HENHMETAFILE  : GWindows.Types.Handle;
                              lpEnhMetaFunc : ENHMFENUMPROC;
-                             lpData        : EMF_Enum_Proc;
+                             lpData        : GWindows.Types.Lparam;
                              lpRect        : Prectangle_Type) return Integer;
    pragma Import (StdCall, EnumEnhMetaFile, "EnumEnhMetaFile");
    pragma Machine_Attribute (EnumEnhMetaFile, "ms_abi");
@@ -24,17 +25,20 @@ package body GWindows.Enum_EMF is
                        lpHTable : Handle_Table_Access;
                        lpEMFR   : PEMR_Type;
                        nObj     : Integer;
-                       lpData   : EMF_Enum_Proc) return Integer;
+                       lpData   : GWindows.Types.Lparam) return Integer;
    pragma Convention (Stdcall, Enum_Func);
    pragma Machine_Attribute (Enum_Func, "ms_abi");
    function Enum_Func (hDC      : GWindows.Types.Handle;
                        lpHTable : Handle_Table_Access;
                        lpEMFR   : PEMR_Type;
                        nObj     : Integer;
-                       lpData   : EMF_Enum_Proc) return Integer is
+                       lpData   : GWindows.Types.Lparam) return Integer is
       pragma Unreferenced (hDC);
+      function To_EMF_Enum_Proc is
+        new Ada.Unchecked_Conversion (GWindows.Types.Lparam, EMF_Enum_Proc);
+      Proc : constant EMF_Enum_Proc := To_EMF_Enum_Proc (lpData);
    begin
-      lpData (lpEMFR, lpHTable, nObj);
+      Proc (lpEMFR, lpHTable, nObj);
       return 1;
    end Enum_Func;
 
@@ -43,10 +47,12 @@ package body GWindows.Enum_EMF is
                            Enum_Proc : EMF_Enum_Proc;
                            Rect      : GWindows.Types.Rectangle_Type)
                            return Boolean is
+      function To_Lparam is
+        new Ada.Unchecked_Conversion (EMF_Enum_Proc, GWindows.Types.Lparam);
    begin
       return EnumEnhMetaFile (GWindows.Drawing.Handle (Canvas),
                               GWindows.Drawing_EMF.Handle (Emf),
-                              Enum_Func'Access, Enum_Proc,
+                              Enum_Func'Access, To_Lparam (Enum_Proc),
                               Rect'Unrestricted_Access) /= 0;
    end Enumerate_EMF;
 

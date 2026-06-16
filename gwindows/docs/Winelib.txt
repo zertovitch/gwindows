@@ -203,7 +203,7 @@ Framework Callback Changes
   called back through the PE-to-Unix thunk, resulting in a page
   fault (STORAGE_ERROR).
 
-  Three framework callbacks were restructured to avoid this:
+  Five framework callbacks were restructured to avoid this:
 
   1. gwindows-application.adb: Monitor_Enum_Callback
 
@@ -227,7 +227,22 @@ Framework Callback Changes
      passed through the BROWSEINFO.lParam field, which
      SHBrowseForFolder forwards to the callback as lpData.
 
-  All three changes are transparent to callers.  On Windows, the
+  4. gwindows-base.adb: Enum_Proc
+
+     Used by Enumerate_Children (EnumChildWindows).  The callback
+     received LPARAM typed as Enumerate_Function (access-to-
+     procedure), but the PE-to-Unix thunk passes it as a raw
+     integer.  Changed LPARAM parameter to GWindows.Types.Lparam
+     and converted with Unchecked_Conversion.
+
+  5. gwindows-enum_emf.adb: Enum_Func
+
+     Used by Enumerate_EMF (EnumEnhMetaFile).  Same issue as #4:
+     EMF_Enum_Proc (access-to-procedure) was passed as lpData
+     and received back through the PE thunk.  Changed to
+     GWindows.Types.Lparam with Unchecked_Conversion.
+
+  All five changes are transparent to callers.  On Windows, the
   restructured callbacks work identically (package-level functions
   with ms_abi are harmless when ms_abi is already the default).
 

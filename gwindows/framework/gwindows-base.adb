@@ -1967,20 +1967,24 @@ package body GWindows.Base is
    -------------------------
 
    function Enum_Proc (hwnd   : GWindows.Types.Handle;
-                       lparam : Enumerate_Function)
+                       lparam : GWindows.Types.Lparam)
                       return Boolean;
    pragma Convention (StdCall, Enum_Proc);
    pragma Machine_Attribute (Enum_Proc, "ms_abi");
 
    function Enum_Proc (hwnd   : GWindows.Types.Handle;
-                       lparam : Enumerate_Function)
+                       lparam : GWindows.Types.Lparam)
                       return Boolean
    is
+      function To_Enumerate_Function is
+        new Ada.Unchecked_Conversion (GWindows.Types.Lparam,
+                                      Enumerate_Function);
+      Proc    : constant Enumerate_Function := To_Enumerate_Function (lparam);
       Win_Ptr : constant Pointer_To_Base_Window_Class :=
         Window_From_Handle (hwnd);
    begin
       if Win_Ptr /= null then
-         lparam (Win_Ptr);
+         Proc (Win_Ptr);
       end if;
       return True;
    end Enum_Proc;
@@ -1988,13 +1992,16 @@ package body GWindows.Base is
    procedure Enumerate_Children (Window : in Base_Window_Type;
                                  Proc   : in Enumerate_Function)
    is
+      function To_Lparam is
+        new Ada.Unchecked_Conversion (Enumerate_Function,
+                                      GWindows.Types.Lparam);
       procedure EnumChildWindows (hwnd   : GWindows.Types.Handle;
                                   Proc   : System.Address;
-                                  lparam : Enumerate_Function);
+                                  lparam : GWindows.Types.Lparam);
       pragma Import (StdCall, EnumChildWindows, "EnumChildWindows");
-   pragma Machine_Attribute (EnumChildWindows, "ms_abi");
+      pragma Machine_Attribute (EnumChildWindows, "ms_abi");
    begin
-      EnumChildWindows (Window.HWND, Enum_Proc'Address, Proc);
+      EnumChildWindows (Window.HWND, Enum_Proc'Address, To_Lparam (Proc));
    end Enumerate_Children;
 
    ---------------
