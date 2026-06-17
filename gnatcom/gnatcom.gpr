@@ -10,9 +10,9 @@ project GNATCOM is
 
    case Platform is
       when "Winelib" =>
-         for Source_Dirs use ("framework", "framework/coding/winelib");
+         for Source_Dirs use ("framework", "framework/platform/winelib");
       when "Windows" =>
-         for Source_Dirs use ("framework", "framework/coding/windows");
+         for Source_Dirs use ("framework", "framework/platform/windows");
    end case;
    for Object_Dir use "obj";
    for Create_Missing_Dirs use "True";  --  Flips the "-p" switch
