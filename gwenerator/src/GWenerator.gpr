@@ -13,7 +13,12 @@ project GWenerator is
      "GWenerator.adb",
      "RC2GW.adb"
    );
-   for Source_Dirs use (".\/**", "..\..\gwindows\framework", "..\..\gwindows\contrib", "..\..\gnatcom\framework");
+   for Source_Dirs use
+      (".\/**", 
+       "..\..\gwindows\framework", 
+       "..\..\gwindows\contrib", 
+       "..\..\gnatcom\framework", 
+       "..\..\gnatcom\framework\platform\windows");
    for Exec_Dir use ".";
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
 

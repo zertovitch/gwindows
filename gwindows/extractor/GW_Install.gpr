@@ -12,7 +12,8 @@ project GW_Install is
      (".", "unzip",
       "..\..\gwindows\contrib",  --  for GWin_Util
       "..\..\gwindows\framework",
-	  "..\..\gnatcom\framework");
+	  "..\..\gnatcom\framework",
+	  "..\..\gnatcom\framework\platform\windows");
    for Exec_Dir use ".";
    for Main use ("GW_Extract.adb");
    for Create_Missing_Dirs use "True";  --  Flips by default the "-p" switch
