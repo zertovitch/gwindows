@@ -292,12 +292,16 @@ package body GWindows.Single_Instance is
       Window_Class        : Base.WNDCLASS;
       Window_Class_Name_C : constant
          GString_C := GStrings.To_GString_C (Application_Class_Name);
+      use Win32_Types;
   begin
       Window_Class.hInstance     := Application.hInstance;
       Window_Class.hIcon         := LoadIcon;
       Window_Class.lpszClassName :=
         Window_Class_Name_C (Window_Class_Name_C'First)'Unrestricted_Access;
-      Window_Class.lpfnWndProc   := Application_Custom_WndProc'Code_Address;
+      Window_Class.lpfnWndProc :=
+         (case Platform is
+             when Windows => Application_Custom_WndProc'Address,
+             when Winelib => Application_Custom_WndProc'Code_Address);
       Base.Register_Class (Window_Class);
   end Register_Class_Name;
 

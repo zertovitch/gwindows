@@ -18,4 +18,8 @@ package Win32_Types is
 
    function To_Native_Path (S : String) return String;
    function To_Native_Path (S : Wide_String) return Wide_String;
+
+   type Platform_Type is (Windows, Winelib);
+   Platform : constant Platform_Type := Windows;
+
 end Win32_Types;
