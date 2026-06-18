@@ -15,13 +15,26 @@ with GWindows.Windows.Main; use GWindows.Windows.Main;
 with GWindows.Buttons; use GWindows.Buttons;
 with GWindows.Drawing_Objects; use GWindows.Drawing_Objects;
 with GWindows.Drawing; use GWindows.Drawing;
+with GWindows.Timers;
 with GWindows.Types;
+
+with Interfaces.C;
 
 procedure Game_of_Life_Interactive is
    pragma Linker_Options ("-mwindows");
    pragma Linker_Options ("control_test.coff");
 
-   Main        : Main_Window_Type;
+   type Game_Window_Type is new GWindows.Windows.Main.Main_Window_Type with null record;
+
+   overriding
+   procedure On_Message
+     (Window       : in out Game_Window_Type;
+      message      : in     Interfaces.C.unsigned;
+      wParam       : in     GWindows.Types.Wparam;
+      lParam       : in     GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult);
+
+   Main        : Game_Window_Type;
    Draw_Win    : Window_Type;
 
    Drawing_Area : Canvas_Type;
@@ -175,31 +188,52 @@ procedure Game_of_Life_Interactive is
       end if;
    end Refresh_Titles;
 
-   task Animation is
-      entry Start;
-      entry Play_Pause;
-      entry Quit;
-   end Animation;
+   Timer_ID : constant Natural := 0;
+   Timer_Is_Active : Boolean := False;
 
-   task body Animation is
+   procedure Update_Timer is
+      MS : constant Natural := Natural (wait * 1000.0);
    begin
-      accept Start;
-      loop
-         select
-            accept Play_Pause;
-            active := not active;
-         or
-            accept Quit;
-            exit;
-         or
-            delay wait;
-            if active then
-               GoL_Map.Evolve;
-               Draw_Map (full => False);
-            end if;
-         end select;
-      end loop;
-   end Animation;
+      if Timer_Is_Active then
+         GWindows.Timers.Kill_Timer (Main, Timer_ID);
+         Timer_Is_Active := False;
+      end if;
+      if active then
+         GWindows.Timers.Set_Timer
+           (Window => Main, ID_Event => Timer_ID, Milliseconds => MS);
+           Timer_Is_Active := True;
+      end if;
+   end Update_Timer;
+
+   procedure Stop_Timer is
+   begin
+      if Timer_Is_Active then
+         GWindows.Timers.Kill_Timer (Main, Timer_ID);
+         Timer_Is_Active := False;
+      end if;
+   end Stop_Timer;
+
+   overriding
+   procedure On_Message
+     (Window       : in out Game_Window_Type;
+      message      : in     Interfaces.C.unsigned;
+      wParam       : in     GWindows.Types.Wparam;
+      lParam       : in     GWindows.Types.Lparam;
+      Return_Value : in out GWindows.Types.Lresult)
+   is
+      use type Interfaces.C.unsigned;
+   begin
+      if message = GWindows.Timers.WM_TIMER then
+         if active then
+            GoL_Map.Evolve;
+            Draw_Map (full => False);
+         end if;
+         Return_Value := 0;
+      else
+         GWindows.Windows.Main.Main_Window_Type (Window).On_Message
+           (message, wParam, lParam, Return_Value);
+      end if;
+   end On_Message;
 
    procedure Instructions (x0, y0 : Integer) is
      subtype Row_Range is Natural range 1 .. 47;
@@ -265,7 +299,7 @@ procedure Game_of_Life_Interactive is
    is
    pragma Unreferenced (Window);
    begin
-      Animation.Quit;
+      Stop_Timer;
       GWindows.Application.End_Loop;
    end Do_Close;
 
@@ -273,7 +307,8 @@ procedure Game_of_Life_Interactive is
    is
    pragma Unreferenced (Window);
    begin
-      Animation.Play_Pause;
+      active := not active;
+      Update_Timer;
       Refresh_Titles;
    end Do_Play_Pause_Button;
 
@@ -283,6 +318,7 @@ procedure Game_of_Life_Interactive is
    begin
       if wait > 0.01 then
         wait := wait - 0.01;
+        Update_Timer;
       end if;
       Refresh_Titles;
    end Do_Speed_Plus_Button;
@@ -293,6 +329,7 @@ procedure Game_of_Life_Interactive is
    begin
       if wait < 0.5 then
         wait := wait + 0.01;
+        Update_Timer;
       end if;
       Refresh_Titles;
    end Do_Speed_Minus_Button;
@@ -417,9 +454,9 @@ begin
      delay 0.3;
    end loop;
    delay 1.0;
-   Animation.Start;
+   Update_Timer;
    Message_Loop;
-   Animation.Quit;
+   Stop_Timer;
 
 exception
    when E : others =>
