@@ -3,9 +3,6 @@ with Interfaces.C;
 with GWindows.Windows.Main; use GWindows.Windows.Main;
 with GWindows.Drawing; use GWindows.Drawing;
 with GWindows.Drawing_Objects; use GWindows.Drawing_Objects;
-with GWindows.Application;
-with GWindows.Base;
-with GWindows.Types;
 
 procedure Splash_Screen is
    pragma Linker_Options ("-mwindows");

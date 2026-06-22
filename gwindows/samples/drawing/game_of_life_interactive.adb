@@ -4,19 +4,17 @@ with Ada.Command_Line;
 with Game_of_Life;
 
 with GWindows.Application,
-     GWindows.Colors;
-
-with GWindows.Panels;
-with GWindows.GStrings; use GWindows.GStrings;
-with GWindows.Message_Boxes;
-with GWindows.Base; use GWindows.Base;
-with GWindows.Windows; use GWindows.Windows;
-with GWindows.Windows.Main; use GWindows.Windows.Main;
-with GWindows.Buttons; use GWindows.Buttons;
-with GWindows.Drawing_Objects; use GWindows.Drawing_Objects;
-with GWindows.Drawing; use GWindows.Drawing;
-with GWindows.Timers;
-with GWindows.Types;
+     GWindows.Base,
+     GWindows.Buttons,
+     GWindows.Colors,
+     GWindows.Drawing,
+     GWindows.Drawing_Objects,
+     GWindows.GStrings,
+     GWindows.Message_Boxes,
+     GWindows.Panels,
+     GWindows.Timers,
+     GWindows.Types,
+     GWindows.Windows.Main;
 
 with Interfaces.C;
 
@@ -35,11 +33,11 @@ procedure Game_of_Life_Interactive is
       Return_Value : in out GWindows.Types.Lresult);
 
    Main        : Game_Window_Type;
-   Draw_Win    : Window_Type;
+   Draw_Win    : GWindows.Windows.Window_Type;
 
-   Drawing_Area : Canvas_Type;
-   Saved_Area   : Memory_Canvas_Type;
-   Saved_Bitmap : Bitmap_Type;
+   Drawing_Area : GWindows.Drawing.Canvas_Type;
+   Saved_Area   : GWindows.Drawing.Memory_Canvas_Type;
+   Saved_Bitmap : GWindows.Drawing_Objects.Bitmap_Type;
 
    package GoL renames Game_of_Life;
 
@@ -101,8 +99,8 @@ procedure Game_of_Life_Interactive is
       end Evolve;
    end GoL_Map;
 
-   GoL_Brushes : array (GoL.State) of Brush_Type;
-   Grid_Pen : Pen_Type;
+   GoL_Brushes : array (GoL.State) of GWindows.Drawing_Objects.Brush_Type;
+   Grid_Pen : GWindows.Drawing_Objects.Pen_Type;
 
    draw_grid : constant Boolean := True;
 
@@ -121,41 +119,35 @@ procedure Game_of_Life_Interactive is
          margin := 0;
       end if;
       if full then
-         Fill_Rectangle (Saved_Area, (0, 0, ww, wh), GoL_Brushes (GoL.Dead));
+         Saved_Area.Fill_Rectangle ((0, 0, ww, wh), GoL_Brushes (GoL.Dead));
          if draw_grid then
             Saved_Area.Select_Object (Grid_Pen);
             for x in 0 .. Fixed_Map'Last (1) loop
-               Line (
-                  Saved_Area,
-                  Integer (cw * Real (x)), 0,
-                  Integer (cw * Real (x)), wh
-               );
+               Saved_Area.Line
+                  (Integer (cw * Real (x)), 0,
+                   Integer (cw * Real (x)), wh);
             end loop;
             for y in 0 .. Fixed_Map'Last (2) loop
-               Line (
-                  Saved_Area,
-                  0,  Integer (ch * Real (y)),
-                  ww, Integer (ch * Real (y))
-               );
+               Saved_Area.Line
+                  (0,  Integer (ch * Real (y)),
+                   ww, Integer (ch * Real (y)));
             end loop;
          end if;
       end if;
       for x in Fixed_Map'Range (1) loop
          for y in Fixed_Map'Range (2) loop
             if full or else GoL_Map.Is_Changed (x, y) then
-               Fill_Rectangle (
-                  Saved_Area,
-                 (Integer (cw * Real (x - 1)) + margin,
-                  Integer (ch * Real (y - 1)) + margin,
-                  Integer (cw * Real (x)),
-                  Integer (ch * Real (y))),
-                 GoL_Brushes (GoL_Map.Get (x, y))
-               );
+               Saved_Area.Fill_Rectangle
+                  ((Integer (cw * Real (x - 1)) + margin,
+                    Integer (ch * Real (y - 1)) + margin,
+                    Integer (cw * Real (x)),
+                    Integer (ch * Real (y))),
+                 GoL_Brushes (GoL_Map.Get (x, y)));
             end if;
          end loop;
       end loop;
       --
-      BitBlt (Drawing_Area, 0, 0, ww, wh, Saved_Area, 0, 0);
+      Drawing_Area.BitBlt (0, 0, ww, wh, Saved_Area, 0, 0);
    end Draw_Map;
 
    wait : Duration := 0.1;
@@ -166,20 +158,21 @@ procedure Game_of_Life_Interactive is
 
    current_figure : GoL.Figure := GoL.Block;
 
-   Play_Pause_Button  : Button_Type;
-   Speed_Plus_Button  : Button_Type;
-   Speed_Minus_Button : Button_Type;
-   Figure_Button      : Button_Type;
-   Clear_Button       : Button_Type;
+   Play_Pause_Button,
+   Speed_Plus_Button,
+   Speed_Minus_Button,
+   Figure_Button,
+   Clear_Button : GWindows.Buttons.Button_Type;
+
+   use GWindows.GStrings;
 
    procedure Refresh_Titles is
    begin
-      Main.Text (
-        "The Game of Life.       " &
-        "Hand of God  -->   " &
-        "Left-click: add life.   Right-click: remove.       " &
-        "Wait time =" & To_GString_From_String (Duration'Image (wait))
-      );
+      Main.Text
+        ("The Game of Life.       " &
+         "Hand of God  -->   " &
+         "Left-click: add life.   Right-click: remove.       " &
+         "Wait time =" & To_GString_From_String (Duration'Image (wait)));
       Figure_Button.Text (To_GString_From_String (GoL.Figure'Image (current_figure)));
       if active then
          Play_Pause_Button.Text ("Playing");
@@ -236,20 +229,19 @@ procedure Game_of_Life_Interactive is
    end On_Message;
 
    procedure Instructions (x0, y0 : Integer) is
-     subtype Row_Range is Natural range 1 .. 47;
+     subtype Row_Range is Natural range 1 .. 49;
      subtype Row_Text is String (Row_Range);
      bitmap : constant array (1 .. 10) of Row_Text :=
-       ("                                               ",
-        "  ##   #     #        #                      # ",
-        " #  #  #              #                      # ",
-        " #     #    ##    ##  # ##     ## #    #     # ",
-        " #     #     #   #    ##       # # #  # #    # ",
-        " #     #     #   #    ##       # # #  ###    # ",
-        " #  #  #  #  #   #    # #      # # #  #        ",
-        "  ##    ##  ###   ##  #  #     # # #   ##    # ",
-        "                                               ",
-        " - - - - - - - - - - - - - - - - - - - - -     "
-        );
+       ("                                                 ",
+        "  ##   #     #        #                        # ",
+        " #  #  #              #                        # ",
+        " #     #    ##    ##  # ##      ## #    #      # ",
+        " #     #     #   #    ##        # # #  # #     # ",
+        " #     #     #   #    ##        # # #  ###     # ",
+        " #  #  #  #  #   #    # #       # # #  #         ",
+        "  ##    ##  ###   ##  #  #      # # #   ##     # ",
+        "                                                 ",
+        " - - - - - - - - - - - - - - - - - - - - -       ");
    begin
      GoL_Map.Clear_Current;
      for y in bitmap'Range loop
@@ -265,10 +257,10 @@ procedure Game_of_Life_Interactive is
      (Window : in out GWindows.Base.Base_Window_Type'Class;
       X      : in     Integer;
       Y      : in     Integer;
-      Keys   : in     Mouse_Key_States)
+      Keys   : in     GWindows.Windows.Mouse_Key_States)
    is
       xi, yi : Integer;
-      use GoL;
+      use GoL, GWindows.Windows;
    begin
       if Keys (Left_Button) or Keys (Right_Button) then
          xi := 1 + (Fixed_Map'Last (1) * X) / Window.Client_Area_Width;
@@ -356,10 +348,10 @@ procedure Game_of_Life_Interactive is
    end Do_Clear_Button;
 
    Buttons_Panel : GWindows.Panels.Panel_Type;
-   Window_Font : Font_Type;
+   Window_Font : GWindows.Drawing_Objects.Font_Type;
 
    use GoL;
-   use GWindows.Application, GWindows.Colors;
+   use GWindows.Application, GWindows.Base, GWindows.Colors, GWindows.Drawing, GWindows.Drawing_Objects;
 
    Big_W, Big_H : Integer;
 
@@ -372,23 +364,23 @@ begin
 
    Create (Main, "Game of Life", Width => 790, Height => 590);
 
-   Keyboard_Support (Main, True); --  Allow ESC key for Done_Button
+   Keyboard_Support (Main, True);  --  Allow ESC key for Done_Button
 
-   Create_As_Control (Draw_Win, Main, "", 0, 0, 0, 0);
-   Dock (Draw_Win, Fill);
+   Draw_Win.Create_As_Control (Main, "", 0, 0, 0, 0);
+   Draw_Win.Dock (Fill);
 
-   Get_Canvas (Draw_Win, Drawing_Area);
-   Create_Memory_Canvas (Saved_Area, Drawing_Area);
+   Draw_Win.Get_Canvas (Drawing_Area);
+   Saved_Area.Create_Memory_Canvas (Drawing_Area);
 
-   Background_Mode (Drawing_Area, Transparent);
-   Background_Mode (Saved_Area, Transparent);
+   Drawing_Area.Background_Mode (Transparent);
+   Saved_Area.Background_Mode (Transparent);
 
    declare
-      NB : Brush_Type;
+      NB : GWindows.Drawing_Objects.Brush_Type;
    begin
-      Create_Stock_Brush (NB, Hollow_Brush);
-      Select_Object (Drawing_Area, NB);
-      Select_Object (Saved_Area, NB);
+      NB.Create_Stock_Brush (Hollow_Brush);
+      Drawing_Area.Select_Object (NB);
+      Saved_Area.Select_Object (NB);
    end;
 
    GoL_Brushes (GoL.Dead).Create_Solid_Brush (White);
@@ -398,16 +390,14 @@ begin
    Big_W := 2 * Desktop_Width;
    Big_H := 2 * Desktop_Height;
 
-   Create_Compatible_Bitmap (Drawing_Area, Saved_Bitmap, Big_W, Big_H);
-   Select_Object (Saved_Area, Saved_Bitmap);
+   Drawing_Area.Create_Compatible_Bitmap (Saved_Bitmap, Big_W, Big_H);
+   Saved_Area.Select_Object (Saved_Bitmap);
 
-   On_Paint_Handler (Draw_Win, Do_Paint'Unrestricted_Access);
-   On_Left_Mouse_Button_Down_Handler (Draw_Win,
-                                      Do_Mouse_Move'Unrestricted_Access);
-   On_Right_Mouse_Button_Down_Handler (Draw_Win,
-                                       Do_Mouse_Move'Unrestricted_Access);
-   On_Mouse_Move_Handler (Draw_Win,
-                          Do_Mouse_Move'Unrestricted_Access);
+   Draw_Win.On_Paint_Handler (Do_Paint'Unrestricted_Access);
+
+   Draw_Win.On_Left_Mouse_Button_Down_Handler  (Do_Mouse_Move'Unrestricted_Access);
+   Draw_Win.On_Right_Mouse_Button_Down_Handler (Do_Mouse_Move'Unrestricted_Access);
+   Draw_Win.On_Mouse_Move_Handler              (Do_Mouse_Move'Unrestricted_Access);
 
    Buttons_Panel.Create (Main, 0, 0, 100, 40);
 
@@ -419,19 +409,20 @@ begin
 
    --  Callbacks. Note: in a larger application, you can prefer overriding
    --  the methods and avoid pointers (access types) completely.
-   On_Click_Handler (Play_Pause_Button,  Do_Play_Pause_Button'Unrestricted_Access);
-   On_Click_Handler (Speed_Plus_Button,  Do_Speed_Plus_Button'Unrestricted_Access);
-   On_Click_Handler (Speed_Minus_Button, Do_Speed_Minus_Button'Unrestricted_Access);
-   On_Click_Handler (Figure_Button,      Do_Figure_Button'Unrestricted_Access);
-   On_Click_Handler (Clear_Button,       Do_Clear_Button'Unrestricted_Access);
+   Play_Pause_Button.On_Click_Handler  (Do_Play_Pause_Button'Unrestricted_Access);
+   Speed_Plus_Button.On_Click_Handler  (Do_Speed_Plus_Button'Unrestricted_Access);
+   Speed_Minus_Button.On_Click_Handler (Do_Speed_Minus_Button'Unrestricted_Access);
+   Figure_Button.On_Click_Handler      (Do_Figure_Button'Unrestricted_Access);
+   Clear_Button.On_Click_Handler       (Do_Clear_Button'Unrestricted_Access);
 
    --  Use Standard Windows GUI font instead of system font
-   Create_Stock_Font (Window_Font, Default_GUI);
-   Play_Pause_Button.Set_Font (Window_Font);
+   Window_Font.Create_Stock_Font (Default_GUI);
+
+   Play_Pause_Button.Set_Font  (Window_Font);
    Speed_Minus_Button.Set_Font (Window_Font);
-   Speed_Plus_Button.Set_Font (Window_Font);
-   Figure_Button.Set_Font (Window_Font);
-   Clear_Button.Set_Font (Window_Font);
+   Speed_Plus_Button.Set_Font  (Window_Font);
+   Figure_Button.Set_Font      (Window_Font);
+   Clear_Button.Set_Font       (Window_Font);
 
    --  Play_Pause_Button.Dock (At_Left);
    Buttons_Panel.Dock (At_Bottom);
@@ -443,6 +434,9 @@ begin
 
    Draw_Map (full => True);
    Main.Redraw (Redraw_Now => True);
+
+   --  Show instructions first...
+
    Instructions (40, 20);
    GoL_Map.Swap;
    Instructions (20, 40);
@@ -455,7 +449,11 @@ begin
    end loop;
    delay 1.0;
    Update_Timer;
+
+   --  Now the interactive part begins...
+
    Message_Loop;
+
    Stop_Timer;
 
 exception

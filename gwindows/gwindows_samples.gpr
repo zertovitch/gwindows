@@ -32,6 +32,7 @@ project GWindows_Samples is
      "sci_example.adb",               --  ./scintilla/   Scintilla editor demo  (see LEA for full app)
      "scribble.adb",                  --  ./drawing/     Active drawing demo
      "scribble2.adb",                 --  ./drawing/     Active drawing demo
+     --  "splash_screen.adb",             --  ./drawing/     Requires resource compilation (run gwindows_resources.gpr)
      "splitters.adb",                 --  ./simple/
      "tab_in_dialog_test.adb",        --  ./controls/
      "tab_test.adb",                  --  ./controls/
