@@ -170,6 +170,23 @@ Resource Files
   Samples affected: control_test, game_of_life_interactive
   (uses control_test.coff), mdi_example.
 
+  A sample GPR file is also provided to compile these resources
+  automatically:
+
+    gprclean -P gwindows_resources.gpr -XPLATFORM=Winelib
+    gprbuild -P gwindows_resources.gpr -XPLATFORM=Winelib
+
+  In your application, you can make use of an aggregate project
+  to build resources and Ada sources. Note that including
+  everything in the same project file will fail, because
+  gprbuild will put the coff files in an archive, which cannot
+  be used then by the linker.
+
+  aggregate project GWindows_Examples is
+
+   for Project_Files use ("gwindows_resources.gpr", "gwindows_samples.gpr");
+
+  end GWindows_Examples;
 
 GPR Changes Summary
 -------------------

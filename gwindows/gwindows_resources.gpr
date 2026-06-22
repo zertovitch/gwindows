@@ -1,0 +1,35 @@
+-- This is the GCC / GNAT / GNAT Studio project file for
+-- building the GWindows sample resources.
+--
+-- Build me with "gprbuild -P gwindows_resources", or open me with GNAT Studio
+--
+-- For Winelib (Linux), build with: gprbuild -P gwindows_resources -XPLATFORM=Winelib
+
+project GWindows_Resources is
+
+   type Platform_Type is ("Windows", "Winelib");
+   Platform : Platform_Type := External ("PLATFORM", "Windows");
+
+   for Source_Dirs use ("samples/**");
+   for Object_Dir use "obj";
+   for Create_Missing_Dirs use "True";  --  Flips the "-p" switch
+   for Languages use ("Resource");
+
+   package Naming is
+      for Body_Suffix ("Resource") use ".rc";
+   end Naming;
+
+   package Compiler is
+      for Object_File_Suffix ("Resource") use ".coff";
+      for Source_File_Switches ("Resource") use ("-i");
+      for Object_File_Switches ("Resource") use ("-o");
+      case Platform is
+         when "Winelib" =>
+            for Driver ("Resource") use "wrc";
+         when "Windows" =>
+            for Driver ("Resource") use "windres";
+      end case;
+   end Compiler;
+
+end GWindows_Resources;
+
