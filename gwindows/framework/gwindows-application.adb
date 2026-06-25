@@ -532,10 +532,10 @@ package body GWindows.Application is
       return Interfaces.C.int
    is
       use GWindows.GStrings;
-      function To_Data_Access is new Ada.Unchecked_Conversion
-         (GWindows.Types.Lparam, System.Address);
-      Data : Enum_Child_Data;
-      for Data'Address use To_Data_Access (lp);
+      type Enum_Child_Data_Ptr is access all Enum_Child_Data;
+      function To_Data_Ptr is new Ada.Unchecked_Conversion
+         (GWindows.Types.Lparam, Enum_Child_Data_Ptr);
+      Data : constant Enum_Child_Data_Ptr := To_Data_Ptr (lp);
       Child_Class_Name : constant GString := Get_Window_Class_Name (child);
       CT  : constant GString := Get_Window_Text (child);
       WCT : constant Wide_String := To_Wide_String (CT);
