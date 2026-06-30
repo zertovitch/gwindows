@@ -37,6 +37,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+pragma Restrictions (No_Implicit_Dynamic_Code);
+
 with Ada.Unchecked_Conversion;
 with Interfaces.C;
 with GWindows.Application;
