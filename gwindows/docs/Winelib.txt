@@ -269,6 +269,43 @@ Framework Callback Changes
   framework's own window procedure (Ada-to-Ada), not directly from
   Win32 PE code, so trampolines work fine for them.
 
+  Regression guard
+  ----------------
+
+  gwindows-application.adb and gwindows-common_dialogs.adb carry
+
+      pragma Restrictions (No_Implicit_Dynamic_Code);
+
+  at the top of the body, as a compile-time guard against any future
+  reintroduction of a nested callback registered with a foreign
+  calling convention (StdCall or C).  That is the exact construct
+  that emits a stack trampoline on x86_64 GNAT and crashes under
+  Wine's PE-to-Unix thunks.
+
+  Scope of the check:
+
+    - Catches:  'Access / 'Unrestricted_Access of a nested subprogram
+                whose access type has Convention (Stdcall) or
+                Convention (C).  GNAT must produce a real C-callable
+                function pointer here, which is the trampoline case.
+
+    - Ignores:  'Access of a nested subprogram passed through an
+                Ada access-to-subprogram (default convention).  GNAT
+                uses a fat-pointer descriptor (a two-word data
+                structure tagged in the low bit) instead of a
+                trampoline, so no dynamic code is generated and the
+                restriction does not fire.  This is why the legitimate
+                nested handlers in samples and elsewhere remain valid.
+
+  Recommendation: any new framework unit (or contributed extension)
+  that registers a callback with Win32 — i.e. takes 'Access of an
+  Ada subprogram and hands the address to a Win32 API via an
+  access-to-subprogram with Convention (Stdcall) or Convention (C) —
+  should add the same pragma at the top of its body.  This turns the
+  whole class of "nested-callback-crashes-under-Wine" bugs into a
+  compile-time error, with no runtime cost and no effect on Windows
+  builds.
+
 
 Sample Status
 -------------

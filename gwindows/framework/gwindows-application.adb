@@ -37,6 +37,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+pragma Restrictions (No_Implicit_Dynamic_Code);
+
 with GWindows.GStrings;
 with GWindows.Internal;
 with GWindows.Windows;
