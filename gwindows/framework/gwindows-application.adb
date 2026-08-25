@@ -37,8 +37,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-pragma Restrictions (No_Implicit_Dynamic_Code);
---  Prevent use of nested callback subprograms: they crash under Linux & Winelib.
+pragma Restriction_Warnings (No_Implicit_Dynamic_Code);
+--  Discourage use of nested callback subprograms: they crash under Linux & Winelib.
 --  You can find more information in gwindows/docs/Winelib.txt, Regression guard.
 
 with GWindows.GStrings;
