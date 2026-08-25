@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --                                                                          --
---                 Copyright (C) 1999 - 2025 David Botton                   --
+--                 Copyright (C) 1999 - 2026 David Botton                   --
 --                                                                          --
 -- MIT License                                                              --
 --                                                                          --
@@ -400,9 +400,10 @@ package body GWindows.Scintilla is
    SCI_SETKEYWORDS                        : constant := 16#0FA5#;
    SCI_SETLEXERLANGUAGE                   : constant := 16#0FA6#;
 
-   function Load_Library (LibName : GString_C) return Types.Handle;
-   pragma Import (StdCall, Load_Library, "LoadLibrary"
-                  & Character_Mode_Identifier);
+   type Pointer_To_char is access all Interfaces.C.char;
+
+   function Load_Library (Lib_Name : Pointer_To_char) return Types.Handle;
+   pragma Import (StdCall, Load_Library, "LoadLibraryA");
    pragma Machine_Attribute (Load_Library, "ms_abi");
 
    WS_TABSTOP : constant := 65536;
@@ -5641,17 +5642,19 @@ package body GWindows.Scintilla is
       end if;
    end Fire_On_Dwell_End;
 
-   SCI_Lexer_DLL : Types.Handle;
+   SCI_Lexer_DLL : Types.Handle := Null_Handle;
 
    function SCI_Lexer_DLL_Successfully_Loaded return Boolean is
    begin
       return SCI_Lexer_DLL /= Null_Handle;
    end SCI_Lexer_DLL_Successfully_Loaded;
 
+   scilexer_name : Interfaces.C.char_array := Interfaces.C.To_C ("scilexer.dll");
+
    procedure Try_Loading_Lexer_DLL is
    begin
       SCI_Lexer_DLL :=
-         Load_Library (GStrings.To_GString_C ("scilexer.dll"));
+         Load_Library (scilexer_name (scilexer_name'First)'Unchecked_Access);
    end Try_Loading_Lexer_DLL;
 
 begin
